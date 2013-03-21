@@ -14,6 +14,8 @@ import org.jfree.data.statistics.HistogramType;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
+import org.nugs.graph2d.Graph2DProperties;
+import org.nugs.graph2d.Hist2D;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -144,23 +146,39 @@ public final class HistogramChartTopComponent extends TopComponent {
      * the JFreeChart API for histogram graphing.
      * @param nnet      Network object to iterate over connections.
      */
-    protected void populateHistBins(NeuralNetwork nnet){
-        jPanel1.removeAll();
-        ArrayList<List> bin = new ArrayList();     
+    public void populateHistBins(NeuralNetwork nnet){
+         jPanel1.removeAll();
+        ArrayList<List> bin = new ArrayList();
         int countConnections = 0;
         //iterate over the layers and connections pulling weights.
-        for(int i = 0; i < nnet.getLayersCount(); i++){
-            for(Neuron neuron : nnet.getLayerAt(i).getNeurons()){
+        for (int i = 0; i < nnet.getLayersCount(); i++) {
+            for (Neuron neuron : nnet.getLayerAt(i).getNeurons()) {
                 //Neuron n = (Neuron)it.next();
                 List out = Arrays.asList(neuron.getWeights());
                 countConnections += out.size();//count the number of connections
-                bin.add(out);              
+                bin.add(out);
             }
         }
+
+        //array to hold weight values
+        double[] values = new double[countConnections];
+        int idx = 0;
+
+
+        //iterate over the bin, grabbing the values of the weights
+        for (int i = 0; i < bin.size(); i++) {
+            List lst = bin.get(i);
+            for (Iterator it = lst.iterator(); it.hasNext();) {
+                values[idx] = Double.parseDouble(it.next().toString());
+                idx++;
+            }
+        }
+
         //get the jfreechart
-        jPanel1.add(createChartPanel(bin, countConnections));
+        jPanel1.add(createChartPanel(values));
         jPanel1.validate();
         jPanel1.getParent().repaint();
+
     }//end populateHistBins method
     
     /**
@@ -173,43 +191,18 @@ public final class HistogramChartTopComponent extends TopComponent {
      * @param count     Integer variable representing the number of connections.
      * @return panel    Panel object containing the histogram of weights.
      */
-    protected ChartPanel createChartPanel(ArrayList<List> bin, int count){
-        //Method specific variables
-        JFreeChart chart = null; 
-        ChartPanel panel;
-        boolean show = false;
-        boolean toolTips = false;
-        boolean urls = false;
+   protected ChartPanel createChartPanel(double[] values) {
         String xaxis = "Weight";
         String yaxis = "Number";
         String plotTitle = "Network Weights Histogram";
-        HistogramDataset dataset = null;
         PlotOrientation orientation = PlotOrientation.VERTICAL;
-        int numberBins = 50;
-        //array to hold weight values
-        double[] value = new double[count];
-        int idx = 0;
-        
-        //create the histogram data set
-        dataset = new HistogramDataset();
-        dataset.setType(HistogramType.FREQUENCY);
-        //iterate over the bin, grabbing the values of the weights
-        for (int i = 0; i < bin.size(); i++) {
-            List lst = bin.get(i);      
-            for(Iterator it = lst.iterator();it.hasNext();){               
-                value[idx] = Double.parseDouble(it.next().toString()); 
-                idx++;
-            }                          
-        }
-        //add the values to the dateset
-        dataset.addSeries("Histogram", value, numberBins);
-        //create the histogram
-        chart = ChartFactory.createHistogram(plotTitle, xaxis, yaxis,
-                    dataset, orientation, show, toolTips, urls);
-        //populate the panel object with histogram
-        panel = new ChartPanel(chart);
-        panel.setPreferredSize(new java.awt.Dimension(500, 270));
-        //return the panel containing the histogram of weights
-        return panel;
+
+        Graph2DProperties prop = new Graph2DProperties(plotTitle, xaxis, yaxis);
+        prop.setOrientation(orientation);
+
+        int numberOfBins = 50;
+
+        Hist2D hist = new Hist2D();
+        return hist.createChartPanel(values, numberOfBins, prop);
     }//end createFrame method
 }
