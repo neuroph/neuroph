@@ -73,6 +73,14 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
+                    <code-name-base>org.nugs.graph2d</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>org.openide.awt</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
@@ -109,7 +117,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>8.3.1</specification-version>
+                        <specification-version>8.15.2</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -123,6 +131,7 @@
             </module-dependencies>
             <public-packages>
                 <package>org.neuroph.netbeans.main</package>
+                <package>org.neuroph.netbeans.main.easyneurons</package>
                 <package>org.neuroph.netbeans.main.easyneurons.file</package>
             </public-packages>
             <class-path-extension>
