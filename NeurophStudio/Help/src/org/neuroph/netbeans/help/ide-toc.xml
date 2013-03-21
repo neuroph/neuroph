@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE toc PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 2.0//EN" "http://java.sun.com/products/javahelp/toc_2_0.dtd">
+<toc version="2.0">
+    
+    <tocitem text="Neuroph Studio"> 
+        <tocitem text="Overview"  target="Overview" />
+        <tocitem text="Neural Network Basics"  target="NeuralNetworksBasics" />
+
+        <tocitem text="Creating and training NNets">
+            <tocitem text="Adaline"  target="Adaline" />
+            <tocitem text="Perceptron" target="Perceptron" />
+            <tocitem text="Multi Layer Perceptron" target="MultiLayerPerceptron" />
+            <tocitem text="Supervised Hebbian" target="SupervisedHebbian" />
+            <tocitem text="Unsupervised Hebbian" target="UnsupervisedHebbian" />
+            <tocitem text="CompetitiveNetwork" target="CompetitiveNetwork" />
+            <tocitem text="MaxNet" target="MaxNet" />
+            <tocitem text="Hopfield" target="Hopfield" />
+            <tocitem text="BAM"  target="BAM" />
+            <tocitem text="Instar"  target="Instar" />
+            <tocitem text="Outstar"  target="Outstar" />
+            <tocitem text="Kohonen"  target="Kohonen" />
+            <tocitem text="RBF Network"  target="RBFNetwork" />
+        </tocitem>
+
+        <tocitem text="Neuroph Framework">
+            <tocitem text="Basic Classes"  target="BasicClasses" />
+            <tocitem text="Using NNets in Java Code" target="UsingInJava" />
+        </tocitem>
+
+        <tocitem text="How To">
+            <tocitem text="Image Recognition"  target="ImageRecognition" />
+            <tocitem text="Handwriting Recognition"  target="HandwritingRecognition" />
+            <tocitem text="Text Recognition"  target="TextRecognition" />
+
+            <tocitem text="Time Series Prediction"  target="TimeSeriesPrediction" />
+            <tocitem text="Stock Market Prediction"  target="StockMarketPrediction" />
+        </tocitem>
+
+        <tocitem text="Support" target="Support" />
+        <tocitem text="How Can I Contribute" target="Contribute" />
+        <tocitem text="Web Links" target="WebLinks" />
+        <tocitem text="License" target="License" />        
+ 
+    </tocitem>
+</toc>

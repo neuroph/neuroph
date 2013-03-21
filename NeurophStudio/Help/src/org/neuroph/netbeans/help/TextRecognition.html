@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Text Recognition</title>
+</head>
+
+<body style="font-family:Tahoma;font-size:11px;">
+<h2>TEXT RECOGNITION WITH NEURAL NETWORKS HOWTO</h2>
+<p>Neural networks are one technique which can be  used for text recognition. 
+ Text recognition application uses artificial neural network to recognize text characters from image (scanned documents, photography etc.), using Image Recognition, and transforms them into editable document (as MS Word .doc or Notepad and Wordpad .txt file). It is based on neural network that can learn to recognize more characters.</p>
+<p>This tutorial will explain the following:</p>
+<p>
+1. How to train neural networks for text recognition with Neuroph Studio<br />
+2. How to use neural networks trained for text recognition in your applications </p>
+<h3>1. Training Neural Network for Text Recognition with <strong>Neuroph Studio</strong></h3>
+<p><strong>Neuroph Studio</strong> provides environment for creating and training neural networks, which can be saved as ready-to-use java components. Also it provides specialised text recognition tool to train neural networks for text recognition. Creating and training neural network for text recognition consists of the following steps: </p>
+<p>1. Draw letters whitch should be recognized and create training set <br />
+  2. Create neural network<br />
+  3. Train neural network
+  <br />
+4. Test neural network <br />
+5. Save &amp; deploy neural network</p>
+
+<p>Create Neuroph Project</p>
+<p>Click <strong>File &gt; New Project</strong></p>
+<p><img src="images/new project 1.png" /></p>
+Select Neuroph Project, click <strong>Next</strong>.
+<p><img src="images/new project 2.png" /></p>
+Enter project name and location, click <strong>Finish</strong>.
+<p><img src="images/new project 3.png" /></p>
+<p>Neuroph Project is created, now create Text Recognition network. </p>
+<p>Click<strong> File &gt; New File</strong>.</p>
+<p><img src="images/new file.png" /></p>
+Select Text recognition file type, click <strong>Next</strong>.
+<p><img src="images/tr 001.png" /></p>
+<p><strong>Step 1.</strong> Create Training Set <br />
+In this step we need to create image of characters that should be recognized. Image of Characters to learn will appear in the lower area. Choose Font Style, for example Arial and leave the default font size, click <strong>Next</strong>.</p>
+<p><img src="images/tr 002.png" /></p>
+<p>For training set label write 'Arial'. Leave the default Image Sampling Resolution and click <strong>Next</strong> button.</p>
+<p><img src="images/tr 003.png" /></p>
+<p><strong>Step 2.</strong> Create neural network </p>
+<p>The next thing to do is to create the neural network. </p>
+<p><img src="images/tr 004.png" /></p>
+<p>To create the neural network you need to enter the following: </p>
+<p><strong>Network label</strong> - The label for the neural network, which is usefull when you create several neural networks for the same problem, and  you're  comparing them.<br />
+    <strong>Transfer function</strong> - This  setting determines which transfer function will be used by the neurons. In most cases you can leave the default settings 'Sigmoid', but sometimes using 'Tanh' can give you  better results. <br />
+<strong>Hidden Layers Neuron Counts</strong> - This is the most important setting which determines the number of hidden layers in network, and number of neurons in each hidden layer. Hidden layers are  layers between input and output layer. The trick is to have the smallest possible number of layers and neurons which can succesfully learn the training set. The smaller number of neurons - the faster learning, better generalization. Suitable number of  hidden neurons also depends of the number of input and output neurons, and the best value can be figured out by experimenting. For  start, try one hidden layer with 12 neurons.<br />
+Click<strong> Finish</strong> button to create the neural network. After you click the button new window with created neural network will open.</p>
+<p><strong>Step 3.</strong> Train network</p>
+<p>To train the network select the training set from the list and click the <strong>Train</strong> button. </p>
+<p><img src="images/tr 005.png" /></p>
+This will open the dialog for setting learning parameters. Enter the Learning Rate value 0.2 and just click the <strong>Train</strong> button.
+<p><img src="images/tr 006.png" /></p>
+<p>This will start training and open network learning graph and iteration counter, so you can obesrve the learning process. If the learning gets stuck (total network error does not go down), you can try with different number of neurons, layers or learning parameters. For learning rate and momentum use the values between [0, 1] , and for the error some small value bellow 0.1 is recommended. </p>
+<p><img src="images/tr 007.png" /></p>
+<p> <strong>Step 4.</strong> Test Network  </p>
+<p>After you have trained the network you can try how it works in the test panel. Click '<strong>Load Text Image </strong>' button to set input image for the network. Select image file and click <strong>Select image with text</strong> button.</p>
+<p><img src="images/tr 008.png" /></p>
+<p>Image of Characters will appear in Loaded Image area. Click the '<strong>Recognize>></strong>' button.</p>
+<p><img src="images/tr 009.png" /></p>
+ Recognized text will appear in 'Recognized Text' area.</p>
+<p><img src="images/tr 010.png" /></p>
+<p>To save recognized text, click the<strong> Save</strong> button above the recognized text area </p>
+<p><img src="images/tr 011.png" /></p>
+<p>Enter the name and file type, for example .txt and click <strong>Save</strong>.</p>
+<p>File will be saved as .txt file</p>
+<p><strong>Step 5.</strong> Save  neural network </p>
+<p>To save the neural network as Java component click [Main menu &gt; File &gt; Save] and use the .nnet extension. The network will be saved as seralized <em>MultiLayerPerceptron</em> class. </p>
+<p><img src="images/tr 012.png" /></p>
+<h3>2. Using Neuroph Text Recognition in Your Applications</h3>
+<p>TODO</p>
+<p>&nbsp;</p>
+</body>
+</html>
+

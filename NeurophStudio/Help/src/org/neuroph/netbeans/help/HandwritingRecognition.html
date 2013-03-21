@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Handwriting Recognition</title>
+</head>
+
+<body style="font-family:Tahoma;font-size:11px;">
+<h2>HANDWRITTING RECOGNITION WITH NEURAL NETWORKS HOWTO</h2>
+<p>Neural networks are one technique which can be  used for hanwriting recognition. 
+ Handwriting recognition application uses artificial neural network to recognize handwritten letters and transforms them into editable document (as MS Word .doc or Notepad and Wordpad .txt file). It is based on neural network that can learn to recognize more characters.  </p>
+<p>This tutorial will explain the following:</p>
+<p>
+1. How to train neural networks for handwriting recognition  with Neuroph Studio<br />
+2. How to use neural networks trained for handwriting recognition in your applications </p>
+<h3>1. Training Neural Network for Handwriting Recognition with <strong>Neuroph Studio</strong></h3>
+<p><strong>Neuroph Studio</strong> provides environment for creating and training neural networks, which can be saved as ready-to-use java components. Also it provides specialised handwriting recognition tool to train neural networks for handwriting recognition. Creating and training neural network for handwriting recognition consists of the following steps: </p>
+<p>1. Draw letters which should be recognized and create training set <br />
+  2. Create neural network<br />
+  3. Train neural network
+  <br />
+4. Test neural network <br />
+5. Save &amp; deploy neural network</p>
+
+<p>To start Handwriting Recognition tool choose [Main manu &gt; Tools &gt; Handwriting Recognition] </p>
+<p><img src="images/new project 1.png" /></p>
+<p><img src="images/new project 2.png" /></p>
+<p><img src="images/new project 3.png" /></p>
+<p><img src="images/new file.png" /></p>
+<p><img src="images/hwr 001.png" /></p>
+<p><strong>Step 1.</strong> Create Pictures <br />
+In this step we need to draw letters that should be recognized. We do this in 'Images and Training' set tab.
+First drag mouse over the white area and draw the letter 'A'. When you're done with drawing click on the'<strong>Save</strong>' button </p>
+<p><img src="images/hwr 002.png" /></p>
+<p>Name the drawn letter 'A' in the'Input' dialog.</p>  
+<p><img src="images/hwr 003.png" /></p>
+<p>This will create our first training set picture.</p>
+<p><img src="images/hwr 004.png" /></p>
+<p>Repeat this step to draw and save the letter 'B'</p>
+<p><img src="images/hwr 002 b.png" /></p>
+<p>We will draw two different letters 'C' which will be saved with different names in Training Set Picture panel</p>
+<p><img src="images/hwr 002 c.png" /></p>
+<p><img src="images/hwr 002 c2.png" /></p>
+<p>Now we can create our training set by clicking on <strong>File &gt; New File</strong></p>
+<p><img src="images/new file.png" /></p>
+Choose <strong>Training Set</strong> file type and click next.
+<p><img src="images/new training set.png" /></p>
+<p><strong>Step 2.</strong> Create neural network </p>
+<p>The next thing to do is to create the neural network. </p>
+<p><img src="images/new file 1.png" /></p>
+<p>To create the neural network you need to enter the following: </p>
+<p><strong>Network label</strong> - The label for the neural network, which is usefull when you create several neural networks for the same problem, and  you're  comparing them.<br />
+    <strong>Transfer function</strong> - This  setting determines which transfer function will be used by the neurons. In most cases you can leave the default settings 'Sigmoid', but sometimes using 'Tanh' can give you  better results. <br />
+<strong>Hidden Layers Neuron Counts</strong> - This is the most important setting which determines the number of hidden layers in network, and number of neurons in each hidden layer. Hidden layers are  layers between input and output layer. The trick is to have the smallest possible number of layers and neurons which can succesfully learn the training set. The smaller number of neurons - the faster learning, better generalization. Suitable number of  hidden neurons also depends of the number of input and output neurons, and the best value can be figured out by experimenting. For  start, try one hidden layer with 26 neurons (there are 26 letters in alphabet).</p>
+<p><img src="images/hwr 005.png" /></p>
+<p> Click the <strong>Finish</strong> button to create the neural network. After you click the button new window with created neural network will open. </p>
+<p><strong>Step 3.</strong> Train network</p>
+<p>To train the network select the training set from the list and click the '<strong>Train</strong>' button.</p>
+<p><img src="images/hwr 007.png" /></p>
+<p>This will open the dialog for setting learning parameters. Enter the Learning Rate value 0.2 and just click the 'Train' button. </p>
+<p><img src="images/hwr 008.png" /></p>
+<p>This will start training and open network learning graph and iteration counter, so you can obesrve the learning process. If the learning gets stuck (total network error does not go down), you can try with different number of neurons, layers or learning parameters. For learning rate and momentum use the values between [0, 1] , and for the error some small value bellow 0.1 is recommended. </p>
+<p><img src="images/hwr 009.png" /></p>
+<p> <strong>Step 4.</strong> Test Network  </p>
+<p>After you have trained the network you can try how it works in the test panel. In the 'Drawing Area' draw letter A and click '<strong>recognize </strong>' button to set input image for the network. The network output will be displayed in the 'Probabilities' area as the list of letter labels and corresponding neuron outputs. The recognized letter corresponds to the neuron with highest output. If the recognized letter is correct click the '<strong>accept</strong>' button.</p>
+<p><img src="images/hwr 010.png" /></p>
+<p><img src="images/hwr 011.png" /></p>
+ The image of recognized letter will appear in the right white area. </p>
+<p><img src="images/hwr 012.png" /></p>
+<p>You can test network for letters B and C.</p>
+<p><strong>Step 5.</strong> Save  neural network </p>
+<p>To save the neural network as Java component click [Main menu &gt; File &gt; Save] and use the .nnet extension. The network will be saved as seralized <em>MultiLayerPerceptron</em> class. </p>
+<p><img src="images/hwr 013.png" /></p>
+<h3>2. Using Neuroph Text Recognition in Your Applications</h3>
+<p>TODO</p>
+
+<p>&nbsp;</p>
+</body>
+</html>
+

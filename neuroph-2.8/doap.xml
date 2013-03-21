@@ -1,0 +1,37 @@
+<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns="http://usefulinc.com/ns/doap#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:admin="http://webns.net/mvcb/">
+	<name>Neuroph Framework</name>
+	<shortname>Neuroph</shortname>
+	<description>
+	Neuroph is lightweight Java neural network framework to develop common neural network architectures. It contains well designed, open source Java library with small number of basic classes which correspond to basic NN concepts. Also has nice GUI neural network editor to quickly create Java neural network components.
+	</description>
+	<shortdesc>Java Neural Network Framework Neuroph</shortdesc>
+	<homepage rdf:resource="http%3A%2F%2Fneuroph.sourceforge.net"/>
+	<download-page rdf:resource="http%3A%2F%2Fneuroph.sourceforge.net%2Fdownload.html"/>
+	<download-mirror rdf:resource="https%3A%2F%2Fsourceforge.net%2Fprojects%2Fneuroph%2Ffiles%2F"/>
+	<bug-database rdf:resource="https%3A%2F%2Fsourceforge.net%2Ftracker%2F%3Fgroup_id%3D238532%26atid%3D1107578"/>
+	<category rdf:resource="Neural Networks, Machine Learning, Artificial Intelligence"/>
+	<programming-language>Java</programming-language>
+	<os>OS Independent</os>
+	<licence rdf:resource="http://opensource.org/licences/Apache-2.0"/>
+	<repository>
+		<SVNRepository>
+			<module></module>
+			<browse rdf:resource="http%3A%2F%2Fneuroph.svn.sourceforge.net%2Fviewvc%2Fneuroph%2F"/>
+			<location rdf:resource="https%3A%2F%2Fneuroph.svn.sourceforge.net%2Fsvnroot%2Fneuroph"/>
+		</SVNRepository>
+	</repository>
+	<maintainer>
+		<foaf:Person>
+			<foaf:name>Zoran Sevarac</foaf:name>
+			<foaf:homepage rdf:resource="http%3A%2F%2Fneuroph.sourceforge.net"/>
+			<foaf:mbox_sha1sum>2de4544bb4b8c0bb4842359360228577dc6afcd1</foaf:mbox_sha1sum>
+		</foaf:Person>
+	</maintainer>
+	<developer>
+		<foaf:Person>
+			<foaf:name>Zoran Sevarac</foaf:name>
+			<foaf:homepage rdf:resource="http%3A%2F%2Fneuroph.sourceforge.net"/>
+			<foaf:mbox_sha1sum>2de4544bb4b8c0bb4842359360228577dc6afcd1</foaf:mbox_sha1sum>
+		</foaf:Person>
+	</developer>
+</Project>

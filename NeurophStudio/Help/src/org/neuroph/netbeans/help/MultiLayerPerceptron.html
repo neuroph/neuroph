@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Multi Layer Perceptron</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body style="font-family:Tahoma;font-size:11px;">
+    <h2>MULTI LAYER PERCEPTRON</h2>
+    <p>Multi Layer perceptron (MLP) is a feedforward
+      neural network with one or more
+       layers between input and output layer. Feedforward means that data flows in one direction from input to output layer (forward). This type of network is  trained with the backpropagation learning algorithm.   MLPs are widely used for pattern
+      classification, recognition, prediction and approximation. Multi Layer Perceptron can solve problems which are not linearly separable.</p>
+    <p><img src="images/MLP.jpg" width="362" height="250"></p>
+    <p>To create and train Multi Layer Perceptron
+      neural network using  Neuroph Studio<i></i><i> </i>do the following:&nbsp;</p>
+    <ol>
+      <li >Create Neuroph project</li>
+      <li >Create Multi Layer perceptron network</li>
+      <li >Create training set</li>
+      <li >Train network </li>
+      <li >Test trained network</li>
+    </ol>
+<p><strong>Step 1.</strong> Create <strong>Neuroph project.</strong></p>
+    Click File &gt; New Project.
+    <p><img src="images/new project 1.png"></p>
+<p>&nbsp;</p>
+    Select Neuroph Project, and click Next.
+    <p><img src="images/new project 2.png"></p>
+    <p>&nbsp;</p>
+    <p>Enter project name and location, click Finish. </p>
+<p><img src="images/new project 3.png"></p>
+    <p>Project is created, now create neural network. <br />
+    </p>
+    <p><strong>Step 2.</strong> Create <strong>Multilayer Perceptron</strong> network.</p>
+    <p>Click File &gt; New File
+    </p>
+<p><img src="images/new file.png"></p>
+<p>&nbsp;</p>
+    Select project from Project drop-down menu, select Neural Network file type, click next.
+<p><img src="images/new network.png"></p>
+    <p>&nbsp;</p>
+    <p>Enter network name, select Multi Layer Perceptron network type, click next. </p>
+<p><img src="images/mlp 001.png"></p>
+  <p>&nbsp;</p>
+    <p>Enter number of
+  input neurons (2), number of hidden neurons (3) and number of output neurons (1) in each layer. Leave the <i>Use Bias Neurons</i> box     checked. Choose transfer function Tanh from drop down menu, for learning rule choose <b>Backpropagation</b> and click <b>Create</b> button. </p>
+<p><img src="images/mlp 002.png"></p>
+    <p>&nbsp;</p>
+    <p>&nbsp;This will create the Multi Layer Perceptron
+      neural network with two neurons in input, three in hidden and one in output
+    layer. All neurons will have <b>Tanh</b> transfer functions.</p>
+<p><img src="images/mlp 003.png"></p>
+    <p>&nbsp;Now
+      we shall train this network to learn logical XOR function. We'll create new training set
+      according to XOR truth table.</p>
+    <p><strong>Step 3.</strong> Next, create training set. In main menu click <b>File
+&gt; New File</b> to open training set wizard.</p>
+    <p><img src="images/new file.png"></p>
+<p>&nbsp;</p>
+    Select Training set file type, then click next.
+<p><img src="images/new training set.png"></p>
+<p>&nbsp;</p>
+<p>Enter training set name, choose Supervised for training set type from drop down list, enter number of inputs and outputs as shown on picture below and click <b>Next </b>button. </p>
+    <p><img src="images/mlp 004.png"></p>
+<p>&nbsp;</p>
+    <p>Then create training set by entering training
+      elements as input and desired output values for neurons in input and output
+  layer respectively. Use <b>Add row</b> button to add new elements, and click <b>OK</b> button when finished.</p>
+    <p><img src="images/mlp 005.png"></p>
+<p>&nbsp;</p>
+    <p><strong>Step 4.</strong> Training network. To start network
+      training procedure, in network window select XOR training set from the drop down list,
+  and click <b>Train</b> button. </p>
+    <p><img src="images/mlp 006.png"></p>
+<p>&nbsp;</p>
+    <p>In <b>Set Learning parameters </b>dialog
+  use default learning parameters, and just click the <b>Train</b> button.</p>
+    <p><img src="images/mlp 007.png"></p>
+<p>&nbsp;</p>
+<p>Training stopped after 129 iterations with total net error under 0.01</p>
+    <p><img src="images/mlp 008.png"></p>
+    <p><b>Step 5.</b> Testing trained network. After the training is complete, you
+<b>Test</b>and  <b>Set Input</b> buttons. </p>
+    <p><img src="images/mlp 009.png"></p>
+    <p><img src="images/mlp 010.png"></p>
+<p>&nbsp;</p>
+    <p>&nbsp;In <b>Set Network Input</b> you can enter input values for network separated with white
+</p>
+    <p><img src="images/mlp 011.png"></p>
+    <p><img src="images/mlp 012.png"></p>
+    <p>&nbsp;The result of network test is shown on
+      picture below. </p>
+    <p><img src="images/mlp 013.png"></p>
+    <p><b>&nbsp;</b>Value of output
+      neuron is close to 1, which is the desired output for the given input. The small difference represents the acceptable error. </p>
+    <p>&nbsp;Graph view of this network is shown on the picture
+      below.</p>
+    <p><img src="images/mlp 014.png"></p>
+<p>&nbsp;</p>
+
+
+<p>You can now experiment with different combinations of transfer function and learning rule, while creating new MLP network.
+For example, choose <b>Backpropagation with Momentum</b> for <b> Learning Rule</b>.</p> 
+<p><img src="images/mlp 015.png"></p>
+    <p>Create the same training set (according to XOR truth table) and click train button.</p>
+	<p><img src="images/mlp 006.png"></p>
+    <p>In <b>Set Learning parameters </b>dialog for <b>Momentum</b> use 0.1, and click the <b>Train</b> button.</p>
+    <p><img src="images/mlp 016.png"></p>
+    <p>Training stopped after 1508 iterations with total net error under 0.01</p>
+    <p><img src="images/mlp 017.png"></p>
+    <p>Test network using Set Input for the same values (1 0)</p>
+    <p>&nbsp;The result of network test is shown on
+      picture below. </p>
+    <p><img src="images/mlp 018.png"></p>
+    <p><b>&nbsp;</b>Value of output
+      neuron is close to 1, which is the desired output for the given input. The small difference represents the acceptable error. </p>
+    <p>&nbsp;Graph view of this network is shown on picture
+      below.</p>
+    <p><img src="images/mlp 019.png"></p>
+
+<p>Now choose <b>Dynamic Backpropagation</b> for <b> Learning Rule</b>.</p> 
+<p><img src="images/mlp 020.png"></p>
+    <p>Again create and choose the same XOR training set and click train button.</p>
+    <p><b>Set Learning parameters </b>dialog for Dynamic Backpropagation contains more options to combine.<br /> To start, leave the default settings and just click Train button</p>
+    <p><img src="images/mlp 021.png"></p>
+    <p>Training stopped after 330 iterations with total net error under 0.01</p>
+    <p><img src="images/mlp 022.png"></p>
+    <br />
+	<p><b>Now, in Set Learning parameters </b>dialog check the <b>Use Dynamic Learning Rates</b> box, leave the default values and click Train button</p>
+    <p><img src="images/mlp 023.png"></p>
+    <p>Training stopped after 184 iterations with total net error under 0.01</p>
+    <p><img src="images/mlp 024.png"></p>
+<br />
+<p>Uncheck Use Dynamic Learning Rates box, but check the <b>Use Dynamic Momentum</b> box, leave the default values and click Train button</p>
+    <p><img src="images/mlp 025.png"></p>
+    <p>Training stopped after 246 iterations with total net error under 0.01</p>
+    <p><img src="images/mlp 026.png"></p>
+	<br />
+	<p>Finally check both <b>Use Dynamic Learning Rates</b> box and the <b>Use Dynamic Momentum</b> box, leave the default values and click Train button</p>
+    <p><img src="images/mlp 027.png"></p>
+    <p>Training stopped after 139 iterations with total net error under 0.01</p>
+    <p><b><img border="0" width="666" height="420" id="Picture 38" src="images/TotaNError_DynamicBackpropagation_Momentum i DynamicLearning.jpg" /></b></p>
+
+    <p>&nbsp;</p>
+    <h3>MULTI LAYER PERCEPTRON IN JAVA CODE </h3>
+    <p>package org.neuroph.samples;</p>
+    <p>import org.neuroph.core.NeuralNetwork;<br>
+      import org.neuroph.nnet.MultiLayerPerceptron;<br>
+      import org.neuroph.core.learning.DataSet;<br>
+      import org.neuroph.core.learning.TrainingElement;<br>
+      import org.neuroph.core.learning.SupervisedTrainingElement;<br>
+      import java.util.Vector;<br>
+      import org.neuroph.util.TransferFunctionType;</p>
+    <p>/**<br>
+      * This sample shows how to create, train, save and load simple Multi Layer Perceptron<br>
+      */<br>
+      public class XorMultiLayerPerceptronSample {</p>
+    <blockquote>
+      <p> public static void main(String[] args) {</p>
+      <blockquote>
+        <p>        // create training set (logical XOR function)<br>
+          DataSet trainingSet = new DataSet(2, 1);<br>
+          trainingSet.addRow(new DataSetRow(new double[]{0, 0}, new double[]{0}));<br>
+          trainingSet.addRow(new DataSetRow(new double[]{0, 1}, new double[]{1}));<br>
+          trainingSet.addRow(new DataSetRow(new double[]{1, 0}, new double[]{1}));<br>
+          trainingSet.addRow(new DataSetRow(new double[]{1, 1}, new double[]{0}));</p>
+        <p> // create multi layer perceptron<br>
+          MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.TANH, 2, 3, 1);<br>
+          // learn the training set<br>
+        myMlPerceptron.learn(trainingSet);</p>
+        <p> // test perceptron<br>
+          System.out.println(&quot;Testing trained neural network&quot;);<br>
+          testNeuralNetwork(myMlPerceptron, trainingSet);</p>
+        <p> // save trained neural network<br>
+          myMlPerceptron.save(&quot;myMlPerceptron.nnet&quot;);</p>
+        <p> // load saved neural network<br>
+          NeuralNetwork loadedMlPerceptron = NeuralNetwork.load(&quot;myMlPerceptron.nnet&quot;);</p>
+        <p> // test loaded neural network<br>
+          System.out.println(&quot;Testing loaded neural network&quot;);<br>
+          testNeuralNetwork(loadedMlPerceptron, trainingSet);</p>
+      </blockquote>
+      <p>        }</p>
+      <p> public static void testNeuralNetwork(NeuralNetwork nnet, DataSet tset) {</p>
+      <blockquote>
+        <p> for(DataSetRow dataRow : tset.getRows()) {</p>
+        <blockquote>
+          <p>          nnet.setInput(dataRow.getInput());<br>
+            nnet.calculate();<br>
+            double[ ] networkOutput = nnet.getOutput();<br>
+System.out.print(&quot;Input: &quot; + Arrays.toString(dataRow.getInput()) );<br>
+System.out.println(&quot; Output: &quot; + Arrays.toString(networkOutput) );</p>
+        </blockquote>
+        <p>        }</p>
+      </blockquote>
+      <p>        }</p>
+      <p>&nbsp;</p>
+    </blockquote>
+    <p>}<br>
+    </p>
+    <h3>EXTERNAL LINKS </h3>
+    <p>To learn more about the Multi Layer Perceptrons and Backpropagation (learning rule for Multi Layer Perceptron) see:<br>
+      <br>
+<object classid="java:org.netbeans.modules.javahelp.BrowserDisplayer">
+        <param name="content" value="http://www.learnartificialneuralnetworks.com/backpropagation.html">
+        <param name="text" value="http://www.learnartificialneuralnetworks.com/backpropagation.html">
+        <param name="textColor" value="blue">
+      </object > <br>
+<object classid="java:org.netbeans.modules.javahelp.BrowserDisplayer">
+        <param name="content" value="http://en.wikipedia.org/wiki/Multilayer_perceptron">
+        <param name="text" value="http://en.wikipedia.org/wiki/Multilayer_perceptron">
+        <param name="textColor" value="blue">
+      </object > <br>
+<object classid="java:org.netbeans.modules.javahelp.BrowserDisplayer">
+        <param name="content" value="http://en.wikipedia.org/wiki/Backpropagation">
+        <param name="text" value="http://en.wikipedia.org/wiki/Backpropagation">
+        <param name="textColor" value="blue">
+      </object >                      
+  
+
+</p>
+    <p>&nbsp;</p>
+</body>
+</html>

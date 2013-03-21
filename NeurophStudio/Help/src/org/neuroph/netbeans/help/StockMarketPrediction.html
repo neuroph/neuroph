@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Stock Market Prediction</title>
+
+</head>
+
+<body style="font-family:Tahoma;font-size:11px;">
+<table width="100%" height="400" border="0" cellpadding="3" cellspacing="0">
+  <tr>
+    <td width="82%" valign="top" style="border-top: 1px solid #ccc; padding:15px;"><a href="../image_recognition.html"></a>
+        <h2>STOCK MARKET PREDICTION USING NEURAL NETWORKS </h2>
+      <p class="style2"><b><span>An example for time-series prediction</span></b></p>
+      <p><span>by Dr. Valentin Steinhauer</span></p>
+      <p>&nbsp;</p>
+      <p><b><span>Short description</span></b></p>
+      <p>&nbsp;</p>
+      <p align="justify"><span class="style8"><a href="TimeSeriesPrediction.html">Time series prediction</a> plays a big role in  economics. The stock 
+        market courses, as well as the consumption of energy can be predicted 
+        to be able to make decisions. This tutorial shows one possible approach how neural networks can be used for this kind of prediction. It extends the Neuroph tutorial called 
+        &quot;<a href="TimeSeriesPrediction.html">Time Series Prediction</a>&quot;, that gives a good theoretical base 
+        for prediction. To show how it works, we trained the network 
+        with the DAX (German stock index) data &#8211; for a month (03.2009: from 
+        02th to 30) - to predict the value at 31.03.2009. As a strategy 
+        we take the sequences from 4 days to predict each 5th day. In 
+        the training set 5th day is the supervised value. The data DAX can be downloaded from the following url (one of the possibilities):</font>&nbsp; <span lang="zxx" xml:lang="zxx"><font class="style8" size="2"><a class="western" href="http://download.finance.yahoo.com/d/quotes.csv?s=^GDAXI&amp;f=sl1d1t1c1ohgv&amp;e=.cs">http://download.finance.yahoo.com/d/quotes.csv?s=^GDAXI&amp;f=sl1d1t1c1ohgv&amp;e=.cs</a></font></span></span> </p>
+      <p align="justify">DataSet Generator (StockFileReader, StockSocketReader and TrainingData) 
+        is available for download as a part of NetBeans project, however it is not integrated in the 
+        main program to 
+        simplify the source code.  Test dataset:
+      <p align="justify">
+      
+      <p align="justify"><span class="style4">double[ ][ ] 
+        days = {{2,3,2009,3710.07}, {3,3,2009,3690.72}, {4,3,2009,3890.94}, {5,3,2009,3695.49}, {6,3,2009,3666.41}, {9,3,2009,3692.03}, {10,3,2009,3886.98},</span><span class="style4"> {11,3,2009,3914.1}, {12,3,2009,3956.22}, </span><span class="style4">{13,3,2009,3953.6}, {16,3,2009,4044.54}, {17,3,2009,3987.77}, {18,3,2009,3996.32}, {19,3,2009,4043.46}, {20,3,2009,4068.74},  
+          {23,3,2009,4176.37}, {24,3,2009,4187.36}, {25,3,2009,4223.29}, {26,3,2009,4259.37}, <span class="style8">{27,3,2009,4203.55}, {30,3,2009,3989.23}, {31,3,2009,4084.76}}; </span></span></p>
+      <p align="justify">&nbsp;</p>
+      <p class="style4"><span class="style8">Each of</span><span class="style8" lang="en-GB" xml:lang="en-GB"> the first 3 values in 
+        every record shows the date for DAX level. The last value in the 
+        records is DAX level.</span><span class="style8"> The</span><span class="style8" lang="en-GB" xml:lang="en-GB"> next 
+          is the normalization of the training data in area (0-1). The following 
+          formula offers it in two steps:</span></p>
+      <ol>
+          <li>To find the max value of DAX : maxDax = max(days [k], k =0, days.length-1))</li>
+        <li>To calculate normalized values:<br />
+          daxnorm [i] = (days [i] [3] / maxDax)*0.8+0.1, 
+          where 0.8 and 0.1 will be used to avoid the very small 
+            (0.0...) and very big (0.9999) values. We have carried out a 
+            simplification, have simply divided on 10000.</span></li>
+      </ol>
+      <p align="justify">Next, the network topology is defined: 
+        what type of network, how many layers and how many neurons per 
+        layer are used. Actually, there is no rule for this, and usually it is determined experimentaly. However the common type of network used for prediction is 
+          a <a href="MultiLayerPerceptron.html">multi layer perceptron</a>. A recommendation is to have 2n+1 nodes 
+          for hidden-layer, where n is the number of the input nodes. The 
+          output layer has only one node in this case. The good results were obtained with 
+          the following topology and parameter set: maxIteration=10000, learningRate=0.7,maxerror=0.0001   			and the training set is organized&nbsp; as follows:</span></p>
+      <p align="center">&nbsp;</p>
+      <p align="center">&nbsp;</p>
+      <div align="center">
+          <table width="43%" align="center" style="width: 75%">
+            <tr>
+              <td style="width: 347px; height: 186px"><p style="margin-bottom: 0cm; widows: 2; orphans: 2" lang="en-GB" xml:lang="en-GB">
+			 DataSet trainingSet = new DataSet(4, 1);<br />
+                                    double[] in = new 
+                                      double[4];<br />
+                                                  double[] out = new 
+                                                    double[1];<br />
+                                                  for (int i = 0; i 
+                                                    &lt; daxnorm.length - 5; i++) {<br />
+                                                   for (int j = i; j 
+                                                     &lt; i + 4; j++) {<br />
+                                                    in[j - i] = daxnorm[j]; 
+                                                      }<br />
+                                                   out[0] 
+                                                     = daxnorm[i + 4]; <br />
+                                      trainingSet.addRow(new 
+                                        DataSetRow( in, out ));<br />
+                                                  }</p></td>
+              <td style="width: 24px; height: 186px"><img alt="" height="22" src="images/left.gif" width="20" /></td>
+              <td style="height: 186px"><p style="margin-bottom: 0cm; widows: 2; orphans: 2; width: 270px;"> 3710,07 3690,72 3890,94 3695,49 3666,41<br />
+                      3690,72 3890,94 3695,49 3666,41 3692,03<br />
+                      3890,94 3695,49 3666,41 3692,03 3886,98<br />
+                      3695,49 3666,41 3692,03 3886,98 3914,10<br />
+                      3666,41 3692,03 3886,98 3914,10 3956,22<br />
+                      3692,03 3886,98 3914,10 3956,22 3953,60<br />
+                      3886,98 3914,10 3956,22 3953,60 4044,54<br />
+                      3914,10 3956,22 3953,60 4044,54 3987,77<br />
+                      3956,22 3953,60 4044,54 3987,77 3996,32<br />
+                      3953,60 4044,54 3987,77 3996,32 4043,46<br />
+                      4044,54 3987,77 3996,32 4043,46 4068,74<br />
+                      3987,77 3996,32 4043,46 4068,74 4176,37<br />
+                      3996,32 4043,46 4068,74 4176,37 4187,36<br />
+                      4043,46 4068,74 4176,37 4187,36 4223,29<br />
+                      4068,74 4176,37 4187,36 4223,29 4259,37<br />
+                      4176,37 4187,36 4223,29 4259,37 4203,55<br />
+                      4187,36 4223,29 4259,37 4203,55 3989,23<br />
+              </p></td>
+            </tr>
+          </table>
+      </div>
+      <p>&nbsp;</p>
+      <p>At this point we are ready  to train and test the network. For testing we'll use prepared data set in which the DAX data are given from the 27,28,29 and  30.03.09 to predict the value at 31.03.09.</p>
+      <p>&nbsp;</p>
+      <table width="100%" border="1" cellpadding="15" cellspacing="0" bordercolor="#CCCCCC" bgcolor="#eeeeee">
+          <tr>
+            <td>neuralNet.learn(trainingSet);<br />
+            DataSet testSet = new DataSet(4);<br />
+                testSet.addRow(new DataSetRow(new double[]{4223.0D / 10000.0D, 
+                4259.0D / 10000.0D, 4203.0D / 10000.0D, 3989.0D / 10000.0D}));<br />
+                for (DataSetRow testRow : testSet.getRows()) <br />
+                {<br />
+              &nbsp; neuralNet.setInput(testRow.getInput());<br />
+                &nbsp;&nbsp;neuralNet.calculate();<br />
+                  &nbsp; 
+              double[ ] networkOutput = neuralNet.getOutput();<br />
+                }</td>
+          </tr>
+      </table>
+      <p>&nbsp;</p>
+      <p align="justify"><span class="style8" lang="en-GB" xml:lang="en-GB">Since the network is initialised with random weight values, 
+        the test results will differ from a calculation to calculation. After five 
+        tests it came out with the following prediction - results for 03.31.2009: 
+        4084.61; 4081.28; 4073.08; 4075.22; 4087.42. </span><br />
+                          <span class="style8" 
+            xml:lang="en-GB">That  is so called a committee - a collection of 
+                            different neural networks, that together present the example. It 
+                            gives a much better result compared to other neural networks 
+                            procedures.<span lang="en-GB" class="style8" 
+            xml:lang="en-GB"> </span>T<span lang="en-GB" class="style8" 
+            xml:lang="en-GB">he value which was official announced on that day 
+                              is 4084.76.</span><font class="style8" size="2"> We are far from the 
+                                usable result, although the calculations may look good with Neuroph 
+                                allready.</font> </span> <span xml:lang="en-GB" lang="en-GB">Good results were also obtained with Neuroph package in several other                       marketing predictions</span></p>
+      <p align="justify"><span class="style8">The next step in direction of obtaining better quantative results is changing the sequencie of
+        calculations, which we carried out in previous example. We can use concurrent calculations to create the committee. The 
+        committee tends not only to a stability but it also allows an 
+        effective relative control of training conditions. Relative scattering of the 
+        results from committee is the figure of merit in this case. To create  the concurrency we used the <strong><a href="http://code.google.com/p/jetlang/" target="_blank">jetlang package</a></strong>. The 
+        next table was produced with  10 &quot;members&quot; of the committee.</span></p>
+      <p align="justify">&nbsp;</p>
+      <table border="1" cellpadding="3" style="width: 100%">
+          <tr>
+            <td><strong>Topology</strong></td>
+            <td><strong>Max Error</strong></td>
+            <td><strong>Learning Rate </strong></td>
+            <td class="style12">Scattering %</td>
+            <td><strong>Predicted value</strong></td>
+            <td><strong>Max Iterations</strong></td>
+          </tr>
+          <tr>
+            <td>4,2,1</td>
+            <td>0,0001</td>
+            <td>0,6</td>
+            <td class="style11">0,04</td>
+            <td>4029</td>
+            <td>10000</td>
+          </tr>
+          <tr>
+            <td>4,3,1</td>
+            <td>0,0001</td>
+            <td>0,6</td>
+            <td class="style11">0,06</td>
+            <td>4041</td>
+            <td>10000</td>
+          </tr>
+          <tr>
+            <td>4,4,1</td>
+            <td>0,0001</td>
+            <td>0,6</td>
+            <td class="style11">0,08</td>
+            <td>4047</td>
+            <td>10000</td>
+          </tr>
+          <tr>
+            <td>4,9,1</td>
+            <td>0,0001</td>
+            <td>0,6</td>
+            <td class="style11">0,15</td>
+            <td>4084</td>
+            <td>10000</td>
+          </tr>
+          <tr>
+            <td>4,15,1</td>
+            <td>0,0001</td>
+            <td>0,6</td>
+            <td class="style11">0,09</td>
+            <td>4123</td>
+            <td>10000</td>
+          </tr>
+          <tr>
+            <td>4,31,1</td>
+            <td>0,0001</td>
+            <td>0,6</td>
+            <td class="style11">0,03</td>
+            <td>4145</td>
+            <td>10000</td>
+          </tr>
+      </table>
+      <div style="PADDING-BOTTOM: 0.6em; PADDING-LEFT: 0.6em; PADDING-RIGHT: 0.6em; PADDING-TOP: 10px"> The value with 0,15% is to be interpreted in such a way, as 
+        a maximum sensitivity of the network (multilayer perceptron) to 
+        given training set. The network topology is 4 input neurons, 9 
+        hidden neurons and 1 output neuron. </div>
+      <p align="justify">&nbsp;</p>
+      <p align="justify">&nbsp;</p>
+      <p><strong>Source Code</strong></p>
+      <p>&nbsp;</p>
+      <p>Source code for this tutorial is available in package</p>
+      <p> org.neuroph.samples.stockmarket</p>
+      <p>or download complete NetBeans projects from</p>
+      <p>http://neuroph.sourceforge.net/samples/StockMarketPrediction.zip<br />
+      http://neuroph.sourceforge.net/samples/StockMarketCommittee.zip<br />
+      (note that these are using framework v2.6)
+      </p>
+      <p>&nbsp;</p>
+      <p><strong>See also:<br />
+        <br />
+        </strong><a href="TimeSeriesPrediction.html">Time Series Prediction Tutorial </a><br />
+        <a href="MultiLayerPerceptron.html">Multi Layer Perceptron Tutorial</a></p></td>
+  </tr>
+</table>
+</body>
+</html>
