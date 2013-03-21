@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.nugs.graph3d
+OpenIDE-Module-Localizing-Bundle: org/nugs/graph3d/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
