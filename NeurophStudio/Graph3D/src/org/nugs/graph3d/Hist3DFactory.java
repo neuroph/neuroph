@@ -31,7 +31,7 @@ public class Hist3DFactory {
                 //addBar() metoda
                 IColorMap map = prop.getChartColor();
                 map.setDirection(false);
-                ColorMapper mapper = new ColorMapper(map, -1, 1);
+                ColorMapper mapper = new ColorMapper(map, Chart3DUtils.getMinHeight(heights), Chart3DUtils.getMaxHeight(heights)); //TODO min i max weight
                 Color color = mapper.getColor(new Coord3d(0, 0, heights[row][col]));
                 color.a = 0.55f;
                 HistogramBar bar = new HistogramBar();

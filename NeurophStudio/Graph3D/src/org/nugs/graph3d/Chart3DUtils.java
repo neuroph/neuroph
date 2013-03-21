@@ -33,9 +33,33 @@ public class Chart3DUtils {
      * @param panel JPanel
      * @return void
      */
-    public static void createChartPanel(Chart chart,JPanel panel) {
+    public static void createChartPanel(Chart chart, JPanel panel) {
         panel.removeAll();
         panel.setLayout(new BorderLayout());
         panel.add((Component) chart.getCanvas());
+    }
+
+    public static int getMinHeight(double[][] heights) {
+        double min = 100;
+        for (int row = 0; row < heights.length; row++) {
+            for (int col = 0; col < heights[row].length; col++) {
+                if (heights[row][col] < min) {
+                    min = heights[row][col];
+                }
+            }
+        }
+        return (int) min - 1;
+    }
+
+    public static int getMaxHeight(double[][] heights) {
+        double max = -100;
+        for (int row = 0; row < heights.length; row++) {
+            for (int col = 0; col < heights[row].length; col++) {
+                if (heights[row][col] > max) {
+                    max = heights[row][col];
+                }
+            }
+        }
+        return (int) max + 1;
     }
 }
