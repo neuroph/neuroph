@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.neuroph.studio.updates
+OpenIDE-Module-Layer: org/neuroph/studio/updates/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/neuroph/studio/updates/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

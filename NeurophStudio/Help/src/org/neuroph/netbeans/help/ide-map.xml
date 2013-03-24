@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE map PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 2.0//EN" "http://java.sun.com/products/javahelp/map_2_0.dtd">
+<map version="2.0">
+    <mapID target="org.neuroph.netbeans.ide.about" url="ide-about.html"/>
+    
+    <mapID target="Overview" url="Overview.html" />
+    <mapID target="NeuralNetworksBasics" url="NeuralNetworksBasics.html" />
+
+    <mapID target="Adaline" url="Adaline.html" />
+    <mapID target="Perceptron" url="Perceptron.html" />
+    <mapID target="MultiLayerPerceptron" url="MultiLayerPerceptron.html" />
+    <mapID target="SupervisedHebbian" url="SupervisedHebbian.html" />
+    <mapID target="UnsupervisedHebbian" url="UnsupervisedHebbian.html" />
+    <mapID target="CompetitiveNetwork" url="CompetitiveNetwork.html" />
+    <mapID target="MaxNet" url="MaxNet.html" />
+    <mapID target="Hopfield" url="Hopfield.html" />
+    <mapID target="BAM" url="BAM.html" />
+    <mapID target="Instar" url="Instar.html" />
+    <mapID target="Outstar" url="Outstar.html" />
+    <mapID target="Kohonen" url="Kohonen.html" />
+    <mapID target="RBFNetwork" url="RBFNetwork.html" />
+    <mapID target="BasicClasses" url="BasicClasses.html" />
+    <mapID target="UsingInJava" url="UsingInJava.html" />
+    <mapID target="LearningRules" url="LearningRules.html" />
+    
+    <mapID target="ImageRecognition" url="ImageRecognition.html" />
+    <mapID target="HandwritingRecognition" url="HandwritingRecognition.html" />
+    <mapID target="TextRecognition" url="TextRecognition.html" />
+
+    <mapID target="TimeSeriesPrediction" url="TimeSeriesPrediction.html" />
+    <mapID target="StockMarketPrediction" url="StockMarketPrediction.html" />
+
+    <mapID target="Support" url="Support.html" />
+    <mapID target="Contribute" url="Contribute.html" />
+    <mapID target="WebLinks" url="WebLinks.html" />
+    <mapID target="License" url="License.html" />       
+</map>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <attr name="Templates\Neuroph\TrainingSet.tset\position" intvalue="200"/>
+    <attr name="Templates\Neuroph\hWR\position" intvalue="300"/>
+    <attr name="Templates\Neuroph\iMR\position" intvalue="400"/>
+    <attr name="Templates\Neuroph\tCR\position" intvalue="500"/>
+    <folder name="Actions">
+        <folder name="Networks">
+            <file name="org-neuroph-netbeans-ide-wizards-AdalineWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.AdalineWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_AdalineWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-PerceptronWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.PerceptronWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_PerceptronWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-MultiLayerPerceptronWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.MultiLayerPerceptronWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_MultiLayerPerceptronWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-HopfieldWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.HopfieldWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_HopfieldWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-BAMWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.BAMWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_BAMWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-KohonenWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.KohonenWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_KohonenWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-SupervisedHebbianWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.SupervisedHebbianWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_SupervisedHebbianWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-UnsupervisedHebbianWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.UnsupervisedHebbianWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_UnsupervisedHebbianWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-MaxnetWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.MaxnetWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_MaxnetWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-CompetitiveNetworkWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.CompetitiveNetworkWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_CompetitiveNetworkWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-RBFWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.RBFWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_RBFWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-InstarWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.InstarWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_InstarWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-ide-wizards-OutstarWizardAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.wizards.OutstarWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#CTL_OutstarWizardAction"/>
+                <attr name="iconBase" stringvalue="org/neuroph/netbeans/wizards/icon.PNG"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Templates">
+        <folder name="Neuroph">
+            <file name="newNeuralNetwork">
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/neuralNetIcon.png"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#Templates/Neuroph/newNeuralNetwork"/>
+                <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.wizards.NewNeuralNetworkWizardIterator"/>
+                <attr name="position" intvalue="100"/>
+                <attr name="template" boolvalue="true"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/newNeuralNetwork.html"/>
+            </file>
+            <file name="newTrainingSet">
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/iconTs.PNG"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.Bundle#Templates/Neuroph/newTrainingSet"/>
+                <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.wizards.NewTrainingSetWizardIterator"/>
+                <attr name="template" boolvalue="true"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/newTrainingSet.html"/>
+            </file>                                                                                                                                                                                                                                    
+        </folder>
+        
+        <folder name="Project">
+            
+            <folder name="Neuroph">
+                <file name="neurophProjectTemplate.zip" url="project/templates/neurophProjectTemplate.zip">
+                    <attr name="displayName" bundlevalue="org.neuroph.netbeans.wizards.project.templates.Bundle#Templates/Project/APISupport/neurophProjectTemplate.zip"/>
+                    <attr name="instantiatingIterator" methodvalue="org.neuroph.netbeans.wizards.project.templates.NeurophProjectTemplateWizardIterator.createIterator"/>
+                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophTemplateDescription.html"/>
+                    <attr name="template" boolvalue="true"/>
+                    <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophProjectIcon.gif"/>
+                </file>   
+            </folder>          
+             
+            <folder name="Samples">
+                <folder name="Neuroph">                                         
+                    <file name="Basic neuron" url="project/templates/neurophProjectTemplate.zip">
+                        <attr name="displayName" stringvalue="Basic Neuron Sample" bundlevalue="org.neuroph.netbeans.wizards.Bundle#Templates/Project/APISupport/neurophProjectTemplate.zip"/>
+                        <attr name="instantiatingIterator" methodvalue="org.neuroph.netbeans.wizards.project.templates.NeurophProjectTemplateWizardIteratorBasicNeuron.createIterator"/>
+                        <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophTemplateDescriptionBasicNeuron.html"/>
+                        <attr name="template" boolvalue="true"/>
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophProjectIcon.gif"/>
+                    </file>
+                    <file name="MultiLayerPerceptron" url="project/templates/neurophProjectTemplate.zip">
+                        <attr name="displayName" stringvalue="Multi Layer Perceptron Classification Sample" bundlevalue="org.neuroph.netbeans.ide.Bundle#Templates/Project/APISupport/neurophProjectTemplate.zip"/>
+                        <attr name="instantiatingIterator" methodvalue="org.neuroph.netbeans.wizards.project.templates.NeurophProjectTemplateWizardIteratorMultiLayerPerceptron.createIterator"/>
+                        <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophTemplateDescriptionMultiLayerPerceptron.html"/>
+                        <attr name="template" boolvalue="true"/>
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophProjectIcon.gif"/>
+                    </file>
+                    <file name="Perceptron" url="project/templates/neurophProjectTemplate.zip">
+                        <attr name="displayName" stringvalue="Perceptron Learning Sample" bundlevalue="org.neuroph.netbeans.ide.Bundle#Templates/Project/APISupport/neurophProjectTemplate.zip"/>
+                        <attr name="instantiatingIterator" methodvalue="org.neuroph.netbeans.wizards.project.templates.NeurophProjectTemplateWizardIteratorPerceptron.createIterator"/>
+                        <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophTemplateDescriptionPerceptron.html"/>
+                        <attr name="template" boolvalue="true"/>
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophProjectIcon.gif"/>
+                    </file>
+                    <file name="NeuroFuzzyPerceptron" url="project/templates/neurophProjectTemplate.zip">
+                        <attr name="displayName" stringvalue="Neuro Fuzzy Perceptron Sample" bundlevalue="org.neuroph.netbeans.ide.Bundle#Templates/Project/APISupport/neurophProjectTemplate.zip"/>
+                        <attr name="instantiatingIterator" methodvalue="org.neuroph.netbeans.wizards.project.templates.NeurophProjectTemplateWizardIteratorNFR.createIterator"/>
+                        <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophTemplateDescriptionNFR.html"/>
+                        <attr name="template" boolvalue="true"/>
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophProjectIcon.gif"/>
+                    </file>
+                    <file name="Kohonen" url="project/templates/neurophProjectTemplate.zip">
+                        <attr name="displayName" stringvalue="Kohonen Network Sample" bundlevalue="org.neuroph.netbeans.ide.Bundle#Templates/Project/APISupport/neurophProjectTemplate.zip"/>
+                        <attr name="instantiatingIterator" methodvalue="org.neuroph.netbeans.wizards.project.templates.NeurophProjectTemplateWizardIteratorKohonen.createIterator"/>
+                        <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophTemplateDescriptionKohonen.html"/>
+                        <attr name="template" boolvalue="true"/>
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophProjectIcon.gif"/>
+                    </file>
+                    <file name="Recomender" url="project/templates/neurophProjectTemplate.zip">
+                        <attr name="displayName" stringvalue="Neural Recomender Sample" bundlevalue="org.neuroph.netbeans.ide.Bundle#Templates/Project/APISupport/neurophProjectTemplate.zip"/>
+                        <attr name="instantiatingIterator" methodvalue="org.neuroph.netbeans.wizards.project.templates.NeurophProjectTemplateWizardIteratorRecomender.createIterator"/>
+                        <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophTemplateDescriptionRecomender.html"/>
+                        <attr name="template" boolvalue="true"/>
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophProjectIcon.gif"/>
+                    </file>
+                </folder>
+            </folder>
+        </folder>        
+        
+    </folder>
+</filesystem>
