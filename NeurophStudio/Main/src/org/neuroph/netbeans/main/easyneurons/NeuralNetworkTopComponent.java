@@ -83,6 +83,7 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
         content.add(neuralNetwork);        
         content.add(saveCookie);
         aLookup = new AbstractLookup(content);        
+      
     }
     
 //    works with this
