@@ -7,7 +7,8 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
-import org.openide.util.lookup.Lookups;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 
 /**
  *
@@ -18,20 +19,15 @@ public class LayerNode extends AbstractNode {
     Layer layer;
 
     public LayerNode(Layer layer) {
-//        super(new Children.Keys() {
-//
-//            @Override
-//            protected Node[] createNodes(Object t) {
-//                Layer obj = (Layer) t;
-//        return new Node[]{new LayerNode(obj)};
-//            }
-//        }, Lookups.singleton(layer));
-
-        super(new LayerChildren(layer), Lookups.singleton(layer));
-
-        this.layer = layer;
-
+       this(layer, new InstanceContent());
     }
+    
+    private LayerNode(Layer layer, InstanceContent content) {
+        super(new LayerChildren(layer), new AbstractLookup(content));
+        content.add(this);
+        content.add(layer);
+        this.layer = layer;
+    }    
 
     @Override
     public Image getIcon(int type) {
@@ -51,7 +47,6 @@ public class LayerNode extends AbstractNode {
         set.setName("Layer properties");
 
         try {
-
             Property neuronCount = new PropertySupport.Reflection(layer, Integer.class, "getNeuronsCount", null);
             Property label = new PropertySupport.Reflection(layer, String.class, "getLabel", null);
 
@@ -66,7 +61,6 @@ public class LayerNode extends AbstractNode {
 
         } catch (NoSuchMethodException ex) {
             ErrorManager.getDefault();
-
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

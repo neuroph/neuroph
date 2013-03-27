@@ -1,45 +1,56 @@
 package org.neuroph.netbeans.explorer;
 
+import java.beans.PropertyVetoException;
 import java.util.Collection;
 import java.util.logging.Logger;
-import org.openide.util.NbBundle;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.DataSet;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.explorer.view.BeanTreeView;
-import org.openide.filesystems.FileObject;
 import org.openide.nodes.Node;
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.Lookup.Result;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
+import org.openide.util.lookup.ProxyLookup;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  * Explorer Top component which displays neural network nodees. See
+ * http://platform.netbeans.org/tutorials/nbm-selection-1.html
  * http://platform.netbeans.org/tutorials/nbm-selection-2.html
  * http://platform.netbeans.org/tutorials/nbm-nodesapi3.html
  * http://wiki.netbeans.org/BasicUnderstandingOfTheNetBeansNodesAPI
+ *
+ *
+ * http://netbeans-org.1045718.n5.nabble.com/TopComponent-associateLookup-is-incompatible-with-setActivatedNodes-is-it-a-bug-td3261230.html
  */
 @ConvertAsProperties(dtd = "-//org.neuroph.netbeans.ide.navigator//Explorer//EN",
-        autostore = false)
+autostore = false)
 public final class ExplorerTopComponent extends TopComponent implements LookupListener, ExplorerManager.Provider {
 
     private static ExplorerTopComponent instance;
     private static final String PREFERRED_ID = "ExplorerTopComponent";
-    private final ExplorerManager em = new ExplorerManager();
+    private final ExplorerManager explorerManager = new ExplorerManager();
 
+    //  private InstanceContent content;
     public ExplorerTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(ExplorerTopComponent.class, "CTL_ExplorerTopComponent"));
         setToolTipText(NbBundle.getMessage(ExplorerTopComponent.class, "HINT_ExplorerTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
-        associateLookup(ExplorerUtils.createLookup(em, getActionMap()));
-//        setName("NeuralNetwork - Navigator");
+
+        // associate explorer manager lookup as lookup of this top componnet
+        associateLookup(ExplorerUtils.createLookup(explorerManager, getActionMap()));      
+//           
         ((BeanTreeView) jScrollPane1).setRootVisible(false);
     }
 
@@ -113,12 +124,16 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
 
     @Override
     public void componentOpened() {
-        result = Utilities.actionsGlobalContext().lookupResult(NeuralNetwork.class);
-        result.addLookupListener(this);
-        resultChanged(new LookupEvent(result));
-        resultts = Utilities.actionsGlobalContext().lookupResult(DataSet.class);
-        resultts.addLookupListener(this);
-        resultChanged(new LookupEvent(resultts));
+        // listen for neural network selection in global lookup
+   
+        resultNN = Utilities.actionsGlobalContext().lookupResult(NeuralNetwork.class);
+        resultNN.addLookupListener(this);
+        resultChanged(new LookupEvent(resultNN));
+
+        // listen for data set selection in global lookup
+        resultDS = Utilities.actionsGlobalContext().lookupResult(DataSet.class);
+        resultDS.addLookupListener(this);
+        resultChanged(new LookupEvent(resultDS));        
     }
 
     @Override
@@ -149,59 +164,60 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     protected String preferredID() {
         return PREFERRED_ID;
     }
-    private Result<NeuralNetwork> result;
-    private NeuralNetwork selectedNNet;
-    private Result<DataSet> resultts;
-    private DataSet selectedDataSet;
+    
+    Result<NeuralNetwork> resultNN;
+    Result<DataSet> resultDS;
+    private boolean recursiveCall = false;
 
     @Override
-    public void resultChanged(LookupEvent le) {
-        Lookup.Result localresult = (Result) le.getSource();
-        //Collection<Object> coll = localresult.allInstances();
-        Collection<Object> coll = localresult.allInstances();
+    public void resultChanged(LookupEvent le) {               
+        Lookup.Result localResult = (Result) le.getSource();
+        Collection<Object> coll = localResult.allInstances();
         if (!coll.isEmpty()) {
-
+            
             for (Object selectedItem : coll) {
-                if (selectedItem instanceof NeuralNetwork) {
+                if (selectedItem instanceof NeuralNetwork) {    // if neural network is selected
+                    NeuralNetwork selectedNNet = (NeuralNetwork) selectedItem;
+                    this.setName(selectedNNet.getLabel() + " -  Explorer");
+                     ((BeanTreeView) jScrollPane1).setRootVisible(true);
+                    ExplorerNeuralNetworkNode nnNode = new ExplorerNeuralNetworkNode(selectedNNet);
+                    
+                    recursiveCall = true;
+                    explorerManager.setRootContext (nnNode); //this one calls resultChanged recursivly, since global lookup is changed
                     try {
-                        selectedNNet = (NeuralNetwork) selectedItem;
-                        ExplorerNeuralNetworkNode nnNode = new ExplorerNeuralNetworkNode(selectedNNet);
-
-                        this.setName(selectedNNet.getLabel() + " -  Explorer");
-
-                        if (selectedNNet.getLayersCount() > 0) { // cak i da nema layera moze da se stavi u em
-                            ((BeanTreeView) jScrollPane1).setRootVisible(true);
-                            em.setRootContext(nnNode);
-                        }
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                        explorerManager.setExploredContextAndSelection(nnNode, new Node[]{nnNode});
+                    } catch (PropertyVetoException ex) {
+                        Exceptions.printStackTrace(ex);
                     }
-                    return;
-                } else if (selectedItem instanceof DataSet) {
-                    selectedDataSet = (DataSet) selectedItem;
-                    TrainingSetNode tsNode = new TrainingSetNode(selectedDataSet);
+                } else if (selectedItem instanceof DataSet) { // if data set is selected
+                    DataSet selectedDataSet = (DataSet) selectedItem;
+                    ExplorerDataSetNode dataSetNode = new ExplorerDataSetNode(selectedDataSet);
 
                     ((BeanTreeView) jScrollPane1).setRootVisible(true);
-                    em.setRootContext(tsNode);
-                    return;
-                } else { // when folder is selected
-                    em.setRootContext(Node.EMPTY);
-                    BeanTreeView btw = (BeanTreeView) jScrollPane1;
-                    btw.setRootVisible(false);
-                    this.setName("Explorer");
-                    selectedNNet = null;
-                }
+                    recursiveCall = true;
+                    explorerManager.setRootContext(dataSetNode); //this one calls resultChanged recursivly, since global lookup is changed
+                    try {
+                        explorerManager.setExploredContextAndSelection(dataSetNode, new Node[]{dataSetNode});
+                    } catch (PropertyVetoException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                } 
             }
         } else { // if nothing is selected...
-            em.setRootContext(Node.EMPTY);
-            BeanTreeView btw = (BeanTreeView) jScrollPane1;
-            btw.setRootVisible(false);
-            this.setName("Explorer");
-            selectedNNet = null;
-        }
+            if (!recursiveCall) {
+                explorerManager.setRootContext(Node.EMPTY);
+                BeanTreeView btw = (BeanTreeView) jScrollPane1;
+                btw.setRootVisible(false);
+                this.setName("Explorer");
+                
+            } else {
+                recursiveCall = false;
+            }
+       }
     }
 
+    @Override
     public ExplorerManager getExplorerManager() {
-        return em;
+        return explorerManager;
     }
 }
