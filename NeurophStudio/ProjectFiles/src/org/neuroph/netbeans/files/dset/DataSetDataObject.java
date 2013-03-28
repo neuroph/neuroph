@@ -43,6 +43,7 @@ public class DataSetDataObject extends MultiDataObject {
         openSupport = new DataSetOpenSuport(getPrimaryEntry());        
         cookies.add((Node.Cookie) openSupport);
         cookies.add(this);
+        loadData();
     }
 
     @Override

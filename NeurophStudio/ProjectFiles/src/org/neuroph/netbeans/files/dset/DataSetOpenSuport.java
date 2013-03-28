@@ -32,7 +32,7 @@ public class DataSetOpenSuport extends OpenSupport implements OpenCookie, CloseC
                 dataSetTopComponent.requestActive();
              }
         } else {
-               dataSetDataObject.loadData();
+               //dataSetDataObject.loadData(); // done in constructor
                DataSet ds = dataSetDataObject.getLookup().lookup(DataSet.class);
                dataSetTopComponent = new DataSetTopComponent(dataSetDataObject); // otherwise create new window to open network in
                dataSetTopComponent.open(); 

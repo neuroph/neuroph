@@ -41,6 +41,7 @@ public class NeuralNetworkDataObject extends MultiDataObject {
         openSupport = new NeuralNetOpenSupport(getPrimaryEntry());        
         cookies.add((Node.Cookie) openSupport);      
         cookies.add(this);
+        loadData();
     }
 
     // creates node for projects window
