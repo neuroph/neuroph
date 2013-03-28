@@ -9,6 +9,7 @@ import org.neuroph.core.learning.DataSet;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.explorer.view.BeanTreeView;
+import org.openide.loaders.DataFolder;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
@@ -135,6 +136,12 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
         resultDS = Utilities.actionsGlobalContext().lookupResult(DataSet.class);
         resultDS.addLookupListener(this);
         resultChanged(new LookupEvent(resultDS));        
+        
+        // listen for folder selection in global lookup (when user clicks nn, trainingor test set folder
+        resultDF = Utilities.actionsGlobalContext().lookupResult(DataFolder.class);
+        resultDF.addLookupListener(this);
+        resultChanged(new LookupEvent(resultDF));          
+        
     }
 
     @Override
@@ -168,6 +175,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     
     Result<NeuralNetwork> resultNN;
     Result<DataSet> resultDS;
+    Result<DataFolder> resultDF;
     private boolean recursiveCall = false;
 
     @Override
@@ -202,6 +210,11 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                     } catch (PropertyVetoException ex) {
                         Exceptions.printStackTrace(ex);
                     }
+                } else if (selectedItem instanceof DataFolder) {
+                    explorerManager.setRootContext(Node.EMPTY);
+                    BeanTreeView btw = (BeanTreeView) jScrollPane1;
+                    btw.setRootVisible(false);
+                    this.setName("Explorer");                    
                 } 
             }
         } else { // if nothing is selected...
