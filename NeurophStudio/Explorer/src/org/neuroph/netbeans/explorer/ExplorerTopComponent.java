@@ -120,6 +120,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     @Override
     public int getPersistenceType() {
         return TopComponent.PERSISTENCE_ALWAYS;
+        
     }
 
     @Override
