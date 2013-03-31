@@ -7,6 +7,7 @@ import java.util.List;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.TwoStateHoverProvider;
 import org.netbeans.api.visual.action.WidgetAction;
+import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Widget;
@@ -31,6 +32,10 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
     private final Lookup lookup;
     private boolean selected;
     private List<ConnectionWidget> connections;
+    
+    private static final Border DEFAULT_BORDER  = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
+    private static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, new Color(255, 100, 100), Color.GRAY);
+    private static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.yellow, Color.black);    
    
     public NeuronWidget(NeuralNetworkScene scene, Neuron neuron) {
         super(scene);
@@ -47,12 +52,12 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
         WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
 
             public void unsetHovering(Widget widget) {
-                setBorder(BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black));
+                setBorder(DEFAULT_BORDER);
                 ((NeuralNetworkScene)getScene()).refresh(); //zbog selekcije
             }
 
             public void setHovering(Widget widget) {
-                setBorder(BorderFactory.createRoundedBorder(50, 50, Color.red, Color.yellow));
+                  setBorder(HOVER_BORDER);
             }
         });
         getScene().getActions().addAction(hoverAction);
@@ -61,7 +66,7 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
         // getActions().addAction(ActionFactory.createContiguousSelectAction(new NeuronWidgetContiguousSelectProvider()));
         setToolTipText("Hold Ctrl and drag to create connection");
         setPreferredSize(new Dimension(50, 50));
-        setBorder(BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black));
+        setBorder(DEFAULT_BORDER);
         setOpaque(false);
         selected = false;
     }
@@ -112,10 +117,10 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
 
     public void setSelected(boolean selection) {
         if (selection) {
-            setBorder(BorderFactory.createRoundedBorder(50, 50, Color.yellow, Color.black));
+            setBorder(SELECTED_BORDER);
             getNeuron().setLabel("Selected");
         } else {
-            setBorder(BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black));
+            setBorder(DEFAULT_BORDER);
             getNeuron().setLabel("Not Selected");
         }
         //this.selected = selection;

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.TwoStateHoverProvider;
 import org.netbeans.api.visual.action.WidgetAction;
+import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.model.ObjectState;
@@ -30,11 +31,15 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
     private final Lookup lookup;
     private boolean selected;
     
+    private static final Border DEFAULT_BORDER  = BorderFactory.createRoundedBorder(5, 5, Color.white, Color.BLACK);
+    private static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(240, 240, 240), Color.GRAY);
+    private static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(180, 180, 180), Color.black);
+    
     public NeuralLayerWidget(NeuralNetworkScene scene, Layer layer) {
         super(scene);
         this.lookup = Lookups.singleton(layer);
         setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 15));
-        setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+        setBorder(DEFAULT_BORDER);
         setPreferredSize(new Dimension(80, 60));
 
         getActions().addAction(ActionFactory.createAcceptAction(new NeuralLayerWidgetAcceptProvider(this)));
@@ -42,16 +47,18 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         getActions().addAction(ActionFactory.createExtendedConnectAction( scene.getInterractionLayer(), new LayerConnectProvider()));
         getActions().addAction(ActionFactory.createSelectAction(new LayerSelectProvider())); // move this above connection action to react to it before connection
         
-//        getActions().addAction(scene.createObjectHoverAction());
-
         WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
 
             public void unsetHovering(Widget widget) {
-                setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.BLACK));
+                if (selected) {
+                    setBorder(SELECTED_BORDER);
+                } else {
+                    setBorder(DEFAULT_BORDER);
+                }
             }
 
             public void setHovering(Widget widget) {
-                setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.RED));
+                setBorder(HOVER_BORDER);
             }
         });
         
@@ -135,10 +142,10 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
     public void changeSelection() {
         if (isSelected()) {
             setSelected(false);
-            setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+            setBorder(DEFAULT_BORDER);
         } else {
             setSelected(true);
-            setBorder(BorderFactory.createRoundedBorder(5, 5, Color.red, Color.black));
+            setBorder(SELECTED_BORDER);
         }
     }
 

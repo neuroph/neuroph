@@ -1,12 +1,8 @@
 package org.neuroph.netbeans.visual.widgets.actions;
 
-import java.awt.Color;
 import java.awt.Point;
 import org.netbeans.api.visual.action.SelectProvider;
-import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.widget.Widget;
-import org.neuroph.netbeans.visual.widgets.Connectable;
-import org.neuroph.netbeans.visual.palette.NeuronWidgetStack;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuronWidget;
 
