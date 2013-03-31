@@ -132,6 +132,13 @@ public class OcrHelper extends ImageRecognitionHelper {
         return dataSet;   
     }  
     
+    /**
+     * Recognize characters in given text images and returns character list
+     * @param neuralNet
+     * @param image
+     * @param charDimension
+     * @return 
+     */
     public static List<Character> recognizeText(NeuralNetwork neuralNet, BufferedImage image, Dimension charDimension){
         CharExtractor charExtractor = new CharExtractor(image);
         List<BufferedImage> charImages = charExtractor.extractCharImagesToRecognize();

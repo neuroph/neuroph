@@ -8,8 +8,10 @@ import org.neuroph.imgrec.ImageUtilities;
 import org.neuroph.imgrec.image.Dimension;
 
 /**
+ * This class provides methods to extract single character images from text image
  * 
- * @author Vlada
+ * @author Vladimir Kolarevic
+ * @author Zoran Sevarac
  */
 public class CharExtractor {
 
@@ -21,7 +23,10 @@ public class CharExtractor {
     private boolean endOfImage;//end of picture
     private boolean endOfRow;//end of current reading row
 
-    
+    /**
+     * Creates new char extractor with soecified text image
+     * @param imageWithChars - image with text
+     */
     public CharExtractor(BufferedImage imageWithChars) {
         this.imageWithChars = imageWithChars;
     }
