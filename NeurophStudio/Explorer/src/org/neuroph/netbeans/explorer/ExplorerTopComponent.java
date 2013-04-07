@@ -5,7 +5,10 @@ import java.util.Collection;
 import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.DataSet;
+import org.neuroph.netbeans.visual.widgets.NeuralLayerWidget;
+import org.neuroph.netbeans.visual.widgets.NeuronWidget;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.explorer.view.BeanTreeView;
@@ -127,7 +130,6 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     @Override
     public void componentOpened() {
         // listen for neural network selection in global lookup
-   
         resultNN = Utilities.actionsGlobalContext().lookupResult(NeuralNetwork.class);
         resultNN.addLookupListener(this);
         resultChanged(new LookupEvent(resultNN));
@@ -140,7 +142,12 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
         // listen for folder selection in global lookup (when user clicks nn, trainingor test set folder
         resultDF = Utilities.actionsGlobalContext().lookupResult(DataFolder.class);
         resultDF.addLookupListener(this);
-        resultChanged(new LookupEvent(resultDF));          
+        resultChanged(new LookupEvent(resultDF));         
+        
+        // listen for neuron widget selection in global lookup
+        resultNW = Utilities.actionsGlobalContext().lookupResult(NeuronWidget.class);
+        resultNW.addLookupListener(this);
+        resultChanged(new LookupEvent(resultNW));   
         
     }
 
@@ -176,6 +183,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     Result<NeuralNetwork> resultNN;
     Result<DataSet> resultDS;
     Result<DataFolder> resultDF;
+    Result<NeuronWidget> resultNW;
     private boolean recursiveCall = false;
 
     @Override
@@ -183,7 +191,6 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
         Lookup.Result localResult = (Result) le.getSource();
         Collection<Object> coll = localResult.allInstances();
         if (!coll.isEmpty()) {
-            
             for (Object selectedItem : coll) {
                 if (selectedItem instanceof NeuralNetwork) {    // if neural network is selected
                     NeuralNetwork selectedNNet = (NeuralNetwork) selectedItem;
@@ -215,7 +222,9 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                     BeanTreeView btw = (BeanTreeView) jScrollPane1;
                     btw.setRootVisible(false);
                     this.setName("Explorer");                    
-                } 
+                } else if (selectedItem instanceof NeuronWidget){
+                    
+                }
             }
         } else { // if nothing is selected...
             if (!recursiveCall) {

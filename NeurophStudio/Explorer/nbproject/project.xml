@@ -7,6 +7,14 @@
             <suite-component/>
             <module-dependencies>
                 <dependency>
+                    <code-name-base>org.netbeans.api.visual</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>2.32.1</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>org.netbeans.modules.settings</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
@@ -25,6 +33,14 @@
                 </dependency>
                 <dependency>
                     <code-name-base>org.neuroph.netbeans.properties</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.neuroph.netbeans.visual</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>

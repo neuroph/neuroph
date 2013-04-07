@@ -1,7 +1,10 @@
 package org.neuroph.netbeans.explorer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.learning.LearningRule;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
 
@@ -13,7 +16,7 @@ import org.openide.nodes.Node;
  * @see http://platform.netbeans.org/tutorials/nbm-selection-2.html
  *
  */
-public class ExplorerNeuralNetworkChildren extends Children.Keys<Layer> {
+public class ExplorerNeuralNetworkChildren extends Children.Keys<Object> {
     private NeuralNetwork neuralNet;
 
     public ExplorerNeuralNetworkChildren(NeuralNetwork nnet) {
@@ -27,16 +30,23 @@ public class ExplorerNeuralNetworkChildren extends Children.Keys<Layer> {
      * @return nodes for specified object.
      */
     @Override
-    protected Node[] createNodes(Layer layer) {
-        LayerNode layerNode = new LayerNode(layer);
-        layerNode.setName("Layer " + String.valueOf(layer.getParentNetwork().indexOf(layer)+1));
+    protected Node[] createNodes(Object object) {
+        if(object instanceof Layer){                
+            Layer layer = (Layer) object;           
+            LayerNode layerNode = new LayerNode(layer); 
+            layerNode.setName("Layer " + String.valueOf(layer.getParentNetwork().indexOf(layer)+1)); 
+            return new Node[] { layerNode }; 
+        }else { 
+            LearningRule learningRule = (LearningRule) object;
+            LearningRuleNode learningRuleNode = new LearningRuleNode(learningRule);
+            learningRuleNode.setName("Learning rule");
+            return new Node[] {learningRuleNode}; 
+        }
 
         //TODO: list all neuron nodes here using LayerChildren, and if there are too many neurons put text too many neurons to inspect
 //        Node neuronNode = new NeuronNode((layer.getNeuronAt(0)));
 //        neuronNode.setName(layer.getNeurons().size() + " neurons");
 //        layerNode.getChildren().add(new Node[]{neuronNode});
-
-        return new Node[] { layerNode };
     }
 
     /**
@@ -46,6 +56,11 @@ public class ExplorerNeuralNetworkChildren extends Children.Keys<Layer> {
     @Override
     protected void addNotify() {
         super.addNotify();
-        setKeys( neuralNet.getLayers());
+        ArrayList<Object> keys = new ArrayList<Object>();
+        if(neuralNet.getLearningRule()!=null){
+            keys.add(neuralNet.getLearningRule());
+        }
+        keys.addAll(Arrays.asList(neuralNet.getLayers()));
+        setKeys(keys);   
     }
 }
