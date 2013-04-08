@@ -8,7 +8,11 @@ import org.openide.windows.TopComponent;
 //import org.openide.util.ImageUtilities;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.visual.palette.PaletteSupport;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
+import org.openide.util.lookup.ProxyLookup;
 
 /**
  * Top component which displays something.
@@ -21,6 +25,8 @@ public final class GraphViewTopComponent extends TopComponent {
     private JComponent view;
     private NeuralNetwork nnet;
     NeuralNetworkScene scene;
+    InstanceContent content;
+    AbstractLookup aLookup;
 
     public GraphViewTopComponent() {
         initComponents();
@@ -54,9 +60,20 @@ public final class GraphViewTopComponent extends TopComponent {
 
         scene.visualizeNetwork();
 
+        content = new InstanceContent();
+        content.add(nnet);
         associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
+        aLookup = new AbstractLookup(content);
     }
+    @Override
+    public Lookup getLookup() {
+        return new ProxyLookup(
+                new Lookup[]{
+                    super.getLookup(),
+                    aLookup
+                });
 
+    }
 
     public NeuralNetwork getNeuralNetwork() {
         return nnet;

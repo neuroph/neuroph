@@ -41,7 +41,8 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
         super(scene);
         connections = new ArrayList<ConnectionWidget>();
         this.neuron = neuron;
-        lookup = Lookups.singleton(neuron);
+        //lookup = Lookups.singleton(neuron);
+        lookup = Lookups.fixed(neuron,this);
         getActions().addAction(ActionFactory.createAcceptAction(new NeuronWidgetAcceptProvider(this)));
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuronPopupMenuProvider()));
         getActions().addAction(ActionFactory.createExtendedConnectAction(scene.getInterractionLayer(), new NeuronConnectProvider()));

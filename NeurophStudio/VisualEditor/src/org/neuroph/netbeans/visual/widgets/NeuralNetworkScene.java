@@ -153,7 +153,7 @@ public class NeuralNetworkScene extends ObjectScene {
         neurons = new ArrayList<Neuron>();
         neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
 
-        for (int i = 0; i < neuralNetwork.getLayersCount(); i++) { // iterate all alyers in network
+        for (int i = 0; i < neuralNetwork.getLayersCount(); i++) { // iterate all layers in network
             IconNodeWidget layerWrapperWidget = new IconNodeWidget(this); // parent container layer for label and NeuralLayer
             layerWrapperWidget.setLayout(LayoutFactory.createVerticalFlowLayout());
             Layer layer = neuralNetwork.getLayerAt(i); // get layer for this widget

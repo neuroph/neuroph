@@ -25,9 +25,7 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
     public AddCustomLayerDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        fillCombos();
-       
-        
+        fillCombos();     
     }
 
     public AddCustomLayerDialog(java.awt.Frame parent, boolean modal, NeuralNetworkScene scene, int layerIdx) {
