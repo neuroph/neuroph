@@ -36,7 +36,7 @@ public class NeuronSelectProvider implements SelectProvider {
             neuronWidget.changeSelection();
         }
         scene.refresh();*/
-        
+        widget.getActions().addAction(new KeyboardMoveAction((NeuronWidget)widget)); 
         ((NeuronWidget)widget).changeSelection();
         
     }

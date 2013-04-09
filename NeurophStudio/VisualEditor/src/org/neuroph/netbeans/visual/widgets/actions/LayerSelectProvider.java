@@ -36,7 +36,7 @@ public class LayerSelectProvider implements SelectProvider {
 //        }
 //
 //        ((NeuralNetworkScene) widget.getScene()).refresh();
-        
+        widget.getActions().addAction(new KeyboardMoveAction((NeuralLayerWidget)widget));
         ((NeuralLayerWidget)widget).changeSelection();
     }
 }

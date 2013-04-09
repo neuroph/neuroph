@@ -48,6 +48,16 @@ public class NeuralNetworkScene extends ObjectScene {
     // neurons and widgets bufferd index
     HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
     ArrayList<Neuron> neurons = new ArrayList<Neuron>();
+    Selectable selection; 
+
+    public Selectable getSelection() {
+        return selection;
+    }
+
+    public void setSelection(Selectable selection) {
+        this.selection = selection;
+    }
+            
 
 // ide modul neuron node (org.neuroph.netbeans.ide.explorer) 
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
@@ -158,7 +168,15 @@ public class NeuralNetworkScene extends ObjectScene {
             layerWrapperWidget.setLayout(LayoutFactory.createVerticalFlowLayout());
             Layer layer = neuralNetwork.getLayerAt(i); // get layer for this widget
             NeuralLayerWidget neuralLayerWidget = new NeuralLayerWidget(this, layer); // create widget for layer
-//            neuralLayerWidget.setSelected(layer.getLabel() != null && layer.getLabel().equals("Selected"));
+              if (selection instanceof NeuralLayerWidget) { // if this neurn was selected before refresh...
+                     if (((NeuralLayerWidget)selection).getLayer() == layer){
+                         //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
+                      neuralLayerWidget.setSelected(); 
+                     }
+                     
+                         
+                 }
+            //neuralLayerWidget.setSelected(layer.getLabel() != null && layer.getLabel().equals("Selected"));
             LabelWidget layerLabelWidget = new LabelWidget(this);
 
             String layerLabel = layer.getLabel();
@@ -183,7 +201,14 @@ public class NeuralNetworkScene extends ObjectScene {
             for (int j = 0; j < neuralNetwork.getLayerAt(i).getNeuronsCount(); j++) {
                 Neuron neuron = neuralNetwork.getLayerAt(i).getNeuronAt(j);
                 NeuronWidget neuronWidget = new NeuronWidget(this, neuron);
-                neuronWidget.setSelected(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
+                if (selection instanceof NeuronWidget) { // if this neurn was selected before refresh...
+                     if (((NeuronWidget)selection).getNeuron() == neuron){
+                         //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
+                      neuronWidget.setSelected(); 
+                     }
+                     
+                         
+                 }
                 resizeLayer(neuralLayerWidget);
                 //Napravio wrapper oko neuronWidget i label da bi label pisao unutar widgeta. Koristim OverlayLayout
                 IconNodeWidget neuronWrapperWidget=new IconNodeWidget(this);
@@ -228,6 +253,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 NeuronWidget targetWidget = neuronsAndWidgets.get(neuralNetwork.getInputNeurons()[i]);
                 if (showConnections) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
+                  
                     connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
                     connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(inputLabel));
                     connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
@@ -248,6 +274,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 NeuronWidget sourceWidget = neuronsAndWidgets.get(neuralNetwork.getOutputNeurons()[i]);
                 if (showConnections) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
+                       
                     connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
                     connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
                     connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(outputLabel));
@@ -274,6 +301,12 @@ public class NeuralNetworkScene extends ObjectScene {
                     continue;
                 }
                 NeuronConnectionWidget connWidget = new NeuronConnectionWidget(this, inputConnections[c], sourceWidget, targetWidget);
+                if(selection instanceof NeuronConnectionWidget){
+                        if(((NeuronConnectionWidget)selection).getConnection() == connWidget.getConnection()){
+                            System.out.println("kdfgjd");
+                            connWidget.setSelected();
+                        }
+                    }
                 connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
                 connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
                 connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));

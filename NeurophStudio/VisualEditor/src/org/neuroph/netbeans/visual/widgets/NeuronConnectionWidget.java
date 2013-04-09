@@ -13,6 +13,7 @@ import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.popup.NeuronConnectionPopupMenuProvider;
+import org.neuroph.netbeans.visual.widgets.actions.ConnectionSelectionProvider;
 
 /**
  * This class represents a connection between two neurons
@@ -20,15 +21,15 @@ import org.neuroph.netbeans.visual.popup.NeuronConnectionPopupMenuProvider;
  *
  * http://platform.netbeans.org/graph/common-usages.html // conenction anchors
  */
-public class NeuronConnectionWidget extends ConnectionWidget {
+public class NeuronConnectionWidget extends ConnectionWidget implements Selectable{
 
     private Connection connection;
     private NeuronWidget src;
     private NeuronWidget trg;
-    
+    private boolean isSelected;
     private static final Color DEFAULT_COLOR  = Color.BLACK;
     private static final Color HOVER_COLOR  = Color.GRAY;
-    //private static final Color SELECTED_COLOR  = Color.RED;
+    private static final Color SELECTED_COLOR  = Color.RED;
 
     public NeuronConnectionWidget(Scene scene, Connection connection, NeuronWidget src, NeuronWidget trg) {
         super(scene);
@@ -36,19 +37,25 @@ public class NeuronConnectionWidget extends ConnectionWidget {
         this.src = src;
         this.trg = trg;
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuronConnectionPopupMenuProvider(src, trg)));
-        
+        getActions().addAction(ActionFactory.createSelectAction(new ConnectionSelectionProvider()));
         WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
 
             public void unsetHovering(Widget widget) {
+                if (isSelected){
+                    setLineColor(SELECTED_COLOR);
+                }else{
                 setLineColor(DEFAULT_COLOR);
+                
             }
-
+            }
             public void setHovering(Widget widget) {
                 setLineColor(HOVER_COLOR);
             }
         });
         getScene().getActions().addAction(hoverAction);
         getActions().addAction(hoverAction);
+        isSelected = false;
+   
     }
 
     public Connection getConnection() {
@@ -62,8 +69,33 @@ public class NeuronConnectionWidget extends ConnectionWidget {
     public NeuronWidget getSrc() {
         return src;
     }
-
+    public void changeSelection() {
+        if (isSelected) {
+            unselect();
+        } else {
+             setSelected();
+        }
+    }
     public NeuronWidget getTrg() {
         return trg;
+    }
+
+     public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void unselect() {
+       setLineColor(DEFAULT_COLOR);
+       this.isSelected = false;
+    }
+
+    public void setSelected() {
+       NeuralNetworkScene scene = (NeuralNetworkScene)this.getScene();
+        if (scene.getSelection() != null){
+            scene.getSelection().unselect();
+        }
+        scene.setSelection(this);
+        setLineColor(SELECTED_COLOR);
+        this.isSelected = true;
     }
 }

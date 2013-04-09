@@ -26,11 +26,11 @@ import org.openide.util.lookup.Lookups;
  *
  * @author Zoran Sevarac
  */
-public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Connectable {
+public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Connectable, Selectable {
 
     private Neuron neuron;
     private final Lookup lookup;
-    private boolean selected;
+    private boolean isSelected;
     private List<ConnectionWidget> connections;
     
     private static final Border DEFAULT_BORDER  = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
@@ -53,10 +53,13 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
         WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
 
             public void unsetHovering(Widget widget) {
-                setBorder(DEFAULT_BORDER);
-                ((NeuralNetworkScene)getScene()).refresh(); //zbog selekcije
+                if(isSelected){
+                setBorder(SELECTED_BORDER);
+               
+            }else{
+                    setBorder(DEFAULT_BORDER);
+                }
             }
-
             public void setHovering(Widget widget) {
                   setBorder(HOVER_BORDER);
             }
@@ -69,7 +72,7 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
         setPreferredSize(new Dimension(50, 50));
         setBorder(DEFAULT_BORDER);
         setOpaque(false);
-        selected = false;
+        isSelected = false;
     }
 
     public Neuron getNeuron() {
@@ -116,27 +119,35 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
     }
 // TODO Implementacija preko lookup-a
 
-    public void setSelected(boolean selection) {
-        if (selection) {
-            setBorder(SELECTED_BORDER);
-            getNeuron().setLabel("Selected");
-        } else {
-            setBorder(DEFAULT_BORDER);
-            getNeuron().setLabel("Not Selected");
-        }
-        //this.selected = selection;
-    }
+    
+        //this.isSelected = selection;
+    
 
     public void changeSelection() {
-        if (getNeuron().getLabel().equals("Selected")) {
-            setSelected(false);
+        if (isSelected) {
+            unselect();
         } else {
-            setSelected(true);
+             setSelected();
         }
     }
 
     public boolean isSelected() {
-        return selected;
+        return isSelected;
+    }
+
+     public void unselect() {
+        setBorder(DEFAULT_BORDER);
+       this.isSelected = false;
+    }
+
+    public void setSelected() {
+         NeuralNetworkScene scene = (NeuralNetworkScene)this.getScene();
+           if (scene.getSelection() != null){
+                scene.getSelection().unselect();
+           }
+        scene.setSelection(this);
+        setBorder(SELECTED_BORDER);
+        this.isSelected = true;
     }
 
    
