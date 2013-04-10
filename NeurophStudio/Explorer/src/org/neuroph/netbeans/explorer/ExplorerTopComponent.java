@@ -147,7 +147,12 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
         // listen for neuron widget selection in global lookup
         resultNW = Utilities.actionsGlobalContext().lookupResult(NeuronWidget.class);
         resultNW.addLookupListener(this);
-        resultChanged(new LookupEvent(resultNW));   
+        resultChanged(new LookupEvent(resultNW));  
+        
+        // listen for neural layer widget selection in global lookup
+        resultLW = Utilities.actionsGlobalContext().lookupResult(NeuralLayerWidget.class);
+        resultLW.addLookupListener(this);
+        resultChanged(new LookupEvent(resultLW));   
         
     }
 
@@ -184,6 +189,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     Result<DataSet> resultDS;
     Result<DataFolder> resultDF;
     Result<NeuronWidget> resultNW;
+    Result<NeuralLayerWidget> resultLW;
     private boolean recursiveCall = false;
 
     @Override
@@ -223,6 +229,41 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                     btw.setRootVisible(false);
                     this.setName("Explorer");                    
                 } else if (selectedItem instanceof NeuronWidget){
+                    NeuronWidget selectedNeuron = (NeuronWidget)selectedItem;
+                    System.out.println("selektovan neuron widget" );
+                    for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
+                        if(node instanceof LayerNode){
+                            for (Node neuronNode : node.getChildren().getNodes()) {
+                                if(((NeuronNode)neuronNode).neuron.equals(selectedNeuron.getNeuron())){
+                                    Node [] nodes = new Node[1];
+                                    nodes[0] = (NeuronNode)neuronNode;
+                                try {
+                                    explorerManager.setSelectedNodes(nodes);
+                                } catch (PropertyVetoException ex) {
+                                    Exceptions.printStackTrace(ex);
+                                }
+                                }
+                            }
+                            
+                        }
+                    }
+                } else if (selectedItem instanceof NeuralLayerWidget){
+                    NeuralLayerWidget selectedlayer = (NeuralLayerWidget) selectedItem;
+                    System.out.println("selektovan layer widget, broj neurona: " + ((NeuralLayerWidget)selectedItem).getLayer().getNeuronsCount());
+                    for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
+                        if(node instanceof LayerNode){
+                            LayerNode layerNode = (LayerNode)node;
+                            if(layerNode.layer.equals(selectedlayer.getLayer())){
+                                Node [] nodes = new Node[1];
+                                nodes[0] = layerNode;
+                                try {
+                                    explorerManager.setSelectedNodes(nodes);
+                                } catch (PropertyVetoException ex) {
+                                    Exceptions.printStackTrace(ex);
+                                }
+                            }
+                        }
+                    }
                     
                 }
             }
