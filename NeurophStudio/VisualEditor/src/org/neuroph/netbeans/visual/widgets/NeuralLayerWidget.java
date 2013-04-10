@@ -30,11 +30,10 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
     private NeuralLayerType type;
     private final Lookup lookup;
     private boolean isSelected;
-    
-    private static final Border DEFAULT_BORDER  = BorderFactory.createRoundedBorder(5, 5, Color.white, Color.BLACK);
+    private static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(5, 5, Color.white, Color.BLACK);
     private static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(240, 240, 240), Color.GRAY);
     private static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(180, 180, 180), Color.black);
-    
+
     public NeuralLayerWidget(NeuralNetworkScene scene, Layer layer) {
         super(scene);
         this.lookup = Lookups.singleton(layer);
@@ -44,11 +43,10 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
 
         getActions().addAction(ActionFactory.createAcceptAction(new NeuralLayerWidgetAcceptProvider(this)));
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuralLayerPopupMenuProvider()));
-        getActions().addAction(ActionFactory.createExtendedConnectAction( scene.getInterractionLayer(), new LayerConnectProvider()));
+        getActions().addAction(ActionFactory.createExtendedConnectAction(scene.getInterractionLayer(), new LayerConnectProvider()));
         getActions().addAction(ActionFactory.createSelectAction(new LayerSelectProvider())); // move this above connection action to react to it before connection
-        
-        WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
 
+        WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
             public void unsetHovering(Widget widget) {
                 if (isSelected) {
                     setBorder(SELECTED_BORDER);
@@ -61,14 +59,12 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
                 setBorder(HOVER_BORDER);
             }
         });
-        
+
         getScene().getActions().addAction(hoverAction);
         getActions().addAction(hoverAction);
-        
+
         //  getActions().addAction(ActionFactory.createSelectAction(new LayerSelectProvider()));
     }
-    
-    
 
     public Layer getLayer() {
         return (Layer) lookup.lookup(Layer.class);
@@ -99,7 +95,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
             for (Neuron fromNeuron : myLayer.getNeurons()) {
                 ConnectionFactory.createConnection(fromNeuron, toNeuron);
             }
-            
+
 
         } else {  // Else will be only NeuralLayer Widget
             Layer targetLayer = ((NeuralLayerWidget) targetWidget).getLayer();
@@ -110,7 +106,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
             }
         }
     }
-    
+
 //    @Override
 //    public void notifyStateChanged(ObjectState previousState, ObjectState state) {
 //            super.notifyStateChanged(previousState, state);
@@ -127,14 +123,11 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
 //            
 //            getScene().validate();
 //        }
-    
-
-
-        public void changeSelection() {
+    public void changeSelection() {
         if (isSelected) {
             unselect();
         } else {
-             setSelected();
+            setSelected();
         }
     }
 
@@ -142,16 +135,18 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         return isSelected;
     }
 
-     public void unselect() {
+    public void unselect() {
+        NeuralNetworkScene scene = (NeuralNetworkScene) this.getScene();
+        scene.setSelection(null);
         setBorder(DEFAULT_BORDER);
-       this.isSelected = false;
+        this.isSelected = false;
     }
 
     public void setSelected() {
-         NeuralNetworkScene scene = (NeuralNetworkScene)this.getScene();
-           if (scene.getSelection() != null){
-                scene.getSelection().unselect();
-           }
+        NeuralNetworkScene scene = (NeuralNetworkScene) this.getScene();
+        if (scene.getSelection() != null) {
+            scene.getSelection().unselect();
+        }
         scene.setSelection(this);
         setBorder(SELECTED_BORDER);
         this.isSelected = true;

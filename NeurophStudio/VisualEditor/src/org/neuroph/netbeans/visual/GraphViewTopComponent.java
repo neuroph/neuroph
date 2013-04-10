@@ -28,6 +28,12 @@ public final class GraphViewTopComponent extends TopComponent {
     InstanceContent content;
     AbstractLookup aLookup;
 
+    public InstanceContent getContent() {
+        return content;
+    }
+    
+    
+
     public GraphViewTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(GraphViewTopComponent.class, "CTL_GraphViewTopComponent"));
@@ -62,6 +68,7 @@ public final class GraphViewTopComponent extends TopComponent {
 
         content = new InstanceContent();
         content.add(nnet);
+        //content.add(scene.getSelection());
         associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
         aLookup = new AbstractLookup(content);
     }

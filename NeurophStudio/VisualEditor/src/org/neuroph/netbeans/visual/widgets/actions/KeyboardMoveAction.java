@@ -39,10 +39,11 @@ public class KeyboardMoveAction extends WidgetAction.Adapter {
 
     @Override
     public WidgetAction.State keyPressed(Widget widget, WidgetAction.WidgetKeyEvent event) {
+        widget = (Widget)((NeuralNetworkScene) widget.getScene()).getSelection();
         if ((event.getKeyCode() == KeyEvent.VK_DELETE)) {
             if (widget instanceof NeuralLayerWidget) {
                 if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete selected layer?", "Delete Layer?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    Layer myLayer = ((NeuralLayerWidget) widget).getLookup().lookup(Layer.class);
+                    Layer myLayer = ((NeuralLayerWidget) widget).getLayer();
                     myLayer.getParentNetwork().removeLayer(myLayer);
                     ((NeuralNetworkScene) widget.getScene()).refresh();
                     provider.movementStarted(widget);
@@ -58,17 +59,17 @@ public class KeyboardMoveAction extends WidgetAction.Adapter {
 
                 }
             }
-               if (widget instanceof NeuronConnectionWidget) {
+            if (widget instanceof NeuronConnectionWidget) {
                 if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete selected connection?", "Delete Connection", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    Neuron srcNeuron = ((NeuronConnectionWidget)widget).getSrc().getNeuron();
-                    Neuron trgNeuron = ((NeuronConnectionWidget)widget).getTrg().getNeuron();
+                    Neuron srcNeuron = ((NeuronConnectionWidget) widget).getSrc().getNeuron();
+                    Neuron trgNeuron = ((NeuronConnectionWidget) widget).getTrg().getNeuron();
                     trgNeuron.removeInputConnectionFrom(srcNeuron);
                     ((NeuralNetworkScene) widget.getScene()).refresh();
                     provider.movementStarted(widget);
                 }
             }
         }
-        
+
 
         return State.CONSUMED;
     }

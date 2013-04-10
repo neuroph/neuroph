@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import org.netbeans.api.visual.action.AcceptProvider;
@@ -27,8 +28,11 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
+import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.openide.util.ImageUtilities;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  *
@@ -48,16 +52,34 @@ public class NeuralNetworkScene extends ObjectScene {
     // neurons and widgets bufferd index
     HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
     ArrayList<Neuron> neurons = new ArrayList<Neuron>();
-    Selectable selection; 
+    Selectable selection;
+    boolean isFirstSelection = true;
 
     public Selectable getSelection() {
         return selection;
     }
 
     public void setSelection(Selectable selection) {
-        this.selection = selection;
+
+        Set tset = WindowManager.getDefault().getRegistry().getOpened();
+        for (Object t : tset) {
+            if (t instanceof GraphViewTopComponent) {
+                GraphViewTopComponent gvtc = (GraphViewTopComponent) t;
+                if (!isFirstSelection) {
+                    gvtc.getContent().remove(this.selection);
+                }
+                this.selection = selection;
+                if (selection != null) {
+                    gvtc.getContent().add(selection);
+                    isFirstSelection = false;
+                }else{
+                    isFirstSelection = true;
+                }
+            }
+
+        }
+
     }
-            
 
 // ide modul neuron node (org.neuroph.netbeans.ide.explorer) 
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
@@ -168,14 +190,14 @@ public class NeuralNetworkScene extends ObjectScene {
             layerWrapperWidget.setLayout(LayoutFactory.createVerticalFlowLayout());
             Layer layer = neuralNetwork.getLayerAt(i); // get layer for this widget
             NeuralLayerWidget neuralLayerWidget = new NeuralLayerWidget(this, layer); // create widget for layer
-              if (selection instanceof NeuralLayerWidget) { // if this neurn was selected before refresh...
-                     if (((NeuralLayerWidget)selection).getLayer() == layer){
-                         //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
-                      neuralLayerWidget.setSelected(); 
-                     }
-                     
-                         
-                 }
+            if (selection instanceof NeuralLayerWidget) { // if this neurn was selected before refresh...
+                if (((NeuralLayerWidget) selection).getLayer() == layer) {
+                    //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
+                    neuralLayerWidget.setSelected();
+                }
+
+
+            }
             //neuralLayerWidget.setSelected(layer.getLabel() != null && layer.getLabel().equals("Selected"));
             LabelWidget layerLabelWidget = new LabelWidget(this);
 
@@ -202,21 +224,21 @@ public class NeuralNetworkScene extends ObjectScene {
                 Neuron neuron = neuralNetwork.getLayerAt(i).getNeuronAt(j);
                 NeuronWidget neuronWidget = new NeuronWidget(this, neuron);
                 if (selection instanceof NeuronWidget) { // if this neurn was selected before refresh...
-                     if (((NeuronWidget)selection).getNeuron() == neuron){
-                         //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
-                      neuronWidget.setSelected(); 
-                     }
-                     
-                         
-                 }
+                    if (((NeuronWidget) selection).getNeuron() == neuron) {
+                        //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
+                        neuronWidget.setSelected();
+                    }
+
+
+                }
                 resizeLayer(neuralLayerWidget);
                 //Napravio wrapper oko neuronWidget i label da bi label pisao unutar widgeta. Koristim OverlayLayout
-                IconNodeWidget neuronWrapperWidget=new IconNodeWidget(this);
+                IconNodeWidget neuronWrapperWidget = new IconNodeWidget(this);
                 neuronWrapperWidget.setLayout(LayoutFactory.createOverlayLayout());
                 neuronWrapperWidget.addChild(neuronWidget);
                 double output = neuronWidget.getNeuron().getOutput();
-                DecimalFormat df = new DecimalFormat("#.###");                
-                LabelWidget label= new LabelWidget(this,df.format(output));
+                DecimalFormat df = new DecimalFormat("#.###");
+                LabelWidget label = new LabelWidget(this, df.format(output));
                 label.setForeground(Color.white);
                 label.setAlignment(LabelWidget.Alignment.CENTER);
                 label.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
@@ -226,12 +248,12 @@ public class NeuralNetworkScene extends ObjectScene {
 
                 neuronsAndWidgets.put(neuron, neuronWidget);
             }
-                                   
+
             layerWrapperWidget.addChild(layerLabelWidget);
             layerWrapperWidget.addChild(neuralLayerWidget);
             neuralNetworkWidget.addChild(layerWrapperWidget);
-            }
-        
+        }
+
 
         // create inputs widgets
         IconNodeWidget inputsWidget = new IconNodeWidget(this);
@@ -253,7 +275,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 NeuronWidget targetWidget = neuronsAndWidgets.get(neuralNetwork.getInputNeurons()[i]);
                 if (showConnections) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
-                  
+
                     connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
                     connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(inputLabel));
                     connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
@@ -262,7 +284,7 @@ public class NeuralNetworkScene extends ObjectScene {
             }
             neuralNetworkWidget.addChild(0, inputsWidget);
         }
-        
+
         if (neuralNetwork.getOutputNeurons() != null) {
             neuralNetworkWidget.addChild(outputsWidget);
             for (int i = 0; i < neuralNetwork.getOutputNeurons().length; i++) {
@@ -274,7 +296,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 NeuronWidget sourceWidget = neuronsAndWidgets.get(neuralNetwork.getOutputNeurons()[i]);
                 if (showConnections) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
-                       
+
                     connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
                     connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
                     connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(outputLabel));
@@ -284,7 +306,7 @@ public class NeuralNetworkScene extends ObjectScene {
         }
 
 
-        
+
 
 
     }
@@ -301,12 +323,12 @@ public class NeuralNetworkScene extends ObjectScene {
                     continue;
                 }
                 NeuronConnectionWidget connWidget = new NeuronConnectionWidget(this, inputConnections[c], sourceWidget, targetWidget);
-                if(selection instanceof NeuronConnectionWidget){
-                        if(((NeuronConnectionWidget)selection).getConnection() == connWidget.getConnection()){
-                            System.out.println("kdfgjd");
-                            connWidget.setSelected();
-                        }
+                if (selection instanceof NeuronConnectionWidget) {
+                    if (((NeuronConnectionWidget) selection).getConnection() == connWidget.getConnection()) {
+                        System.out.println("kdfgjd");
+                        connWidget.setSelected();
                     }
+                }
                 connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
                 connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
                 connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
