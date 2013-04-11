@@ -25,19 +25,18 @@ public class NeuronSelectProvider implements SelectProvider {
     }
 
     public void select(Widget widget, Point point, boolean bln) {
-        NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
-        /*NeuronWidget neuronWidget = ((NeuronWidget) widget);
-        neuronWidget.changeSelection();
-
-        if (scene.isWaitingClick()) {
-            NeuronWidget waitingClickWidget = NeuronWidgetStack.connectionneuron;
-            ((Connectable) waitingClickWidget).createConnectionTo(widget);
-            scene.setWaitingClick(false);
-            neuronWidget.changeSelection();
-        }
-        scene.refresh();*/
-        widget.getActions().addAction(new KeyboardMoveAction((NeuronWidget)widget)); 
-        ((NeuronWidget)widget).changeSelection();
+//        NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
+//        widget.getActions().addAction(new KeyboardMoveAction((NeuronWidget)widget)); 
+//        ((NeuronWidget)widget).changeSelection();
         
+        if (widget.getState().isSelected()) {
+            widget.setState(widget.getState().deriveSelected(false));
+            widget.setBorder(NeuronWidget.DEFAULT_BORDER);            
+        }
+        else {
+            widget.setState(widget.getState().deriveSelected(true));
+            widget.setBorder(NeuronWidget.SELECTED_BORDER);
+        }
+        //widget.getState()
     }
 }

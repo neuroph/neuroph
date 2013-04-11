@@ -69,18 +69,25 @@ public final class GraphViewTopComponent extends TopComponent {
         content = new InstanceContent();
         content.add(nnet);
         //content.add(scene.getSelection());
-        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
+//        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
         aLookup = new AbstractLookup(content);
+        
+    associateLookup( new ProxyLookup(
+                       Lookups.fixed( new Object[]{PaletteSupport.createPalette(), scene.getLookup()})
+                                               
+                     ));          
+        
+        
     }
-    @Override
-    public Lookup getLookup() {
-        return new ProxyLookup(
-                new Lookup[]{
-                    super.getLookup(),
-                    aLookup
-                });
-
-    }
+//    @Override
+//    public Lookup getLookup() {
+//        return new ProxyLookup(
+//                new Lookup[]{
+//                    super.getLookup(),
+//                    aLookup
+//                });
+//
+//    }
 
     public NeuralNetwork getNeuralNetwork() {
         return nnet;

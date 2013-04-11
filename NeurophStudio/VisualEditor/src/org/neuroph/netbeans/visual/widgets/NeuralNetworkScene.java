@@ -31,6 +31,9 @@ import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.Lookups;
+import org.openide.util.lookup.ProxyLookup;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
@@ -58,26 +61,27 @@ public class NeuralNetworkScene extends ObjectScene {
     public Selectable getSelection() {
         return selection;
     }
+    
 
     public void setSelection(Selectable selection) {
-
-        Set tset = WindowManager.getDefault().getRegistry().getOpened();
-        for (Object t : tset) {
-            if (t instanceof GraphViewTopComponent) {
-                GraphViewTopComponent gvtc = (GraphViewTopComponent) t;
-                if (!isFirstSelection) {
-                    gvtc.getContent().remove(this.selection);
-                }
-                this.selection = selection;
-                if (selection != null) {
-                    gvtc.getContent().add(selection);
-                    isFirstSelection = false;
-                }else{
-                    isFirstSelection = true;
-                }
-            }
-
-        }
+        this.selection = selection;
+//        Set tset = WindowManager.getDefault().getRegistry().getOpened();
+//        for (Object t : tset) {
+//            if (t instanceof GraphViewTopComponent) {
+//                GraphViewTopComponent gvtc = (GraphViewTopComponent) t;
+//                if (!isFirstSelection) {
+//                    gvtc.getContent().remove(this.selection);
+//                }
+//                this.selection = selection;
+//                if (selection != null) {
+//                    gvtc.getContent().add(selection);
+//                    isFirstSelection = false;
+//                }else{
+//                    isFirstSelection = true;
+//                }
+//            }
+//
+//        }
 
     }
 
@@ -144,6 +148,23 @@ public class NeuralNetworkScene extends ObjectScene {
             }
         }));
     }
+
+    @Override
+    public Lookup getLookup() {
+        if (selection == null)
+            return super.getLookup();
+        
+        
+        return new ProxyLookup(
+                new Lookup[]{
+                    super.getLookup(),
+                    Lookups.singleton(selection)
+                });        
+        
+    }
+    
+    
+    
 
     private Image getImageFromTransferable(Transferable transferable) {
         Object o = null;

@@ -32,9 +32,9 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
     private final Lookup lookup;
     private boolean isSelected;
     private List<ConnectionWidget> connections;
-    private static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
-    private static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, new Color(255, 100, 100), Color.GRAY);
-    private static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.yellow, Color.black);
+    public static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
+    public static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, new Color(255, 100, 100), Color.GRAY);
+    public static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.yellow, Color.black);
 
     public NeuronWidget(NeuralNetworkScene scene, Neuron neuron) {
         super(scene);
@@ -51,16 +51,21 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
 
         WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
             public void unsetHovering(Widget widget) {
-                if (isSelected) {
-                    setBorder(SELECTED_BORDER);
-
-                } else {
-                    setBorder(DEFAULT_BORDER);
-                }
+//                if (isSelected) {
+//                    setBorder(SELECTED_BORDER);
+//
+//                } else {
+//                    setBorder(DEFAULT_BORDER);
+//                }
+                
+                widget.getState().deriveObjectHovered(false);
+                setBorder(DEFAULT_BORDER);                
             }
 
             public void setHovering(Widget widget) {
+                widget.getState().deriveObjectHovered(true);
                 setBorder(HOVER_BORDER);
+                
             }
         });
         getScene().getActions().addAction(hoverAction);
