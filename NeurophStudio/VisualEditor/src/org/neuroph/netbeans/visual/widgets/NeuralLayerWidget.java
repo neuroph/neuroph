@@ -44,24 +44,22 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         getActions().addAction(ActionFactory.createAcceptAction(new NeuralLayerWidgetAcceptProvider(this)));
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuralLayerPopupMenuProvider()));
         getActions().addAction(ActionFactory.createExtendedConnectAction(scene.getInterractionLayer(), new LayerConnectProvider()));
-        getActions().addAction(ActionFactory.createSelectAction(new LayerSelectProvider())); // move this above connection action to react to it before connection
-
-        WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
-            public void unsetHovering(Widget widget) {
-                if (isSelected) {
-                    setBorder(SELECTED_BORDER);
-                } else {
-                    setBorder(DEFAULT_BORDER);
-                }
-            }
-
-            public void setHovering(Widget widget) {
-                setBorder(HOVER_BORDER);
-            }
-        });
-
-        getScene().getActions().addAction(hoverAction);
-        getActions().addAction(hoverAction);
+        getActions().addAction(scene.createSelectAction()); // move this above connection action to react to it before connection
+        getActions().addAction(scene.createObjectHoverAction()); 
+        
+//        WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
+//            public void unsetHovering(Widget widget) {
+//                if (isSelected) {
+//                    setBorder(SELECTED_BORDER);
+//                } else {
+//                    setBorder(DEFAULT_BORDER);
+//                }
+//            }
+//
+//            public void setHovering(Widget widget) {
+//                setBorder(HOVER_BORDER);
+//            }
+//        });
 
         //  getActions().addAction(ActionFactory.createSelectAction(new LayerSelectProvider()));
     }

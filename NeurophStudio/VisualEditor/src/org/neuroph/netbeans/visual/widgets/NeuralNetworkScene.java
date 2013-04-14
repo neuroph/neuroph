@@ -147,6 +147,7 @@ public class NeuralNetworkScene extends ObjectScene {
             public void accept(Widget widget, Point point, Transferable t) {
             }
         }));
+    
     }
 
     @Override
@@ -158,7 +159,7 @@ public class NeuralNetworkScene extends ObjectScene {
         return new ProxyLookup(
                 new Lookup[]{
                     super.getLookup(),
-                    Lookups.singleton(selection)
+                    Lookups.fixed(getSelectedObjects())
                 });        
         
     }
@@ -211,14 +212,15 @@ public class NeuralNetworkScene extends ObjectScene {
             layerWrapperWidget.setLayout(LayoutFactory.createVerticalFlowLayout());
             Layer layer = neuralNetwork.getLayerAt(i); // get layer for this widget
             NeuralLayerWidget neuralLayerWidget = new NeuralLayerWidget(this, layer); // create widget for layer
-            if (selection instanceof NeuralLayerWidget) { // if this neurn was selected before refresh...
-                if (((NeuralLayerWidget) selection).getLayer() == layer) {
-                    //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
-                    neuralLayerWidget.setSelected();
-                }
-
-
-            }
+            
+            if (!getObjects().contains(layer))
+                    addObject(layer, neuralLayerWidget);
+//            if (selection instanceof NeuralLayerWidget) { // if this neurn was selected before refresh...
+//                if (((NeuralLayerWidget) selection).getLayer() == layer) {
+//                    //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
+//                    neuralLayerWidget.setSelected();
+//                }
+//            }
             //neuralLayerWidget.setSelected(layer.getLabel() != null && layer.getLabel().equals("Selected"));
             LabelWidget layerLabelWidget = new LabelWidget(this);
 
@@ -244,14 +246,16 @@ public class NeuralNetworkScene extends ObjectScene {
             for (int j = 0; j < neuralNetwork.getLayerAt(i).getNeuronsCount(); j++) {
                 Neuron neuron = neuralNetwork.getLayerAt(i).getNeuronAt(j);
                 NeuronWidget neuronWidget = new NeuronWidget(this, neuron);
-                if (selection instanceof NeuronWidget) { // if this neurn was selected before refresh...
-                    if (((NeuronWidget) selection).getNeuron() == neuron) {
-                        //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
-                        neuronWidget.setSelected();
-                    }
-
-
-                }
+                if (!getObjects().contains(neuron))                
+                    addObject(neuron, neuronWidget);
+//                if (selection instanceof NeuronWidget) { // if this neurn was selected before refresh...
+//                    if (((NeuronWidget) selection).getNeuron() == neuron) {
+//                        //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
+//                        neuronWidget.setSelected();
+//                    }
+//
+//
+//                }
                 resizeLayer(neuralLayerWidget);
                 //Napravio wrapper oko neuronWidget i label da bi label pisao unutar widgeta. Koristim OverlayLayout
                 IconNodeWidget neuronWrapperWidget = new IconNodeWidget(this);

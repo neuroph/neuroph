@@ -5,10 +5,9 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.action.TwoStateHoverProvider;
-import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
+import org.netbeans.api.visual.model.ObjectState;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
@@ -16,21 +15,21 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.popup.NeuronPopupMenuProvider;
 import org.neuroph.netbeans.visual.widgets.actions.NeuronConnectProvider;
-import org.neuroph.netbeans.visual.widgets.actions.NeuronSelectProvider;
 import org.neuroph.netbeans.visual.widgets.actions.NeuronWidgetAcceptProvider;
 import org.neuroph.util.ConnectionFactory;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
 
 /**
- *
+ * Dva bug-a za selekciju: elektuje objekat ali ne menja stanje widgeta
+ * ne poziva metodi notifyChanged sto je verovatno posledica ovog gore
+ 
  * @author Zoran Sevarac
  */
-public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Connectable, Selectable {
+public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Connectable {
 
     private Neuron neuron;
     private final Lookup lookup;
-    private boolean isSelected;
     private List<ConnectionWidget> connections;
     public static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
     public static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, new Color(255, 100, 100), Color.GRAY);
@@ -40,43 +39,19 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
         super(scene);
         connections = new ArrayList<ConnectionWidget>();
         this.neuron = neuron;
-        //lookup = Lookups.singleton(neuron);
         lookup = Lookups.fixed(neuron, this);
+        
         getActions().addAction(ActionFactory.createAcceptAction(new NeuronWidgetAcceptProvider(this)));
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuronPopupMenuProvider()));
         getActions().addAction(ActionFactory.createExtendedConnectAction(scene.getInterractionLayer(), new NeuronConnectProvider()));
-        //getActions().addAction(ActionFactory.createConnectAction(scene.getInterractionLayer(), new NeuronConnectProvider()));
-        getActions().addAction(ActionFactory.createSelectAction(new NeuronSelectProvider())); // move this above connection action to react to it before connection
+        getActions().addAction(scene.createSelectAction());
 
+        getActions().addAction(scene.createObjectHoverAction());
 
-        WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
-            public void unsetHovering(Widget widget) {
-//                if (isSelected) {
-//                    setBorder(SELECTED_BORDER);
-//
-//                } else {
-//                    setBorder(DEFAULT_BORDER);
-//                }
-                
-                widget.getState().deriveObjectHovered(false);
-                setBorder(DEFAULT_BORDER);                
-            }
-
-            public void setHovering(Widget widget) {
-                widget.getState().deriveObjectHovered(true);
-                setBorder(HOVER_BORDER);
-                
-            }
-        });
-        getScene().getActions().addAction(hoverAction);
-        getActions().addAction(hoverAction);
-
-        // getActions().addAction(ActionFactory.createContiguousSelectAction(new NeuronWidgetContiguousSelectProvider()));
         setToolTipText("Hold Ctrl and drag to create connection");
         setPreferredSize(new Dimension(50, 50));
         setBorder(DEFAULT_BORDER);
         setOpaque(false);
-        isSelected = false;
     }
 
     public Neuron getNeuron() {
@@ -97,7 +72,7 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
 
     @Override
     public Lookup getLookup() {
-        return Lookups.singleton(neuron);
+        return lookup;
     }
 
     public boolean isAcceptableWidget(Widget w) {
@@ -121,35 +96,25 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
             ConnectionFactory.createConnection(neuron, targetNeuron);
         }
     }
-// TODO Implementacija preko lookup-a
 
-    //this.isSelected = selection;
-    public void changeSelection() {
-        if (isSelected) {
-            unselect();
-        } else {
-            setSelected();
-        }
-    }
+    @Override
+    public void notifyStateChanged(ObjectState previousState, ObjectState state) {
+        super.notifyStateChanged(previousState, state);
+        
+        if (state.isSelected())
+            setBorder(SELECTED_BORDER);
+        else {
+            if (state.isHovered())
+                setBorder(HOVER_BORDER);            
+            else
+                setBorder(DEFAULT_BORDER);
+        }   
+        
 
-    public boolean isSelected() {
-        return isSelected;
+        
+        
     }
-
-    public void unselect() {
-        NeuralNetworkScene scene = (NeuralNetworkScene) this.getScene();
-        scene.setSelection(null);
-        setBorder(DEFAULT_BORDER);
-        this.isSelected = false;
-    }
-
-    public void setSelected() {
-        NeuralNetworkScene scene = (NeuralNetworkScene) this.getScene();
-        if (scene.getSelection() != null) {
-            scene.getSelection().unselect();
-        }
-        scene.setSelection(this);
-        setBorder(SELECTED_BORDER);
-        this.isSelected = true;
-    }
+    
+    
+    
 }
