@@ -58,34 +58,7 @@ public class NeuralNetworkScene extends ObjectScene {
     Selectable selection;
     boolean isFirstSelection = true;
 
-    public Selectable getSelection() {
-        return selection;
-    }
-    
-
-    public void setSelection(Selectable selection) {
-        this.selection = selection;
-//        Set tset = WindowManager.getDefault().getRegistry().getOpened();
-//        for (Object t : tset) {
-//            if (t instanceof GraphViewTopComponent) {
-//                GraphViewTopComponent gvtc = (GraphViewTopComponent) t;
-//                if (!isFirstSelection) {
-//                    gvtc.getContent().remove(this.selection);
-//                }
-//                this.selection = selection;
-//                if (selection != null) {
-//                    gvtc.getContent().add(selection);
-//                    isFirstSelection = false;
-//                }else{
-//                    isFirstSelection = true;
-//                }
-//            }
-//
-//        }
-
-    }
-
-// ide modul neuron node (org.neuroph.netbeans.ide.explorer) 
+ // ide modul neuron node (org.neuroph.netbeans.ide.explorer) 
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
 
         this.neuralNetwork = neuralNet;
@@ -107,7 +80,9 @@ public class NeuralNetworkScene extends ObjectScene {
         getActions().addAction(ActionFactory.createPanAction());
         getActions().addAction(ActionFactory.createMouseCenteredZoomAction(1.1));
         getActions().addAction(ActionFactory.createPopupMenuAction(new MainPopupMenuProvider()));
-
+        getActions().addAction(this.createSelectAction()); // to invert selection when network is clciked
+        
+        
         getActions().addAction(ActionFactory.createAcceptAction(new AcceptProvider() {
             public ConnectorState isAcceptable(final Widget widget, final Point point, final Transferable t) {
 
@@ -195,7 +170,7 @@ public class NeuralNetworkScene extends ObjectScene {
         neuralNetworkWidget.removeChildren();
         // clear connections
         connectionLayer.removeChildren();
-
+         
         createNeuralLayers();
         if (showConnections) {
             createConnections();
@@ -215,6 +190,8 @@ public class NeuralNetworkScene extends ObjectScene {
             
             if (!getObjects().contains(layer))
                     addObject(layer, neuralLayerWidget);
+           
+            
 //            if (selection instanceof NeuralLayerWidget) { // if this neurn was selected before refresh...
 //                if (((NeuralLayerWidget) selection).getLayer() == layer) {
 //                    //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
@@ -348,18 +325,15 @@ public class NeuralNetworkScene extends ObjectScene {
                     continue;
                 }
                 NeuronConnectionWidget connWidget = new NeuronConnectionWidget(this, inputConnections[c], sourceWidget, targetWidget);
-                if (selection instanceof NeuronConnectionWidget) {
-                    if (((NeuronConnectionWidget) selection).getConnection() == connWidget.getConnection()) {
-                        System.out.println("kdfgjd");
-                        connWidget.setSelected();
-                    }
-                }
+   
                 connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
                 connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
                 connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
                 sourceWidget.addConnection(connWidget);
                 targetWidget.addConnection(connWidget);
                 connectionLayer.addChild(connWidget);
+                
+                addObject(inputConnections[c], connWidget);
             }
         }
 

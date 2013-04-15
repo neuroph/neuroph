@@ -6,6 +6,7 @@ import org.netbeans.api.visual.action.TwoStateHoverProvider;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
+import org.netbeans.api.visual.model.ObjectState;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
@@ -13,7 +14,6 @@ import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.popup.NeuronConnectionPopupMenuProvider;
-import org.neuroph.netbeans.visual.widgets.actions.ConnectionSelectionProvider;
 
 /**
  * This class represents a connection between two neurons
@@ -21,12 +21,11 @@ import org.neuroph.netbeans.visual.widgets.actions.ConnectionSelectionProvider;
  *
  * http://platform.netbeans.org/graph/common-usages.html // conenction anchors
  */
-public class NeuronConnectionWidget extends ConnectionWidget implements Selectable {
+public class NeuronConnectionWidget extends ConnectionWidget {
 
     private Connection connection;
-    private NeuronWidget src;
-    private NeuronWidget trg;
-    private boolean isSelected;
+    private NeuronWidget source;
+    private NeuronWidget target;
     private static final Color DEFAULT_COLOR = Color.BLACK;
     private static final Color HOVER_COLOR = Color.GRAY;
     private static final Color SELECTED_COLOR = Color.RED;
@@ -34,28 +33,32 @@ public class NeuronConnectionWidget extends ConnectionWidget implements Selectab
     public NeuronConnectionWidget(Scene scene, Connection connection, NeuronWidget src, NeuronWidget trg) {
         super(scene);
         this.connection = connection;
-        this.src = src;
-        this.trg = trg;
+        this.source = src;
+        this.target = trg;
+
+        NeuralNetworkScene nnScene = (NeuralNetworkScene) scene;
+
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuronConnectionPopupMenuProvider(src, trg)));
-        getActions().addAction(ActionFactory.createSelectAction(new ConnectionSelectionProvider()));
-        WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
-            public void unsetHovering(Widget widget) {
-                if (isSelected) {
-                    setLineColor(SELECTED_COLOR);
-                } else {
-                    setLineColor(DEFAULT_COLOR);
+        getActions().addAction(nnScene.createObjectHoverAction());
+        getActions().addAction(nnScene.createSelectAction());
 
-                }
-            }
 
-            public void setHovering(Widget widget) {
-                setLineColor(HOVER_COLOR);
-            }
-        });
-        getScene().getActions().addAction(hoverAction);
-        getActions().addAction(hoverAction);
-        isSelected = false;
+        /*
+         WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
+         public void unsetHovering(Widget widget) {
+         if (isSelected) {
+         setLineColor(SELECTED_COLOR);
+         } else {
+         setLineColor(DEFAULT_COLOR);
 
+         }
+         }
+
+         public void setHovering(Widget widget) {
+         setLineColor(HOVER_COLOR);
+         }
+         });
+         */
     }
 
     public Connection getConnection() {
@@ -63,43 +66,31 @@ public class NeuronConnectionWidget extends ConnectionWidget implements Selectab
     }
 
     public void removeConnection() {
-        trg.getNeuron().removeInputConnectionFrom(src.getNeuron());
+        target.getNeuron().removeInputConnectionFrom(source.getNeuron());
     }
 
     public NeuronWidget getSrc() {
-        return src;
-    }
-
-    public void changeSelection() {
-        if (isSelected) {
-            unselect();
-        } else {
-            setSelected();
-        }
+        return source;
     }
 
     public NeuronWidget getTrg() {
-        return trg;
+        return target;
     }
 
-    public boolean isSelected() {
-        return isSelected;
-    }
+    @Override
+    public void notifyStateChanged(ObjectState previousState, ObjectState state) {
+        super.notifyStateChanged(previousState, state); //To change body of generated methods, choose Tools | Templates.
 
-    public void unselect() {
-        NeuralNetworkScene scene = (NeuralNetworkScene) this.getScene();
-        scene.setSelection(null);
-        setLineColor(DEFAULT_COLOR);
-        this.isSelected = false;
-    }
+//        if (state.isHovered()) {
+//            
+//            setLineColor(HOVER_COLOR);
+//        } else {
+//            if (state.isSelected())
+//                setLineColor(SELECTED_COLOR);
+//            else
+//                setLineColor(DEFAULT_COLOR);
+//
+//        }
 
-    public void setSelected() {
-        NeuralNetworkScene scene = (NeuralNetworkScene) this.getScene();
-        if (scene.getSelection() != null) {
-            scene.getSelection().unselect();
-        }
-        scene.setSelection(this);
-        setLineColor(SELECTED_COLOR);
-        this.isSelected = true;
     }
 }

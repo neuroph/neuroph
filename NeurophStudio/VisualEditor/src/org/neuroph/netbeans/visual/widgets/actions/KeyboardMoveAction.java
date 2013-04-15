@@ -39,7 +39,7 @@ public class KeyboardMoveAction extends WidgetAction.Adapter {
 
     @Override
     public WidgetAction.State keyPressed(Widget widget, WidgetAction.WidgetKeyEvent event) {
-        widget = (Widget)((NeuralNetworkScene) widget.getScene()).getSelection();
+        widget = (Widget)((NeuralNetworkScene) widget.getScene()).getSelectedObjects();
         if ((event.getKeyCode() == KeyEvent.VK_DELETE)) {
             if (widget instanceof NeuralLayerWidget) {
                 if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete selected layer?", "Delete Layer?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {

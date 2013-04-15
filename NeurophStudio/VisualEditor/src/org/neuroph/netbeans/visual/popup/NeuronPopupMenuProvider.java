@@ -37,8 +37,8 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         JMenuItem removeAllInputConnections = new JMenuItem("Remove All Input Connections");
         JMenuItem changeTransferFunction=new JMenuItem("Change Transfer Function");
         JMenuItem changeInputFunction=new JMenuItem("Change Input Function");
-        removeConnections.add(removeAllOutConnections);
         removeConnections.add(removeAllInputConnections);
+        removeConnections.add(removeAllOutConnections);        
         neuronPopupMenu.add(removeItem);
         neuronPopupMenu.add(cloneItem);
         neuronPopupMenu.add(createConnection);

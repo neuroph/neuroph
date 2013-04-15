@@ -1,6 +1,7 @@
 package org.neuroph.netbeans.visual.widgets;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,8 +105,10 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
         if (state.isSelected())
             setBorder(SELECTED_BORDER);
         else {
-            if (state.isHovered())
-                setBorder(HOVER_BORDER);            
+            if (state.isHovered()) {
+                setBorder(HOVER_BORDER);       
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
             else
                 setBorder(DEFAULT_BORDER);
         }   
