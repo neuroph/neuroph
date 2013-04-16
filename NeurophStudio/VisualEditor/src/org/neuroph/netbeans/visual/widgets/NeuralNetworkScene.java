@@ -19,6 +19,10 @@ import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.model.ObjectScene;
+import org.netbeans.api.visual.model.ObjectSceneEvent;
+import org.netbeans.api.visual.model.ObjectSceneEventType;
+import org.netbeans.api.visual.model.ObjectSceneListener;
+import org.netbeans.api.visual.model.ObjectState;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
@@ -28,14 +32,13 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
 import org.openide.util.lookup.ProxyLookup;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 
 /**
  *
@@ -54,8 +57,12 @@ public class NeuralNetworkScene extends ObjectScene {
     private boolean waitingLayerClick = false;
     // neurons and widgets bufferd index
     HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
+        InstanceContent content = new InstanceContent();
+    AbstractLookup aLookup = new AbstractLookup(content);
     ArrayList<Neuron> neurons = new ArrayList<Neuron>();
-    Selectable selection;
+    //ProxyLookup lookup = new ProxyLookup();
+    
+
     boolean isFirstSelection = true;
 
  // ide modul neuron node (org.neuroph.netbeans.ide.explorer) 
@@ -82,6 +89,44 @@ public class NeuralNetworkScene extends ObjectScene {
         getActions().addAction(ActionFactory.createPopupMenuAction(new MainPopupMenuProvider()));
         getActions().addAction(this.createSelectAction()); // to invert selection when network is clciked
         
+        
+        addObjectSceneListener(new ObjectSceneListener() {
+
+            public void objectAdded(ObjectSceneEvent event, Object addedObject) {
+         //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            public void objectRemoved(ObjectSceneEvent event, Object removedObject) {
+           //     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            public void objectStateChanged(ObjectSceneEvent event, Object changedObject, ObjectState previousState, ObjectState newState) {
+                // add selected objects to llokup somehow....
+
+            }
+
+            public void selectionChanged(ObjectSceneEvent event, Set<Object> previousSelection, Set<Object> newSelection) {
+                for(Object o : previousSelection)
+                   content.remove(o);
+                               
+                for(Object o : newSelection)
+                    content.add(o);  
+                
+                
+            }
+
+            public void highlightingChanged(ObjectSceneEvent event, Set<Object> previousHighlighting, Set<Object> newHighlighting) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            public void hoverChanged(ObjectSceneEvent event, Object previousHoveredObject, Object newHoveredObject) {
+           //     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            public void focusChanged(ObjectSceneEvent event, Object previousFocusedObject, Object newFocusedObject) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        }, ObjectSceneEventType.OBJECT_SELECTION_CHANGED);
         
         getActions().addAction(ActionFactory.createAcceptAction(new AcceptProvider() {
             public ConnectorState isAcceptable(final Widget widget, final Point point, final Transferable t) {
@@ -126,22 +171,23 @@ public class NeuralNetworkScene extends ObjectScene {
     }
 
     @Override
-    public Lookup getLookup() {
-        if (selection == null)
-            return super.getLookup();
-        
-        
-        return new ProxyLookup(
-                new Lookup[]{
-                    super.getLookup(),
-                    Lookups.fixed(getSelectedObjects())
-                });        
-        
+    public Lookup getLookup() {               
+       // return Lookups.fixed(neuralNetwork, getSelectedObjects().toArray());        
+//        return new ProxyLookup(
+//                         new Lookup[]{
+//                               aLookup});                       
+//        InstanceContent content = new InstanceContent();
+//        content.add(neuralNetwork);
+//        for(Object o : getSelectedObjects()) {
+//            content.add(o);
+//        }
+//        
+        return aLookup;
+//        
     }
     
     
-    
-
+            
     private Image getImageFromTransferable(Transferable transferable) {
         Object o = null;
         try {

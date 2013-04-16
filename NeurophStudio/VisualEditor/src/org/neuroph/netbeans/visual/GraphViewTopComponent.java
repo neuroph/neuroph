@@ -3,6 +3,7 @@ package org.neuroph.netbeans.visual;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import java.awt.BorderLayout;
 import javax.swing.JComponent;
+import org.netbeans.spi.palette.PaletteController;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 //import org.openide.util.ImageUtilities;
@@ -25,6 +26,9 @@ public final class GraphViewTopComponent extends TopComponent {
     private JComponent view;
     private NeuralNetwork nnet;
     NeuralNetworkScene scene;
+    PaletteController palette;
+    
+    
     InstanceContent content;
     AbstractLookup aLookup;
 
@@ -47,7 +51,7 @@ public final class GraphViewTopComponent extends TopComponent {
 //        viewPane.setViewportView(view);
 //        add(scene.createSatelliteView(), BorderLayout.WEST);
 
-        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
+//        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
 
     }
 
@@ -72,22 +76,27 @@ public final class GraphViewTopComponent extends TopComponent {
 //        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
         aLookup = new AbstractLookup(content);
         
-    associateLookup( new ProxyLookup(
-                       Lookups.fixed( new Object[]{PaletteSupport.createPalette(), scene.getLookup()})
-                                               
-                     ));          
+        palette = PaletteSupport.createPalette();
         
+//    associateLookup( new ProxyLookup(
+//                new Lookup[]{
+//                    scene.getLookup(),
+//                    Lookups.fixed( new Object[]{PaletteSupport.createPalette()})
+//                }));          
+        
+                 
         
     }
-//    @Override
-//    public Lookup getLookup() {
-//        return new ProxyLookup(
-//                new Lookup[]{
-//                    super.getLookup(),
-//                    aLookup
-//                });
-//
-//    }
+    
+    @Override
+    public Lookup getLookup() {
+        return  new ProxyLookup(
+                      new Lookup[]{
+                        scene.getLookup(),
+                        Lookups.fixed(palette, nnet)
+                });
+
+    }
 
     public NeuralNetwork getNeuralNetwork() {
         return nnet;
