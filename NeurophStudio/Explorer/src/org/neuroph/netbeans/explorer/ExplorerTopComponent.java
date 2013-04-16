@@ -21,9 +21,6 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
-import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
-import org.openide.util.lookup.ProxyLookup;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
@@ -145,7 +142,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
         resultChanged(new LookupEvent(resultDF));         
         
         // listen for neuron widget selection in global lookup
-        resultNW = Utilities.actionsGlobalContext().lookupResult(NeuronWidget.class);
+        resultNW = Utilities.actionsGlobalContext().lookupResult(Neuron.class);
         resultNW.addLookupListener(this);
         resultChanged(new LookupEvent(resultNW));  
         
@@ -188,7 +185,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     Result<NeuralNetwork> resultNN;
     Result<DataSet> resultDS;
     Result<DataFolder> resultDF;
-    Result<NeuronWidget> resultNW;
+    Result<Neuron> resultNW;
     Result<NeuralLayerWidget> resultLW;
     private boolean recursiveCall = false;
 
@@ -228,13 +225,13 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                     BeanTreeView btw = (BeanTreeView) jScrollPane1;
                     btw.setRootVisible(false);
                     this.setName("Explorer");                    
-                } else if (selectedItem instanceof NeuronWidget){
-                    NeuronWidget selectedNeuron = (NeuronWidget)selectedItem;
+                } else if (selectedItem instanceof Neuron){
+                   // NeuronWidget selectedNeuron = (NeuronWidget)selectedItem;
                     System.out.println("selektovan neuron widget" );
                     for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
                         if(node instanceof LayerNode){
                             for (Node neuronNode : node.getChildren().getNodes()) {
-                                if(((NeuronNode)neuronNode).neuron.equals(selectedNeuron.getNeuron())){
+                                if(((NeuronNode)neuronNode).getNeuron()  == selectedItem){
                                     Node [] nodes = new Node[1];
                                     nodes[0] = (NeuronNode)neuronNode;
                                 try {
