@@ -33,6 +33,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
+import org.neuroph.netbeans.visual.widgets.actions.KeyboardMoveAction;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
@@ -85,10 +86,10 @@ public class NeuralNetworkScene extends ObjectScene {
         getActions().addAction(ActionFactory.createMouseCenteredZoomAction(1.1));
         getActions().addAction(ActionFactory.createPopupMenuAction(new MainPopupMenuProvider()));
         getActions().addAction(this.createSelectAction()); // to invert selection when network is clciked
+        getActions().addAction(new KeyboardMoveAction(this));
         
         
         addObjectSceneListener(new ObjectSceneListener() {
-
             public void objectAdded(ObjectSceneEvent event, Object addedObject) {
          //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 // on neuron add redraw layer
