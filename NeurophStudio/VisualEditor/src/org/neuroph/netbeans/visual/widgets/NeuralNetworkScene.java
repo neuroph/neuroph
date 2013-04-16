@@ -37,8 +37,6 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
-import org.openide.util.lookup.Lookups;
-import org.openide.util.lookup.ProxyLookup;
 
 /**
  *
@@ -60,7 +58,6 @@ public class NeuralNetworkScene extends ObjectScene {
         InstanceContent content = new InstanceContent();
     AbstractLookup aLookup = new AbstractLookup(content);
     ArrayList<Neuron> neurons = new ArrayList<Neuron>();
-    //ProxyLookup lookup = new ProxyLookup();
     
 
     boolean isFirstSelection = true;
@@ -94,6 +91,9 @@ public class NeuralNetworkScene extends ObjectScene {
 
             public void objectAdded(ObjectSceneEvent event, Object addedObject) {
          //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // on neuron add redraw layer
+                // on layer add redraw network/layers
+                // on connection add redraw connection between objects
             }
 
             public void objectRemoved(ObjectSceneEvent event, Object removedObject) {
@@ -101,19 +101,16 @@ public class NeuralNetworkScene extends ObjectScene {
             }
 
             public void objectStateChanged(ObjectSceneEvent event, Object changedObject, ObjectState previousState, ObjectState newState) {
-                // add selected objects to llokup somehow....
+                //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
             }
 
             public void selectionChanged(ObjectSceneEvent event, Set<Object> previousSelection, Set<Object> newSelection) {
-                for(Object o : previousSelection) {
-                    content.remove(o);
-                }
+                for(Object o : previousSelection)
+                    content.remove(o);                
                                
                 for(Object o : newSelection)
-                    content.add(o);  
-                
-                
+                    content.add(o);                                  
             }
 
             public void highlightingChanged(ObjectSceneEvent event, Set<Object> previousHighlighting, Set<Object> newHighlighting) {
@@ -173,18 +170,7 @@ public class NeuralNetworkScene extends ObjectScene {
 
     @Override
     public Lookup getLookup() {               
-       // return Lookups.fixed(neuralNetwork, getSelectedObjects().toArray());        
-//        return new ProxyLookup(
-//                         new Lookup[]{
-//                               aLookup});                       
-//        InstanceContent content = new InstanceContent();
-//        content.add(neuralNetwork);
-//        for(Object o : getSelectedObjects()) {
-//            content.add(o);
-//        }
-//        
-        return aLookup;
-//        
+        return aLookup;        
     }
     
     
@@ -235,17 +221,11 @@ public class NeuralNetworkScene extends ObjectScene {
             Layer layer = neuralNetwork.getLayerAt(i); // get layer for this widget
             NeuralLayerWidget neuralLayerWidget = new NeuralLayerWidget(this, layer); // create widget for layer
             
-            if (!getObjects().contains(layer))
-                    addObject(layer, neuralLayerWidget);
+            if (getObjects().contains(layer)) {
+                    removeObject(layer);                    
+            }       
+            addObject(layer, neuralLayerWidget);
            
-            
-//            if (selection instanceof NeuralLayerWidget) { // if this neurn was selected before refresh...
-//                if (((NeuralLayerWidget) selection).getLayer() == layer) {
-//                    //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
-//                    neuralLayerWidget.setSelected();
-//                }
-//            }
-            //neuralLayerWidget.setSelected(layer.getLabel() != null && layer.getLabel().equals("Selected"));
             LabelWidget layerLabelWidget = new LabelWidget(this);
 
             String layerLabel = layer.getLabel();
@@ -270,16 +250,12 @@ public class NeuralNetworkScene extends ObjectScene {
             for (int j = 0; j < neuralNetwork.getLayerAt(i).getNeuronsCount(); j++) {
                 Neuron neuron = neuralNetwork.getLayerAt(i).getNeuronAt(j);
                 NeuronWidget neuronWidget = new NeuronWidget(this, neuron);
-                if (!getObjects().contains(neuron))                
-                    addObject(neuron, neuronWidget);
-//                if (selection instanceof NeuronWidget) { // if this neurn was selected before refresh...
-//                    if (((NeuronWidget) selection).getNeuron() == neuron) {
-//                        //setSelection(neuron.getLabel() != null && neuron.getLabel().equals("Selected"));
-//                        neuronWidget.setSelected();
-//                    }
-//
-//
-//                }
+               
+                if (getObjects().contains(neuron)) {                
+                    removeObject(neuron);
+                }
+                addObject(neuron, neuronWidget);                
+               
                 resizeLayer(neuralLayerWidget);
                 //Napravio wrapper oko neuronWidget i label da bi label pisao unutar widgeta. Koristim OverlayLayout
                 IconNodeWidget neuronWrapperWidget = new IconNodeWidget(this);
@@ -303,17 +279,13 @@ public class NeuralNetworkScene extends ObjectScene {
             neuralNetworkWidget.addChild(layerWrapperWidget);
         }
 
-
         // create inputs widgets
         IconNodeWidget inputsWidget = new IconNodeWidget(this);
         inputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
-
-
         IconNodeWidget outputsWidget = new IconNodeWidget(this);
         outputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
-        // 
         if (neuralNetwork.getInputNeurons() != null) {
             for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
                 LabelWidget inputLabel = new LabelWidget(this);
@@ -353,15 +325,9 @@ public class NeuralNetworkScene extends ObjectScene {
                 }
             }
         }
-
-
-
-
-
     }
 
     private void createConnections() {
-// treba ih izbaciti i iz neurons i neurons aAndWidgets!
         for (int i = 0; i < neurons.size(); i++) {
             Neuron targetNeuron = neurons.get(i);
             Connection[] inputConnections = targetNeuron.getInputConnections();
@@ -380,6 +346,9 @@ public class NeuralNetworkScene extends ObjectScene {
                 targetWidget.addConnection(connWidget);
                 connectionLayer.addChild(connWidget);
                 
+                if (getObjects().contains(inputConnections[c])) {
+                    removeObject(inputConnections[c]);
+                }
                 addObject(inputConnections[c], connWidget);
             }
         }
