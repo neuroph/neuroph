@@ -106,8 +106,9 @@ public class NeuralNetworkScene extends ObjectScene {
             }
 
             public void selectionChanged(ObjectSceneEvent event, Set<Object> previousSelection, Set<Object> newSelection) {
-//                for(Object o : previousSelection)
-//                   content.remove(o);
+                for(Object o : previousSelection) {
+                    content.remove(o);
+                }
                                
                 for(Object o : newSelection)
                     content.add(o);  
