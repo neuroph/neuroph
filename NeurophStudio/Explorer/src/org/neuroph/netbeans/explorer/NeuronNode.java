@@ -22,7 +22,7 @@ import org.openide.util.lookup.Lookups;
  * http://bits.netbeans.org/dev/javadoc/org-openide-nodes/org/openide/nodes/Node.html#Node%28org.openide.nodes.Children,%20org.openide.util.Lookup%29
  */
 public class NeuronNode extends AbstractNode {
-    Neuron neuron;
+    private Neuron neuron;
     
     public NeuronNode(Neuron neuron) {
         this(neuron, new InstanceContent());
@@ -34,6 +34,12 @@ public class NeuronNode extends AbstractNode {
         content.add(neuron);
         this.neuron = neuron;
     }
+
+    public Neuron getNeuron() {
+        return neuron;
+    }
+    
+    
 
     @Override
     public Image getIcon(int type) {
