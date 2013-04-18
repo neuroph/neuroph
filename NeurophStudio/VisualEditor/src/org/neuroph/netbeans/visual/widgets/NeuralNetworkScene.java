@@ -33,7 +33,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
-import org.neuroph.netbeans.visual.widgets.actions.KeyboardMoveAction;
+import org.neuroph.netbeans.visual.widgets.actions.KeyboardDeleteAction;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
@@ -86,7 +86,7 @@ public class NeuralNetworkScene extends ObjectScene {
         getActions().addAction(ActionFactory.createMouseCenteredZoomAction(1.1));
         getActions().addAction(ActionFactory.createPopupMenuAction(new MainPopupMenuProvider()));
         getActions().addAction(this.createSelectAction()); // to invert selection when network is clciked
-        getActions().addAction(new KeyboardMoveAction(this));
+        getActions().addAction(new KeyboardDeleteAction(this));
         
         
         addObjectSceneListener(new ObjectSceneListener() {

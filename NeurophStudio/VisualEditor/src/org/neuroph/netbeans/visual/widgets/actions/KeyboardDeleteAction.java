@@ -18,17 +18,12 @@ import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
  *
  * @author Ana
  */
-public class KeyboardMoveAction extends WidgetAction.Adapter {
+    public class KeyboardDeleteAction extends WidgetAction.Adapter {
 
     NeuralNetworkScene scene;
-    // Layer layer;
-    private MoveProvider provider;
 
-    public KeyboardMoveAction(NeuralNetworkScene scene) {
+    public KeyboardDeleteAction(NeuralNetworkScene scene) {
         this.scene = scene;
-        //this.layer = layer;
-        this.provider = ActionFactory.createDefaultMoveProvider();
-        //keyPressed(widget, new WidgetKeyEvent(0, null));
     }
 
     @Override
@@ -40,7 +35,6 @@ public class KeyboardMoveAction extends WidgetAction.Adapter {
                         Layer myLayer = (Layer) object;
                         myLayer.getParentNetwork().removeLayer(myLayer);
                         scene.refresh();
-                        //provider.movementStarted(widget);
                     }
                 }
                 if (object instanceof Neuron) {
@@ -48,7 +42,6 @@ public class KeyboardMoveAction extends WidgetAction.Adapter {
                         Neuron myNeuron = (Neuron) object;
                         myNeuron.getParentLayer().removeNeuron(myNeuron);
                         scene.refresh();
-                        //provider.movementStarted(widget);
                     }
                 }
                 if (object instanceof Connection) {
@@ -57,13 +50,10 @@ public class KeyboardMoveAction extends WidgetAction.Adapter {
                         Neuron trgNeuron = ((Connection) object).getToNeuron();
                         trgNeuron.removeInputConnectionFrom(srcNeuron);
                         scene.refresh();
-                        //provider.movementStarted(widget);
                     }
                 }
             }
         }
-
-
 
         return State.CONSUMED;
     }

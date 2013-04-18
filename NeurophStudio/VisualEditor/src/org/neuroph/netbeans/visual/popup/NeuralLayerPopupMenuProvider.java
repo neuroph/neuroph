@@ -48,10 +48,11 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         cloneLayerItem = new JMenuItem("Clone Layer");
         connectToLayer = new JMenuItem("Connect to Layer");
         removeConnections = new JMenu("Remove Connections");
-        removeAllOutputConnections = new JMenuItem("Remove All Output Connections");
         removeAllInputConnections = new JMenuItem("Remove All Input Connections");
+        removeAllOutputConnections = new JMenuItem("Remove All Output Connections");        
+        removeConnections.add(removeAllInputConnections);        
         removeConnections.add(removeAllOutputConnections);
-        removeConnections.add(removeAllInputConnections);
+
         changeTransferFunction = new JMenuItem ("Change transfer function to all neurons");
                  
         popupMenu.add(addNeuronItem);
