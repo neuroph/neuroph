@@ -4,6 +4,7 @@ import java.beans.PropertyVetoException;
 import java.util.Collection;
 import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
@@ -151,6 +152,10 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
         resultLW.addLookupListener(this);
         resultChanged(new LookupEvent(resultLW));   
         
+        resultCon = Utilities.actionsGlobalContext().lookupResult(Connection.class);
+        resultCon.addLookupListener(this);
+        resultChanged(new LookupEvent(resultCon));          
+        
     }
 
     @Override
@@ -187,6 +192,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     Result<DataFolder> resultDF;
     Result<Neuron> resultNW;
     Result<Layer> resultLW;
+    Result<Connection> resultCon;
     private boolean recursiveCall = false;
 
     @Override
@@ -226,8 +232,6 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                     btw.setRootVisible(false);
                     this.setName("Explorer");                    
                 } else if (selectedItem instanceof Neuron){
-                   // NeuronWidget selectedNeuron = (NeuronWidget)selectedItem;
-                    System.out.println("selektovan neuron widget" );
                     for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
                         if(node instanceof LayerNode){
                             for (Node neuronNode : node.getChildren().getNodes()) {
@@ -249,7 +253,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                     for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
                         if(node instanceof LayerNode){
                             LayerNode layerNode = (LayerNode)node;
-                            if (layerNode.layer  == selectedItem) {
+                            if (layerNode.getLayer() == selectedItem) {
                                 Node [] nodes = new Node[1];
                                 nodes[0] = layerNode;
                                 try {
@@ -260,8 +264,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                                 }
                             }
                         }
-                    }
-                    
+                    }                    
                 }
             }
         } else { // if nothing is selected...

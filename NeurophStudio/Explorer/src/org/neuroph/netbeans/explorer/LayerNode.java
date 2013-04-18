@@ -16,7 +16,7 @@ import org.openide.util.lookup.InstanceContent;
  */
 public class LayerNode extends AbstractNode {
 
-    Layer layer;
+    private Layer layer;
 
     public LayerNode(Layer layer) {
        this(layer, new InstanceContent());
@@ -29,6 +29,11 @@ public class LayerNode extends AbstractNode {
         this.layer = layer;
     }    
 
+    public Layer getLayer() {
+        return layer;
+    }
+    
+    
     @Override
     public Image getIcon(int type) {
         return ImageUtilities.loadImage("org/neuroph/netbeans/explorer/layerIcon.png");
