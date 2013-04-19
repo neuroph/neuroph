@@ -2,6 +2,7 @@ package org.neuroph.netbeans.explorer;
 
 import java.beans.PropertyVetoException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.Connection;
@@ -36,12 +37,13 @@ import org.openide.windows.WindowManager;
  * http://netbeans-org.1045718.n5.nabble.com/TopComponent-associateLookup-is-incompatible-with-setActivatedNodes-is-it-a-bug-td3261230.html
  */
 @ConvertAsProperties(dtd = "-//org.neuroph.netbeans.ide.navigator//Explorer//EN",
-autostore = false)
+        autostore = false)
 public final class ExplorerTopComponent extends TopComponent implements LookupListener, ExplorerManager.Provider {
 
     private static ExplorerTopComponent instance;
     private static final String PREFERRED_ID = "ExplorerTopComponent";
     private final ExplorerManager explorerManager = new ExplorerManager();
+    HashMap<Object, Node> objectsAndNodes = new HashMap<Object, Node>();
 
     //  private InstanceContent content;
     public ExplorerTopComponent() {
@@ -51,7 +53,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
 
         // associate explorer manager lookup as lookup of this top componnet
-        associateLookup(ExplorerUtils.createLookup(explorerManager, getActionMap()));      
+        associateLookup(ExplorerUtils.createLookup(explorerManager, getActionMap()));
 //           
         ((BeanTreeView) jScrollPane1).setRootVisible(false);
     }
@@ -122,7 +124,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     @Override
     public int getPersistenceType() {
         return TopComponent.PERSISTENCE_ALWAYS;
-        
+
     }
 
     @Override
@@ -135,27 +137,27 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
         // listen for data set selection in global lookup
         resultDS = Utilities.actionsGlobalContext().lookupResult(DataSet.class);
         resultDS.addLookupListener(this);
-        resultChanged(new LookupEvent(resultDS));        
-        
+        resultChanged(new LookupEvent(resultDS));
+
         // listen for folder selection in global lookup (when user clicks nn, trainingor test set folder
         resultDF = Utilities.actionsGlobalContext().lookupResult(DataFolder.class);
         resultDF.addLookupListener(this);
-        resultChanged(new LookupEvent(resultDF));         
-        
+        resultChanged(new LookupEvent(resultDF));
+
         // listen for neuron widget selection in global lookup
         resultNW = Utilities.actionsGlobalContext().lookupResult(Neuron.class);
         resultNW.addLookupListener(this);
-        resultChanged(new LookupEvent(resultNW));  
-        
+        resultChanged(new LookupEvent(resultNW));
+
         // listen for neural layer widget selection in global lookup
         resultLW = Utilities.actionsGlobalContext().lookupResult(Layer.class);
         resultLW.addLookupListener(this);
-        resultChanged(new LookupEvent(resultLW));   
-        
+        resultChanged(new LookupEvent(resultLW));
+
         resultCon = Utilities.actionsGlobalContext().lookupResult(Connection.class);
         resultCon.addLookupListener(this);
-        resultChanged(new LookupEvent(resultCon));          
-        
+        resultChanged(new LookupEvent(resultCon));
+
     }
 
     @Override
@@ -186,7 +188,6 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     protected String preferredID() {
         return PREFERRED_ID;
     }
-    
     Result<NeuralNetwork> resultNN;
     Result<DataSet> resultDS;
     Result<DataFolder> resultDF;
@@ -196,7 +197,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     private boolean recursiveCall = false;
 
     @Override
-    public void resultChanged(LookupEvent le) {               
+    public void resultChanged(LookupEvent le) {
         Lookup.Result localResult = (Result) le.getSource();
         Collection<Object> coll = localResult.allInstances();
         if (!coll.isEmpty()) {
@@ -204,11 +205,26 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                 if (selectedItem instanceof NeuralNetwork) {    // if neural network is selected
                     NeuralNetwork selectedNNet = (NeuralNetwork) selectedItem;
                     this.setName(selectedNNet.getLabel() + " -  Explorer");
-                     ((BeanTreeView) jScrollPane1).setRootVisible(true);
+                    ((BeanTreeView) jScrollPane1).setRootVisible(true);
                     ExplorerNeuralNetworkNode nnNode = new ExplorerNeuralNetworkNode(selectedNNet);
-                    
+
                     recursiveCall = true;
-                    explorerManager.setRootContext (nnNode); //this one calls resultChanged recursivly, since global lookup is changed
+                    explorerManager.setRootContext(nnNode); //this one calls resultChanged recursivly, since global lookup is changed
+
+                    for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
+                        if (node instanceof LearningRuleNode) {
+                            objectsAndNodes.put(((LearningRuleNode) node).learningRule, node);
+                        }
+                        if (node instanceof LayerNode) {
+                            objectsAndNodes.put(((LayerNode) node).getLayer(), node);
+                            for (Node nodeNeuron : node.getChildren().getNodes()) {
+                                objectsAndNodes.put(((NeuronNode) nodeNeuron).getNeuron(), nodeNeuron);
+                                for (Node nodeConnection : nodeNeuron.getChildren().getNodes()) {
+                                    objectsAndNodes.put(((ConnectionNode) nodeConnection).connection, nodeConnection);
+                                }
+                            }
+                        }
+                    }
                     try {
                         explorerManager.setExploredContextAndSelection(nnNode, new Node[]{nnNode});
                     } catch (PropertyVetoException ex) {
@@ -230,41 +246,16 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                     explorerManager.setRootContext(Node.EMPTY);
                     BeanTreeView btw = (BeanTreeView) jScrollPane1;
                     btw.setRootVisible(false);
-                    this.setName("Explorer");                    
-                } else if (selectedItem instanceof Neuron){
-                    for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
-                        if(node instanceof LayerNode){
-                            for (Node neuronNode : node.getChildren().getNodes()) {
-                                if(((NeuronNode)neuronNode).getNeuron()  == selectedItem){
-                                    Node [] nodes = new Node[1];
-                                    nodes[0] = (NeuronNode)neuronNode;
-                                try {
-                                    recursiveCall = true;
-                                    explorerManager.setSelectedNodes(nodes);
-                                } catch (PropertyVetoException ex) {
-                                    Exceptions.printStackTrace(ex);
-                                }
-                                }
-                            }
-                            
-                        }
+                    this.setName("Explorer");
+                } else if (selectedItem instanceof Neuron || selectedItem instanceof Layer || selectedItem instanceof Connection) {
+                    Node[] nodes = new Node[1];
+                    nodes[0] = objectsAndNodes.get(selectedItem);
+                    try {
+                        recursiveCall = true;
+                        explorerManager.setSelectedNodes(nodes);
+                    } catch (PropertyVetoException ex) {
+                        Exceptions.printStackTrace(ex);
                     }
-                } else if (selectedItem instanceof Layer){
-                    for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
-                        if(node instanceof LayerNode){
-                            LayerNode layerNode = (LayerNode)node;
-                            if (layerNode.getLayer() == selectedItem) {
-                                Node [] nodes = new Node[1];
-                                nodes[0] = layerNode;
-                                try {
-                                    recursiveCall = true;
-                                    explorerManager.setSelectedNodes(nodes);
-                                } catch (PropertyVetoException ex) {
-                                    Exceptions.printStackTrace(ex);
-                                }
-                            }
-                        }
-                    }                    
                 }
             }
         } else { // if nothing is selected...
@@ -273,11 +264,11 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                 BeanTreeView btw = (BeanTreeView) jScrollPane1;
                 btw.setRootVisible(false);
                 this.setName("Explorer");
-                
+
             } else {
                 recursiveCall = false;
             }
-       }
+        }
     }
 
     @Override
