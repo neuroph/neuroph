@@ -43,7 +43,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     private static ExplorerTopComponent instance;
     private static final String PREFERRED_ID = "ExplorerTopComponent";
     private final ExplorerManager explorerManager = new ExplorerManager();
-    HashMap<Object, Node> objectsAndNodes = new HashMap<Object, Node>();
+    HashMap<Object, Node> objectsToNodes = new HashMap<Object, Node>();
 
     //  private InstanceContent content;
     public ExplorerTopComponent() {
@@ -213,14 +213,14 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
 
                     for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
                         if (node instanceof LearningRuleNode) {
-                            objectsAndNodes.put(((LearningRuleNode) node).learningRule, node);
+                            objectsToNodes.put(((LearningRuleNode) node).learningRule, node);
                         }
                         if (node instanceof LayerNode) {
-                            objectsAndNodes.put(((LayerNode) node).getLayer(), node);
+                            objectsToNodes.put(((LayerNode) node).getLayer(), node);
                             for (Node nodeNeuron : node.getChildren().getNodes()) {
-                                objectsAndNodes.put(((NeuronNode) nodeNeuron).getNeuron(), nodeNeuron);
+                                objectsToNodes.put(((NeuronNode) nodeNeuron).getNeuron(), nodeNeuron);
                                 for (Node nodeConnection : nodeNeuron.getChildren().getNodes()) {
-                                    objectsAndNodes.put(((ConnectionNode) nodeConnection).connection, nodeConnection);
+                                    objectsToNodes.put(((ConnectionNode) nodeConnection).connection, nodeConnection);
                                 }
                             }
                         }
@@ -249,7 +249,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                     this.setName("Explorer");
                 } else if (selectedItem instanceof Neuron || selectedItem instanceof Layer || selectedItem instanceof Connection) {
                     Node[] nodes = new Node[1];
-                    nodes[0] = objectsAndNodes.get(selectedItem);
+                    nodes[0] = objectsToNodes.get(selectedItem);
                     try {
                         recursiveCall = true;
                         explorerManager.setSelectedNodes(nodes);
@@ -259,15 +259,15 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                 }
             }
         } else { // if nothing is selected...
-            if (!recursiveCall) { // on pozov eovo , zasto?
-                explorerManager.setRootContext(Node.EMPTY);
-                BeanTreeView btw = (BeanTreeView) jScrollPane1;
-                btw.setRootVisible(false);
-                this.setName("Explorer");
-
-            } else {
-                recursiveCall = false;
-            }
+//            if (!recursiveCall) {
+//                explorerManager.setRootContext(Node.EMPTY);
+//                BeanTreeView btw = (BeanTreeView) jScrollPane1;
+//                btw.setRootVisible(false);
+//                this.setName("Explorer");
+//
+//            } else {
+//                recursiveCall = false;
+//            }
         }
     }
 
