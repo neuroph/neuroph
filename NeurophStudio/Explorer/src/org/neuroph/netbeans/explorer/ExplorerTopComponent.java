@@ -43,18 +43,17 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     private static ExplorerTopComponent instance;
     private static final String PREFERRED_ID = "ExplorerTopComponent";
     private final ExplorerManager explorerManager = new ExplorerManager();
-    HashMap<Object, Node> objectsToNodes = new HashMap<Object, Node>();
+    
+    private HashMap<Object, Node> objectsToNodes = new HashMap<Object, Node>(); // mapping of object to corresponding node
 
-    //  private InstanceContent content;
+
     public ExplorerTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(ExplorerTopComponent.class, "CTL_ExplorerTopComponent"));
         setToolTipText(NbBundle.getMessage(ExplorerTopComponent.class, "HINT_ExplorerTopComponent"));
-//        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
 
         // associate explorer manager lookup as lookup of this top componnet
-        associateLookup(ExplorerUtils.createLookup(explorerManager, getActionMap()));
-//           
+        associateLookup(ExplorerUtils.createLookup(explorerManager, getActionMap()));          
         ((BeanTreeView) jScrollPane1).setRootVisible(false);
     }
 
