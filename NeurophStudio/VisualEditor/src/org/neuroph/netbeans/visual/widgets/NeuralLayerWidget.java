@@ -8,6 +8,7 @@ import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.model.ObjectState;
+import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.neuroph.core.Layer;
@@ -32,7 +33,9 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
     private static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(5, 5, Color.white, Color.BLACK);
     private static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(240, 240, 240), Color.GRAY);
     private static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(180, 180, 180), Color.black);
-
+    private ConnectionWidget inputConnection = null;
+    private ConnectionWidget outputConnection = null;
+    
     public NeuralLayerWidget(NeuralNetworkScene scene, Layer layer) {
         super(scene);
         this.lookup = Lookups.fixed(layer, this);
@@ -46,6 +49,22 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         getActions().addAction(scene.createSelectAction()); // move this above connection action to react to it before connection
         getActions().addAction(scene.createObjectHoverAction()); 
         
+    }
+
+    public ConnectionWidget getInputConnection() {
+        return inputConnection;
+    }
+
+    public void setInputConnection(ConnectionWidget inputConnection) {
+        this.inputConnection = inputConnection;
+    }
+
+    public ConnectionWidget getOutputConnection() {
+        return outputConnection;
+    }
+
+    public void setOutputConnection(ConnectionWidget outputConnection) {
+        this.outputConnection = outputConnection;
     }
 
     public Layer getLayer() {
