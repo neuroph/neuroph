@@ -33,8 +33,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
     private static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(5, 5, Color.white, Color.BLACK);
     private static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(240, 240, 240), Color.GRAY);
     private static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(180, 180, 180), Color.black);
-    private ConnectionWidget inputConnection = null;
-    private ConnectionWidget outputConnection = null;
+    
     
     public NeuralLayerWidget(NeuralNetworkScene scene, Layer layer) {
         super(scene);
@@ -51,21 +50,6 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         
     }
 
-    public ConnectionWidget getInputConnection() {
-        return inputConnection;
-    }
-
-    public void setInputConnection(ConnectionWidget inputConnection) {
-        this.inputConnection = inputConnection;
-    }
-
-    public ConnectionWidget getOutputConnection() {
-        return outputConnection;
-    }
-
-    public void setOutputConnection(ConnectionWidget outputConnection) {
-        this.outputConnection = outputConnection;
-    }
 
     public Layer getLayer() {
         return lookup.lookup(Layer.class);
