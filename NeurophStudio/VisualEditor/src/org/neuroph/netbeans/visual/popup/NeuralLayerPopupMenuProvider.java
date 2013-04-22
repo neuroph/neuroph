@@ -35,7 +35,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
     private JMenu removeConnections;
     private JMenuItem removeAllOutputConnections;
     private JMenuItem removeAllInputConnections;
-    
+
     public NeuralLayerPopupMenuProvider() {
         createMenus();
     }
@@ -49,18 +49,18 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         connectToLayer = new JMenuItem("Connect to Layer");
         removeConnections = new JMenu("Remove Connections");
         removeAllInputConnections = new JMenuItem("Remove All Input Connections");
-        removeAllOutputConnections = new JMenuItem("Remove All Output Connections");        
-        removeConnections.add(removeAllInputConnections);        
+        removeAllOutputConnections = new JMenuItem("Remove All Output Connections");
+        removeConnections.add(removeAllInputConnections);
         removeConnections.add(removeAllOutputConnections);
 
-        changeTransferFunction = new JMenuItem ("Change transfer function to all neurons");
-                 
+        changeTransferFunction = new JMenuItem("Change transfer function to all neurons");
+
         popupMenu.add(addNeuronItem);
         popupMenu.add(removeLayerItem);
         popupMenu.add(cloneLayerItem);
         popupMenu.add(removeConnections);
         popupMenu.add(changeTransferFunction);
-        
+
 
     }
 
@@ -82,6 +82,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
                 AddNeuronDialog dialog = new AddNeuronDialog(null, true, ((NeuralLayerWidget) widget).getLayer(), (NeuralNetworkScene) widget.getScene());
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
                 dialog.setVisible(true);
+                ((NeuralNetworkScene) widget.getScene()).setRefresh(false);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
@@ -123,18 +124,18 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
 
             }
         });
-        
+
         changeTransferFunction.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            ChangeTransferFunctionDialog dialog = new ChangeTransferFunctionDialog(null, true, ((NeuralLayerWidget) widget).getLayer());
-            dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow()); 
-                 dialog.setVisible(true);
-               ((NeuralNetworkScene) widget.getScene()).refresh(); 
+                ChangeTransferFunctionDialog dialog = new ChangeTransferFunctionDialog(null, true, ((NeuralLayerWidget) widget).getLayer());
+                dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
+                dialog.setVisible(true);
+                ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
-        
+
         removeAllInputConnections.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {            
+            public void actionPerformed(ActionEvent e) {
                 Layer layer = ((NeuralLayerWidget) widget).getLayer();
                 for (Neuron neuron : layer.getNeurons()) {
                     neuron.removeAllInputConnections();
@@ -152,7 +153,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
-        
+
         return popupMenu;
     }
 }
