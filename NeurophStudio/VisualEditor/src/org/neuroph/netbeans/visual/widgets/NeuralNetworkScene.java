@@ -1,3 +1,4 @@
+
 package org.neuroph.netbeans.visual.widgets;
 
 import java.awt.*;
@@ -269,10 +270,11 @@ public class NeuralNetworkScene extends ObjectScene {
                 tooManyLabel.setPreferredLocation(new Point(20, 25));
                 neuralLayerWidget.setPreferredSize(new Dimension(300, (int) neuralLayerWidget.getPreferredSize().getHeight()));
                 neuralLayerWidget.addChild(tooManyLabel);
+                // if it's not the first one, connect this layer with the previous one
                 if (layer != layers.get(0)) {
                    
                     NeuralLayerWidget previousLayer = layersAndWidgets.get(layers.get(i - 1));
-                   // NeuralLayerWidget nextLayer = layersAndWidgets.get(layers.get(i + 1));
+                   
 
                     ConnectionWidget connWidget1 = new ConnectionWidget(this);
 
@@ -367,6 +369,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 }
             }
             neuralNetworkWidget.addChild(0, inputsWidget);
+            // if first layer has more than 100 neurons, create one  input label and connect it with the first layer
         } else {
 
             LabelWidget inputLabel = new LabelWidget(this);
@@ -381,14 +384,14 @@ public class NeuralNetworkScene extends ObjectScene {
 
             if (showConnections) {
                 ConnectionWidget connWidget = new ConnectionWidget(this);
-
+                // create connection between input widget and first neural layer widget
                 connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
                 connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(inputLabel));
                 connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
                 connectionLayer.addChild(connWidget);
 
                 ConnectionWidget connWidget1 = new ConnectionWidget(this);
-
+                // create connection between first neural layer widget and the second one
                 connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
                 connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
                 connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(nextWidget));
@@ -416,6 +419,7 @@ public class NeuralNetworkScene extends ObjectScene {
                     connectionLayer.addChild(connWidget);
                 }
             }
+            //if last neural layer  has more than 100 neurons connect that neural layer widget with one output label
         } else {
             neuralNetworkWidget.addChild(outputsWidget);
             LabelWidget outputLabel = new LabelWidget(this);
@@ -435,7 +439,7 @@ public class NeuralNetworkScene extends ObjectScene {
              }
               
              }*/
-
+            //connect that neural layer widget with the previous one
             NeuralLayerWidget sourceWidget = layersAndWidgets.get(layers.get(layers.size() - 1));
             NeuralLayerWidget previousWidget = layersAndWidgets.get(layers.get(layers.size() - 2));
             if (showConnections) {
