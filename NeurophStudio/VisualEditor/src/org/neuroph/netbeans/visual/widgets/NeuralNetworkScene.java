@@ -65,14 +65,6 @@ public class NeuralNetworkScene extends ObjectScene {
     ArrayList<Neuron> neurons = new ArrayList<Neuron>();
     ArrayList<Layer> layers = new ArrayList<Layer>();
     boolean isFirstSelection = true;
-//    private NeuralLayerWidget sourceWidget;
-  //  private NeuralLayerWidget targetWidget;
-  //  private NeuralLayerWidget hiddenLayerWidget;
-  //  private Layer firstLayer;
-  //  private Layer lastLayer;
-   // private Layer inputLayer;
-   // private Layer outputLayer;
-    // ide modul neuron node (org.neuroph.netbeans.ide.explorer) 
 
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
 
@@ -270,25 +262,6 @@ public class NeuralNetworkScene extends ObjectScene {
                 tooManyLabel.setPreferredLocation(new Point(20, 25));
                 neuralLayerWidget.setPreferredSize(new Dimension(300, (int) neuralLayerWidget.getPreferredSize().getHeight()));
                 neuralLayerWidget.addChild(tooManyLabel);
-                // if it's not the first one, connect this layer with the previous one
-              /*  if (layer != layers.get(0)) {
-
-                    NeuralLayerWidget previousLayer = layersAndWidgets.get(layers.get(i - 1));
-                    ConnectionWidget connWidget1 = new ConnectionWidget(this);
-
-                    connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                    connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(previousLayer));
-                    connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(neuralLayerWidget));
-                    connectionLayer.addChild(connWidget1);
-
-                      ConnectionWidget connWidget2 = new ConnectionWidget(this);
-
-                     connWidget2.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                     connWidget2.setSourceAnchor(AnchorFactory.createRectangularAnchor(neuralLayerWidget));
-                     connWidget2.setTargetAnchor(AnchorFactory.createRectangularAnchor(nextLayer));
-                     connectionLayer.addChild(connWidget2);
-                }*/
-
             } else {
 
                 for (int j = 0; j < layer.getNeuronsCount(); j++) {
@@ -440,6 +413,7 @@ public class NeuralNetworkScene extends ObjectScene {
         connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
         connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceLayerWidget));
         connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetLayerWidget));
+        //        connWidget.setStroke(new BasicStroke(width, cap, join, miterlimit, dash, dash_phase));
         connectionLayer.addChild(connWidget);
     }
 
@@ -478,11 +452,7 @@ public class NeuralNetworkScene extends ObjectScene {
                             // draw connection between two layers    
                             NeuralLayerWidget prevLayerWidget = layersAndWidgets.get(layers.get(currentLayerIdx - 1));
                             NeuralLayerWidget currentLayerWidget = layersAndWidgets.get(currentLayer);
-                            ConnectionWidget connWidget1 = new ConnectionWidget(this);
-                            connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                            connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(prevLayerWidget));
-                            connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(currentLayerWidget));
-                            connectionLayer.addChild(connWidget1);                    
+                            createNeuralLayersConnection(prevLayerWidget, currentLayerWidget);              
                     }
                 }
                 
