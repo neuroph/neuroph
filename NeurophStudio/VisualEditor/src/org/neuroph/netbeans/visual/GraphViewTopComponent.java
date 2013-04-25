@@ -93,7 +93,8 @@ public final class GraphViewTopComponent extends TopComponent {
         return  new ProxyLookup(
                       new Lookup[]{
                         scene.getLookup(),
-                        Lookups.fixed(palette, nnet)
+//                        Lookups.fixed(palette, nnet)
+                        Lookups.singleton(palette)
                 });
 
     }
