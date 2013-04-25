@@ -11,6 +11,7 @@ import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
+import org.neuroph.netbeans.visual.dialogs.AddLayerLabelDialog;
 import org.neuroph.netbeans.visual.dialogs.AddNeuronDialog;
 import org.neuroph.netbeans.visual.dialogs.ChangeTransferFunctionDialog;
 import org.neuroph.netbeans.visual.palette.NeuralLayerWidgetStack;
@@ -35,6 +36,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
     private JMenu removeConnections;
     private JMenuItem removeAllOutputConnections;
     private JMenuItem removeAllInputConnections;
+    private JMenuItem setLabel;
 
     public NeuralLayerPopupMenuProvider() {
         createMenus();
@@ -50,6 +52,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         removeConnections = new JMenu("Remove Connections");
         removeAllInputConnections = new JMenuItem("Remove All Input Connections");
         removeAllOutputConnections = new JMenuItem("Remove All Output Connections");
+        setLabel = new JMenuItem("Set label");
         removeConnections.add(removeAllInputConnections);
         removeConnections.add(removeAllOutputConnections);
 
@@ -60,7 +63,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         popupMenu.add(cloneLayerItem);
         popupMenu.add(removeConnections);
         popupMenu.add(changeTransferFunction);
-
+        popupMenu.add(setLabel);
 
     }
 
@@ -82,7 +85,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
                 AddNeuronDialog dialog = new AddNeuronDialog(null, true, ((NeuralLayerWidget) widget).getLayer(), (NeuralNetworkScene) widget.getScene());
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
                 dialog.setVisible(true);
-                ((NeuralNetworkScene) widget.getScene()).setRefresh(false);
+                //((NeuralNetworkScene) widget.getScene()).neuronsAdded((NeuralLayerWidget)widget);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
@@ -110,6 +113,15 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
                     }
                     ((NeuralNetworkScene) widget.getScene()).refresh();
                 }
+            }
+        });
+
+        setLabel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                AddLayerLabelDialog dialog = new AddLayerLabelDialog(null, true, ((NeuralLayerWidget) widget).getLayer(), (NeuralNetworkScene) widget.getScene());
+                dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
+                dialog.setVisible(true);
+                ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
 

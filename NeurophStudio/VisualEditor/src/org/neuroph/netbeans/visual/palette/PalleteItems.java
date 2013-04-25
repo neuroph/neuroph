@@ -26,7 +26,8 @@ public class PalleteItems extends Index.ArrayChildren {
         {"Neurons", "org/neuroph/netbeans/visual/palette/icons/DelayedNeuron" + iconSize + ".png", "DelayedNeuron", "org.neuroph.nnet.comp.neuron.DelayedNeuron"},
         {"Neurons", "org/neuroph/netbeans/visual/palette/icons/Competitive" + iconSize + ".png", "CompetitiveNeuron", "org.neuroph.nnet.comp.neuron.CompetitiveNeuron"},
         {"Neurons", "org/neuroph/netbeans/visual/palette/icons/TresholdNeuron" + iconSize + ".png", "ThresholdNeuron", "org.neuroph.nnet.comp.neuron.ThresholdNeuron"},
-      
+        {"Connections","org/neuroph/netbeans/visual/palette/icons/fullconnect.png","Full connectivity","org.neuroph.core.Connection"},
+        {"Connections","org/neuroph/netbeans/visual/palette/icons/directconnect.png","Direct connectivity","org.neuroph.util.ConnectionFactory"},
         {"Input Functions", "org/neuroph/netbeans/visual/palette/icons/sintransferfunction" + iconSize + ".png", "Weighted Sum", "org.neuroph.core.input.WeightedSum"},
         {"Input Functions", "org/neuroph/netbeans/visual/palette/icons/trapezoidtransfer" + iconSize + ".png", "Sum", "org.neuroph.core.input.Sum"},
         {"Input Functions", "org/neuroph/netbeans/visual/palette/icons/sintransferfunction" + iconSize + ".png", "Sum Sqr", "org.neuroph.core.input.SumSqr"},
@@ -71,6 +72,10 @@ public class PalleteItems extends Index.ArrayChildren {
         this.category = Category;
     }
 
+    public PalleteItems() {
+    }
+    
+
     @Override
     protected java.util.List<Node> initCollection() {
         ArrayList childrenNodes = new ArrayList(items.length);
@@ -91,4 +96,7 @@ public class PalleteItems extends Index.ArrayChildren {
         return childrenNodes;
 
     }
+
+    
+    
 }

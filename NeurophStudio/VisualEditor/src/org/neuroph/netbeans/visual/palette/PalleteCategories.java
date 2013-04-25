@@ -13,6 +13,7 @@ public class PalleteCategories extends Children.Keys {
         "Layers", 
         "Neurons",
         "Input Functions",
+        "Connections",
         "Transfer Functions",
         "Learning Rules"};
 

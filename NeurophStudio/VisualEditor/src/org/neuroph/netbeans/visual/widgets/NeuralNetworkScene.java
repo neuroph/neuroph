@@ -56,7 +56,7 @@ public class NeuralNetworkScene extends ObjectScene {
     private boolean showConnections = true;
     private boolean waitingClick = false;
     private boolean waitingLayerClick = false;
-    private boolean refresh = false;
+    //private boolean refresh = false;
     // neurons and widgets bufferd index
     HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
     HashMap<Layer, NeuralLayerWidget> layersAndWidgets = new HashMap<Layer, NeuralLayerWidget>();
@@ -65,11 +65,13 @@ public class NeuralNetworkScene extends ObjectScene {
     ArrayList<Neuron> neurons = new ArrayList<Neuron>();
     ArrayList<Layer> layers = new ArrayList<Layer>();
     boolean isFirstSelection = true;
-    private NeuralLayerWidget sWidget;
-    private NeuralLayerWidget tWidget;
-    private NeuralLayerWidget mWidget;
-    private Layer firstLayer;
-    private Layer lastLayer;
+    // private NeuralLayerWidget sWidget;
+    //private NeuralLayerWidget tWidget;
+    //private NeuralLayerWidget mWidget;
+    // private Layer firstLayer;
+    // private Layer lastLayer;
+    // private Layer inputLayer;
+    // private Layer outputLayer;
     // ide modul neuron node (org.neuroph.netbeans.ide.explorer) 
 
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
@@ -207,7 +209,7 @@ public class NeuralNetworkScene extends ObjectScene {
     }
 
     public void visualizeNetwork() {
-       
+
         //clear layers (with neurons)
         neuralNetworkWidget.removeChildren();
         // clear connections
@@ -218,7 +220,7 @@ public class NeuralNetworkScene extends ObjectScene {
             createConnections();
         }
         this.validate(); // only one call to validate since they ar eusing same scene instance   
-        refresh = true;
+        //refresh = true;
     }
 
     private void createNeuralLayers() {
@@ -267,7 +269,25 @@ public class NeuralNetworkScene extends ObjectScene {
                 tooManyLabel.setPreferredLocation(new Point(20, 25));
                 neuralLayerWidget.setPreferredSize(new Dimension(300, (int) neuralLayerWidget.getPreferredSize().getHeight()));
                 neuralLayerWidget.addChild(tooManyLabel);
+                if (layer != layers.get(0)) {
+                   
+                    NeuralLayerWidget previousLayer = layersAndWidgets.get(layers.get(i - 1));
+                   // NeuralLayerWidget nextLayer = layersAndWidgets.get(layers.get(i + 1));
 
+                    ConnectionWidget connWidget1 = new ConnectionWidget(this);
+
+                    connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+                    connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(previousLayer));
+                    connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(neuralLayerWidget));
+                    connectionLayer.addChild(connWidget1);
+
+                  /*  ConnectionWidget connWidget2 = new ConnectionWidget(this);
+
+                    connWidget2.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+                    connWidget2.setSourceAnchor(AnchorFactory.createRectangularAnchor(neuralLayerWidget));
+                    connWidget2.setTargetAnchor(AnchorFactory.createRectangularAnchor(nextLayer));
+                    connectionLayer.addChild(connWidget2);*/
+                }
 
             } else {
 
@@ -282,6 +302,8 @@ public class NeuralNetworkScene extends ObjectScene {
 
                     resizeLayer(neuralLayerWidget);
                     //Napravio wrapper oko neuronWidget j label da bi label pisao unutar widgeta. Koristim OverlayLayout
+                    IconNodeWidget neuronWrapperWidget1 = new IconNodeWidget(this);
+                    neuronWrapperWidget1.setLayout(LayoutFactory.createVerticalFlowLayout());
                     IconNodeWidget neuronWrapperWidget = new IconNodeWidget(this);
                     neuronWrapperWidget.setLayout(LayoutFactory.createOverlayLayout());
                     neuronWrapperWidget.addChild(neuronWidget);
@@ -291,8 +313,21 @@ public class NeuralNetworkScene extends ObjectScene {
                     label.setForeground(Color.white);
                     label.setAlignment(LabelWidget.Alignment.CENTER);
                     label.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
+                    LabelWidget neuronLabel = new LabelWidget(this, neuron.getLabel());
+                    neuronLabel.setForeground(Color.BLACK);
+                    neuronLabel.setAlignment(LabelWidget.Alignment.CENTER);
+                    neuronLabel.setVerticalAlignment(LabelWidget.VerticalAlignment.BOTTOM);
+
+
                     neuronWrapperWidget.addChild(label);
-                    neuralLayerWidget.addChild(neuronWrapperWidget);
+                    neuronWrapperWidget1.addChild(neuronWrapperWidget);
+                    neuronWrapperWidget1.addChild(neuronLabel);
+                    neuralLayerWidget.addChild(neuronWrapperWidget1);
+                    if (neuron.getLabel() == null) {
+                        neuronLabel.setVisible(false);
+                    } else {
+                        neuronLabel.setVisible(true);
+                    }
                     neurons.add(neuron);
 
                     neuronsAndWidgets.put(neuron, neuronWidget);
@@ -313,7 +348,7 @@ public class NeuralNetworkScene extends ObjectScene {
         outputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < 100) {
-            
+
             for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
                 LabelWidget inputLabel = new LabelWidget(this);
                 inputLabel.setLabel("Input " + (i + 1));
@@ -321,6 +356,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 inputsWidget.addChild(inputLabel);
 
                 NeuronWidget targetWidget = neuronsAndWidgets.get(neuralNetwork.getInputNeurons()[i]);
+
                 if (showConnections) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
 
@@ -332,27 +368,17 @@ public class NeuralNetworkScene extends ObjectScene {
             }
             neuralNetworkWidget.addChild(0, inputsWidget);
         } else {
-           
+
             LabelWidget inputLabel = new LabelWidget(this);
             inputLabel.setLabel("Input " + neuralNetwork.getInputNeurons().length);
             inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
             inputsWidget.addChild(inputLabel);
-            Layer layer = null;
-            if (firstLayer == null) {
-               
-                layer = neuralNetwork.getLayerAt(0);
-            } else {
-               
-                layer = firstLayer;
-            }
-            if (inputsWidget == null){
-               
-            }
-            
-            NeuralLayerWidget targetWidget = layersAndWidgets.get(layer);
-            if (targetWidget == null){
-               
-            }
+
+
+
+            NeuralLayerWidget targetWidget = layersAndWidgets.get(layers.get(0));
+            NeuralLayerWidget nextWidget = layersAndWidgets.get(layers.get(1));
+
             if (showConnections) {
                 ConnectionWidget connWidget = new ConnectionWidget(this);
 
@@ -360,6 +386,13 @@ public class NeuralNetworkScene extends ObjectScene {
                 connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(inputLabel));
                 connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
                 connectionLayer.addChild(connWidget);
+
+                ConnectionWidget connWidget1 = new ConnectionWidget(this);
+
+                connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+                connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
+                connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(nextWidget));
+                connectionLayer.addChild(connWidget1);
             }
 
             neuralNetworkWidget.addChild(0, inputsWidget);
@@ -389,18 +422,22 @@ public class NeuralNetworkScene extends ObjectScene {
             outputLabel.setLabel("Output " + neuralNetwork.getOutputNeurons().length);
             outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
             outputsWidget.addChild(outputLabel);
-            Layer targetlayer = null;
+            // Layer targetlayer = null;
 
-            if (lastLayer != null) {
-                targetlayer = lastLayer;
+            /* if (lastLayer != null) {
+             targetlayer = lastLayer;
                
 
-            } else {
-                targetlayer = layers.get(layers.size() - 1);
+             } else {
+             targetlayer = layers.get(layers.size() - 1);
+             if (!refresh){
+             outputLayer = targetlayer;
+             }
               
-            }
+             }*/
 
-            NeuralLayerWidget sourceWidget = layersAndWidgets.get(targetlayer);
+            NeuralLayerWidget sourceWidget = layersAndWidgets.get(layers.get(layers.size() - 1));
+            NeuralLayerWidget previousWidget = layersAndWidgets.get(layers.get(layers.size() - 2));
             if (showConnections) {
                 ConnectionWidget connWidget = new ConnectionWidget(this);
 
@@ -408,121 +445,132 @@ public class NeuralNetworkScene extends ObjectScene {
                 connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
                 connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(outputLabel));
                 connectionLayer.addChild(connWidget);
+
+                ConnectionWidget connWidget1 = new ConnectionWidget(this);
+
+                connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+                connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(previousWidget));
+                connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
+                connectionLayer.addChild(connWidget1);
             }
         }
     }
 
     private void createConnections() {
         for (int i = 0; i < layers.size(); i++) {
-            if (layers.get(i).getNeuronsCount() > 100) {
-                if (!refresh) {
+            /* if (layers.get(i).getNeuronsCount() > 100) {
+             if (!refresh) {
                     
-                    if (i == 0) {
-                        sWidget = layersAndWidgets.get(layers.get(i));
-                        firstLayer = sWidget.getLayer();
-                        tWidget = layersAndWidgets.get(layers.get(i + 1));
-                        ConnectionWidget connWidget = new ConnectionWidget(this);
-                        connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                        connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sWidget));
-                        connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(tWidget));
-                        connectionLayer.addChild(connWidget);
+             if (i == 0) {
+             sWidget = layersAndWidgets.get(layers.get(i));
+             firstLayer = sWidget.getLayer();
+             tWidget = layersAndWidgets.get(layers.get(i + 1));
+             ConnectionWidget connWidget1 = new ConnectionWidget(this);
+             connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+             connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(sWidget));
+             connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(tWidget));
+             connectionLayer.addChild(connWidget1);
 
-                    } else if (i == layers.size() - 1) {
-                        sWidget = layersAndWidgets.get(layers.get(i - 1));
-                        tWidget = layersAndWidgets.get(layers.get(i));
-                        lastLayer = tWidget.getLayer();
-                        ConnectionWidget connWidget = new ConnectionWidget(this);
-                        connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                        connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sWidget));
-                        connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(tWidget));
-                        connectionLayer.addChild(connWidget);
+             } else if (i == layers.size() - 1) {
+             sWidget = layersAndWidgets.get(layers.get(i - 1));
+             tWidget = layersAndWidgets.get(layers.get(i));
+             lastLayer = tWidget.getLayer();
+             ConnectionWidget connWidget1 = new ConnectionWidget(this);
+             connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+             connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(sWidget));
+             connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(tWidget));
+             connectionLayer.addChild(connWidget1);
 
-                    } else {
-                        sWidget = layersAndWidgets.get(layers.get(i - 1));
-                        mWidget = layersAndWidgets.get(layers.get(i));
-                        ConnectionWidget connWidget1 = new ConnectionWidget(this);
-                        connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                        connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(sWidget));
-                        connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(mWidget));
-                        connectionLayer.addChild(connWidget1);
+             } else {
+             sWidget = layersAndWidgets.get(layers.get(i - 1));
+             mWidget = layersAndWidgets.get(layers.get(i));
+             ConnectionWidget connWidget1 = new ConnectionWidget(this);
+             connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+             connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(sWidget));
+             connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(mWidget));
+             connectionLayer.addChild(connWidget1);
 
-                        tWidget = layersAndWidgets.get(layers.get(i + 1));
-                        ConnectionWidget connWidget2 = new ConnectionWidget(this);
-                        connWidget2.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                        connWidget2.setSourceAnchor(AnchorFactory.createRectangularAnchor(mWidget));
-                        connWidget2.setTargetAnchor(AnchorFactory.createRectangularAnchor(tWidget));
-                        connectionLayer.addChild(connWidget2);
+             tWidget = layersAndWidgets.get(layers.get(i + 1));
+             ConnectionWidget connWidget2 = new ConnectionWidget(this);
+             connWidget2.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+             connWidget2.setSourceAnchor(AnchorFactory.createRectangularAnchor(mWidget));
+             connWidget2.setTargetAnchor(AnchorFactory.createRectangularAnchor(tWidget));
+             connectionLayer.addChild(connWidget2);
 
-                    }
+             }
 
-                } else {
+             } else {
                     
-                    NeuralLayerWidget source = null;
-                    NeuralLayerWidget target = null;
-                    if (sWidget != null && tWidget != null) {
+             NeuralLayerWidget source = null;
+             NeuralLayerWidget target = null;
+             if (sWidget != null && tWidget != null) {
                        
-                        for (Layer l : neuralNetwork.getLayers()) {
+             for (Layer l : neuralNetwork.getLayers()) {
 
-                            if (mWidget != null) {
-                                if (mWidget.getLayer() == l) {
-                                    source = layersAndWidgets.get(sWidget.getLayer());
-                                    target = layersAndWidgets.get(l);
-                                    ConnectionWidget connWidget = new ConnectionWidget(this);
-                                    connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                                    connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(source));
-                                    connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(target));
-                                    connectionLayer.addChild(connWidget);
-                                    source = layersAndWidgets.get(l);
-                                    target = layersAndWidgets.get(tWidget.getLayer());
-                                }
-                            } else if (l == tWidget.getLayer()) {
-                                target = layersAndWidgets.get(l);
+             if (mWidget != null) {
+             if (mWidget.getLayer() == l) {
+             source = layersAndWidgets.get(sWidget.getLayer());
+             target = layersAndWidgets.get(l);
+             ConnectionWidget connWidget1 = new ConnectionWidget(this);
+             connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+             connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(source));
+             connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(target));
+             connectionLayer.addChild(connWidget1);
+             source = layersAndWidgets.get(l);
+             target = layersAndWidgets.get(tWidget.getLayer());
+             }
+             } else if (l == tWidget.getLayer()) {
+             target = layersAndWidgets.get(l);
 
-                            } else if (l == sWidget.getLayer()) {
-                                source = layersAndWidgets.get(l);
-                            }
+             } else if (l == sWidget.getLayer()) {
+             source = layersAndWidgets.get(l);
+             }
 
-                        }
-                        ConnectionWidget connWidget = new ConnectionWidget(this);
+             }
+             ConnectionWidget connWidget1 = new ConnectionWidget(this);
 
-                        connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                        connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(source));
-                        connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(target));
-                        connectionLayer.addChild(connWidget);
-                    } 
+             connWidget1.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+             connWidget1.setSourceAnchor(AnchorFactory.createRectangularAnchor(source));
+             connWidget1.setTargetAnchor(AnchorFactory.createRectangularAnchor(target));
+             connectionLayer.addChild(connWidget1);
+             } 
                     
-                }
+             }
 
 
-            } else {
+             } else { */
 
-                for (int j = 0; j < layers.get(i).getNeuronsCount(); j++) {
+            for (int j = 0; j < layers.get(i).getNeuronsCount(); j++) {
 
-                    Neuron targetNeuron = layers.get(i).getNeuronAt(j);
-                    Connection[] inputConnections = targetNeuron.getInputConnections();
+                Neuron targetNeuron = layers.get(i).getNeuronAt(j);
+                
+                Connection[] inputConnections = targetNeuron.getInputConnections();
+               
+                if (inputConnections!= null && inputConnections.length != 0){
+                   
+                for (int c = 0; c < inputConnections.length ; c++) {
 
-                    for (int c = 0; c < inputConnections.length; c++) {
-
-                        NeuronWidget targetWidget = neuronsAndWidgets.get(targetNeuron);
-                        NeuronWidget sourceWidget = neuronsAndWidgets.get(inputConnections[c].getFromNeuron());
-                        if (sourceWidget == null) { // hack when layer is deleted
-                            continue;
-                        }
-                        NeuronConnectionWidget connWidget = new NeuronConnectionWidget(this, inputConnections[c], sourceWidget, targetWidget);
-
-                        connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                        connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
-                        connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
-                        sourceWidget.addConnection(connWidget);
-                        targetWidget.addConnection(connWidget);
-                        connectionLayer.addChild(connWidget);
-
-                        if (getObjects().contains(inputConnections[c])) {
-                            removeObject(inputConnections[c]);
-                        }
-                        addObject(inputConnections[c], connWidget);
+                    NeuronWidget targetWidget = neuronsAndWidgets.get(targetNeuron);
+                    NeuronWidget sourceWidget = neuronsAndWidgets.get(inputConnections[c].getFromNeuron());
+                    if (sourceWidget == null) { // hack when layer is deleted
+                        continue;
                     }
+                    NeuronConnectionWidget connWidget = new NeuronConnectionWidget(this, inputConnections[c], sourceWidget, targetWidget);
+
+                    connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+                    connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
+                    connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
+                    sourceWidget.addConnection(connWidget);
+                    targetWidget.addConnection(connWidget);
+                    connectionLayer.addChild(connWidget);
+
+                    if (getObjects().contains(inputConnections[c])) {
+                        removeObject(inputConnections[c]);
+                    }
+                    addObject(inputConnections[c], connWidget);
                 }
+                
+            }
             }
         }
     }
@@ -535,10 +583,9 @@ public class NeuralNetworkScene extends ObjectScene {
         this.waitingLayerClick = waitingLayerClick;
     }
 
-    public void setRefresh(boolean refresh) {
-        this.refresh = refresh;
-    }
-
+    /* public void setRefresh(boolean refresh) {
+     this.refresh = refresh;
+     }*/
     public NeuralNetworkWidget getNeuralNetworkWidget() {
         return neuralNetworkWidget;
     }

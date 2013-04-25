@@ -9,13 +9,19 @@ import javax.swing.JOptionPane;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.widget.Widget;
+import org.netbeans.spi.palette.PaletteController;
+import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
+import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.core.learning.SupervisedLearning;
 import org.neuroph.core.learning.UnsupervisedLearning;
 import org.neuroph.netbeans.visual.dialogs.AddCompetitiveLayerDialog;
 import org.neuroph.netbeans.visual.dialogs.AddCustomLayerDialog;
 import org.neuroph.netbeans.visual.dialogs.AddInputLayerDialog;
+import org.neuroph.netbeans.visual.palette.PalleteCategory;
+import org.neuroph.netbeans.visual.palette.PalleteItem;
+import org.neuroph.netbeans.visual.palette.PalleteItems;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkWidget;
 import org.neuroph.nnet.comp.layer.CompetitiveLayer;
@@ -26,6 +32,8 @@ import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.nnet.learning.PerceptronLearning;
 import org.neuroph.nnet.learning.SigmoidDeltaRule;
 import org.neuroph.nnet.learning.UnsupervisedHebbianLearning;
+import org.neuroph.util.ConnectionFactory;
+import org.openide.nodes.Node;
 import org.openide.windows.WindowManager;
 
 /**
@@ -40,7 +48,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
 
     public NeuralNetworkWidgetAcceptProvider(NeuralNetworkWidget neuralNetworkWidget) {
         this.neuralNetworkWidget = neuralNetworkWidget;
-        this.scene = ((NeuralNetworkScene)neuralNetworkWidget.getScene());
+        this.scene = ((NeuralNetworkScene) neuralNetworkWidget.getScene());
     }
 
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
@@ -54,7 +62,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
     public void accept(Widget widget, Point point, Transferable t) {
         DataFlavor flavor = t.getTransferDataFlavors()[2];
         Class droppedClass = flavor.getRepresentationClass();
-   
+
         int dropIdx = 0;
         for (int i = 0; i < neuralNetworkWidget.getChildren().size(); i++) {
             double layerWidgetPosition = neuralNetworkWidget.getChildren().get(i).getLocation().getY();
@@ -64,23 +72,65 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             } else {
                 dropIdx = neuralNetworkWidget.getChildren().size();
             }
-        }      
-        
+        }
+        if (droppedClass.equals(Connection.class)) {
+
+            if (dropIdx == 0) {
+                JOptionPane.showMessageDialog(null, "Full connectivity cannot be drawn here!");
+            } else if (dropIdx == scene.getNeuralNetwork().getLayersCount()) {
+                JOptionPane.showMessageDialog(null, "Full connectivity cannot be drawn here!");
+            } else {
+                Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
+                Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
+                System.out.println(fromLayer);
+                System.out.println(toLayer);
+                ConnectionFactory.fullConnect(fromLayer, toLayer);
+                scene.refresh();
+
+
+            }
+        }
+        if (droppedClass.equals(ConnectionFactory.class)) {
+            if (dropIdx == 0) {
+                JOptionPane.showMessageDialog(null, "Direct connectivity cannot be drawn here!");
+            } else if (dropIdx == scene.getNeuralNetwork().getLayersCount()) {
+                JOptionPane.showMessageDialog(null, "Direct connectivity cannot be drawn here!");
+            } else {
+                Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
+                Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
+                int number = 0;
+                if (fromLayer.getNeuronsCount() > toLayer.getNeuronsCount()) {
+                    number = toLayer.getNeuronsCount();
+                } else {
+                    number = fromLayer.getNeuronsCount();
+                }
+                System.out.println(number);
+                System.out.println(fromLayer.getNeuronsCount());
+                System.out.println(toLayer.getNeuronsCount());
+                
+                for (int i = 0;i < number - 1; i++) {
+                    Neuron fromNeuron = fromLayer.getNeurons()[i];
+                    Neuron toNeuron = toLayer.getNeurons()[i];
+                    ConnectionFactory.createConnection(fromNeuron, toNeuron);
+                }
+                scene.refresh();
+            }
+        }
         if (droppedClass.equals(Layer.class) || droppedClass.getSuperclass().equals(Layer.class)) {
             try {
                 //IMPORTANT: it only adds WeightSum layer, also it only adds layer at the end                             
-                      boolean hasInputLayer = false;
+                boolean hasInputLayer = false;
                 for (int i = 0; i < scene.getNeuralNetwork().getLayersCount(); i++) {
                     if (scene.getNeuralNetwork().getLayerAt(i) instanceof InputLayer) {
                         hasInputLayer = true;
                         break;
                     }
                 }
-                if(droppedClass.equals(InputLayer.class)&&!hasInputLayer==false) {
+                if (droppedClass.equals(InputLayer.class) && !hasInputLayer == false) {
                     JOptionPane.showMessageDialog(null, "Network already has input layer!");
                 }
-                
-                if (droppedClass.equals(InputLayer.class)&&hasInputLayer==false) {
+
+                if (droppedClass.equals(InputLayer.class) && hasInputLayer == false) {
                     AddInputLayerDialog dialog = new AddInputLayerDialog(null, true, scene.getNeuralNetwork(), (NeuralNetworkScene) widget.getScene(), dropIdx);
                     dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
                     dialog.setVisible(true);
@@ -90,8 +140,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                     dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
                     dialog.setVisible(true);
                     scene.refresh();
-                }                  
-                else {
+                } else {
                     Layer newLayer = (Layer) droppedClass.newInstance();
                     scene.getNeuralNetwork().addLayer(dropIdx, newLayer);
                     scene.refresh();
@@ -99,7 +148,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }  else if (droppedClass.getSuperclass().equals(LearningRule.class)
+        } else if (droppedClass.getSuperclass().equals(LearningRule.class)
                 || droppedClass.getSuperclass().equals(SupervisedLearning.class)
                 || droppedClass.getSuperclass().equals(PerceptronLearning.class)
                 || droppedClass.getSuperclass().equals(BackPropagation.class)
@@ -108,17 +157,17 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                 || droppedClass.getSuperclass().equals(UnsupervisedHebbianLearning.class)
                 || droppedClass.getSuperclass().equals(SigmoidDeltaRule.class)
                 || droppedClass.getSuperclass().equals(LMS.class)) {
-                    //HopfieldLearning, IterativeLearning, KohonenLearning mogu da se nabace na neuralNetwork                                   
-            try{             
-            neuralNetworkWidget.getNeuralNetwork().setLearningRule((LearningRule)droppedClass.newInstance());
+            //HopfieldLearning, IterativeLearning, KohonenLearning mogu da se nabace na neuralNetwork                                   
+            try {
+                neuralNetworkWidget.getNeuralNetwork().setLearningRule((LearningRule) droppedClass.newInstance());
             } catch (Exception e) {
-            e.printStackTrace();
+                e.printStackTrace();
             }
-                       
-        }else if (droppedClass.equals(AddCustomLayerDialog.class)) {
+
+        } else if (droppedClass.equals(AddCustomLayerDialog.class)) {
 
             // showDialogClass 
-            AddCustomLayerDialog dialog = new AddCustomLayerDialog(null, true,scene, dropIdx);
+            AddCustomLayerDialog dialog = new AddCustomLayerDialog(null, true, scene, dropIdx);
             dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
             dialog.setVisible(true);
             scene.refresh();
@@ -127,6 +176,8 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
 
     public boolean canAccept(Class droppedClass) {
         return droppedClass.equals(Layer.class) || droppedClass.getSuperclass().equals(Layer.class)
+                || droppedClass.equals(Connection.class) || droppedClass.getSuperclass().equals(Connection.class)
+                || droppedClass.equals(ConnectionFactory.class) || droppedClass.getSuperclass().equals(ConnectionFactory.class)
                 || droppedClass.equals(LearningRule.class)
                 || droppedClass.getSuperclass().equals(LearningRule.class)
                 || droppedClass.getSuperclass().equals(SupervisedLearning.class)

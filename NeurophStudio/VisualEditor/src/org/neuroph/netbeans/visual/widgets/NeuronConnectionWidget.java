@@ -15,6 +15,7 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.popup.NeuronConnectionPopupMenuProvider;
 
+
 /**
  * This class represents a connection between two neurons
  * http://bits.netbeans.org/dev/javadoc/org-netbeans-api-visual/org/netbeans/api/visual/widget/ConnectionWidget.html
@@ -41,7 +42,7 @@ public class NeuronConnectionWidget extends ConnectionWidget {
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuronConnectionPopupMenuProvider(src, trg)));
         getActions().addAction(nnScene.createObjectHoverAction());
         getActions().addAction(nnScene.createSelectAction());
-
+       
 
         /*
          WidgetAction hoverAction = ActionFactory.createHoverAction(new TwoStateHoverProvider() {
