@@ -85,7 +85,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
                 AddNeuronDialog dialog = new AddNeuronDialog(null, true, ((NeuralLayerWidget) widget).getLayer(), (NeuralNetworkScene) widget.getScene());
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
                 dialog.setVisible(true);
-                //((NeuralNetworkScene) widget.getScene()).neuronsAdded((NeuralLayerWidget)widget);
+                ((NeuralNetworkScene) widget.getScene()).setRefresh(false);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
