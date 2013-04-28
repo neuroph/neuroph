@@ -2,7 +2,6 @@ package org.neuroph.netbeans.main;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -10,13 +9,10 @@ import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.core.transfer.Trapezoid;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTopComponent;
 import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.DataSetTopComponent;
-import org.neuroph.netbeans.main.easyneurons.dialog.NeuronPropertiesFrameTopComponent;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingMonitorTopComponent;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
-import org.neuroph.netbeans.main.easyneurons.samples.BasicNeuronSampleTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.KohonenSampleTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.NFRSampleTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.perceptron.PerceptronSampleTrainingSet;
@@ -111,12 +107,12 @@ public class ViewManager implements
      *
      * @param neuron - input neuron which properties will be shown
      */
-    public void openNeuronPropertiesFrame(Neuron neuron) {
-        NeuronPropertiesFrameTopComponent neuronPropertiesFrame = NeuronPropertiesFrameTopComponent.findInstance();
-        neuronPropertiesFrame.setNeuronForNeuronPropertiesFrame(neuron);
-        neuronPropertiesFrame.open();
-        neuronPropertiesFrame.requestActive();
-    }
+//    public void openNeuronPropertiesFrame(Neuron neuron) {
+//        NeuronPropertiesFrameTopComponent neuronPropertiesFrame = NeuronPropertiesFrameTopComponent.findInstance();
+//        neuronPropertiesFrame.setNeuronForNeuronPropertiesFrame(neuron);
+//        neuronPropertiesFrame.open();
+//        neuronPropertiesFrame.requestActive();
+//    }
 
     /**
      * Opens TrainingEditFrameTopComponent - opened by TrainingSet Wizard

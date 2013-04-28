@@ -109,7 +109,7 @@ public class JNeuron extends javax.swing.JPanel {
         }// </editor-fold>//GEN-END:initComponents
 
 private void propertiesButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_propertiesButtonMousePressed
-        ViewManager.getInstance().openNeuronPropertiesFrame(neuron);
+  //      ViewManager.getInstance().openNeuronPropertiesFrame(neuron);
 }//GEN-LAST:event_propertiesButtonMousePressed
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
