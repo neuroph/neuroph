@@ -18,7 +18,7 @@ package org.neuroph.core.learning;
 import java.io.IOException;
 import java.io.Serializable;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.data.DataSet;
+import org.neuroph.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 

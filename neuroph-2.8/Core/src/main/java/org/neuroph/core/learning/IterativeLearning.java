@@ -15,7 +15,7 @@
  */
 package org.neuroph.core.learning;
 
-import org.neuroph.core.data.DataSet;
+import org.neuroph.data.DataSet;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
