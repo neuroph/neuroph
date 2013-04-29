@@ -18,7 +18,7 @@ package org.neuroph.nnet.learning;
 
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
-import org.neuroph.core.data.DataSet;
+import org.neuroph.data.DataSet;
 import org.neuroph.core.learning.UnsupervisedLearning;
 
 /**
