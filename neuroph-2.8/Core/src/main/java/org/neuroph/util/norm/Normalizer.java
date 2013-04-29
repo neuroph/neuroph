@@ -16,7 +16,7 @@
 
 package org.neuroph.util.norm;
 
-import org.neuroph.core.data.DataSet;
+import org.neuroph.data.DataSet;
 
 /**
  * Interface for training set normalization methods.

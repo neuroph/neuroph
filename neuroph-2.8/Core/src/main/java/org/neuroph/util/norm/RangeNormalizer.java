@@ -1,7 +1,7 @@
 package org.neuroph.util.norm;
 
-import org.neuroph.core.data.DataSet;
-import org.neuroph.core.data.DataSetRow;
+import org.neuroph.data.DataSet;
+import org.neuroph.data.DataSetRow;
 
 /**
  * This one does normalization for outputs too

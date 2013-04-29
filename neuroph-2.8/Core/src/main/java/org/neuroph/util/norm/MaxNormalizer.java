@@ -16,8 +16,8 @@
 
 package org.neuroph.util.norm;
 
-import org.neuroph.core.data.DataSet;
-import org.neuroph.core.data.DataSetRow;
+import org.neuroph.data.DataSet;
+import org.neuroph.data.DataSetRow;
 
 /**
  * Max normalization method, which normalize data in regard to max element in training set (by columns)
