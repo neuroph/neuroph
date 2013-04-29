@@ -16,8 +16,8 @@
 
 package org.neuroph.util.benchmark;
 
-import org.neuroph.core.data.DataSetRow;
-import org.neuroph.core.data.DataSet;
+import org.neuroph.data.DataSetRow;
+import org.neuroph.data.DataSet;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 
