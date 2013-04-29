@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.data.DataSet;
+import org.neuroph.data.DataSet;
 import org.neuroph.imgrec.ColorMode;
 import org.neuroph.imgrec.FractionRgbData;
 import org.neuroph.imgrec.ImageRecognitionHelper;
