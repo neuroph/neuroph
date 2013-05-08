@@ -22,6 +22,7 @@ import org.neuroph.netbeans.visual.dialogs.AddInputLayerDialog;
 import org.neuroph.netbeans.visual.palette.PalleteCategory;
 import org.neuroph.netbeans.visual.palette.PalleteItem;
 import org.neuroph.netbeans.visual.palette.PalleteItems;
+import org.neuroph.netbeans.visual.widgets.NeuralLayerWidget;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkWidget;
 import org.neuroph.nnet.comp.layer.CompetitiveLayer;
@@ -64,6 +65,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
         Class droppedClass = flavor.getRepresentationClass();
 
         int dropIdx = 0;
+        
         for (int i = 0; i < neuralNetworkWidget.getChildren().size(); i++) {
             double layerWidgetPosition = neuralNetworkWidget.getChildren().get(i).getLocation().getY();
             if (point.getY() < layerWidgetPosition) {
@@ -72,6 +74,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             } else {
                 dropIdx = neuralNetworkWidget.getChildren().size();
             }
+            
         }
         if (droppedClass.equals(Connection.class)) {
 
@@ -80,15 +83,14 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             } else if (dropIdx == scene.getNeuralNetwork().getLayersCount()) {
                 JOptionPane.showMessageDialog(null, "Full connectivity cannot be drawn here!");
             } else {
+                
                 Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
                 Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
-                System.out.println(fromLayer);
-                System.out.println(toLayer);
                 ConnectionFactory.fullConnect(fromLayer, toLayer);
                 scene.refresh();
+                }
 
-
-            }
+            
         }
         if (droppedClass.equals(ConnectionFactory.class)) {
             if (dropIdx == 0) {

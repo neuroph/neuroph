@@ -30,6 +30,7 @@ public class AddLayerLabelDialog extends javax.swing.JDialog {
         initComponents();
         this.layer = layer;
         this.scene = scene;     
+        jtxtLabel.setText(layer.getLabel());
     }
     /**
      * This method is called from within the constructor to initialize the form.

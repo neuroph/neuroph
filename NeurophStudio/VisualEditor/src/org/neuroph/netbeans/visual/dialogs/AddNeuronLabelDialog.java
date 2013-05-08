@@ -29,6 +29,7 @@ public class AddNeuronLabelDialog extends javax.swing.JDialog {
         initComponents();
         this.neuron = neuron;
         this.scene = scene;
+        jTxtLabel.setText(neuron.getLabel());
     }
     /**
      * This method is called from within the constructor to initialize the form.
