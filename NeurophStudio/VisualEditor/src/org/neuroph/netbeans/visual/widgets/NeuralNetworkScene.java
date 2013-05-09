@@ -211,11 +211,14 @@ public class NeuralNetworkScene extends ObjectScene {
         connectionLayer.removeChildren();
 
         createNeuralLayers();
+        
         if (showConnections) {
             createConnections();
         }
         this.validate(); // only one call to validate since they ar eusing same scene instance   
         refresh = true;
+
+        createConnectionsBetweenNeuronsInSameLayer();
     }
 
     private void createNeuralLayers() {
@@ -550,5 +553,15 @@ public class NeuralNetworkScene extends ObjectScene {
             count += neuron.getInputConnections().length;
         }
         return count;
+    }
+
+    private void createConnectionsBetweenNeuronsInSameLayer() {
+        for (Neuron neuron : neuronsAndWidgets.keySet()) {
+            for (ConnectionWidget connWidget : neuronsAndWidgets.get(neuron).getConnections()) {
+                Connection connection = ((NeuronConnectionWidget)connWidget).getConnection();
+                if(connection.getFromNeuron().getParentLayer().equals(connection.getToNeuron().getParentLayer()))
+                    connWidget.setRouter(new RouterConnection(connWidget.getFirstControlPoint(),connWidget.getLastControlPoint()));
+            }
+        }
     }
 }
