@@ -42,7 +42,7 @@ public class RouterConnection implements Router {
             return points;
         }
         points.add(first);
-        if (Math.abs(distance) < 20) {
+        if (Math.abs(distance) > 20) {
             if (firstX < lastX) {
                 int height = (int) (distance * (MAX_DISTANCE_UP - MIN_DISTANCE_UP) / 1000);
                 points.add(new Point(firstX + distance / 20, first.y - MIN_DISTANCE_UP - height));
