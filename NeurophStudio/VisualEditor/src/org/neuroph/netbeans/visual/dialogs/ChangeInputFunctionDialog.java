@@ -107,7 +107,7 @@ public class ChangeInputFunctionDialog extends javax.swing.JDialog {
     private void changeInputFunctionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeInputFunctionButtonActionPerformed
         try {
             Class<? extends InputFunction> inputFunctionClass = (Class<? extends InputFunction>) Class.forName("org.neuroph.core.input." + ((String) inputFunctionComboBox.getSelectedItem()).trim());
-            scene.getNetworkEditor().setInputFunction(inputFunctionClass.newInstance(), neuron);
+            scene.getNetworkEditor().setNeuronInputFunction(neuron, inputFunctionClass.newInstance());
         } catch (InstantiationException ex) {
             Exceptions.printStackTrace(ex);
         } catch (IllegalAccessException ex) {

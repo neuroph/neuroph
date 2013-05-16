@@ -128,7 +128,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
         TransferFunction transferFunction = (TransferFunction) droppedClass.newInstance();
         Layer myLayer = layerWidget.getLayer();
         for (Neuron neuron : myLayer.getNeurons()) {
-            ((NeuralNetworkScene) layerWidget.getScene()).getNetworkEditor().setTransferFunction(transferFunction, neuron);
+            ((NeuralNetworkScene) layerWidget.getScene()).getNetworkEditor().setNeuronTransferFunction(neuron, transferFunction);
         }
     }
 
@@ -136,7 +136,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
         InputFunction inputFunction = (InputFunction) droppedClass.newInstance();
         Layer layer = layerWidget.getLayer();
         for (Neuron neuron : layer.getNeurons()) {
-            ((NeuralNetworkScene) layerWidget.getScene()).getNetworkEditor().setInputFunction(inputFunction, neuron);
+            ((NeuralNetworkScene) layerWidget.getScene()).getNetworkEditor().setNeuronInputFunction(neuron, inputFunction);
         }
     }
 }

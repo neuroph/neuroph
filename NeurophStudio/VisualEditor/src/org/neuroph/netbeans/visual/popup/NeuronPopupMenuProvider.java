@@ -76,8 +76,8 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
                 while (--number >= 0) {
                     try {
                         Neuron newNeuron = cloningClient.newInstance();
-                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setTransferFunction(neuron.getTransferFunction(), newNeuron);
-                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setInputFunction(neuron.getInputFunction(), newNeuron);
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setNeuronTransferFunction(newNeuron, neuron.getTransferFunction());
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setNeuronInputFunction(newNeuron, neuron.getInputFunction());
                         ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().addNeuron(layer, newNeuron, layer.getNeuronsCount());
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());

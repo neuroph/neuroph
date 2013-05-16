@@ -72,12 +72,12 @@ public final class GraphViewTopComponent extends TopComponent {
 
         content = new InstanceContent();
         content.add(nnet);
-        //content.add(scene.getSelection());
-//        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
+
         aLookup = new AbstractLookup(content);
         
         palette = PaletteSupport.createPalette();
-        
+
+//        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));        
 //    associateLookup( new ProxyLookup(
 //                new Lookup[]{
 //                    scene.getLookup(),
@@ -93,7 +93,6 @@ public final class GraphViewTopComponent extends TopComponent {
         return  new ProxyLookup(
                       new Lookup[]{
                         scene.getLookup(),
-//                        Lookups.fixed(palette, nnet)
                         Lookups.singleton(palette)
                 });
 

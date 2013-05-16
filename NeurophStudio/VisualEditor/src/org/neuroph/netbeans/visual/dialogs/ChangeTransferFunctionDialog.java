@@ -136,11 +136,11 @@ public class ChangeTransferFunctionDialog extends javax.swing.JDialog {
             Class<? extends TransferFunction> transferFunctionClass = (Class<? extends TransferFunction>) Class.forName("org.neuroph.core.transfer." + ((String) transferFunctionTypeComboBox.getSelectedItem()).trim());
             
             if (neuron != null) {
-                scene.getNetworkEditor().setTransferFunction(transferFunctionClass.newInstance(), neuron);
+                scene.getNetworkEditor().setNeuronTransferFunction(neuron, transferFunctionClass.newInstance());
             } else {
                 for (int i = 0; i < layer.getNeuronsCount(); i++) {
                     
-                    scene.getNetworkEditor().setTransferFunction(transferFunctionClass.newInstance(), layer.getNeuronAt(i));
+                    scene.getNetworkEditor().setNeuronTransferFunction(layer.getNeuronAt(i), transferFunctionClass.newInstance());
                 }
                 
             }

@@ -102,6 +102,12 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                 scene.getNetworkEditor().createDirectConnection(dropIdx);
                 /*Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
                 Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
+                
+                // TODO: use forward connect from ConnectionFactory
+                // move this algorithm to forward/direct Connect
+                // existing direct connect throws exception in case of different neuron number
+                // its missing if check below
+                
                 int number = 0;
                 if (fromLayer.getNeuronsCount() > toLayer.getNeuronsCount()) {
                     number = toLayer.getNeuronsCount();

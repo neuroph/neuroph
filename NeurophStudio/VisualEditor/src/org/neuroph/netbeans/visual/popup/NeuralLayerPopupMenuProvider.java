@@ -100,8 +100,8 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
                     Layer clonningClient = ((NeuralLayerWidget) widget).getLayer();
                     for (Neuron n : clonningClient.getNeurons()) {
                         Neuron newNeuron = new Neuron();
-                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setInputFunction(n.getInputFunction(), newNeuron);
-                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setTransferFunction(n.getTransferFunction(), newNeuron);
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setNeuronInputFunction(newNeuron, n.getInputFunction());
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setNeuronTransferFunction(newNeuron, n.getTransferFunction());
                         //newNeuron.setTransferFunction(n.getTransferFunction());
                         //newNeuron.setInputFunction(newNeuron.getInputFunction());
                         //newLayer.addNeuron(newNeuron);

@@ -27,17 +27,17 @@ import org.neuroph.util.NeuronProperties;
  *
  * @author Ana
  */
-public class NetworkEditor {
+public class NeuralNetworkEditor {
 
-    NeuralNetwork network;
+    NeuralNetwork neuralNet;
 
-    public NetworkEditor(NeuralNetwork network) {
-        this.network = network;
+    public NeuralNetworkEditor(NeuralNetwork neuralNet) {
+        this.neuralNet = neuralNet;
     }
 
     public void addCompetitiveLayer(int numOfNeurons, NeuronProperties neuronProperties, int neuralNetWidgetChildrenSize) {
         CompetitiveLayer newCompetitiveLayer = new CompetitiveLayer(numOfNeurons, neuronProperties);
-        network.addLayer(neuralNetWidgetChildrenSize, newCompetitiveLayer);
+        neuralNet.addLayer(neuralNetWidgetChildrenSize, newCompetitiveLayer);
 
     }
 
@@ -47,17 +47,17 @@ public class NetworkEditor {
             Neuron newNeuron = NeuronFactory.createNeuron(new NeuronProperties(someNeuron, someIF, someTF));
             newLayer.addNeuron(newNeuron);
         }
-        network.addLayer(layerIdx, newLayer);
+        neuralNet.addLayer(layerIdx, newLayer);
     }
 
     public void addInputLayer(int numberOfNeurons) {
         InputLayer layer = new InputLayer(numberOfNeurons);
-        network.addLayer(0, layer);
-        network.setInputNeurons(layer.getNeurons());
+        neuralNet.addLayer(0, layer);
+        neuralNet.setInputNeurons(layer.getNeurons());
     }
 
     public void addEmptyLayer(int index, Layer layer) {
-        network.addLayer(index, layer);
+        neuralNet.addLayer(index, layer);
     }
 
     public void addCompetitiveNeuron(TransferFunction transferFunction, Layer layer) {
@@ -73,11 +73,11 @@ public class NetworkEditor {
         }
     }
 
-    public void setInputFunction(InputFunction inputFunction, Neuron neuron) {
+    public void setNeuronInputFunction(Neuron neuron, InputFunction inputFunction) {
         neuron.setInputFunction(inputFunction);
     }
 
-    public void setTransferFunction(TransferFunction transferFunction, Neuron neuron) {
+    public void setNeuronTransferFunction(Neuron neuron, TransferFunction transferFunction) {
         neuron.setTransferFunction(transferFunction);
     }
 
@@ -91,7 +91,7 @@ public class NetworkEditor {
     }
 
     public void setLearningRule(LearningRule learningRule) {
-        network.setLearningRule(learningRule);
+        neuralNet.setLearningRule(learningRule);
     }
 
 //    public void setShowConnections(NeuralNetworkScene scene) {
@@ -137,14 +137,14 @@ public class NetworkEditor {
     }
 
     public void createFullConnection(int index) {
-        Layer fromLayer = network.getLayerAt(index - 1);
-        Layer toLayer = network.getLayerAt(index);
+        Layer fromLayer = neuralNet.getLayerAt(index - 1);
+        Layer toLayer = neuralNet.getLayerAt(index);
         ConnectionFactory.fullConnect(fromLayer, toLayer);
     }
 
     public void createDirectConnection(int index) {
-        Layer fromLayer = network.getLayerAt(index - 1);
-        Layer toLayer = network.getLayerAt(index);
+        Layer fromLayer = neuralNet.getLayerAt(index - 1);
+        Layer toLayer = neuralNet.getLayerAt(index);
         int number = 0;
         if (fromLayer.getNeuronsCount() > toLayer.getNeuronsCount()) {
             number = toLayer.getNeuronsCount();

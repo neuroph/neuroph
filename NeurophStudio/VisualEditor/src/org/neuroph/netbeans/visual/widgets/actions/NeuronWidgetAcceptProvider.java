@@ -12,8 +12,10 @@ import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuronWidget;
+import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -25,9 +27,11 @@ public class NeuronWidgetAcceptProvider implements AcceptProvider {
     // proba 
     private NeuronWidget neuronWidget;
     Graphics2D graphics;
+    NeuralNetworkEditor editor;
 
     public NeuronWidgetAcceptProvider(NeuronWidget neuronWidget) {
         this.neuronWidget = neuronWidget;
+        this.editor = ((NeuralNetworkScene)neuronWidget.getScene()).getNetworkEditor();
     }
 
     @Override
@@ -79,15 +83,16 @@ public class NeuronWidgetAcceptProvider implements AcceptProvider {
         Class droppedClass = flavor.getRepresentationClass();
         try {
             if (droppedClass.getSuperclass().equals(TransferFunction.class)) {
-
-                TransferFunction tf = (TransferFunction) droppedClass.newInstance();
-                ((NeuralNetworkScene) neuronWidget.getScene()).getNetworkEditor().setTransferFunction(tf, neuronWidget.getNeuron());
+                TransferFunction transferFunction = (TransferFunction) droppedClass.newInstance();
+                editor.setNeuronTransferFunction(neuronWidget.getNeuron(), transferFunction);
             } else if (droppedClass.getSuperclass().equals(InputFunction.class)) {
                 InputFunction inputFunction = (InputFunction) droppedClass.newInstance();
-                ((NeuralNetworkScene) neuronWidget.getScene()).getNetworkEditor().setInputFunction(inputFunction, neuronWidget.getNeuron());
+                editor.setNeuronInputFunction(neuronWidget.getNeuron(), inputFunction);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        } catch (InstantiationException ex) {
+            Exceptions.printStackTrace(ex);
+        } catch (IllegalAccessException ex) {
+            Exceptions.printStackTrace(ex);
+        } 
     }
 }
