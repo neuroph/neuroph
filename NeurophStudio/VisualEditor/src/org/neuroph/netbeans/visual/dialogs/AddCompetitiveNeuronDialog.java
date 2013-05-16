@@ -5,6 +5,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.nnet.comp.neuron.CompetitiveNeuron;
 import org.neuroph.util.Neuroph;
 import org.openide.util.Exceptions;
@@ -19,24 +20,27 @@ public class AddCompetitiveNeuronDialog extends javax.swing.JDialog {
      * Creates new form AddCompetitiveNeuronDialog
      */
     Layer layer;
-    
+    NeuralNetworkScene scene;
+
     public AddCompetitiveNeuronDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         fillCombo();
     }
-    public AddCompetitiveNeuronDialog(java.awt.Frame parent, boolean modal,Layer layer) {
+
+    public AddCompetitiveNeuronDialog(java.awt.Frame parent, boolean modal, Layer layer, NeuralNetworkScene scene) {
         super(parent, modal);
-        this.layer=layer;
+        this.layer = layer;
+        this.scene = scene;
         initComponents();
         fillCombo();
     }
-    
+
     public void fillCombo() {
-    
+
         ArrayList transferFuncs = Neuroph.getInstance().getTransferFunctions();
         javax.swing.DefaultComboBoxModel transferFunctionComboBoxModel = (new javax.swing.DefaultComboBoxModel(transferFuncs.toArray()));
-        transferFunctionTypeComboBox.setModel(transferFunctionComboBoxModel);  
+        transferFunctionTypeComboBox.setModel(transferFunctionComboBoxModel);
     }
 
     /**
@@ -128,14 +132,13 @@ public class AddCompetitiveNeuronDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-         try {
+        try {
             String packageURL = "org.neuroph.core.transfer.";
             packageURL += (String) transferFunctionTypeComboBox.getSelectedItem();
             Class<? extends TransferFunction> tfClass = (Class<? extends TransferFunction>) Class.forName(packageURL);
 
             TransferFunction transferFunction = tfClass.newInstance();
-            CompetitiveNeuron competitiveNeuron= new CompetitiveNeuron (new WeightedSum(),transferFunction);
-            layer.addNeuron(competitiveNeuron);
+            scene.getNetworkEditor().addCompetitiveNeuron(transferFunction, layer);          
             this.dispose();
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);

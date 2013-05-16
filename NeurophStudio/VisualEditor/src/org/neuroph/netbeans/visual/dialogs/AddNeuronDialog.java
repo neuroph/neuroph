@@ -39,14 +39,14 @@ public class AddNeuronDialog extends javax.swing.JDialog {
         ArrayList inputFuncs = Neuroph.getInstance().getInputFunctions();
         javax.swing.DefaultComboBoxModel inputFunctionComboBoxModel = (new javax.swing.DefaultComboBoxModel(inputFuncs.toArray()));
         inputFunctionComboBox.setModel(inputFunctionComboBoxModel);
-        
+
         ArrayList transferFuncs = Neuroph.getInstance().getTransferFunctions();
         javax.swing.DefaultComboBoxModel transferFunctionComboBoxModel = (new javax.swing.DefaultComboBoxModel(transferFuncs.toArray()));
-        transferFunctionComboBox.setModel(transferFunctionComboBoxModel);        
+        transferFunctionComboBox.setModel(transferFunctionComboBoxModel);
 
         ArrayList neuronClasses = Neuroph.getInstance().getNeurons();
         javax.swing.DefaultComboBoxModel neuronsComboBoxModel = (new javax.swing.DefaultComboBoxModel(neuronClasses.toArray()));
-        neuronTypeComboBox.setModel(neuronsComboBoxModel);                   
+        neuronTypeComboBox.setModel(neuronsComboBoxModel);
     }
 
     /**
@@ -106,69 +106,67 @@ public class AddNeuronDialog extends javax.swing.JDialog {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(neuronCountsLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(neuronNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(neuronTypeLabel)
-                                .addGap(45, 45, 45)
-                                .addComponent(neuronTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(createNeuronsButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(inputFunctionLabel)
-                        .addGap(33, 33, 33)
-                        .addComponent(inputFunctionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(transferFunctionLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(transferFunctionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
+                .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                .addComponent(neuronCountsLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(neuronNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(neuronTypeLabel)
+                .addGap(45, 45, 45)
+                .addComponent(neuronTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(createNeuronsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cancelButton)
+                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(inputFunctionLabel)
+                .addGap(33, 33, 33)
+                .addComponent(inputFunctionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(transferFunctionLabel)
+                .addGap(18, 18, 18)
+                .addComponent(transferFunctionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(neuronTypeLabel)
-                    .addComponent(neuronTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(neuronTypeLabel)
+                .addComponent(neuronTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inputFunctionLabel)
-                    .addComponent(inputFunctionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(inputFunctionLabel)
+                .addComponent(inputFunctionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(transferFunctionLabel)
-                    .addComponent(transferFunctionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(transferFunctionLabel)
+                .addComponent(transferFunctionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(neuronNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(neuronCountsLabel))
+                .addComponent(neuronNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(neuronCountsLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(createNeuronsButton)
-                    .addComponent(cancelButton))
-                .addContainerGap())
-        );
+                .addComponent(createNeuronsButton)
+                .addComponent(cancelButton))
+                .addContainerGap()));
 
         pack();
     }// </editor-fold>                        
 
-    private void createNeuronsButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
+    private void createNeuronsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
 
             Class<? extends Neuron> neuronClass = ((String) neuronTypeComboBox.getSelectedItem()).equals("Neuron")
@@ -176,28 +174,27 @@ public class AddNeuronDialog extends javax.swing.JDialog {
                     : (Class<? extends Neuron>) Class.forName("org.neuroph.nnet.comp.neuron." + ((String) neuronTypeComboBox.getSelectedItem()).trim());
             Class<? extends TransferFunction> transferFunctionClass = (Class<? extends TransferFunction>) Class.forName("org.neuroph.core.transfer." + ((String) transferFunctionComboBox.getSelectedItem()).trim());
             Class<? extends InputFunction> inputFunctionClass = (Class<? extends InputFunction>) Class.forName("org.neuroph.core.input." + ((String) inputFunctionComboBox.getSelectedItem()).trim());
-           
+
             NeuronProperties props = new NeuronProperties(neuronClass, inputFunctionClass, transferFunctionClass);
             int numberOfNeurons = Integer.parseInt(neuronNumberTextField.getText().trim());
-
             for (int i = 0; i < numberOfNeurons; i++) {
                 Neuron neuron = NeuronFactory.createNeuron(props);
-                layer.addNeuron(neuron);
+                scene.getNetworkEditor().addNeuron(layer, neuron, layer.getNeuronsCount());
             }
 
             this.dispose();
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
-    }                                                   
+    }
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
-    }                                            
+    }
 
-    private void neuronTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {                                                   
+    private void neuronTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                                  
+    }
 
     /**
      * @param args the command line arguments

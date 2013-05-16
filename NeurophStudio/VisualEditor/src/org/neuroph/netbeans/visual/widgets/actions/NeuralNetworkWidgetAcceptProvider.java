@@ -83,10 +83,10 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             } else if (dropIdx == scene.getNeuralNetwork().getLayersCount()) {
                 JOptionPane.showMessageDialog(null, "Full connectivity cannot be drawn here!");
             } else {
-                
-                Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
+                scene.getNetworkEditor().createFullConnection(dropIdx);
+                /*Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
                 Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
-                ConnectionFactory.fullConnect(fromLayer, toLayer);
+                ConnectionFactory.fullConnect(fromLayer, toLayer);*/
                 scene.refresh();
                 }
 
@@ -98,7 +98,9 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             } else if (dropIdx == scene.getNeuralNetwork().getLayersCount()) {
                 JOptionPane.showMessageDialog(null, "Direct connectivity cannot be drawn here!");
             } else {
-                Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
+                
+                scene.getNetworkEditor().createDirectConnection(dropIdx);
+                /*Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
                 Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
                 int number = 0;
                 if (fromLayer.getNeuronsCount() > toLayer.getNeuronsCount()) {
@@ -106,15 +108,12 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                 } else {
                     number = fromLayer.getNeuronsCount();
                 }
-                System.out.println(number);
-                System.out.println(fromLayer.getNeuronsCount());
-                System.out.println(toLayer.getNeuronsCount());
-                
-                for (int i = 0;i < number - 1; i++) {
+                                
+                for (int i = 0;i < number; i++) {
                     Neuron fromNeuron = fromLayer.getNeurons()[i];
                     Neuron toNeuron = toLayer.getNeurons()[i];
                     ConnectionFactory.createConnection(fromNeuron, toNeuron);
-                }
+                }*/
                 scene.refresh();
             }
         }
@@ -143,9 +142,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                     dialog.setVisible(true);
                     scene.refresh();
                 } else {
-                    Layer newLayer = (Layer) droppedClass.newInstance();
-                    scene.getNeuralNetwork().addLayer(dropIdx, newLayer);
-                    scene.refresh();
+                    scene.getNetworkEditor().addEmptyLayer(dropIdx, (Layer) droppedClass.newInstance());
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -161,7 +158,8 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                 || droppedClass.getSuperclass().equals(LMS.class)) {
             //HopfieldLearning, IterativeLearning, KohonenLearning mogu da se nabace na neuralNetwork                                   
             try {
-                neuralNetworkWidget.getNeuralNetwork().setLearningRule((LearningRule) droppedClass.newInstance());
+                //neuralNetworkWidget.getNeuralNetwork().setLearningRule((LearningRule) droppedClass.newInstance());
+                scene.getNetworkEditor().setLearningRule((LearningRule) droppedClass.newInstance());
             } catch (Exception e) {
                 e.printStackTrace();
             }

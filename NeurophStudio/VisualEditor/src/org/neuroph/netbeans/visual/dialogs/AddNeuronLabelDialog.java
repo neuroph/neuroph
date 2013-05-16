@@ -106,7 +106,7 @@ public class AddNeuronLabelDialog extends javax.swing.JDialog {
         String label = jTxtLabel.getText();
         
         if (!label.isEmpty()){
-            neuron.setLabel(label);
+            scene.getNetworkEditor().setNeuronLabel(neuron, label);
         }
         this.dispose();
     }//GEN-LAST:event_jbtnOkActionPerformed

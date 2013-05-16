@@ -74,7 +74,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
 
                 if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this layer?", "Delete Layer?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     Layer myLayer = ((NeuralLayerWidget) widget).getlookup().lookup(Layer.class);
-                    myLayer.getParentNetwork().removeLayer(myLayer);
+                    ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().removeLayer(myLayer);
                     ((NeuralNetworkScene) widget.getScene()).refresh();
                 }
             }
@@ -100,15 +100,18 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
                     Layer clonningClient = ((NeuralLayerWidget) widget).getLayer();
                     for (Neuron n : clonningClient.getNeurons()) {
                         Neuron newNeuron = new Neuron();
-                        newNeuron.setTransferFunction(n.getTransferFunction());
-                        newNeuron.setInputFunction(newNeuron.getInputFunction());
-                        newLayer.addNeuron(newNeuron);
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setInputFunction(n.getInputFunction(), newNeuron);
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setTransferFunction(n.getTransferFunction(), newNeuron);
+                        //newNeuron.setTransferFunction(n.getTransferFunction());
+                        //newNeuron.setInputFunction(newNeuron.getInputFunction());
+                        //newLayer.addNeuron(newNeuron);
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().addNeuron(newLayer, newNeuron, 0);
                     }
                     NeuralNetworkScene scene = ((NeuralNetworkScene) widget.getScene());
                     int layerIdx = 0;
                     while (number > 0) {
                         layerIdx = scene.getNeuralNetwork().indexOf(clonningClient) + 1;
-                        scene.getNeuralNetwork().addLayer(layerIdx, newLayer);
+                        scene.getNetworkEditor().addEmptyLayer(layerIdx, newLayer);
                         number--;
                     }
                     ((NeuralNetworkScene) widget.getScene()).refresh();
@@ -139,7 +142,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
 
         changeTransferFunction.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ChangeTransferFunctionDialog dialog = new ChangeTransferFunctionDialog(null, true, ((NeuralLayerWidget) widget).getLayer());
+                ChangeTransferFunctionDialog dialog = new ChangeTransferFunctionDialog(null, true, ((NeuralLayerWidget) widget).getLayer(), (NeuralNetworkScene) ((NeuralLayerWidget) widget).getScene());
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
                 dialog.setVisible(true);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
@@ -149,9 +152,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         removeAllInputConnections.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Layer layer = ((NeuralLayerWidget) widget).getLayer();
-                for (Neuron neuron : layer.getNeurons()) {
-                    neuron.removeAllInputConnections();
-                }
+                ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().removeAllInputConnections(layer);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
@@ -159,9 +160,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         removeAllOutputConnections.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Layer layer = ((NeuralLayerWidget) widget).getLayer();
-                for (Neuron neuron : layer.getNeurons()) {
-                    neuron.removeAllOutputConnections();
-                }
+                ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().removeAllOutputConnections(layer);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });

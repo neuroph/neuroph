@@ -171,8 +171,8 @@ public class AddCompetitiveLayerDialog extends javax.swing.JDialog {
              
              int numberOfNeurons = Integer.parseInt(txtFieldNumberOfneurons.getText().trim());
              
-             CompetitiveLayer newCompetitiveLayer = new CompetitiveLayer(numberOfNeurons, neuronProperties);
-             neuralNet.addLayer(neuralNetWidgetChildrenSize, newCompetitiveLayer);
+             scene.getNetworkEditor().addCompetitiveLayer(numberOfNeurons, neuronProperties, neuralNetWidgetChildrenSize);
+             
              
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);

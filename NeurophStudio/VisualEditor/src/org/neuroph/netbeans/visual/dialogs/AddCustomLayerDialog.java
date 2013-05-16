@@ -19,13 +19,14 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
 
     NeuralNetworkScene scene;
     int layerIdx;
+
     /**
      * Creates new form AddCustomLayerDialog
      */
     public AddCustomLayerDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        fillCombos();     
+        fillCombos();
     }
 
     public AddCustomLayerDialog(java.awt.Frame parent, boolean modal, NeuralNetworkScene scene, int layerIdx) {
@@ -40,16 +41,15 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
         ArrayList inputFuncs = Neuroph.getInstance().getInputFunctions();
         javax.swing.DefaultComboBoxModel inputFunctionComboBoxModel = (new javax.swing.DefaultComboBoxModel(inputFuncs.toArray()));
         neuronInputFunctionComboBox.setModel(inputFunctionComboBoxModel);
-        
+
         ArrayList transferFuncs = Neuroph.getInstance().getTransferFunctions();
         javax.swing.DefaultComboBoxModel transferFunctionComboBoxModel = (new javax.swing.DefaultComboBoxModel(transferFuncs.toArray()));
-        neuronTransferFunctionComboBox.setModel(transferFunctionComboBoxModel);        
+        neuronTransferFunctionComboBox.setModel(transferFunctionComboBoxModel);
 
         ArrayList neuronClasses = Neuroph.getInstance().getNeurons();
         javax.swing.DefaultComboBoxModel neuronsComboBoxModel = (new javax.swing.DefaultComboBoxModel(neuronClasses.toArray()));
-        neuronTypeComboBox.setModel(neuronsComboBoxModel);     
-    }        
-    
+        neuronTypeComboBox.setModel(neuronsComboBoxModel);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -203,16 +203,9 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
             Class<? extends InputFunction> someIF = (Class<? extends InputFunction>) Class.forName("org.neuroph.core.input." + ((String) neuronInputFunctionComboBox.getSelectedItem()).trim());
             int numberOfNeurons = Integer.valueOf(numberOfNeuronsTextField.getText());
             int numberOfLayers = Integer.valueOf(numberOfLayersTextField.getText());
-            
-            for (int i = 0; i < numberOfLayers; i++) {
-                Layer newLayer = new Layer();
-                for (int j = 0; j < numberOfNeurons; j++) {
-                    Neuron newNeuron = NeuronFactory.createNeuron(new NeuronProperties(someNeuron, someIF, someTF));
-                    newLayer.addNeuron(newNeuron);
-                }
-               
-                scene.getNeuralNetwork().addLayer(layerIdx, newLayer);
 
+            for (int i = 0; i < numberOfLayers; i++) {
+                scene.getNetworkEditor().addCustomLayer(someNeuron, someTF, someIF, numberOfNeurons, layerIdx);
                 this.dispose();
             }
             scene.refresh();

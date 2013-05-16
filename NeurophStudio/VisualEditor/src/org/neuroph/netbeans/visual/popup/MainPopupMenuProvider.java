@@ -52,7 +52,7 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
 
                 Layer layer = new Layer();
                 NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
-                scene.getNeuralNetwork().addLayer(dropIdx, layer);
+                scene.getNetworkEditor().addEmptyLayer(dropIdx, layer);
                 scene.refresh();
             }
         });
@@ -81,7 +81,7 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
         showConnections.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
-                scene.setShowConnections(!scene.isShowConnections());
+                scene.getNetworkEditor().setShowConnections(scene);
                 scene.refresh();
             }
         });

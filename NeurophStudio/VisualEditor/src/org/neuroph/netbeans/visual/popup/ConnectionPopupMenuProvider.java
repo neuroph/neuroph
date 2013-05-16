@@ -7,6 +7,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
+import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuronConnectionWidget;
 
 /**
@@ -24,8 +25,7 @@ public class ConnectionPopupMenuProvider implements PopupMenuProvider{
         removeItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                ((NeuronConnectionWidget)widget).removeConnection();
-                widget.removeFromParent();
+               ((NeuralNetworkScene)widget.getScene()).getNetworkEditor().removeConnection(widget, null);
             }
         });
         connectionPopupMenu.add(removeItem);

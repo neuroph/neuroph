@@ -30,7 +30,8 @@ public class NeuronConnectionPopupMenuProvider implements PopupMenuProvider {
         JMenuItem removeConnection = new JMenuItem("Remove Connection"); 
         removeConnection.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                trgWidget.getNeuron().removeInputConnectionFrom(srcWidget.getNeuron());         // Removes Connection 
+                ((NeuralNetworkScene) trgWidget.getScene()).getNetworkEditor().removeConnection(srcWidget, trgWidget);
+                       
                 ((NeuralNetworkScene) trgWidget.getScene()).refresh();
             }
         }); 

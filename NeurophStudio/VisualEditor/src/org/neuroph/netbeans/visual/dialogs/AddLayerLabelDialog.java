@@ -103,7 +103,7 @@ public class AddLayerLabelDialog extends javax.swing.JDialog {
     private void jbtnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOkActionPerformed
        String text = jtxtLabel.getText();
        if (!text.isEmpty() && text != null){
-           layer.setLabel(text);
+           scene.getNetworkEditor().setLayerLabel(layer, text);
        }
        this.dispose();
     }//GEN-LAST:event_jbtnOkActionPerformed

@@ -107,9 +107,7 @@ public class AddInputLayerDialog extends javax.swing.JDialog {
     private void createLayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createLayerButtonActionPerformed
         int numberOfNeurons = Integer.parseInt(inputNeuronsField.getText().trim());
         if(numberOfNeurons>0){
-            InputLayer layer = new InputLayer(numberOfNeurons);
-            neuralNet.addLayer(0, layer);
-            neuralNet.setInputNeurons(layer.getNeurons());
+           scene.getNetworkEditor().addInputLayer(numberOfNeurons);
         }
         this.dispose();
     }//GEN-LAST:event_createLayerButtonActionPerformed

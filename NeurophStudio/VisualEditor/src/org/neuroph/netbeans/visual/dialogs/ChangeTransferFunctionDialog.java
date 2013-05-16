@@ -17,7 +17,6 @@ public class ChangeTransferFunctionDialog extends javax.swing.JDialog {
     /**
      * Creates new form ChangeTransferFunctionDialog
      */
-    
     Neuron neuron;
     Layer layer;
     NeuralNetworkScene scene;
@@ -26,29 +25,30 @@ public class ChangeTransferFunctionDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         fillCombo();
- 
+        
     }
     
-     public ChangeTransferFunctionDialog(java.awt.Frame parent, boolean modal, Neuron neuron) {
+    public ChangeTransferFunctionDialog(java.awt.Frame parent, boolean modal, Neuron neuron) {
         super(parent, modal);
         this.neuron = neuron;
         initComponents();
-        fillCombo();   
+        fillCombo();        
     }
-     
-     public ChangeTransferFunctionDialog(java.awt.Frame parent, boolean modal,Layer layer) {
+    
+    public ChangeTransferFunctionDialog(java.awt.Frame parent, boolean modal, Layer layer, NeuralNetworkScene scene) {
         super(parent, modal);
-        this.layer=layer;
+        this.layer = layer;
+        this.scene = scene;
         initComponents();
-        fillCombo();   
+        fillCombo();        
     }
-     
-     public final void fillCombo() {
-       
+    
+    public final void fillCombo() {
+        
         ArrayList transferFuncs = Neuroph.getInstance().getTransferFunctions();
         javax.swing.DefaultComboBoxModel transferFunctionComboBoxModel = (new javax.swing.DefaultComboBoxModel(transferFuncs.toArray()));
-        transferFunctionTypeComboBox.setModel(transferFunctionComboBoxModel);  
-     }   
+        transferFunctionTypeComboBox.setModel(transferFunctionComboBoxModel);        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -132,32 +132,32 @@ public class ChangeTransferFunctionDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void changeTransferFunctionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeTransferFunctionButtonActionPerformed
-        try {          
+        try {            
             Class<? extends TransferFunction> transferFunctionClass = (Class<? extends TransferFunction>) Class.forName("org.neuroph.core.transfer." + ((String) transferFunctionTypeComboBox.getSelectedItem()).trim());
-            TransferFunction transferFunction = transferFunctionClass.newInstance();
-           if(neuron!=null){
-            neuron.setTransferFunction(transferFunction);
-           }
-           else{
-               for (int i = 0; i < layer.getNeuronsCount(); i++) {
-                   layer.getNeurons()[i].setTransferFunction(transferFunction);
-               }
+            
+            if (neuron != null) {
+                scene.getNetworkEditor().setTransferFunction(transferFunctionClass.newInstance(), neuron);
+            } else {
+                for (int i = 0; i < layer.getNeuronsCount(); i++) {
+                    
+                    scene.getNetworkEditor().setTransferFunction(transferFunctionClass.newInstance(), layer.getNeuronAt(i));
+                }
                 
-           }
-
+            }
+            
             this.dispose();
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
     }//GEN-LAST:event_changeTransferFunctionButtonActionPerformed
-
+    
     private void transferFunctionTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferFunctionTypeComboBoxActionPerformed
         
-            
+        
     }//GEN-LAST:event_transferFunctionTypeComboBoxActionPerformed
-
+    
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**

@@ -12,6 +12,7 @@ import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuronWidget;
 import org.openide.util.ImageUtilities;
 
@@ -19,11 +20,9 @@ import org.openide.util.ImageUtilities;
  *
  * @author zoran
  */
-
 public class NeuronWidgetAcceptProvider implements AcceptProvider {
 
     // proba 
-    
     private NeuronWidget neuronWidget;
     Graphics2D graphics;
 
@@ -33,9 +32,9 @@ public class NeuronWidgetAcceptProvider implements AcceptProvider {
 
     @Override
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
-        
+
 //        JOptionPane.showMessageDialog(null, "hello");
-        
+
         DataFlavor flavor = t.getTransferDataFlavors()[3];
         Class droppedClass = flavor.getRepresentationClass();
         JComponent view = widget.getScene().getView();
@@ -80,11 +79,12 @@ public class NeuronWidgetAcceptProvider implements AcceptProvider {
         Class droppedClass = flavor.getRepresentationClass();
         try {
             if (droppedClass.getSuperclass().equals(TransferFunction.class)) {
+
                 TransferFunction tf = (TransferFunction) droppedClass.newInstance();
-                neuronWidget.getNeuron().setTransferFunction(tf);
+                ((NeuralNetworkScene) neuronWidget.getScene()).getNetworkEditor().setTransferFunction(tf, neuronWidget.getNeuron());
             } else if (droppedClass.getSuperclass().equals(InputFunction.class)) {
                 InputFunction inputFunction = (InputFunction) droppedClass.newInstance();
-                neuronWidget.getNeuron().setInputFunction(inputFunction);
+                ((NeuralNetworkScene) neuronWidget.getScene()).getNetworkEditor().setInputFunction(inputFunction, neuronWidget.getNeuron());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

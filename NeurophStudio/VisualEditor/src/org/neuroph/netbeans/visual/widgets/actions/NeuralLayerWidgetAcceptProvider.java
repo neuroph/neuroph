@@ -99,7 +99,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
         } else if (neuron instanceof CompetitiveNeuron && !(layerWidget.getLayer() instanceof CompetitiveLayer)) {
             JOptionPane.showMessageDialog(null, "Competitive Neurons can only be placed in competitive layer!");
         } else if (neuron instanceof CompetitiveNeuron && (layerWidget.getLayer() instanceof CompetitiveLayer)) {
-            AddCompetitiveNeuronDialog dialog = new AddCompetitiveNeuronDialog(null, true, layer);
+            AddCompetitiveNeuronDialog dialog = new AddCompetitiveNeuronDialog(null, true, layer, (NeuralNetworkScene) layerWidget.getScene());
             dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
             dialog.setVisible(true);
             ((NeuralNetworkScene) this.layerWidget.getScene()).refresh();
@@ -119,11 +119,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
                 }
             }
 
-            if (dropIdx == layer.getNeuronsCount()) {
-                layer.addNeuron(neuron);
-            } else {
-                layer.addNeuron(dropIdx, neuron);
-            }
+            ((NeuralNetworkScene) this.layerWidget.getScene()).getNetworkEditor().addNeuron(layer, neuron, dropIdx);
         }
         ((NeuralNetworkScene) this.layerWidget.getScene()).refresh();
     }
@@ -132,7 +128,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
         TransferFunction transferFunction = (TransferFunction) droppedClass.newInstance();
         Layer myLayer = layerWidget.getLayer();
         for (Neuron neuron : myLayer.getNeurons()) {
-            neuron.setTransferFunction(transferFunction);
+            ((NeuralNetworkScene) layerWidget.getScene()).getNetworkEditor().setTransferFunction(transferFunction, neuron);
         }
     }
 
@@ -140,7 +136,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
         InputFunction inputFunction = (InputFunction) droppedClass.newInstance();
         Layer layer = layerWidget.getLayer();
         for (Neuron neuron : layer.getNeurons()) {
-            neuron.setInputFunction(inputFunction);
+            ((NeuralNetworkScene) layerWidget.getScene()).getNetworkEditor().setInputFunction(inputFunction, neuron);
         }
     }
 }

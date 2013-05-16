@@ -55,8 +55,7 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
 
                 if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this neuron?", "Delete Neuron?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     Neuron neuron = ((NeuronWidget) widget).getNeuron();
-                    Layer layer = neuron.getParentLayer();
-                    layer.removeNeuron(neuron);
+                    ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().removeNeuron(neuron);
                     ((NeuralNetworkScene) widget.getScene()).refresh();
                 }
 
@@ -77,9 +76,9 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
                 while (--number >= 0) {
                     try {
                         Neuron newNeuron = cloningClient.newInstance();
-                        newNeuron.setTransferFunction(neuron.getTransferFunction()); // also clone tf since now its shared
-                        newNeuron.setInputFunction(neuron.getInputFunction());
-                        layer.addNeuron(newNeuron);
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setTransferFunction(neuron.getTransferFunction(), newNeuron);
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setInputFunction(neuron.getInputFunction(), newNeuron);
+                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().addNeuron(layer, newNeuron, layer.getNeuronsCount());
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
@@ -102,7 +101,7 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         removeAllInputConnections.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Neuron neuron = ((NeuronWidget) widget).getNeuron();
-                neuron.removeAllInputConnections();
+                ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().removeAllInputConnections(neuron);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
@@ -110,7 +109,7 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         removeAllOutConnections.addActionListener(new ActionListener() {    // ?Proveriti da li je output widget, mora drugacije
             public void actionPerformed(ActionEvent e) {
                 Neuron neuron = ((NeuronWidget) widget).getNeuron();
-                neuron.removeAllOutputConnections();
+                ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().removeAllOutputConnections(neuron);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
