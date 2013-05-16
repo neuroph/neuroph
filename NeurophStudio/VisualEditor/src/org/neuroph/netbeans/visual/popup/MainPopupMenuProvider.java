@@ -81,7 +81,7 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
         showConnections.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
-                scene.getNetworkEditor().setShowConnections(scene);
+                scene.setShowConnections(!scene.isShowConnections());
                 scene.refresh();
             }
         });

@@ -33,7 +33,7 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.netbeans.visual.NetworkEditor2;
+import org.neuroph.netbeans.visual.NetworkEditor;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.neuroph.netbeans.visual.widgets.actions.KeyboardDeleteAction;
 import org.openide.util.ImageUtilities;
@@ -69,7 +69,7 @@ public class NeuralNetworkScene extends ObjectScene {
     boolean isFirstSelection = true;
     private static final int TOO_MANY_NEURONS = 100;
     private static final int TOO_MANY_CONNECTIONS = 250;
-    private NetworkEditor2 networkEditor;
+    private NetworkEditor networkEditor;
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
 
         this.neuralNetwork = neuralNet;
@@ -79,7 +79,7 @@ public class NeuralNetworkScene extends ObjectScene {
         connectionLayer = new LayerWidget(this);    // draw connections
         interractionLayer = new LayerWidget(this); // draw connections while creating them
         mainLayer = new LayerWidget(this);
-        networkEditor = new NetworkEditor2(neuralNet);
+        networkEditor = new NetworkEditor(neuralNet);
         mainLayer.addChild(neuralNetworkWidget);
 
         addChild(mainLayer);
@@ -577,7 +577,7 @@ public class NeuralNetworkScene extends ObjectScene {
         }
     }
 
-    public NetworkEditor2 getNetworkEditor() {
+    public NetworkEditor getNetworkEditor() {
         return networkEditor;
     }
     
