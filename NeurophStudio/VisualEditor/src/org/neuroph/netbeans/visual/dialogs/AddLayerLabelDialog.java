@@ -6,6 +6,7 @@ package org.neuroph.netbeans.visual.dialogs;
 
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 
 /**
@@ -19,6 +20,7 @@ public class AddLayerLabelDialog extends javax.swing.JDialog {
      */
     Layer layer;
     NeuralNetworkScene scene;
+    NeuralNetworkEditor editor;
     
     public AddLayerLabelDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -30,6 +32,7 @@ public class AddLayerLabelDialog extends javax.swing.JDialog {
         initComponents();
         this.layer = layer;
         this.scene = scene;     
+        editor = scene.getNeuralNetworkEditor();
         jtxtLabel.setText(layer.getLabel());
     }
     /**
@@ -103,7 +106,7 @@ public class AddLayerLabelDialog extends javax.swing.JDialog {
     private void jbtnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOkActionPerformed
        String text = jtxtLabel.getText();
        if (!text.isEmpty() && text != null){
-           scene.getNetworkEditor().setLayerLabel(layer, text);
+           editor.setLayerLabel(layer, text);
        }
        this.dispose();
     }//GEN-LAST:event_jbtnOkActionPerformed

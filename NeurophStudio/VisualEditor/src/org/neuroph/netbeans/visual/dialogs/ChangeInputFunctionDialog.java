@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.util.Neuroph;
 import org.openide.util.Exceptions;
@@ -19,6 +20,8 @@ public class ChangeInputFunctionDialog extends javax.swing.JDialog {
      */
     Neuron neuron;
     NeuralNetworkScene scene;
+    NeuralNetworkEditor editor;
+    
     public ChangeInputFunctionDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -28,6 +31,7 @@ public class ChangeInputFunctionDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.neuron = neuron;
         this.scene = scene;
+        editor = scene.getNeuralNetworkEditor();
         initComponents();
         fillCombo();
     }
@@ -107,7 +111,7 @@ public class ChangeInputFunctionDialog extends javax.swing.JDialog {
     private void changeInputFunctionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeInputFunctionButtonActionPerformed
         try {
             Class<? extends InputFunction> inputFunctionClass = (Class<? extends InputFunction>) Class.forName("org.neuroph.core.input." + ((String) inputFunctionComboBox.getSelectedItem()).trim());
-            scene.getNetworkEditor().setNeuronInputFunction(neuron, inputFunctionClass.newInstance());
+            editor.setNeuronInputFunction(neuron, inputFunctionClass.newInstance());
         } catch (InstantiationException ex) {
             Exceptions.printStackTrace(ex);
         } catch (IllegalAccessException ex) {

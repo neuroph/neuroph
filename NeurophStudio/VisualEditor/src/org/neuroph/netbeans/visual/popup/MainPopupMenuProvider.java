@@ -9,6 +9,7 @@ import javax.swing.JPopupMenu;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Layer;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddCustomLayerDialog;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.openide.windows.WindowManager;
@@ -20,10 +21,11 @@ import org.openide.windows.WindowManager;
 public class MainPopupMenuProvider implements PopupMenuProvider {
 
     JPopupMenu mainPopupMenu;
+    NeuralNetworkEditor editor;
 
     @Override
     public JPopupMenu getPopupMenu(final Widget widget, final Point point) {
-
+        editor = ((NeuralNetworkScene) widget.getScene()).getNeuralNetworkEditor();
         mainPopupMenu = new JPopupMenu();
         JMenuItem refreshItem = new JMenuItem("Refresh");
         JMenu addLayer = new JMenu("Add Layer");
@@ -38,6 +40,7 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
 
         addEmptyLayerItem.addActionListener(new ActionListener() {
             int dropIdx = 0;
+
             public void actionPerformed(ActionEvent e) {
                 Widget neuralNetworkWidget = widget.getChildren().get(0).getChildren().get(0);
                 for (int i = 0; i < (neuralNetworkWidget.getChildren().size()); i++) {
@@ -52,19 +55,20 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
 
                 Layer layer = new Layer();
                 NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
-                scene.getNetworkEditor().addEmptyLayer(dropIdx, layer);
+                editor.addEmptyLayer(dropIdx, layer);
                 scene.refresh();
             }
         });
 
         addCustomLayerItem.addActionListener(new ActionListener() {
             int dropIdx = 0;
+
             public void actionPerformed(ActionEvent e) {
                 Widget neuralNetworkWidget = widget.getChildren().get(0).getChildren().get(0);
                 for (int i = 0; i < (neuralNetworkWidget.getChildren().size()); i++) {
                     double layerWidgetPosition = neuralNetworkWidget.getChildren().get(i).getLocation().getY();
                     if (point.getY() < layerWidgetPosition) {
-                        dropIdx = i - 1; 
+                        dropIdx = i - 1;
                         break;
                     } else {
                         dropIdx = neuralNetworkWidget.getChildren().size();

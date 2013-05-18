@@ -577,7 +577,7 @@ public class NeuralNetworkScene extends ObjectScene {
         }
     }
 
-    public NeuralNetworkEditor getNetworkEditor() {
+    public NeuralNetworkEditor getNeuralNetworkEditor() {
         return networkEditor;
     }
     

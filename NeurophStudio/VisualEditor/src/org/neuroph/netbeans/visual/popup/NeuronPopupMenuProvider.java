@@ -11,6 +11,7 @@ import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddNeuronLabelDialog;
 import org.neuroph.netbeans.visual.dialogs.ChangeTransferFunctionDialog;
 import org.neuroph.netbeans.visual.palette.NeuronWidgetStack;
@@ -25,10 +26,11 @@ import org.openide.windows.WindowManager;
 public class NeuronPopupMenuProvider implements PopupMenuProvider {
 
     JPopupMenu neuronPopupMenu;
+    NeuralNetworkEditor editor;
 
     @Override
     public JPopupMenu getPopupMenu(final Widget widget, Point point) {
-
+        editor = ((NeuralNetworkScene) widget.getScene()).getNeuralNetworkEditor();
         neuronPopupMenu = new JPopupMenu();
         JMenuItem removeItem = new JMenuItem("Remove Neuron ");
         JMenuItem cloneItem = new JMenuItem("Clone Neuron ");
@@ -55,7 +57,7 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
 
                 if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this neuron?", "Delete Neuron?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     Neuron neuron = ((NeuronWidget) widget).getNeuron();
-                    ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().removeNeuron(neuron);
+                    editor.removeNeuron(neuron);
                     ((NeuralNetworkScene) widget.getScene()).refresh();
                 }
 
@@ -76,9 +78,9 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
                 while (--number >= 0) {
                     try {
                         Neuron newNeuron = cloningClient.newInstance();
-                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setNeuronTransferFunction(newNeuron, neuron.getTransferFunction());
-                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().setNeuronInputFunction(newNeuron, neuron.getInputFunction());
-                        ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().addNeuron(layer, newNeuron, layer.getNeuronsCount());
+                        editor.setNeuronTransferFunction(newNeuron, neuron.getTransferFunction());
+                        editor.setNeuronInputFunction(newNeuron, neuron.getInputFunction());
+                        editor.addNeuron(layer, newNeuron);
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
@@ -101,7 +103,7 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         removeAllInputConnections.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Neuron neuron = ((NeuronWidget) widget).getNeuron();
-                ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().removeAllInputConnections(neuron);
+                editor.removeAllInputConnections(neuron);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
@@ -109,7 +111,7 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         removeAllOutConnections.addActionListener(new ActionListener() {    // ?Proveriti da li je output widget, mora drugacije
             public void actionPerformed(ActionEvent e) {
                 Neuron neuron = ((NeuronWidget) widget).getNeuron();
-                ((NeuralNetworkScene) widget.getScene()).getNetworkEditor().removeAllOutputConnections(neuron);
+                editor.removeAllOutputConnections(neuron);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
@@ -128,7 +130,7 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
                 NeuronWidget parent = (NeuronWidget) widget;
                 Neuron neuron = parent.getNeuron();
 
-                ChangeTransferFunctionDialog dialog = new ChangeTransferFunctionDialog(null, true, neuron);
+                ChangeTransferFunctionDialog dialog = new ChangeTransferFunctionDialog(null, true, neuron, (NeuralNetworkScene)widget.getScene());
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
                 dialog.setVisible(true);
                 ((NeuralNetworkScene) widget.getScene()).refresh();

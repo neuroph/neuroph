@@ -65,20 +65,32 @@ public class NeuralNetworkEditor {
         layer.addNeuron(competitiveNeuron);
     }
 
-    public void addNeuron(Layer layer, Neuron neuron, int index) {
-        if (index == layer.getNeuronsCount()) {
-            layer.addNeuron(neuron);
-        } else {
-            layer.addNeuron(index, neuron);
-        }
+    public void addNeuronAt(Layer layer, Neuron neuron, int index) {
+        layer.addNeuron(index, neuron);
+    }
+    
+    public void addNeuron(Layer layer, Neuron neuron){
+        layer.addNeuron(neuron);
     }
 
-    public void setNeuronInputFunction(Neuron neuron, InputFunction inputFunction) {
+    public void setNeuronInputFunction(Neuron neuron, InputFunction inputFunction){
         neuron.setInputFunction(inputFunction);
     }
 
-    public void setNeuronTransferFunction(Neuron neuron, TransferFunction transferFunction) {
+    public void setLayerInputFunction(Layer layer, Class <? extends InputFunction> inputFunction) throws Exception{
+        for (int i = 0; i < layer.getNeuronsCount(); i++) {
+            layer.getNeuronAt(i).setInputFunction(inputFunction.newInstance());
+        }
+    }
+
+    public void setNeuronTransferFunction(Neuron neuron, TransferFunction transferFunction){
         neuron.setTransferFunction(transferFunction);
+    }
+
+    public void setLayerTransferFunction(Layer layer, Class<? extends TransferFunction> transferFunction) throws Exception{
+        for (int i = 0; i < layer.getNeuronsCount(); i++) {
+            layer.getNeuronAt(i).setTransferFunction(transferFunction.newInstance());
+        }
     }
 
     public void setLayerLabel(Layer layer, String label) {
@@ -97,7 +109,6 @@ public class NeuralNetworkEditor {
 //    public void setShowConnections(NeuralNetworkScene scene) {
 //        scene.setShowConnections(!scene.isShowConnections());
 //    }
-
     public void removeNeuron(Neuron neuron) {
         Layer layer = neuron.getParentLayer();
         layer.removeNeuron(neuron);
@@ -155,7 +166,7 @@ public class NeuralNetworkEditor {
         for (int i = 0; i < number; i++) {
             Neuron fromNeuron = fromLayer.getNeurons()[i];
             Neuron toNeuron = toLayer.getNeurons()[i];
-            ConnectionFactory.createConnection(fromNeuron, toNeuron);      
+            ConnectionFactory.createConnection(fromNeuron, toNeuron);
         }
     }
 }

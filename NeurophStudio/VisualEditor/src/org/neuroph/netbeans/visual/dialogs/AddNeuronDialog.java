@@ -6,6 +6,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
@@ -20,6 +21,7 @@ public class AddNeuronDialog extends javax.swing.JDialog {
 
     Layer layer;
     NeuralNetworkScene scene;
+    NeuralNetworkEditor editor;
 
     public AddNeuronDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -32,6 +34,7 @@ public class AddNeuronDialog extends javax.swing.JDialog {
         initComponents();
         this.layer = layer;
         this.scene = scene;
+        editor = scene.getNeuralNetworkEditor();
         fillCombos();
     }
 
@@ -179,7 +182,7 @@ public class AddNeuronDialog extends javax.swing.JDialog {
             int numberOfNeurons = Integer.parseInt(neuronNumberTextField.getText().trim());
             for (int i = 0; i < numberOfNeurons; i++) {
                 Neuron neuron = NeuronFactory.createNeuron(props);
-                scene.getNetworkEditor().addNeuron(layer, neuron, layer.getNeuronsCount());
+                editor.addNeuron(layer, neuron);
             }
 
             this.dispose();

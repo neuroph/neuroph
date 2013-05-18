@@ -16,6 +16,7 @@ import org.neuroph.core.input.WeightedSum;
 import org.neuroph.core.transfer.Step;
 import org.neuroph.core.transfer.Tanh;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddCompetitiveNeuronDialog;
 import org.neuroph.netbeans.visual.widgets.NeuralLayerWidget;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
@@ -33,9 +34,11 @@ import org.openide.windows.WindowManager;
 public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
 
     private NeuralLayerWidget layerWidget;
+    private NeuralNetworkEditor editor;
 
     public NeuralLayerWidgetAcceptProvider(NeuralLayerWidget layerWidget) {
         this.layerWidget = layerWidget;
+        editor = ((NeuralNetworkScene) layerWidget.getScene()).getNeuralNetworkEditor();
     }
 
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
@@ -119,24 +122,20 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
                 }
             }
 
-            ((NeuralNetworkScene) this.layerWidget.getScene()).getNetworkEditor().addNeuron(layer, neuron, dropIdx);
+            editor.addNeuronAt(layer, neuron, dropIdx);
         }
         ((NeuralNetworkScene) this.layerWidget.getScene()).refresh();
     }
 
-    public void setTransferFunction(Class droppedClass) throws InstantiationException, IllegalAccessException {
-        TransferFunction transferFunction = (TransferFunction) droppedClass.newInstance();
+    public void setTransferFunction(Class droppedClass) throws InstantiationException, IllegalAccessException, Exception {
+        Class <? extends TransferFunction> transferFunction = droppedClass;
         Layer myLayer = layerWidget.getLayer();
-        for (Neuron neuron : myLayer.getNeurons()) {
-            ((NeuralNetworkScene) layerWidget.getScene()).getNetworkEditor().setNeuronTransferFunction(neuron, transferFunction);
-        }
+        editor.setLayerTransferFunction(myLayer, transferFunction);
     }
 
-    public void setInputFunction(Class droppedClass) throws InstantiationException, IllegalAccessException {
-        InputFunction inputFunction = (InputFunction) droppedClass.newInstance();
+    public void setInputFunction(Class droppedClass) throws InstantiationException, IllegalAccessException, Exception {
+        Class <? extends InputFunction> inputFunction = droppedClass;
         Layer layer = layerWidget.getLayer();
-        for (Neuron neuron : layer.getNeurons()) {
-            ((NeuralNetworkScene) layerWidget.getScene()).getNetworkEditor().setNeuronInputFunction(neuron, inputFunction);
-        }
+        editor.setLayerInputFunction(layer, inputFunction);
     }
 }

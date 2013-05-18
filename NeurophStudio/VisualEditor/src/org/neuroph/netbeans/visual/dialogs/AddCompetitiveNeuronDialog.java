@@ -5,6 +5,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.nnet.comp.neuron.CompetitiveNeuron;
 import org.neuroph.util.Neuroph;
@@ -21,7 +22,8 @@ public class AddCompetitiveNeuronDialog extends javax.swing.JDialog {
      */
     Layer layer;
     NeuralNetworkScene scene;
-
+    NeuralNetworkEditor editor;
+    
     public AddCompetitiveNeuronDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -32,6 +34,7 @@ public class AddCompetitiveNeuronDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.layer = layer;
         this.scene = scene;
+        editor = scene.getNeuralNetworkEditor();
         initComponents();
         fillCombo();
     }
@@ -138,7 +141,7 @@ public class AddCompetitiveNeuronDialog extends javax.swing.JDialog {
             Class<? extends TransferFunction> tfClass = (Class<? extends TransferFunction>) Class.forName(packageURL);
 
             TransferFunction transferFunction = tfClass.newInstance();
-            scene.getNetworkEditor().addCompetitiveNeuron(transferFunction, layer);          
+            editor.addCompetitiveNeuron(transferFunction, layer);          
             this.dispose();
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);

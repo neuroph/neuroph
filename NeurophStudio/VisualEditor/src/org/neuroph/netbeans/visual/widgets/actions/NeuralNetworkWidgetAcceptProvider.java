@@ -16,6 +16,7 @@ import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.core.learning.SupervisedLearning;
 import org.neuroph.core.learning.UnsupervisedLearning;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddCompetitiveLayerDialog;
 import org.neuroph.netbeans.visual.dialogs.AddCustomLayerDialog;
 import org.neuroph.netbeans.visual.dialogs.AddInputLayerDialog;
@@ -46,10 +47,12 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
     private NeuralNetworkWidget neuralNetworkWidget;
     private NeuralNetworkScene scene;
     private Graphics2D graphics;
-
+    private NeuralNetworkEditor editor;
+    
     public NeuralNetworkWidgetAcceptProvider(NeuralNetworkWidget neuralNetworkWidget) {
         this.neuralNetworkWidget = neuralNetworkWidget;
         this.scene = ((NeuralNetworkScene) neuralNetworkWidget.getScene());
+        editor = ((NeuralNetworkScene) neuralNetworkWidget.getScene()).getNeuralNetworkEditor();
     }
 
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
@@ -83,7 +86,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             } else if (dropIdx == scene.getNeuralNetwork().getLayersCount()) {
                 JOptionPane.showMessageDialog(null, "Full connectivity cannot be drawn here!");
             } else {
-                scene.getNetworkEditor().createFullConnection(dropIdx);
+                editor.createFullConnection(dropIdx);
                 /*Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
                 Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
                 ConnectionFactory.fullConnect(fromLayer, toLayer);*/
@@ -99,7 +102,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                 JOptionPane.showMessageDialog(null, "Direct connectivity cannot be drawn here!");
             } else {
                 
-                scene.getNetworkEditor().createDirectConnection(dropIdx);
+                editor.createDirectConnection(dropIdx);
                 /*Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
                 Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
                 
@@ -148,7 +151,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                     dialog.setVisible(true);
                     scene.refresh();
                 } else {
-                    scene.getNetworkEditor().addEmptyLayer(dropIdx, (Layer) droppedClass.newInstance());
+                    editor.addEmptyLayer(dropIdx, (Layer) droppedClass.newInstance());
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -165,7 +168,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             //HopfieldLearning, IterativeLearning, KohonenLearning mogu da se nabace na neuralNetwork                                   
             try {
                 //neuralNetworkWidget.getNeuralNetwork().setLearningRule((LearningRule) droppedClass.newInstance());
-                scene.getNetworkEditor().setLearningRule((LearningRule) droppedClass.newInstance());
+                scene.getNeuralNetworkEditor().setLearningRule((LearningRule) droppedClass.newInstance());
             } catch (Exception e) {
                 e.printStackTrace();
             }

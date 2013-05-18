@@ -5,6 +5,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
@@ -18,6 +19,7 @@ import org.openide.util.Exceptions;
 public class AddCustomLayerDialog extends javax.swing.JDialog {
 
     NeuralNetworkScene scene;
+    NeuralNetworkEditor editor;
     int layerIdx;
 
     /**
@@ -33,6 +35,7 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.scene = scene;
+        editor = scene.getNeuralNetworkEditor();
         fillCombos();
         this.layerIdx = layerIdx;
     }
@@ -205,7 +208,7 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
             int numberOfLayers = Integer.valueOf(numberOfLayersTextField.getText());
 
             for (int i = 0; i < numberOfLayers; i++) {
-                scene.getNetworkEditor().addCustomLayer(someNeuron, someTF, someIF, numberOfNeurons, layerIdx);
+                editor.addCustomLayer(someNeuron, someTF, someIF, numberOfNeurons, layerIdx);
                 this.dispose();
             }
             scene.refresh();

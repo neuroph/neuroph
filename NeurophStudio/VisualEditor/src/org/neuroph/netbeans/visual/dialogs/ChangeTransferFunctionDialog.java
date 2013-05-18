@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.util.Neuroph;
 import org.openide.util.Exceptions;
@@ -20,6 +21,7 @@ public class ChangeTransferFunctionDialog extends javax.swing.JDialog {
     Neuron neuron;
     Layer layer;
     NeuralNetworkScene scene;
+    NeuralNetworkEditor editor;
     
     public ChangeTransferFunctionDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -28,9 +30,11 @@ public class ChangeTransferFunctionDialog extends javax.swing.JDialog {
         
     }
     
-    public ChangeTransferFunctionDialog(java.awt.Frame parent, boolean modal, Neuron neuron) {
+    public ChangeTransferFunctionDialog(java.awt.Frame parent, boolean modal, Neuron neuron, NeuralNetworkScene scene) {
         super(parent, modal);
         this.neuron = neuron;
+        this.scene = scene;
+        editor = scene.getNeuralNetworkEditor();
         initComponents();
         fillCombo();        
     }
@@ -39,6 +43,7 @@ public class ChangeTransferFunctionDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.layer = layer;
         this.scene = scene;
+        editor = scene.getNeuralNetworkEditor();
         initComponents();
         fillCombo();        
     }
@@ -136,12 +141,9 @@ public class ChangeTransferFunctionDialog extends javax.swing.JDialog {
             Class<? extends TransferFunction> transferFunctionClass = (Class<? extends TransferFunction>) Class.forName("org.neuroph.core.transfer." + ((String) transferFunctionTypeComboBox.getSelectedItem()).trim());
             
             if (neuron != null) {
-                scene.getNetworkEditor().setNeuronTransferFunction(neuron, transferFunctionClass.newInstance());
+                editor.setNeuronTransferFunction(neuron, transferFunctionClass.newInstance());
             } else {
-                for (int i = 0; i < layer.getNeuronsCount(); i++) {
-                    
-                    scene.getNetworkEditor().setNeuronTransferFunction(layer.getNeuronAt(i), transferFunctionClass.newInstance());
-                }
+                editor.setLayerTransferFunction(layer, transferFunctionClass);
                 
             }
             

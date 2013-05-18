@@ -5,6 +5,7 @@
 package org.neuroph.netbeans.visual.dialogs;
 
 import org.neuroph.core.Neuron;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 
 /**
@@ -16,6 +17,7 @@ public class AddNeuronLabelDialog extends javax.swing.JDialog {
     
     Neuron neuron;
     NeuralNetworkScene scene;
+    NeuralNetworkEditor editor;
     /**
      * Creates new form AddNeuronLabelDialog
      */
@@ -29,6 +31,7 @@ public class AddNeuronLabelDialog extends javax.swing.JDialog {
         initComponents();
         this.neuron = neuron;
         this.scene = scene;
+        editor = scene.getNeuralNetworkEditor();
         jTxtLabel.setText(neuron.getLabel());
     }
     /**
@@ -106,7 +109,7 @@ public class AddNeuronLabelDialog extends javax.swing.JDialog {
         String label = jTxtLabel.getText();
         
         if (!label.isEmpty()){
-            scene.getNetworkEditor().setNeuronLabel(neuron, label);
+            editor.setNeuronLabel(neuron, label);
         }
         this.dispose();
     }//GEN-LAST:event_jbtnOkActionPerformed

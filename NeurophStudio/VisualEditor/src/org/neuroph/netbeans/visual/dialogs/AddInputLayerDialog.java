@@ -1,6 +1,7 @@
 package org.neuroph.netbeans.visual.dialogs;
 
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.nnet.comp.layer.InputLayer;
 
@@ -12,6 +13,7 @@ public class AddInputLayerDialog extends javax.swing.JDialog {
 
     NeuralNetwork neuralNet;
     NeuralNetworkScene scene;
+    NeuralNetworkEditor editor;
     int neuralNetWidgetChildrenSize;
     /**
      * Creates new form AddLayerDialog
@@ -27,6 +29,7 @@ public class AddInputLayerDialog extends javax.swing.JDialog {
         this.neuralNet = neuralNet;
         this.scene = scene;
         this.neuralNetWidgetChildrenSize = size;
+        editor = scene.getNeuralNetworkEditor();
     }
 
     
@@ -107,7 +110,7 @@ public class AddInputLayerDialog extends javax.swing.JDialog {
     private void createLayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createLayerButtonActionPerformed
         int numberOfNeurons = Integer.parseInt(inputNeuronsField.getText().trim());
         if(numberOfNeurons>0){
-           scene.getNetworkEditor().addInputLayer(numberOfNeurons);
+           editor.addInputLayer(numberOfNeurons);
         }
         this.dispose();
     }//GEN-LAST:event_createLayerButtonActionPerformed

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.input.*;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.nnet.comp.layer.CompetitiveLayer;
 import org.neuroph.nnet.comp.neuron.CompetitiveNeuron;
@@ -19,6 +20,7 @@ public class AddCompetitiveLayerDialog extends javax.swing.JDialog {
 
     NeuralNetwork neuralNet;
     NeuralNetworkScene scene;
+    NeuralNetworkEditor editor;
     int neuralNetWidgetChildrenSize;
     /**
      * Creates new form AddCompetitiveLayerDialog
@@ -35,6 +37,7 @@ public class AddCompetitiveLayerDialog extends javax.swing.JDialog {
         this.neuralNet = neuralNet;
         this.scene = scene;
         this.neuralNetWidgetChildrenSize = size;
+        editor = scene.getNeuralNetworkEditor();
         initComponents();
         fillCombos();
     }
@@ -171,7 +174,7 @@ public class AddCompetitiveLayerDialog extends javax.swing.JDialog {
              
              int numberOfNeurons = Integer.parseInt(txtFieldNumberOfneurons.getText().trim());
              
-             scene.getNetworkEditor().addCompetitiveLayer(numberOfNeurons, neuronProperties, neuralNetWidgetChildrenSize);
+             editor.addCompetitiveLayer(numberOfNeurons, neuronProperties, neuralNetWidgetChildrenSize);
              
              
         } catch (Exception ex) {

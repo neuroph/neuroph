@@ -31,7 +31,7 @@ public class NeuronWidgetAcceptProvider implements AcceptProvider {
 
     public NeuronWidgetAcceptProvider(NeuronWidget neuronWidget) {
         this.neuronWidget = neuronWidget;
-        this.editor = ((NeuralNetworkScene)neuronWidget.getScene()).getNetworkEditor();
+        this.editor = ((NeuralNetworkScene)neuronWidget.getScene()).getNeuralNetworkEditor();
     }
 
     @Override
