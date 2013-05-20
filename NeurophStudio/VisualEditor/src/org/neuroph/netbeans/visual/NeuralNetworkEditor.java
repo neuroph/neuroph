@@ -19,6 +19,7 @@ import org.neuroph.netbeans.visual.widgets.NeuronWidget;
 import org.neuroph.nnet.comp.layer.CompetitiveLayer;
 import org.neuroph.nnet.comp.layer.InputLayer;
 import org.neuroph.nnet.comp.neuron.CompetitiveNeuron;
+import org.neuroph.nnet.comp.neuron.InputNeuron;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
@@ -68,26 +69,26 @@ public class NeuralNetworkEditor {
     public void addNeuronAt(Layer layer, Neuron neuron, int index) {
         layer.addNeuron(index, neuron);
     }
-    
-    public void addNeuron(Layer layer, Neuron neuron){
+
+    public void addNeuron(Layer layer, Neuron neuron) {
         layer.addNeuron(neuron);
     }
 
-    public void setNeuronInputFunction(Neuron neuron, InputFunction inputFunction){
+    public void setNeuronInputFunction(Neuron neuron, InputFunction inputFunction) {
         neuron.setInputFunction(inputFunction);
     }
 
-    public void setLayerInputFunction(Layer layer, Class <? extends InputFunction> inputFunction) throws Exception{
+    public void setLayerInputFunction(Layer layer, Class<? extends InputFunction> inputFunction) throws Exception {
         for (int i = 0; i < layer.getNeuronsCount(); i++) {
             layer.getNeuronAt(i).setInputFunction(inputFunction.newInstance());
         }
     }
 
-    public void setNeuronTransferFunction(Neuron neuron, TransferFunction transferFunction){
+    public void setNeuronTransferFunction(Neuron neuron, TransferFunction transferFunction) {
         neuron.setTransferFunction(transferFunction);
     }
 
-    public void setLayerTransferFunction(Layer layer, Class<? extends TransferFunction> transferFunction) throws Exception{
+    public void setLayerTransferFunction(Layer layer, Class<? extends TransferFunction> transferFunction) throws Exception {
         for (int i = 0; i < layer.getNeuronsCount(); i++) {
             layer.getNeuronAt(i).setTransferFunction(transferFunction.newInstance());
         }
@@ -168,5 +169,40 @@ public class NeuralNetworkEditor {
             Neuron toNeuron = toLayer.getNeurons()[i];
             ConnectionFactory.createConnection(fromNeuron, toNeuron);
         }
+    }
+
+    public void setAsInputNeuron(NeuronWidget neuronWidget) {
+        boolean inputNeuronAdded = false;
+        Neuron[] inputNeurons = neuralNet.getInputNeurons();
+        Neuron neuron = neuronWidget.getNeuron();
+        Neuron[] newInputNeurons = new Neuron[inputNeurons.length + 1];
+        for (int i = 0, j = 0; i < newInputNeurons.length; i++) {
+            if (neuron == neuron.getParentLayer().getNeuronAt(i) && !inputNeuronAdded) {
+                newInputNeurons[i] = neuron;
+                inputNeuronAdded = true;
+            } else {
+                newInputNeurons[i] = inputNeurons[j];
+                j++;
+            }
+        }
+        neuralNet.setInputNeurons(newInputNeurons);
+    }
+
+    public void setAsOutputNeuron(NeuronWidget neuronWidget) {
+        boolean outputNeuronAdded = false;
+        Neuron[] outputNeurons = neuralNet.getOutputNeurons();
+        Neuron neuron = neuronWidget.getNeuron();
+        Neuron[] newOutputNeurons = new Neuron[outputNeurons.length + 1];
+        for (int i = 0, j = 0; i < newOutputNeurons.length; i++) {
+            if (neuron == neuron.getParentLayer().getNeuronAt(i) && !outputNeuronAdded) {
+                newOutputNeurons[i] = neuron;
+                outputNeuronAdded = true;
+            } else {
+                newOutputNeurons[i] = outputNeurons[j];
+                j++;
+            }
+        }
+        neuralNet.setOutputNeurons(newOutputNeurons);
+
     }
 }

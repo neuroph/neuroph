@@ -17,6 +17,8 @@ import org.neuroph.netbeans.visual.dialogs.ChangeTransferFunctionDialog;
 import org.neuroph.netbeans.visual.palette.NeuronWidgetStack;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuronWidget;
+import org.neuroph.nnet.comp.layer.InputLayer;
+import org.neuroph.nnet.comp.neuron.InputNeuron;
 import org.openide.windows.WindowManager;
 
 /**
@@ -41,6 +43,8 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         JMenuItem setLabel = new JMenuItem("Set label");
         JMenuItem changeTransferFunction = new JMenuItem("Change Transfer Function");
         JMenuItem changeInputFunction = new JMenuItem("Change Input Function");
+        JMenuItem setAsInputNeuron = new JMenuItem("Set as input");
+        JMenuItem setAsOutputNeuron = new JMenuItem("Set as output");
         removeConnections.add(removeAllInputConnections);
         removeConnections.add(removeAllOutConnections);
         neuronPopupMenu.add(removeItem);
@@ -50,6 +54,8 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         neuronPopupMenu.add(removeConnections);
         neuronPopupMenu.add(changeTransferFunction);
         neuronPopupMenu.add(changeInputFunction);
+        neuronPopupMenu.add(setAsInputNeuron);
+        neuronPopupMenu.add(setAsOutputNeuron);
 
         removeItem.addActionListener(new ActionListener() {
             @Override
@@ -130,9 +136,22 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
                 NeuronWidget parent = (NeuronWidget) widget;
                 Neuron neuron = parent.getNeuron();
 
-                ChangeTransferFunctionDialog dialog = new ChangeTransferFunctionDialog(null, true, neuron, (NeuralNetworkScene)widget.getScene());
+                ChangeTransferFunctionDialog dialog = new ChangeTransferFunctionDialog(null, true, neuron, (NeuralNetworkScene) widget.getScene());
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
                 dialog.setVisible(true);
+                ((NeuralNetworkScene) widget.getScene()).refresh();
+            }
+        });
+        setAsInputNeuron.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                editor.setAsInputNeuron((NeuronWidget) widget);
+                ((NeuralNetworkScene) widget.getScene()).refresh();
+            }
+        });
+
+        setAsOutputNeuron.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                editor.setAsOutputNeuron((NeuronWidget) widget);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
@@ -149,6 +168,8 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
                 // ((NeuralNetworkScene) widget.getScene()).refresh(); 
             }
         });
+
+
 
         return neuronPopupMenu;
     }

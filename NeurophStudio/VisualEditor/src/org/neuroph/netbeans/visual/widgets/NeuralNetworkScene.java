@@ -328,7 +328,7 @@ public class NeuralNetworkScene extends ObjectScene {
         outputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
-
+           
             for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
                 LabelWidget inputLabel = new LabelWidget(this);
                 inputLabel.setLabel("Input " + (i + 1));
