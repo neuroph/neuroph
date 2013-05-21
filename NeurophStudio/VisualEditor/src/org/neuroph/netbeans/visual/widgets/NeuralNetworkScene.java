@@ -571,8 +571,9 @@ public class NeuralNetworkScene extends ObjectScene {
         for (Neuron neuron : neuronsAndWidgets.keySet()) {
             for (ConnectionWidget connWidget : neuronsAndWidgets.get(neuron).getConnections()) {
                 Connection connection = ((NeuronConnectionWidget)connWidget).getConnection();
-                if(connection.getFromNeuron().getParentLayer().equals(connection.getToNeuron().getParentLayer()))
+                if(connection.getFromNeuron().getParentLayer().equals(connection.getToNeuron().getParentLayer())){
                     connWidget.setRouter(new RouterConnection(connWidget.getFirstControlPoint(),connWidget.getLastControlPoint()));
+                } 
             }
         }
     }
