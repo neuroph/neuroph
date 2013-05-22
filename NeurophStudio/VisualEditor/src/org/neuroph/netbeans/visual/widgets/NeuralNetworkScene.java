@@ -33,9 +33,11 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
+import org.neuroph.core.Weight;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.neuroph.netbeans.visual.widgets.actions.KeyboardDeleteAction;
+import org.omg.CORBA.Bounds;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
@@ -70,6 +72,7 @@ public class NeuralNetworkScene extends ObjectScene {
     private static final int TOO_MANY_NEURONS = 100;
     private static final int TOO_MANY_CONNECTIONS = 250;
     private NeuralNetworkEditor networkEditor;
+
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
 
         this.neuralNetwork = neuralNet;
@@ -213,7 +216,7 @@ public class NeuralNetworkScene extends ObjectScene {
         connectionLayer.removeChildren();
 
         createNeuralLayers();
-        
+
         if (showConnections) {
             createConnections();
         }
@@ -328,7 +331,7 @@ public class NeuralNetworkScene extends ObjectScene {
         outputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
-           
+
             for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
                 LabelWidget inputLabel = new LabelWidget(this);
                 inputLabel.setLabel("Input " + (i + 1));
@@ -416,19 +419,19 @@ public class NeuralNetworkScene extends ObjectScene {
     }
 
     private void createNeuralLayersConnection(NeuralLayerWidget sourceLayerWidget, NeuralLayerWidget targetLayerWidget) {
-        
+
         ConnectionWidget connWidget = new ConnectionWidget(this);
         LabelWidget label = new LabelWidget(this);
-        String numOfConnections = String.valueOf(sourceLayerWidget.getLayer().getNeuronsCount() * targetLayerWidget.getLayer().getNeuronsCount());  
-        label.setLabel(numOfConnections);
-        label.setOrientation(LabelWidget.Orientation.ROTATE_90);
-      
+        String numOfConnections = String.valueOf(sourceLayerWidget.getLayer().getNeuronsCount() * targetLayerWidget.getLayer().getNeuronsCount());
+        label.setLabel(numOfConnections+" connections");
         
+
+
         connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
         connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceLayerWidget));
         connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetLayerWidget));
         connWidget.setStroke(new BasicStroke(1, 1, 1, 1, new float[]{5}, 1));
-        
+
         connWidget.addChild(label);
         connWidget.setConstraint(label, LayoutFactory.ConnectionWidgetLayoutAlignment.CENTER, 0.5f);
         connectionLayer.addChild(connWidget);
@@ -490,13 +493,8 @@ public class NeuralNetworkScene extends ObjectScene {
                             if (sourceWidget == null) { // hack when layer is deleted
                                 continue;
                             }
-                            NeuronConnectionWidget connWidget = new NeuronConnectionWidget(this, inputConnections[c], sourceWidget, targetWidget);
 
-                            connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-                            connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
-                            connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
-                            sourceWidget.addConnection(connWidget);
-                            targetWidget.addConnection(connWidget);
+                            NeuronConnectionWidget connWidget = createConnectionWidget(inputConnections[c], sourceWidget, targetWidget);
                             connectionLayer.addChild(connWidget);
 
                             if (getObjects().contains(inputConnections[c])) {
@@ -570,10 +568,10 @@ public class NeuralNetworkScene extends ObjectScene {
     private void createConnectionsBetweenNeuronsInSameLayer() {
         for (Neuron neuron : neuronsAndWidgets.keySet()) {
             for (ConnectionWidget connWidget : neuronsAndWidgets.get(neuron).getConnections()) {
-                Connection connection = ((NeuronConnectionWidget)connWidget).getConnection();
-                if(connection.getFromNeuron().getParentLayer().equals(connection.getToNeuron().getParentLayer())){
-                    connWidget.setRouter(new RouterConnection(connWidget.getFirstControlPoint(),connWidget.getLastControlPoint()));
-                } 
+                Connection connection = ((NeuronConnectionWidget) connWidget).getConnection();
+                if (connection.getFromNeuron().getParentLayer().equals(connection.getToNeuron().getParentLayer())) {
+                    connWidget.setRouter(new RouterConnection(connWidget.getFirstControlPoint(), connWidget.getLastControlPoint()));
+                }
             }
         }
     }
@@ -581,6 +579,24 @@ public class NeuralNetworkScene extends ObjectScene {
     public NeuralNetworkEditor getNeuralNetworkEditor() {
         return networkEditor;
     }
-    
-    
+
+    private NeuronConnectionWidget createConnectionWidget(Connection connection, NeuronWidget sourceWidget, NeuronWidget targetWidget) {
+        NeuronConnectionWidget connWidget = new NeuronConnectionWidget(this, connection, sourceWidget, targetWidget);
+
+        connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+        connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
+        connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
+        double connWeight = connection.getWeight().value;
+        if (connWeight < -0.5) {
+            connWidget.setStroke(new BasicStroke((float) 0.5));
+        } else if (connWeight >= -0.5 && connWeight < 0.5) {
+            connWidget.setStroke(new BasicStroke((float) 1.5));
+        } else {
+            connWidget.setStroke(new BasicStroke(3));
+        }
+        sourceWidget.addConnection(connWidget);
+        targetWidget.addConnection(connWidget);
+        return connWidget;
+
+    }
 }

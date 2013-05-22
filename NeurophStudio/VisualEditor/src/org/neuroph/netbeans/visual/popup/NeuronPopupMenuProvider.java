@@ -10,6 +10,7 @@ import javax.swing.JPopupMenu;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Layer;
+import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddNeuronLabelDialog;
@@ -29,11 +30,13 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
 
     JPopupMenu neuronPopupMenu;
     NeuralNetworkEditor editor;
+    NeuralNetwork neuralNet;
 
     @Override
     public JPopupMenu getPopupMenu(final Widget widget, Point point) {
         editor = ((NeuralNetworkScene) widget.getScene()).getNeuralNetworkEditor();
         neuronPopupMenu = new JPopupMenu();
+        Neuron neuron = ((NeuronWidget) widget).getNeuron();
         JMenuItem removeItem = new JMenuItem("Remove Neuron ");
         JMenuItem cloneItem = new JMenuItem("Clone Neuron ");
         JMenuItem createConnection = new JMenuItem("Connect Neuron to.. ");
@@ -56,6 +59,12 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         neuronPopupMenu.add(changeInputFunction);
         neuronPopupMenu.add(setAsInputNeuron);
         neuronPopupMenu.add(setAsOutputNeuron);
+        if (editor.isInputNeuron(neuron)) {
+            setAsInputNeuron.setEnabled(false);
+        }
+        if (editor.isOutputNeuron(neuron)) {
+            setAsOutputNeuron.setEnabled(false);
+        }
 
         removeItem.addActionListener(new ActionListener() {
             @Override
@@ -74,7 +83,6 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         cloneItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 NeuronWidget parent = (NeuronWidget) widget;
                 Neuron neuron = parent.getNeuron();
                 String anwser = JOptionPane.showInputDialog("Enter number of clones you want to add");
@@ -173,4 +181,6 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
 
         return neuronPopupMenu;
     }
+
+    
 }

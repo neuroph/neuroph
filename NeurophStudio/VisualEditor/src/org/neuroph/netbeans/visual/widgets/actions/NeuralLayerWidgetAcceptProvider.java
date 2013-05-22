@@ -32,26 +32,26 @@ import org.openide.windows.WindowManager;
  * @author zoran
  */
 public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
-
+    
     private NeuralLayerWidget layerWidget;
     private NeuralNetworkEditor editor;
-
+    
     public NeuralLayerWidgetAcceptProvider(NeuralLayerWidget layerWidget) {
         this.layerWidget = layerWidget;
         editor = ((NeuralNetworkScene) layerWidget.getScene()).getNeuralNetworkEditor();
     }
-
+    
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
         DataFlavor flavor = t.getTransferDataFlavors()[2];
         Class droppedClass = flavor.getRepresentationClass();
         return isAcceptableWidget(droppedClass) ? ConnectorState.ACCEPT : ConnectorState.REJECT;
     }
-
+    
     public void accept(Widget widget, Point point, Transferable t) {
-
+        
         DataFlavor flavor = t.getTransferDataFlavors()[2];
         Class droppedClass = flavor.getRepresentationClass();
-
+        
         try {
             if (droppedClass.equals(Neuron.class) || droppedClass.getSuperclass().equals(Neuron.class) || droppedClass.equals(CompetitiveNeuron.class) || droppedClass.equals(ThresholdNeuron.class)) {
                 onNeuronDroped(droppedClass, point);
@@ -65,7 +65,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
         } catch (Exception e) {
         }
     }
-
+    
     public boolean isAcceptableWidget(Class droppedClass) {
         return (droppedClass.equals(Neuron.class)
                 || droppedClass.getSuperclass().equals(Neuron.class)
@@ -73,9 +73,9 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
                 || droppedClass.equals(ThresholdNeuron.class)
                 || droppedClass.getSuperclass().equals(TransferFunction.class)
                 || droppedClass.getSuperclass().equals(InputFunction.class));
-
+        
     }
-
+    
     public void onNeuronDroped(Class droppedClass, Point point)
             throws InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException {
         Layer layer = layerWidget.getLayer();
@@ -85,7 +85,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
         if (droppedClass.equals(CompetitiveNeuron.class)) {
             Class[] parameterTypes = {InputFunction.class, TransferFunction.class};
             CompetitiveNeuron competitiveNeuron = (CompetitiveNeuron) droppedClass.getDeclaredConstructor(parameterTypes).newInstance(new Object[]{new WeightedSum(), new Tanh()});
-
+            
             neuron = (Neuron) competitiveNeuron;
         } else if (droppedClass.equals(ThresholdNeuron.class)) {
             Class[] parameterTypes = {InputFunction.class, TransferFunction.class};
@@ -94,8 +94,8 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
         } else {
             neuron = (Neuron) droppedClass.newInstance();
         }
-
-
+        
+        
         if (neuron instanceof InputNeuron && !(layerWidget.getLayer() instanceof InputLayer)) // nothing 
         {
             JOptionPane.showMessageDialog(null, "Input Neurons can only be placed in input layer!");
@@ -121,20 +121,23 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
                     break;
                 }
             }
-
-            editor.addNeuronAt(layer, neuron, dropIdx);
+            if (dropIdx == layer.getNeuronsCount()) {
+                editor.addNeuron(layer, neuron);
+            } else {
+                editor.addNeuronAt(layer, neuron, dropIdx);
+            }
         }
         ((NeuralNetworkScene) this.layerWidget.getScene()).refresh();
     }
-
+    
     public void setTransferFunction(Class droppedClass) throws InstantiationException, IllegalAccessException, Exception {
-        Class <? extends TransferFunction> transferFunction = droppedClass;
+        Class<? extends TransferFunction> transferFunction = droppedClass;
         Layer myLayer = layerWidget.getLayer();
         editor.setLayerTransferFunction(myLayer, transferFunction);
     }
-
+    
     public void setInputFunction(Class droppedClass) throws InstantiationException, IllegalAccessException, Exception {
-        Class <? extends InputFunction> inputFunction = droppedClass;
+        Class<? extends InputFunction> inputFunction = droppedClass;
         Layer layer = layerWidget.getLayer();
         editor.setLayerInputFunction(layer, inputFunction);
     }

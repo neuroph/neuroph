@@ -47,12 +47,11 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
     private NeuralNetworkWidget neuralNetworkWidget;
     private NeuralNetworkScene scene;
     private Graphics2D graphics;
-    private NeuralNetworkEditor editor;
-    
+
     public NeuralNetworkWidgetAcceptProvider(NeuralNetworkWidget neuralNetworkWidget) {
         this.neuralNetworkWidget = neuralNetworkWidget;
         this.scene = ((NeuralNetworkScene) neuralNetworkWidget.getScene());
-        editor = ((NeuralNetworkScene) neuralNetworkWidget.getScene()).getNeuralNetworkEditor();
+
     }
 
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
@@ -68,7 +67,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
         Class droppedClass = flavor.getRepresentationClass();
 
         int dropIdx = 0;
-        
+
         for (int i = 0; i < neuralNetworkWidget.getChildren().size(); i++) {
             double layerWidgetPosition = neuralNetworkWidget.getChildren().get(i).getLocation().getY();
             if (point.getY() < layerWidgetPosition) {
@@ -77,56 +76,58 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             } else {
                 dropIdx = neuralNetworkWidget.getChildren().size();
             }
-            
+
         }
         if (droppedClass.equals(Connection.class)) {
-
+            NeuralNetworkEditor editor = scene.getNeuralNetworkEditor();
             if (dropIdx == 0) {
                 JOptionPane.showMessageDialog(null, "Full connectivity cannot be drawn here!");
             } else if (dropIdx == scene.getNeuralNetwork().getLayersCount()) {
                 JOptionPane.showMessageDialog(null, "Full connectivity cannot be drawn here!");
             } else {
                 editor.createFullConnection(dropIdx);
-                /*Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
-                Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
-                ConnectionFactory.fullConnect(fromLayer, toLayer);*/
+                /* Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
+                 Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
+                 ConnectionFactory.fullConnect(fromLayer, toLayer);*/
                 scene.refresh();
-                }
+            }
 
-            
+
         }
         if (droppedClass.equals(ConnectionFactory.class)) {
+            NeuralNetworkEditor editor = scene.getNeuralNetworkEditor();
             if (dropIdx == 0) {
                 JOptionPane.showMessageDialog(null, "Direct connectivity cannot be drawn here!");
             } else if (dropIdx == scene.getNeuralNetwork().getLayersCount()) {
                 JOptionPane.showMessageDialog(null, "Direct connectivity cannot be drawn here!");
             } else {
-                
+
                 editor.createDirectConnection(dropIdx);
                 /*Layer fromLayer = scene.getNeuralNetwork().getLayerAt(dropIdx - 1);
-                Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
+                 Layer toLayer = scene.getNeuralNetwork().getLayerAt(dropIdx);
                 
-                // TODO: use forward connect from ConnectionFactory
-                // move this algorithm to forward/direct Connect
-                // existing direct connect throws exception in case of different neuron number
-                // its missing if check below
+                 // TODO: use forward connect from ConnectionFactory
+                 // move this algorithm to forward/direct Connect
+                 // existing direct connect throws exception in case of different neuron number
+                 // its missing if check below
                 
-                int number = 0;
-                if (fromLayer.getNeuronsCount() > toLayer.getNeuronsCount()) {
-                    number = toLayer.getNeuronsCount();
-                } else {
-                    number = fromLayer.getNeuronsCount();
-                }
+                 int number = 0;
+                 if (fromLayer.getNeuronsCount() > toLayer.getNeuronsCount()) {
+                 number = toLayer.getNeuronsCount();
+                 } else {
+                 number = fromLayer.getNeuronsCount();
+                 }
                                 
-                for (int i = 0;i < number; i++) {
-                    Neuron fromNeuron = fromLayer.getNeurons()[i];
-                    Neuron toNeuron = toLayer.getNeurons()[i];
-                    ConnectionFactory.createConnection(fromNeuron, toNeuron);
-                }*/
+                 for (int i = 0;i < number; i++) {
+                 Neuron fromNeuron = fromLayer.getNeurons()[i];
+                 Neuron toNeuron = toLayer.getNeurons()[i];
+                 ConnectionFactory.createConnection(fromNeuron, toNeuron);
+                 }*/
                 scene.refresh();
             }
         }
         if (droppedClass.equals(Layer.class) || droppedClass.getSuperclass().equals(Layer.class)) {
+            NeuralNetworkEditor editor = scene.getNeuralNetworkEditor();
             try {
                 //IMPORTANT: it only adds WeightSum layer, also it only adds layer at the end                             
                 boolean hasInputLayer = false;
