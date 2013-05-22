@@ -18,18 +18,19 @@ import org.openide.util.lookup.Lookups;
 /**
  *
  * @author Ivana
- * 
+ *
  * http://bits.netbeans.org/dev/javadoc/org-openide-nodes/org/openide/nodes/Node.html#Node%28org.openide.nodes.Children,%20org.openide.util.Lookup%29
  */
 public class NeuronNode extends AbstractNode {
+
     private Neuron neuron;
-    
+
     public NeuronNode(Neuron neuron) {
         this(neuron, new InstanceContent());
-    }    
-    
+    }
+
     private NeuronNode(Neuron neuron, InstanceContent content) {
-        super(new NeuronChildren(neuron),new AbstractLookup(content));
+        super(new NeuronChildren(neuron), new AbstractLookup(content));
         content.add(this);
         content.add(neuron);
         this.neuron = neuron;
@@ -38,8 +39,6 @@ public class NeuronNode extends AbstractNode {
     public Neuron getNeuron() {
         return neuron;
     }
-    
-    
 
     @Override
     public Image getIcon(int type) {
@@ -66,8 +65,8 @@ public class NeuronNode extends AbstractNode {
             Property netInput = new PropertySupport.Reflection(neuron, Double.class, "getNetInput", null);
             Property output = new PropertySupport.Reflection(neuron, Double.class, "getOutput", null);
             Property error = new PropertySupport.Reflection(neuron, Double.class, "getError", null);
-            Property label = new PropertySupport.Reflection(neuron, String.class, "getLabel", null);
-           
+            Property label = new PropertySupport.Reflection(neuron, String.class, "getLabel", "setLabel");
+
             type.setShortDescription("Neuron type/class");
             inputfunction.setShortDescription("Input function");
             transferfunction.setShortDescription("Transfer function");
@@ -75,10 +74,10 @@ public class NeuronNode extends AbstractNode {
             output.setShortDescription("Neuron's output");
             error.setShortDescription("Neuron's error");
             label.setShortDescription("Neuron's label");
-            
+
             inputfunction.setPropertyEditorClass(InputFunctionEditor.class);
             transferfunction.setPropertyEditorClass(TransferFunctionEditor.class);
-                       
+
             type.setName("Type");
             inputfunction.setName("Input function");
             transferfunction.setName("Transfer function");
@@ -94,7 +93,7 @@ public class NeuronNode extends AbstractNode {
             set.put(output);
             set.put(error);
             set.put(label);
-            
+
         } catch (NoSuchMethodException ex) {
             ErrorManager.getDefault();
         } catch (Exception ex) {
