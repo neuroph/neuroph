@@ -37,6 +37,7 @@ import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.neuroph.netbeans.visual.widgets.actions.KeyboardDeleteAction;
+import org.neuroph.util.LayerFactory;
 import org.omg.CORBA.Bounds;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
@@ -78,11 +79,15 @@ public class NeuralNetworkScene extends ObjectScene {
 
         this.neuralNetwork = neuralNet;
         neuralNetworkWidget = new NeuralNetworkWidget(this, neuralNet);
-        neuralNetworkWidget.setPreferredLocation(new Point(100, 10));
+      //  neuralNetworkWidget.setPreferredLocation(new Point(100, 10));
 
+
+        setLayout(LayoutFactory.createOverlayLayout());
+                
         connectionLayer = new LayerWidget(this);    // draw connections
         interractionLayer = new LayerWidget(this); // draw connections while creating them
         mainLayer = new LayerWidget(this);
+        mainLayer.setLayout(LayoutFactory.createHorizontalFlowLayout());        
         networkEditor = new NeuralNetworkEditor(neuralNet);
         mainLayer.addChild(neuralNetworkWidget);
 
@@ -236,6 +241,8 @@ public class NeuralNetworkScene extends ObjectScene {
     }
 
     private void createNeuralLayers() {
+        if (neuralNetwork.getLayersCount() == 0) return;
+        
         neurons = new ArrayList<Neuron>();
         neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
         layers = new ArrayList<Layer>();
@@ -381,7 +388,6 @@ public class NeuralNetworkScene extends ObjectScene {
                 connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(inputLabel));
                 connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
                 connectionLayer.addChild(connWidget);
-
             }
 
             neuralNetworkWidget.addChild(0, inputsWidget);
@@ -406,7 +412,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 }
             }
             //if last neural layer  has more than 100 neurons connect that neural layer widget with one output label
-        } else {
+        } else if (neuralNetwork.getOutputNeurons()!= null) {
             neuralNetworkWidget.addChild(outputsWidget);
             LabelWidget outputLabel = new LabelWidget(this);
             outputLabel.setLabel("Output " + neuralNetwork.getOutputNeurons().length);

@@ -61,14 +61,14 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
         Class droppedClass = flavor.getRepresentationClass();
 
         int dropIdx = 0;
-
+        // note: first child is not layer!
         for (int i = 0; i < neuralNetworkWidget.getChildren().size(); i++) {
             double layerWidgetPosition = neuralNetworkWidget.getChildren().get(i).getLocation().getY();
             if (point.getY() < layerWidgetPosition) {
                 dropIdx = i - 1; // 
                 break;
             } else {
-                dropIdx = neuralNetworkWidget.getChildren().size();
+                dropIdx = neuralNetworkWidget.getChildren().size()-1;
             }
 
         }
