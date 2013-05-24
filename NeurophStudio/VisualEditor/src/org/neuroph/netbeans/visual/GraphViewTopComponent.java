@@ -63,6 +63,7 @@ public final class GraphViewTopComponent extends TopComponent {
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
 
         scene = new NeuralNetworkScene(this.nnet);
+        scene.setTopComponent(this);
         view = scene.createView();
 
         viewPane.setViewportView(view);

@@ -33,6 +33,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
+import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.neuroph.netbeans.visual.widgets.actions.KeyboardDeleteAction;
@@ -71,6 +72,7 @@ public class NeuralNetworkScene extends ObjectScene {
     private static final int TOO_MANY_NEURONS = 100;
     private static final int TOO_MANY_CONNECTIONS = 250;
     private NeuralNetworkEditor networkEditor;
+    private GraphViewTopComponent topComponent;
 
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
 
@@ -199,12 +201,20 @@ public class NeuralNetworkScene extends ObjectScene {
         w.setPreferredSize(d);
     }
 
+    public void setTopComponent(GraphViewTopComponent topComponent) {
+        this.topComponent = topComponent;
+    }
+
+    
+    
     // http://bits.netbeans.org/dev/javadoc/org-netbeans-api-visual/org/netbeans/api/visual/widget/doc-files/documentation.html#ValidationProcess
     public void refresh() {
 
         visualizeNetwork();
         content.remove(neuralNetwork);
         content.add(neuralNetwork);
+        // change focus to visual editor top component
+        topComponent.requestActive();
     }
 
     public void visualizeNetwork() {

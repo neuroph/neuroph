@@ -9,21 +9,16 @@ import javax.swing.JOptionPane;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.spi.palette.PaletteController;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
-import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.core.learning.SupervisedLearning;
 import org.neuroph.core.learning.UnsupervisedLearning;
+import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddCompetitiveLayerDialog;
 import org.neuroph.netbeans.visual.dialogs.AddCustomLayerDialog;
 import org.neuroph.netbeans.visual.dialogs.AddInputLayerDialog;
-import org.neuroph.netbeans.visual.palette.PalleteCategory;
-import org.neuroph.netbeans.visual.palette.PalleteItem;
-import org.neuroph.netbeans.visual.palette.PalleteItems;
-import org.neuroph.netbeans.visual.widgets.NeuralLayerWidget;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkWidget;
 import org.neuroph.nnet.comp.layer.CompetitiveLayer;
@@ -35,7 +30,6 @@ import org.neuroph.nnet.learning.PerceptronLearning;
 import org.neuroph.nnet.learning.SigmoidDeltaRule;
 import org.neuroph.nnet.learning.UnsupervisedHebbianLearning;
 import org.neuroph.util.ConnectionFactory;
-import org.openide.nodes.Node;
 import org.openide.windows.WindowManager;
 
 /**
@@ -171,6 +165,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             try {
                 //neuralNetworkWidget.getNeuralNetwork().setLearningRule((LearningRule) droppedClass.newInstance());
                 scene.getNeuralNetworkEditor().setLearningRule((LearningRule) droppedClass.newInstance());
+                scene.refresh();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -183,6 +178,8 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             dialog.setVisible(true);
             scene.refresh();
         }
+        
+        //WindowManager.getDefault().findTopComponent(GraphViewTopComponent.)
     }
 
     public boolean canAccept(Class droppedClass) {
