@@ -10,7 +10,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import org.netbeans.api.visual.action.AcceptProvider;
@@ -254,8 +253,10 @@ public class NeuralNetworkScene extends ObjectScene {
             }
 
             layerLabelWidget.setLabel(layerLabel);
-
-            if (layer.getNeuronsCount() == 0) {
+            
+            // this logic should be moved to LayerWidget...
+            if (layer.getNeuronsCount() == 0) { 
+                // if layer is empty write message 'empty layer'
                 LabelWidget emptyLabel = new LabelWidget(this, "Empty Layer");
                 emptyLabel.setForeground(Color.LIGHT_GRAY);
                 emptyLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -265,6 +266,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 neuralLayerWidget.addChild(emptyLabel);
             }
             if (layer.getNeuronsCount() > TOO_MANY_NEURONS) {
+                // if layer cointains too many neurons write message 'Too many neurons to display'
                 LabelWidget tooManyLabel = new LabelWidget(this, "Too many neurons to display " + layer.getNeuronsCount());
                 tooManyLabel.setForeground(Color.LIGHT_GRAY);
                 tooManyLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -273,7 +275,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 neuralLayerWidget.setPreferredSize(new Dimension(300, (int) neuralLayerWidget.getPreferredSize().getHeight()));
                 neuralLayerWidget.addChild(tooManyLabel);
             } else {
-
+                // otherwise add neurons to layer
                 for (int j = 0; j < layer.getNeuronsCount(); j++) {
                     Neuron neuron = neuralNetwork.getLayerAt(i).getNeuronAt(j);
                     NeuronWidget neuronWidget = new NeuronWidget(this, neuron);
@@ -403,7 +405,6 @@ public class NeuralNetworkScene extends ObjectScene {
             Layer targetlayer = layers.get(layers.size() - 1);
 
 
-
             //connect that neural layer widget with the previous one
             NeuralLayerWidget sourceWidget = layersAndWidgets.get(targetlayer);
             if (showConnections) {
@@ -419,15 +420,13 @@ public class NeuralNetworkScene extends ObjectScene {
     }
 
     private void createNeuralLayersConnection(NeuralLayerWidget sourceLayerWidget, NeuralLayerWidget targetLayerWidget) {
-
+        // create single connection line between two layers
         ConnectionWidget connWidget = new ConnectionWidget(this);
         LabelWidget label = new LabelWidget(this);
         int numOfConnections = sourceLayerWidget.getLayer().getNeuronsCount() * targetLayerWidget.getLayer().getNeuronsCount();
         String numOfConnectionsStr = String.valueOf(numOfConnections);
         label.setLabel(numOfConnectionsStr+" connections");
         
-
-
         connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
         connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceLayerWidget));
         connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetLayerWidget));
@@ -442,14 +441,15 @@ public class NeuralNetworkScene extends ObjectScene {
         for (int currentLayerIdx = 0; currentLayerIdx < layers.size(); currentLayerIdx++) {
             Layer currentLayer = layers.get(currentLayerIdx);
             if (currentLayer.getNeuronsCount() > TOO_MANY_NEURONS) {
-
+                
                 if (currentLayerIdx == 0) { // first/input layer
                     NeuralLayerWidget sourceLayerWidget = layersAndWidgets.get(currentLayer);
                     NeuralLayerWidget targetLayerWidget = layersAndWidgets.get(layers.get(currentLayerIdx + 1));
                     createNeuralLayersConnection(sourceLayerWidget, targetLayerWidget);
                     // sledeci layer bi trebalo da crta svoj einput konekcije ovo je mozda nepotrebno...
 
-                } else if (currentLayerIdx == layers.size() - 1) { // last layer
+                } else if (currentLayerIdx == layers.size() - 1) { // last, output layer 
+                    //(ne mora da znaci da je iz prethodnog lejera
                     NeuralLayerWidget sourceLayerWidget = layersAndWidgets.get(layers.get(currentLayerIdx - 1));
                     NeuralLayerWidget targetLayerWidget = layersAndWidgets.get(layers.get(currentLayerIdx));
                     createNeuralLayersConnection(sourceLayerWidget, targetLayerWidget);
@@ -480,7 +480,7 @@ public class NeuralNetworkScene extends ObjectScene {
                         createNeuralLayersConnection(prevLayerWidget, currentLayerWidget);
                     }
                 }
-                int numOfConnections = countConnections(layers.get(currentLayerIdx));
+                int numOfConnections = NeuralNetworkUtils.countConnections(layers.get(currentLayerIdx));
 
                 if (numOfConnections <= TOO_MANY_CONNECTIONS) {
 
@@ -558,13 +558,7 @@ public class NeuralNetworkScene extends ObjectScene {
         this.waitingClick = waitingClick;
     }
 
-    private int countConnections(Layer layer) {
-        int count = 0;
-        for (Neuron neuron : layer.getNeurons()) {
-            count += neuron.getInputConnections().length;
-        }
-        return count;
-    }
+
 
     private void createConnectionsBetweenNeuronsInSameLayer() {
         for (Neuron neuron : neuronsAndWidgets.keySet()) {

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.visual.widgets;
 
 import org.neuroph.core.Layer;
@@ -23,5 +19,13 @@ public class NeuralNetworkUtils {
         
         return false;
     }
+    
+    public static int countConnections(Layer layer) {
+        int count = 0;
+        for (Neuron neuron : layer.getNeurons()) {
+            count += neuron.getInputConnections().length;
+        }
+        return count;
+    }    
     
 }
