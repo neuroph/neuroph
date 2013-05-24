@@ -52,7 +52,7 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         removeConnections.add(removeAllOutConnections);
         neuronPopupMenu.add(removeItem);
         neuronPopupMenu.add(cloneItem);
-        neuronPopupMenu.add(createConnection);
+      //  neuronPopupMenu.add(createConnection);
         neuronPopupMenu.add(setLabel);
         neuronPopupMenu.add(removeConnections);
         neuronPopupMenu.add(changeTransferFunction);
