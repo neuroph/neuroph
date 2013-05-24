@@ -8,7 +8,6 @@ import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.netbeans.visual.widgets.Connectable;
 import org.neuroph.netbeans.visual.widgets.NeuralLayerWidget;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
-import org.neuroph.netbeans.visual.widgets.NeuralNetworkWidget;
 import org.neuroph.netbeans.visual.widgets.NeuronWidget;
 
 /**

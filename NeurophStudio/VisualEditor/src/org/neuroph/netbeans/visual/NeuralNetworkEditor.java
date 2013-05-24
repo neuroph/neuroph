@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.visual;
 
-import java.awt.Label;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -13,13 +8,11 @@ import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.core.transfer.TransferFunction;
-import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuronConnectionWidget;
 import org.neuroph.netbeans.visual.widgets.NeuronWidget;
 import org.neuroph.nnet.comp.layer.CompetitiveLayer;
 import org.neuroph.nnet.comp.layer.InputLayer;
 import org.neuroph.nnet.comp.neuron.CompetitiveNeuron;
-import org.neuroph.nnet.comp.neuron.InputNeuron;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;

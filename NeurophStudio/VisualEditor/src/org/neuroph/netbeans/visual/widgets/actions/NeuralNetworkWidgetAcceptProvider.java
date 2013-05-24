@@ -153,6 +153,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                     scene.refresh();
                 } else {
                     editor.addEmptyLayer(dropIdx, (Layer) droppedClass.newInstance());
+                     scene.refresh();
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

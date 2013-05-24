@@ -422,8 +422,9 @@ public class NeuralNetworkScene extends ObjectScene {
 
         ConnectionWidget connWidget = new ConnectionWidget(this);
         LabelWidget label = new LabelWidget(this);
-        String numOfConnections = String.valueOf(sourceLayerWidget.getLayer().getNeuronsCount() * targetLayerWidget.getLayer().getNeuronsCount());
-        label.setLabel(numOfConnections+" connections");
+        int numOfConnections = sourceLayerWidget.getLayer().getNeuronsCount() * targetLayerWidget.getLayer().getNeuronsCount();
+        String numOfConnectionsStr = String.valueOf(numOfConnections);
+        label.setLabel(numOfConnectionsStr+" connections");
         
 
 
