@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ConnectorState;
+import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
@@ -60,6 +61,12 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
         DataFlavor flavor = t.getTransferDataFlavors()[2];
         Class droppedClass = flavor.getRepresentationClass();
 
+        
+        if ((neuralNetworkWidget.getNeuralNetwork().getLayersCount() == 0)&&(droppedClass.equals(Layer.class) || droppedClass.getSuperclass().equals(Layer.class))) {
+            neuralNetworkWidget.removeChildren();
+            neuralNetworkWidget.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 50));
+        }
+        
         int dropIdx = 0;
         // note: first child is not layer!
         for (int i = 0; i < neuralNetworkWidget.getChildren().size(); i++) {

@@ -39,7 +39,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         this.lookup = Lookups.fixed(layer, this);
         setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 15));
         setBorder(DEFAULT_BORDER);
-        setPreferredSize(new Dimension(80, 80));
+        setPreferredSize(new Dimension(200, 80));
 
         getActions().addAction(ActionFactory.createAcceptAction(new NeuralLayerWidgetAcceptProvider(this)));
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuralLayerPopupMenuProvider()));

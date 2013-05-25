@@ -21,7 +21,7 @@ public class NeuralNetworkWidget extends IconNodeWidget {
     public NeuralNetworkWidget(Scene scene, NeuralNetwork neuralNetwork) {
         super(scene);
         this.neuralNetwork = neuralNetwork;
-        this.setMinimumSize(new Dimension(250, 300));
+        this.setMinimumSize(new Dimension(300, 400));
         setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 50));
         setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
         getActions().addAction(ActionFactory.createAcceptAction(new NeuralNetworkWidgetAcceptProvider(this)));

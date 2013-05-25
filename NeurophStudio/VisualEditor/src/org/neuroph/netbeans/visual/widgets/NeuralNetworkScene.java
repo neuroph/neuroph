@@ -241,7 +241,22 @@ public class NeuralNetworkScene extends ObjectScene {
     }
 
     private void createNeuralLayers() {
-        if (neuralNetwork.getLayersCount() == 0) return;
+        if (neuralNetwork.getLayersCount() == 0) {
+                LabelWidget emptyLabel = new LabelWidget(this, "Empty Neural Network");
+                emptyLabel.setForeground(Color.LIGHT_GRAY);
+                emptyLabel.setFont(new Font("Arial", Font.BOLD, 14));
+                neuralNetworkWidget.setLayout(LayoutFactory.createAbsoluteLayout());
+                emptyLabel.setPreferredLocation(new Point(60, 160));
+                //neuralLayerWidget.setPreferredSize(new Dimension(140, (int) neuralLayerWidget.getPreferredSize().getHeight()));
+                neuralNetworkWidget.addChild(emptyLabel);            
+                
+                LabelWidget emptyLabel2 = new LabelWidget(this, "Drag n' drop  or right click to add layers");                
+                emptyLabel2.setForeground(Color.LIGHT_GRAY);
+                emptyLabel2.setFont(new Font("Arial", Font.PLAIN, 11));                
+                emptyLabel2.setPreferredLocation(new Point(35, 180));
+                neuralNetworkWidget.addChild(emptyLabel2);                            
+            return;
+        }
         
         neurons = new ArrayList<Neuron>();
         neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
@@ -278,9 +293,15 @@ public class NeuralNetworkScene extends ObjectScene {
                 emptyLabel.setForeground(Color.LIGHT_GRAY);
                 emptyLabel.setFont(new Font("Arial", Font.BOLD, 14));
                 neuralLayerWidget.setLayout(LayoutFactory.createAbsoluteLayout());
-                emptyLabel.setPreferredLocation(new Point(20, 25));
-                neuralLayerWidget.setPreferredSize(new Dimension(140, (int) neuralLayerWidget.getPreferredSize().getHeight()));
+                emptyLabel.setPreferredLocation(new Point(80, 25));
+                neuralLayerWidget.setPreferredSize(new Dimension(270, (int) neuralLayerWidget.getPreferredSize().getHeight()));
                 neuralLayerWidget.addChild(emptyLabel);
+                
+                LabelWidget emptyLabel2 = new LabelWidget(this, "Drag n' drop  or right click to add neurons");                
+                emptyLabel2.setForeground(Color.LIGHT_GRAY);
+                emptyLabel2.setFont(new Font("Arial", Font.PLAIN, 11));                
+                emptyLabel2.setPreferredLocation(new Point(5, 40));
+                neuralLayerWidget.addChild(emptyLabel2);                   
             }
             if (layer.getNeuronsCount() > TOO_MANY_NEURONS) {
                 // if layer cointains too many neurons write message 'Too many neurons to display'
