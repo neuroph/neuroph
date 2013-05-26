@@ -2,9 +2,11 @@ package org.neuroph.netbeans.visual.widgets;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
+import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.neuroph.core.NeuralNetwork;

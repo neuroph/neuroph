@@ -17,6 +17,7 @@ import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.AnchorShape;
+import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.model.ObjectScene;
 import org.netbeans.api.visual.model.ObjectSceneEvent;
@@ -32,13 +33,10 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.core.Weight;
 import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.neuroph.netbeans.visual.widgets.actions.KeyboardDeleteAction;
-import org.neuroph.util.LayerFactory;
-import org.omg.CORBA.Bounds;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
@@ -79,16 +77,19 @@ public class NeuralNetworkScene extends ObjectScene {
 
         this.neuralNetwork = neuralNet;
         neuralNetworkWidget = new NeuralNetworkWidget(this, neuralNet);
-      //  neuralNetworkWidget.setPreferredLocation(new Point(100, 10));
-
 
         setLayout(LayoutFactory.createOverlayLayout());
                 
         connectionLayer = new LayerWidget(this);    // draw connections
         interractionLayer = new LayerWidget(this); // draw connections while creating them
         mainLayer = new LayerWidget(this);
-        mainLayer.setLayout(LayoutFactory.createHorizontalFlowLayout());        
+        mainLayer.setLayout(LayoutFactory.createVerticalFlowLayout());        
         networkEditor = new NeuralNetworkEditor(neuralNet);
+        
+        LabelWidget neuralNetworkLabel = new LabelWidget(this, "Neural Network");
+        neuralNetworkLabel.setFont(new Font("Arial", Font.PLAIN, 12));  
+        //neuralNetworkLabel.setBorder(BorderFactory.createLineBorder(1) );
+        mainLayer.addChild(neuralNetworkLabel);
         mainLayer.addChild(neuralNetworkWidget);
 
         addChild(mainLayer);
@@ -214,7 +215,6 @@ public class NeuralNetworkScene extends ObjectScene {
     
     // http://bits.netbeans.org/dev/javadoc/org-netbeans-api-visual/org/netbeans/api/visual/widget/doc-files/documentation.html#ValidationProcess
     public void refresh() {
-
         visualizeNetwork();
         content.remove(neuralNetwork);
         content.add(neuralNetwork);
@@ -223,7 +223,6 @@ public class NeuralNetworkScene extends ObjectScene {
     }
 
     public void visualizeNetwork() {
-
         //clear layers (with neurons)
         neuralNetworkWidget.removeChildren();
         // clear connections
@@ -374,7 +373,7 @@ public class NeuralNetworkScene extends ObjectScene {
 
             for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
                 LabelWidget inputLabel = new LabelWidget(this);
-                inputLabel.setLabel("Input " + (i + 1));
+                inputLabel.setLabel("In " + (i + 1));
                 inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
                 inputsWidget.addChild(inputLabel);
 
@@ -418,7 +417,7 @@ public class NeuralNetworkScene extends ObjectScene {
             neuralNetworkWidget.addChild(outputsWidget);
             for (int i = 0; i < neuralNetwork.getOutputNeurons().length; i++) {
                 LabelWidget outputLabel = new LabelWidget(this);
-                outputLabel.setLabel("Output " + (i + 1));
+                outputLabel.setLabel("Out " + (i + 1));
                 outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
                 outputsWidget.addChild(outputLabel);
 
