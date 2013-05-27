@@ -17,6 +17,7 @@ import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.AnchorShape;
+import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.model.ObjectScene;
@@ -57,6 +58,8 @@ public class NeuralNetworkScene extends ObjectScene {
     IconNodeWidget inputsWidget = null;
     IconNodeWidget outputsWidget = null;
     private boolean showConnections = true;
+    private boolean showActivationSize = false;
+    private boolean showActivationColor = false;
     private boolean waitingClick = false;
     private boolean waitingLayerClick = false;
     private boolean refresh = false;
@@ -237,6 +240,8 @@ public class NeuralNetworkScene extends ObjectScene {
         refresh = true;
 
         createConnectionsBetweenNeuronsInSameLayer();
+        showActivationSize();
+        showActivationColor();
     }
 
     private void createNeuralLayers() {
@@ -586,6 +591,22 @@ public class NeuralNetworkScene extends ObjectScene {
         this.showConnections = showConnections;
     }
 
+    public boolean isShowActivationSize() {
+        return showActivationSize;
+    }
+
+    public void setShowActivationSize(boolean showActivationSize) {
+        this.showActivationSize = showActivationSize;
+    }
+
+    public boolean isShowActivationColor() {
+        return showActivationColor;
+    }
+
+    public void setShowActivationColor(boolean showActivationColor) {
+        this.showActivationColor = showActivationColor;
+    }
+
     public boolean isWaitingClick() {
         return waitingClick;
     }
@@ -600,8 +621,10 @@ public class NeuralNetworkScene extends ObjectScene {
         for (Neuron neuron : neuronsAndWidgets.keySet()) {
             for (ConnectionWidget connWidget : neuronsAndWidgets.get(neuron).getConnections()) {
                 Connection connection = ((NeuronConnectionWidget) connWidget).getConnection();
-                if (connection.getFromNeuron().getParentLayer().equals(connection.getToNeuron().getParentLayer())) {
-                    connWidget.setRouter(new RouterConnection(connWidget.getFirstControlPoint(), connWidget.getLastControlPoint()));
+                Neuron fromNeuron = connection.getFromNeuron();
+                Neuron toNeuron = connection.getToNeuron();
+                if (fromNeuron.getParentLayer().equals(toNeuron.getParentLayer())) {
+                    connWidget.setRouter(new RouterConnection(neuronsAndWidgets.get(fromNeuron), neuronsAndWidgets.get(fromNeuron), connWidget.getFirstControlPoint(), connWidget.getLastControlPoint()));
                 }
             }
         }
@@ -630,4 +653,28 @@ public class NeuralNetworkScene extends ObjectScene {
         return connWidget;
 
     }
+    
+    public void showActivationSize(){
+        for (Neuron neuron : neuronsAndWidgets.keySet()) {
+            if(!showActivationSize){
+                neuronsAndWidgets.get(neuron).setPreferredSize(new Dimension(50,50));
+            }else{
+                int size = NeuralNetworkUtils.getSize(neuron);
+                neuronsAndWidgets.get(neuron).setPreferredSize(new Dimension(size, size));
+            }
+        }
+    }
+    
+    public void showActivationColor(){
+        for (Neuron neuron : neuronsAndWidgets.keySet()) {
+            if(!showActivationColor){
+                Border border = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
+                neuronsAndWidgets.get(neuron).setBorder(border);
+            }else{
+                Border border = BorderFactory.createRoundedBorder(50, 50, NeuralNetworkUtils.getColor(neuron), Color.black);
+                neuronsAndWidgets.get(neuron).setBorder(border);
+            }
+        }
+    }
+    
 }

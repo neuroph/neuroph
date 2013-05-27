@@ -14,17 +14,24 @@ public class RouterConnection implements Router {
 
     Point first;
     Point last;
+    int sizeFirst;
+    int sizeLast;
+    
 
-    public RouterConnection(Point first, Point last) { //point nije centar widgeta, pomeren je ulevo ili udesno za poluprecnik 
+    public RouterConnection(NeuronWidget firstWidget, NeuronWidget lastWidget, Point first, Point last) { //point nije centar widgeta, pomeren je ulevo ili udesno za poluprecnik 
         this.first = first;                            //poluprecnik widgeta je sada fiksan = 25
         this.last = last;
+        sizeFirst = firstWidget.getPreferredSize().height/2;
+        sizeLast = lastWidget.getPreferredSize().height/2;
         if (first.x < last.x) { //ako je s leva na desno
-            first.x -= 25;
-            last.x += 25;
+            first.x -= sizeFirst;
+            last.x += sizeLast;
+//            first.x -= 25;
+//            last.x += 25;
         }
         if (first.x > last.x) { // ako je s desna na levo
-            first.x += 25;
-            last.x -= 25;
+            first.x += sizeFirst;
+            last.x -= sizeLast;
         } 
         //ako je veza sa samim sobom, onda Point jeste u centru widgeta
     }
@@ -59,21 +66,27 @@ public class RouterConnection implements Router {
             t += 0.01;
             if (x < middleX) { //ako je tacka u levoj polovini
                 int leftX = lastX;
+                int size = sizeLast;
                 if (firstX < lastX) {
                     leftX = firstX;
+                    size = sizeFirst;
                 }
                 double i = Math.sqrt(Math.pow(Math.abs(x - leftX), 2) + Math.pow(y - currentY, 2));
-                if (i >= 25) // poluprecnik widgeta = 25; ako tacka nije u prostoru widgeta
+                //if (i >= 25) // poluprecnik widgeta = 25; ako tacka nije u prostoru widgeta
+                if (i >= size)
                 {
                     points.add(new Point(x, y));
                 }
             } else { //ako je tacka u desnoj polovini
                 int rightX = lastX;
+                int size = sizeLast;
                 if (firstX > lastX) {
                     rightX = firstX;
+                    size = sizeFirst;
                 }
                 double i = Math.sqrt(Math.pow(Math.abs(rightX - x), 2) + Math.pow(y - currentY, 2));
-                if (i >= 25) // poluprecnik widgeta = 25; ako tacka nije u prostoru widgeta
+                //if (i >= 25) // poluprecnik widgeta = 25; ako tacka nije u prostoru widgeta
+                if (i >= size) 
                 {
                     points.add(new Point(x, y));
                 }
@@ -89,11 +102,13 @@ public class RouterConnection implements Router {
         //25 je poluprecnik widgeta
         List<Point> points = new ArrayList<Point>();
         if (firstX < lastX) { //ako je s leva na desno
-            points.add(new Point(firstX + 25, currentY));
-            points.add(new Point(lastX - 25, currentY));
+            points.add(new Point(firstX + sizeFirst, currentY));
+            points.add(new Point(lastX - sizeLast, currentY));
+//            points.add(new Point(firstX + 25, currentY));
+//            points.add(new Point(lastX - 25, currentY));
         } else { //ako je s desna na levo
-            points.add(new Point(firstX - 25, currentY));
-            points.add(new Point(lastX + 25, currentY));
+            points.add(new Point(firstX - sizeFirst, currentY));
+            points.add(new Point(lastX + sizeLast, currentY));
         }
         return points;
     }
@@ -103,12 +118,18 @@ public class RouterConnection implements Router {
         int currentY = first.y;
         // poluprecnik widgeta = 25
         // precnik widgeta = 50
-        int leftDownX = (int) (currentX - Math.sqrt(Math.pow(25, 2) / 5)); 
-        int leftUpX = currentX - 25; 
-        int rightDownX = (int) (currentX + Math.sqrt(Math.pow(25, 2) / 5));
-        int rightUpX = currentX + 25; 
-        int upY = currentY + 50; 
-        int downY = (int) (currentY + 2 * Math.sqrt(Math.pow(25, 2) / 5)); 
+        int leftDownX = (int) (currentX - Math.sqrt(Math.pow(sizeFirst, 2) / 5)); 
+        int leftUpX = currentX - sizeFirst; 
+        int rightDownX = (int) (currentX + Math.sqrt(Math.pow(sizeFirst, 2) / 5));
+        int rightUpX = currentX + sizeFirst; 
+        int upY = currentY + sizeFirst*2; 
+        int downY = (int) (currentY + 2 * Math.sqrt(Math.pow(sizeFirst, 2) / 5)); 
+//        int leftDownX = (int) (currentX - Math.sqrt(Math.pow(25, 2) / 5)); 
+//        int leftUpX = currentX - 25; 
+//        int rightDownX = (int) (currentX + Math.sqrt(Math.pow(25, 2) / 5));
+//        int rightUpX = currentX + 25; 
+//        int upY = currentY + 50; 
+//        int downY = (int) (currentY + 2 * Math.sqrt(Math.pow(25, 2) / 5)); 
 
         List<Point> points = new ArrayList<Point>();
         double t = 0;

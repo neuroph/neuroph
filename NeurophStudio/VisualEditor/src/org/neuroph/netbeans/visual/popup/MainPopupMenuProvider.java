@@ -32,6 +32,8 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
         JMenuItem addEmptyLayerItem = new JMenuItem("Empty Layer");
         JMenuItem addCustomLayerItem = new JMenuItem("Custom Layer");
         JMenuItem showConnections = new JMenuItem("Show/Hide Connections");
+        JMenuItem showActivationSize = new JMenuItem("Show/Hide Activation Size");
+        JMenuItem showActivationColor = new JMenuItem("Show/Hide Activation Color");
         refreshItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ((NeuralNetworkScene) widget.getScene()).refresh();
@@ -89,11 +91,30 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
                 scene.refresh();
             }
         });
+        
+        showActivationSize.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
+                scene.setShowActivationSize(!scene.isShowActivationSize());
+                scene.showActivationSize();
+            }
+        });
+        
+        showActivationColor.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
+                scene.setShowActivationColor(!scene.isShowActivationColor());
+                scene.showActivationColor();
+            }
+        });
+        
         addLayer.add(addEmptyLayerItem);
         addLayer.add(addCustomLayerItem);
         mainPopupMenu.add(addLayer);
         mainPopupMenu.add(refreshItem);
         mainPopupMenu.add(showConnections);
+        mainPopupMenu.add(showActivationSize);
+        mainPopupMenu.add(showActivationColor);
 
 
         return mainPopupMenu;

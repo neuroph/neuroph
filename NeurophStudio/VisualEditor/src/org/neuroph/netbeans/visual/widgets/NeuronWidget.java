@@ -33,7 +33,9 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
     private final Lookup lookup;
     private List<ConnectionWidget> connections;
     public static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
-    public static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, new Color(255, 100, 100), Color.GRAY);
+    //public static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, new Color(255, 100, 100), Color.GRAY); //prva verzija
+    //public static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.RED, Color.GRAY); //sano okvir siv
+    public static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.YELLOW, Color.GRAY); //zuto na hover
     public static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.yellow, Color.black);
 
     public NeuronWidget(NeuralNetworkScene scene, Neuron neuron) {
@@ -51,7 +53,7 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
 
         setToolTipText("Hold Ctrl and drag to create connection");
         setPreferredSize(new Dimension(50, 50));
-        setBorder(DEFAULT_BORDER);
+        setBorder(DEFAULT_BORDER);  
         setOpaque(false);
     }
 
@@ -101,23 +103,24 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
     @Override
     public void notifyStateChanged(ObjectState previousState, ObjectState state) {
         super.notifyStateChanged(previousState, state);
+        Color color = Color.red;
+        if(((NeuralNetworkScene) getScene()).isShowActivationColor())
+            color = NeuralNetworkUtils.getColor(neuron);
         
         if (state.isSelected())
             setBorder(SELECTED_BORDER);
         else {
             if (state.isHovered()) {
-                setBorder(HOVER_BORDER);       
+                setBorder(HOVER_BORDER);  //hover je svetlo zut
+                //setBorder(BorderFactory.createRoundedBorder(50, 50, color, Color.gray)); //samo okvir se  menja u sivo nahover
                 setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
             else
-                setBorder(DEFAULT_BORDER);
-        }   
+                setBorder(BorderFactory.createRoundedBorder(50, 50, color, Color.black));
+                //setBorder(DEFAULT_BORDER);
+        } 
         
-
         
-        
-    }
-    
-    
+    } 
     
 }
