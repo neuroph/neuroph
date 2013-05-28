@@ -11,7 +11,9 @@ import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Layer;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddCustomLayerDialog;
+import org.neuroph.netbeans.visual.dialogs.ScenePreferencesDialog;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
+import org.neuroph.netbeans.visual.widgets.NeuralNetworkWidget;
 import org.openide.windows.WindowManager;
 
 /**
@@ -31,9 +33,7 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
         JMenu addLayer = new JMenu("Add Layer");
         JMenuItem addEmptyLayerItem = new JMenuItem("Empty Layer");
         JMenuItem addCustomLayerItem = new JMenuItem("Custom Layer");
-        JMenuItem showConnections = new JMenuItem("Show/Hide Connections");
-        JMenuItem showActivationSize = new JMenuItem("Show/Hide Activation Size");
-        JMenuItem showActivationColor = new JMenuItem("Show/Hide Activation Color");
+        JMenuItem scenePreferences = new JMenuItem("Scene Preferences");
         refreshItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ((NeuralNetworkScene) widget.getScene()).refresh();
@@ -44,7 +44,7 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
             int dropIdx = 0;
 
             public void actionPerformed(ActionEvent e) {
-                Widget neuralNetworkWidget = widget.getChildren().get(0).getChildren().get(0);
+                Widget neuralNetworkWidget = widget.getChildren().get(0).getChildren().get(1);
                 for (int i = 0; i < (neuralNetworkWidget.getChildren().size()); i++) {
                     double layerWidgetPosition = neuralNetworkWidget.getChildren().get(i).getLocation().getY();
                     if (point.getY() < layerWidgetPosition) {
@@ -66,7 +66,7 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
             int dropIdx = 0;
 
             public void actionPerformed(ActionEvent e) {
-                Widget neuralNetworkWidget = widget.getChildren().get(0).getChildren().get(0);
+                Widget neuralNetworkWidget = widget.getChildren().get(0).getChildren().get(1);
                 for (int i = 0; i < (neuralNetworkWidget.getChildren().size()); i++) {
                     double layerWidgetPosition = neuralNetworkWidget.getChildren().get(i).getLocation().getY();
                     if (point.getY() < layerWidgetPosition) {
@@ -83,39 +83,20 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
                 scene.refresh();
             }
         });
+        
+        scenePreferences.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ScenePreferencesDialog dialog = new ScenePreferencesDialog((NeuralNetworkScene) widget.getScene(), null, true);
+                dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
+                dialog.setVisible(true);
+            }
+        });
 
-        showConnections.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
-                scene.setShowConnections(!scene.isShowConnections());
-                scene.refresh();
-            }
-        });
-        
-        showActivationSize.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
-                scene.setShowActivationSize(!scene.isShowActivationSize());
-                scene.showActivationSize();
-            }
-        });
-        
-        showActivationColor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                NeuralNetworkScene scene = (NeuralNetworkScene) widget.getScene();
-                scene.setShowActivationColor(!scene.isShowActivationColor());
-                scene.showActivationColor();
-            }
-        });
-        
         addLayer.add(addEmptyLayerItem);
         addLayer.add(addCustomLayerItem);
         mainPopupMenu.add(addLayer);
         mainPopupMenu.add(refreshItem);
-        mainPopupMenu.add(showConnections);
-        mainPopupMenu.add(showActivationSize);
-        mainPopupMenu.add(showActivationColor);
-
+        mainPopupMenu.add(scenePreferences);
 
         return mainPopupMenu;
 

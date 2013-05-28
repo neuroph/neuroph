@@ -57,14 +57,11 @@ public class NeuralNetworkScene extends ObjectScene {
     private NeuralNetwork neuralNetwork;
     IconNodeWidget inputsWidget = null;
     IconNodeWidget outputsWidget = null;
-    private boolean showConnections = true;
-    private boolean showActivationSize = false;
-    private boolean showActivationColor = false;
     private boolean waitingClick = false;
     private boolean waitingLayerClick = false;
     private boolean refresh = false;
     // neurons and widgets bufferd index
-    HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
+    private HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
     HashMap<Layer, NeuralLayerWidget> layersAndWidgets = new HashMap<Layer, NeuralLayerWidget>();
     InstanceContent content = new InstanceContent();
     AbstractLookup aLookup = new AbstractLookup(content);
@@ -75,6 +72,8 @@ public class NeuralNetworkScene extends ObjectScene {
     private static final int TOO_MANY_CONNECTIONS = 250;
     private NeuralNetworkEditor networkEditor;
     private GraphViewTopComponent topComponent;
+    
+    private ScenePreferences scenePreferences;
 
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
 
@@ -88,6 +87,8 @@ public class NeuralNetworkScene extends ObjectScene {
         mainLayer = new LayerWidget(this);
         mainLayer.setLayout(LayoutFactory.createVerticalFlowLayout());        
         networkEditor = new NeuralNetworkEditor(neuralNet);
+        
+        scenePreferences = new ScenePreferences(this);
         
         LabelWidget neuralNetworkLabel = new LabelWidget(this, "Neural Network");
         neuralNetworkLabel.setFont(new Font("Arial", Font.PLAIN, 12));  
@@ -233,15 +234,15 @@ public class NeuralNetworkScene extends ObjectScene {
 
         createNeuralLayers();
 
-        if (showConnections) {
+        if (scenePreferences.isShowConnections()) {
             createConnections();
         }
         this.validate(); // only one call to validate since they ar eusing same scene instance   
         refresh = true;
 
         createConnectionsBetweenNeuronsInSameLayer();
-        showActivationSize();
-        showActivationColor();
+        scenePreferences.showActivationSize();
+        scenePreferences.showActivationColor();
     }
 
     private void createNeuralLayers() {
@@ -384,7 +385,7 @@ public class NeuralNetworkScene extends ObjectScene {
 
                 NeuronWidget targetWidget = neuronsAndWidgets.get(neuralNetwork.getInputNeurons()[i]);
 
-                if (showConnections) {
+                if (scenePreferences.isShowConnections()) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
 
                     connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
@@ -406,7 +407,7 @@ public class NeuralNetworkScene extends ObjectScene {
             Layer sourceLayer = layers.get(0);
 
             NeuralLayerWidget sourceWidget = layersAndWidgets.get(sourceLayer);
-            if (showConnections) {
+            if (scenePreferences.isShowConnections()) {
                 ConnectionWidget connWidget = new ConnectionWidget(this);
                 // create connection between input widget and first neural layer widget
                 connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
@@ -427,7 +428,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 outputsWidget.addChild(outputLabel);
 
                 NeuronWidget sourceWidget = neuronsAndWidgets.get(neuralNetwork.getOutputNeurons()[i]);
-                if (showConnections) {
+                if (scenePreferences.isShowConnections()) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
 
                     connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
@@ -448,7 +449,7 @@ public class NeuralNetworkScene extends ObjectScene {
 
             //connect that neural layer widget with the previous one
             NeuralLayerWidget sourceWidget = layersAndWidgets.get(targetlayer);
-            if (showConnections) {
+            if (scenePreferences.isShowConnections()) {
                 ConnectionWidget connWidget = new ConnectionWidget(this);
 
                 connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
@@ -583,30 +584,6 @@ public class NeuralNetworkScene extends ObjectScene {
         return neuralNetwork;
     }
 
-    public boolean isShowConnections() {
-        return showConnections;
-    }
-
-    public void setShowConnections(boolean showConnections) {
-        this.showConnections = showConnections;
-    }
-
-    public boolean isShowActivationSize() {
-        return showActivationSize;
-    }
-
-    public void setShowActivationSize(boolean showActivationSize) {
-        this.showActivationSize = showActivationSize;
-    }
-
-    public boolean isShowActivationColor() {
-        return showActivationColor;
-    }
-
-    public void setShowActivationColor(boolean showActivationColor) {
-        this.showActivationColor = showActivationColor;
-    }
-
     public boolean isWaitingClick() {
         return waitingClick;
     }
@@ -654,27 +631,14 @@ public class NeuralNetworkScene extends ObjectScene {
 
     }
     
-    public void showActivationSize(){
-        for (Neuron neuron : neuronsAndWidgets.keySet()) {
-            if(!showActivationSize){
-                neuronsAndWidgets.get(neuron).setPreferredSize(new Dimension(50,50));
-            }else{
-                int size = NeuralNetworkUtils.getSize(neuron);
-                neuronsAndWidgets.get(neuron).setPreferredSize(new Dimension(size, size));
-            }
-        }
+    public ScenePreferences getScenePreferences() {
+        return scenePreferences;
+    }
+
+    public HashMap<Neuron, NeuronWidget> getNeuronsAndWidgets() {
+        return neuronsAndWidgets;
     }
     
-    public void showActivationColor(){
-        for (Neuron neuron : neuronsAndWidgets.keySet()) {
-            if(!showActivationColor){
-                Border border = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
-                neuronsAndWidgets.get(neuron).setBorder(border);
-            }else{
-                Border border = BorderFactory.createRoundedBorder(50, 50, NeuralNetworkUtils.getColor(neuron), Color.black);
-                neuronsAndWidgets.get(neuron).setBorder(border);
-            }
-        }
-    }
+    
     
 }
