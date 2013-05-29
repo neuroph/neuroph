@@ -5,6 +5,8 @@ import org.neuroph.core.Neuron;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.transfer.TransferFunction;
 import org.neuroph.netbeans.properties.InputFunctionEditor;
+import org.neuroph.netbeans.properties.NeuronErrorEditor;
+import org.neuroph.netbeans.properties.NeuronLabelEditor;
 import org.neuroph.netbeans.properties.TransferFunctionEditor;
 import org.openide.ErrorManager;
 import org.openide.nodes.AbstractNode;
@@ -64,8 +66,9 @@ public class NeuronNode extends AbstractNode {
 
             Property netInput = new PropertySupport.Reflection(neuron, Double.class, "getNetInput", null);
             Property output = new PropertySupport.Reflection(neuron, Double.class, "getOutput", null);
-            Property error = new PropertySupport.Reflection(neuron, Double.class, "getError", null);
-            Property label = new PropertySupport.Reflection(neuron, String.class, "getLabel", "setLabel");
+            //ovo ne radi kad je setError!!!
+            PropertySupport.Reflection error = new PropertySupport.Reflection(neuron, Double.class, "getError", null);
+            PropertySupport.Reflection label = new PropertySupport.Reflection(neuron, String.class, "getLabel", "setLabel");
 
             type.setShortDescription("Neuron type/class");
             inputfunction.setShortDescription("Input function");
@@ -77,6 +80,8 @@ public class NeuronNode extends AbstractNode {
 
             inputfunction.setPropertyEditorClass(InputFunctionEditor.class);
             transferfunction.setPropertyEditorClass(TransferFunctionEditor.class);
+            label.setPropertyEditorClass(NeuronLabelEditor.class);
+            error.setPropertyEditorClass(NeuronErrorEditor.class);
 
             type.setName("Type");
             inputfunction.setName("Input function");
