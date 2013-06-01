@@ -107,9 +107,9 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
 
     private void buttonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOKActionPerformed
         this.dispose();
-        scene.getScenePreferences().showActivationSize(checkBoxShowActivationSize.isSelected());
-        scene.getScenePreferences().showActivationColor(checkBoxShowActivationColor.isSelected());
-        scene.getScenePreferences().showConnections(checkBoxShowConnections.isSelected());
+        scene.showActivationSize(checkBoxShowActivationSize.isSelected());
+        scene.showActiovationColor(checkBoxShowActivationColor.isSelected());
+        scene.showConnections(checkBoxShowConnections.isSelected());
     }//GEN-LAST:event_buttonOKActionPerformed
 
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed

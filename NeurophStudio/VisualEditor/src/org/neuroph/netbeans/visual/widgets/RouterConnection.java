@@ -18,16 +18,15 @@ public class RouterConnection implements Router {
     int sizeLast;
     
 
-    public RouterConnection(NeuronWidget firstWidget, NeuronWidget lastWidget, Point first, Point last) { //point nije centar widgeta, pomeren je ulevo ili udesno za poluprecnik 
-        this.first = first;                            //poluprecnik widgeta je sada fiksan = 25
+    public RouterConnection(NeuronWidget firstWidget, NeuronWidget lastWidget, Point first, Point last) { 
+        //point nije centar widgeta, pomeren je ulevo ili udesno za poluprecnik 
+        this.first = first;                            
         this.last = last;
         sizeFirst = firstWidget.getPreferredSize().height/2;
         sizeLast = lastWidget.getPreferredSize().height/2;
         if (first.x < last.x) { //ako je s leva na desno
             first.x -= sizeFirst;
             last.x += sizeLast;
-//            first.x -= 25;
-//            last.x += 25;
         }
         if (first.x > last.x) { // ako je s desna na levo
             first.x += sizeFirst;
@@ -44,7 +43,7 @@ public class RouterConnection implements Router {
         if (distance == 0) { //ako je veza sa samim sobom
             return routeLoop();
         }
-        if (distance < 100) { // ako su jedan do drugog; ovo sada radi jer je velicina neuron widgeta fiksna, ali bi trebalo osmisliti neki sigurniji nacin
+        if (distance < sizeFirst + sizeLast + 20) { // ako su jedan do drugog
             return routeLine();
         }
         return routeCurve();
@@ -72,7 +71,6 @@ public class RouterConnection implements Router {
                     size = sizeFirst;
                 }
                 double i = Math.sqrt(Math.pow(Math.abs(x - leftX), 2) + Math.pow(y - currentY, 2));
-                //if (i >= 25) // poluprecnik widgeta = 25; ako tacka nije u prostoru widgeta
                 if (i >= size)
                 {
                     points.add(new Point(x, y));
@@ -85,7 +83,6 @@ public class RouterConnection implements Router {
                     size = sizeFirst;
                 }
                 double i = Math.sqrt(Math.pow(Math.abs(rightX - x), 2) + Math.pow(y - currentY, 2));
-                //if (i >= 25) // poluprecnik widgeta = 25; ako tacka nije u prostoru widgeta
                 if (i >= size) 
                 {
                     points.add(new Point(x, y));
@@ -99,13 +96,10 @@ public class RouterConnection implements Router {
         int firstX = first.x;
         int lastX = last.x;
         int currentY = first.y;
-        //25 je poluprecnik widgeta
         List<Point> points = new ArrayList<Point>();
         if (firstX < lastX) { //ako je s leva na desno
             points.add(new Point(firstX + sizeFirst, currentY));
             points.add(new Point(lastX - sizeLast, currentY));
-//            points.add(new Point(firstX + 25, currentY));
-//            points.add(new Point(lastX - 25, currentY));
         } else { //ako je s desna na levo
             points.add(new Point(firstX - sizeFirst, currentY));
             points.add(new Point(lastX + sizeLast, currentY));
@@ -116,20 +110,12 @@ public class RouterConnection implements Router {
     private List<Point> routeLoop() {
         int currentX = first.x;
         int currentY = first.y;
-        // poluprecnik widgeta = 25
-        // precnik widgeta = 50
         int leftDownX = (int) (currentX - Math.sqrt(Math.pow(sizeFirst, 2) / 5)); 
         int leftUpX = currentX - sizeFirst; 
         int rightDownX = (int) (currentX + Math.sqrt(Math.pow(sizeFirst, 2) / 5));
         int rightUpX = currentX + sizeFirst; 
         int upY = currentY + sizeFirst*2; 
-        int downY = (int) (currentY + 2 * Math.sqrt(Math.pow(sizeFirst, 2) / 5)); 
-//        int leftDownX = (int) (currentX - Math.sqrt(Math.pow(25, 2) / 5)); 
-//        int leftUpX = currentX - 25; 
-//        int rightDownX = (int) (currentX + Math.sqrt(Math.pow(25, 2) / 5));
-//        int rightUpX = currentX + 25; 
-//        int upY = currentY + 50; 
-//        int downY = (int) (currentY + 2 * Math.sqrt(Math.pow(25, 2) / 5)); 
+        int downY = (int) (currentY + 2 * Math.sqrt(Math.pow(sizeFirst, 2) / 5));
 
         List<Point> points = new ArrayList<Point>();
         double t = 0;
