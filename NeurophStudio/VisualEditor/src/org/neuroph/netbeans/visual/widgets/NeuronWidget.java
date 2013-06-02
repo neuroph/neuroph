@@ -111,16 +111,32 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
             setBorder(SELECTED_BORDER);
         else {
             if (state.isHovered()) {
-                setBorder(HOVER_BORDER);  //hover je svetlo zut
+                setBorder(HOVER_BORDER);  //hover je zut
                 //setBorder(BorderFactory.createRoundedBorder(50, 50, color, Color.gray)); //samo okvir se  menja u sivo nahover
                 setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
             else
                 setBorder(BorderFactory.createRoundedBorder(50, 50, color, Color.black));
-                //setBorder(DEFAULT_BORDER);
-        } 
-        
-        
+        }  
     } 
+    
+    public void setActivationSize(boolean show) {
+        if (!show) {
+            setPreferredSize(new Dimension(50, 50));
+        } else {
+            int size = NeuralNetworkUtils.getSize(getNeuron());
+            setPreferredSize(new Dimension(size, size));
+        }
+    }
+    
+    public void setActivationColor(boolean show) {
+        if (!show) {
+            Border border = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
+            setBorder(border);
+        } else {
+            Border border = BorderFactory.createRoundedBorder(50, 50, NeuralNetworkUtils.getColor(getNeuron()), Color.black);
+            setBorder(border);
+        }
+    }
     
 }

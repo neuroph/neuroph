@@ -94,22 +94,22 @@ public class NeuralNetworkScene extends ObjectScene {
         //neuralNetworkLabel.setBorder(BorderFactory.createLineBorder(1) );
         inputsWidget = new IconNodeWidget(this);
         inputsWidget.setBorder(BorderFactory.createLineBorder(15));
-        mainLayer.addChild(new LabelWidget(this, "Inputs") );
+        mainLayer.addChild(new LabelWidget(this, "Inputs"));
         mainLayer.addChild(inputsWidget);
-        
-       
+
+
         mainLayer.addChild(neuralNetworkLabel);
         mainLayer.addChild(neuralNetworkWidget);
-        
-        mainLayer.addChild(new LabelWidget(this, "Outputs") );
+
+        mainLayer.addChild(new LabelWidget(this, "Outputs"));
         outputsWidget = new IconNodeWidget(this);
         outputsWidget.setBorder(BorderFactory.createLineBorder(15));
-        mainLayer.addChild(outputsWidget);        
+        mainLayer.addChild(outputsWidget);
 
         addChild(mainLayer);
         addChild(connectionLayer);
         addChild(interractionLayer);
-        
+
         addObject(neuralNetwork, neuralNetworkWidget);
 
         getActions().addAction(ActionFactory.createPanAction());
@@ -330,8 +330,8 @@ public class NeuralNetworkScene extends ObjectScene {
                 for (int j = 0; j < layer.getNeuronsCount(); j++) {
                     Neuron neuron = neuralNetwork.getLayerAt(i).getNeuronAt(j);
                     NeuronWidget neuronWidget = new NeuronWidget(this, neuron);
-                    setActivationSizeNeuron(neuronWidget, scenePreferences.isShowActivationSize());
-                    setActivationColorNeuron(neuronWidget, scenePreferences.isShowActivationColor());
+                    neuronWidget.setActivationSize(scenePreferences.isShowActivationSize());
+                    neuronWidget.setActivationColor(scenePreferences.isShowActivationColor());
 
                     if (getObjects().contains(neuron)) {
                         removeObject(neuron);
@@ -351,6 +351,7 @@ public class NeuralNetworkScene extends ObjectScene {
                     label.setForeground(Color.white);
                     label.setAlignment(LabelWidget.Alignment.CENTER);
                     label.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
+                    label.setVisible(scenePreferences.isShowActivationLevels());
                     LabelWidget neuronLabel = new LabelWidget(this, neuron.getLabel());
                     neuronLabel.setForeground(Color.BLACK);
                     neuronLabel.setAlignment(LabelWidget.Alignment.CENTER);
@@ -381,7 +382,7 @@ public class NeuralNetworkScene extends ObjectScene {
         // create inputs widgets
         //inputsWidget = new IconNodeWidget(this);
         inputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
-        
+
         outputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
@@ -425,11 +426,11 @@ public class NeuralNetworkScene extends ObjectScene {
                 connectionLayer.addChild(connWidget);
             }
 
-           // neuralNetworkWidget.addChild(0, inputsWidget);
+            // neuralNetworkWidget.addChild(0, inputsWidget);
         }
 
         if (neuralNetwork.getOutputNeurons() != null && neuralNetwork.getOutputNeurons().length < TOO_MANY_NEURONS) {
-           // neuralNetworkWidget.addChild(outputsWidget);
+            // neuralNetworkWidget.addChild(outputsWidget);
             for (int i = 0; i < neuralNetwork.getOutputNeurons().length; i++) {
                 LabelWidget outputLabel = new LabelWidget(this);
                 outputLabel.setLabel("Out " + (i + 1));
@@ -448,7 +449,7 @@ public class NeuralNetworkScene extends ObjectScene {
             }
             //if last neural layer  has more than 100 neurons connect that neural layer widget with one output label
         } else if (neuralNetwork.getOutputNeurons() != null) {
-           // neuralNetworkWidget.addChild(outputsWidget);
+            // neuralNetworkWidget.addChild(outputsWidget);
             LabelWidget outputLabel = new LabelWidget(this);
             outputLabel.setLabel("Output " + neuralNetwork.getOutputNeurons().length);
             outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
@@ -625,13 +626,25 @@ public class NeuralNetworkScene extends ObjectScene {
         connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
         connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
         double connWeight = connection.getWeight().value;
-        if (connWeight < -0.5) {
-            connWidget.setStroke(new BasicStroke((float) 0.5));
-        } else if (connWeight >= -0.5 && connWeight < 0.5) {
-            connWidget.setStroke(new BasicStroke((float) 1.5));
-        } else {
-            connWidget.setStroke(new BasicStroke(3));
+        if (scenePreferences.isShowConnectionWeights()) {
+            LabelWidget label = new LabelWidget(this);
+            DecimalFormat fourDForm = new DecimalFormat("#.###");
+            label.setLabel(fourDForm.format(connWeight));
+            connWidget.addChild(label);
+            connWidget.setConstraint(label, LayoutFactory.ConnectionWidgetLayoutAlignment.CENTER, 0.5f);
         }
+        if (scenePreferences.isWeightHighlighting()) {
+            if (connWeight < -0.5) {
+                connWidget.setStroke(new BasicStroke((float) 0.5));
+            } else if (connWeight >= -0.5 && connWeight < 0.5) {
+                connWidget.setStroke(new BasicStroke((float) 1.5));
+            } else {
+                connWidget.setStroke(new BasicStroke(3));
+            }
+        }else{
+            connWidget.setStroke(new BasicStroke(1));
+        }
+
         sourceWidget.addConnection(connWidget);
         targetWidget.addConnection(connWidget);
         return connWidget;
@@ -642,19 +655,6 @@ public class NeuralNetworkScene extends ObjectScene {
         return scenePreferences;
     }
 
-    public HashMap<Neuron, NeuronWidget> getNeuronsAndWidgets() {
-        return neuronsAndWidgets;
-    }
-
-    /*public void showActivationSize(boolean show) {
-     for (Neuron neuron : neuronsAndWidgets.keySet()) {
-     showActivationSizeNeuron(neuronsAndWidgets.get(neuron), show);
-     }
-     scenePreferences.setShowActivationSize(show);
-     createConnectionsBetweenNeuronsInSameLayer();
-
-     }*/
-    
     public void showActivationSize(boolean show) {
         if (scenePreferences.isShowActivationSize() != show) {
             scenePreferences.setShowActivationSize(show);
@@ -662,35 +662,37 @@ public class NeuralNetworkScene extends ObjectScene {
         }
     }
 
-    public void setActivationSizeNeuron(NeuronWidget neuronWidget, boolean show) {
-        if (!show) {
-            neuronWidget.setPreferredSize(new Dimension(50, 50));
-        } else {
-            int size = NeuralNetworkUtils.getSize(neuronWidget.getNeuron());
-            neuronWidget.setPreferredSize(new Dimension(size, size));
-        }
-    }
-
-    public void showActiovationColor(boolean show) {
+    public void showActivationColor(boolean show) {
         for (Neuron neuron : neuronsAndWidgets.keySet()) {
-            setActivationColorNeuron(neuronsAndWidgets.get(neuron), show);
+            neuronsAndWidgets.get(neuron).setActivationColor(show);
         }
         scenePreferences.setShowActivationColor(show);
-    }
-
-    public void setActivationColorNeuron(NeuronWidget neuronWidget, boolean show) {
-        if (!show) {
-            Border border = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
-            neuronWidget.setBorder(border);
-        } else {
-            Border border = BorderFactory.createRoundedBorder(50, 50, NeuralNetworkUtils.getColor(neuronWidget.getNeuron()), Color.black);
-            neuronWidget.setBorder(border);
-        }
     }
 
     public void showConnections(boolean show) {
         if (scenePreferences.isShowConnections() != show) {
             scenePreferences.setShowConnections(show);
+            refresh();
+        }
+    }
+
+    public void showActivationLevel(boolean show) {
+        if (scenePreferences.isShowActivationLevels() != show) {
+            scenePreferences.setShowActivationLevels(show);
+            refresh();
+        }
+    }
+
+    public void showConnectionWeights(boolean show) {
+        if (scenePreferences.isShowConnectionWeights() != show) {
+            scenePreferences.setShowConnectionWeights(show);
+            refresh();
+        }
+    }
+
+    public void weightHighlighting(boolean highlight) {
+        if (scenePreferences.isWeightHighlighting() != highlight) {
+            scenePreferences.setWeightHighlighting(highlight);
             refresh();
         }
     }

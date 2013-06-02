@@ -13,11 +13,17 @@ public class ScenePreferences {
     private boolean showConnections;
     private boolean showActivationSize;
     private boolean showActivationColor;
+    private boolean showActivationLevels;
+    private boolean showConnectionWeights;
+    private boolean weightHighlighting;
 
     public ScenePreferences() {
         showConnections = true;
         showActivationSize = false;
         showActivationColor = false;
+        showActivationLevels = true;
+        showConnectionWeights = false;
+        weightHighlighting = false;
     }
 
     public boolean isShowConnections() {
@@ -43,4 +49,30 @@ public class ScenePreferences {
     public void setShowActivationColor(boolean showActivationColor) {
         this.showActivationColor = showActivationColor;
     }
+
+    public boolean isShowActivationLevels() {
+        return showActivationLevels;
+    }
+
+    public void setShowActivationLevels(boolean showActivationLevels) {
+        this.showActivationLevels = showActivationLevels;
+    }
+
+    public boolean isShowConnectionWeights() {
+        return showConnectionWeights;
+    }
+
+    public void setShowConnectionWeights(boolean showConnectionWeights) {
+        this.showConnectionWeights = showConnectionWeights;
+    }
+
+    public boolean isWeightHighlighting() {
+        return weightHighlighting;
+    }
+
+    public void setWeightHighlighting(boolean weightHighlighting) {
+        this.weightHighlighting = weightHighlighting;
+    }
+    
+    
 }
