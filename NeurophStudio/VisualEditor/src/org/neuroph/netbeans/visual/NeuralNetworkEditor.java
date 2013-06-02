@@ -168,6 +168,8 @@ public class NeuralNetworkEditor {
 
         Neuron neuron = neuronWidget.getNeuron();
         Neuron[] inputNeurons = neuralNet.getInputNeurons();
+        if (inputNeurons == null) inputNeurons = new Neuron[0];
+        
         Neuron[] newInputNeurons = new Neuron[inputNeurons.length + 1];
 
         for (int i = 0; i < inputNeurons.length; i++) {
@@ -183,6 +185,7 @@ public class NeuralNetworkEditor {
         Neuron neuron = neuronWidget.getNeuron();
 
         Neuron[] outputNeurons = neuralNet.getOutputNeurons();
+        if (outputNeurons == null) outputNeurons = new Neuron[0];        
         Neuron[] newOutputNeurons = new Neuron[outputNeurons.length + 1];
 
         for (int i = 0; i < outputNeurons.length; i++) {
@@ -194,6 +197,8 @@ public class NeuralNetworkEditor {
     }
 
     public boolean isInputNeuron(Neuron neuron) {
+        if (neuralNet.getInputNeurons()==null) return false;
+        
         for (Neuron inputNeuron : neuralNet.getInputNeurons()) {
             if (inputNeuron == neuron) {
                 return true;
@@ -203,6 +208,8 @@ public class NeuralNetworkEditor {
     }
 
     public boolean isOutputNeuron(Neuron neuron) {
+         if (neuralNet.getOutputNeurons()==null) return false;
+        
         for (Neuron outputNeuron : neuralNet.getOutputNeurons()) {
             if (outputNeuron == neuron) {
                 return true;

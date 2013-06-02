@@ -72,10 +72,12 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
         for (int i = 0; i < neuralNetworkWidget.getChildren().size(); i++) {
             double layerWidgetPosition = neuralNetworkWidget.getChildren().get(i).getLocation().getY();
             if (point.getY() < layerWidgetPosition) {
-                dropIdx = i - 1; // 
+                //dropIdx = i - 1; // 
+                dropIdx = i; 
                 break;
             } else {
-                dropIdx = neuralNetworkWidget.getChildren().size()-1;
+              //  dropIdx = neuralNetworkWidget.getChildren().size()-1;
+                  dropIdx = neuralNetworkWidget.getChildren().size();
             }
 
         }

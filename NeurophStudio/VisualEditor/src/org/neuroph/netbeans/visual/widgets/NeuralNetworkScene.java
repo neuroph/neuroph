@@ -405,7 +405,7 @@ public class NeuralNetworkScene extends ObjectScene {
             }
             //neuralNetworkWidget.addChild(0, inputsWidget);
             // if first layer has more than 100 neurons, create one  input label and connect it with the first layer
-        } else {
+        } else if (neuralNetwork.getInputNeurons() != null) {
 
             LabelWidget inputLabel = new LabelWidget(this);
             inputLabel.setLabel("Input " + neuralNetwork.getInputNeurons().length);
@@ -413,7 +413,7 @@ public class NeuralNetworkScene extends ObjectScene {
             inputsWidget.addChild(inputLabel);
 
 
-            Layer sourceLayer = layers.get(0);
+            Layer sourceLayer = layers.get(0); // verovatno ne mora da bude samo prvi layer ...
 
             NeuralLayerWidget sourceWidget = layersAndWidgets.get(sourceLayer);
             if (scenePreferences.isShowConnections()) {
