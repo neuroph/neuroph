@@ -5,6 +5,8 @@ import org.neuroph.core.Neuron;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.transfer.TransferFunction;
 import org.neuroph.netbeans.properties.InputFunctionEditor;
+import org.neuroph.netbeans.properties.NetInputEditor;
+import org.neuroph.netbeans.properties.NetOutputEditor;
 import org.neuroph.netbeans.properties.NeuronErrorEditor;
 import org.neuroph.netbeans.properties.NeuronLabelEditor;
 import org.neuroph.netbeans.properties.TransferFunctionEditor;
@@ -61,13 +63,13 @@ public class NeuronNode extends AbstractNode {
 
         try {
             Property type = new PropertySupport.Reflection(neuron, Class.class, "getClass", null);
-            PropertySupport.Reflection transferfunction = new PropertySupport.Reflection(neuron, TransferFunction.class, "getTransferFunction", null);
-            PropertySupport.Reflection inputfunction = new PropertySupport.Reflection(neuron, InputFunction.class, "getInputFunction", null);
+            PropertySupport.Reflection transferfunction = new PropertySupport.Reflection(neuron, TransferFunction.class, "getTransferFunction", "setTransferFunction");
+            PropertySupport.Reflection inputfunction = new PropertySupport.Reflection(neuron, InputFunction.class, "getInputFunction", "setInputFunction");
 
-            Property netInput = new PropertySupport.Reflection(neuron, Double.class, "getNetInput", null);
-            Property output = new PropertySupport.Reflection(neuron, Double.class, "getOutput", null);
-            //ovo ne radi kad je setError!!!
-            PropertySupport.Reflection error = new PropertySupport.Reflection(neuron, Double.class, "getError", null);
+            PropertySupport.Reflection netInput = new PropertySupport.Reflection(neuron, Double.TYPE, "getNetInput", "setInput");
+            PropertySupport.Reflection output = new PropertySupport.Reflection(neuron, Double.TYPE, "getOutput", "setOutput");
+          
+            PropertySupport.Reflection error = new PropertySupport.Reflection(neuron, Double.TYPE, "getError", "setError");
             PropertySupport.Reflection label = new PropertySupport.Reflection(neuron, String.class, "getLabel", "setLabel");
 
             type.setShortDescription("Neuron type/class");
@@ -81,6 +83,8 @@ public class NeuronNode extends AbstractNode {
             inputfunction.setPropertyEditorClass(InputFunctionEditor.class);
             transferfunction.setPropertyEditorClass(TransferFunctionEditor.class);
             label.setPropertyEditorClass(NeuronLabelEditor.class);
+            netInput.setPropertyEditorClass(NetInputEditor.class);
+            output.setPropertyEditorClass(NetOutputEditor.class);
             error.setPropertyEditorClass(NeuronErrorEditor.class);
 
             type.setName("Type");
