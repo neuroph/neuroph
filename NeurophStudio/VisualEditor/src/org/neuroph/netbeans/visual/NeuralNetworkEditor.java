@@ -165,54 +165,30 @@ public class NeuralNetworkEditor {
     }
 
     public void setAsInputNeuron(NeuronWidget neuronWidget) {
-        boolean inputNeuronAdded = false;
+
         Neuron neuron = neuronWidget.getNeuron();
-        Layer layer = neuron.getParentLayer();
-        Layer firstLayer = neuralNet.getLayerAt(0);
         Neuron[] inputNeurons = neuralNet.getInputNeurons();
         Neuron[] newInputNeurons = new Neuron[inputNeurons.length + 1];
-        if (layer != firstLayer) {
-            layer.removeNeuron(neuron);
-            if (isOutputNeuron(neuron)) {
-                removeFromOutputNeurons(neuron);
-            }
-            firstLayer.addNeuron(0, neuron);
+
+        for (int i = 0; i < inputNeurons.length; i++) {
+            newInputNeurons[i] = inputNeurons[i];
+
         }
-        for (int i = 0, j = 0; i < newInputNeurons.length; i++) {
-            if (neuron == firstLayer.getNeuronAt(i) && !inputNeuronAdded) {
-                newInputNeurons[i] = neuron;
-                inputNeuronAdded = true;
-            } else {
-                newInputNeurons[i] = inputNeurons[j];
-                j++;
-            }
-        }
+        newInputNeurons[newInputNeurons.length - 1] = neuron;
         neuralNet.setInputNeurons(newInputNeurons);
     }
 
     public void setAsOutputNeuron(NeuronWidget neuronWidget) {
-        boolean outputNeuronAdded = false;
+
         Neuron neuron = neuronWidget.getNeuron();
-        Layer layer = neuron.getParentLayer();
-        Layer lastLayer = neuralNet.getLayerAt(neuralNet.getLayersCount() - 1);
+
         Neuron[] outputNeurons = neuralNet.getOutputNeurons();
         Neuron[] newOutputNeurons = new Neuron[outputNeurons.length + 1];
-        if (layer != lastLayer) {
-            layer.removeNeuron(neuron);
-            if (isInputNeuron(neuron)) {
-                removeFromInputNeurons(neuron);
-            }
-            lastLayer.addNeuron(neuron);
+
+        for (int i = 0; i < outputNeurons.length; i++) {
+            newOutputNeurons[i] = outputNeurons[i];
         }
-        for (int i = 0, j = 0; i < newOutputNeurons.length; i++) {
-            if (neuron == neuron.getParentLayer().getNeuronAt(i) && !outputNeuronAdded) {
-                newOutputNeurons[i] = neuron;
-                outputNeuronAdded = true;
-            } else {
-                newOutputNeurons[i] = outputNeurons[j];
-                j++;
-            }
-        }
+        newOutputNeurons[newOutputNeurons.length - 1] = neuron;
         neuralNet.setOutputNeurons(newOutputNeurons);
 
     }
