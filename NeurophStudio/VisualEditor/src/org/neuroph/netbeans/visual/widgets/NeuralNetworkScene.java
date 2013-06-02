@@ -92,13 +92,24 @@ public class NeuralNetworkScene extends ObjectScene {
         LabelWidget neuralNetworkLabel = new LabelWidget(this, "Neural Network");
         neuralNetworkLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         //neuralNetworkLabel.setBorder(BorderFactory.createLineBorder(1) );
+        inputsWidget = new IconNodeWidget(this);
+        inputsWidget.setBorder(BorderFactory.createLineBorder(15));
+        mainLayer.addChild(new LabelWidget(this, "Inputs") );
+        mainLayer.addChild(inputsWidget);
+        
+       
         mainLayer.addChild(neuralNetworkLabel);
         mainLayer.addChild(neuralNetworkWidget);
+        
+        mainLayer.addChild(new LabelWidget(this, "Outputs") );
+        outputsWidget = new IconNodeWidget(this);
+        outputsWidget.setBorder(BorderFactory.createLineBorder(15));
+        mainLayer.addChild(outputsWidget);        
 
         addChild(mainLayer);
         addChild(connectionLayer);
         addChild(interractionLayer);
-
+        
         addObject(neuralNetwork, neuralNetworkWidget);
 
         getActions().addAction(ActionFactory.createPanAction());
@@ -224,6 +235,8 @@ public class NeuralNetworkScene extends ObjectScene {
     }
 
     public void visualizeNetwork() {
+        inputsWidget.removeChildren();
+        outputsWidget.removeChildren();
         //clear layers (with neurons)
         neuralNetworkWidget.removeChildren();
         // clear connections
@@ -366,10 +379,9 @@ public class NeuralNetworkScene extends ObjectScene {
         }
 
         // create inputs widgets
-        inputsWidget = new IconNodeWidget(this);
+        //inputsWidget = new IconNodeWidget(this);
         inputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
-
-        outputsWidget = new IconNodeWidget(this);
+        
         outputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
@@ -391,7 +403,7 @@ public class NeuralNetworkScene extends ObjectScene {
                     connectionLayer.addChild(connWidget);
                 }
             }
-            neuralNetworkWidget.addChild(0, inputsWidget);
+            //neuralNetworkWidget.addChild(0, inputsWidget);
             // if first layer has more than 100 neurons, create one  input label and connect it with the first layer
         } else {
 
@@ -413,11 +425,11 @@ public class NeuralNetworkScene extends ObjectScene {
                 connectionLayer.addChild(connWidget);
             }
 
-            neuralNetworkWidget.addChild(0, inputsWidget);
+           // neuralNetworkWidget.addChild(0, inputsWidget);
         }
 
         if (neuralNetwork.getOutputNeurons() != null && neuralNetwork.getOutputNeurons().length < TOO_MANY_NEURONS) {
-            neuralNetworkWidget.addChild(outputsWidget);
+           // neuralNetworkWidget.addChild(outputsWidget);
             for (int i = 0; i < neuralNetwork.getOutputNeurons().length; i++) {
                 LabelWidget outputLabel = new LabelWidget(this);
                 outputLabel.setLabel("Out " + (i + 1));
@@ -436,7 +448,7 @@ public class NeuralNetworkScene extends ObjectScene {
             }
             //if last neural layer  has more than 100 neurons connect that neural layer widget with one output label
         } else if (neuralNetwork.getOutputNeurons() != null) {
-            neuralNetworkWidget.addChild(outputsWidget);
+           // neuralNetworkWidget.addChild(outputsWidget);
             LabelWidget outputLabel = new LabelWidget(this);
             outputLabel.setLabel("Output " + neuralNetwork.getOutputNeurons().length);
             outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
