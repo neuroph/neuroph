@@ -40,6 +40,8 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
     private JMenuItem removeAllOutputConnections;
     private JMenuItem removeAllInputConnections;
     private JMenuItem setLabel;
+    private JMenuItem setAsInputLayer;
+    private JMenuItem setAsOutputLayer;
     private NeuralNetworkEditor editor;
 
     public NeuralLayerPopupMenuProvider() {
@@ -57,6 +59,8 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         removeAllInputConnections = new JMenuItem("Remove All Input Connections");
         removeAllOutputConnections = new JMenuItem("Remove All Output Connections");
         setLabel = new JMenuItem("Set label");
+        setAsInputLayer = new JMenuItem("Set as input layer");
+        setAsOutputLayer = new JMenuItem("Set as output layer");
         removeConnections.add(removeAllInputConnections);
         removeConnections.add(removeAllOutputConnections);
 
@@ -68,6 +72,8 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         popupMenu.add(removeConnections);
         popupMenu.add(changeTransferFunction);
         popupMenu.add(setLabel);
+        popupMenu.add(setAsInputLayer);
+        popupMenu.add(setAsOutputLayer);
 
     }
 
@@ -168,6 +174,26 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
                 editor.removeAllOutputConnections(layer);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
+        });
+        
+        setAsInputLayer.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent e) {
+                Layer layer = ((NeuralLayerWidget) widget).getLayer();
+                editor.setAsInputLayer(layer);
+                ((NeuralNetworkScene) widget.getScene()).refresh();
+            }
+            
+        });
+        
+            setAsOutputLayer.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent e) {
+                Layer layer = ((NeuralLayerWidget) widget).getLayer();
+                editor.setAsOutputLayer(layer);
+                ((NeuralNetworkScene) widget.getScene()).refresh();
+            }
+            
         });
 
         return popupMenu;

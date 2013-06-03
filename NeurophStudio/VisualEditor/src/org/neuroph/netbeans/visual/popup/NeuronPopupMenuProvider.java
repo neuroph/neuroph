@@ -48,6 +48,8 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         JMenuItem changeInputFunction = new JMenuItem("Change Input Function");
         JMenuItem setAsInputNeuron = new JMenuItem("Set as input");
         JMenuItem setAsOutputNeuron = new JMenuItem("Set as output");
+        JMenuItem removeFromInput = new JMenuItem("Remove from input neurons");
+        JMenuItem removeFromOutput = new JMenuItem("Remove from output neurons");
         removeConnections.add(removeAllInputConnections);
         removeConnections.add(removeAllOutConnections);
         neuronPopupMenu.add(removeItem);
@@ -59,11 +61,19 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         neuronPopupMenu.add(changeInputFunction);
         neuronPopupMenu.add(setAsInputNeuron);
         neuronPopupMenu.add(setAsOutputNeuron);
+        neuronPopupMenu.add(removeFromInput);
+        neuronPopupMenu.add(removeFromOutput);
         if (editor.isInputNeuron(neuron)) {
             setAsInputNeuron.setEnabled(false);
+            removeFromInput.setEnabled(true);
+        }else {
+            removeFromInput.setEnabled(false);
         }
         if (editor.isOutputNeuron(neuron)) {
             setAsOutputNeuron.setEnabled(false);
+            removeFromOutput.setEnabled(true);
+        }else{
+            removeFromOutput.setEnabled(false);
         }
 
         removeItem.addActionListener(new ActionListener() {
@@ -152,14 +162,14 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
         });
         setAsInputNeuron.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                editor.setAsInputNeuron((NeuronWidget) widget);
+                editor.setAsInputNeuron(((NeuronWidget) widget).getNeuron());
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
 
         setAsOutputNeuron.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                editor.setAsOutputNeuron((NeuronWidget) widget);
+                editor.setAsOutputNeuron(((NeuronWidget) widget).getNeuron());
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
@@ -177,8 +187,23 @@ public class NeuronPopupMenuProvider implements PopupMenuProvider {
             }
         });
 
+        removeFromInput.addActionListener(new ActionListener(){
 
+            public void actionPerformed(ActionEvent e) {
+               editor.removeFromInputNeurons(((NeuronWidget)widget).getNeuron());
+                ((NeuralNetworkScene) widget.getScene()).refresh();
+            }
+            
+        });
 
+         removeFromOutput.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent e) {
+               editor.removeFromOutputNeurons(((NeuronWidget)widget).getNeuron());
+                ((NeuralNetworkScene) widget.getScene()).refresh();
+            }
+            
+        });
         return neuronPopupMenu;
     }
 

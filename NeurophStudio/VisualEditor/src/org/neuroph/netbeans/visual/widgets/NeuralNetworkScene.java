@@ -478,12 +478,11 @@ public class NeuralNetworkScene extends ObjectScene {
         int numOfConnections = sourceLayerWidget.getLayer().getNeuronsCount() * targetLayerWidget.getLayer().getNeuronsCount();
         String numOfConnectionsStr = String.valueOf(numOfConnections);
         label.setLabel(numOfConnectionsStr + " connections");
-
         connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
         connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceLayerWidget));
         connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetLayerWidget));
         connWidget.setStroke(new BasicStroke(1, 1, 1, 1, new float[]{5}, 1));
-
+        
         connWidget.addChild(label);
         connWidget.setConstraint(label, LayoutFactory.ConnectionWidgetLayoutAlignment.CENTER, 0.5f);
         connectionLayer.addChild(connWidget);
@@ -621,7 +620,7 @@ public class NeuralNetworkScene extends ObjectScene {
 
     private NeuronConnectionWidget createConnectionWidget(Connection connection, NeuronWidget sourceWidget, NeuronWidget targetWidget) {
         NeuronConnectionWidget connWidget = new NeuronConnectionWidget(this, connection, sourceWidget, targetWidget);
-
+        
         connWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
         connWidget.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
         connWidget.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
