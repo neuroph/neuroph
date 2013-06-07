@@ -22,8 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
-import org.neuroph.util.norm.MaxNormalizer;
-import org.neuroph.util.norm.Normalizer;
+import org.neuroph.data.norm.MaxNormalizer;
+import org.neuroph.data.norm.Normalizer;
+import org.neuroph.data.sample.Sampling;
+import org.neuroph.data.sample.SubSampling;
 
 /**
  * A set of data rows (DataSetRow instances) for training and testing neural network.
@@ -453,6 +455,13 @@ public class DataSet implements Serializable /*
 //    }
 
     // http://java.about.com/od/javautil/a/uniquerandomnum.htm
+    /**
+     * 
+     * @param trainSetPercent
+     * @param testSetPercent
+     * @return 
+     * @deprecated Use sample(int size) instead
+     */
     public DataSet[] createTrainingAndTestSubsets(int trainSetPercent, int testSetPercent) {
         DataSet[] trainAndTestSet = new DataSet[2];
 
@@ -461,7 +470,7 @@ public class DataSet implements Serializable /*
             randoms.add(i);
         }
 
-        Collections.shuffle(rows);
+        Collections.shuffle(randoms);
 
         // create training set
         trainAndTestSet[0] = new DataSet(inputSize, outputSize);
@@ -482,6 +491,16 @@ public class DataSet implements Serializable /*
 
         return trainAndTestSet;
     }
+    
+    public DataSet[] sample(int percent) {
+        Sampling sampling = new SubSampling(percent);
+        return sampling.sample(this);
+    }
+
+    public DataSet[] sample(Sampling sampling) {
+        return sampling.sample(this);
+    }    
+    
 
     /**
      * Returns output vector size of training elements in this training set.

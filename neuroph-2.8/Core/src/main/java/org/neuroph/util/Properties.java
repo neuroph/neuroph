@@ -16,13 +16,13 @@
 
 package org.neuroph.util;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 
 /**
  * Represents a general set of properties for neuroph objects
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
-public class Properties extends Hashtable {
+public class Properties extends HashMap {
 	private static final long serialVersionUID = 1L;
 
 
