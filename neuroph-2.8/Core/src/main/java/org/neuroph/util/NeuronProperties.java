@@ -16,6 +16,7 @@
 package org.neuroph.util;
 
 import java.util.Enumeration;
+import java.util.Iterator;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.input.WeightedSum;
@@ -103,9 +104,10 @@ public class NeuronProperties extends Properties {
 
     public Properties getTransferFunctionProperties() {
         Properties tfProperties = new Properties();
-        Enumeration<?> en = this.keys();
-        while (en.hasMoreElements()) {
-            String name = en.nextElement().toString();
+        //Enumeration<?> en = this.keys(); 
+        Iterator iterator =  this.keySet().iterator();
+        while (iterator.hasNext()) {
+            String name = iterator.next().toString();
             if (name.contains("transferFunction")) {
                 tfProperties.setProperty(name, this.get(name));
             }
