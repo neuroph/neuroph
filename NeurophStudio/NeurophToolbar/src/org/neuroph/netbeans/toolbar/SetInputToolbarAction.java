@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.dialog.SetNetworkInputDialog;
+import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -23,7 +24,7 @@ import org.openide.util.Utilities;
 @ActionRegistration(
         iconBase = "org/neuroph/netbeans/toolbar/icons/InputNeuron.png",
         displayName = "#CTL_SetInputToolbarAction")
-@ActionReference(path = "Toolbars/File", position = -300)
+@ActionReference(path = "Toolbars/File", position = -400)
 @Messages("CTL_SetInputToolbarAction=Set input")
 public final class SetInputToolbarAction implements ActionListener {
 
@@ -38,5 +39,7 @@ public final class SetInputToolbarAction implements ActionListener {
         SetNetworkInputDialog dialog = new SetNetworkInputDialog(null, true,
                 new NeuralNetworkTraining(nnet));
         dialog.setVisible(true);
+        
+        //NeuralNetworkScene scene = global.lookup(NeuralNetworkScene.class);
     }
 }

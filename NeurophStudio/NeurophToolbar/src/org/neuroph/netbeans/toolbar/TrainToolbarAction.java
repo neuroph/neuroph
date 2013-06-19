@@ -35,7 +35,7 @@ import org.openide.windows.WindowManager;
 @ActionRegistration(
         iconBase = "org/neuroph/netbeans/toolbar/icons/calculate.png",
         displayName = "#CTL_TrainToolbarAction")
-@ActionReference(path = "Toolbars/File", position = -700)
+@ActionReference(path = "Toolbars/File", position = -800)
 @Messages("CTL_TrainToolbarAction=Train")
 public final class TrainToolbarAction implements ActionListener,  LookupListener {
 
