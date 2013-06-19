@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.neuroph.netbeans.toolbar
+OpenIDE-Module-Localizing-Bundle: org/neuroph/netbeans/toolbar/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
