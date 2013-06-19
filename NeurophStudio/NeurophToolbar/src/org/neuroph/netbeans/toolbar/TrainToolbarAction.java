@@ -26,7 +26,6 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.Utilities;
-import org.openide.windows.CloneableTopComponent;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
@@ -50,40 +49,36 @@ public final class TrainToolbarAction implements ActionListener,  LookupListener
     public void actionPerformed(ActionEvent e) {
         // TODO implement action body
         Lookup global = Utilities.actionsGlobalContext();
-        NeuralNetwork nnet = global.lookup(NeuralNetwork.class);
+        nnet = global.lookup(NeuralNetwork.class);
         if (nnet != null) {
             trainingController = new NeuralNetworkTraining(nnet);
             TopComponent projWindow = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
             trainingResultSets = projWindow.getLookup().lookupResult(DataSet.class);
-
             trainingResultSets.addLookupListener(this);
             resultChanged(new LookupEvent(trainingResultSets));
+            train();
         }
     }
 
+    @Override
     public void resultChanged(LookupEvent le) {
-
         Lookup.Result r = (Lookup.Result) le.getSource();
         Collection c = r.allInstances();
         if (!c.isEmpty()) {
-            trainingSet = (DataSet) c.iterator().next();
-            System.out.println(trainingSet);
-            // trainingSetField.setText(trainingSet.toString());
+            trainingSet = (DataSet) c.iterator().next(); 
         }
     }
 
-   /* @Override
+    /*@Override
     public void handleNeuralNetworkEvent(NeuralNetworkEvent nne) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }*/
 
     public void train() {
-        // TrainingSet trainingSet = (TrainingSet) trainingSetsComboBox.getSelectedItem();
         if (trainingSet != null) {
             trainingController.setTrainingSet(trainingSet);
-            //userPaused = false;
-
-            NeuralNetworkType nnetType = nnet.getNetworkType(); // kod tipa
+            
+            NeuralNetworkType nnetType = nnet.getNetworkType(); 
 
             switch (nnetType) {
                 case ADALINE:
@@ -119,16 +114,15 @@ public final class TrainToolbarAction implements ActionListener,  LookupListener
 
     private void showLmsTrainingDialog() {
         SupervisedTrainingDialog trainingDialog = new SupervisedTrainingDialog(null, true, this.trainingController);
-        trainingDialog.setLocationRelativeTo(this);
+        trainingDialog.setLocationRelativeTo(null);
         trainingDialog.setVisible(true);
     }
 
     private void showMLPTrainingDialog() {
-        System.out.println("radi?");
         if (trainingController.getNetwork().getLearningRule() instanceof DynamicBackPropagation) {
             BackpropagationTrainingDialog trainingDialog = new BackpropagationTrainingDialog(null, easyNeuronsViewController, true,
                     this.trainingController);
-            trainingDialog.setLocationRelativeTo(this);
+            trainingDialog.setLocationRelativeTo(null);
             trainingDialog.setVisible(true);
         } else {
             showLmsTrainingDialog();
@@ -138,9 +132,9 @@ public final class TrainToolbarAction implements ActionListener,  LookupListener
     private void showHebbianTrainingDialog() {
         HebbianTrainingDialog trainingDialog = new HebbianTrainingDialog(null,
                 true, easyNeuronsViewController, this.trainingController);
-        trainingDialog.setLocationRelativeTo(this);
+        trainingDialog.setLocationRelativeTo(null);
         trainingDialog.setVisible(true);
-    }*/
+    }
 
    
 }
