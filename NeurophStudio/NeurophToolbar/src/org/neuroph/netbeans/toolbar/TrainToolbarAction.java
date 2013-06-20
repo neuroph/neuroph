@@ -13,6 +13,7 @@ import org.neuroph.core.events.NeuralNetworkEventListener;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.main.easyneurons.TrainingManager;
 import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingDialog;
@@ -48,16 +49,21 @@ public final class TrainToolbarAction implements ActionListener,  LookupListener
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO implement action body
-        Lookup global = Utilities.actionsGlobalContext();
-        nnet = global.lookup(NeuralNetwork.class);
-        if (nnet != null) {
-            trainingController = new NeuralNetworkTraining(nnet);
-            TopComponent projWindow = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
-            trainingResultSets = projWindow.getLookup().lookupResult(DataSet.class);
-            trainingResultSets.addLookupListener(this);
-            resultChanged(new LookupEvent(trainingResultSets));
-            train();
-        }
+//        Lookup global = Utilities.actionsGlobalContext();
+//        nnet = global.lookup(NeuralNetwork.class);
+//        if (nnet != null) {
+//            trainingController = new NeuralNetworkTraining(nnet);
+//            TopComponent projWindow = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
+//            trainingResultSets = projWindow.getLookup().lookupResult(DataSet.class);
+//            trainingResultSets.addLookupListener(this);
+//            resultChanged(new LookupEvent(trainingResultSets));
+//            train();
+//        }
+        trainingController = TrainingManager.getDefault().getTraining();
+        nnet = trainingController.getNetwork();
+        trainingSet = trainingController.getTrainingSet();
+        train();
+    
     }
 
     @Override

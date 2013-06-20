@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.dialog.SetNetworkInputDialog;
+import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -17,6 +18,8 @@ import org.openide.awt.ActionRegistration;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.Utilities;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 @ActionID(
         category = "File",
@@ -39,6 +42,15 @@ public final class SetInputToolbarAction implements ActionListener {
         SetNetworkInputDialog dialog = new SetNetworkInputDialog(null, true,
                 new NeuralNetworkTraining(nnet));
         dialog.setVisible(true);
+        
+        TopComponent[] tcs = WindowManager.getDefault().getOpenedTopComponents(null);
+        for(TopComponent tc : tcs) {
+            if (tc.isFocusOwner()) {
+                ((GraphViewTopComponent)tc).refresh();
+            }
+        }
+        
+        // GraphViewTopComponent.refresh()
         
         //NeuralNetworkScene scene = global.lookup(NeuralNetworkScene.class);
     }
