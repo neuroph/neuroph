@@ -358,6 +358,7 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
         trainingResultSets.addLookupListener(this);
         resultChanged(new LookupEvent(trainingResultSets));
         neuralNetwork.addListener(this);
+        TrainingManager.getDefault(); // create instance of training manager and start iistening to global context
     }
 
     @Override

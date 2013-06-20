@@ -112,7 +112,6 @@
             <file name="KohonenSampleTopComponent.settings" url="KohonenSampleTopComponentSettings.xml"/>
             <file name="MultiLayerPerceptronSampleTopComponent.settings" url="MultiLayerPerceptronSampleTopComponentSettings.xml"/>
             <file name="NFRSampleTopComponent.settings" url="NFRSampleTopComponentSettings.xml"/>
-            <file name="NeuronPropertiesFrameTopComponent.settings" url="NeuronPropertiesFrameTopComponentSettings.xml"/>
             <file name="PerceptronSampleFrameTopComponent.settings" url="PerceptronSampleFrameTopComponentSettings.xml"/>
             <file name="SupervisedTrainingMonitorTopComponent.settings" url="SupervisedTrainingMonitorTopComponentSettings.xml"/>
             <file name="TestTopComponent.settings" url="TestTopComponentSettings.xml"/>
@@ -129,7 +128,6 @@
                 <file name="TestTopComponent.wstcref" url="TestTopComponentWstcref.xml"/>
             </folder>
             <folder name="properties">
-                <file name="NeuronPropertiesFrameTopComponent.wstcref" url="NeuronPropertiesFrameTopComponentWstcref.xml"/>
                 <file name="SupervisedTrainingMonitorTopComponent.wstcref" url="SupervisedTrainingMonitorTopComponentWstcref.xml"/>
             </folder>
              <file name="WindowManager.wswmgr" url="WindowManager.wswmgr"/>

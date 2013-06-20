@@ -248,7 +248,6 @@
             <file name="MultiLayerPerceptronSampleTopComponent.settings" url="MultiLayerPerceptronSampleTopComponentSettings.xml"/>
             <file name="NFRSampleTopComponent.settings" url="NFRSampleTopComponentSettings.xml"/>
             <file name="NeuralNetworkViewFrameTopComponent.settings" url="NeuralNetworkViewFrameTopComponentSettings.xml"/>
-            <file name="NeuronPropertiesFrameTopComponent.settings" url="NeuronPropertiesFrameTopComponentSettings.xml"/>
             <file name="PerceptronSampleFrameTopComponent.settings" url="PerceptronSampleFrameTopComponentSettings.xml"/>
             <file name="SupervisedTrainingMonitorFrameTopComponent.settings" url="SupervisedTrainingMonitorFrameTopComponentSettings.xml"/>
             <file name="TrainingSetEditFrameTopComponent.settings" url="TrainingSetEditFrameTopComponentSettings.xml"/>
@@ -270,7 +269,6 @@
                 <file name="SupervisedTrainingMonitorFrameTopComponent.wstcref" url="SupervisedTrainingMonitorFrameTopComponentWstcref.xml"/>
             </folder>
             <folder name="properties">
-                <file name="NeuronPropertiesFrameTopComponent.wstcref" url="NeuronPropertiesFrameTopComponentWstcref.xml"/>
             </folder>
         </folder>
     </folder>
