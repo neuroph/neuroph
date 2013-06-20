@@ -40,6 +40,8 @@ public final class RandomizeToolbarAction implements ActionListener {
         training.randomize();
         
         TopComponent graph = TopComponent.getRegistry().getActivated();
-        ((GraphViewTopComponent) graph).refresh();
+       if (graph instanceof GraphViewTopComponent) {
+            ((GraphViewTopComponent) graph).refresh();
+        }
     }
 }

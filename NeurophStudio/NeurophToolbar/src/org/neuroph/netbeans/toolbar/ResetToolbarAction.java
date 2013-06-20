@@ -40,6 +40,8 @@ public final class ResetToolbarAction implements ActionListener {
         training.reset();
         
         TopComponent graph = TopComponent.getRegistry().getActivated();
-        ((GraphViewTopComponent) graph).refresh();
+        if (graph instanceof GraphViewTopComponent) {
+            ((GraphViewTopComponent) graph).refresh();
+        }
     }
 }

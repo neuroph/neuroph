@@ -40,6 +40,8 @@ public final class CalculateToolbarAction implements ActionListener {
         training.calculate();
 
         TopComponent graph = TopComponent.getRegistry().getActivated();
-        ((GraphViewTopComponent) graph).refresh();
+      if (graph instanceof GraphViewTopComponent) {
+            ((GraphViewTopComponent) graph).refresh();
+        }
     }
 }

@@ -31,8 +31,6 @@ import org.openide.windows.WindowManager;
 @Messages("CTL_SetInputToolbarAction=Set input")
 public final class SetInputToolbarAction implements ActionListener {
 
-    
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         Lookup global = Utilities.actionsGlobalContext();
@@ -46,7 +44,9 @@ public final class SetInputToolbarAction implements ActionListener {
         dialog.setVisible(true);
 
         TopComponent graph = TopComponent.getRegistry().getActivated();
-        ((GraphViewTopComponent) graph).refresh();
+        if (graph instanceof GraphViewTopComponent) {
+            ((GraphViewTopComponent) graph).refresh();
+        }
 
     }
 }
