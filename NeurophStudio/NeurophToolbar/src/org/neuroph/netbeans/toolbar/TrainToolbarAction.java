@@ -22,28 +22,19 @@ import org.neuroph.util.NeuralNetworkType;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 import org.openide.util.NbBundle.Messages;
-import org.openide.util.Utilities;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 
 @ActionID(
         category = "File",
         id = "org.neuroph.netbeans.toolbar.TrainToolbarAction")
 @ActionRegistration(
-        iconBase = "org/neuroph/netbeans/toolbar/icons/calculate.png",
+        iconBase = "org/neuroph/netbeans/toolbar/icons/train.png",
         displayName = "#CTL_TrainToolbarAction")
 @ActionReference(path = "Toolbars/File", position = -800)
 @Messages("CTL_TrainToolbarAction=Train")
-public final class TrainToolbarAction implements ActionListener,  LookupListener {
+public final class TrainToolbarAction implements ActionListener {
 
-    Lookup.Result<DataSet> trainingResultSets;
-    DataSet trainingSet;
     NeuralNetworkTraining trainingController;
-    NeuralNetwork nnet;
     ViewManager easyNeuronsViewController;
 
     @Override
@@ -60,31 +51,19 @@ public final class TrainToolbarAction implements ActionListener,  LookupListener
 //            train();
 //        }
         trainingController = TrainingManager.getDefault().getTraining();
-        nnet = trainingController.getNetwork();
-        trainingSet = trainingController.getTrainingSet();
         train();
-    
-    }
 
-    @Override
-    public void resultChanged(LookupEvent le) {
-        Lookup.Result r = (Lookup.Result) le.getSource();
-        Collection c = r.allInstances();
-        if (!c.isEmpty()) {
-            trainingSet = (DataSet) c.iterator().next(); 
-        }
     }
 
     /*@Override
-    public void handleNeuralNetworkEvent(NeuralNetworkEvent nne) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
-
+     public void handleNeuralNetworkEvent(NeuralNetworkEvent nne) {
+     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     }*/
     public void train() {
-        if (trainingSet != null) {
-            trainingController.setTrainingSet(trainingSet);
-            
-            NeuralNetworkType nnetType = nnet.getNetworkType(); 
+        if (trainingController.getTrainingSet() != null) {
+            trainingController.setTrainingSet(trainingController.getTrainingSet());
+
+            NeuralNetworkType nnetType = trainingController.getNetwork().getNetworkType();
 
             switch (nnetType) {
                 case ADALINE:
@@ -141,6 +120,4 @@ public final class TrainToolbarAction implements ActionListener,  LookupListener
         trainingDialog.setLocationRelativeTo(null);
         trainingDialog.setVisible(true);
     }
-
-   
 }

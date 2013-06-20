@@ -13,7 +13,10 @@ import java.util.Iterator;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
+import org.neuroph.netbeans.main.easyneurons.TrainingManager;
+import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -33,42 +36,35 @@ import org.openide.windows.WindowManager;
         category = "File",
         id = "org.neuroph.netbeans.toolbar.TestToolbarAction")
 @ActionRegistration(
-        iconBase = "org/neuroph/netbeans/toolbar/icons/calculate.png",
+        iconBase = "org/neuroph/netbeans/toolbar/icons/test.png",
         displayName = "#CTL_TestToolbarAction")
 @ActionReference(path = "Toolbars/File", position = -700)
 @NbBundle.Messages("CTL_TestToolbarAction=Test")
-public class TestToolbarAction implements ActionListener, LookupListener {
+public class TestToolbarAction implements ActionListener {
 
-    DataSet trainingSet;
-    Lookup.Result<DataSet> trainingResultSets;
-    NeuralNetwork nnet;
+    NeuralNetworkTraining trainingController;
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        trainingController = TrainingManager.getDefault().getTraining();
+        test();
 
-        Lookup global = Utilities.actionsGlobalContext();
-        nnet = global.lookup(NeuralNetwork.class);
-        TopComponent projWindow = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
-        trainingResultSets = projWindow.getLookup().lookupResult(DataSet.class);
-        trainingResultSets.addLookupListener(this);
-        resultChanged(new LookupEvent(trainingResultSets));
-        test();        
     }
-    
-    private void test(){
+
+    private void test() {
         TestTopComponent.getDefault().open();
         TestTopComponent.getDefault().requestActive();
         TestTopComponent.getDefault().clear();
 
         double totalMSE = 0;
 
-        Iterator<DataSetRow> iterator = trainingSet.iterator();
+        Iterator<DataSetRow> iterator = trainingController.getTrainingSet().iterator();
         while (iterator.hasNext()) {
             DataSetRow trainingEl = iterator.next();
             double[] inputs = trainingEl.getInput();
-            nnet.setInput(inputs);
-            nnet.calculate();
-            double[] outputs = nnet.getOutput();
+            trainingController.getNetwork().setInput(inputs);
+            trainingController.getNetwork().calculate();
+            double[] outputs = trainingController.getNetwork().getOutput();
 
             double desiredOutputs[] = trainingEl.getDesiredOutput();
             double errors[] = new double[outputs.length];
@@ -85,18 +81,9 @@ public class TestToolbarAction implements ActionListener, LookupListener {
             totalMSE += patternError;
         }
 
-        totalMSE = totalMSE / trainingSet.size();
+        totalMSE = totalMSE / trainingController.getTrainingSet().size();
 
         TestTopComponent.getDefault().output("Total Mean Square Error: " + totalMSE);
-    }
-
-    @Override
-    public void resultChanged(LookupEvent le) {
-        Lookup.Result r = (Lookup.Result) le.getSource();
-        Collection c = r.allInstances();
-        if (!c.isEmpty()) {
-            trainingSet = (DataSet) c.iterator().next();
-        }
     }
 
     private String arrayToString(double[] arr) {

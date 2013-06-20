@@ -31,6 +31,8 @@ import org.openide.windows.WindowManager;
 @Messages("CTL_SetInputToolbarAction=Set input")
 public final class SetInputToolbarAction implements ActionListener {
 
+    
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         Lookup global = Utilities.actionsGlobalContext();
@@ -42,16 +44,9 @@ public final class SetInputToolbarAction implements ActionListener {
         SetNetworkInputDialog dialog = new SetNetworkInputDialog(null, true,
                 new NeuralNetworkTraining(nnet));
         dialog.setVisible(true);
-        
-        TopComponent[] tcs = WindowManager.getDefault().getOpenedTopComponents(null);
-        for(TopComponent tc : tcs) {
-            if (tc.isFocusOwner()) {
-                ((GraphViewTopComponent)tc).refresh();
-            }
-        }
-        
-        // GraphViewTopComponent.refresh()
-        
-        //NeuralNetworkScene scene = global.lookup(NeuralNetworkScene.class);
+
+        TopComponent graph = TopComponent.getRegistry().getActivated();
+        ((GraphViewTopComponent) graph).refresh();
+
     }
 }
