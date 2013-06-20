@@ -168,4 +168,10 @@ public final class GraphViewTopComponent extends TopComponent {
     protected String preferredID() {
         return PREFERRED_ID;
     }
+
+    public void refresh() {
+        scene.refresh();
+    }
+
+    
 }
