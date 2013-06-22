@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTopComponent;
 import org.neuroph.util.FileUtils;
 import org.neuroph.util.NeuralNetworkType;
 
@@ -92,7 +91,7 @@ public class NeuralNetworkXmlFile implements FileInterface<NeuralNetwork> {
 		XStream xstream = new XStream(new DomDriver());
 		xstream.alias("neuralNetwork", NeuralNetwork.class);
 		xstream.alias("type", NeuralNetworkType.class);
-		xstream.alias("neuralNetworkViewFrame", NeuralNetworkTopComponent.class);
+//		xstream.alias("neuralNetworkViewFrame", NeuralNetworkTopComponent.class);
 		xstream.alias("adaline", org.neuroph.nnet.Adaline.class);
 		xstream.alias("layer", org.neuroph.core.Layer.class);
 		xstream.alias("neuron", org.neuroph.core.Neuron.class);
