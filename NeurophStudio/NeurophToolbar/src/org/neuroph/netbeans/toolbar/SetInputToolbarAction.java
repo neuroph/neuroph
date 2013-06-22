@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.dialog.SetNetworkInputDialog;
-import org.neuroph.netbeans.visual.GraphViewTopComponent;
+import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -38,8 +38,8 @@ public final class SetInputToolbarAction implements ActionListener {
         dialog.setVisible(true);
 
         TopComponent graph = TopComponent.getRegistry().getActivated();
-        if (graph instanceof GraphViewTopComponent) {
-            ((GraphViewTopComponent) graph).refresh();
+        if (graph instanceof VisualEditorTopComponent) {
+            ((VisualEditorTopComponent) graph).refresh();
         }
 
     }

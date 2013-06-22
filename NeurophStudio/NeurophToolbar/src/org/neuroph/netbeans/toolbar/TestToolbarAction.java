@@ -1,32 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.toolbar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Collection;
 import java.util.Iterator;
-import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
 import org.neuroph.netbeans.main.easyneurons.TrainingManager;
-import org.neuroph.netbeans.visual.GraphViewTopComponent;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
-import org.openide.util.Utilities;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 
 /**
  *
