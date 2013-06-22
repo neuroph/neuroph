@@ -258,7 +258,7 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
             } else if (viewMode.equals("Graph View")) {
                 switchToView(GRAPH_VIEW);
             } else if (viewMode.equals("Design View")) {
-                ViewManager.getInstance().openVisualEditorWindow(neuralNetwork);                
+               // ViewManager.getInstance().openVisualEditorWindow(neuralNetwork);                
             }
         }
 

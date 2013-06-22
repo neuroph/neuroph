@@ -17,7 +17,7 @@ import org.neuroph.netbeans.main.easyneurons.samples.KohonenSampleTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.NFRSampleTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.perceptron.PerceptronSampleTrainingSet;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
-import org.neuroph.netbeans.visual.GraphViewTopComponent;
+import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.neuroph.nnet.Kohonen;
 import org.neuroph.nnet.NeuroFuzzyPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
@@ -64,13 +64,6 @@ public class ViewManager implements
 //            networkTopComponent.requestActive();
 //        }
 //    }
-
-    public void openVisualEditorWindow(NeuralNetwork nnet) {
-        GraphViewTopComponent visualEditor = new GraphViewTopComponent(nnet);
-        //  visualEditor.setNeuralNetwork(nnet);
-        visualEditor.open();
-        visualEditor.requestActive();
-    }
 
     public void onNetworkClose(NeuralNetwork nnet) {
        // openedNetworks.remove(nnet);
