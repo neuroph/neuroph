@@ -3,7 +3,7 @@ package org.neuroph.netbeans.project;
 import java.awt.Image;
 import javax.swing.Action;
 import org.netbeans.spi.project.ui.support.CommonProjectActions;
-import org.openide.filesystems.Repository;
+import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataFolder;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
@@ -42,14 +42,14 @@ public class NeurophProjectRootNode extends FilterNode {
   @Override
   public Image getIcon(int type) {
     DataFolder root = DataFolder.findFolder(
-      Repository.getDefault().getDefaultFileSystem().getRoot());
+    FileUtil.getConfigRoot());
     Image original = root.getNodeDelegate().getIcon(type);
     return ImageUtilities.mergeImages(original, smallImage, 0, 0);
   }
   @Override
   public Image getOpenedIcon(int type) {
     DataFolder root = DataFolder.findFolder(
-      Repository.getDefault().getDefaultFileSystem().getRoot());
+    FileUtil.getConfigRoot());
     Image original = root.getNodeDelegate().getIcon(type);
     return ImageUtilities.mergeImages(original, smallImage, 0, 0);
   }
