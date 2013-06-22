@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.toolbar;
 
 import java.awt.event.ActionEvent;
@@ -19,12 +15,12 @@ import org.openide.util.Utilities;
 import org.openide.windows.TopComponent;
 
 @ActionID(
-        category = "File",
+        category = "Neuroph",
         id = "org.neuroph.netbeans.toolbar.RandomizeToolbarAction")
 @ActionRegistration(
         iconBase = "org/neuroph/netbeans/toolbar/icons/randomize.png",
         displayName = "#CTL_RandomizeToolbarAction")
-@ActionReference(path = "Toolbars/File", position = -500)
+@ActionReference(path = "Toolbars/Neuroph", position = -500)
 @Messages("CTL_RandomizeToolbarAction=Randomize")
 public final class RandomizeToolbarAction implements ActionListener {
 

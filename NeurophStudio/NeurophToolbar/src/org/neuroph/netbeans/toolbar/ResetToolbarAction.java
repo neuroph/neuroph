@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.toolbar;
 
 import java.awt.event.ActionEvent;
@@ -19,12 +15,12 @@ import org.openide.util.Utilities;
 import org.openide.windows.TopComponent;
 
 @ActionID(
-        category = "File",
+        category = "Neuroph",
         id = "org.neuroph.netbeans.toolbar.ResetToolbarAction")
 @ActionRegistration(
         iconBase = "org/neuroph/netbeans/toolbar/icons/ResetButton.png",
         displayName = "#CTL_ResetToolbarAction")
-@ActionReference(path = "Toolbars/File", position = -600)
+@ActionReference(path = "Toolbars/Neuroph", position = -600)
 @Messages("CTL_ResetToolbarAction=Reset")
 public final class ResetToolbarAction implements ActionListener {
 

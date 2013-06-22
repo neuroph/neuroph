@@ -1,16 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.toolbar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
-import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.events.NeuralNetworkEvent;
-import org.neuroph.core.events.NeuralNetworkEventListener;
-import org.neuroph.core.learning.DataSet;
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.TrainingManager;
@@ -25,12 +16,12 @@ import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
 
 @ActionID(
-        category = "File",
+        category = "Neuroph",
         id = "org.neuroph.netbeans.toolbar.TrainToolbarAction")
 @ActionRegistration(
         iconBase = "org/neuroph/netbeans/toolbar/icons/train.png",
         displayName = "#CTL_TrainToolbarAction")
-@ActionReference(path = "Toolbars/File", position = -800)
+@ActionReference(path = "Toolbars/Neuroph", position = -800)
 @Messages("CTL_TrainToolbarAction=Train")
 public final class TrainToolbarAction implements ActionListener {
 

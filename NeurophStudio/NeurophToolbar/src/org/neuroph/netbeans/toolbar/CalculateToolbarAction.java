@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.toolbar;
 
 import java.awt.event.ActionEvent;
@@ -19,12 +15,12 @@ import org.openide.util.Utilities;
 import org.openide.windows.TopComponent;
 
 @ActionID(
-        category = "File",
+        category = "Neuroph",
         id = "org.neuroph.netbeans.toolbar.CalculateToolbarAction")
 @ActionRegistration(
         iconBase = "org/neuroph/netbeans/toolbar/icons/calculate.png",
         displayName = "#CTL_CalculateToolbarAction")
-@ActionReference(path = "Toolbars/File", position = -400)
+@ActionReference(path = "Toolbars/Neuroph", position = -400)
 @Messages("CTL_CalculateToolbarAction=Calculate")
 public final class CalculateToolbarAction implements ActionListener {
 

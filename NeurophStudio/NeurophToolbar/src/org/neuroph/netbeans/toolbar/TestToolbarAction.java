@@ -33,12 +33,12 @@ import org.openide.windows.WindowManager;
  * @author Maja
  */
 @ActionID(
-        category = "File",
+        category = "Neuroph",
         id = "org.neuroph.netbeans.toolbar.TestToolbarAction")
 @ActionRegistration(
         iconBase = "org/neuroph/netbeans/toolbar/icons/test.png",
         displayName = "#CTL_TestToolbarAction")
-@ActionReference(path = "Toolbars/File", position = -700)
+@ActionReference(path = "Toolbars/Neuroph", position = -700)
 @NbBundle.Messages("CTL_TestToolbarAction=Test")
 public class TestToolbarAction implements ActionListener {
 

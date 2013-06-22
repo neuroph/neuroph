@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.toolbar;
 
 import java.awt.event.ActionEvent;
@@ -11,7 +7,6 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.dialog.SetNetworkInputDialog;
 import org.neuroph.netbeans.visual.GraphViewTopComponent;
-import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -19,15 +14,14 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.Utilities;
 import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 
 @ActionID(
-        category = "File",
+        category = "Neuroph",
         id = "org.neuroph.netbeans.toolbar.SetInputToolbarAction")
 @ActionRegistration(
         iconBase = "org/neuroph/netbeans/toolbar/icons/InputNeuron.png",
         displayName = "#CTL_SetInputToolbarAction")
-@ActionReference(path = "Toolbars/File", position = -400)
+@ActionReference(path = "Toolbars/Neuroph", position = -400)
 @Messages("CTL_SetInputToolbarAction=Set input")
 public final class SetInputToolbarAction implements ActionListener {
 
