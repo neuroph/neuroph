@@ -2,10 +2,12 @@ package org.neuroph.netbeans.files.nnet;
 
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTopComponent;
+import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.openide.cookies.CloseCookie;
 import org.openide.cookies.OpenCookie;
 import org.openide.loaders.OpenSupport;
 import org.openide.windows.CloneableTopComponent;
+import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
 /**
@@ -16,7 +18,7 @@ import org.openide.windows.WindowManager;
 public class NeuralNetOpenSupport extends OpenSupport implements OpenCookie, CloseCookie {
     
     NeuralNetworkDataObject nnetDataObject;
-    NeuralNetworkTopComponent nnetTopComponent;
+    TopComponent nnetTopComponent;
 
     public NeuralNetOpenSupport(NeuralNetworkDataObject.Entry entry) {
         super(entry);
@@ -43,9 +45,12 @@ public class NeuralNetOpenSupport extends OpenSupport implements OpenCookie, Clo
                // nnetDataObject.loadData(); // done in constructor
                NeuralNetwork nnet = nnetDataObject.getLookup().lookup(NeuralNetwork.class);
                // here we should call createCloneableTopComponent...
-               nnetTopComponent = new NeuralNetworkTopComponent(nnetDataObject); // otherwise create new window to open network in
+//               nnetTopComponent = new NeuralNetworkTopComponent(nnetDataObject); // otherwise create new window to open network in
+               nnetTopComponent = new VisualEditorTopComponent(nnetDataObject);
                nnetTopComponent.open(); 
                nnetTopComponent.requestActive();
+        
+                    
         }    
         
         WindowManager.getDefault().findTopComponent("ExplorerTopComponent").open();        
