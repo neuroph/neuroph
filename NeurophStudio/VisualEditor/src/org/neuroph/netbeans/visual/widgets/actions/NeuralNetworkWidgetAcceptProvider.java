@@ -15,7 +15,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.core.learning.SupervisedLearning;
 import org.neuroph.core.learning.UnsupervisedLearning;
-import org.neuroph.netbeans.visual.GraphViewTopComponent;
+import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddCompetitiveLayerDialog;
 import org.neuroph.netbeans.visual.dialogs.AddCustomLayerDialog;

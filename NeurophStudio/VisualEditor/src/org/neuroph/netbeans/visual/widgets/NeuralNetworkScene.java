@@ -33,7 +33,7 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.netbeans.visual.GraphViewTopComponent;
+import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.neuroph.netbeans.visual.widgets.actions.KeyboardDeleteAction;
@@ -70,7 +70,7 @@ public class NeuralNetworkScene extends ObjectScene {
     private static final int TOO_MANY_NEURONS = 100;
     private static final int TOO_MANY_CONNECTIONS = 250;
     private NeuralNetworkEditor networkEditor;
-    private GraphViewTopComponent topComponent;
+    private VisualEditorTopComponent topComponent;
     private ScenePreferences scenePreferences;
 
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
@@ -220,7 +220,7 @@ public class NeuralNetworkScene extends ObjectScene {
         w.setPreferredSize(d);
     }
 
-    public void setTopComponent(GraphViewTopComponent topComponent) {
+    public void setTopComponent(VisualEditorTopComponent topComponent) {
         this.topComponent = topComponent;
     }
 

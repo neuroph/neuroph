@@ -9,6 +9,8 @@ import org.openide.windows.TopComponent;
 //import org.openide.util.ImageUtilities;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.visual.palette.PaletteSupport;
+import org.openide.cookies.SaveCookie;
+import org.openide.loaders.DataObject;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
@@ -18,49 +20,41 @@ import org.openide.util.lookup.ProxyLookup;
 /**
  * Top component which displays something.
  */
-public final class GraphViewTopComponent extends TopComponent {
+public final class VisualEditorTopComponent extends TopComponent {
 
     /**
      * path to the icon used by the component and its open action
      */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
-    private static final String PREFERRED_ID = "GraphViewTopComponent";
+    private static final String PREFERRED_ID = "VisualEditorTopComponent";
     private JComponent view;
     private NeuralNetwork nnet;
     NeuralNetworkScene scene;
     PaletteController palette;
     InstanceContent content;
     AbstractLookup aLookup;
+    SaveCookie saveCookie;    
    // NeuralNetworkTraining contoller;
 
     public InstanceContent getContent() {
         return content;
     }
-
-    public GraphViewTopComponent() {
+// GraphViewTopComponent
+    public VisualEditorTopComponent() {
         initComponents();
-        setName(NbBundle.getMessage(GraphViewTopComponent.class, "CTL_GraphViewTopComponent"));
-        setToolTipText(NbBundle.getMessage(GraphViewTopComponent.class, "HINT_GraphViewTopComponent"));
-//        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
-//        nnet =  new NeuralNetwork();
-//       
-//        NeuralNetworkGraphScene scene = new NeuralNetworkGraphScene(nnet);
-//        view = scene.createView();
-//
-//        viewPane.setViewportView(view);
-//        add(scene.createSatelliteView(), BorderLayout.WEST);
-
-//        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
-
+        setName(NbBundle.getMessage(VisualEditorTopComponent.class, "CTL_GraphViewTopComponent"));
+        setToolTipText(NbBundle.getMessage(VisualEditorTopComponent.class, "HINT_GraphViewTopComponent"));
     }
 
-    public GraphViewTopComponent(NeuralNetwork nnet) {
-        this.nnet = nnet;
+    public VisualEditorTopComponent(DataObject neuralNetDataObject) {
+        this.nnet = neuralNetDataObject.getLookup().lookup(NeuralNetwork.class);
+        this.saveCookie = neuralNetDataObject.getLookup().lookup(SaveCookie.class);             
         initComponents();
-        setName(NbBundle.getMessage(GraphViewTopComponent.class, "CTL_GraphViewTopComponent"));
-        setToolTipText(NbBundle.getMessage(GraphViewTopComponent.class, "HINT_GraphViewTopComponent"));
+        setName(nnet.getLabel());
+        setToolTipText(NbBundle.getMessage(VisualEditorTopComponent.class, "HINT_GraphViewTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
 
+        
         scene = new NeuralNetworkScene(this.nnet);
         scene.setTopComponent(this);
         view = scene.createView();
@@ -72,6 +66,7 @@ public final class GraphViewTopComponent extends TopComponent {
 
         content = new InstanceContent();
         content.add(nnet);
+        content.add(saveCookie);
 
         aLookup = new AbstractLookup(content);
 

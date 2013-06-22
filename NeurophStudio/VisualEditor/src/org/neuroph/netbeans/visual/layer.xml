@@ -4,7 +4,7 @@
     <folder name="Actions">
         <folder name="Window">
             <file name="org-neuroph-netbeans-visual-GraphViewAction.instance">
-                <attr name="component" methodvalue="org.neuroph.netbeans.visual.GraphViewTopComponent.findInstance"/>
+                <attr name="component" methodvalue="org.neuroph.netbeans.visual.VisualEditorTopComponent.findInstance"/>
                 <attr name="displayName" bundlevalue="org.neuroph.netbeans.visual.Bundle#CTL_GraphViewAction"/>
                 <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
             </file>
@@ -19,11 +19,11 @@
     </folder>
     <folder name="Windows2">
         <folder name="Components">
-            <file name="GraphViewTopComponent.settings" url="GraphViewTopComponentSettings.xml"/>
+            <file name="VisualEditorTopComponent.settings" url="VisualEditorTopComponentSettings.xml"/>
         </folder>
         <folder name="Modes">
             <folder name="editor">
-                <file name="GraphViewTopComponent.wstcref" url="GraphViewTopComponentWstcref.xml"/>
+                <file name="VisualEditorTopComponent.wstcref" url="VisualEditorTopComponentWstcref.xml"/>
             </folder>
         </folder>
     </folder>
