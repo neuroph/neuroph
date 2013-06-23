@@ -3,8 +3,8 @@ package org.neuroph.netbeans.toolbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.neuroph.netbeans.main.ViewManager;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
-import org.neuroph.netbeans.main.easyneurons.TrainingManager;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.TrainingManager;
 import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingDialog;
@@ -25,8 +25,15 @@ import org.openide.util.NbBundle.Messages;
 @Messages("CTL_TrainToolbarAction=Train")
 public final class TrainToolbarAction implements ActionListener {
 
-    NeuralNetworkTraining trainingController;
+    private final NeuralNetworkTraining trainingController;
     ViewManager easyNeuronsViewController;
+
+    public TrainToolbarAction(NeuralNetworkTraining context) {
+        this.trainingController = context;
+    }
+    
+    
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -41,7 +48,7 @@ public final class TrainToolbarAction implements ActionListener {
 //            resultChanged(new LookupEvent(trainingResultSets));
 //            train();
 //        }
-        trainingController = TrainingManager.getDefault().getTraining();
+      //  trainingController = TrainingManager.getDefault().getTraining();
         train();
 
     }

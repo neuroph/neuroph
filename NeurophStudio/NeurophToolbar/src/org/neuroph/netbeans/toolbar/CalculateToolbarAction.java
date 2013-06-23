@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
