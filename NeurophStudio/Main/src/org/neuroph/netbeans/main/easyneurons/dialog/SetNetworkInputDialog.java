@@ -8,7 +8,7 @@ package org.neuroph.netbeans.main.easyneurons.dialog;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import org.jdesktop.application.Action;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 
 /**
  *

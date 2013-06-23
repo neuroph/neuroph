@@ -7,7 +7,7 @@
 package org.neuroph.netbeans.main.easyneurons.dialog;
 
 import org.neuroph.netbeans.main.ViewManager;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
 import org.neuroph.nnet.learning.LMS;
 import org.neuroph.nnet.learning.MomentumBackpropagation;

@@ -15,7 +15,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import org.neuroph.nnet.Kohonen;
 import org.neuroph.nnet.learning.KohonenLearning;
 import org.openide.util.NbBundle;

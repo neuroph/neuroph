@@ -1,5 +1,7 @@
 package org.neuroph.netbeans.main.easyneurons;
 
+import org.neuroph.netbeans.visual.TrainingManager;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Collection;

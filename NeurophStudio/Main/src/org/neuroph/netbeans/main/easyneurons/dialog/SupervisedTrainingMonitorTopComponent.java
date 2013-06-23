@@ -7,7 +7,7 @@ import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.netbeans.main.LearningInfo;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import org.neuroph.nnet.learning.LMS;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;

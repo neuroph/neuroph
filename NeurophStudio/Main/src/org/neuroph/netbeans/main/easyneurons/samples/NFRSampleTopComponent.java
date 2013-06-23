@@ -3,7 +3,7 @@ package org.neuroph.netbeans.main.easyneurons.samples;
 import java.util.logging.Logger;
 import javax.swing.JSlider;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;

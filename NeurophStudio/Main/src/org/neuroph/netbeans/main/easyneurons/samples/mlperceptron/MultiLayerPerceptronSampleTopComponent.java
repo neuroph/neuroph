@@ -17,7 +17,7 @@ import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.netbeans.main.ViewManager;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.perceptron.PerceptronSampleTrainingSet;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;

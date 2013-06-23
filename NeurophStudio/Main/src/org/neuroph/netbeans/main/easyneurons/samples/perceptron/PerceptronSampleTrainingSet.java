@@ -3,7 +3,7 @@ package org.neuroph.netbeans.main.easyneurons.samples.perceptron;
 import java.util.Observable;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.DataSet;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 
 /**
  *

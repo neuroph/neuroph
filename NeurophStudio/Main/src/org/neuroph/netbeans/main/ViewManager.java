@@ -9,7 +9,7 @@ import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.core.transfer.Trapezoid;
-import org.neuroph.netbeans.main.easyneurons.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.DataSetTopComponent;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingMonitorTopComponent;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
