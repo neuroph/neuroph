@@ -24,15 +24,15 @@ import org.openide.windows.TopComponent;
 @Messages("CTL_ResetToolbarAction=Reset")
 public final class ResetToolbarAction implements ActionListener {
 
+    private final NeuralNetwork context;  
+    
+    public ResetToolbarAction(NeuralNetwork context) {
+        this.context = context;
+    }       
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-       Lookup global = Utilities.actionsGlobalContext();
-        NeuralNetwork nnet = global.lookup(NeuralNetwork.class);
-        if (nnet == null) {
-            JOptionPane.showMessageDialog(null, "Neural network is not selected!", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        NeuralNetworkTraining training = new NeuralNetworkTraining(nnet);
+        NeuralNetworkTraining training = new NeuralNetworkTraining(context);
         training.reset();
         
         TopComponent graph = TopComponent.getRegistry().getActivated();

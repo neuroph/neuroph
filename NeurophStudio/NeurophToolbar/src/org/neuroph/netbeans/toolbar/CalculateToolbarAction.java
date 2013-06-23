@@ -23,20 +23,20 @@ import org.openide.windows.TopComponent;
 @ActionReference(path = "Toolbars/Neuroph", position = -400)
 @Messages("CTL_CalculateToolbarAction=Calculate")
 public final class CalculateToolbarAction implements ActionListener {
+    
+    private final NeuralNetwork context;  
+    
+    public CalculateToolbarAction(NeuralNetwork context) {
+        this.context = context;
+    }       
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Lookup global = Utilities.actionsGlobalContext();
-        NeuralNetwork nnet = global.lookup(NeuralNetwork.class);
-        if (nnet == null) {
-            JOptionPane.showMessageDialog(null, "Neural network is not selected!", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        NeuralNetworkTraining training = new NeuralNetworkTraining(nnet);
+        NeuralNetworkTraining training = new NeuralNetworkTraining(context);
         training.calculate();
 
         TopComponent graph = TopComponent.getRegistry().getActivated();
-      if (graph instanceof VisualEditorTopComponent) {
+        if (graph instanceof VisualEditorTopComponent) {
             ((VisualEditorTopComponent) graph).refresh();
         }
     }
