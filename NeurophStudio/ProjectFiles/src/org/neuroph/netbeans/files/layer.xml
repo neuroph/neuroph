@@ -17,6 +17,18 @@
     <attr name="Templates\Recent\position" intvalue="700"/>
     <attr name="Templates\XML\position" intvalue="1350"/>
     <folder name="Actions">
+        <folder name="File">
+            <file name="org-openide-actions-SaveAction.instance">
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
+                <attr name="delegate" newvalue="org.openide.actions.SaveAction"/>
+                <attr name="selectionType" stringvalue="EXACTLY_ONE"/>
+                <attr name="surviveFocusChange" boolvalue="false"/>
+                <attr name="displayName" bundlevalue="org/openide/actions/Bundle#Save"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="iconBase" stringvalue="org/openide/resources/actions/save.png"/>
+                <attr name="type" stringvalue="org.openide.cookies.SaveCookie"/>
+            </file>
+        </folder>        
         <folder name="BpelNodes"/>
         <folder name="Window">
             <file name="org-neuroph-netbeans-ide-picturesexplorer-PicturesExplorerTopComponent.instance_hidden"/>
@@ -150,6 +162,14 @@
     </folder>
     <folder name="Menu">
 
+    <folder name="File">
+        <file name="SaveAction.shadow">
+            <attr name="originalFile" stringvalue="Actions/File/org-openide-actions-SaveAction.instance"/>
+            <attr name="position" intvalue="100"/>
+        </file>
+    </folder>
+            
+        
         <file name="GoTo_hidden"/>
         <folder name="Help">
             <file name="Separator1.instance_hidden"/>
@@ -215,7 +235,10 @@
     <folder name="Toolbars">
         <file name="Debugging.xml_hidden"/>
         <folder name="File">
-            <file name="org-openide-actions-SaveAction.instance"/>
+            <file name="SaveAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-openide-actions-SaveAction.instance"/>
+                <attr name="position" intvalue="100"/>
+            </file>            
             <file name="org-openide-actions-SaveAllAction.shadow_hidden"/>
         </folder>
         <file name="UndoRedo_hidden"/>

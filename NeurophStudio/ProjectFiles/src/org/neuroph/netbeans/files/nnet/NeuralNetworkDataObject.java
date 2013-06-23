@@ -48,7 +48,7 @@ public class NeuralNetworkDataObject extends MultiDataObject {
     @Override
     protected Node createNodeDelegate() {
         DataNode node = new DataNode(this, Children.LEAF, getLookup());
-        node.setDisplayName(nnFileObject.getName());        
+        node.setDisplayName(neuralNetwork.getLabel());        
         node.setShortDescription("Neural network file");
 
         return node;
