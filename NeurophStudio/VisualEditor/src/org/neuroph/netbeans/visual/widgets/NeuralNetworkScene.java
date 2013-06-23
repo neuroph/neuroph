@@ -226,9 +226,9 @@ public class NeuralNetworkScene extends ObjectScene {
 
     // http://bits.netbeans.org/dev/javadoc/org-netbeans-api-visual/org/netbeans/api/visual/widget/doc-files/documentation.html#ValidationProcess
     public void refresh() {
-        visualizeNetwork();
-        content.remove(neuralNetwork);
-        content.add(neuralNetwork);
+        visualizeNetwork(); 
+//        content.remove(neuralNetwork); // verovtano pravi problem sa cookie akcijama koje slusaju nrueonsku mrezu
+//        content.add(neuralNetwork);    // umesto ovoga ubaciti neki objekat koji explorer slusa i updateuje se...
         // change focus to visual editor top component
         topComponent.requestActive();
     }

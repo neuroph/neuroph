@@ -65,11 +65,11 @@ public final class VisualEditorTopComponent extends TopComponent {
 
         scene.visualizeNetwork();
 
-//        content = new InstanceContent();
+        content = new InstanceContent();
 //      //  content.add(nnet);
 //        content.add(saveCookie);
-//
-//        aLookup = new AbstractLookup(content);
+
+        aLookup = new AbstractLookup(content);
 
         palette = PaletteSupport.createPalette();
     }
@@ -80,7 +80,8 @@ public final class VisualEditorTopComponent extends TopComponent {
                 new Lookup[]{
                     scene.getLookup(),
                     Lookups.singleton(palette),
-                    neuralNetDataObject.getLookup()
+                    neuralNetDataObject.getLookup(),
+                    aLookup
                 });
             }
 
@@ -139,11 +140,34 @@ public final class VisualEditorTopComponent extends TopComponent {
         // TODO add custom code on component opening
         //neuralNetDataObject =  Utilities.actionsGlobalContext().lookup(DataObject.class);
     }
+    
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        // TODO add custom code on component closing - cleanup stuff...
     }
+
+    NeuralNetworkTraining training;
+    @Override
+    protected void componentActivated() {
+        super.componentActivated(); //To change body of generated methods, choose Tools | Templates.
+        /*
+         *  Add NeuralNetworkTraining instance to lookup in order to enable train and test actions, when data set is selected*/
+        training = TrainingManager.getDefault().getTraining();
+        if (training!=null ) {
+            content.add(training);
+        }                       
+    }
+
+    @Override
+    protected void componentDeactivated() {
+        super.componentDeactivated(); //To change body of generated methods, choose Tools | Templates.
+        content.remove(training);
+    }
+    
+    
+    
+    
 
     private void readPropertiesImpl(java.util.Properties p) {
         String version = p.getProperty("version");
