@@ -6,19 +6,19 @@ import javax.swing.JComponent;
 import org.netbeans.spi.palette.PaletteController;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
-//import org.openide.util.ImageUtilities;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.visual.palette.PaletteSupport;
 import org.openide.cookies.SaveCookie;
 import org.openide.loaders.DataObject;
 import org.openide.util.Lookup;
+import org.openide.util.Utilities;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
 import org.openide.util.lookup.ProxyLookup;
 
 /**
- * Top component which displays something.
+ * Top component which displays visual neural network editor.
  */
 public final class VisualEditorTopComponent extends TopComponent {
 
@@ -33,13 +33,14 @@ public final class VisualEditorTopComponent extends TopComponent {
     PaletteController palette;
     InstanceContent content;
     AbstractLookup aLookup;
-    SaveCookie saveCookie;    
-   // NeuralNetworkTraining contoller;
+  //  SaveCookie saveCookie;    
+    DataObject neuralNetDataObject;
 
     public InstanceContent getContent() {
         return content;
     }
-// GraphViewTopComponent
+
+    
     public VisualEditorTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(VisualEditorTopComponent.class, "CTL_GraphViewTopComponent"));
@@ -47,13 +48,13 @@ public final class VisualEditorTopComponent extends TopComponent {
     }
 
     public VisualEditorTopComponent(DataObject neuralNetDataObject) {
+        this.neuralNetDataObject = neuralNetDataObject;
         this.nnet = neuralNetDataObject.getLookup().lookup(NeuralNetwork.class);
-        this.saveCookie = neuralNetDataObject.getLookup().lookup(SaveCookie.class);             
+       // this.saveCookie = neuralNetDataObject.getLookup().lookup(SaveCookie.class);             
         initComponents();
         setName(nnet.getLabel());
         setToolTipText(NbBundle.getMessage(VisualEditorTopComponent.class, "HINT_GraphViewTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
-
         
         scene = new NeuralNetworkScene(this.nnet);
         scene.setTopComponent(this);
@@ -64,35 +65,24 @@ public final class VisualEditorTopComponent extends TopComponent {
 
         scene.visualizeNetwork();
 
-        content = new InstanceContent();
-        content.add(nnet);
-        content.add(saveCookie);
-
-        aLookup = new AbstractLookup(content);
+//        content = new InstanceContent();
+//      //  content.add(nnet);
+//        content.add(saveCookie);
+//
+//        aLookup = new AbstractLookup(content);
 
         palette = PaletteSupport.createPalette();
-
-//        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));        
-//    associateLookup( new ProxyLookup(
-//                new Lookup[]{
-//                    scene.getLookup(),
-//                    Lookups.fixed( new Object[]{PaletteSupport.createPalette()})
-//                }));          
-
-
-
     }
 
     @Override
     public Lookup getLookup() {
         return new ProxyLookup(
                 new Lookup[]{
-           Lookups.singleton(nnet),
-            scene.getLookup(),
-            Lookups.singleton(palette)
-        });
-
-    }
+                    scene.getLookup(),
+                    Lookups.singleton(palette),
+                    neuralNetDataObject.getLookup()
+                });
+            }
 
     public NeuralNetwork getNeuralNetwork() {
         return nnet;
@@ -147,6 +137,7 @@ public final class VisualEditorTopComponent extends TopComponent {
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
+        //neuralNetDataObject =  Utilities.actionsGlobalContext().lookup(DataObject.class);
     }
 
     @Override

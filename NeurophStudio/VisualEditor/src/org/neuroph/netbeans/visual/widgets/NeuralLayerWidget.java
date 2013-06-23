@@ -12,7 +12,6 @@ import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
-import org.neuroph.netbeans.visual.NeuralLayerType;
 import org.neuroph.netbeans.visual.popup.NeuralLayerPopupMenuProvider;
 import org.neuroph.netbeans.visual.widgets.actions.*;
 import org.neuroph.util.ConnectionFactory;
@@ -26,7 +25,6 @@ import org.openide.util.lookup.Lookups;
  */
 public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider, Connectable {
 
-    private NeuralLayerType type;
     private final Lookup lookup;
 
     private static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(5, 5, Color.white, Color.BLACK);
@@ -52,14 +50,6 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
 
     public Layer getLayer() {
         return lookup.lookup(Layer.class);
-    }
-
-    public NeuralLayerType getType() {
-        return type;
-    }
-
-    public void setType(NeuralLayerType type) {
-        this.type = type;
     }
 
     public Lookup getlookup() {
