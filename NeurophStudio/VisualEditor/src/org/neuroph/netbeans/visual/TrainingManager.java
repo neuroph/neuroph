@@ -19,7 +19,7 @@ private static TrainingManager instance=null;
 
     private NeuralNetwork nnet;
     private DataSet dataSet;
-    Lookup.Result<NeuralNetwork> nnResult;
+//    Lookup.Result<NeuralNetwork> nnResult;
     Lookup.Result<DataSet> dsResult;
     
     NeuralNetworkTraining training;
@@ -28,8 +28,8 @@ private static TrainingManager instance=null;
     
     private TrainingManager() {
         Lookup global = Utilities.actionsGlobalContext();
-        nnResult = global.lookupResult(NeuralNetwork.class);
-        nnResult.addLookupListener(this);
+//        nnResult = global.lookupResult(NeuralNetwork.class);
+//        nnResult.addLookupListener(this);
         dsResult = global.lookupResult(DataSet.class);
         dsResult.addLookupListener(this);
     }
@@ -50,16 +50,28 @@ private static TrainingManager instance=null;
         if (!coll.isEmpty()) {
             Object selected = coll.iterator().next();
             
-            if (selected instanceof NeuralNetwork) {
-                nnet = (NeuralNetwork) selected;
-            }
-            
+//            if (selected instanceof NeuralNetwork) {
+//                nnet = (NeuralNetwork) selected;
+//            }
+        // if training set is not selected set it to null, and the train button in tooolbar will be disabled
         if (selected instanceof DataSet) {
                 dataSet = (DataSet) selected;
-            }            
+            }             
+        } else {
+            dataSet = null;
         }
         
     }
+
+    public NeuralNetwork getNeuralNetwork() {
+        return nnet;
+    }
+
+    public void setNeuralNetwork(NeuralNetwork nnet) {
+        this.nnet = nnet;
+    }
+    
+    
     
     public NeuralNetworkTraining getTraining() {
         if ((nnet!=null) && (dataSet!=null)) {

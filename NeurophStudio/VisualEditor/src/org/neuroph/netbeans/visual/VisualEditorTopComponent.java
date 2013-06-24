@@ -153,7 +153,9 @@ public final class VisualEditorTopComponent extends TopComponent {
         super.componentActivated(); //To change body of generated methods, choose Tools | Templates.
         /*
          *  Add NeuralNetworkTraining instance to lookup in order to enable train and test actions, when data set is selected*/
+        TrainingManager.getDefault().setNeuralNetwork(nnet);
         training = TrainingManager.getDefault().getTraining();
+        
         if (training!=null ) {
             content.add(training);
         }                       
@@ -162,7 +164,9 @@ public final class VisualEditorTopComponent extends TopComponent {
     @Override
     protected void componentDeactivated() {
         super.componentDeactivated(); //To change body of generated methods, choose Tools | Templates.
-        content.remove(training);
+        if (training!=null) {
+            content.remove(training);
+        }
     }
     
     
