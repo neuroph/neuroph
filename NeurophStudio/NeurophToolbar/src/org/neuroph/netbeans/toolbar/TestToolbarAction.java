@@ -8,7 +8,6 @@ import java.util.Iterator;
 import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
-import org.neuroph.netbeans.visual.TrainingManager;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -28,13 +27,15 @@ import org.openide.util.NbBundle;
 @NbBundle.Messages("CTL_TestToolbarAction=Test")
 public class TestToolbarAction implements ActionListener {
 
-    NeuralNetworkTraining trainingController;
+    private final NeuralNetworkTraining trainingController;
+    
+    public TestToolbarAction(NeuralNetworkTraining context) {
+        this.trainingController = context;
+    }    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        trainingController = TrainingManager.getDefault().getTraining();
         test();
-
     }
 
     private void test() {
