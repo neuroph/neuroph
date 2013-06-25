@@ -163,8 +163,16 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
 
     //GuiWorker guiWorker;
     public void observe(LearningRule learningRule) {
-        this.learningRule = learningRule;
-        learningRule.addListener(this);
+
+            this.learningRule = learningRule;
+            learningRule.addListener(this);
+            
+        try {
+            if (buffWriter==null)
+                    buffWriter = new BufferedWriter(new FileWriter(FILE_URL));        
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 
     @Override
@@ -197,13 +205,16 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
     }
 
     private void finishStoring() throws IOException {
-        buffWriter.flush();
-        buffWriter.close();
-        buffWriter = null;
+        if (buffWriter==null) {
+            buffWriter.flush();
+            buffWriter.close();
+            buffWriter = null;
+        }
         iterationCounter = 0;
     }
 
     public synchronized void storeLearningData(int iteration, double error) throws IOException {
+      
         writeLearningDataToFile(iteration, error);
         if (isBufferFull()) {
             buffWriter.flush();
