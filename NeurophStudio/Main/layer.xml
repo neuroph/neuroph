@@ -3,11 +3,6 @@
 <filesystem>
     <folder name="Actions">
         <folder name="Window">
-            <file name="org-neuroph-netbeans-main-easyneurons-MessageBoxAction.instance">
-                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.MessageBoxTopComponent.findInstance"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_MessageBoxAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
-            </file>
             <file name="org-neuroph-netbeans-main-easyneurons-NeuralNetworkViewFrameAction.instance">
                 <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.NeuralNetworkTopComponent.findInstance"/>
                 <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_NeuralNetworkViewFrameAction"/>
@@ -265,7 +260,6 @@
                 <file name="TrainingSetEditFrameTopComponent.wstcref" url="TrainingSetEditFrameTopComponentWstcref.xml"/>
             </folder>
             <folder name="output">
-                <file name="MessageBoxTopComponent.wstcref" url="MessageBoxTopComponentWstcref.xml"/>
                 <file name="SupervisedTrainingMonitorFrameTopComponent.wstcref" url="SupervisedTrainingMonitorFrameTopComponentWstcref.xml"/>
             </folder>
             <folder name="properties">
