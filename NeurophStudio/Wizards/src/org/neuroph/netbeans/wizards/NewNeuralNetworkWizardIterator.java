@@ -38,6 +38,7 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.util.ImageUtilities;
+import org.openide.windows.IOProvider;
 
 public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.InstantiatingIterator {
 
@@ -242,6 +243,9 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
                     OutstarVisualPanel1.getInstance().clearForm();
                     break;
             }
+           
+            
+       IOProvider.getDefault().getIO("Messages", false).getOut().println("Created neural network "+neuralNetworkName);
             
         String createdFilePath = fileFactory.getCreatedFilePath();
         
