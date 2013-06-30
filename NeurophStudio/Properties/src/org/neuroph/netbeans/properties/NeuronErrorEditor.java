@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.properties;
 
 import java.beans.PropertyEditorSupport;
@@ -12,11 +8,13 @@ import java.beans.PropertyEditorSupport;
  */
 public class NeuronErrorEditor extends PropertyEditorSupport {
 
+    @Override
     public String getAsText() {
         double d = Double.parseDouble(String.valueOf(getValue()));
         return String.valueOf(d);
     }
 
+    @Override
     public void setAsText(String text) {
         double d = Double.parseDouble(text);
         setValue(d);
