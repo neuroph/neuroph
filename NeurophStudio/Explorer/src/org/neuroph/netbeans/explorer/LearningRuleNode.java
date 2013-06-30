@@ -10,6 +10,7 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
+import org.openide.util.ImageUtilities;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
@@ -34,7 +35,7 @@ public class LearningRuleNode extends AbstractNode {
 
     @Override
     public Image getIcon(int type) {
-        return null; //dodati ikonicu
+        return ImageUtilities.loadImage("org/neuroph/netbeans/explorer/learningRuleIcon.png");
     }
 
     @Override

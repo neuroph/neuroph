@@ -14,7 +14,7 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.lookup.Lookups;
 
 /**
- *
+ * can be deleted
  * @author Ivana
  */
 public class NeuronsNode extends AbstractNode {
