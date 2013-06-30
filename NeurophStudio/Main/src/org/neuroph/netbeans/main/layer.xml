@@ -11,11 +11,6 @@
                 <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_TestAction"/>
                 <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
             </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-dialog-NeuronPropertiesFrameAction.instance">
-                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.dialog.NeuronPropertiesFrameTopComponent.findInstance"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.dialog.Bundle#CTL_NeuronPropertiesFrameAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
-            </file>
               <file name="org-neuroph-netbeans-main-easyneurons-dialog-SupervisedTrainingMonitorFrameAction.instance">
                 <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingMonitorTopComponent.findInstance"/>
                 <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.dialog.Bundle#CTL_SupervisedTrainingMonitorFrameAction"/>
@@ -126,6 +121,12 @@
                 <file name="NewNFRStudentDemoTopComponent.wstcref" url="NewNFRStudentDemoTopComponentWstcref.xml"/>
                 <file name="PerceptronSampleFrameTopComponent.wstcref" url="PerceptronSampleFrameTopComponentWstcref.xml"/>
                 <file name="TestTopComponent.wstcref" url="TestTopComponentWstcref.xml"/>
+            </folder>
+            <folder name="navigator">
+                <file name="ExplorerTopComponent.wstcref" url="ExplorerTopComponentWstcref.xml"/>
+            </folder>
+            <folder name="output">
+                <file name="output.wstcref" url="outputWstcref.xml"/>
             </folder>
             <folder name="properties">
                 <file name="SupervisedTrainingMonitorTopComponent.wstcref" url="SupervisedTrainingMonitorTopComponentWstcref.xml"/>

@@ -245,7 +245,7 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
             }
            
             
-       IOProvider.getDefault().getIO("Messages", false).getOut().println("Created neural network "+neuralNetworkName);
+       IOProvider.getDefault().getIO("Messages", true).getOut().println("Created neural network "+neuralNetworkName);
             
         String createdFilePath = fileFactory.getCreatedFilePath();
         

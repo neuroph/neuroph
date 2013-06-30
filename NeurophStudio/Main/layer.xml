@@ -3,41 +3,6 @@
 <filesystem>
     <folder name="Actions">
         <folder name="Window">
-            <file name="org-neuroph-netbeans-main-easyneurons-NeuralNetworkViewFrameAction.instance">
-                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.NeuralNetworkTopComponent.findInstance"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_NeuralNetworkViewFrameAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
-            </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-OpenAboutBox.instance">
-                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.OpenAboutBox"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_OpenAboutBox"/>
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-            </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction.instance">
-                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.OpenEasyNeuronsAppAction"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_OpenEasyNeuronsAppAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-            </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-Refresh.instance">
-                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.Refresh"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_Refresh"/>
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-            </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-SwitchToBlock.instance">
-                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.SwitchToBlock"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_SwitchToBlock"/>
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-            </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-SwitchToGraph.instance">
-                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.SwitchToGraph"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_SwitchToGraph"/>
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-            </file>
             <file name="org-neuroph-netbeans-main-easyneurons-TrainingSetEditFrameAction.instance">
                 <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.TrainingSetEditFrameTopComponent.findInstance"/>
                 <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_TrainingSetEditFrameAction"/>
@@ -51,16 +16,6 @@
             <file name="org-neuroph-netbeans-main-easyneurons-dialog-NewNFRStudentDemoAction.instance">
                 <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.dialog.NewNFRStudentDemoTopComponent.findInstance"/>
                 <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.dialog.Bundle#CTL_NewNFRStudentDemoAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
-            </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-dialog-SupervisedTrainingMonitorFrameAction.instance">
-                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingMonitorFrameTopComponent.findInstance"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.dialog.Bundle#CTL_SupervisedTrainingMonitorFrameAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
-            </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-errorgraph-GraphFrameAction.instance">
-                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent.findInstance"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.errorgraph.Bundle#CTL_GraphFrameAction"/>
                 <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
             </file>
             <file name="org-neuroph-netbeans-main-easyneurons-samples-BasicNeuronSampleAction.instance">
@@ -133,29 +88,12 @@
                 <attr name="noIconInMenu" boolvalue="false"/>
             </file>
         </folder>
-        <folder name="Neural Network View">
-
-        </folder>
     </folder>
     <folder name="Menu">
         <folder name="Help">
             <file name="org-neuroph-netbeans-main-easyneurons-OpenAboutBox.shadow">
                 <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-OpenAboutBox.instance"/>
                 <attr name="position" intvalue="100"/>
-            </file>
-        </folder>
-        <folder name="Neural Network View">
-
-            <attr name="org-neuroph-netbeans-main-easyneurons-Refresh.shadow/org-neuroph-netbeans-main-easyneurons-SwitchToBlock.shadow" boolvalue="true"/>
-            <attr name="org-neuroph-netbeans-main-easyneurons-SwitchToBlock.shadow/org-neuroph-netbeans-main-easyneurons-SwitchToGraph.shadow" boolvalue="true"/>
-            <file name="org-neuroph-netbeans-main-easyneurons-Refresh.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-Refresh.instance"/>
-            </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-SwitchToBlock.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-SwitchToBlock.instance"/>
-            </file>
-            <file name="org-neuroph-netbeans-main-easyneurons-SwitchToGraph.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-SwitchToGraph.instance"/>
             </file>
         </folder>
         <folder name="Window">
@@ -192,12 +130,6 @@
             </file>
             <file name="PerceptronSampleFrameAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-perceptron-PerceptronSampleFrameAction.instance"/>
-            </file>
-            <file name="SupervisedTrainingMonitorFrameAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-dialog-SupervisedTrainingMonitorFrameAction.instance"/>
-            </file>
-            <file name="TrainingSetEditFrameAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-TrainingSetEditFrameAction.instance"/>
             </file>
             <file name="org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction-separatorAfter.instance">
                 <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
@@ -243,9 +175,7 @@
             <file name="MultiLayerPerceptronSampleTopComponent.settings" url="MultiLayerPerceptronSampleTopComponentSettings.xml"/>
             <file name="NFRSampleTopComponent.settings" url="NFRSampleTopComponentSettings.xml"/>
             <file name="NeuralNetworkViewFrameTopComponent.settings" url="NeuralNetworkViewFrameTopComponentSettings.xml"/>
-            <file name="PerceptronSampleFrameTopComponent.settings" url="PerceptronSampleFrameTopComponentSettings.xml"/>
-            <file name="SupervisedTrainingMonitorFrameTopComponent.settings" url="SupervisedTrainingMonitorFrameTopComponentSettings.xml"/>
-            <file name="TrainingSetEditFrameTopComponent.settings" url="TrainingSetEditFrameTopComponentSettings.xml"/>
+            <file name="PerceptronSampleFrameTopComponent.settings" url="PerceptronSampleFrameTopComponentSettings.xml"/>          
         </folder>
         <folder name="Modes">
             <folder name="editor">
@@ -257,10 +187,6 @@
                 <file name="NeuralNetworkViewFrameTopComponent.wstcref" url="NeuralNetworkViewFrameTopComponentWstcref.xml"/>
                 <file name="NewNFRStudentDemoTopComponent.wstcref" url="NewNFRStudentDemoTopComponentWstcref.xml"/>
                 <file name="PerceptronSampleFrameTopComponent.wstcref" url="PerceptronSampleFrameTopComponentWstcref.xml"/>
-                <file name="TrainingSetEditFrameTopComponent.wstcref" url="TrainingSetEditFrameTopComponentWstcref.xml"/>
-            </folder>
-            <folder name="output">
-                <file name="SupervisedTrainingMonitorFrameTopComponent.wstcref" url="SupervisedTrainingMonitorFrameTopComponentWstcref.xml"/>
             </folder>
             <folder name="properties">
             </folder>
