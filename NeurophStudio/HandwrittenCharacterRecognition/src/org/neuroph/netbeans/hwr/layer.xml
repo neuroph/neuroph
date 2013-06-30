@@ -11,8 +11,8 @@
         </folder>
     </folder>
     
- <folder name="Templates">
-  <folder name="Neuroph">      
+    <folder name="Templates">
+        <folder name="Neuroph">      
             <file name="hWR">
                 <attr name="displayName" bundlevalue="org.neuroph.netbeans.hwr.wiz.Bundle#Templates/Neuroph/hWR"/>
                 <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.hwr.wiz.HWRWizardIterator"/>
@@ -20,8 +20,8 @@
                 <attr name="templateWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/hwr/wiz/hWR.html"/>
                 <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/hwr/wiz/hwrIcon.png"/>
             </file>
-  </folder>
-</folder>    
+        </folder>
+    </folder>    
     <folder name="Windows2">
         <folder name="Components">
             <file name="HWRTopComponent.settings" url="HWRTopComponentSettings.xml"/>
