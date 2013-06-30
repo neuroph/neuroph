@@ -30,9 +30,6 @@
             </file>
         </folder>        
         <folder name="BpelNodes"/>
-        <folder name="Window">
-            <file name="org-neuroph-netbeans-ide-picturesexplorer-PicturesExplorerTopComponent.instance_hidden"/>
-        </folder>
     </folder>
     <file name="JSPPalette_hidden"/>
     <folder name="Loaders">
