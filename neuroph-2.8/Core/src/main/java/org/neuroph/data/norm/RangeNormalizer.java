@@ -9,8 +9,8 @@ import org.neuroph.data.DataSetRow;
  */
 public class RangeNormalizer implements Normalizer {
     private double low, high;
-    double[] max; // contains max values for all columns
-    double[] min; // contains min values for all columns    
+    double[] maxIn, maxOut; // contains max values for in and out columns
+    double[] minIn, minOut; // contains min values for in and out columns     
 
     public RangeNormalizer(double low, double high) {
         this.low= low;
@@ -19,11 +19,11 @@ public class RangeNormalizer implements Normalizer {
     
     @Override
     public void normalize(DataSet dataSet) {
-        findMaxinAndMinVectors(dataSet);
+        findMaxAndMinVectors(dataSet);
        
         for (DataSetRow row : dataSet.getRows()) {
-            double[] normalizedInput = normalizeToRange(row.getInput());
-            double[] normalizedOutput = normalizeToRange(row.getDesiredOutput());
+            double[] normalizedInput = normalizeToRange(row.getInput(), minIn, maxIn);
+            double[] normalizedOutput = normalizeToRange(row.getDesiredOutput(), minOut, maxOut);
                         
             row.setInput(normalizedInput);
             row.setDesiredOutput(normalizedOutput);
@@ -33,7 +33,7 @@ public class RangeNormalizer implements Normalizer {
     }
 
     
-    private double[] normalizeToRange(double[] vector) {
+    private double[] normalizeToRange(double[] vector, double[] min, double[] max) {
         double[] normalizedVector = new double[vector.length];
 
         for (int i = 0; i < vector.length; i++) {
@@ -43,22 +43,50 @@ public class RangeNormalizer implements Normalizer {
         return normalizedVector;             
     }
     
-    private void findMaxinAndMinVectors(DataSet dataSet) {
+    
+    
+    private void findMaxAndMinVectors(DataSet dataSet) {
         int inputSize = dataSet.getInputSize();
-        max = new double[inputSize];
-        min = new double[inputSize];
+        int outputSize = dataSet.getOutputSize();
+        
+        maxIn = new double[inputSize];
+        minIn = new double[inputSize];
+        
+        for(int i=0; i<inputSize; i++) {
+            maxIn[i] = Double.MIN_VALUE;
+            minIn[i] = Double.MAX_VALUE;
+        }
+        
+        maxOut = new double[outputSize];
+        minOut = new double[outputSize];   
+        
+        for(int i=0; i<inputSize; i++) {
+            maxOut[i] = Double.MIN_VALUE;
+            minOut[i] = Double.MAX_VALUE;
+        }        
 
         for (DataSetRow dataSetRow : dataSet.getRows()) {
             double[] input = dataSetRow.getInput();
             for (int i = 0; i < inputSize; i++) {
-                if (input[i] > max[i]) {
-                    max[i] = input[i];
+                if (input[i] > maxIn[i]) {
+                    maxIn[i] = input[i];
                 }
-                if (input[i] < min[i]) {
-                    min[i] = input[i];
+                if (input[i] < minIn[i]) {
+                    minIn[i] = input[i];
                 }
             }
+            
+            double[] output = dataSetRow.getDesiredOutput();
+            for (int i = 0; i < outputSize; i++) {
+                if (output[i] > maxOut[i]) {
+                    maxOut[i] = output[i];
+                }
+                if (output[i] < minOut[i]) {
+                    minOut[i] = output[i];
+                }
+            }            
+                                    
         }        
-    }    
+    }     
     
 }

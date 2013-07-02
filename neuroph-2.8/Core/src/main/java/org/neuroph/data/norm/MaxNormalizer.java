@@ -26,41 +26,58 @@ import org.neuroph.data.DataSetRow;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class MaxNormalizer implements Normalizer {
-    double[] max; // contains max values for all columns
+    double[] maxIn, maxOut; // contains max values for in and out columns
     
     
     @Override
    public void normalize(DataSet dataSet) {
 
-        findMaxVector(dataSet);
+        findMaxVectors(dataSet);
 
-        for (DataSetRow dataSetRow : dataSet.getRows()) {
-            double[] input = dataSetRow.getInput();
-            double[] normalizedInput = normalizeMax(input);
-            dataSetRow.setInput(normalizedInput);
+        for (DataSetRow row : dataSet.getRows()) {
+            double[] normalizedInput = normalizeMax(row.getInput(), maxIn);
+            double[] normalizedOutput = normalizeMax(row.getDesiredOutput(), maxOut);
+                        
+            row.setInput(normalizedInput);
+            row.setDesiredOutput(normalizedOutput);
         }
 
     }    
    
-    private void findMaxVector(DataSet dataSet) {
+    private void findMaxVectors(DataSet dataSet) {
         int inputSize = dataSet.getInputSize();
-        max = new double[inputSize];
-
+        int outputSize = dataSet.getOutputSize();
+        
+        maxIn = new double[inputSize];    
+        for(int i=0; i<inputSize; i++)
+            maxIn[i] = Double.MIN_VALUE;
+        
+        maxOut = new double[outputSize];
+        for(int i=0; i<outputSize; i++)
+            maxOut[i] = Double.MIN_VALUE;        
+    
         for (DataSetRow dataSetRow : dataSet.getRows()) {
             double[] input = dataSetRow.getInput();
             for (int i = 0; i < inputSize; i++) {
-                if (Math.abs(input[i]) > max[i]) {
-                    max[i] = Math.abs(input[i]);
+                if (input[i] > maxIn[i]) {
+                    maxIn[i] = input[i];
                 }
-            }
-        }        
+             }
+            
+            double[] output = dataSetRow.getDesiredOutput();
+            for (int i = 0; i < outputSize; i++) {
+                if (output[i] > maxOut[i]) {
+                    maxOut[i] = output[i];
+                }
+            }            
+                                    
+        }         
     }   
     
-    public double[] normalizeMax(double[] vector) {
+    public double[] normalizeMax(double[] vector, double[] max) {
         double[] normalizedVector = new double[vector.length];
         
         for(int i = 0; i < vector.length; i++) {
-            if (max[i]>1)
                 normalizedVector[i] = vector[i] / max[i];
         }
         

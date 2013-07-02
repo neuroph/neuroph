@@ -25,8 +25,8 @@ import org.neuroph.data.DataSet;
 public interface Normalizer {
     
     /**
-     * Normalize specified training set
-     * @param trainingSet training set to normalize
+     * Normalize specified data set
+     * @param dataSet data set to normalize
      */
     public void normalize(DataSet dataSet);  
     

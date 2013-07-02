@@ -27,49 +27,79 @@ import org.neuroph.data.DataSetRow;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class DecimalScaleNormalizer implements Normalizer {
-    double[] max; // contains max values for all columns
-    double[] scaleFactor;
+    double[] maxIn, maxOut; // contains max values for all columns
+    double[] scaleFactorIn, scaleFactorOut;
         
  @Override
  public void normalize(DataSet dataSet) {
-        findMaxVector(dataSet);        
-        findScaleVector();
+        findMaxVectors(dataSet);        
+        findScaleVectors();
 
         for (DataSetRow dataSetRow : dataSet.getRows()) {
-            double[] input = dataSetRow.getInput();
-            double[] normalizedInput = normalizeScale(input);
+            double[] normalizedInput = normalizeScale(dataSetRow.getInput(), scaleFactorIn);
+            double[] normalizedOutput = normalizeScale(dataSetRow.getDesiredOutput(), scaleFactorOut);
             dataSetRow.setInput(normalizedInput);                        
+            dataSetRow.setInput(normalizedOutput);
         }
     }    
  
-    private void findMaxVector(DataSet dataSet) {
+private void findMaxVectors(DataSet dataSet) {
         int inputSize = dataSet.getInputSize();
-        max = new double[inputSize];
-
-        for (DataSetRow row : dataSet.getRows()) {
-            double[] input = row.getInput();
-            for (int i = 0; i < inputSize; i++) {
-                if (Math.abs(input[i]) > max[i]) {
-                    max[i] = Math.abs(input[i]);
-                }
-            }
-        }        
-    }         
-    
-    public void findScaleVector() {
-        scaleFactor = new double[max.length];
-        for(int i = 0; i < scaleFactor.length; i++)
-            scaleFactor[i] = 1; 
+        int outputSize = dataSet.getOutputSize();
         
-        for(int i = 0; i < max.length; i++) {            
-            while(max[i]>1) {
-                max[i] = max[i] / 10.0;
-                scaleFactor[i] = scaleFactor[i] * 10;
+        maxIn = new double[inputSize];    
+        for(int i=0; i<inputSize; i++)
+            maxIn[i] = Double.MIN_VALUE;
+        
+        maxOut = new double[outputSize];
+        for(int i=0; i<outputSize; i++)
+            maxOut[i] = Double.MIN_VALUE;        
+    
+        for (DataSetRow dataSetRow : dataSet.getRows()) {
+            double[] input = dataSetRow.getInput();
+            for (int i = 0; i < inputSize; i++) {
+                if (input[i] > maxIn[i]) {
+                    maxIn[i] = input[i];
+                }
+             }
+            
+            double[] output = dataSetRow.getDesiredOutput();
+            for (int i = 0; i < outputSize; i++) {
+                if (output[i] > maxOut[i]) {
+                    maxOut[i] = output[i];
+                }
             }            
-        }            
+                                    
+        }         
+    }          
+    
+    public void findScaleVectors() {
+        scaleFactorIn = new double[maxIn.length];
+        for(int i = 0; i < scaleFactorIn.length; i++)
+            scaleFactorIn[i] = 1; 
+        
+        for(int i = 0; i < maxIn.length; i++) {            
+            while(maxIn[i]>1) {
+                maxIn[i] = maxIn[i] / 10.0;
+                scaleFactorIn[i] = scaleFactorIn[i] * 10;
+            }            
+        }
+        
+        scaleFactorOut = new double[maxOut.length];
+        for(int i = 0; i < scaleFactorOut.length; i++)
+            scaleFactorOut[i] = 1; 
+        
+        for(int i = 0; i < maxOut.length; i++) {            
+            while(maxIn[i]>1) {
+                maxOut[i] = maxOut[i] / 10.0;
+                scaleFactorOut[i] = scaleFactorOut[i] * 10;
+            }            
+        }        
+        
+        
     }
     
-    public double[] normalizeScale(double[] vector) {
+    public double[] normalizeScale(double[] vector, double[] scaleFactor) {
         double[] normalizedVector = new double[vector.length];        
         for(int i = 0; i < vector.length; i++) {
             normalizedVector[i] = vector[i] / scaleFactor[i];
