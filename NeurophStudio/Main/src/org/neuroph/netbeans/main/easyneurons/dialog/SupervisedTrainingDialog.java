@@ -317,10 +317,12 @@ public class SupervisedTrainingDialog extends javax.swing.JDialog {
 			((MomentumBackpropagation)learningRule).setMomentum(momentum);
 		}
 		
-                if (graphCheckBox.isSelected()) {
+                if (graphCheckBox.isSelected()) {                    
                     GraphFrameTopComponent graphFrame = ViewManager.getInstance().openErrorGraphFrame();
                     graphFrame.observe(learningRule);
                 }
+                
+//                trainingController.setShowErrorGraph(graphCheckBox.isSelected());
                  
                 viewManager.openTrainingMonitorWindow(this.trainingController);             
 

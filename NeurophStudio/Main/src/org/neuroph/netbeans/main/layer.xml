@@ -134,5 +134,6 @@
              <file name="WindowManager.wswmgr" url="WindowManager.wswmgr"/>
             
         </folder>
+        <file name="WindowManager.wswmgr" url="WindowManager_1.wswmgr"/>
     </folder>
 </filesystem>

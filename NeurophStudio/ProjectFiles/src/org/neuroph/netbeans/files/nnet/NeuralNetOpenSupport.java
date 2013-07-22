@@ -48,9 +48,7 @@ public class NeuralNetOpenSupport extends OpenSupport implements OpenCookie, Clo
 //               nnetTopComponent = new NeuralNetworkTopComponent(nnetDataObject); // otherwise create new window to open network in
                nnetTopComponent = new VisualEditorTopComponent(nnetDataObject);
                nnetTopComponent.open(); 
-               nnetTopComponent.requestActive();
-        
-                    
+               nnetTopComponent.requestActive();                            
         }    
         
         WindowManager.getDefault().findTopComponent("ExplorerTopComponent").open();        

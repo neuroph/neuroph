@@ -33,7 +33,7 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
         JMenu addLayer = new JMenu("Add Layer");
         JMenuItem addEmptyLayerItem = new JMenuItem("Empty Layer");
         JMenuItem addCustomLayerItem = new JMenuItem("Custom Layer");
-        JMenuItem scenePreferences = new JMenuItem("Scene Preferences");
+        JMenuItem scenePreferences = new JMenuItem("Display Preferences");
         refreshItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ((NeuralNetworkScene) widget.getScene()).refresh();
@@ -85,6 +85,7 @@ public class MainPopupMenuProvider implements PopupMenuProvider {
         });
         
         scenePreferences.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 ScenePreferencesDialog dialog = new ScenePreferencesDialog((NeuralNetworkScene) widget.getScene(), null, true);
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.visual.dialogs;
 
 import java.awt.Frame;
@@ -131,7 +127,7 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
                 .addComponent(checkBoxShowConnections)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(checkBoxConnectionWeights)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(checkBoxWeightHighlighting))
         );
 
@@ -149,7 +145,7 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
                         .addComponent(buttonOK)
                         .addGap(29, 29, 29)
                         .addComponent(buttonCancel)
-                        .addGap(0, 31, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panelConnection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))

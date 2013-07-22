@@ -21,6 +21,7 @@ import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
+import org.openide.windows.IOProvider;
 
 public final class NewTrainingSetWizardIterator implements WizardDescriptor.InstantiatingIterator {
 
@@ -67,6 +68,7 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
         return panels;
     }
 
+    @Override
     public Set instantiate() throws IOException {
         boolean cancelled = wizard.getValue() != WizardDescriptor.FINISH_OPTION;
         if (!cancelled) {
@@ -99,7 +101,7 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
                 trainingSet.setLabel((String) wizard.getProperty("name"));
                 while (iterator.hasNext()) {
                     ArrayList rowVector = iterator.next();
-                    ArrayList<Double> doubleRowVector = new ArrayList<Double>();
+                    ArrayList<Double> doubleRowVector = new ArrayList<>();
                     try {                        
                         for (int i = 0; i < inputsNumber; i++) {
                             double doubleVal = Double.parseDouble(rowVector.get(i).toString());
@@ -121,8 +123,8 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
                 
                 while (iterator.hasNext()) {
                     ArrayList rowVector = iterator.next();
-                    ArrayList<Double> inputVector = new ArrayList<Double>();
-                    ArrayList<Double> outputVector = new ArrayList<Double>();
+                    ArrayList<Double> inputVector = new ArrayList<>();
+                    ArrayList<Double> outputVector = new ArrayList<>();
 
                     try {
                         for (int i = 0; i < inputsNumber; i++) {
@@ -149,6 +151,9 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
 
             NeurophProjectFilesFactory fileFactory = NeurophProjectFilesFactory.getDefault();
             fileFactory.createTrainingSetFile(trainingSet);
+            
+            
+       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Created data set "+trainingSet.getLabel()+"\r\n");
             
             String createdFilePath = fileFactory.getCreatedFilePath();
         

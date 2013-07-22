@@ -1,18 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.main.easyneurons.errorgraph;
 
+import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.logging.Logger;
 import org.jfree.chart.ChartPanel;
-import org.nugs.graph2d.Chart2D;
-import org.nugs.graph2d.Graph2DProperties;
-
+import org.nugs.graph2d.JFreeLineChartFactory;
+import org.nugs.graph2d.api.Graph2DProperties;
+import org.nugs.graph2d.api.LineChartFactory;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Exceptions;
@@ -39,6 +36,7 @@ public final class JFreeChartTopComponent extends TopComponent {
     private static final String FILE_URL = "errorarray.txt";
     int[] chartDataX;
     double[] chartDataY;
+    Point2D[]points;
 
     public JFreeChartTopComponent() {
         initComponents();
@@ -150,23 +148,19 @@ public final class JFreeChartTopComponent extends TopComponent {
                 + "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();
     }
-    /*
-    Interface Graph2D
-	create2DChart(double[] x, double[]y)
-*/
-    //   drawChart2D( double[][])
-//    drawHist2D( double[][])            
+
+    
     public void drawChartFromFile() {
         
         jPanel1.removeAll();
 
         readChartDataFromFileBuffer();
 
-        Chart2D chart2D = new Chart2D();
         Graph2DProperties prop = new Graph2DProperties("Network Error Graph", "Iteration", "Total network error");
         prop.setTooltipsVisible(true);
         
-        ChartPanel chartPanel = chart2D.create2dChart(chartDataX, chartDataY, prop);
+        LineChartFactory<ChartPanel> chart2DFactory = new JFreeLineChartFactory();
+        ChartPanel chartPanel = chart2DFactory.createLineChart(points, prop);
         jPanel1.add(chartPanel);
 
 //        jPanel1.revalidate();
@@ -191,11 +185,14 @@ public final class JFreeChartTopComponent extends TopComponent {
             lnr.skip(Long.MAX_VALUE);
             chartDataX = new int[lnr.getLineNumber()];
             chartDataY = new double[lnr.getLineNumber()];
+            points = new Point2D[lnr.getLineNumber()];
 
             // Read from file and write to arrays
             while ((currentLine = br.readLine()) != null) {
                 String[] values = currentLine.split(",");
                 chartDataX[counter] = Integer.parseInt(values[0]);
+                Point2D point = new Point2D.Double(Integer.parseInt(values[0]), Double.parseDouble(values[1]));             
+                points[counter] = point;
                 chartDataY[counter++] = Double.parseDouble(values[1]);
             }
 
@@ -207,7 +204,7 @@ public final class JFreeChartTopComponent extends TopComponent {
         }
     }
 /*
-    protected ChartPanel create2DChart(double[] iterations, double[] errors) {
+    protected ChartPanel create(double[] iterations, double[] errors) {
         ChartPanel panel;
 
         // Add points from arrays to dataset of linegraph...

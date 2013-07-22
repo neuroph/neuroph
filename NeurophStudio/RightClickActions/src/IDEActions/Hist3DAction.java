@@ -7,8 +7,8 @@ package IDEActions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
+import org.neuroph.netbeans.charts.Histogram3DTopComponent;
 import org.neuroph.netbeans.files.nnet.NeuralNetworkDataObject;
-import org.nugs.neurophgraph3d.Histogram3DTopComponent;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
@@ -32,6 +32,6 @@ public final class Hist3DAction extends AbstractAction implements ActionListener
     public void actionPerformed(ActionEvent ev) {
         Histogram3DTopComponent.getInstance().open();
         Histogram3DTopComponent.getInstance().requestActive();
-        Histogram3DTopComponent.getInstance().makeHistogram(context.getNeuralNetwork());
+        Histogram3DTopComponent.getInstance().openChart(context.getNeuralNetwork());
     }
 }

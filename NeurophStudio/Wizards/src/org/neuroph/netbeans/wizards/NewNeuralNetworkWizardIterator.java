@@ -80,6 +80,7 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
         return panels;
     }
 
+    @Override
     public Set instantiate() throws IOException {
         boolean cancelled = getWizard().getValue() != WizardDescriptor.FINISH_OPTION;
         if (!cancelled) {
@@ -245,7 +246,7 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
             }
            
             
-       IOProvider.getDefault().getIO("Messages", true).getOut().println("Created neural network "+neuralNetworkName);
+       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Created neural network "+neuralNetworkName);
             
         String createdFilePath = fileFactory.getCreatedFilePath();
         
@@ -258,26 +259,32 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
       return Collections.EMPTY_SET;
     }
 
+    @Override
     public void initialize(WizardDescriptor wizard) {
         this.wizard = wizard;
     }
 
+    @Override
     public void uninitialize(WizardDescriptor wizard) {
         panels = null;
     }
 
+    @Override
     public WizardDescriptor.Panel current() {
         return getPanels()[index];
     }
 
+    @Override
     public String name() {
         return index + 1 + ". from " + getPanels().length;
     }
 
+    @Override
     public boolean hasNext() {
         return index < getPanels().length - 1;
     }
 
+    @Override
     public boolean hasPrevious() {
         return index > 0;
     }
@@ -289,6 +296,7 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
         index++;
     }
 
+    @Override
     public void previousPanel() {
         if (!hasPrevious()) {
             throw new NoSuchElementException();
@@ -297,9 +305,11 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
     }
 
     // If nothing unusual changes in the middle of the wizard, simply:
+    @Override
     public void addChangeListener(ChangeListener l) {
     }
 
+    @Override
     public void removeChangeListener(ChangeListener l) {
     }
 

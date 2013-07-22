@@ -1,6 +1,5 @@
 package org.neuroph.netbeans.main.easyneurons.errorgraph;
 
-import com.sun.java_cup.internal.runtime.lr_parser;
 import com.sun.tools.visualvm.charts.ChartFactory;
 import com.sun.tools.visualvm.charts.SimpleXYChartDescriptor;
 import com.sun.tools.visualvm.charts.SimpleXYChartSupport;
@@ -8,8 +7,6 @@ import java.awt.BorderLayout;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
@@ -258,60 +255,5 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
             Exceptions.printStackTrace(ex);
         }
     }
-//    private class GuiWorker extends Thread {
-//
-//        boolean finnished = false;
-//        boolean hasData = false;
-//        LearningInfo learningInfo;
-//
-//        synchronized public void setHasData(boolean hasData) {
-//            this.hasData = hasData;
-//        }
-//
-//        @Override
-//        public void run() {
-//            while (!finnished) {
-//                //Wait until data is available.
-//                synchronized (this) {
-//                    while (!hasData) {
-//                        try {
-//                            wait();
-//                        } catch (InterruptedException e) {
-//                        }
-//                    }
-//                }
-//
-//                setHasData(false);
-//                long[] err = new long[1];
-//
-//                err[0] = (long) (learningInfo.getError() * 1000);
-//                chartSupport.addValues(System.currentTimeMillis(), err);
-//                chartSupport.updateDetails(new String[]{String.valueOf(iteration), err[0] + ""});
-//
-////                    while(!dataQueueBuffer.isEmpty()) {   
-////                    LearningInfo li = dataQueueBuffer.poll();
-////                    err[0] = (long)(li.getError()*1000);
-////                        chartSupport.addValues(System.currentTimeMillis(), err);
-////                        chartSupport.updateDetails(new String[]{ String.valueOf(iteration), err[0] + ""});
-////                    }          
-//
-//
-//            }
-//        }
-//
-//        public void setFinnished(boolean finnished) {
-//            this.finnished = finnished;
-//        }
-//
-//        private void putData(LearningInfo learningInfo) {
-//            // dataQueueBuffer.add(learningInfo);
-//            this.learningInfo = learningInfo;
-//            setHasData(true);
-//
-//            synchronized (this) {
-//                this.notify();
-//            }
-//
-//        }
-//    }
+
 }

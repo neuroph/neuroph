@@ -10,8 +10,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.nugs.graph2d.Graph2DProperties;
-import org.nugs.graph2d.Hist2D;
+import org.nugs.graph2d.JFreeHistogram2DFactory;
+import org.nugs.graph2d.api.Graph2DProperties;
+import org.nugs.graph2d.api.Histogram2DFactory;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -140,7 +141,7 @@ public final class HistogramChartTopComponent extends TopComponent {
 
     /**
      * Populates a bin vector with weights from the network. Calls
-     * createChartPanel method and displays the histogram graph. Utilizes the
+     * create method and displays the histogram graph. Utilizes the
      * JFreeChart API for histogram graphing.
      *
      * @param nnet Network object to iterate over connections.
@@ -202,7 +203,7 @@ public final class HistogramChartTopComponent extends TopComponent {
 
         int numberOfBins = 50;
 
-        Hist2D hist = new Hist2D();
-        return hist.createChartPanel(values, numberOfBins, prop);
+        Histogram2DFactory<ChartPanel> histogramFactory = new JFreeHistogram2DFactory();
+        return histogramFactory.createHistogram2D(values, numberOfBins, prop);
     }//end createFrame method
 }
