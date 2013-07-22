@@ -60,12 +60,12 @@ public class NeuralNetworkScene extends ObjectScene {
     private boolean waitingLayerClick = false;
     private boolean refresh = false;
     // neurons and widgets bufferd index
-    private HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
-    HashMap<Layer, NeuralLayerWidget> layersAndWidgets = new HashMap<Layer, NeuralLayerWidget>();
+    private HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<>();
+    HashMap<Layer, NeuralLayerWidget> layersAndWidgets = new HashMap<>();
     InstanceContent content = new InstanceContent();
     AbstractLookup aLookup = new AbstractLookup(content);
-    ArrayList<Neuron> neurons = new ArrayList<Neuron>();
-    ArrayList<Layer> layers = new ArrayList<Layer>();
+    ArrayList<Neuron> neurons = new ArrayList<>();
+    ArrayList<Layer> layers = new ArrayList<>();
     boolean isFirstSelection = true;
     private static final int TOO_MANY_NEURONS = 100;
     private static final int TOO_MANY_CONNECTIONS = 250;
@@ -119,6 +119,7 @@ public class NeuralNetworkScene extends ObjectScene {
 
 
         addObjectSceneListener(new ObjectSceneListener() {
+            @Override
             public void objectAdded(ObjectSceneEvent event, Object addedObject) {
                 //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 // on neuron add redraw layer
@@ -126,14 +127,17 @@ public class NeuralNetworkScene extends ObjectScene {
                 // on connection add redraw connection between objects
             }
 
+            @Override
             public void objectRemoved(ObjectSceneEvent event, Object removedObject) {
                 //     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
 
+            @Override
             public void objectStateChanged(ObjectSceneEvent event, Object changedObject, ObjectState previousState, ObjectState newState) {
                 //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
 
+            @Override
             public void selectionChanged(ObjectSceneEvent event, Set<Object> previousSelection, Set<Object> newSelection) {
                 for (Object o : previousSelection) {
                     content.remove(o);
@@ -144,23 +148,28 @@ public class NeuralNetworkScene extends ObjectScene {
                 }
             }
 
+            @Override
             public void highlightingChanged(ObjectSceneEvent event, Set<Object> previousHighlighting, Set<Object> newHighlighting) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
 
+            @Override
             public void hoverChanged(ObjectSceneEvent event, Object previousHoveredObject, Object newHoveredObject) {
                 //     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
 
+            @Override
             public void focusChanged(ObjectSceneEvent event, Object previousFocusedObject, Object newFocusedObject) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         }, ObjectSceneEventType.OBJECT_SELECTION_CHANGED);
 
         getActions().addAction(ActionFactory.createAcceptAction(new AcceptProvider() {
+            @Override
             public ConnectorState isAcceptable(final Widget widget, final Point point, final Transferable t) {
 
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
 //                        DataFlavor flavor = t.getTransferDataFlavors()[3];
 //                Class droppedClass = flavor.getRepresentationClass();
@@ -193,6 +202,7 @@ public class NeuralNetworkScene extends ObjectScene {
                 return ConnectorState.REJECT;
             }
 
+            @Override
             public void accept(Widget widget, Point point, Transferable t) {
             }
         }));
@@ -208,8 +218,7 @@ public class NeuralNetworkScene extends ObjectScene {
         Object o = null;
         try {
             o = transferable.getTransferData(DataFlavor.imageFlavor);
-        } catch (IOException ex) {
-        } catch (UnsupportedFlavorException ex) {
+        } catch (IOException | UnsupportedFlavorException ex) {
         }
         return o instanceof Image ? (Image) o : ImageUtilities.loadImage("org/netbeans/shapesample/palette/shape1.png");
     }
@@ -270,10 +279,10 @@ public class NeuralNetworkScene extends ObjectScene {
             return;
         }
 
-        neurons = new ArrayList<Neuron>();
-        neuronsAndWidgets = new HashMap<Neuron, NeuronWidget>();
-        layers = new ArrayList<Layer>();
-        layersAndWidgets = new HashMap<Layer, NeuralLayerWidget>();
+        neurons = new ArrayList<>();
+        neuronsAndWidgets = new HashMap<>();
+        layers = new ArrayList<>();
+        layersAndWidgets = new HashMap<>();
 
         for (int i = 0; i < neuralNetwork.getLayersCount(); i++) { // iterate all layers in network
             IconNodeWidget layerWrapperWidget = new IconNodeWidget(this); // parent container layer for label and NeuralLayer
