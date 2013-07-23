@@ -49,26 +49,32 @@ import org.openide.util.lookup.InstanceContent;
 public class NeuralNetworkScene extends ObjectScene {
 //http://bits.netbeans.org/dev/javadoc/org-netbeans-api-visual/org/netbeans/api/visual/widget/doc-files/documentation.html
 
-    private LayerWidget mainLayer;
-    private LayerWidget interractionLayer;
-    private LayerWidget connectionLayer;
+    private LayerWidget mainLayer;          // this layer contains widgets
+    private LayerWidget interractionLayer;  // this layer is for drawing connections while connectiong
+    private LayerWidget connectionLayer;    // this layer contains connections
+  
     private NeuralNetworkWidget neuralNetworkWidget;
     private NeuralNetwork neuralNetwork;
+    
     IconNodeWidget inputsWidget = null;
     IconNodeWidget outputsWidget = null;
+    
     private boolean waitingClick = false;
     private boolean waitingLayerClick = false;
-    private boolean refresh = false;
-    // neurons and widgets bufferd index
+    
+    // neurons and widgets bufferd index - object widget mapping from object scene shoul dbe used instead
     private HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<>();
     HashMap<Layer, NeuralLayerWidget> layersAndWidgets = new HashMap<>();
+        
     InstanceContent content = new InstanceContent();
     AbstractLookup aLookup = new AbstractLookup(content);
+    
     ArrayList<Neuron> neurons = new ArrayList<>();
     ArrayList<Layer> layers = new ArrayList<>();
-    boolean isFirstSelection = true;
+        
     private static final int TOO_MANY_NEURONS = 100;
     private static final int TOO_MANY_CONNECTIONS = 250;
+    
     private NeuralNetworkEditor networkEditor;
     private VisualEditorTopComponent topComponent;
     private ScenePreferences scenePreferences;
@@ -77,6 +83,7 @@ public class NeuralNetworkScene extends ObjectScene {
 
         this.neuralNetwork = neuralNet;
         neuralNetworkWidget = new NeuralNetworkWidget(this, neuralNet);
+        neuralNetworkWidget.setLabel("Neural Network");
 
         setLayout(LayoutFactory.createOverlayLayout());
 
@@ -90,8 +97,9 @@ public class NeuralNetworkScene extends ObjectScene {
 
         LabelWidget neuralNetworkLabel = new LabelWidget(this, "Neural Network");
         neuralNetworkLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        //neuralNetworkLabel.setBorder(BorderFactory.createLineBorder(1) );
+
         inputsWidget = new IconNodeWidget(this);
+        inputsWidget.setLabel("Inputs");
         inputsWidget.setBorder(BorderFactory.createLineBorder(15));
         mainLayer.addChild(new LabelWidget(this, "Inputs"));
         mainLayer.addChild(inputsWidget);
@@ -223,10 +231,11 @@ public class NeuralNetworkScene extends ObjectScene {
         return o instanceof Image ? (Image) o : ImageUtilities.loadImage("org/netbeans/shapesample/palette/shape1.png");
     }
 
-    public void resizeLayer(Widget w) {
-        int i = w.getChildren().size();
-        Dimension d = new Dimension(((int) (i * 65)) + 10, (int) w.getPreferredSize().getHeight());
-        w.setPreferredSize(d);
+    // why are we doing manual resize? it should be done automatically using FlowLayout
+    public void resizeLayer(NeuralLayerWidget layerWidget) {
+        int i = layerWidget.getChildren().size();
+        Dimension d = new Dimension(((int) (i * 65)) + 30 , (int) layerWidget.getPreferredSize().getHeight());
+        layerWidget.setPreferredSize(d);
     }
 
     public void setTopComponent(VisualEditorTopComponent topComponent) {
@@ -256,11 +265,11 @@ public class NeuralNetworkScene extends ObjectScene {
             createConnections();
         }
         this.validate(); // only one call to validate since they ar eusing same scene instance   
-        refresh = true;
 
         createConnectionsBetweenNeuronsInSameLayer();
     }
 
+    // Creates layer and neuron widgets
     private void createNeuralLayers() {
         if (neuralNetwork.getLayersCount() == 0) {
             LabelWidget emptyLabel = new LabelWidget(this, "Empty Neural Network");
@@ -289,6 +298,7 @@ public class NeuralNetworkScene extends ObjectScene {
             layerWrapperWidget.setLayout(LayoutFactory.createVerticalFlowLayout());
             Layer layer = neuralNetwork.getLayerAt(i); // get layer for this widget
             NeuralLayerWidget neuralLayerWidget = new NeuralLayerWidget(this, layer); // create widget for layer
+
             layers.add(layer);
             layersAndWidgets.put(layer, neuralLayerWidget);
             if (getObjects().contains(layer)) {
@@ -296,7 +306,7 @@ public class NeuralNetworkScene extends ObjectScene {
             }
             addObject(layer, neuralLayerWidget);
 
-            LabelWidget layerLabelWidget = new LabelWidget(this);
+            //LabelWidget layerLabelWidget = new LabelWidget(this);
 
             String layerLabel = layer.getLabel();
             if (layerLabel == null) {
@@ -305,11 +315,11 @@ public class NeuralNetworkScene extends ObjectScene {
                 layerLabel = "Layer " + i;
             }
 
-            layerLabelWidget.setLabel(layerLabel);
+            neuralLayerWidget.setLabel(layerLabel);
 
             // this logic should be moved to LayerWidget...
             if (layer.getNeuronsCount() == 0) {
-                // if layer is empty write message 'empty layer'
+                // if layer is empty write 'Empty layer'
                 LabelWidget emptyLabel = new LabelWidget(this, "Empty Layer");
                 emptyLabel.setForeground(Color.LIGHT_GRAY);
                 emptyLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -348,6 +358,7 @@ public class NeuralNetworkScene extends ObjectScene {
 
                     resizeLayer(neuralLayerWidget);
                     //Napravio wrapper oko neuronWidget j label da bi label pisao unutar widgeta. Koristim OverlayLayout
+                    
                     IconNodeWidget neuronWrapperWidget1 = new IconNodeWidget(this);
                     neuronWrapperWidget1.setLayout(LayoutFactory.createVerticalFlowLayout());
                     IconNodeWidget neuronWrapperWidget = new IconNodeWidget(this);
@@ -382,13 +393,14 @@ public class NeuralNetworkScene extends ObjectScene {
             }
 
 
-            layerWrapperWidget.addChild(layerLabelWidget);
+          //  layerWrapperWidget.addChild(layerLabelWidget);
             layerWrapperWidget.addChild(neuralLayerWidget);
             neuralNetworkWidget.addChild(layerWrapperWidget);
         }
 
         // create inputs widgets
         //inputsWidget = new IconNodeWidget(this);
+        //inputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
         inputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
         outputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
@@ -417,7 +429,7 @@ public class NeuralNetworkScene extends ObjectScene {
         } else if (neuralNetwork.getInputNeurons() != null) {
 
             LabelWidget inputLabel = new LabelWidget(this);
-            inputLabel.setLabel("Input " + neuralNetwork.getInputNeurons().length);
+            inputLabel.setLabel(neuralNetwork.getInputNeurons().length + " Inputs");
             inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
             inputsWidget.addChild(inputLabel);
 
@@ -579,10 +591,6 @@ public class NeuralNetworkScene extends ObjectScene {
 
     public void setWaitingLayerClick(boolean waitingLayerClick) {
         this.waitingLayerClick = waitingLayerClick;
-    }
-
-    public void setRefresh(boolean refresh) {
-        this.refresh = refresh;
     }
 
     public NeuralNetworkWidget getNeuralNetworkWidget() {

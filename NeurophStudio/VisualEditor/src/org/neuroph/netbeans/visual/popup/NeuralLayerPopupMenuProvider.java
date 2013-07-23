@@ -10,9 +10,7 @@ import javax.swing.JPopupMenu;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Layer;
-import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.core.input.InputFunction;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddLayerLabelDialog;
 import org.neuroph.netbeans.visual.dialogs.AddNeuronDialog;
@@ -81,6 +79,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
     public JPopupMenu getPopupMenu(final Widget widget, Point point) {
         editor = ((NeuralNetworkScene) widget.getScene()).getNeuralNetworkEditor();
         removeLayerItem.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
 
                 if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this layer?", "Delete Layer?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -92,16 +91,18 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         });
 
         addNeuronItem.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 AddNeuronDialog dialog = new AddNeuronDialog(null, true, ((NeuralLayerWidget) widget).getLayer(), (NeuralNetworkScene) widget.getScene());
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
                 dialog.setVisible(true);
-                ((NeuralNetworkScene) widget.getScene()).setRefresh(false);
+                //((NeuralNetworkScene) widget.getScene()).setRefresh(false);
                 ((NeuralNetworkScene) widget.getScene()).refresh();
             }
         });
 
         cloneLayerItem.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 // Clone The Layer X times 
                 String anwser = JOptionPane.showInputDialog(null, "Enter number of clones for layer");
@@ -131,6 +132,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         });
 
         setLabel.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 AddLayerLabelDialog dialog = new AddLayerLabelDialog(null, true, ((NeuralLayerWidget) widget).getLayer(), (NeuralNetworkScene) widget.getScene());
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
@@ -140,6 +142,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         });
 
         connectToLayer.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 // Preko NeuralLayerWidget stacka pamtimi selektovani 
                 // Layer widget, pa ce trebati i spoljni boolean koji  
@@ -152,6 +155,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         });
 
         changeTransferFunction.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 ChangeTransferFunctionDialog dialog = new ChangeTransferFunctionDialog(null, true, ((NeuralLayerWidget) widget).getLayer(), (NeuralNetworkScene) ((NeuralLayerWidget) widget).getScene());
                 dialog.setLocationRelativeTo(WindowManager.getDefault().getMainWindow());
@@ -161,6 +165,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         });
 
         removeAllInputConnections.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Layer layer = ((NeuralLayerWidget) widget).getLayer();
                 editor.removeAllInputConnections(layer);
@@ -169,6 +174,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         });
 
         removeAllOutputConnections.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Layer layer = ((NeuralLayerWidget) widget).getLayer();
                 editor.removeAllOutputConnections(layer);
@@ -178,6 +184,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         
         setAsInputLayer.addActionListener(new ActionListener(){
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Layer layer = ((NeuralLayerWidget) widget).getLayer();
                 editor.setAsInputLayer(layer);
@@ -188,6 +195,7 @@ public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
         
             setAsOutputLayer.addActionListener(new ActionListener(){
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Layer layer = ((NeuralLayerWidget) widget).getLayer();
                 editor.setAsOutputLayer(layer);

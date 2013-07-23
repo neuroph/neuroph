@@ -34,7 +34,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
     
     public NeuralLayerWidget(NeuralNetworkScene scene, Layer layer) {
         super(scene);
-        this.lookup = Lookups.fixed(layer, this);
+        lookup = Lookups.fixed(layer, this); // either move to private constructor or override getLookup method
         setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 15));
         setBorder(DEFAULT_BORDER);
         setPreferredSize(new Dimension(200, 80));
@@ -42,7 +42,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         getActions().addAction(ActionFactory.createAcceptAction(new NeuralLayerWidgetAcceptProvider(this)));
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuralLayerPopupMenuProvider()));
         getActions().addAction(ActionFactory.createExtendedConnectAction(scene.getInterractionLayer(), new LayerConnectProvider()));
-        getActions().addAction(scene.createSelectAction()); // move this above connection action to react to it before connection
+        getActions().addAction(scene.createSelectAction());
         getActions().addAction(scene.createObjectHoverAction()); 
         
     }
@@ -60,6 +60,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         return widget instanceof NeuronWidget;
     }
 
+    @Override
     public void createConnectionTo(Widget targetWidget) {
 
         Layer myLayer = getLayer();

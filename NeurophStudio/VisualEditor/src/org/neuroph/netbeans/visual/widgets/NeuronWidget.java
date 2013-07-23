@@ -33,14 +33,12 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
     private final Lookup lookup;
     private List<ConnectionWidget> connections;
     public static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.red, Color.black);
-    //public static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, new Color(255, 100, 100), Color.GRAY); //prva verzija
-    //public static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.RED, Color.GRAY); //sano okvir siv
     public static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.YELLOW, Color.GRAY); //zuto na hover
     public static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(50, 50, Color.yellow, Color.black);
 
     public NeuronWidget(NeuralNetworkScene scene, Neuron neuron) {
         super(scene);
-        connections = new ArrayList<ConnectionWidget>();
+        connections = new ArrayList<>();
         this.neuron = neuron;
         lookup = Lookups.fixed(neuron, this);
         
