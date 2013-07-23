@@ -43,8 +43,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuralLayerPopupMenuProvider()));
         getActions().addAction(ActionFactory.createExtendedConnectAction(scene.getInterractionLayer(), new LayerConnectProvider()));
         getActions().addAction(scene.createSelectAction());
-        getActions().addAction(scene.createObjectHoverAction()); 
-        
+        getActions().addAction(scene.createObjectHoverAction());         
     }
 
 
@@ -56,28 +55,26 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
         return this.lookup;
     }
 
-    public boolean isAcceptableWidget(Widget widget) {
-        return widget instanceof NeuronWidget;
-    }
-
     @Override
     public void createConnectionTo(Widget targetWidget) {
 
         Layer myLayer = getLayer();
-        if (targetWidget instanceof NeuronWidget) { // Connect all Neurons from current Layer to One Pointed Neuron
+        if (targetWidget instanceof NeuronWidget) { // Connect all Neurons from current Layer to One Pointed Neuron            
             Neuron toNeuron = ((NeuronWidget) targetWidget).getNeuron();
-
+            // TODO: move connection logic to editor / ConnectionFactory
             for (Neuron fromNeuron : myLayer.getNeurons()) {
                 ConnectionFactory.createConnection(fromNeuron, toNeuron);
             }
-
+            
         } else {  // Else will be only NeuralLayer Widget
             Layer targetLayer = ((NeuralLayerWidget) targetWidget).getLayer();
-            for (Neuron fromNeuron : myLayer.getNeurons()) {
-                for (Neuron toNeuron : targetLayer.getNeurons()) {
-                    ConnectionFactory.createConnection(fromNeuron, toNeuron);
-                }
-            }
+            // TODO: move connection logic to editor / ConnectionFactory
+               ConnectionFactory.fullConnect(myLayer, targetLayer);
+//            for (Neuron fromNeuron : myLayer.getNeurons()) {
+//                for (Neuron toNeuron : targetLayer.getNeurons()) {
+//                    ConnectionFactory.createConnection(fromNeuron, toNeuron);
+//                }
+//            }
         }
     }
 

@@ -76,16 +76,7 @@ public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Con
         return lookup;
     }
 
-    public boolean isAcceptableWidget(Widget w) {
-        if (w instanceof NeuronWidget) {
-            Neuron connectionNeuron = ((NeuronWidget) w).getNeuron();
-            if (connectionNeuron != neuron && !connectionNeuron.getParentLayer().equals(neuron.getParentLayer())) {
-                return true;
-            }
-        }
-        return (w instanceof NeuralLayerWidget && !((NeuralLayerWidget) w).getLayer().equals(neuron.getParentLayer()));
-    }
-
+    @Override
     public void createConnectionTo(Widget targetWidget) {
         if (targetWidget instanceof NeuralLayerWidget) {
             Layer targetLayer = ((NeuralLayerWidget) targetWidget).getLayer();

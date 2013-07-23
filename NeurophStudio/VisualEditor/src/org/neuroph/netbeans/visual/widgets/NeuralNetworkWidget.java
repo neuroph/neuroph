@@ -11,27 +11,36 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.visual.widgets.actions.NeuralNetworkWidgetAcceptProvider;
 
 /**
- *
- * @author Zoran i Marjan
+ * This class represents widget for neural network
+ * @author Zoran Sevarac
+ * @author Marjan Hrzic
  */
 public class NeuralNetworkWidget extends IconNodeWidget {
 
     private NeuralNetwork neuralNetwork;
+    // do we need lookup here?
+    // we could put neuralNetwork in lookup instead in field, like in NeuralLayerWidget
 
+    /**
+     * Constructs instance of NeuralNetworkWidget for specified neural network and scene 
+     *
+     * @param scene parent scene of a widget
+     * @param neuralNetwork neural network that this widget represents
+     */
     public NeuralNetworkWidget(Scene scene, NeuralNetwork neuralNetwork) {
         super(scene);
         this.neuralNetwork = neuralNetwork;
         this.setMinimumSize(new Dimension(300, 400));
-        setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 50));
-        setBorder(BorderFactory.createRoundedBorder(5, 5, 30, 30, Color.white, Color.black));
-        getActions().addAction(ActionFactory.createAcceptAction(new NeuralNetworkWidgetAcceptProvider(this)));
+        setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 50)); // vertical flow layout for all layers
+        setBorder(BorderFactory.createRoundedBorder(5, 5, 30, 30, Color.white, Color.black));       // border to outline neural network widget
+        getActions().addAction(ActionFactory.createAcceptAction(new NeuralNetworkWidgetAcceptProvider(this)));  // accept provider to handle drag n drop
     }
 
-//    public void addLayer(int position, NeuralLayerWidget neuralLayerWidget) {
-//        neuralNetwork.addLayer(neuralLayerWidget.getLayer());
-//        addChild(position, neuralLayerWidget);
-//    }
 
+    /**
+     * Returns neural network from this widget
+     * @return neural network from this widget
+     */
     public NeuralNetwork getNeuralNetwork() {
         return neuralNetwork;
     }
