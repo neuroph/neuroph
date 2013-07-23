@@ -1,5 +1,6 @@
 package org.neuroph.netbeans.charts.graphs3d;
 
+import java.util.Arrays;
 import org.jzy3d.chart.Chart;
 import org.jzy3d.colors.colormaps.ColorMapHotCold;
 import org.jzy3d.colors.colormaps.IColorMap;
@@ -21,7 +22,7 @@ import org.nugs.graph3d.api.Range;
  */
 public class OutputSurface3D extends Graph3DBuilder {
 
-    Point3D[] points3d;
+    Point3D[] points3d, points3dCopy;
     int dataSetRowCount;
     NeuralNetwork neuralNet;
 
@@ -34,6 +35,13 @@ public class OutputSurface3D extends Graph3DBuilder {
     @Override
     public Chart createGraph() {
         points3d = dataProvider3D.getData(attribute1);
+        
+        // add a copy of the last neuron outputs in order to display surface nicely
+        points3dCopy = Arrays.copyOf(points3d, points3d.length+dataSetRowCount);
+        for(int p=0; p<dataSetRowCount; p++) {
+           points3dCopy[points3d.length+p] = points3d[points3d.length-dataSetRowCount+p];
+        }
+        
         Surface3DProperties prop = new Surface3DProperties();
         IColorMap map = new ColorMapHotCold();
         map.setDirection(true);
@@ -41,7 +49,7 @@ public class OutputSurface3D extends Graph3DBuilder {
         prop.setChartQuality(Quality.Nicest);
         prop.setChartWireframed(true);
         int outputNeuronCount = neuralNet.getLayerAt(attribute1.getIndex()).getNeuronsCount();
-        prop.setyRange(new Range(1, outputNeuronCount));
+        prop.setyRange(new Range(1, outputNeuronCount+1)); // repeat values for last neuron in order to display surface nicely
         prop.setyAxeInteger(true);
 
         prop.setxRange(new Range(1, dataSetRowCount));
@@ -55,8 +63,8 @@ public class OutputSurface3D extends Graph3DBuilder {
         Chart chart = surfaceFactory.createSurface(new Mapper() {
             @Override
             public double f(double x, double y) {
-                for (int i = 1; i < points3d.length; i++) {
-                    Point3D point = points3d[i];
+                for (int i = 1; i < points3dCopy.length; i++) {
+                    Point3D point = points3dCopy[i];
                     if ((point.getX() == (int) x) && (point.getY() == (int) y)) {
                         return point.getZ();
                     }
