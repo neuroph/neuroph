@@ -89,7 +89,7 @@ public class NeuralNetworkScene extends ObjectScene {
         connectionLayer = new LayerWidget(this);    // draw connections
         interractionLayer = new LayerWidget(this); // draw connections while creating them
         mainLayer = new LayerWidget(this);         // holds widget 
-        mainLayer.setLayout(LayoutFactory.createVerticalFlowLayout());
+        mainLayer.setLayout(LayoutFactory.createVerticalFlowLayout( LayoutFactory.SerialAlignment.CENTER, 20));
                 
         networkEditor = new NeuralNetworkEditor(neuralNet);
 
@@ -99,18 +99,17 @@ public class NeuralNetworkScene extends ObjectScene {
         neuralNetworkLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
         inputsContainerWidget = new IconNodeWidget(this);
-        inputsContainerWidget.setLabel("Inputs");
-        inputsContainerWidget.setBorder(BorderFactory.createLineBorder(15));
-      //  mainLayer.addChild(new LabelWidget(this, "Inputs"));
+    //    inputsContainerWidget.setBorder(BorderFactory.createLineBorder(15));
+//        mainLayer.addChild(new LabelWidget(this, "Inputs"));
         mainLayer.addChild(inputsContainerWidget);
 
 
-        mainLayer.addChild(neuralNetworkLabel);
+      //  mainLayer.addChild(neuralNetworkLabel);
         mainLayer.addChild(neuralNetworkWidget);
 
-        mainLayer.addChild(new LabelWidget(this, "Outputs"));
+//        mainLayer.addChild(new LabelWidget(this, "Outputs"));
         outputsContainerWidget = new IconNodeWidget(this);
-        outputsContainerWidget.setBorder(BorderFactory.createLineBorder(15));
+//        outputsContainerWidget.setBorder(BorderFactory.createLineBorder(15));
         mainLayer.addChild(outputsContainerWidget);
 
         addChild(mainLayer);
@@ -403,9 +402,9 @@ public class NeuralNetworkScene extends ObjectScene {
         //inputsWidget = new IconNodeWidget(this);
         //inputsWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
         inputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
-
         outputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
+        inputsContainerWidget.addChild(new LabelWidget(this, "Inputs:"));
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
 
             for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
@@ -434,7 +433,6 @@ public class NeuralNetworkScene extends ObjectScene {
             inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
             inputsContainerWidget.addChild(inputLabel);
 
-
             Layer sourceLayer = layers.get(0); // verovatno ne mora da bude samo prvi layer ...
 
             NeuralLayerWidget sourceWidget = layersAndWidgets.get(sourceLayer);
@@ -450,8 +448,8 @@ public class NeuralNetworkScene extends ObjectScene {
             // neuralNetworkWidget.addChild(0, inputsContainerWidget);
         }
 
+        outputsContainerWidget.addChild(new LabelWidget(this, "Outputs:"));
         if (neuralNetwork.getOutputNeurons() != null && neuralNetwork.getOutputNeurons().length < TOO_MANY_NEURONS) {
-            // neuralNetworkWidget.addChild(outputsContainerWidget);
             for (int i = 0; i < neuralNetwork.getOutputNeurons().length; i++) {
                 LabelWidget outputLabel = new LabelWidget(this);
                 outputLabel.setLabel("Out " + (i + 1));
@@ -470,7 +468,6 @@ public class NeuralNetworkScene extends ObjectScene {
             }
             //if last neural layer  has more than 100 neurons connect that neural layer widget with one output label
         } else if (neuralNetwork.getOutputNeurons() != null) {
-            // neuralNetworkWidget.addChild(outputsContainerWidget);
             LabelWidget outputLabel = new LabelWidget(this);
             outputLabel.setLabel("Output " + neuralNetwork.getOutputNeurons().length);
             outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));

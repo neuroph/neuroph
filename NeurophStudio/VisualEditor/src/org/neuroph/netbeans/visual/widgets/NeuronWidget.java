@@ -27,7 +27,7 @@ import org.openide.util.lookup.Lookups;
  
  * @author Zoran Sevarac
  */
-public class NeuronWidget extends IconNodeWidget implements Lookup.Provider, Connectable {
+public class NeuronWidget extends Widget implements Lookup.Provider, Connectable {
 
     private Neuron neuron;
     private final Lookup lookup;

@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
+import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
+import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.visual.widgets.actions.NeuralNetworkWidgetAcceptProvider;
@@ -15,7 +17,8 @@ import org.neuroph.netbeans.visual.widgets.actions.NeuralNetworkWidgetAcceptProv
  * @author Zoran Sevarac
  * @author Marjan Hrzic
  */
-public class NeuralNetworkWidget extends IconNodeWidget {
+// use IconNodeWidget to add Label Widget...
+public class NeuralNetworkWidget extends /*IconNodeWidget*/ Widget {
 
     private NeuralNetwork neuralNetwork;
     // do we need lookup here?

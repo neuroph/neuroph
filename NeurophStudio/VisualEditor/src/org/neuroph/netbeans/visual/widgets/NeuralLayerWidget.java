@@ -29,7 +29,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
 
     private static final Border DEFAULT_BORDER = BorderFactory.createRoundedBorder(5, 5, Color.white, Color.BLACK);
     private static final Border HOVER_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(240, 240, 240), Color.GRAY);
-    private static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(180, 180, 180), Color.black);
+    private static final Border SELECTED_BORDER = BorderFactory.createRoundedBorder(5, 5, new Color(240, 240, 250), Color.black);
     
     
     public NeuralLayerWidget(NeuralNetworkScene scene, Layer layer) {
