@@ -90,7 +90,7 @@ public class JzySurface3DFactory implements Surface3DFactory<Chart> {
     }
 
     /**
-     * Create a surface chart and open it on Chart launcher
+     * Creates a surface chart and open it on Chart launcher
      *
      * @param weights coordinates of the chart
      * @param prop properties
