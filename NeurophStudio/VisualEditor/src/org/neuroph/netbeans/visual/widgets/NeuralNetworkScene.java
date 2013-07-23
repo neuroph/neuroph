@@ -43,7 +43,19 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
 /**
- *
+ * This class represents scene specialised for displaying neural networks
+ * 
+ * TODO: delegirati iscrtavanje widgeta u svaki widget ponaosob:
+ *  NeuronWidget - da sam crta sve sto je vezano zanjega
+ *  NeuralLayerWidget - da sam crta neurone
+ *  NeuralNetworkWidget da crta layere i konekcije
+ * 
+ *  kad se doda neuron da se osvezi samo layer
+ *  kad se doda lejer da ga docrta
+ *  
+ *  svaka komponenta da ima flag koji pokazuje da li je treba iscrtati ponovo
+ *  
+ * 
  * @author Zoran Sevarac
  */
 public class NeuralNetworkScene extends ObjectScene {
