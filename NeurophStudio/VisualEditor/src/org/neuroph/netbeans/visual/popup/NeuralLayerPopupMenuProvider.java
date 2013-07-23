@@ -27,9 +27,7 @@ import org.openide.windows.WindowManager;
 public class NeuralLayerPopupMenuProvider implements PopupMenuProvider {
 
     private JPopupMenu popupMenu;
-    private JMenu neuronMenu;
     private JMenuItem removeLayerItem;
-    private JMenuItem defaultNeuron;
     private JMenuItem addNeuronItem;
     private JMenuItem cloneLayerItem;
     private JMenuItem connectToLayer;
