@@ -5,7 +5,16 @@
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
             <code-name-base>org.goodoldai</code-name-base>
             <suite-component/>
-            <module-dependencies/>
+            <module-dependencies>
+                <dependency>
+                    <code-name-base>org.neuroph.netbeans</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+            </module-dependencies>
             <public-packages>
                 <package>org.goai.api</package>
                 <package>org.goai.classification</package>
@@ -17,10 +26,6 @@
                 <package>org.goai.report</package>
                 <package>org.goai.samples</package>
             </public-packages>
-            <class-path-extension>
-                <runtime-relative-path>ext/rm_doc.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/rm_doc.jar</binary-origin>
-            </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/javaml-0.1.7.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/javaml-0.1.7.jar</binary-origin>

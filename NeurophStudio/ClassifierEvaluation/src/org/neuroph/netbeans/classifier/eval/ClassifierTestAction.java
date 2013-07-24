@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.classifier.eval;
 
 import java.awt.event.ActionEvent;
@@ -47,9 +43,10 @@ public final class ClassifierTestAction implements ActionListener {
         NeurophClassifierEvaluation evaluation = 
                 new NeurophClassifierEvaluation(neuralNet, dataSet); 
         
-        String[] classNames = {"Setosa", "Versicolor", "Virginica"}; // these shoul dbe set either from output neurons or data set...        
+    //    String[] classNames = {"Setosa", "Versicolor", "Virginica"}; // these shoul dbe set either from output neurons or data set...        
+       String[] classNames = {"LeftHand", "RightHand", "Foot", "Rest"};        
         evaluation.setClassNames(classNames);
-        
+        //nacrtati grafik za test kalsifikatora po klasama koristeci GraphApi
         evaluation.run();
         
        TestTopComponent.getDefault().output(evaluation.getEvaluationResults().toString());          
