@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.charts.providers3d;
 
 import org.nugs.graph3d.api.DataProvider3D;
@@ -36,25 +32,25 @@ public class DatasetOutputDataProvider3D implements DataProvider3D {
     public Point3D[] getData(Attribute ... attribute) {
         
         //attribute[0] = layer, attribute[1] = dataset attribute (input)
-        int numberOfPoints = dataSet.getRows().size();
-        int numberOfOutputNeurons = nnet.getLayerAt(attribute[0].getIndex()).getNeuronsCount();
-        Point3D[] output = new Point3D[(numberOfPoints * numberOfOutputNeurons) + 1];
-        int counter = 1;
+        int dataSetRowCount = dataSet.getRows().size();
+        int neuronsCount = nnet.getLayerAt(attribute[0].getIndex()).getNeuronsCount();
+        Point3D[] outputPoints3D = new Point3D[(dataSetRowCount * neuronsCount)+1];// +1
+        int counter = 1;//1
         List<DataSetRow> rows = dataSet.getRows();
-        for (int i = 0; i < rows.size(); i++) {
+        for (int i = 0; i < dataSetRowCount; i++) { // iterate all rows from data set
             DataSetRow row = rows.get(i);
-            nnet.setInput(row.getInput());
-            nnet.calculate();
-            Neuron[] outputNeurons = nnet.getLayerAt(attribute[1].getIndex()).getNeurons();
-            for (int j = 0; j < outputNeurons.length; j++) {
-                double out = outputNeurons[j].getOutput();
+            nnet.setInput(row.getInput());  // set current row as network input and
+            nnet.calculate();               // calculate network
+            Neuron[] neurons = nnet.getLayerAt(attribute[0].getIndex()).getNeurons(); // get neurons at specified layer
+            for (int j = 0; j < neurons.length; j++) {
+                double out = neurons[j].getOutput();
                 double colVal = row.getInput()[attribute[1].getIndex() - 1];
-                output[counter] = new Point3D(colVal, j + 1, out);
+                outputPoints3D[counter] = new Point3D(colVal, j, out);
                 counter++;
             }
         }
 
-        return output;
+        return outputPoints3D;
     }
 
 }

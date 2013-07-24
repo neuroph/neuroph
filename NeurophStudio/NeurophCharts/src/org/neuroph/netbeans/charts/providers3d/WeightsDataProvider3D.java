@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.charts.providers3d;
 
 import org.nugs.graph3d.api.DataProvider3D;
@@ -34,6 +30,7 @@ public class WeightsDataProvider3D implements DataProvider3D {
         if (nnet == null) {
             throw new RuntimeException("No neural network.");
         }
+        
         Point3D[] weights = new Point3D[NeurophChartUtilities.getConnectionCount(nnet) + 1];
         int totalConnectionCount = 1;
         for (int i = 1; i < nnet.getLayers().length; i++) {

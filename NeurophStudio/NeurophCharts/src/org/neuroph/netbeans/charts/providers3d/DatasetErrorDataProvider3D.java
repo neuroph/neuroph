@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.charts.providers3d;
 
 import org.nugs.graph3d.api.DataProvider3D;
@@ -30,9 +26,9 @@ public class DatasetErrorDataProvider3D implements DataProvider3D {
 
     @Override
     public Point3D[] getData(Attribute ...attr) {
-        int numberOfPoints = dataSet.getRows().size();
-        int numberOfOutputNeurons = nnet.getOutputNeurons().length;
-        Point3D[] error = new Point3D[(numberOfPoints * numberOfOutputNeurons) + 1];
+        int dataSetRowCount = dataSet.getRows().size();
+        int neuronsCount = nnet.getOutputNeurons().length;
+        Point3D[] error = new Point3D[(dataSetRowCount * neuronsCount) + 1];
         int counter = 1;
         List<DataSetRow> rows = dataSet.getRows();
         for (int i = 0; i < rows.size(); i++) {

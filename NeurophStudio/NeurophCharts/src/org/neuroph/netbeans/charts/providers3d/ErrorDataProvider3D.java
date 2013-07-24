@@ -28,10 +28,10 @@ public class ErrorDataProvider3D implements DataProvider3D {
 
     @Override
     public Point3D[] getData(Attribute...attr) {
-        int numberOfPoints = dataSet.getRows().size();
-        int numberOfOutputNeurons = nnet.getOutputNeurons().length;
+        int dataSetRowCount = dataSet.getRows().size();
+        int neuronsCount = nnet.getOutputNeurons().length;
 
-        Point3D[] error = new Point3D[(numberOfPoints * numberOfOutputNeurons) + 1];
+        Point3D[] errorPoints3D = new Point3D[(dataSetRowCount * neuronsCount) + 1];
         int counter = 1;
         List<DataSetRow> rows = dataSet.getRows();
         for (int i = 0; i < rows.size(); i++) {
@@ -40,12 +40,12 @@ public class ErrorDataProvider3D implements DataProvider3D {
             Neuron[] outputNeurons = nnet.getOutputNeurons();
             for (int j = 0; j < outputNeurons.length; j++) {
                 double err = rows.get(i).getDesiredOutput()[j] - outputNeurons[j].getOutput();
-                error[counter] = new Point3D(i + 1, j + 1, err);
+                errorPoints3D[counter] = new Point3D(i + 1, j + 1, err);
                 counter++;
             }
         }
 
-        return error;
+        return errorPoints3D;
     }
 
    

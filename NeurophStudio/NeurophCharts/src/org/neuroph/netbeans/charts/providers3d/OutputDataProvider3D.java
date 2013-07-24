@@ -34,19 +34,19 @@ public class OutputDataProvider3D implements DataProvider3D {
 
     @Override
     public Point3D[] getData(Attribute ...attr) {
-        int numberOfPoints = dataSet.getRows().size();
-        int numberOfOutputNeurons = nnet.getLayerAt(attr[0].getIndex()).getNeuronsCount();
+        int dataSetRowCount = dataSet.getRows().size();
+        int neuronsCount = nnet.getLayerAt(attr[0].getIndex()).getNeuronsCount();
 
-        Point3D[] output = new Point3D[(numberOfPoints * numberOfOutputNeurons) + 1];
+        Point3D[] output = new Point3D[(dataSetRowCount * neuronsCount) + 1];
         int counter = 1;
 
         List<DataSetRow> rows = dataSet.getRows();
         for (int i = 0; i < rows.size(); i++) {
             nnet.setInput(rows.get(i).getInput());
             nnet.calculate();
-            Neuron[] outputNeurons = nnet.getLayerAt(attr[0].getIndex()).getNeurons();
-            for (int j = 0; j < outputNeurons.length; j++) {
-                double out = outputNeurons[j].getOutput();
+            Neuron[] neurons = nnet.getLayerAt(attr[0].getIndex()).getNeurons();
+            for (int j = 0; j < neurons.length; j++) {
+                double out = neurons[j].getOutput();
                 output[counter] = new Point3D(i + 1, j + 1, out);
                 counter++;
             }

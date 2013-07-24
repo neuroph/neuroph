@@ -120,7 +120,7 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
             }
         });
 
-        graphTypeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        graphTypeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "I" }));
         graphTypeCombo.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 graphTypeComboComponentShown(evt);
@@ -146,8 +146,6 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
         nnetField.setText(org.openide.util.NbBundle.getMessage(NeuralNetVisualizationTopComponent.class, "NeuralNetVisualizationTopComponent.nnetField.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(NeuralNetVisualizationTopComponent.class, "NeuralNetVisualizationTopComponent.jLabel5.text")); // NOI18N
-
-        layerCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -235,7 +233,9 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
                 visualize2D();
             }
         }
-
+        // hack to resolve combo box repainting issue, ahter chart ias added
+        WindowManager.getDefault().findTopComponent("projectTabLogical_tc").requestActive();
+        this.requestActive();
     }//GEN-LAST:event_drawButtonActionPerformed
 
     private void openInLauncherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openInLauncherButtonActionPerformed
@@ -270,7 +270,9 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
     }//GEN-LAST:event_graphTypeComboComponentShown
 
     private void graphTypeComboFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_graphTypeComboFocusGained
+        graphTypeCombo.repaint();
     }//GEN-LAST:event_graphTypeComboFocusGained
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField attributeTxtField;
     private javax.swing.JTextField datasetTextField;
@@ -323,7 +325,7 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
         nnetField.setEditable(false);
         nnetField.setText(nnet.getLabel());
         Layer[] layers = nnet.getLayers();
-        for (int i = layers.length - 1; i >= 0; i--) {
+        for (int i = layers.length; i > 0; i--) {
             layerCombo.addItem(i);
         }
     }
@@ -369,20 +371,20 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
     }
 
     private void fillAttributes() {
-        int layer = nnet.getLayersCount() - 1;
+        int layerIdx = nnet.getLayersCount() - 1; // output layerIdx by default
         Attribute attr1;
         Attribute attr2 = null;
         if (layerCombo.isEnabled()) {
-            layer = (Integer) layerCombo.getSelectedItem();
+            layerIdx = (Integer) layerCombo.getSelectedItem() -1;
         }
-        attr1 = new Attribute(layer, false, "Layer");
+        attr1 = new Attribute(layerIdx, false, "Layer");
         if (attributeTxtField.isEnabled()) {
             attribute = Integer.parseInt(attributeTxtField.getText());
             attr2 = new Attribute(attribute, false, "Input");
         }
         graphBuilder.setAttribute1(attr1);
         graphBuilder.setAttribute2(attr2);
-        outputNeuronCount = nnet.getLayerAt(layer).getNeuronsCount();
+        outputNeuronCount = nnet.getLayerAt(layerIdx).getNeuronsCount();
 
     }
 

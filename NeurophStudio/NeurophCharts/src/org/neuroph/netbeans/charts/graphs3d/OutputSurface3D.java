@@ -22,9 +22,9 @@ import org.nugs.graph3d.api.Range;
  */
 public class OutputSurface3D extends Graph3DBuilder {
 
-    Point3D[] points3d, points3dCopy;
-    int dataSetRowCount;
-    NeuralNetwork neuralNet;
+    private Point3D[] points3d, points3dCopy;
+    private int dataSetRowCount;
+    private NeuralNetwork neuralNet;
 
     public OutputSurface3D(NeuralNetwork nnet, DataSet dataset) {
         this.neuralNet = nnet;
@@ -56,7 +56,7 @@ public class OutputSurface3D extends Graph3DBuilder {
         prop.setxAxeInteger(true);
 
         prop.setxAxeLabel("Dataset row"); //Dataset row/chosen attr
-        prop.setyAxeLabel("Output neuron"); //output neuron
+        prop.setyAxeLabel("Neuron"); //output neuron
         prop.setzAxeLabel("Output"); //err/out
 
         Surface3DFactory<Chart> surfaceFactory = new JzySurface3DFactory();

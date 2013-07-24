@@ -56,7 +56,6 @@ public class OutputForAttributeSurface3D extends Graph3DBuilder {
             @Override
             public double f(double x, double y) {
                 //  funkcija krive - koja vraca vrednost weights 
-
                 for (int i = pointIdx; i < points3d.length; i++) {
                     Point3D point = points3d[i];
                     if ((point.getX() <= x) && (point.getY() == (int) y)) {
@@ -65,7 +64,6 @@ public class OutputForAttributeSurface3D extends Graph3DBuilder {
                     }
                 }
                 return 0;
-
             }
         }, prop);
 

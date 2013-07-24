@@ -1,5 +1,6 @@
 package org.neuroph.netbeans.charts.graphs3d;
 
+import java.util.Arrays;
 import org.jzy3d.chart.Chart;
 import org.jzy3d.colors.colormaps.ColorMapHotCold;
 import org.jzy3d.colors.colormaps.IColorMap;
@@ -21,9 +22,9 @@ import org.nugs.graph3d.api.Range;
  */
 public class ErrorSurface3D extends Graph3DBuilder {
 
-    private Point3D[] points3d;
-    int outputNeuronCount;
-    int dataSetRowCount;
+    private Point3D[] points3d, points3dCopy;
+    private int outputNeuronCount;
+    private int dataSetRowCount;
 
     public ErrorSurface3D(NeuralNetwork nnet, DataSet dataset) {
         dataProvider3D = new ErrorDataProvider3D(dataset, nnet);
@@ -35,6 +36,12 @@ public class ErrorSurface3D extends Graph3DBuilder {
     public Chart createGraph() {
 
         points3d = dataProvider3D.getData();
+        
+        // add a copy of the last neuron outputs in order to display surface nicely
+        points3dCopy = Arrays.copyOf(points3d, points3d.length+dataSetRowCount);
+        for(int p=0; p<dataSetRowCount; p++) {
+           points3dCopy[points3d.length+p] = points3d[points3d.length-dataSetRowCount+p];
+        }        
 
         Surface3DProperties prop = new Surface3DProperties();
         IColorMap map = new ColorMapHotCold();
@@ -42,14 +49,14 @@ public class ErrorSurface3D extends Graph3DBuilder {
         prop.setChartColor(map);;
         prop.setChartQuality(Quality.Nicest);
         prop.setChartWireframed(true);
-        prop.setyRange(new Range(1, outputNeuronCount));
+        prop.setyRange(new Range(1, outputNeuronCount+1)); // repeat values for last neuron in order to display surface nicely
         prop.setyAxeInteger(true);
 
         prop.setxRange(new Range(1, dataSetRowCount));
         prop.setxAxeInteger(true);
 
         prop.setxAxeLabel("Dataset row"); //Dataset row/chosen attr
-        prop.setyAxeLabel("Output neuron"); //output neuron
+        prop.setyAxeLabel("Neuron"); //output neuron
         prop.setzAxeLabel("Error"); //err/out
 
         Surface3DFactory<Chart> surfaceFactory = new JzySurface3DFactory();
@@ -57,8 +64,8 @@ public class ErrorSurface3D extends Graph3DBuilder {
         Chart chart = surfaceFactory.createSurface(new Mapper() {
             @Override
             public double f(double x, double y) {
-                for (int i = 1; i < points3d.length; i++) {
-                    Point3D point = points3d[i];
+                for (int i = 1; i < points3dCopy.length; i++) {
+                    Point3D point = points3dCopy[i];
                     if ((point.getX() == (int) x) && (point.getY() == (int) y)) {
                         return point.getZ();
                     }
