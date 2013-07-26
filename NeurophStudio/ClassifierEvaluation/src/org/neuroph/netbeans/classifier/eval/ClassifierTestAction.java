@@ -4,9 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.goai.classification.samples.NeurophClassifierEvaluation;
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -22,9 +23,9 @@ import org.openide.windows.IOProvider;
 @Messages("CTL_ClassifierTestAction=Classifier Test ")
 public final class ClassifierTestAction implements ActionListener {
     
-    private final NeuralNetworkTraining trainingController;
+    private final NeuralNetAndDataSet trainingController;
     
-    public ClassifierTestAction(NeuralNetworkTraining context) {
+    public ClassifierTestAction(NeuralNetAndDataSet context) {
         this.trainingController = context;
     }        
 
@@ -34,23 +35,33 @@ public final class ClassifierTestAction implements ActionListener {
         TestTopComponent.getDefault().requestActive();
         TestTopComponent.getDefault().clear();
         
-       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Evaluating classifier neural network "/*+trainingController.getNetwork().getLabel() +" for data set "/*+trainingController.getTrainingSet().getLabel()*/);        
+       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Evaluating classifier neural network "/*+trainingController.getNetwork().getLabel() +" for data set "/*+trainingController.getDataSet().getLabel()*/);        
 
        NeuralNetwork neuralNet = trainingController.getNetwork();
-       DataSet dataSet = trainingController.getTrainingSet();
+       DataSet dataSet = trainingController.getDataSet();
        
        // just run GOAI classifier evaluat here and put results in TC!
         NeurophClassifierEvaluation evaluation = 
                 new NeurophClassifierEvaluation(neuralNet, dataSet); 
         
     //    String[] classNames = {"Setosa", "Versicolor", "Virginica"}; // these shoul dbe set either from output neurons or data set...        
-       String[] classNames = {"LeftHand", "RightHand", "Foot", "Rest"};        
-        evaluation.setClassNames(classNames);
+       String[] classNames =  new String[neuralNet.getOutputsCount()];// = {"LeftHand", "RightHand", "Foot", "Rest"};        
+       int i = 0;
+       for(Neuron n : neuralNet.getOutputNeurons()) {
+           classNames[i] = n.getLabel(); 
+           i++;
+       } 
+       
+       evaluation.setClassNames(classNames);
         //nacrtati grafik za test kalsifikatora po klasama koristeci GraphApi
         evaluation.run();
         
-       TestTopComponent.getDefault().output(evaluation.getEvaluationResults().toString());          
+       TestTopComponent.getDefault().output("Classifier evaluation results: \r\n"+evaluation.getEvaluationResults().toString());          
+        ClassifierChartTopComponent tcc = new ClassifierChartTopComponent();
+        tcc.setEvaluationResult(evaluation.getEvaluationResults());
  
+        tcc.open();
+        tcc.requestActive();
        
     }
 }
