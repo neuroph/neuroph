@@ -1,39 +1,32 @@
 package org.neuroph.netbeans.visual;
 
-import java.io.PrintWriter;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
-import org.neuroph.nnet.learning.KohonenLearning;
-import org.neuroph.nnet.learning.LMS;
-import org.neuroph.nnet.learning.BinaryDeltaRule;
-import org.neuroph.nnet.learning.SupervisedHebbianLearning;
 import org.neuroph.util.VectorParser;
-import org.openide.windows.IOProvider;
-import org.openide.windows.InputOutput;
 
-public class NeuralNetworkTraining implements Thread.UncaughtExceptionHandler {
+public class NeuralNetAndDataSet  {
 
     NeuralNetwork neuralNet;
-    DataSet trainingSet;
+    DataSet dataSet;
     
     boolean showErrorGraph;
 
-    public NeuralNetworkTraining(NeuralNetwork neuralNet, DataSet trainingSet) {
+    public NeuralNetAndDataSet(NeuralNetwork neuralNet, DataSet dataSet) {
         this.neuralNet = neuralNet;
-        this.trainingSet = trainingSet;
+        this.dataSet = dataSet;
     }
 
-    public NeuralNetworkTraining(NeuralNetwork neuralNet) {
+    public NeuralNetAndDataSet(NeuralNetwork neuralNet) {
         this.neuralNet = neuralNet;
     }
 
-    public DataSet getTrainingSet() {
-        return trainingSet;
+    public DataSet getDataSet() {
+        return dataSet;
     }
 
-    public void setTrainingSet(DataSet trainingSet) {
-        this.trainingSet = trainingSet;
+    public void setDataSet(DataSet trainingSet) {
+        this.dataSet = trainingSet;
     }
 
     public void setInput(String netIn) {
@@ -58,50 +51,8 @@ public class NeuralNetworkTraining implements Thread.UncaughtExceptionHandler {
         return neuralNet.getLearningRule().isStopped();
     }
 
-    public void setLmsParams(Double learningRate, Double maxError,
-            Integer maxIterations) {
-        LMS lms = (LMS) this.neuralNet.getLearningRule();
-        lms.setLearningRate(learningRate);
-        lms.setMaxError(maxError);
-        lms.setMaxIterations(maxIterations);
-    }
-
-    public void setHebbianParams(Double learningRate, Double maxError,
-            Integer maxIterations) {
-        SupervisedHebbianLearning hebbian = (SupervisedHebbianLearning) this.neuralNet
-                .getLearningRule();
-        hebbian.setLearningRate(learningRate);
-    }
-
-    public void setKohonenParams(Double learningRate, Integer Iphase,
-            Integer IIphase) {
-        KohonenLearning kl = (KohonenLearning) this.neuralNet.getLearningRule();
-        kl.setLearningRate(learningRate.doubleValue());
-        kl.setIterations(Iphase.intValue(), IIphase.intValue());
-    }
-
-    public void setStepDRParams(Double learningRate, Double maxError, Integer maxIterations) {
-        BinaryDeltaRule sdr = (BinaryDeltaRule) this.neuralNet.getLearningRule();
-        sdr.setLearningRate(learningRate);
-        sdr.setMaxError(maxError);
-        sdr.setMaxIterations(maxIterations);
-    }
-
-    public void calculate() {
+    public void calculateNetwork() {
         neuralNet.calculate();
-    }
-
-    public void train() {
-        InputOutput io = IOProvider.getDefault().getIO("Neuroph", false);
-        io.select();
-
-        PrintWriter out = io.getOut();
-        out.println("Starting neural network training...");
-        out.print("Training network " + neuralNet.getLabel());
-        out.println(" using data set " + trainingSet.getLabel());
-                
-        neuralNet.learnInNewThread(trainingSet);
-        neuralNet.getLearningThread().setUncaughtExceptionHandler(this);
     }
 
     public NeuralNetwork getNetwork() {
@@ -124,7 +75,7 @@ public class NeuralNetworkTraining implements Thread.UncaughtExceptionHandler {
      *
      * @param neuralNetwork the neural network that will be compared with input
      * training set
-     * @param trainingSet the training set that will be compared with input
+     * @param dataSet the training set that will be compared with input
      * neural network
      * @return returns boolean value of the comparison test. Returns true if the
      * number of inputs and outputs of the input neural network are the same as
@@ -158,15 +109,7 @@ public class NeuralNetworkTraining implements Thread.UncaughtExceptionHandler {
         return false;
     }
 
-    @Override
-    public void uncaughtException(Thread t, Throwable e) {
-        InputOutput io = IOProvider.getDefault().getIO("Neuroph", false);
-        io.select();
 
-        PrintWriter out = io.getOut();
-        out.println("Training error: " + e.getMessage());
-
-    }
 
     public boolean getShowErrorGraph() {
         return showErrorGraph;

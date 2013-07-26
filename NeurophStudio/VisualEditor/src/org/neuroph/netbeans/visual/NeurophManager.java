@@ -1,6 +1,5 @@
 package org.neuroph.netbeans.visual;
 
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 import java.util.Collection;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.DataSet;
@@ -11,22 +10,22 @@ import org.openide.util.Utilities;
 
 /**
  *
- * @author zoran
+ * @author Zoran Sevarac
  */
-public class TrainingManager implements LookupListener {
+public class NeurophManager implements LookupListener {
     
-private static TrainingManager instance=null;
+private static NeurophManager instance=null;
 
     private NeuralNetwork nnet;
     private DataSet dataSet;
 //    Lookup.Result<NeuralNetwork> nnResult;
     Lookup.Result<DataSet> dsResult;
     
-    NeuralNetworkTraining training;
+    NeuralNetAndDataSet neuralNetAndDataSet;
     
     
     
-    private TrainingManager() {
+    private NeurophManager() {
         Lookup global = Utilities.actionsGlobalContext();
 //        nnResult = global.lookupResult(NeuralNetwork.class);
 //        nnResult.addLookupListener(this);
@@ -34,9 +33,9 @@ private static TrainingManager instance=null;
         dsResult.addLookupListener(this);
     }
     
-    public static TrainingManager getDefault() {
+    public static NeurophManager getDefault() {
         if (instance==null) {
-            instance = new TrainingManager();
+            instance = new NeurophManager();
         }
         
         return instance;
@@ -53,7 +52,7 @@ private static TrainingManager instance=null;
 //            if (selected instanceof NeuralNetwork) {
 //                nnet = (NeuralNetwork) selected;
 //            }
-        // if training set is not selected set it to null, and the train button in tooolbar will be disabled
+        // if neuralNetAndDataSet set is not selected set it to null, and the train button in tooolbar will be disabled
         if (selected instanceof DataSet) {
                 dataSet = (DataSet) selected;
             }             
@@ -73,9 +72,9 @@ private static TrainingManager instance=null;
     
     
     
-    public NeuralNetworkTraining getTraining() {
+    public NeuralNetAndDataSet getNeuralNetAndDataSet() {
         if ((nnet!=null) && (dataSet!=null)) {
-            return new NeuralNetworkTraining(nnet, dataSet);
+            return new NeuralNetAndDataSet(nnet, dataSet);
         }
         return null;
     }

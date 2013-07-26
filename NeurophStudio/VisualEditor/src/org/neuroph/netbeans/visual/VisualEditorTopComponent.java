@@ -147,14 +147,14 @@ public final class VisualEditorTopComponent extends TopComponent {
         // TODO add custom code on component closing - cleanup stuff...
     }
 
-    NeuralNetworkTraining training;
+    NeuralNetAndDataSet training;
     @Override
     protected void componentActivated() {
         super.componentActivated(); //To change body of generated methods, choose Tools | Templates.
         /*
-         *  Add NeuralNetworkTraining instance to lookup in order to enable train and test actions, when data set is selected*/
-        TrainingManager.getDefault().setNeuralNetwork(nnet);
-        training = TrainingManager.getDefault().getTraining();
+         *  Add NeuralNetAndDataSet instance to lookup in order to enable train and test actions, when data set is selected*/
+        NeurophManager.getDefault().setNeuralNetwork(nnet);
+        training = NeurophManager.getDefault().getNeuralNetAndDataSet();
         
         if (training!=null ) {
             content.add(training);

@@ -245,7 +245,7 @@ public class NeuralNetworkScene extends ObjectScene {
     // why are we doing manual resize? it should be done automatically using FlowLayout
     public void resizeLayer(NeuralLayerWidget layerWidget) {
         int i = layerWidget.getChildren().size();
-        Dimension d = new Dimension(((int) (i * 65)) + 30 , (int) layerWidget.getPreferredSize().getHeight());
+        Dimension d = new Dimension(((int) (i * 65)) + 70 , (int) layerWidget.getPreferredSize().getHeight());
         layerWidget.setPreferredSize(d);
     }
 
@@ -321,9 +321,9 @@ public class NeuralNetworkScene extends ObjectScene {
 
             String layerLabel = layer.getLabel();
             if (layerLabel == null) {
-                layerLabel = "Layer " + i;
+                layerLabel = "Layer " + (i+1);
             } else if (layerLabel.isEmpty()) {
-                layerLabel = "Layer " + i;
+                layerLabel = "Layer " + (i+1);
             }
 
             neuralLayerWidget.setLabel(layerLabel);
