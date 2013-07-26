@@ -6,12 +6,13 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import org.neuroph.core.learning.DataSetRow;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
+import org.openide.windows.IOProvider;
 
 /**
  *
@@ -27,25 +28,24 @@ import org.openide.util.NbBundle;
 @NbBundle.Messages("CTL_TestToolbarAction=Test")
 public class TestToolbarAction implements ActionListener {
 
-    private final NeuralNetworkTraining trainingController;
+    private final NeuralNetAndDataSet trainingController;
     
-    public TestToolbarAction(NeuralNetworkTraining context) {
+    public TestToolbarAction(NeuralNetAndDataSet context) {
         this.trainingController = context;
     }    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        test();
-    }
 
-    private void test() {
         TestTopComponent.getDefault().open();
         TestTopComponent.getDefault().requestActive();
         TestTopComponent.getDefault().clear();
+        
+       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Testing neural network "+trainingController.getNetwork().getLabel() +" for data set "+trainingController.getDataSet().getLabel());        
 
         double totalMSE = 0;
 
-        Iterator<DataSetRow> iterator = trainingController.getTrainingSet().iterator();
+        Iterator<DataSetRow> iterator = trainingController.getDataSet().iterator();
         while (iterator.hasNext()) {
             DataSetRow trainingEl = iterator.next();
             double[] inputs = trainingEl.getInput();
@@ -68,7 +68,7 @@ public class TestToolbarAction implements ActionListener {
             totalMSE += patternError;
         }
 
-        totalMSE = totalMSE / trainingController.getTrainingSet().size();
+        totalMSE = totalMSE / trainingController.getDataSet().size();
 
         TestTopComponent.getDefault().output("Total Mean Square Error: " + totalMSE);
     }

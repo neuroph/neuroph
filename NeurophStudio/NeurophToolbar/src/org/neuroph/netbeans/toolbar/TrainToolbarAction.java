@@ -2,9 +2,10 @@ package org.neuroph.netbeans.toolbar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.neuroph.netbeans.main.TrainingController;
 import org.neuroph.netbeans.main.ViewManager;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
-import org.neuroph.netbeans.visual.TrainingManager;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
+import org.neuroph.netbeans.visual.NeurophManager;
 import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingDialog;
@@ -25,11 +26,13 @@ import org.openide.util.NbBundle.Messages;
 @Messages("CTL_TrainToolbarAction=Train")
 public final class TrainToolbarAction implements ActionListener {
 
-    private final NeuralNetworkTraining trainingController;
+    private final NeuralNetAndDataSet neuralNetAndDataSet;
+    private TrainingController trainingController;
     ViewManager easyNeuronsViewController;
 
-    public TrainToolbarAction(NeuralNetworkTraining context) {
-        this.trainingController = context;
+    public TrainToolbarAction(NeuralNetAndDataSet context) {
+        this.neuralNetAndDataSet = context;
+        trainingController = new TrainingController(neuralNetAndDataSet);
     }
     
     
@@ -41,14 +44,14 @@ public final class TrainToolbarAction implements ActionListener {
 //        Lookup global = Utilities.actionsGlobalContext();
 //        nnet = global.lookup(NeuralNetwork.class);
 //        if (nnet != null) {
-//            trainingController = new NeuralNetworkTraining(nnet);
+//            neuralNetAndDataSet = new NeuralNetAndDataSet(nnet);
 //            TopComponent projWindow = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
 //            trainingResultSets = projWindow.getLookup().lookupResult(DataSet.class);
 //            trainingResultSets.addLookupListener(this);
 //            resultChanged(new LookupEvent(trainingResultSets));
 //            train();
 //        }
-      //  trainingController = TrainingManager.getDefault().getTraining();
+      //  neuralNetAndDataSet = NeurophManager.getDefault().getTraining();
         train();
 
     }
@@ -58,10 +61,10 @@ public final class TrainToolbarAction implements ActionListener {
      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
      }*/
     public void train() {
-        if (trainingController.getTrainingSet() != null) {
-            trainingController.setTrainingSet(trainingController.getTrainingSet());
+        if (neuralNetAndDataSet.getDataSet() != null) {
+            neuralNetAndDataSet.setDataSet(neuralNetAndDataSet.getDataSet());
 
-            NeuralNetworkType nnetType = trainingController.getNetwork().getNetworkType();
+            NeuralNetworkType nnetType = neuralNetAndDataSet.getNetwork().getNetworkType();
 
             switch (nnetType) {
                 case ADALINE:
@@ -77,6 +80,7 @@ public final class TrainToolbarAction implements ActionListener {
                     showLmsTrainingDialog(); // showRbfTrainingDialog 
                     break;
                 case HOPFIELD:
+                    
                     trainingController.train();
                     break;
                 case KOHONEN: // KohonenTrainDlg(); 
@@ -96,15 +100,15 @@ public final class TrainToolbarAction implements ActionListener {
     }
 
     private void showLmsTrainingDialog() {
-        SupervisedTrainingDialog trainingDialog = new SupervisedTrainingDialog(null, true, this.trainingController);
+        SupervisedTrainingDialog trainingDialog = new SupervisedTrainingDialog(null, true, this.neuralNetAndDataSet);
         trainingDialog.setLocationRelativeTo(null);
         trainingDialog.setVisible(true);
     }
 
     private void showMLPTrainingDialog() {
-        if (trainingController.getNetwork().getLearningRule() instanceof DynamicBackPropagation) {
+        if (neuralNetAndDataSet.getNetwork().getLearningRule() instanceof DynamicBackPropagation) {
             BackpropagationTrainingDialog trainingDialog = new BackpropagationTrainingDialog(null, easyNeuronsViewController, true,
-                    this.trainingController);
+                    this.neuralNetAndDataSet);
             trainingDialog.setLocationRelativeTo(null);
             trainingDialog.setVisible(true);
         } else {
@@ -114,7 +118,7 @@ public final class TrainToolbarAction implements ActionListener {
 
     private void showHebbianTrainingDialog() {
         HebbianTrainingDialog trainingDialog = new HebbianTrainingDialog(null,
-                true, easyNeuronsViewController, this.trainingController);
+                true, easyNeuronsViewController, this.neuralNetAndDataSet);
         trainingDialog.setLocationRelativeTo(null);
         trainingDialog.setVisible(true);
     }

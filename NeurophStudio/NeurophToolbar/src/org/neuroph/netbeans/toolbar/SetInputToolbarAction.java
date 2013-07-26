@@ -3,7 +3,7 @@ package org.neuroph.netbeans.toolbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.dialog.SetNetworkInputDialog;
 import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.openide.awt.ActionID;
@@ -31,7 +31,7 @@ public final class SetInputToolbarAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         SetNetworkInputDialog dialog = new SetNetworkInputDialog(null, true,
-                new NeuralNetworkTraining(context));
+                new NeuralNetAndDataSet(context));
         dialog.setVisible(true);
 
         TopComponent graph = TopComponent.getRegistry().getActivated();
