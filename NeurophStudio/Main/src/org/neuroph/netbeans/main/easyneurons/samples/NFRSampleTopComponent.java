@@ -3,7 +3,7 @@ package org.neuroph.netbeans.main.easyneurons.samples;
 import java.util.logging.Logger;
 import javax.swing.JSlider;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -318,7 +318,7 @@ public final class NFRSampleTopComponent extends TopComponent {
 }//GEN-LAST:event_classifyButtonMousePressed
 
     private void trainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trainButtonActionPerformed
-        controller.getNetwork().learnInNewThread(controller.getTrainingSet());
+        controller.getNetwork().learnInNewThread(controller.getDataSet());
 }//GEN-LAST:event_trainButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -412,10 +412,10 @@ public final class NFRSampleTopComponent extends TopComponent {
         return PREFERRED_ID;
     }
 
-    private NeuralNetworkTraining controller;
+    private NeuralNetAndDataSet controller;
 
 //    /** Creates new form NFRStudentDemoNew */
-//    public NFRSample(NeuralNetworkTraining controller) {
+//    public NFRSample(NeuralNetAndDataSet controller) {
 //	this.controller = controller;
 //        initComponents();
 //
@@ -424,7 +424,7 @@ public final class NFRSampleTopComponent extends TopComponent {
 //
 //    }
     /** Creates new form NFRStudentDemoNew */
-    public void setNeuralNetworkTrainingController(NeuralNetworkTraining controller) {
+    public void setNeuralNetworkTrainingController(NeuralNetAndDataSet controller) {
 	this.controller = controller;
         initComponents();
 

@@ -15,7 +15,8 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.main.TrainingController;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.nnet.Kohonen;
 import org.neuroph.nnet.learning.KohonenLearning;
 import org.openide.util.NbBundle;
@@ -171,7 +172,7 @@ public final class KohonenSampleTopComponent extends TopComponent implements Lea
 
     private void randomizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomizeButtonActionPerformed
         this.displayDataBuffer.clear();
-        controller.randomize();
+        neuralNetworkAndDataSet.randomize();
 
         List<Point> weights = getWeightPoints();
         this.displayDataBuffer.add(weights);
@@ -186,8 +187,9 @@ public final class KohonenSampleTopComponent extends TopComponent implements Lea
         Integer Iphase = new Integer(IphaseStr);
         Integer IIphase = new Integer(IIphaseStr);
 
-        controller.setKohonenParams(learningRate, Iphase, IIphase);
-        controller.train();
+        trainingController = new TrainingController(neuralNetworkAndDataSet);
+        trainingController.setKohonenParams(learningRate, Iphase, IIphase);
+        trainingController.train();
     }//GEN-LAST:event_startButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -283,7 +285,8 @@ public final class KohonenSampleTopComponent extends TopComponent implements Lea
     Graphics2D drawingBuffer;   // graphics object from image ojects above used for double buffered drawing
     
     Kohonen neuralNet;
-    NeuralNetworkTraining controller;
+    NeuralNetAndDataSet neuralNetworkAndDataSet;
+    TrainingController trainingController;
     
     // position of coordinate begining - used for translation from real values to drawing panel coords
     int X0 = 260;
@@ -297,8 +300,8 @@ public final class KohonenSampleTopComponent extends TopComponent implements Lea
     private boolean isDrawing = false;
 
     // called from ViewManager
-    public void setNeuralNetworkTrainingController(NeuralNetworkTraining controller) {
-        this.controller = controller;
+    public void setNeuralNetworkTrainingController(NeuralNetAndDataSet controller) {
+        this.neuralNetworkAndDataSet = controller;
         this.neuralNet = (Kohonen) controller.getNetwork();
         this.displayDataBuffer = new ConcurrentLinkedQueue<List>();
     }
@@ -308,7 +311,7 @@ public final class KohonenSampleTopComponent extends TopComponent implements Lea
 
         isDrawing = true;   // set this to indicate that we're in drawing thread
 
-        while (!controller.isStoppedTraining()) {   // until the training is completed
+        while (!neuralNetworkAndDataSet.isStoppedTraining()) {   // until the training is completed
             drawFromDataBuffer();                   // draw weights from data buffer
         }
 
@@ -425,7 +428,7 @@ public final class KohonenSampleTopComponent extends TopComponent implements Lea
     }
 
     public void stopTraining() {
-        controller.stopTraining();
+        neuralNetworkAndDataSet.stopTraining();
         this.displayDataBuffer.clear();
     }
     
@@ -446,7 +449,7 @@ public final class KohonenSampleTopComponent extends TopComponent implements Lea
      */
     @Override
     public void handleLearningEvent(LearningEvent le) {
-        KohonenLearning kl = (KohonenLearning) (controller.getNetwork()
+        KohonenLearning kl = (KohonenLearning) (neuralNetworkAndDataSet.getNetwork()
                 .getLearningRule());
         this.currentIterationField.setText(kl.getIteration().toString()); // ovo isto prebaciti u negede thread
 

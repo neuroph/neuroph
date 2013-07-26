@@ -7,7 +7,7 @@ import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.netbeans.main.LearningInfo;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.nnet.learning.LMS;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
@@ -201,7 +201,7 @@ public final class SupervisedTrainingMonitorTopComponent extends TopComponent im
         return PREFERRED_ID;
     }
 
-    NeuralNetworkTraining trainingController;
+    NeuralNetAndDataSet trainingController;
     boolean userPaused = false;
     ConcurrentLinkedQueue<LearningInfo> dataQueueBuffer;
     GuiWorker guiWorker;
@@ -212,7 +212,7 @@ public final class SupervisedTrainingMonitorTopComponent extends TopComponent im
 //
 //    }
 
-    public void setSupervisedTrainingMonitorFrameVariables(NeuralNetworkTraining controller) {
+    public void setSupervisedTrainingMonitorFrameVariables(NeuralNetAndDataSet controller) {
         this.trainingController = controller;
         initComponents();
         dataQueueBuffer = new ConcurrentLinkedQueue<LearningInfo>();

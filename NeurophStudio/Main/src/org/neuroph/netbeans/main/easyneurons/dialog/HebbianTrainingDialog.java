@@ -7,7 +7,8 @@
 package org.neuroph.netbeans.main.easyneurons.dialog;
 
 import org.neuroph.netbeans.main.ViewManager;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
+import org.neuroph.netbeans.main.TrainingController;
 import org.neuroph.nnet.learning.LMS;
 
 /**
@@ -17,7 +18,7 @@ import org.neuroph.nnet.learning.LMS;
 public class HebbianTrainingDialog extends javax.swing.JDialog {
 	private static final long serialVersionUID = 1L;
 	
-	NeuralNetworkTraining controller;
+	TrainingController controller;
         ViewManager viewManager;
 
 	/** Creates new form LmsTrainingDialog */
@@ -27,9 +28,9 @@ public class HebbianTrainingDialog extends javax.swing.JDialog {
 	}
 
 	public HebbianTrainingDialog(java.awt.Frame parent, boolean modal, ViewManager easyNeuronsViewController,
-			NeuralNetworkTraining controller) {
+			NeuralNetAndDataSet neuralNetAndDataSet) {
 		super(parent, modal);
-		this.controller = controller;
+		this.controller = new TrainingController(neuralNetAndDataSet);
                 this.viewManager=easyNeuronsViewController;
 		initComponents();
 	}
@@ -235,13 +236,13 @@ public class HebbianTrainingDialog extends javax.swing.JDialog {
 
 		controller.setLmsParams(learningRate, maxError, maxIterations);
 
-		LMS learningRule = (LMS) this.controller.getNetwork().getLearningRule();
+		LMS learningRule = (LMS) this.controller.getNeuralNetAndDataSet().getNetwork().getLearningRule();
 //		SupervisedTrainingMonitor lmsTrainingMonitor = new SupervisedTrainingMonitor(null,
 //				true, this.controller);
 //		lmsTrainingMonitor.setLocationRelativeTo(this);
 //		lms.addObserver(lmsTrainingMonitor);
 
-                viewManager.openTrainingMonitorWindow(this.controller);
+                viewManager.openTrainingMonitorWindow(this.controller.getNeuralNetAndDataSet());
 		controller.train();
 
 		this.dispose();

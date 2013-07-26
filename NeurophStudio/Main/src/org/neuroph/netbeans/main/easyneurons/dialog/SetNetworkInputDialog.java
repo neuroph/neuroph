@@ -8,7 +8,7 @@ package org.neuroph.netbeans.main.easyneurons.dialog;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import org.jdesktop.application.Action;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.neuroph.netbeans.visual.NeuralNetworkTraining;
 public class SetNetworkInputDialog extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
-    NeuralNetworkTraining controller;
+    NeuralNetAndDataSet controller;
 
     /**
      * Creates new form SetNetworkInputDialog
@@ -31,7 +31,7 @@ public class SetNetworkInputDialog extends javax.swing.JDialog {
      * Creates new form SetNetworkInputDialog
      */
     public SetNetworkInputDialog(java.awt.Frame parent, boolean modal,
-            NeuralNetworkTraining controller) {
+            NeuralNetAndDataSet controller) {
         super(parent, modal);
         this.controller = controller;
         initComponents();

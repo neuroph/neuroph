@@ -16,8 +16,9 @@ import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.netbeans.main.TrainingController;
 import org.neuroph.netbeans.main.ViewManager;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.perceptron.PerceptronSampleTrainingSet;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
@@ -154,7 +155,8 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
     DataSet trainingSet;
     int tsCount = 0;
     NeuralNetwork neuralNetwork;
-    NeuralNetworkTraining trainingController;
+    NeuralNetAndDataSet neuralNetAndDataSet;
+    TrainingController trainingController;
 
     Thread firstCalculation = null;
     int iterationCounter = 0;
@@ -221,7 +223,7 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
 //
 //        iterationCounter++;
 //        if (iterationCounter % 10 == 0) {
-//            NeuralNetwork nnet = trainingController.getNetwork();
+//            NeuralNetwork nnet = neuralNetAndDataSet.getNetwork();
 //
 //            nnet.pauseLearning();                             // pauza
 //            imagePlaying(nnet);                                  //  racunanje odgovora mreze i pozivanje crtanja
@@ -240,22 +242,23 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
         trainingSet.setLabel("MlpSampleTrainingSet" + tsCount);
 
 
-        trainingController = new NeuralNetworkTraining(neuralNetwork, trainingSet);
+        neuralNetAndDataSet = new NeuralNetAndDataSet(neuralNetwork, trainingSet);
+        trainingController = new TrainingController(neuralNetAndDataSet);
 
-        pst.setTrainingSet(trainingSet,neuralNetwork,trainingController);
+        pst.setTrainingSet(trainingSet,neuralNetwork,neuralNetAndDataSet);
 
         neuralNetwork.getLearningRule().addListener(this);              // dodaje se observer na mrezu i pri njenoj promeni poziva se metoda update u ovoj klasi
 //        neuralNetwork.addObserver(this);
 
         trainingController.setLmsParams(sourcePanel.getLearningRate(),sourcePanel.getMaxError(), sourcePanel.getMaxIteration());
 
-        LMS learningRule = (LMS) this.trainingController.getNetwork().getLearningRule();
+        LMS learningRule = (LMS) this.neuralNetAndDataSet.getNetwork().getLearningRule();
 
 		if (learningRule instanceof MomentumBackpropagation) {
 			((MomentumBackpropagation)learningRule).setMomentum(sourcePanel.getMomentum());
 		}
 
-            viewManager.openTrainingMonitorWindow(this.trainingController);
+            viewManager.openTrainingMonitorWindow(this.neuralNetAndDataSet);
 
             GraphFrameTopComponent graphFrame = viewManager.openErrorGraphFrame();
             graphFrame.observe(learningRule);
@@ -268,7 +271,7 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
 
     public void stop()             // zaustavljanje treniranja pozvano iz source panela
     {
-        trainingController.stopTraining();
+        neuralNetAndDataSet.stopTraining();
     }
 
     public void clear()            //  restartovanje inputSpacePanela pozvano iz source panela
@@ -302,7 +305,7 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
     public void handleLearningEvent(LearningEvent le) {
         iterationCounter++;
         if (iterationCounter % 10 == 0) {
-            NeuralNetwork nnet = trainingController.getNetwork();
+            NeuralNetwork nnet = neuralNetAndDataSet.getNetwork();
 
             nnet.pauseLearning();                             // pauza
             imagePlaying(nnet);                                  //  racunanje odgovora mreze i pozivanje crtanja

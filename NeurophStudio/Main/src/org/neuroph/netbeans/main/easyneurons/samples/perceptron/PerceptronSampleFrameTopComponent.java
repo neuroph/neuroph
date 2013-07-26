@@ -17,7 +17,8 @@ import org.neuroph.core.events.NeuralNetworkEventListener;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.core.learning.SupervisedLearning;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.main.TrainingController;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.nnet.Perceptron;
 import org.neuroph.nnet.comp.neuron.ThresholdNeuron;
@@ -151,7 +152,9 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
     Image imageBuffer;
     Graphics2D drawingBuffer;
     Perceptron neuralNetwork;
-    NeuralNetworkTraining controller;
+    NeuralNetAndDataSet neuralNetAndDataSet;
+    TrainingController trainingController;
+    
     DataSet trainingSet = new DataSet(2, 1);
     PerceptronSampleTrainingSet perceptronSampleTrainingSet = new PerceptronSampleTrainingSet();
     private ConcurrentLinkedQueue<Vector> displayDataBuffer;
@@ -165,8 +168,8 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
                neuralNetwork.setLabel("PerceptronSampleNetwork"); 
                neuralNetwork.getLearningRule().addListener(this);
 
-        this.controller = new NeuralNetworkTraining(neuralNetwork, trainingSet);;
-   //     this.neuralNetwork = (Perceptron) controller.getNetwork();
+        this.neuralNetAndDataSet = new NeuralNetAndDataSet(neuralNetwork, trainingSet);;
+   //     this.neuralNetwork = (Perceptron) neuralNetAndDataSet.getNetwork();
         this.displayDataBuffer = new ConcurrentLinkedQueue<Vector>();
 
         linkAllToOne();
@@ -240,15 +243,17 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
         trainingSet.addRow(new DataSetRow(new double[]{0, 1}, outputs[2]));
         trainingSet.addRow(new DataSetRow(new double[]{1, 1}, outputs[3]));
 
-        controller.setTrainingSet(trainingSet);
+        neuralNetAndDataSet.setDataSet(trainingSet);
+        
+        trainingController = new TrainingController(neuralNetAndDataSet);
 
-        controller.setStepDRParams(learningRate, maxError, maxIterations);
+        trainingController.setStepDRParams(learningRate, maxError, maxIterations);
 
         NeurophProjectFilesFactory.getDefault().createNeuralNetworkFile(neuralNetwork);
         NeurophProjectFilesFactory.getDefault().createTrainingSetFile(trainingSet);
 
         this.requestActive();
-        controller.train();
+        trainingController.train();
 
         q = tPanel.setJProgresBar();
         z = 0;
@@ -261,11 +266,11 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
     }
 
     public void stopTraining() {
-        controller.stopTraining();
+        neuralNetAndDataSet.stopTraining();
     }
 
     public void randomize() {
-        controller.randomize();
+        neuralNetAndDataSet.randomize();
         redraw();
         tPanel.setJProgresBar();
     }
@@ -277,19 +282,19 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
         }
         switch (z) {
             case 0:
-                controller.setInput("0 0");
+                neuralNetAndDataSet.setInput("0 0");
                 iPanel.setInputFields(new double[]{0, 0});
                 break;
             case 1:
-                controller.setInput("1 0");
+                neuralNetAndDataSet.setInput("1 0");
                 iPanel.setInputFields(new double[]{1, 0});
                 break;
             case 2:
-                controller.setInput("0 1");
+                neuralNetAndDataSet.setInput("0 1");
                 iPanel.setInputFields(new double[]{0, 1});
                 break;
             case 3:
-                controller.setInput("1 1");
+                neuralNetAndDataSet.setInput("1 1");
                 iPanel.setInputFields(new double[]{1, 1});
                 break;
         }

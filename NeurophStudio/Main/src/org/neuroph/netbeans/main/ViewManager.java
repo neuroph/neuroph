@@ -9,7 +9,7 @@ import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.core.transfer.Trapezoid;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.DataSetTopComponent;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingMonitorTopComponent;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
@@ -131,7 +131,8 @@ public class ViewManager implements
         trainingSetTopComponent.requestActive();
     }
 
-    public void openTrainingMonitorWindow(NeuralNetworkTraining trainingController) {
+    // this should go to training controller
+    public void openTrainingMonitorWindow(NeuralNetAndDataSet trainingController) {
         SupervisedTrainingMonitorTopComponent monitorWindow = SupervisedTrainingMonitorTopComponent.findInstance();
         monitorWindow.setSupervisedTrainingMonitorFrameVariables(trainingController);
         monitorWindow.open();
@@ -169,7 +170,7 @@ public class ViewManager implements
             dataSet.addRow(te);
         }
 
-        NeuralNetworkTraining controller = new NeuralNetworkTraining(neuralNet, dataSet);
+        NeuralNetAndDataSet controller = new NeuralNetAndDataSet(neuralNet, dataSet);
 
         KohonenSampleTopComponent kohonenVisualizer = new KohonenSampleTopComponent();
         kohonenVisualizer.setNeuralNetworkTrainingController(controller);
@@ -286,7 +287,7 @@ public class ViewManager implements
         tSet.setLabel("NFR tset");
 
 
-        NeuralNetworkTraining controller = new NeuralNetworkTraining(nnet, tSet);
+        NeuralNetAndDataSet controller = new NeuralNetAndDataSet(nnet, tSet);
 
         NeurophProjectFilesFactory.getDefault().createNeuralNetworkFile(nnet);
         NeurophProjectFilesFactory.getDefault().createTrainingSetFile(tSet);

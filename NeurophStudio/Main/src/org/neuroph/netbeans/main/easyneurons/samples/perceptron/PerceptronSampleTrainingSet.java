@@ -3,7 +3,7 @@ package org.neuroph.netbeans.main.easyneurons.samples.perceptron;
 import java.util.Observable;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.DataSet;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 
 /**
  *
@@ -13,9 +13,9 @@ public class PerceptronSampleTrainingSet extends Observable {
 
     DataSet dataSet = new DataSet(2, 1);
     NeuralNetwork neuralNetwork = null;
-    NeuralNetworkTraining trainingControler = new NeuralNetworkTraining(neuralNetwork, dataSet);
+    NeuralNetAndDataSet trainingControler = new NeuralNetAndDataSet(neuralNetwork, dataSet);
 
-    public NeuralNetworkTraining getControler() {
+    public NeuralNetAndDataSet getControler() {
         return trainingControler;
     }
 
@@ -28,7 +28,7 @@ public class PerceptronSampleTrainingSet extends Observable {
         return neuralNetwork;
     }
     
-    public void setTrainingSet(DataSet dataSet, NeuralNetwork nn, NeuralNetworkTraining tc) {
+    public void setTrainingSet(DataSet dataSet, NeuralNetwork nn, NeuralNetAndDataSet tc) {
         this.dataSet = dataSet;
         this.neuralNetwork = nn;
         this.trainingControler = tc;

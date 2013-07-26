@@ -1,7 +1,7 @@
 package org.neuroph.netbeans.main.easyneurons;
 
-import org.neuroph.netbeans.visual.TrainingManager;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeurophManager;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Collection;
@@ -12,6 +12,7 @@ import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.core.events.NeuralNetworkEventListener;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.netbeans.main.TrainingController;
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
@@ -65,7 +66,7 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
         this.neuralNetwork = neuralNetDataObject.getLookup().lookup(NeuralNetwork.class);
         this.saveCookie = neuralNetDataObject.getLookup().lookup(SaveCookie.class);     
          
-        this.trainingController = new NeuralNetworkTraining(this.neuralNetwork);
+        this.neuralNetAndDataSet = new NeuralNetAndDataSet(this.neuralNetwork);
         // neuralNetwork.addObserver(this);
         
                 initComponents();
@@ -233,20 +234,20 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
     }//GEN-LAST:event_trainButtonActionPerformed
 
     private void calculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateButtonActionPerformed
-        trainingController.calculate();
+        neuralNetAndDataSet.calculateNetwork();
     }//GEN-LAST:event_calculateButtonActionPerformed
 
     private void randomizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomizeButtonActionPerformed
-        trainingController.randomize();
+        neuralNetAndDataSet.randomize();
     }//GEN-LAST:event_randomizeButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        trainingController.reset();
+        neuralNetAndDataSet.reset();
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void setInputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setInputButtonActionPerformed
         SetNetworkInputDialog dialog = new SetNetworkInputDialog(null, true,
-                this.trainingController);
+                this.neuralNetAndDataSet);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }//GEN-LAST:event_setInputButtonActionPerformed
@@ -360,7 +361,7 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
         trainingResultSets.addLookupListener(this);
         resultChanged(new LookupEvent(trainingResultSets));
         neuralNetwork.addListener(this);
-        TrainingManager.getDefault(); // create instance of training manager and start iistening to global context
+        NeurophManager.getDefault(); // create instance of training manager and start iistening to global context
     }
 
     @Override
@@ -384,7 +385,8 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
     private JNeuralNetwork blockView = new JNeuralNetwork();
     private NeuralGraphRenderer neuralGraphRenderer;
     private JPanel graphView;
-    private NeuralNetworkTraining trainingController;
+    private NeuralNetAndDataSet neuralNetAndDataSet;
+    private TrainingController trainingController;
     private boolean graphViewActive = false;
     private String filePath;
     private static ViewManager easyNeuronsViewController;
@@ -393,14 +395,14 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
 
     public void train() {
        // TrainingSet trainingSet = (TrainingSet) trainingSetsComboBox.getSelectedItem();
-        trainingController.setTrainingSet(trainingSet);
+        neuralNetAndDataSet.setDataSet(trainingSet);
         userPaused = false;
 
         NeuralNetworkType nnetType = neuralNetwork.getNetworkType(); // kod tipa
         // mreze
 
         //checks compitability of neural network and training set - iissue with bias neurons
-//        if (trainingController.checkCompatibility(neuralNetwork, trainingSet) == false) {
+//        if (neuralNetAndDataSet.checkCompatibility(neuralNetwork, trainingSet) == false) {
 //            JOptionPane.showMessageDialog(this, "Incompatibility warning: Dimensons of selceted neural network " + neuralNetwork.toString() + " and training set are not the same. You must choose a training set with same dimensions.", "Training", JOptionPane.WARNING_MESSAGE);
 //            return;
 //        }
@@ -419,6 +421,7 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
                 showLmsTrainingDialog(); /* showRbfTrainingDialog */
                 break;
             case HOPFIELD:
+                trainingController = new TrainingController(neuralNetAndDataSet);
                 trainingController.train();
                 break;
             case KOHONEN: /* KohonenTrainDlg(); */
@@ -431,6 +434,7 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
                 break;
 
             default:
+                trainingController = new TrainingController(neuralNetAndDataSet);
                 trainingController.train();
                 break;
         } // switch*/
@@ -438,15 +442,15 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
     }
 
     private void showLmsTrainingDialog() {
-        SupervisedTrainingDialog trainingDialog = new SupervisedTrainingDialog(null, true, this.trainingController);
+        SupervisedTrainingDialog trainingDialog = new SupervisedTrainingDialog(null, true, this.neuralNetAndDataSet);
         trainingDialog.setLocationRelativeTo(this);
         trainingDialog.setVisible(true);
     }
 
     private void showMLPTrainingDialog() {
-        if (trainingController.getNetwork().getLearningRule() instanceof DynamicBackPropagation) {
+        if (neuralNetAndDataSet.getNetwork().getLearningRule() instanceof DynamicBackPropagation) {
             BackpropagationTrainingDialog trainingDialog = new BackpropagationTrainingDialog(null, easyNeuronsViewController, true,
-                    this.trainingController);
+                    this.neuralNetAndDataSet);
             trainingDialog.setLocationRelativeTo(this);
             trainingDialog.setVisible(true);
         } else {
@@ -456,13 +460,13 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
 
     private void showHebbianTrainingDialog() {
         HebbianTrainingDialog trainingDialog = new HebbianTrainingDialog(null,
-                true, easyNeuronsViewController, this.trainingController);
+                true, easyNeuronsViewController, this.neuralNetAndDataSet);
         trainingDialog.setLocationRelativeTo(this);
         trainingDialog.setVisible(true);
     }
 
-    public NeuralNetworkTraining getController() {
-        return this.trainingController;
+    public NeuralNetAndDataSet getController() {
+        return this.neuralNetAndDataSet;
     }
 
     public void switchToView(int view) {

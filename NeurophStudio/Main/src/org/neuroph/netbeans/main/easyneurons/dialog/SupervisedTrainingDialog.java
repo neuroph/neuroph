@@ -7,8 +7,9 @@
 package org.neuroph.netbeans.main.easyneurons.dialog;
 
 import org.neuroph.netbeans.main.ViewManager;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
+import org.neuroph.netbeans.main.TrainingController;
 import org.neuroph.nnet.learning.LMS;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 
@@ -20,7 +21,7 @@ public class SupervisedTrainingDialog extends javax.swing.JDialog {
 	private static final long serialVersionUID = 1L;
         ViewManager viewManager;
 	
-	NeuralNetworkTraining trainingController;
+	   TrainingController trainingController;
 
 	/** Creates new form LmsTrainingDialog */
 	public SupervisedTrainingDialog(java.awt.Frame parent, boolean modal) {
@@ -29,14 +30,14 @@ public class SupervisedTrainingDialog extends javax.swing.JDialog {
 	}
 
 	public SupervisedTrainingDialog(java.awt.Frame parent, boolean modal,
-			NeuralNetworkTraining trainingController) {
+			NeuralNetAndDataSet neuralNetAndDataSet) {
 		super(parent, modal);
-		this.trainingController = trainingController;
+		this.trainingController = new TrainingController(neuralNetAndDataSet);
                 this.viewManager=ViewManager.getInstance();
                 
 		initComponents();
 		
-		if (this.trainingController.getNetwork().getLearningRule() instanceof MomentumBackpropagation) {
+		if (this.trainingController.getNeuralNetAndDataSet().getNetwork().getLearningRule() instanceof MomentumBackpropagation) {
                     momentumLabel.setEnabled(true);
                     momentumtField.setEnabled(true);
 		}		
@@ -311,7 +312,7 @@ public class SupervisedTrainingDialog extends javax.swing.JDialog {
 
 		trainingController.setLmsParams(learningRate, maxError, maxIterations);
 
-		LMS learningRule = (LMS) this.trainingController.getNetwork().getLearningRule();
+		LMS learningRule = (LMS) this.trainingController.getNeuralNetAndDataSet().getNetwork().getLearningRule();
 		 
 		if (learningRule instanceof MomentumBackpropagation) {
 			((MomentumBackpropagation)learningRule).setMomentum(momentum);
@@ -324,7 +325,7 @@ public class SupervisedTrainingDialog extends javax.swing.JDialog {
                 
 //                trainingController.setShowErrorGraph(graphCheckBox.isSelected());
                  
-                viewManager.openTrainingMonitorWindow(this.trainingController);             
+                viewManager.openTrainingMonitorWindow(this.trainingController.getNeuralNetAndDataSet());             
 
 		trainingController.train();
 

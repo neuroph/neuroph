@@ -7,8 +7,9 @@
 package org.neuroph.netbeans.main.easyneurons.dialog;
 
 import org.neuroph.netbeans.main.ViewManager;
-import org.neuroph.netbeans.visual.NeuralNetworkTraining;
+import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
+import org.neuroph.netbeans.main.TrainingController;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.DynamicBackPropagation;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
@@ -21,7 +22,7 @@ public class BackpropagationTrainingDialog extends javax.swing.JDialog {
 	private static final long serialVersionUID = 1L;
         ViewManager viewManager;
 	
-	NeuralNetworkTraining controller;
+	TrainingController controller;
 
 	/** Creates new form LmsTrainingDialog */
 	public BackpropagationTrainingDialog(java.awt.Frame parent, boolean modal) {
@@ -30,9 +31,9 @@ public class BackpropagationTrainingDialog extends javax.swing.JDialog {
 	}
 
 	public BackpropagationTrainingDialog(java.awt.Frame parent, ViewManager easyNeuronsViewController, boolean modal,
-			NeuralNetworkTraining controller) {
+			NeuralNetAndDataSet neuralNetAndDataSet) {
 		super(parent, modal);
-		this.controller = controller;
+		this.controller = new TrainingController(neuralNetAndDataSet);
                 this.viewManager=easyNeuronsViewController;
 		initComponents();
 		
@@ -525,10 +526,12 @@ public class BackpropagationTrainingDialog extends javax.swing.JDialog {
 	 */
 	public static void main(String args[]) {
 		java.awt.EventQueue.invokeLater(new Runnable() {
+                        @Override
 			public void run() {
 				BackpropagationTrainingDialog dialog = new BackpropagationTrainingDialog(
 						new javax.swing.JFrame(), true);
 				dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                        @Override
 					public void windowClosing(java.awt.event.WindowEvent e) {
 						System.exit(0);
 					}
@@ -560,7 +563,7 @@ public class BackpropagationTrainingDialog extends javax.swing.JDialog {
 
 		controller.setLmsParams(learningRate, maxError, maxIterations);
 
-		BackPropagation learningRule = (BackPropagation) this.controller.getNetwork().getLearningRule();
+		BackPropagation learningRule = (BackPropagation) this.controller.getNeuralNetAndDataSet().getNetwork().getLearningRule();
 
                 if ( minErrorChangeCheckBox.isSelected()) {
                     learningRule.setMinErrorChange(new Double(minErrorChangeField.getText().trim()));
@@ -609,7 +612,7 @@ public class BackpropagationTrainingDialog extends javax.swing.JDialog {
                     graphFrame.observe(learningRule);
                 }
 
-                viewManager.openTrainingMonitorWindow(this.controller);
+                viewManager.openTrainingMonitorWindow(this.controller.getNeuralNetAndDataSet());
 		controller.train();
 
 		this.dispose();
