@@ -2,7 +2,7 @@ package org.neuroph.samples;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import org.neuroph.data.BufferedDataSet;
+import org.neuroph.core.data.BufferedDataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.nnet.MultiLayerPerceptron;

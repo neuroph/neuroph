@@ -17,8 +17,8 @@
 package org.neuroph.samples;
 
 import java.util.Arrays;
-import org.neuroph.data.DataSet;
-import org.neuroph.data.DataSetRow;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.Hopfield;
 
 /**
