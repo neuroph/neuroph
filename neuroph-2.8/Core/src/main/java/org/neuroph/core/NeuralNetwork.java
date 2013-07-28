@@ -497,7 +497,39 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
     public Thread getLearningThread() {
         return learningThread;
     }
-
+    
+    /**
+     * Returns all network weights as an double array
+     * @return network weights as an double array
+     */
+    public Double[] getWeights() {                
+        List<Double> weights = new ArrayList();
+        for(Layer layer : layers) {
+            for(Neuron neuron : layer.getNeurons())
+                for(Connection conn : neuron.getInputConnections()) {
+                   weights.add(conn.getWeight().getValue());
+                }
+        }
+        
+        return weights.toArray(new Double[weights.size()]);
+    }
+    
+    /**
+     * Sets network weights from the specified double array
+     * @param weights array of weights to set
+     */
+    public void setWeights(double[] weights) {
+        int i = 0;
+        for(Layer layer : layers) {
+            for(Neuron neuron : layer.getNeurons()){
+                for(Connection conn : neuron.getInputConnections()) {
+                   conn.getWeight().setValue(weights[i]);
+                   i++;
+                }
+            }
+        }        
+    }
+    
     /**
      * Creates connection with specified weight value between specified neurons
      *
@@ -532,7 +564,7 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
             out.writeObject(this);
             out.flush();
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+             throw new NeurophException("Could not write neural network to file!", ioe);
         } finally {
             if (out != null) {
                 try {
@@ -548,6 +580,7 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
      *
      * @param filePath file path to load network from
      * @return loaded neural network as NeuralNetwork object
+     * @deprecated Use createFromFile method instead
      */
     public static NeuralNetwork load(String filePath) {
         ObjectInputStream oistream = null;
@@ -563,9 +596,9 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
             return nnet;
 
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+             throw new NeurophException("Could not read neural network file!", ioe);
         } catch (ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
+            throw new NeurophException("Class not found while trying to read neural network from file!", cnfe);
         } finally {
             if (oistream != null) {
                 try {
@@ -574,8 +607,6 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
                 }
             }
         }
-
-        return null;
     }
 
     /**
@@ -594,9 +625,9 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
             return nnet;
 
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            throw new NeurophException("Could not read neural network file!", ioe);
         } catch (ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
+            throw new NeurophException("Class not found while trying to read neural network from file!", cnfe);
         } finally {
             if (oistream != null) {
                 try {
@@ -605,14 +636,45 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
                 }
             }
         }
-
-        return null;
     }
     
     private void readObject(java.io.ObjectInputStream in)
         throws IOException, ClassNotFoundException {
         in.defaultReadObject();
          listeners = new javax.swing.event.EventListenerList();    
+    }    
+
+    /**
+     * Loads and return s neural network instance from specified file
+     * @param file neural network file
+     * @return neural network instance
+     */
+    public static NeuralNetwork createFromFile(File file) {
+        ObjectInputStream oistream = null;
+
+        try {
+            if (!file.exists()) {
+                throw new FileNotFoundException("Cannot find file: " + file);
+            }
+
+            oistream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
+            NeuralNetwork nnet = (NeuralNetwork) oistream.readObject();
+            return nnet;
+
+        } catch (IOException ioe) {
+             throw new NeurophException("Could not read neural network file!", ioe);
+            //ioe.printStackTrace();
+        } catch (ClassNotFoundException cnfe) {
+             throw new NeurophException("Class not found while trying to read neural network from file!", cnfe);
+           // cnfe.printStackTrace();
+        } finally {
+            if (oistream != null) {
+                try {
+                    oistream.close();
+                } catch (IOException ioe) {
+                }
+            }
+        }
     }    
 
     /**
