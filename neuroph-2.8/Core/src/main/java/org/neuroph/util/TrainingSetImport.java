@@ -22,8 +22,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.neuroph.data.DataSetRow;
-import org.neuroph.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
+import org.neuroph.core.data.DataSet;
 
 
 /**

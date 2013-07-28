@@ -18,7 +18,7 @@ package org.neuroph.nnet.learning;
 
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
-import org.neuroph.data.DataSetRow;
+import org.neuroph.core.data.DataSetRow;
 
 /**
  * Supervised hebbian learning rule.

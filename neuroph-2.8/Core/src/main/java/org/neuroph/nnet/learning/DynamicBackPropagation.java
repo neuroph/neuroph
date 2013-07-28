@@ -17,7 +17,7 @@
 package org.neuroph.nnet.learning;
 
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.data.DataSet;
+import org.neuroph.core.data.DataSet;
 
 
 /**

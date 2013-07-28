@@ -21,8 +21,8 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.LearningRule;
-import org.neuroph.data.DataSetRow;
-import org.neuroph.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
+import org.neuroph.core.data.DataSet;
 
 /**
  * Learning algorithm for the Hopfield neural network.
