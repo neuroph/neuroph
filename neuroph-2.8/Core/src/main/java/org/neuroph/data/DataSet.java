@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.data.norm.MaxNormalizer;
@@ -104,7 +106,7 @@ public class DataSet implements Serializable /*
     }
 
     /**
-     * Adds new row element to this data set
+     * Adds new row row to this data set
      *
      * @param row data set row to add
      */
@@ -127,7 +129,7 @@ public class DataSet implements Serializable /*
             throw new VectorSizeMismatchException("Output vector size does not match data set output size!");
         }
 
-        // if everything went ok add training element
+        // if everything went ok add training row
         this.rows.add(row);
     }
 
@@ -140,9 +142,9 @@ public class DataSet implements Serializable /*
     }
 
     /**
-     * Removes training element at specified index position
+     * Removes training row at specified index position
      *
-     * @param idx position of element to remove
+     * @param idx position of row to remove
      */
     public void removeRowAt(int idx) {
         this.rows.remove(idx);
@@ -167,10 +169,10 @@ public class DataSet implements Serializable /*
     }
 
     /**
-     * Returns training element at specified index position
+     * Returns training row at specified index position
      *
-     * @param idx index position of training element to return
-     * @return training element at specified index position
+     * @param idx index position of training row to return
+     * @return training row at specified index position
      */
     public DataSetRow getRowAt(int idx) {
         return this.rows.get(idx);
@@ -235,6 +237,14 @@ public class DataSet implements Serializable /*
         this.columnNames = columnNames;
     }
     
+    public String getColumnName(int idx) {
+        return columnNames[idx];
+    }
+    
+    public void setColumnName(String columnName, int idx) {
+        columnNames[idx] = columnName;
+    }
+    
     
 
     /**
@@ -261,8 +271,47 @@ public class DataSet implements Serializable /*
      * @return label of this training set
      */
     @Override
-    public String toString() {
-        return this.label;
+    public String toString() {  
+        StringBuilder sb = new StringBuilder();
+        sb.append("Dataset").append(System.lineSeparator());
+        sb.append("Label:").append(label).append(System.lineSeparator());
+               
+        if (columnNames != null) {
+            sb.append("Columns: ");
+            for(String columnName : columnNames) {
+                sb.append(columnName).append(", ");
+            }
+            sb.delete(sb.length()-2, sb.length()-1);
+            sb.append(System.lineSeparator());
+        }    
+        
+        sb.append("Rows:");
+        for(DataSetRow row : rows) {
+            sb.append(row);
+            sb.append(System.lineSeparator());
+        }
+        
+        return sb.toString();
+    }
+    
+    public String toCSV() {
+        StringBuilder sb = new StringBuilder();
+        
+        if (columnNames != null) {
+            for(String columnName : columnNames) {
+                sb.append(columnName).append(", ");
+            }
+            sb.delete(sb.length()-2, sb.length()-1);
+            sb.append(System.lineSeparator());
+        }
+        
+        sb.append("Rows:");
+        for(DataSetRow row : rows) {
+            sb.append(row);
+            sb.append(System.lineSeparator());
+        }
+        
+        return sb.toString();        
     }
 
     /**
@@ -305,19 +354,16 @@ public class DataSet implements Serializable /*
             delimiter = " ";
         }
 
-        PrintWriter out = null;
+        try (PrintWriter out = new PrintWriter(new FileWriter(new File(filePath)))) {
 
-        try {
-            out = new PrintWriter(new FileWriter(new File(filePath)));
-
-            for (DataSetRow element : this.rows) {
-                double[] input = element.getInput();
+            for (DataSetRow row : this.rows) {
+                double[] input = row.getInput();
                 for (int i = 0; i < input.length; i++) {
                     out.print(input[i] + delimiter);
                 }
 
-                if (element instanceof DataSetRow) {
-                    double[] output = ((DataSetRow) element).getDesiredOutput();
+                if (row.isSupervised()) {
+                    double[] output = row.getDesiredOutput();
                     for (int j = 0; j < output.length; j++) {
                         out.print(output[j] + delimiter);
                     }
@@ -327,14 +373,9 @@ public class DataSet implements Serializable /*
 
             out.flush();
 
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                out.close();
-            }
-        }
+        } catch (IOException ex) {
+           throw new NeurophException("Error saving data set file!", ex);
+        } 
     }
 
     /**
@@ -350,15 +391,18 @@ public class DataSet implements Serializable /*
             File file = new File(filePath);
             if (!file.exists()) {
                 throw new FileNotFoundException("Cannot find file: " + filePath);
+                
             }
 
             oistream = new ObjectInputStream(new FileInputStream(filePath));
-            DataSet tSet = (DataSet) oistream.readObject();
+            DataSet dataSet = (DataSet) oistream.readObject();
 
-            return tSet;
+            return dataSet;
 
-        } catch (IOException | ClassNotFoundException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException ioe) {
+            throw new NeurophException("Error reading file!", ioe);
+        } catch (ClassNotFoundException ex) {
+            throw new NeurophException("Class not found while trying to read DataSet object from the stream!", ex);
         } finally {
             if (oistream != null) {
                 try {
@@ -367,8 +411,6 @@ public class DataSet implements Serializable /*
                 }
             }
         }
-
-        return null;
     }
 
     public static DataSet createFromFile(String filePath, int inputsCount, int outputsCount, String delimiter) {

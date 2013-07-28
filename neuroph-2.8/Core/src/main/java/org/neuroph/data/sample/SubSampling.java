@@ -19,9 +19,7 @@ public class SubSampling implements Sampling {
     public SubSampling(int percent) {
         this.percent = percent;
     }
-    
-    
-    
+           
     @Override
     public DataSet[] sample(DataSet dataSet) {
         DataSet[] subSets = new DataSet[2];

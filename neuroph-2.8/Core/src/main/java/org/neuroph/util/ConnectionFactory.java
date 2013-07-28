@@ -75,6 +75,22 @@ import org.neuroph.nnet.comp.neuron.BiasNeuron;
 		Connection connection = new Connection(fromNeuron, toNeuron, weight);
 		toNeuron.addInputConnection(connection);
 	}
+        
+        
+        /**
+	 * Creates  connectivity between specified neuron and all neurons in specified layer
+	 * 
+	 * @param fromNeuron
+	 *            neuron to connect
+	 * @param toLayer
+	 *            layer to connect to
+	 */        
+	public static void createConnection(Neuron fromNeuron, Layer toLayer) {
+                for (Neuron toNeuron : toLayer.getNeurons()) {
+                    ConnectionFactory.createConnection(fromNeuron, toNeuron);
+                }
+	}
+        
 
 	/**
 	 * Creates full connectivity between the two specified layers

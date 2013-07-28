@@ -147,4 +147,24 @@ public class DataSetRow implements Serializable {
     public boolean isSupervised() {
         return (desiredOutput == null ? false : true);
     }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("Input: ");
+        for(double in : input) {
+            sb.append(in).append(", ");
+        }
+        
+        if (isSupervised()) {
+            sb.append("Desired output: ");
+            for(double out : desiredOutput) {
+                sb.append(out).append(", ");
+            }            
+        }
+                       
+        return sb.toString();
+        
+    }
 }
