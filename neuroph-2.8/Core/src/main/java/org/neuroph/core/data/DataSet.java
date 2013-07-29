@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
-import org.neuroph.util.data.norm.MaxNormalizer;
-import org.neuroph.util.data.norm.Normalizer;
-import org.neuroph.util.data.sample.Sampling;
-import org.neuroph.util.data.sample.SubSampling;
+import org.neuroph.core.data.norm.MaxNormalizer;
+import org.neuroph.core.data.norm.Normalizer;
+import org.neuroph.core.data.sample.Sampling;
+import org.neuroph.core.data.sample.SubSampling;
 
 /**
  * A set of data rows (DataSetRow instances) for training and testing neural network.
