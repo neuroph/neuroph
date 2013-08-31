@@ -676,6 +676,11 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
             }
         }
     }    
+    
+    public static NeuralNetwork createFromFile(String filePath) {
+        File file = new File(filePath);
+        return NeuralNetwork.createFromFile(file);
+    }
 
     /**
      * Adds plugin to neural network
