@@ -11,7 +11,7 @@ import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
 
 /**
- *
+ * Under development: Learning rule BackProp Through Time required
  * @author zoran
  */
 public class JordanNetwork extends NeuralNetwork {

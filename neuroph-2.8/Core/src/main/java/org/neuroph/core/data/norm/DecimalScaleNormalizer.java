@@ -37,9 +37,12 @@ public class DecimalScaleNormalizer implements Normalizer {
 
         for (DataSetRow dataSetRow : dataSet.getRows()) {
             double[] normalizedInput = normalizeScale(dataSetRow.getInput(), scaleFactorIn);
-            double[] normalizedOutput = normalizeScale(dataSetRow.getDesiredOutput(), scaleFactorOut);
             dataSetRow.setInput(normalizedInput);                        
-            dataSetRow.setInput(normalizedOutput);
+
+            if (dataSet.isSupervised()) {
+                double[] normalizedOutput = normalizeScale(dataSetRow.getDesiredOutput(), scaleFactorOut);
+                dataSetRow.setDesiredOutput(normalizedOutput);
+            }
         }
     }    
  

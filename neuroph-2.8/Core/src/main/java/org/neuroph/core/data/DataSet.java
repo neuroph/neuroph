@@ -30,7 +30,8 @@ import org.neuroph.core.data.sample.Sampling;
 import org.neuroph.core.data.sample.SubSampling;
 
 /**
- * A set of data rows (DataSetRow instances) for training and testing neural network.
+ * This class represents a collection of data rows (DataSetRow instances) used
+ * for training and testing neural network.
  *
  * @author Zoran Sevarac <sevarac@gmail.com>
  * @see DataSetRow

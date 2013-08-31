@@ -20,7 +20,7 @@ package org.neuroph.core.events;
  * This interface is implemented by classes who are listening to learning events (iterations, error etc.)
  * LearningEvent class holds the information about event.
  * 
- * @author Zoran Sevarac
+ * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public interface LearningEventListener extends  java.util.EventListener {
     

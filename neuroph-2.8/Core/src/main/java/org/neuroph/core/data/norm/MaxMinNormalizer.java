@@ -39,11 +39,13 @@ public class MaxMinNormalizer implements Normalizer {
         findMaxAndMinVectors(dataSet);
        
         for (DataSetRow row : dataSet.getRows()) {
-             double[] normalizedInput = normalizeMaxMin(row.getInput(), minIn, maxIn);
-            double[] normalizedOutput = normalizeMaxMin(row.getDesiredOutput(), minOut, maxOut);
-                        
-            row.setInput(normalizedInput);
-            row.setDesiredOutput(normalizedOutput);
+           double[] normalizedInput = normalizeMaxMin(row.getInput(), minIn, maxIn);
+           row.setInput(normalizedInput);
+            
+           if (dataSet.isSupervised()) {
+                double[] normalizedOutput = normalizeMaxMin(row.getDesiredOutput(), minOut, maxOut);
+                row.setDesiredOutput(normalizedOutput);
+           }
         }
 
     }

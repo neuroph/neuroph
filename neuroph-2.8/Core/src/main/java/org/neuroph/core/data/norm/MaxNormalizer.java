@@ -36,10 +36,12 @@ public class MaxNormalizer implements Normalizer {
 
         for (DataSetRow row : dataSet.getRows()) {
             double[] normalizedInput = normalizeMax(row.getInput(), maxIn);
-            double[] normalizedOutput = normalizeMax(row.getDesiredOutput(), maxOut);
-                        
             row.setInput(normalizedInput);
-            row.setDesiredOutput(normalizedOutput);
+            
+            if (dataSet.isSupervised()) {
+                double[] normalizedOutput = normalizeMax(row.getDesiredOutput(), maxOut);
+                row.setDesiredOutput(normalizedOutput);
+            }
         }
 
     }    

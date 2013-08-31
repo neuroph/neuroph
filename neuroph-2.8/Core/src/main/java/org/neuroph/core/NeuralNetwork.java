@@ -17,7 +17,7 @@ package org.neuroph.core;
 
 import java.io.*;
 import java.util.*;
-import org.neuroph.core.events.NNCalculatedEvent;
+import org.neuroph.core.events.NeuralNetworkCalculatedEvent;
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.core.events.NeuralNetworkEventListener;
 import org.neuroph.core.exceptions.NeurophException;
@@ -250,7 +250,7 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
             layer.calculate();
         }       
         
-        fireNetworkEvent(new NNCalculatedEvent(this));
+        fireNetworkEvent(new NeuralNetworkCalculatedEvent(this));
     }
 
     /**

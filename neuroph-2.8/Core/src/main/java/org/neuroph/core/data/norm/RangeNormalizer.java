@@ -4,17 +4,17 @@ import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 
 /**
- * This one does normalization for outputs too
- * @author zoran
+ * This class does normalization of a data set to specified range
+ * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class RangeNormalizer implements Normalizer {
-    private double low, high;
+    private double lowLimit=0, highLimit=1;
     double[] maxIn, maxOut; // contains max values for in and out columns
     double[] minIn, minOut; // contains min values for in and out columns     
 
-    public RangeNormalizer(double low, double high) {
-        this.low= low;
-        this.high = high;        
+    public RangeNormalizer(double lowLimit, double highLimit) {
+        this.lowLimit= lowLimit;
+        this.highLimit = highLimit;        
     }  
     
     @Override
@@ -23,21 +23,22 @@ public class RangeNormalizer implements Normalizer {
        
         for (DataSetRow row : dataSet.getRows()) {
             double[] normalizedInput = normalizeToRange(row.getInput(), minIn, maxIn);
-            double[] normalizedOutput = normalizeToRange(row.getDesiredOutput(), minOut, maxOut);
-                        
             row.setInput(normalizedInput);
-            row.setDesiredOutput(normalizedOutput);
+            
+            if (dataSet.isSupervised()) {
+                double[] normalizedOutput = normalizeToRange(row.getDesiredOutput(), minOut, maxOut);
+                row.setDesiredOutput(normalizedOutput);
+            }
             
         }
         
     }
-
     
     private double[] normalizeToRange(double[] vector, double[] min, double[] max) {
         double[] normalizedVector = new double[vector.length];
 
         for (int i = 0; i < vector.length; i++) {
-            normalizedVector[i] = ((vector[i] - min[i]) / (max[i] - min[i])) * (high - low) + low ;
+            normalizedVector[i] = ((vector[i] - min[i]) / (max[i] - min[i])) * (highLimit - lowLimit) + lowLimit ;
         }
 
         return normalizedVector;             

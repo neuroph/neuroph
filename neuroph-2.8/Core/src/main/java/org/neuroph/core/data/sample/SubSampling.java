@@ -1,3 +1,19 @@
+/**
+ * Copyright 2013 Neuroph Project http://neuroph.sourceforge.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.neuroph.core.data.sample;
 
 import java.util.ArrayList;
@@ -5,8 +21,10 @@ import java.util.Collections;
 import org.neuroph.core.data.DataSet;
 
 /**
- *
- * @author zoran
+ * This class provides subsampling of a data set, and creates two subsets of a
+ * given data set - for training and testing.
+ * 
+ * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class SubSampling implements Sampling {
     int percent;
@@ -37,7 +55,6 @@ public class SubSampling implements Sampling {
             int idx = randoms.get(i);
             subSets[0].addRow(dataSet.getRowAt(idx));
         }
-
 
         // create rest of rows to data set
         subSets[1] = new DataSet(inputSize, outputSize);

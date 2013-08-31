@@ -19,7 +19,7 @@ package org.neuroph.core.data.norm;
 import org.neuroph.core.data.DataSet;
 
 /**
- * Interface for training set normalization methods.
+ * Interface for data set normalization methods.
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public interface Normalizer {

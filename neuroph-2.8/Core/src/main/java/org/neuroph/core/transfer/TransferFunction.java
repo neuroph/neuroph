@@ -47,7 +47,7 @@ abstract public class TransferFunction implements Serializable {
 
 	/**
 	 * Returns the first derivative of this function.
-	 * 
+	 * Note: this method should be abstract too
 	 * @param net
 	 *            net input
 	 */
