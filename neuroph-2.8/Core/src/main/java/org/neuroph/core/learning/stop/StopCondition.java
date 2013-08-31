@@ -1,44 +1,31 @@
+/**
+ * Copyright 2010 Neuroph Project http://neuroph.sourceforge.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.neuroph.core.learning.stop;
 
 /**
- *
- * @author zoran
+ * Interface for learning rule stop condition.
+ * Classes implementing this interface should just implement one method and
+ * return true if learning rule should stop
+ * @author Zoran Sevarac <sevarac@gmail.com>
  */
-             /* abstract class treba da se zna za koje learning rules adi */
-// ima smisla koristiti samo za kompleksnije uslove u metode hasReachedStopCondition
-// naselditi i napraviti jednu za iteracije i jednu za va
-public interface StopCondition {
-    
-    public boolean isReached();    
-     
-    // maxIterations
-    // maxError
-    // error change for specific num of iterations
-    // MSE value for specified data set (test)
-    // time running
-    // for unsupervised - while it gets stable (changes are low)
-    
-    // how do we send data from learning rule to stopCondition - stopCondition must be able to get them
-    
-    // if this is an interface, we could use a list of stop conditions as combination
-    
-    //----------------------------
-    // use cases
-    //----------------------------
-    /*
-     * 1. max iterations i za supervised i za unsupervised
-     * 2. max error i error change samo za supervised 
-     * 
-     * MaxIterationsStop
-     * MaxErrorStop
-     * StopOnMaxIterationsOrError
-     * CustomStopCondition
-     * 
-     * 
-     * 
+public interface StopCondition {    
+    /**
+     * Returns true if learning rule should stop, false otherwise
+     * @return true if learning rule should stop, false otherwise
      */
-    
-    
-
-
+    public boolean isReached();         
 }
