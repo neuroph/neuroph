@@ -7,11 +7,10 @@ import org.netbeans.spi.palette.PaletteController;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.visual.palette.PaletteSupport;
-import org.openide.cookies.SaveCookie;
 import org.openide.loaders.DataObject;
 import org.openide.util.Lookup;
-import org.openide.util.Utilities;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
@@ -35,6 +34,7 @@ public final class VisualEditorTopComponent extends TopComponent {
     AbstractLookup aLookup;
   //  SaveCookie saveCookie;    
     DataObject neuralNetDataObject;
+    NeuralNetAndDataSet neuralNetAndDataSet;
 
     public InstanceContent getContent() {
         return content;
@@ -139,6 +139,7 @@ public final class VisualEditorTopComponent extends TopComponent {
     public void componentOpened() {
         // TODO add custom code on component opening
         //neuralNetDataObject =  Utilities.actionsGlobalContext().lookup(DataObject.class);
+
     }
     
 
@@ -147,25 +148,23 @@ public final class VisualEditorTopComponent extends TopComponent {
         // TODO add custom code on component closing - cleanup stuff...
     }
 
-    NeuralNetAndDataSet training;
+
     @Override
     protected void componentActivated() {
         super.componentActivated(); //To change body of generated methods, choose Tools | Templates.
-        /*
-         *  Add NeuralNetAndDataSet instance to lookup in order to enable train and test actions, when data set is selected*/
-        NeurophManager.getDefault().setNeuralNetwork(nnet);
-        training = NeurophManager.getDefault().getNeuralNetAndDataSet();
-        
-        if (training!=null ) {
-            content.add(training);
+      
+        DataSet dataSet = scene.getDataSet();
+        if (dataSet!=null) {
+            neuralNetAndDataSet= new NeuralNetAndDataSet(nnet, dataSet);                
+            content.add(neuralNetAndDataSet);
         }                       
     }
 
     @Override
     protected void componentDeactivated() {
         super.componentDeactivated(); //To change body of generated methods, choose Tools | Templates.
-        if (training!=null) {
-            content.remove(training);
+        if (neuralNetAndDataSet!=null) {
+            content.remove(neuralNetAndDataSet);
         }
     }
     

@@ -1,8 +1,8 @@
 package org.neuroph.netbeans.visual;
 
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.util.VectorParser;
 
 public class NeuralNetAndDataSet  {
@@ -12,6 +12,11 @@ public class NeuralNetAndDataSet  {
     
     boolean showErrorGraph;
 
+    public NeuralNetAndDataSet() {
+    }
+
+    
+    
     public NeuralNetAndDataSet(NeuralNetwork neuralNet, DataSet dataSet) {
         this.neuralNet = neuralNet;
         this.dataSet = dataSet;
@@ -58,6 +63,12 @@ public class NeuralNetAndDataSet  {
     public NeuralNetwork getNetwork() {
         return this.neuralNet;
     }
+
+    public void setNeuralNet(NeuralNetwork neuralNet) {
+        this.neuralNet = neuralNet;
+    }
+    
+    
 
     public void randomize() {
         neuralNet.randomizeWeights();

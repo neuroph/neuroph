@@ -33,10 +33,13 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.popup.MainPopupMenuProvider;
 import org.neuroph.netbeans.visual.widgets.actions.KeyboardDeleteAction;
+import org.openide.loaders.DataObject;
+import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
@@ -58,7 +61,7 @@ import org.openide.util.lookup.InstanceContent;
  * 
  * @author Zoran Sevarac
  */
-public class NeuralNetworkScene extends ObjectScene {
+public class NeuralNetworkScene extends ObjectScene  {
 //http://bits.netbeans.org/dev/javadoc/org-netbeans-api-visual/org/netbeans/api/visual/widget/doc-files/documentation.html
 
     private LayerWidget mainLayer;          // this layer contains widgets
@@ -68,8 +71,13 @@ public class NeuralNetworkScene extends ObjectScene {
     private NeuralNetworkWidget neuralNetworkWidget;
     private NeuralNetwork neuralNetwork;
     
+    private DataSet dataSet;
+    
     IconNodeWidget inputsContainerWidget = null;
     IconNodeWidget outputsContainerWidget = null;
+    IconNodeWidget dataSetWidget = null;
+    LabelWidget dataSetLabel;
+    
     
     private boolean waitingClick = false;
     private boolean waitingLayerClick = false;
@@ -110,6 +118,14 @@ public class NeuralNetworkScene extends ObjectScene {
         LabelWidget neuralNetworkLabel = new LabelWidget(this, "Neural Network");
         neuralNetworkLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
+        dataSetWidget = new IconNodeWidget(this);
+        dataSetLabel = new LabelWidget(this, "DataSet: not set");
+        dataSetLabel.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+
+        dataSetWidget.addChild(dataSetLabel);
+        
+        mainLayer.addChild(dataSetWidget);
+        
         inputsContainerWidget = new IconNodeWidget(this);
     //    inputsContainerWidget.setBorder(BorderFactory.createLineBorder(15));
 //        mainLayer.addChild(new LabelWidget(this, "Inputs"));
@@ -218,11 +234,35 @@ public class NeuralNetworkScene extends ObjectScene {
                 });
 
 
+                DataFlavor dataSetflavor = t.getTransferDataFlavors()[1];
+                try {        
+                    DataObject dsdo= (DataObject)t.getTransferData(dataSetflavor);
+                    DataSet ds = dsdo.getLookup().lookup(DataSet.class);
+                    
+                    if (ds!=null) {
+                        dataSet = ds;
+                        return ConnectorState.ACCEPT;
+                    }
+                    
+                } catch (        UnsupportedFlavorException | IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+
                 return ConnectorState.REJECT;
             }
 
             @Override
             public void accept(Widget widget, Point point, Transferable t) {
+                DataFlavor dataSetflavor = t.getTransferDataFlavors()[1];
+                try {        
+                    DataObject dsdo= (DataObject)t.getTransferData(dataSetflavor);
+                    DataSet ds = dsdo.getLookup().lookup(DataSet.class);
+                    dataSetLabel.setLabel("DataSet: "+ds.getLabel());
+                  //  inputsContainerWidget.setLabel("DataSet: "+ds.getLabel());
+                    topComponent.requestActive();
+                } catch (        UnsupportedFlavorException | IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }                
             }
         }));
 
@@ -232,6 +272,12 @@ public class NeuralNetworkScene extends ObjectScene {
     public Lookup getLookup() {
         return aLookup;
     }
+
+    public DataSet getDataSet() {
+        return dataSet;
+    }
+    
+    
 
     private Image getImageFromTransferable(Transferable transferable) {
         Object o = null;
