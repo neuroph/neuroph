@@ -2,10 +2,9 @@ package org.neuroph.netbeans.toolbar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.neuroph.netbeans.main.TrainingController;
+import org.neuroph.netbeans.visual.TrainingController;
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
-import org.neuroph.netbeans.visual.NeurophManager;
 import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingDialog;
@@ -62,7 +61,7 @@ public final class TrainToolbarAction implements ActionListener {
      }*/
     public void train() {
         if (neuralNetAndDataSet.getDataSet() != null) {
-            neuralNetAndDataSet.setDataSet(neuralNetAndDataSet.getDataSet());
+            neuralNetAndDataSet.setDataSet(neuralNetAndDataSet.getDataSet()); // ???????
 
             NeuralNetworkType nnetType = neuralNetAndDataSet.getNetwork().getNetworkType();
 

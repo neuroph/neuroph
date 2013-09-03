@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Iterator;
-import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
 import org.openide.awt.ActionID;
