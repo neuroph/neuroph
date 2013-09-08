@@ -9,7 +9,7 @@ package org.neuroph.netbeans.main.easyneurons.dialog;
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
-import org.neuroph.netbeans.main.TrainingController;
+import org.neuroph.netbeans.visual.TrainingController;
 import org.neuroph.nnet.learning.LMS;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 
@@ -320,14 +320,15 @@ public class SupervisedTrainingDialog extends javax.swing.JDialog {
 		
                 if (graphCheckBox.isSelected()) {                    
                     GraphFrameTopComponent graphFrame = ViewManager.getInstance().openErrorGraphFrame();
+                    graphFrame.setTrainingController(trainingController);
                     graphFrame.observe(learningRule);
                 }
                 
 //                trainingController.setShowErrorGraph(graphCheckBox.isSelected());
                  
-                viewManager.openTrainingMonitorWindow(this.trainingController.getNeuralNetAndDataSet());             
+               // viewManager.openTrainingMonitorWindow(this.trainingController.getNeuralNetAndDataSet());             
 
-		trainingController.train();
+		// trainingController.train();
 
 		this.dispose();
 	}

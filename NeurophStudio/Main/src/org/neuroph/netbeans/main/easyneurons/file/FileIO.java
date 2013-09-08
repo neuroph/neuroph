@@ -21,7 +21,7 @@
 package org.neuroph.netbeans.main.easyneurons.file;
 
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 
 /**
  * This class provides all file IO operations for neural networks and training sets

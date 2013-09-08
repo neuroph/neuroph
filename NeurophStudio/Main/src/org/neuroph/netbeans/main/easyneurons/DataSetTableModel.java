@@ -3,8 +3,8 @@ package org.neuroph.netbeans.main.easyneurons;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.table.AbstractTableModel;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 
 /**
  * @author Zoran Sevarac <sevarac@gmail.com>

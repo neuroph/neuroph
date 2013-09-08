@@ -190,6 +190,7 @@ public final class JFreeChartTopComponent extends TopComponent {
             // Read from file and write to arrays
             while ((currentLine = br.readLine()) != null) {
                 String[] values = currentLine.split(",");
+                if (values.length!=2) continue; // patch if something is wrong due the multi threading and values are nor writen
                 chartDataX[counter] = Integer.parseInt(values[0]);
                 Point2D point = new Point2D.Double(Integer.parseInt(values[0]), Double.parseDouble(values[1]));             
                 points[counter] = point;

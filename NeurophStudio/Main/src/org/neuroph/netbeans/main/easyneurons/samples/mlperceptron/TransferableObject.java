@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 
 /**
  *

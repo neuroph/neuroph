@@ -28,8 +28,8 @@ import java.awt.Rectangle;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 
 /**
  *

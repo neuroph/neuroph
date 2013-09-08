@@ -2,8 +2,8 @@ package org.neuroph.netbeans.main.easyneurons.samples.perceptron;
 
 import java.util.Observable;
 import java.util.Observer;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSet;
 
 /**
  *

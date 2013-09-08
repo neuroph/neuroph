@@ -28,7 +28,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import org.jdesktop.application.Action;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.main.easyneurons.DataSetTopComponent;
 import org.neuroph.util.TrainingSetImport;
 

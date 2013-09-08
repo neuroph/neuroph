@@ -1,6 +1,5 @@
 package org.neuroph.netbeans.main.easyneurons;
 
-import org.neuroph.netbeans.visual.NeurophManager;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -10,9 +9,9 @@ import javax.swing.JPanel;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.core.events.NeuralNetworkEventListener;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
-import org.neuroph.netbeans.main.TrainingController;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
+import org.neuroph.netbeans.visual.TrainingController;
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
@@ -361,7 +360,6 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
         trainingResultSets.addLookupListener(this);
         resultChanged(new LookupEvent(trainingResultSets));
         neuralNetwork.addListener(this);
-        NeurophManager.getDefault(); // create instance of training manager and start iistening to global context
     }
 
     @Override

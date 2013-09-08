@@ -25,6 +25,7 @@ public class SetNetworkInputDialog extends javax.swing.JDialog {
     public SetNetworkInputDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -35,6 +36,7 @@ public class SetNetworkInputDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.controller = controller;
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

@@ -8,7 +8,7 @@ package org.neuroph.netbeans.main.easyneurons.dialog;
 
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
-import org.neuroph.netbeans.main.TrainingController;
+import org.neuroph.netbeans.visual.TrainingController;
 import org.neuroph.nnet.learning.LMS;
 
 /**
