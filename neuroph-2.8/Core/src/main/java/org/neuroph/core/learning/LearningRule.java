@@ -106,7 +106,7 @@ abstract public class LearningRule implements Serializable {
     /**
      * Stops learning
      */
-    public void stopLearning() {
+    public synchronized void stopLearning() {
         // note: as long as all this method does is assign stopLearning, it doesn't need to be synchronized if stopLearning is a VOLATILE field. - Jon Tait 6-19-2010
         this.stopLearning = true;
     }
@@ -116,7 +116,7 @@ abstract public class LearningRule implements Serializable {
      *
      * @return true if learning has stopped, false otherwise
      */
-    public boolean isStopped() {
+    public synchronized boolean isStopped() {
         // note: as long as all this method does is return stopLearning, it doesn't need to be synchronized if stopLearning is a VOLATILE field. - Jon Tait 6-19-2010
         return this.stopLearning;
     }

@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.neuroph.core.events.LearningEvent;
+import org.neuroph.core.events.LearningStoppedEvent;
 import org.neuroph.core.learning.stop.MaxIterationsStop;
 import org.neuroph.core.learning.stop.StopCondition;
 
@@ -204,6 +205,8 @@ abstract public class IterativeLearning extends LearningRule implements
             }
 
         }
+        
+        fireLearningEvent(new LearningStoppedEvent(this));
     }
 
     protected boolean hasReachedStopCondition() {
