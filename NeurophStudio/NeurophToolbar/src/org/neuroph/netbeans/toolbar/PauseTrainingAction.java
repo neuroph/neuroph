@@ -40,6 +40,7 @@ public final class PauseTrainingAction implements ActionListener {
         if (!trainingController.isPaused()) {
             trainingController.pause();
             out.println("Training paused at "+currentIteration+" iteration");
+            // chang ebutton icon to resume image
         } else {
             trainingController.resume();
             out.println("Training resumed at "+currentIteration+" iteration");
