@@ -46,12 +46,12 @@
                 <binary-origin>release/modules/ext/neuroph-ocr-2.8.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/neuroph-imgrec-2.8.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/neuroph-imgrec-2.8.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
                 <runtime-relative-path>ext/neuroph-core-2.8.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/neuroph-core-2.8.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/neuroph-imgrec-2.8.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/neuroph-imgrec-2.8.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>
