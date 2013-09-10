@@ -7,7 +7,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.main.easyneurons.DataSetTableModel;
 
 public final class NewTrainingSetVisualPanel2 extends JPanel {
