@@ -24,9 +24,9 @@ persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 @ActionReference(path = "Menu/Window")
 @TopComponent.OpenActionRegistration(displayName = "#CTL_JFreeChartTopComponentAction")
 @Messages({
-    "CTL_JFreeChartTopComponentAction=Nerwork Error Graph",
-    "CTL_JFreeChartTopComponent=Network Error Graph",
-    "HINT_JFreeChartTopComponent=This is a Network Error Graph"
+    "CTL_JFreeChartTopComponentAction=Network Error Graph",
+    "CTL_JFreeChartTopComponent=Total Network Error Graph",
+    "HINT_JFreeChartTopComponent=This is a Total Network Error Graph for the whole training"
 })
 public final class JFreeChartTopComponent extends TopComponent {
 
