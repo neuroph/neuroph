@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ActionFactory;
@@ -119,8 +120,9 @@ public class NeuralNetworkScene extends ObjectScene  {
         neuralNetworkLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
         dataSetWidget = new IconNodeWidget(this);
-        dataSetLabel = new LabelWidget(this, "DataSet: not set");
-        dataSetLabel.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+        dataSetLabel = new LabelWidget(this, "DataSet: none (drag n drop to set)");
+        dataSetWidget.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+        dataSetWidget.setLayout(LayoutFactory.createVerticalFlowLayout( LayoutFactory.SerialAlignment.CENTER, 4));
 
         dataSetWidget.addChild(dataSetLabel);
         
@@ -129,7 +131,7 @@ public class NeuralNetworkScene extends ObjectScene  {
         inputsContainerWidget = new IconNodeWidget(this);
     //    inputsContainerWidget.setBorder(BorderFactory.createLineBorder(15));
 //        mainLayer.addChild(new LabelWidget(this, "Inputs"));
-        mainLayer.addChild(inputsContainerWidget);
+        dataSetWidget.addChild(inputsContainerWidget);
 
 
       //  mainLayer.addChild(neuralNetworkLabel);
@@ -239,8 +241,7 @@ public class NeuralNetworkScene extends ObjectScene  {
                     DataObject dsdo= (DataObject)t.getTransferData(dataSetflavor);
                     DataSet ds = dsdo.getLookup().lookup(DataSet.class);
                     
-                    if (ds!=null) {
-                        dataSet = ds;
+                    if (ds!=null) {                                             
                         return ConnectorState.ACCEPT;
                     }
                     
@@ -257,8 +258,13 @@ public class NeuralNetworkScene extends ObjectScene  {
                 try {        
                     DataObject dsdo= (DataObject)t.getTransferData(dataSetflavor);
                     DataSet ds = dsdo.getLookup().lookup(DataSet.class);
+                    
+                        if (ds.getInputSize()!=neuralNetwork.getInputsCount()) {
+                            JOptionPane.showMessageDialog(topComponent, "Number of inputs of data set and neural network must be equal!");
+                            return;
+                        }                    
+                    dataSet = ds;                    
                     dataSetLabel.setLabel("DataSet: "+ds.getLabel());
-                  //  inputsContainerWidget.setLabel("DataSet: "+ds.getLabel());
                     topComponent.requestActive();
                 } catch (        UnsupportedFlavorException | IOException ex) {
                     Exceptions.printStackTrace(ex);
@@ -462,7 +468,7 @@ public class NeuralNetworkScene extends ObjectScene  {
         inputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
         outputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
 
-        inputsContainerWidget.addChild(new LabelWidget(this, "Inputs:"));
+        //inputsContainerWidget.addChild(new LabelWidget(this, "Inputs:"));
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
 
             for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {

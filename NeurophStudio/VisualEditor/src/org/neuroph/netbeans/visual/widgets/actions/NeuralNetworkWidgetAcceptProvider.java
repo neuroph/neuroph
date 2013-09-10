@@ -194,19 +194,28 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
     }
 
     public boolean canAccept(Class droppedClass) {
-        return droppedClass.equals(Layer.class) || droppedClass.getSuperclass().equals(Layer.class)
-                || droppedClass.equals(Connection.class) || droppedClass.getSuperclass().equals(Connection.class)
-                || droppedClass.equals(ConnectionFactory.class) || droppedClass.getSuperclass().equals(ConnectionFactory.class)
+        Class superclass = droppedClass.getSuperclass();
+                       
+        if (superclass!=null) {
+        
+        return droppedClass.equals(Layer.class) || superclass.equals(Layer.class)
+                || droppedClass.equals(Connection.class) || superclass.equals(Connection.class)
+                || droppedClass.equals(ConnectionFactory.class) || superclass.equals(ConnectionFactory.class)
                 || droppedClass.equals(LearningRule.class)
-                || droppedClass.getSuperclass().equals(LearningRule.class)
-                || droppedClass.getSuperclass().equals(SupervisedLearning.class)
-                || droppedClass.getSuperclass().equals(PerceptronLearning.class)
-                || droppedClass.getSuperclass().equals(BackPropagation.class)
-                || droppedClass.getSuperclass().equals(MomentumBackpropagation.class)
-                || droppedClass.getSuperclass().equals(UnsupervisedLearning.class)
-                || droppedClass.getSuperclass().equals(UnsupervisedHebbianLearning.class)
-                || droppedClass.getSuperclass().equals(SigmoidDeltaRule.class)
-                || droppedClass.getSuperclass().equals(LMS.class)
+                || superclass.equals(LearningRule.class)
+                || superclass.equals(SupervisedLearning.class)
+                || superclass.equals(PerceptronLearning.class)
+                || superclass.equals(BackPropagation.class)
+                || superclass.equals(MomentumBackpropagation.class)
+                || superclass.equals(UnsupervisedLearning.class)
+                || superclass.equals(UnsupervisedHebbianLearning.class)
+                || superclass.equals(SigmoidDeltaRule.class)
+                || superclass.equals(LMS.class)
                 || droppedClass.equals(AddCustomLayerDialog.class); // FIX: why this!? this shoud be removed
+        } else {
+                return droppedClass.equals(Layer.class) 
+                || droppedClass.equals(Connection.class) 
+                || droppedClass.equals(ConnectionFactory.class);    // izbaciti i ConnectioFactory? to kad radis punu povezanost i sl.
+        }
     }
 }

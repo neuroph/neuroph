@@ -157,6 +157,7 @@ public final class VisualEditorTopComponent extends TopComponent {
         if (dataSet!=null) {
             neuralNetAndDataSet= new NeuralNetAndDataSet(nnet, dataSet);                
             content.add(neuralNetAndDataSet);
+            content.add(new TrainingController(neuralNetAndDataSet));
         }                       
     }
 
