@@ -12,5 +12,5 @@
         <module>ImageRec</module>
         <module>OCR</module>
         <module>Contrib</module>
-    </modules>
+    </modules> 
 </project>
