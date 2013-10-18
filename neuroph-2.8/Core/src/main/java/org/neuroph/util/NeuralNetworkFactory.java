@@ -30,7 +30,7 @@ import org.neuroph.nnet.MaxNet;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.Outstar;
 import org.neuroph.nnet.Perceptron;
-import org.neuroph.nnet.RbfNetwork;
+import org.neuroph.nnet.RBFNetwork;
 import org.neuroph.nnet.SupervisedHebbianNetwork;
 import org.neuroph.nnet.UnsupervisedHebbianNetwork;
 import org.neuroph.nnet.comp.neuron.BiasNeuron;
@@ -242,9 +242,9 @@ public class NeuralNetworkFactory {
 	 * @param outputNeuronsCount number of neurons in output layer
 	 * @return instance of RBF network
 	 */
-	public static RbfNetwork createRbfNetwork(int inputNeuronsCount,
+	public static RBFNetwork createRbfNetwork(int inputNeuronsCount,
 			int rbfNeuronsCount, int outputNeuronsCount) {
-		RbfNetwork nnet = new RbfNetwork(inputNeuronsCount, rbfNeuronsCount,
+		RBFNetwork nnet = new RBFNetwork(inputNeuronsCount, rbfNeuronsCount,
 				outputNeuronsCount);
 		return nnet;
 	}

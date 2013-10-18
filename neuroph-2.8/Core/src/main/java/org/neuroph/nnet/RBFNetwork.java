@@ -21,16 +21,23 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.input.Difference;
 import org.neuroph.core.transfer.Gaussian;
 import org.neuroph.nnet.learning.LMS;
+import org.neuroph.nnet.learning.RBFLearning;
 import org.neuroph.util.*;
 
 /**
  * Radial basis function neural network.
  * 
  * TODO: learning for rbf layer: k-means clustering
+ * weights between input and rbf layer are Ci vector
+ * each weight is a component of a Ci vector
+ * Ci are centroids of the clusters trained by k means clustering
+ * Each neuron in rbf layer corresponds to a single cluster
+ * neuronns in rbf layer are clusters
+ * 
  * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
-public class RbfNetwork extends NeuralNetwork {
+public class RBFNetwork extends NeuralNetwork {
 	
 	/**
 	 * The class fingerprint that is set to indicate serialization
@@ -39,7 +46,7 @@ public class RbfNetwork extends NeuralNetwork {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates new RbfNetwork with specified number of neurons in input, rbf and output layer
+	 * Creates new RBFNetwork with specified number of neurons in input, rbf and output layer
 	 * 
 	 * @param inputNeuronsCount
 	 *		number of neurons in input layer
@@ -48,12 +55,12 @@ public class RbfNetwork extends NeuralNetwork {
 	 * @param outputNeuronsCount
 	 *		number of neurons in output layer
 	 */
-	public RbfNetwork(int inputNeuronsCount, int rbfNeuronsCount, int outputNeuronsCount) {
+	public RBFNetwork(int inputNeuronsCount, int rbfNeuronsCount, int outputNeuronsCount) {
 		this.createNetwork(inputNeuronsCount, rbfNeuronsCount, outputNeuronsCount);
 	}
 
 	/**
-	 * Creates RbfNetwork architecture with specified number of neurons in input
+	 * Creates RBFNetwork architecture with specified number of neurons in input
 	 * layer, output layer and transfer function
 	 * 
 	 * @param inputNeuronsCount
@@ -94,7 +101,7 @@ public class RbfNetwork extends NeuralNetwork {
 		NeuralNetworkFactory.setDefaultIO(this);
 
 		// set appropriate learning rule for this network
-		this.setLearningRule(new LMS());
+		this.setLearningRule(new RBFLearning());
 	}
 
 }

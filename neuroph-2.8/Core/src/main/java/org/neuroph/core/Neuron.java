@@ -135,9 +135,11 @@ public class Neuron implements Serializable {
 	public void calculate() {
                 if ((this.inputConnections.length > 0)) {
 			this.netInput = this.inputFunction.getOutput(this.inputConnections);
+                        //if (this.netInput == Double.NaN) throw new NotANumberException();
 		}
 
                 this.output = this.transferFunction.getOutput(this.netInput);
+                //if (this.output == Double.NaN) throw new NotANumberException();
 	}
 
 	/**
