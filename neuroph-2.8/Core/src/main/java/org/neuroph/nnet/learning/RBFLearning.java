@@ -12,30 +12,34 @@ import org.neuroph.nnet.learning.kmeans.KVector;
 import org.neuroph.nnet.learning.knn.KNearestNeighbour;
 
 /**
- * inicijalizuj centroide klastera na osnovu datas set-a
- * tako se inicijalizuju weights izmedju input i rbf layera
+ * Learning rule for Radial Basis Function networks.
+ * Use K-Means to determine centroids for hidden units, K-NearestNeighbour to set widths,
+ * and LMS to tweak output neurons.
  * 
- * potrebno je jos dodati podesavanje sirine gausovih funkcija sigma pomocu k-nearest neighbour 
- * 
- * @author zoran
+ * @author Zoran Sevarac sevarac@gmail.com
  */
 public class RBFLearning extends LMS {
 
+    /**
+     * how many nearest neighbours to use when determining width (sigma) for
+     * gaussian functions
+     */
+    int k=2;
+    
     @Override
     protected void onStart() {
         super.onStart();         
         
         // set weights between input and rbf layer using kmeans
-        //- create KMeansVector for every row in dataset
-        KMeansClustering kmeans = new KMeansClustering(getTrainingSet()); // this one should be able to use DataSet
+        KMeansClustering kmeans = new KMeansClustering(getTrainingSet());
         kmeans.setNumberOfClusters(neuralNetwork.getLayerAt(1).getNeuronsCount()); // set number of clusters as number of rbf neurons
         kmeans.doClustering();
         
         // get clusters (centroids)
         Cluster[] clusters = kmeans.getClusters();
         
-        // assign each neuron to one cluster
-        // use centroid vectors to initialize weights
+        // assign each rbf neuron to one cluster
+        // and use centroid vectors to initialize neuron's input weights
         Layer rbfLayer = neuralNetwork.getLayerAt(1);
         int i=0;
         for(Neuron neuron : rbfLayer.getNeurons()) {
@@ -49,14 +53,13 @@ public class RBFLearning extends LMS {
             i++;
         }
         
-        List<KVector> centroids = new ArrayList<>();        
-        // get centroids from clusters
+        // get cluster centroids as list
+        List<KVector> centroids = new ArrayList<>();                
         for(Cluster cluster : clusters) {
             centroids.add(cluster.getCentroid());
-        }
-        
-        int k=2;
-        // use KNN to calculate sigma param - gausssian width
+        }        
+
+        // use KNN to calculate sigma param - gausssian function width for each neuron
         KNearestNeighbour knn = new KNearestNeighbour();
         knn.setDataSet(centroids);
         
@@ -74,6 +77,12 @@ public class RBFLearning extends LMS {
                 
     }
     
+    /**
+     * Calculates and returns  width of a gaussian function
+     * @param centroid
+     * @param nearestNeighbours
+     * @return 
+     */
     private double calculateSigma(KVector centroid,  KVector[] nearestNeighbours) {
        double sigma = 0;
               
