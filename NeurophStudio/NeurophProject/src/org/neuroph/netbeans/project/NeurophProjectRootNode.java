@@ -28,7 +28,7 @@ public class NeurophProjectRootNode extends FilterNode {
           new ProxyLookup(new Lookup[]{Lookups.singleton(project),
                                        originalNode.getLookup() })
        );
-
+    
     this.project = project;
 //    this.project.addChangeListener(this);
   }

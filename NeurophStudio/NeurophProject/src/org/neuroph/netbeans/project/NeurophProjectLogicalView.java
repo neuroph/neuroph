@@ -34,6 +34,7 @@ class NeurophProjectLogicalView implements LogicalViewProvider {
         DataFolder projectDataObject = DataFolder.findFolder(projectDir);
         //Get its default node-we'll wrap our node around it to change the display name, icon, etc
         Node originalProjectNode = projectDataObject.getNodeDelegate();
+        originalProjectNode.setShortDescription("Neuroph project in "+projectDir.getPath());
         // wrap project data node with NeurophProjectRootNode
         return new NeurophProjectRootNode(originalProjectNode, this.project);
     }
