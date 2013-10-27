@@ -13,7 +13,10 @@ import org.netbeans.api.project.ProjectInformation;
 import org.netbeans.spi.project.ActionProvider;
 import org.netbeans.spi.project.CopyOperationImplementation;
 import org.netbeans.spi.project.DeleteOperationImplementation;
+import org.netbeans.spi.project.MoveOperationImplementation;
+import org.netbeans.spi.project.MoveOrRenameOperationImplementation;
 import org.netbeans.spi.project.ProjectState;
+import org.netbeans.spi.project.ui.CustomizerProvider;
 import org.netbeans.spi.project.ui.support.DefaultProjectOperations;
 import org.openide.filesystems.FileObject;
 import org.openide.util.ChangeSupport;
@@ -135,8 +138,12 @@ public class NeurophProject implements Project {
             lookup = Lookups.fixed(new Object[]{
                         state, //allow outside code to mark the project as needing saving
                         new ActionProviderImpl(), //Provides standard actions like Build and Clean
-                        new DemoDeleteOperation(),
-                        new DemoCopyOperation(this),
+                        new NeurophProjectDeleteOperation(),
+                        new NeurophProjectCopyOperation(this),
+                        new NeurophProjectMoveOperation(this),
+                        new NeurophProjectMoveOrRenameOperation(this),
+                        
+//                        new NeurophProjectCustomizerProvider(),
                         new Info(), //Project information implementation
                         new NeurophProjectLogicalView(this), //Logical view of project implementation
                     });
@@ -154,7 +161,10 @@ public class NeurophProject implements Project {
 
         private String[] supported = new String[]{
             ActionProvider.COMMAND_DELETE,
-            ActionProvider.COMMAND_COPY,};
+            ActionProvider.COMMAND_COPY,
+            ActionProvider.COMMAND_RENAME,
+            ActionProvider.COMMAND_MOVE
+        };
 
         @Override
         public String[] getSupportedActions() {
@@ -165,25 +175,33 @@ public class NeurophProject implements Project {
         public void invokeAction(String string, Lookup lookup) throws IllegalArgumentException {
             if (string.equalsIgnoreCase(ActionProvider.COMMAND_DELETE)) {
                 DefaultProjectOperations.performDefaultDeleteOperation(NeurophProject.this);
-            }
-            if (string.equalsIgnoreCase(ActionProvider.COMMAND_COPY)) {
+            } else if (string.equalsIgnoreCase(ActionProvider.COMMAND_COPY)) {
                 DefaultProjectOperations.performDefaultCopyOperation(NeurophProject.this);
+            } else if (string.equalsIgnoreCase(ActionProvider.COMMAND_MOVE)) {
+                DefaultProjectOperations.performDefaultMoveOperation(NeurophProject.this);
+            } else if (string.equalsIgnoreCase(ActionProvider.COMMAND_RENAME)) {
+                DefaultProjectOperations.performDefaultRenameOperation(NeurophProject.this, "");
             }
+            
         }
 
         @Override
         public boolean isActionEnabled(String command, Lookup lookup) throws IllegalArgumentException {
-            if ((command.equals(ActionProvider.COMMAND_DELETE))) {
+            if ((command.equalsIgnoreCase(ActionProvider.COMMAND_DELETE))) {
                 return true;
-            } else if ((command.equals(ActionProvider.COMMAND_COPY))) {
+            } else if ((command.equalsIgnoreCase(ActionProvider.COMMAND_COPY))) {
                 return true;
-            } else {
+            } else if ((command.equalsIgnoreCase(ActionProvider.COMMAND_MOVE))) {
+                return true;
+            } else if ((command.equalsIgnoreCase(ActionProvider.COMMAND_RENAME))) {
+                return true;
+            }else {
                 throw new IllegalArgumentException(command);
             }
         }       
     }
 
-    private final class DemoDeleteOperation implements DeleteOperationImplementation {
+    private final class NeurophProjectDeleteOperation implements DeleteOperationImplementation {
 
         @Override
         public void notifyDeleting() throws IOException {
@@ -201,18 +219,20 @@ public class NeurophProject implements Project {
 
         @Override
         public List<FileObject> getDataFiles() {
-            List<FileObject> dataFiles = new ArrayList<>();
             //this one should return all files to delete
+            List<FileObject> dataFiles = new ArrayList<>();            
+            dataFiles.add(projectRootDir); // return root project dir in order to delelte whole project and its files
+            
             return dataFiles;
         }
     }
 
-    private final class DemoCopyOperation implements CopyOperationImplementation {
+    private final class NeurophProjectCopyOperation implements CopyOperationImplementation {
 
         private final NeurophProject project;
         private final FileObject projectDir;
 
-        public DemoCopyOperation(NeurophProject project) {
+        public NeurophProjectCopyOperation(NeurophProject project) {
             this.project = project;
             this.projectDir = project.getProjectDirectory();
         }
@@ -222,9 +242,15 @@ public class NeurophProject implements Project {
             return Collections.EMPTY_LIST;
         }
 
+        /**
+         * Returns files to be copied
+         * @return 
+         */
         @Override
         public List<FileObject> getDataFiles() {
-            return Collections.EMPTY_LIST;
+            List<FileObject> dataFiles = new ArrayList<>();            
+            dataFiles.add(projectDir);            
+            return dataFiles;
         }
 
         @Override
@@ -269,4 +295,90 @@ public class NeurophProject implements Project {
             return NeurophProject.this;
         }
     }
+    
+     private final class NeurophProjectMoveOperation implements MoveOperationImplementation {
+
+        private final NeurophProject project;
+        private final FileObject projectDir;
+
+        public NeurophProjectMoveOperation(NeurophProject project) {
+            this.project = project;
+            this.projectDir = project.getProjectDirectory();
+        }         
+         
+        @Override
+        public void notifyMoving() throws IOException {           
+        }
+
+        @Override
+        public void notifyMoved(Project prjct, File file, String string) throws IOException {
+        }
+
+        @Override
+        public List<FileObject> getMetadataFiles() {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return Collections.EMPTY_LIST;
+        }
+
+        @Override
+        public List<FileObject> getDataFiles() {
+            List<FileObject> dataFiles = new ArrayList<>();            
+            dataFiles.add(projectDir);            
+            return dataFiles;
+        }
+         
+     }
+     
+     private final class NeurophProjectMoveOrRenameOperation implements MoveOrRenameOperationImplementation {
+
+        private final NeurophProject project;
+        private final FileObject projectDir;
+
+        public NeurophProjectMoveOrRenameOperation(NeurophProject project) {
+            this.project = project;
+            this.projectDir = project.getProjectDirectory();
+        }          
+         
+        @Override
+        public void notifyRenaming() throws IOException {
+        }
+
+        @Override
+        public void notifyRenamed(String string) throws IOException {
+        }
+
+        @Override
+        public void notifyMoving() throws IOException {
+        }
+
+        @Override
+        public void notifyMoved(Project prjct, File file, String string) throws IOException {
+        }
+
+        @Override
+        public List<FileObject> getMetadataFiles() {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return Collections.EMPTY_LIST;
+        }
+
+        @Override
+        public List<FileObject> getDataFiles() {
+           List<FileObject> dataFiles = new ArrayList<>();            
+           dataFiles.add(projectDir);            
+           return dataFiles;
+        }
+         
+     }
+    
+    
+//    private final class NeurophProjectCustomizerProvider implements CustomizerProvider {
+//
+//        @Override
+//        public void showCustomizer() {
+//            // show dialog to customize project here - otvori properrites tc
+//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        }
+//        
+//    }
+    
 }

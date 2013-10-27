@@ -7,6 +7,7 @@ import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataFolder;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
+import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
@@ -56,14 +57,22 @@ public class NeurophProjectRootNode extends FilterNode {
 
     @Override
     public Action[] getActions(boolean arg0) {
-        Action[] nodeActions = new Action[7];
+        Action[] nodeActions = new Action[6];
         nodeActions[0] = CommonProjectActions.newFileAction();
         nodeActions[1] = CommonProjectActions.copyProjectAction();
-        nodeActions[2] = CommonProjectActions.deleteProjectAction();
-        nodeActions[3] = CommonProjectActions.closeProjectAction();
+        nodeActions[2] = CommonProjectActions.moveProjectAction();
+        nodeActions[3] = CommonProjectActions.renameProjectAction();
+        nodeActions[4] = CommonProjectActions.deleteProjectAction();
+        nodeActions[5] = CommonProjectActions.closeProjectAction();             
+        
+        //nodeActions[4] = CommonProjectActions.customizeProjectAction();
 
         return nodeActions;
     }
+    
+    
+       
+    
 
 //    public void stateChanged(ChangeEvent e) {
 //        // this should refresh children!
