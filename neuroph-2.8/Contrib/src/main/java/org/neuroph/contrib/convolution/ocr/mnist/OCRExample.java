@@ -27,6 +27,7 @@ import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.nnet.comp.neuron.BiasNeuron;
+import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.LayerFactory;
 import org.neuroph.util.NeuronProperties;
@@ -39,24 +40,43 @@ public class OCRExample {
 
 			String path = "E:\\Coursera";
 
-			DataSet trainSet = MNISTLoader.loadTrainSet(path, 60000);
-			DataSet testSet = MNISTLoader.loadTestSet(path, 10000);
+			DataSet trainSet = MNISTLoader.loadTrainSet(path, 200);
+			DataSet testSet = MNISTLoader.loadTestSet(path, 100);
 
 			ConvolutionNeuralNetwork cnn = new ConvolutionNeuralNetwork();
 
 			MapDimension mapSize = new MapDimension(28, 28);
-			Kernel convolutionKernel = new Kernel(7, 7);
+			Kernel convolutionKernel = new Kernel(5, 5);
+			Kernel poolingKernel = new Kernel(2, 2);
+			Kernel endConvolution = new Kernel(4, 4);
 
 			FeatureMapLayer inputLayer = CNNFactory.creteInputLayer(mapSize);
 			FeatureMapLayer convolutionLayer = CNNFactory.createNextLayer(inputLayer, convolutionKernel, Layer2DType.CONVOLUTION);
+			FeatureMapLayer convolutionLayer2 = CNNFactory.createNextLayer(convolutionLayer, poolingKernel, Layer2DType.POOLING);
+			FeatureMapLayer convolutionLayer3 = CNNFactory.createNextLayer(convolutionLayer2, convolutionKernel, Layer2DType.CONVOLUTION);
+			FeatureMapLayer convolutionLayer4 = CNNFactory.createNextLayer(convolutionLayer3, poolingKernel, Layer2DType.POOLING);
+			FeatureMapLayer convolutionLayer5 = CNNFactory.createNextLayer(convolutionLayer4, endConvolution, Layer2DType.CONVOLUTION);
 
 			cnn.addLayer(inputLayer);
 			cnn.addLayer(convolutionLayer);
+			cnn.addLayer(convolutionLayer2);
+			cnn.addLayer(convolutionLayer3);
+			cnn.addLayer(convolutionLayer4);
+			cnn.addLayer(convolutionLayer5);
 
 			CNNFactory.addFeatureMap(inputLayer);
 			CNNFactory.addFeatureMaps(convolutionLayer, 6);
+			CNNFactory.addFeatureMaps(convolutionLayer2, 6);
+			CNNFactory.addFeatureMaps(convolutionLayer3, 10);
+			CNNFactory.addFeatureMaps(convolutionLayer4, 10);
+			CNNFactory.addFeatureMaps(convolutionLayer5, 50);
 
 			CNNFactory.fullConectMapLayers(inputLayer, convolutionLayer);
+			CNNFactory.fullConectMapLayers(convolutionLayer, convolutionLayer2);
+			CNNFactory.fullConectMapLayers(convolutionLayer2, convolutionLayer3);
+			CNNFactory.fullConectMapLayers(convolutionLayer3, convolutionLayer4);
+			CNNFactory.fullConectMapLayers(convolutionLayer4, convolutionLayer5);
+			Layer layer = cnn.getLayerAt(1);
 
 			NeuronProperties neuronProperties = new NeuronProperties();
 			neuronProperties.setProperty("useBias", true);
@@ -65,14 +85,15 @@ public class OCRExample {
 
 			Layer outputLayer = LayerFactory.createLayer(10, neuronProperties);
 			cnn.addLayer(outputLayer);
-			fullConnect(convolutionLayer, outputLayer, true);
+			fullConnect(convolutionLayer5, outputLayer, true);
 
 			cnn.setInputNeurons(inputLayer.getNeurons());
 			cnn.setOutputNeurons(outputLayer.getNeurons());
 
-			cnn.getLearningRule().setLearningRate(0.2);
-			cnn.getLearningRule().setMaxIterations(8);
-			
+			cnn.getLearningRule().setLearningRate(0.6);
+			cnn.getLearningRule().setBatchMode(false);
+			cnn.setLearningRule(new BackPropagation());
+			cnn.getLearningRule().setMaxIterations(30);
 
 			cnn.learn(trainSet);
 			ModelMetric.calculateModelMetric(cnn, testSet);

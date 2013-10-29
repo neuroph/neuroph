@@ -20,5 +20,8 @@ public class ConvolutionLayer extends FeatureMapLayer {
 		neuronProperties.setProperty("inputFunction", WeightedSum.class);
 		return neuronProperties;
 	}
+	
+	
+	
 
 }

@@ -11,7 +11,7 @@ public abstract class FeatureMapLayer extends Layer {
 
 	private static final long serialVersionUID = -6706741997689639209L;
 	private FeatureMap[] featureMaps;
-//	private  allNeurons;
+	// private allNeurons;
 
 	protected Kernel kernel;
 	protected MapDimension dimension;
@@ -20,7 +20,7 @@ public abstract class FeatureMapLayer extends Layer {
 		this.dimension = dimension;
 		this.kernel = kernel;
 		featureMaps = new FeatureMap[0];
-//		allNeurons = new Neuron[0];
+		// allNeurons = new Neuron[0];
 	}
 
 	public void addFeatureMap(FeatureMap featureMap) {
@@ -30,8 +30,7 @@ public abstract class FeatureMapLayer extends Layer {
 		featureMaps = Arrays.copyOf(featureMaps, featureMaps.length + 1);
 		featureMaps[featureMaps.length - 1] = featureMap;
 
-		
-		//Copy map to the existing container!!!
+		// Copy map to the existing container!!!
 		int totalNeuronCount = 0;
 		for (FeatureMap map : featureMaps)
 			totalNeuronCount += map.getNeuronsCount();
@@ -49,6 +48,10 @@ public abstract class FeatureMapLayer extends Layer {
 
 	public FeatureMap getFeatureMap(int index) {
 		return featureMaps[index];
+	}
+
+	public FeatureMap[] getFeatureMaps() {
+		return featureMaps;
 	}
 
 	public int getNumberOfMaps() {

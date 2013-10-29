@@ -53,14 +53,14 @@ public class CNNFactory {
 	}
 
 	public static void fullConectMapLayers(FeatureMapLayer fromLayer, FeatureMapLayer toLayer) {
-		if (fromLayer instanceof ConvolutionLayer || fromLayer instanceof InputMapLayer) {
+		if (toLayer instanceof ConvolutionLayer ) {
 			for (int i = 0; i < fromLayer.getNumberOfMaps(); i++) {
 				for (int j = 0; j < toLayer.getNumberOfMaps(); j++) {
  					connect(fromLayer, toLayer, i, j);
 				}
 			}
 		} else {
-			for (int i = 0; i < fromLayer.getNumberOfMaps(); i++) {
+			for (int i = 0; i < toLayer.getNumberOfMaps(); i++) {
 				connect(fromLayer, toLayer, i, i);
 			}
 		}
