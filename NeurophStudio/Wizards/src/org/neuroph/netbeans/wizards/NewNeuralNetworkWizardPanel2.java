@@ -43,6 +43,8 @@ public class NewNeuralNetworkWizardPanel2 implements WizardDescriptor.Validating
                 return InstarVisualPanel1.getInstance();
             case NeuralNetworkTypeWizard.OUTSTAR:
                 return OutstarVisualPanel1.getInstance();
+            case NeuralNetworkTypeWizard.NOPROP:
+                return NoPropVisualPanel1.getInstance();                
             default:
                 //return null;
                 return new JPanel();
@@ -178,7 +180,12 @@ public class NewNeuralNetworkWizardPanel2 implements WizardDescriptor.Validating
                 break;
             case NeuralNetworkTypeWizard.OUTSTAR:
                 ((WizardDescriptor) settings).putProperty("output number", ((OutstarVisualPanel1) getComponent()).getOutputsNumField().getText().trim());
-                break;
+                break;                
+            case NeuralNetworkTypeWizard.NOPROP:
+                ((WizardDescriptor) settings).putProperty("inputNeurons", ((NoPropVisualPanel1) getComponent()).getInputNeuronsField().getText().trim());
+                ((WizardDescriptor) settings).putProperty("outputNeurons", ((NoPropVisualPanel1) getComponent()).getOutputNeuronsField().getText().trim());
+                ((WizardDescriptor) settings).putProperty("hiddenNeurons", ((NoPropVisualPanel1) getComponent()).getHiddenNeuronsField().getText().trim());                
+                break;                
         }
     }
 

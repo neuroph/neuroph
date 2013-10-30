@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.dev.noprop.NoPropNet;
 import org.neuroph.netbeans.project.CurrentProject;
 import org.neuroph.netbeans.project.NeurophProject;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
@@ -33,6 +34,7 @@ import org.neuroph.nnet.learning.PerceptronLearning;
 import org.neuroph.nnet.learning.ResilientPropagation;
 import org.neuroph.util.NeuralNetworkFactory;
 import org.neuroph.util.TransferFunctionType;
+import org.neuroph.util.random.RangeRandomizer;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -242,6 +244,25 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
                     nnet12.setLabel(neuralNetworkName);
                     fileFactory.createNeuralNetworkFile(nnet12);
                     OutstarVisualPanel1.getInstance().clearForm();
+                    break;
+                case NeuralNetworkTypeWizard.NOPROP:                    
+                    int noPropInputNeurons = Integer.parseInt((String) getWizard().getProperty("inputNeurons"));
+                    int noPropHiddenNeurons = Integer.parseInt((String) getWizard().getProperty("hiddenNeurons"));
+                    int noPropOutputNeurons = Integer.parseInt((String) getWizard().getProperty("outputNeurons"));
+
+                    int[] neuronsCount = new int[3];
+                    neuronsCount[0] = noPropInputNeurons;
+                    neuronsCount[1] = noPropHiddenNeurons;
+                    neuronsCount[2] = noPropOutputNeurons;
+                    
+                    NoPropNet noPropNet = new NoPropNet(TransferFunctionType.TANH , true, neuronsCount);
+                    noPropNet.randomizeWeights(new RangeRandomizer(-1, 1));
+                    
+                    noPropNet.setLabel(neuralNetworkName);
+                    fileFactory.createNeuralNetworkFile(noPropNet);
+                    
+                    NoPropVisualPanel1.getInstance().clearForm();
+//                    
                     break;
             }
            

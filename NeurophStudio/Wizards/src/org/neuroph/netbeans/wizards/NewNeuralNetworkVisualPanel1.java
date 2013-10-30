@@ -1,23 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.wizards;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.neuroph.netbeans.project.CurrentProject;
 
 public final class NewNeuralNetworkVisualPanel1 extends JPanel {
 
-    private static int networkCount = 0;
+
 
     /** Creates new form NewNeuralNetworkVisualPanel1 */
     public NewNeuralNetworkVisualPanel1() {
         initComponents();
-        // set text for New Neural Network here
-        networkCount++;
-        neuralNetworkNameField.setText("NewNeuralNetwork" + networkCount);
+
+        String  newNetworkName = CurrentProject.getInstance().getNewNeuralNetworkName();                       
+        neuralNetworkNameField.setText(newNetworkName);
     }
 
     @Override
@@ -55,7 +52,7 @@ public final class NewNeuralNetworkVisualPanel1 extends JPanel {
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(NewNeuralNetworkVisualPanel1.class, "NewNeuralNetworkVisualPanel1.jLabel2.text")); // NOI18N
 
         neuralNetworkTypeList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Empty Neural Network", "Adaline", "Perceptron", "Multi Layer Perceptron", "Hopfield", "BAM", "Kohonen", "Supervised Hebbian", "Unsupervised Hebbian", "Maxnet", "Competitive Network", "RBF", "Instar", "OutStar" };
+            String[] strings = { "Empty Neural Network", "Adaline", "Perceptron", "Multi Layer Perceptron", "Hopfield", "BAM", "Kohonen", "Supervised Hebbian", "Unsupervised Hebbian", "Maxnet", "Competitive Network", "RBF", "Instar", "OutStar", "NoProp" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });

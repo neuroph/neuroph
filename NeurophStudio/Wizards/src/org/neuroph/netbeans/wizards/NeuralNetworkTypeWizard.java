@@ -20,6 +20,7 @@ public class NeuralNetworkTypeWizard {
     public static final int RBF=11;
     public static final int INSTAR=12;
     public static final int OUTSTAR=13;
+    public static final int NOPROP=14;
     
     
 
@@ -50,6 +51,7 @@ public class NeuralNetworkTypeWizard {
             case INSTAR: neuralNetworkType= INSTAR; break;
             case OUTSTAR: neuralNetworkType= OUTSTAR; break;
             case EMPTY_NN : neuralNetworkType = EMPTY_NN; break;    
+            case NOPROP : neuralNetworkType = NOPROP; break;    
         }
     }
 
