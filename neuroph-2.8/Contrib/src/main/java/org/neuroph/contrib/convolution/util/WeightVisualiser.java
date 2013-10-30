@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import org.neuroph.contrib.convolution.FeatureMap;
+import org.neuroph.contrib.convolution.Layer2D;
 import org.neuroph.contrib.convolution.Kernel;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
@@ -25,7 +25,7 @@ public class WeightVisualiser {
 	private List<List<Double>> manyMaps;
 	private Kernel kernel;
 
-	public WeightVisualiser(FeatureMap map, Kernel kernel) {
+	public WeightVisualiser(Layer2D map, Kernel kernel) {
 
 		this.kernel = kernel;
 
@@ -33,13 +33,13 @@ public class WeightVisualiser {
 		initWeights(map);
 	}
 
-	private void initWeights(FeatureMap map) {
+	private void initWeights(Layer2D map) {
 		List<Double> weights = new ArrayList<Double>();
 		Neuron neuron = map.getNeuronAt(0);
 		int counter = 0;
 		for (Connection conn : neuron.getInputConnections()) {
 			if (!(conn.getFromNeuron() instanceof BiasNeuron)) {
-				if (counter < kernel.area() ) {
+				if (counter < kernel.getArea() ) {
 					weights.add(conn.getWeight().getValue());
 					counter++;
 				} else {

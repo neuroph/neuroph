@@ -3,7 +3,7 @@ package org.neuroph.contrib;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.neuroph.contrib.convolution.FeatureMap;
+import org.neuroph.contrib.convolution.Layer2D;
 import org.neuroph.core.Neuron;
 import org.neuroph.nnet.comp.neuron.InputNeuron;
 
@@ -29,7 +29,7 @@ public class CNNTestUtil {
 		return neurons;
 	}
 
-	public static void fillFeatureMap(FeatureMap featureMap, List<? extends Neuron> neurons) {
+	public static void fillFeatureMap(Layer2D featureMap, List<? extends Neuron> neurons) {
 		for (Neuron neuron : neurons) {
 			featureMap.addNeuron(neuron);
 		}

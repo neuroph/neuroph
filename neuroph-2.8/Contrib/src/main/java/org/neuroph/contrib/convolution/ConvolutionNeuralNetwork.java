@@ -7,19 +7,21 @@ import org.neuroph.nnet.comp.neuron.BiasNeuron;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 
+/**
+ * Provide Hiton, leCun, AndwNg implementation
+ * 
+ */
 public class ConvolutionNeuralNetwork extends NeuralNetwork<BackPropagation> {
 
 	private static final long serialVersionUID = -1393907449047650509L;
 
 	public ConvolutionNeuralNetwork() {
-
 		this.setLearningRule(new MomentumBackpropagation());
-
 	}
 	
 
-	public void connectLayers(FeatureMapLayer fromLayer, FeatureMapLayer toLayer, int fromFeatureMapIndex, int toFeatureMapIndex) {
-		CNNFactory.connect(fromLayer, toLayer, fromFeatureMapIndex, toFeatureMapIndex);
+	public void connectLayers(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer, int fromFeatureMapIndex, int toFeatureMapIndex) {
+		ConvolutionUtils.connectFeatureMaps(fromLayer, toLayer, fromFeatureMapIndex, toFeatureMapIndex);
 	}
 
 	@Override
@@ -36,10 +38,10 @@ public class ConvolutionNeuralNetwork extends NeuralNetwork<BackPropagation> {
 		// }
 		// But for that getNeuron must be non final method
 
-		FeatureMapLayer inputLayer = (FeatureMapLayer) getLayerAt(0);
+		FeatureMapsLayer inputLayer = (FeatureMapsLayer) getLayerAt(0);
 		int currentNeuron = 0;
 		for (int i = 0; i < inputLayer.getNumberOfMaps(); i++) {
-			FeatureMap map = inputLayer.getFeatureMap(i);
+			Layer2D map = inputLayer.getFeatureMap(i);
 			for (Neuron neuron : map.getNeurons()) {
 				if (!(neuron instanceof BiasNeuron))
 					neuron.setInput(inputVector[currentNeuron++]);

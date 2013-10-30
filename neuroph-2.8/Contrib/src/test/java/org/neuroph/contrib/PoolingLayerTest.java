@@ -6,12 +6,12 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.neuroph.contrib.convolution.CNNFactory;
-import org.neuroph.contrib.convolution.CNNFactory.Layer2DType;
-import org.neuroph.contrib.convolution.FeatureMap;
-import org.neuroph.contrib.convolution.FeatureMapLayer;
+import org.neuroph.contrib.convolution.ConvolutionUtils;
+import org.neuroph.contrib.convolution.ConvolutionUtils.Layer2DType;
+import org.neuroph.contrib.convolution.Layer2D;
+import org.neuroph.contrib.convolution.FeatureMapsLayer;
+import org.neuroph.contrib.convolution.InputMapsLayer;
 import org.neuroph.contrib.convolution.Kernel;
-import org.neuroph.contrib.convolution.MapDimension;
 import org.neuroph.contrib.convolution.PoolingLayer;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
@@ -19,25 +19,25 @@ import org.neuroph.core.Weight;
 
 public class PoolingLayerTest {
 
-	FeatureMapLayer inputLayer;
-	MapDimension inputDimension;
+	FeatureMapsLayer inputLayer;
+	Layer2D.Dimension inputDimension;
 	Kernel kernel;
 
 	@Before
 	public void setUp() {
 		kernel = new Kernel(1, 1);
-		inputDimension = new MapDimension(1, 1);
+		inputDimension = new Layer2D.Dimension(1, 1);
 		inputLayer = new PoolingLayer(kernel, inputDimension);
 	}
 
 	@Test
 	public void testConnectTwoLayersWithOneFeatureMapOne2OneNeuronWithKernel1() {
-		inputLayer = CNNFactory.creteInputLayer(inputDimension);
-		FeatureMapLayer hiddenLayer = CNNFactory.createNextLayer(inputLayer, kernel, Layer2DType.POOLING);
+		inputLayer = new InputMapsLayer(inputDimension);
+		FeatureMapsLayer hiddenLayer = ConvolutionUtils.createNextLayer(inputLayer, kernel, Layer2DType.POOLING);
 
-		CNNFactory.addFeatureMap(inputLayer);
-		CNNFactory.addFeatureMap(hiddenLayer);
-		CNNFactory.connect(inputLayer, hiddenLayer, 0, 0);
+		ConvolutionUtils.addFeatureMap(inputLayer);
+		ConvolutionUtils.addFeatureMap(hiddenLayer);
+		ConvolutionUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
 
 		Neuron fromNeuron = inputLayer.getNeuronAt(0, 0, 0);
 		Neuron toNeuron = hiddenLayer.getNeuronAt(0, 0, 0);
@@ -47,14 +47,14 @@ public class PoolingLayerTest {
 	@Test
 	public void testConnectTwoLayersWithOneFeatureMapFour2OneNeuronWithKernel3() {
 		kernel = new Kernel(2, 2);
-		inputDimension = new MapDimension(2, 2);
+		inputDimension = new Layer2D.Dimension(2, 2);
 
-		inputLayer = CNNFactory.creteInputLayer(inputDimension);
-		FeatureMapLayer hiddenLayer = CNNFactory.createNextLayer(inputLayer, kernel, Layer2DType.POOLING);
+		inputLayer = new InputMapsLayer(inputDimension);
+		FeatureMapsLayer hiddenLayer = ConvolutionUtils.createNextLayer(inputLayer, kernel, Layer2DType.POOLING);
 
-		CNNFactory.addFeatureMap(inputLayer);
-		CNNFactory.addFeatureMap(hiddenLayer);
-		CNNFactory.connect(inputLayer, hiddenLayer, 0, 0);
+		ConvolutionUtils.addFeatureMap(inputLayer);
+		ConvolutionUtils.addFeatureMap(hiddenLayer);
+		ConvolutionUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
 
 		Neuron pooledNeuron = hiddenLayer.getNeurons()[0];
 		Set<Weight> weights = new HashSet<Weight>();
@@ -70,20 +70,20 @@ public class PoolingLayerTest {
 
 	@Test
 	public void testPoolingTwoLayersWithOneFeatureMap() {
-		inputDimension = new MapDimension(4, 4);
+		inputDimension = new Layer2D.Dimension(4, 4);
 		int kernelWidth = 2;
 		int kernelHeight = 2;
 		kernel = new Kernel(kernelWidth, kernelHeight);
 
-		inputLayer = CNNFactory.creteInputLayer(inputDimension);
-		FeatureMapLayer hiddenLayer = CNNFactory.createNextLayer(inputLayer, kernel, Layer2DType.POOLING);
+		inputLayer = new InputMapsLayer(inputDimension);
+		FeatureMapsLayer hiddenLayer = ConvolutionUtils.createNextLayer(inputLayer, kernel, Layer2DType.POOLING);
 
-		CNNFactory.addFeatureMap(inputLayer);
-		CNNFactory.addFeatureMap(hiddenLayer);
-		CNNFactory.connect(inputLayer, hiddenLayer, 0, 0);
+		ConvolutionUtils.addFeatureMap(inputLayer);
+		ConvolutionUtils.addFeatureMap(hiddenLayer);
+		ConvolutionUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
 
-		FeatureMap fromMap = inputLayer.getFeatureMap(0);
-		FeatureMap toMap = hiddenLayer.getFeatureMap(0);
+		Layer2D fromMap = inputLayer.getFeatureMap(0);
+		Layer2D toMap = hiddenLayer.getFeatureMap(0);
 
 		for (int x = 0; x < hiddenLayer.getDimension().getWidth(); x++) {
 			for (int y = 0; y < hiddenLayer.getDimension().getHeight(); y++) {
