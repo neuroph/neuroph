@@ -15,9 +15,8 @@ import org.openide.util.Exceptions;
 public class NeurophProjectFilesFactory {
     NeurophProject currentProject;
     NeuralNetwork neuralNet;
-    String networkName; // we should use/have some network ID instead name, since name may not be unigue
-    // we nned it to select that node in project tree upon network creation
-    String createdFilePath;
+    String networkName; // we should use/have some network ID instead name, since name may not be unigue  
+    String createdFilePath; // we nned it to select that node in project tree upon network creation
 
     private static NeurophProjectFilesFactory instance;
     
