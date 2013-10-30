@@ -17,7 +17,6 @@ import org.neuroph.contrib.convolution.ConvolutionNeuralNetwork;
 import org.neuroph.contrib.convolution.Layer2D;
 import org.neuroph.contrib.convolution.FeatureMapsLayer;
 import org.neuroph.contrib.convolution.Kernel;
-import org.neuroph.contrib.convolution.ConvolutionUtils.Layer2DType;
 import org.neuroph.contrib.convolution.ConvolutionLayer;
 import org.neuroph.contrib.convolution.InputMapsLayer;
 import org.neuroph.contrib.convolution.util.ModelMetric;

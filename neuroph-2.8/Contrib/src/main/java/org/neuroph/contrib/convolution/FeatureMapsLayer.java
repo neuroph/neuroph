@@ -5,24 +5,31 @@ import java.util.Arrays;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.exceptions.NeurophException;
-import org.neuroph.util.NeuronProperties;
 
+
+/**
+ * This class represents an array of 2 dimensional layers (Layer2D instances) 
+ * and it is base class for Convolution and Pooling layers.
+ * 
+ * @author Boris Fulurija
+ * @author Zoran Sevarac
+ */
 public class FeatureMapsLayer extends Layer {
 
 	private static final long serialVersionUID = -6706741997689639209L;
         
         /**
-         * 
+         * Kernel used for all 2D layers (feature maps)
          */
 	protected Kernel kernel;
 
         /**
-         * 
+         * Dimension for all 2D layers (feature maps)
          */
         protected Layer2D.Dimension mapDimension;        
         
         /**
-         * 
+         * Array of feature maps (instances of Layer2D)
          */
         private Layer2D[] featureMaps;        
 
@@ -44,6 +51,10 @@ public class FeatureMapsLayer extends Layer {
 		featureMaps = new Layer2D[0];
 	}
 
+        /**
+         * Adds feature map (2d layer) to this layer 
+         * @param featureMap to add
+         */
 	public void addFeatureMap(Layer2D featureMap) {
 		if (featureMap == null) {
 			throw new NeurophException("FeatureMap cant be null!");
