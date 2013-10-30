@@ -9,7 +9,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import org.jdesktop.application.Action;
-import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.netbeans.main.easyneurons.dialog.TrainingDataFileDialog;
@@ -365,6 +364,16 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
     public void componentClosed() {
         //  ViewManager.getInstance().onTrainingSetClose(dataSet);
     }
+
+    @Override
+    protected void componentActivated() {
+        super.componentActivated();
+        // update table model here
+        setTrainingSet(this.dataSet); // needs to be refreshe d if it is normalised for example...
+    }
+    
+    
+    
 
     private void readPropertiesImpl(java.util.Properties p) {
         String version = p.getProperty("version");

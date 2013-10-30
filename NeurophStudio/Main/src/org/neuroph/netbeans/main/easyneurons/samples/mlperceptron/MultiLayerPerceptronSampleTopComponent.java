@@ -58,17 +58,15 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setPreferredSize(new java.awt.Dimension(770, 600));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 770, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -149,7 +147,7 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
 
     InputSpacePanel inputSpacePanel;
     InformationPanel informationPanel;
-    ControllsPanel sourcePanel;
+    ControllsPanel controllsPanel;
 
     PerceptronSampleTrainingSet pst;
     DataSet trainingSet;
@@ -171,25 +169,23 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
 
 
          this.viewManager = ViewManager.getInstance();
-       // this.displayDataBuffer = new ConcurrentLinkedQueue<NeuralNetwork>();   // red koji se ne koristi
-       // link();    // povezivanje panela sa frameom
 
         inputSpacePanel = new InputSpacePanel();
         informationPanel = new InformationPanel();
-        sourcePanel = new ControllsPanel(this);
+        controllsPanel = new ControllsPanel(this);
 
 
         inputSpacePanel.setSize(570, 570);
         informationPanel.setSize(200, 50);
-        sourcePanel.setSize(182, 520);
+        controllsPanel.setSize(282, 520);
 
         add(inputSpacePanel);
         add(informationPanel);
-        add(sourcePanel);
+        add(controllsPanel);
 
         inputSpacePanel.setLocation(0, 0);
         informationPanel.setLocation(570, 0);
-        sourcePanel.setLocation(570, 50);
+        controllsPanel.setLocation(570, 50);
 
 // DragNDrop - start
         this.dtListener = new DTListener();
@@ -207,7 +203,7 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
                   true);
 
         this.dropTarget3 = new DropTarget(
-                  sourcePanel,
+                  controllsPanel,
                   this.acceptableActions,
                   this.dtListener,
                   true);
@@ -218,23 +214,8 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
     boolean f = false;
 
 
-//    @Override
-//    public void update(Observable o, Object arg) {           // pri promeni neuronske mreze, pokrece se update - observer patern
-//
-//        iterationCounter++;
-//        if (iterationCounter % 10 == 0) {
-//            NeuralNetwork nnet = neuralNetAndDataSet.getNetwork();
-//
-//            nnet.pauseLearning();                             // pauza
-//            imagePlaying(nnet);                                  //  racunanje odgovora mreze i pozivanje crtanja
-//            nnet.resumeLearning();                            //  nastavak ucenja
-//        }
-//
-//     }
-
     public void train(NeuralNetwork nn)               // kada se pritisne train dugme na source panelu, logika dolazi do ovde
     {
-        //if (!trainingSet.isEmpty()) trainingSet.clear();
         trainingSet = inputSpacePanel.getTrain();            //  izvlaci se training set sa tackama ulaza i izlaza iz inputSpacePanela, nije moglo drugacije
         neuralNetwork = nn;  //sp.getNet();                  // mreza je dosla iz sourcePanela koji i poziva ovu metodu
 
@@ -250,23 +231,23 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
         neuralNetwork.getLearningRule().addListener(this);              // dodaje se observer na mrezu i pri njenoj promeni poziva se metoda update u ovoj klasi
 //        neuralNetwork.addObserver(this);
 
-        trainingController.setLmsParams(sourcePanel.getLearningRate(),sourcePanel.getMaxError(), sourcePanel.getMaxIteration());
+        trainingController.setLmsParams(controllsPanel.getLearningRate(),controllsPanel.getMaxError(), controllsPanel.getMaxIteration());
 
         LMS learningRule = (LMS) this.neuralNetAndDataSet.getNetwork().getLearningRule();
 
 		if (learningRule instanceof MomentumBackpropagation) {
-			((MomentumBackpropagation)learningRule).setMomentum(sourcePanel.getMomentum());
+			((MomentumBackpropagation)learningRule).setMomentum(controllsPanel.getMomentum());
 		}
 
             viewManager.openTrainingMonitorWindow(this.neuralNetAndDataSet);
 
             GraphFrameTopComponent graphFrame = viewManager.openErrorGraphFrame();
-            graphFrame.observe(learningRule);
+            graphFrame.setTrainingController(trainingController);
 
             NeurophProjectFilesFactory.getDefault().createNeuralNetworkFile(neuralNetwork);
-            NeurophProjectFilesFactory.getDefault().createTrainingSetFile(trainingSet);
+            NeurophProjectFilesFactory.getDefault().createTrainingSetFile(trainingSet);            
             
-            trainingController.train();                // pocetak treniranja mreze
+            graphFrame.observe(learningRule);
     }
 
     public void stop()             // zaustavljanje treniranja pozvano iz source panela
@@ -370,7 +351,7 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
                             // ovde ispisati sta se radi u slucaju greske
                             //sourcePanel.setJtfMultylayer("ERROR");
                             JOptionPane.showMessageDialog(MultiLayerPerceptronSampleTopComponent.this, "GRESKA! NEDOZVOLJENA AKCIJA");
-                            sourcePanel.clear();
+                            controllsPanel.clear();
                             return;
                       }
                     System.out.println("1");
@@ -414,18 +395,18 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
                                     i++;
 
                                  }
-                                 sourcePanel.setJtfMultylayer(midleLayers);
+                                 controllsPanel.setJtfMultylayer(midleLayers);
 
                                  //crtanje
                                  imagePlaying(dropNetwork);
 
                                  //ovde treba ostale podatke izvuci
-                                 sourcePanel.setJTFs("", "", "");
+                                 controllsPanel.setJTFs("", "", "");
                              }
                              else{
                                  //sourcePanel.setJtfMultylayer("ERROR");
                                  JOptionPane.showMessageDialog(MultiLayerPerceptronSampleTopComponent.this, "Error! MREZA MORA BITI 2 X 1");
-                                 sourcePanel.clear();}
+                                 controllsPanel.clear();}
 
 
                      } else if (data instanceof DataSet) {

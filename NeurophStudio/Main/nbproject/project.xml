@@ -159,6 +159,10 @@
                 <package>org.neuroph.netbeans.main.easyneurons.dialog</package>
                 <package>org.neuroph.netbeans.main.easyneurons.errorgraph</package>
                 <package>org.neuroph.netbeans.main.easyneurons.file</package>
+                <package>org.neuroph.netbeans.main.easyneurons.samples</package>
+                <package>org.neuroph.netbeans.main.easyneurons.samples.mlperceptron</package>
+                <package>org.neuroph.netbeans.main.easyneurons.samples.perceptron</package>
+                <package>org.neuroph.netbeans.main.easyneurons.view</package>
             </public-packages>
             <class-path-extension>
                 <runtime-relative-path>ext/org-netbeans-lib-profiler-ui.jar</runtime-relative-path>
