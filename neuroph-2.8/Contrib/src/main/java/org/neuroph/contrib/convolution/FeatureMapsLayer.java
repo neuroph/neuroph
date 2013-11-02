@@ -6,55 +6,57 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.exceptions.NeurophException;
 
-
 /**
- * This class represents an array of 2 dimensional layers (Layer2D instances) 
+ * This class represents an array of 2 dimensional layers (Layer2D instances)
  * and it is base class for Convolution and Pooling layers.
  * 
  * @author Boris Fulurija
  * @author Zoran Sevarac
  */
-public class FeatureMapsLayer extends Layer {
+public abstract class FeatureMapsLayer extends Layer {
+
 
 	private static final long serialVersionUID = -6706741997689639209L;
-        
-        /**
-         * Kernel used for all 2D layers (feature maps)
-         */
+
+	/**
+	 * Kernel used for all 2D layers (feature maps)
+	 */
 	protected Kernel kernel;
 
-        /**
-         * Dimension for all 2D layers (feature maps)
-         */
-        protected Layer2D.Dimension mapDimension;        
-        
-        /**
-         * Array of feature maps (instances of Layer2D)
-         */
-        private Layer2D[] featureMaps;        
+	/**
+	 * Dimension for all 2D layers (feature maps)
+	 */
+	protected Layer2D.Dimension mapDimension;
 
+	/**
+	 * Array of feature maps (instances of Layer2D)
+	 */
+	private Layer2D[] featureMaps;
 
-        
 	public FeatureMapsLayer(Kernel kernel) {
 		this.kernel = kernel;
 		featureMaps = new Layer2D[0];
-	}        
-        
-        /**
-         * 
-         * @param kernel kernel used for all feature maps in this layer
-         * @param mapDimension mapDimension of feature maps  in this layer
-         */
-	public FeatureMapsLayer(Kernel kernel,  Layer2D.Dimension dimension) {
+	}
+
+	/**
+	 * 
+	 * @param kernel
+	 *            kernel used for all feature maps in this layer
+	 * @param inputDimension
+	 *            mapDimension of feature maps in this layer
+	 */
+	public FeatureMapsLayer(Kernel kernel, Layer2D.Dimension dimension) {
 		this.mapDimension = dimension;
 		this.kernel = kernel;
 		featureMaps = new Layer2D[0];
 	}
 
-        /**
-         * Adds feature map (2d layer) to this layer 
-         * @param featureMap to add
-         */
+	/**
+	 * Adds feature map (2d layer) to this layer
+	 * 
+	 * @param featureMap
+	 *            to add
+	 */
 	public void addFeatureMap(Layer2D featureMap) {
 		if (featureMap == null) {
 			throw new NeurophException("FeatureMap cant be null!");
@@ -62,8 +64,7 @@ public class FeatureMapsLayer extends Layer {
 		featureMaps = Arrays.copyOf(featureMaps, featureMaps.length + 1);
 		featureMaps[featureMaps.length - 1] = featureMap;
 
-		
-		//Copy map to the existing container!!!
+		// Copy map to the existing container!!!
 		int totalNeuronCount = 0;
 		for (Layer2D map : featureMaps)
 			totalNeuronCount += map.getNeuronsCount();
@@ -111,10 +112,10 @@ public class FeatureMapsLayer extends Layer {
 		return kernel;
 	}
 
-	public  Layer2D.Dimension getDimension() {
+	public Layer2D.Dimension getDimension() {
 		return mapDimension;
 	}
-
-        
+	
+	public abstract void connectMaps(Layer2D fromMap, Layer2D toMap);
 
 }

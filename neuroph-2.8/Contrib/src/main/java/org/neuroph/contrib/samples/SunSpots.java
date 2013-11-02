@@ -268,7 +268,6 @@ public class SunSpots implements LearningEventListener {
 		sunspot.run();
 	}
 
-    @Override
     public void handleLearningEvent(LearningEvent event) {
 		SupervisedLearning rule = (SupervisedLearning)event.getSource();
 		System.out.println( "Training, Network Epoch " + rule.getCurrentIteration() + ", Error:" + rule.getTotalNetworkError());

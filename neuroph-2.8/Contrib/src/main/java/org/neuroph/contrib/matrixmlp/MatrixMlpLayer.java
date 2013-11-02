@@ -168,7 +168,6 @@ public class MatrixMlpLayer implements MatrixLayer {
     }
 
 
-    @Override
     final public void calculate() {
         this.inputs = previousLayer.getOutputs();
        	for (int i = 0; i < neuronsCount; i++) {

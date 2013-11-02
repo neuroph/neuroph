@@ -31,4 +31,9 @@ public class InputMapsLayer extends FeatureMapsLayer {
         addFeatureMap(featureMap);
     }
 
+	@Override
+	public void connectMaps(Layer2D fromMap, Layer2D toMap) {
+		throw new UnsupportedOperationException("Input layer can't have previous layer!");
+	}
+
 }

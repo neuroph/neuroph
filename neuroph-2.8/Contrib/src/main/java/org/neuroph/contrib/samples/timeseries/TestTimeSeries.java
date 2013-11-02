@@ -71,7 +71,6 @@ public class TestTimeSeries implements LearningEventListener {
 //		System.out.println( "Training, Network Epoch " + rule.getCurrentIteration() + ", Error:" + rule.getTotalNetworkError());
 //	}
 
-    @Override
     public void handleLearningEvent(LearningEvent event) {
 		SupervisedLearning rule = (SupervisedLearning)event.getSource();
 		System.out.println( "Training, Network Epoch " + rule.getCurrentIteration() + ", Error:" + rule.getTotalNetworkError());

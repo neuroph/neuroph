@@ -29,10 +29,16 @@ public class CNNTestUtil {
 		return neurons;
 	}
 
-	public static void fillFeatureMap(Layer2D featureMap, List<? extends Neuron> neurons) {
+	public static void fillFeatureMapWithNeurons(Layer2D featureMap, double neuronValue) {
+		int numberOfNeurons = featureMap.getWidth() * featureMap.getHeight();
+		List<Neuron> neurons = CNNTestUtil.createNeurons(numberOfNeurons, neuronValue);
 		for (Neuron neuron : neurons) {
 			featureMap.addNeuron(neuron);
 		}
+	}
+
+	public static void fillFeatureMapWithNeurons(Layer2D featureMap) {
+		fillFeatureMapWithNeurons(featureMap, 0);
 	}
 
 }
