@@ -50,9 +50,8 @@ public class MNISTLoadingService {
 
 		ByteArrayOutputStream labelBuffer = new ByteArrayOutputStream();
 		ByteArrayOutputStream imageBuffer = new ByteArrayOutputStream();
-
-		InputStream labelInputStream = new FileInputStream(new File(labelFileName));
-		InputStream imageInputStream = new FileInputStream(new File(imageFileName));
+		InputStream labelInputStream = MNISTLoader.class.getResourceAsStream(labelFileName);
+		InputStream imageInputStream = MNISTLoader.class.getResourceAsStream(imageFileName);
 
 		int read;
 		byte[] buffer = new byte[16384];

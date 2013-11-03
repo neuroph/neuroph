@@ -13,9 +13,9 @@ public class MNISTLoader {
 	private static String TEST_LABEL_NAME = "t10k-labels.idx1-ubyte";
 	private static String TEST_IMAGE_NAME = "t10k-images.idx3-ubyte";
 
-	public static DataSet loadTrainSet(String path, int sampleCount) throws IOException {
-		path = createValidPath(path);
-		List<MNISTImage> trainImages = getTrainDataSet(path);
+	public static DataSet loadTrainSet(int sampleCount) throws IOException {
+		// path = createValidPath(path);
+		List<MNISTImage> trainImages = getTrainDataSet();
 		DataSet trainSet = crateDataSet(trainImages, sampleCount);
 		return trainSet;
 	}
@@ -27,24 +27,24 @@ public class MNISTLoader {
 		return path;
 	}
 
-	public static DataSet loadTestSet(String path, int sampleCount) throws IOException {
-		path = createValidPath(path);
-		List<MNISTImage> testImages = getTestDataSet(path);
+	public static DataSet loadTestSet(int sampleCount) throws IOException {
+		// path = createValidPath(path);
+		List<MNISTImage> testImages = getTestDataSet();
 		DataSet testSet = crateDataSet(testImages, sampleCount);
 		return testSet;
 	}
 
-	private static List<MNISTImage> getTrainDataSet(String path) throws IOException {
-		String labelPath = path + TRAIN_LABEL_NAME;
-		String imagePath = path + TRAIN_IMAGE_NAME;
+	private static List<MNISTImage> getTrainDataSet() throws IOException {
+		String labelPath = "/" + TRAIN_LABEL_NAME;
+		String imagePath = "/" + TRAIN_IMAGE_NAME;
 		MNISTLoadingService db = new MNISTLoadingService(labelPath, imagePath);
 		List<MNISTImage> imageList = db.loadDigitImages();
 		return imageList;
 	}
 
-	private static List<MNISTImage> getTestDataSet(String path) throws IOException {
-		String labelPath = path + TEST_LABEL_NAME;
-		String imagePath = path + TEST_IMAGE_NAME;
+	private static List<MNISTImage> getTestDataSet() throws IOException {
+		String labelPath = "/" + TEST_LABEL_NAME;
+		String imagePath = "/" + TEST_IMAGE_NAME;
 		MNISTLoadingService db = new MNISTLoadingService(labelPath, imagePath);
 		List<MNISTImage> imageList = db.loadDigitImages();
 		return imageList;
