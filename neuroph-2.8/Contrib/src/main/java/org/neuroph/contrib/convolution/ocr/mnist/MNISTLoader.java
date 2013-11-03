@@ -21,8 +21,8 @@ public class MNISTLoader {
 	}
 
 	private static String createValidPath(String path) {
-		if (path.charAt(path.length() - 1) != '\\') {
-			path += "\\";
+		if (path.charAt(path.length() - 1) != '/') {
+			path += "/";
 		}
 		return path;
 	}

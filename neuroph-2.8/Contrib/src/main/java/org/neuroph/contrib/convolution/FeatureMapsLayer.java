@@ -84,6 +84,13 @@ public abstract class FeatureMapsLayer extends Layer {
 		return featureMaps[index];
 	}
 
+        public void setFeatureMaps(Layer2D[] featureMaps) {
+            this.featureMaps = featureMaps;
+        }
+        
+        
+        
+
 	public int getNumberOfMaps() {
 		return featureMaps.length;
 	}
