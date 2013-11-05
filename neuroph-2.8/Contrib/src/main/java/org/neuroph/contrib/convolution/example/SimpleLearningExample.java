@@ -33,10 +33,10 @@ public class SimpleLearningExample {
 		// method
 		ConvolutionLayer convolutionLayer = new ConvolutionLayer(inputLayer, convolutionKernel);
 		// create and add two feature maps to convolution layer
-		Layer2D featureMap1 = new Layer2D(convolutionLayer.getDimension(), ConvolutionLayer.neuronProperties); // neuron
+		Layer2D featureMap1 = new Layer2D(convolutionLayer.getDimension(), ConvolutionLayer.DEFAULT_NEURON_PROP); // neuron
 		// properties
 		convolutionLayer.addFeatureMap(featureMap1);
-		Layer2D featureMap2 = new Layer2D(convolutionLayer.getDimension(), ConvolutionLayer.neuronProperties); // neuron
+		Layer2D featureMap2 = new Layer2D(convolutionLayer.getDimension(), ConvolutionLayer.DEFAULT_NEURON_PROP); // neuron
 		// properties
 		convolutionLayer.addFeatureMap(featureMap2);
 

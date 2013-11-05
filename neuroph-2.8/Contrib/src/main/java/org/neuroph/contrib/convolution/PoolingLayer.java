@@ -10,13 +10,13 @@ import org.neuroph.util.NeuronProperties;
 public class PoolingLayer extends FeatureMapsLayer {
 
 	private static final long serialVersionUID = -6771501759374920877L;
-
-	public static NeuronProperties neuronProperties = new NeuronProperties();
+        
+        public static final  NeuronProperties DEFAULT_NEURON_PROP = new NeuronProperties();
 
 	static {
-		neuronProperties.setProperty("useBias", false);
-		neuronProperties.setProperty("transferFunction", Linear.class);
-		neuronProperties.setProperty("inputFunction", Max.class);
+		DEFAULT_NEURON_PROP.setProperty("useBias", false);
+		DEFAULT_NEURON_PROP.setProperty("transferFunction", Linear.class);
+		DEFAULT_NEURON_PROP.setProperty("inputFunction", Max.class);
 	}
 
 	public PoolingLayer(FeatureMapsLayer fromLayer, Kernel kernel) {

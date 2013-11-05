@@ -80,10 +80,16 @@ public abstract class FeatureMapsLayer extends Layer {
 
 	}
 
+        /**
+         * Retruns feature map (Layer2D) at specified index
+         * @param index index of feature map
+         * @return feature map (Layer2D) at specified index
+         */
 	public Layer2D getFeatureMap(int index) {
 		return featureMaps[index];
 	}
 
+        
         public void setFeatureMaps(Layer2D[] featureMaps) {
             this.featureMaps = featureMaps;
         }

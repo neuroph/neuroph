@@ -11,12 +11,12 @@ public class ConvolutionLayer extends FeatureMapsLayer {
 
 	private static final long serialVersionUID = -4619196904153707871L;
 
-	public static NeuronProperties neuronProperties = new NeuronProperties();
+	public static final  NeuronProperties DEFAULT_NEURON_PROP = new NeuronProperties();
 
 	static {
-		neuronProperties.setProperty("useBias", true);
-		neuronProperties.setProperty("transferFunction", TransferFunctionType.SIGMOID);
-		neuronProperties.setProperty("inputFunction", WeightedSum.class);
+		DEFAULT_NEURON_PROP.setProperty("useBias", true);
+		DEFAULT_NEURON_PROP.setProperty("transferFunction", TransferFunctionType.SIGMOID);
+		DEFAULT_NEURON_PROP.setProperty("inputFunction", WeightedSum.class);
 	}
 
 	public ConvolutionLayer(FeatureMapsLayer fromLayer, Kernel kernel) {
@@ -62,7 +62,7 @@ public class ConvolutionLayer extends FeatureMapsLayer {
 
 	// for (int i = 0; i < mapDimension.getHeight() * mapDimension.getWidth();
 	// i++) {
-	// Neuron neuron = NeuronFactory.createNeuron(neuronProperties);
+	// Neuron neuron = NeuronFactory.createNeuron(DEFAULT_NEURON_PROP);
 	// addNeuron(neuron);
 	// }
 	// }

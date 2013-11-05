@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import org.neuroph.contrib.convolution.ConvolutionLayer;
 import org.neuroph.contrib.convolution.ConvolutionNeuralNetwork;
 import org.neuroph.contrib.convolution.ConvolutionUtils;
+import static org.neuroph.contrib.convolution.ConvolutionUtils.connectFeatureMaps;
 import org.neuroph.contrib.convolution.FeatureMapsLayer;
 import org.neuroph.contrib.convolution.InputMapsLayer;
 import org.neuroph.contrib.convolution.Kernel;
@@ -27,14 +28,50 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import org.neuroph.core.events.LearningEvent;
+import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.nnet.comp.neuron.BiasNeuron;
+import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.LayerFactory;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
 
+/**
+ * Konvolucioni parametri
+ * 
+ * Globalna arhitektura: Konvolucioni i pooling lejeri - naizmenicno (samo konvolucioni ili naizmenicno konvolccioni pooling)
+ * Za svaki lajer da ima svoj kernel (mogu svi konvolucioni da imaju isti kernel, ili svi pooling isti kernel)
+ * da mogu da zadaju neuron properties (transfer funkciju) za konvolucioni i pooling lejer(input)
+ * Konektovanje lejera? - po defaultu full connect (ostaviti api za custom konekcije)
+ * 
+ * addFeatureMaps...
+ * connectFeatureMaps
+ * 
+ * Helper utility klasa...
+ * 
+ * Osnovni kriterijumi:
+ * 1. Jednostavno kreiranje default neuronske mreze
+ * 2. Laka customizacija i kreiranje custom arhitektura: konvolucionih i pooling lejera i transfer/input funkcija
+ * Napraviti prvo API i ond aprilagodti kod
+ * 
+ * @author zoran
+ */
+
+
 public class OCRExample {
+    
+        static class LearningListener implements LearningEventListener {
+
+            public void handleLearningEvent(LearningEvent event) {
+                BackPropagation bp = (BackPropagation)event.getSource();
+                System.out.println("Current iteration: "+bp.getCurrentIteration());
+                System.out.println("Error: "+bp.getTotalNetworkError());
+            }
+            
+        }
+    
 
 	public static void main(String[] args) {
 		try {
@@ -42,6 +79,8 @@ public class OCRExample {
 			DataSet trainSet = MNISTLoader.loadTrainSet(1000);
 			DataSet testSet = MNISTLoader.loadTestSet(100);
 
+                        LearningListener listener = new LearningListener();
+                        
 			ConvolutionNeuralNetwork cnn = new ConvolutionNeuralNetwork();
 
 			Layer2D.Dimension mapSize = new Layer2D.Dimension(28, 28);
@@ -50,10 +89,10 @@ public class OCRExample {
 
 			InputMapsLayer inputLayer = new InputMapsLayer(mapSize);
 			ConvolutionLayer convolutionLayer1 = new ConvolutionLayer(inputLayer, convolutionKernel);
-			FeatureMapsLayer poolingLayer1 = new PoolingLayer(convolutionLayer1, poolingKernel);
-			FeatureMapsLayer convolutionLayer2 = new ConvolutionLayer(poolingLayer1, convolutionKernel);
-			FeatureMapsLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel);
-			FeatureMapsLayer convolutionLayer3 = new ConvolutionLayer(poolingLayer2, new Kernel(4, 4));
+			PoolingLayer poolingLayer1 = new PoolingLayer(convolutionLayer1, poolingKernel);
+			ConvolutionLayer convolutionLayer2 = new ConvolutionLayer(poolingLayer1, convolutionKernel);
+			PoolingLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel);
+			ConvolutionLayer convolutionLayer3 = new ConvolutionLayer(poolingLayer2, new Kernel(4, 4));
 
 			cnn.addLayer(inputLayer);
 			cnn.addLayer(convolutionLayer1);
@@ -62,6 +101,7 @@ public class OCRExample {
 			cnn.addLayer(poolingLayer2);
 			cnn.addLayer(convolutionLayer3);
 
+                        addFeatureMaps(inputLayer, 1);
 			addFeatureMaps(convolutionLayer1, 6);
 			addFeatureMaps(poolingLayer1, 6);
 			addFeatureMaps(convolutionLayer2, 16);
@@ -85,13 +125,9 @@ public class OCRExample {
 			neuronProperties.setProperty("transferFunction", TransferFunctionType.SIGMOID);
 			neuronProperties.setProperty("inputFunction", WeightedSum.class);
 
-			Layer outputLayer = LayerFactory.createLayer(10, neuronProperties); // this
-																				// this
-																				// shpuld
-																				// be
-																				// map
-																				// layer?
-			cnn.addLayer(outputLayer);
+			Layer outputLayer = new Layer(10, neuronProperties);
+
+                        cnn.addLayer(outputLayer);
 			fullConnect(convolutionLayer3, outputLayer, true);
 
 			cnn.setInputNeurons(inputLayer.getNeurons());
@@ -101,6 +137,10 @@ public class OCRExample {
 			cnn.getLearningRule().setLearningRate(0.05);
 			cnn.getLearningRule().setMaxIterations(20);
 
+                        
+                        cnn.getLearningRule().addListener(listener);
+                        
+                        
 			long start = System.currentTimeMillis();
 			cnn.learn(trainSet);
 			System.out.println((System.currentTimeMillis() - start) / 1000.0);
@@ -142,9 +182,9 @@ public class OCRExample {
 			// hiddenLayer.getNeuronProperties());
 			Layer2D featureMap;
 			if (hiddenLayer instanceof ConvolutionLayer) {
-				featureMap = new Layer2D(hiddenLayer.getDimension(), ConvolutionLayer.neuronProperties);
+				featureMap = new Layer2D(hiddenLayer.getDimension(), ConvolutionLayer.DEFAULT_NEURON_PROP);
 			} else {
-				featureMap = new Layer2D(hiddenLayer.getDimension(), PoolingLayer.neuronProperties);
+				featureMap = new Layer2D(hiddenLayer.getDimension(), PoolingLayer.DEFAULT_NEURON_PROP);
 			}
 			hiddenLayer.addFeatureMap(featureMap);
 		}

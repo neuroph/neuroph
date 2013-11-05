@@ -146,7 +146,7 @@ public class ConvolutionUtils {
 	 *            TODO: use Layer2D objects here
 	 */
 	public static void connectFeatureMaps(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer,
-			int fromFeatureMapIndex, int toFeatureMapIndex) {
+		int fromFeatureMapIndex, int toFeatureMapIndex) {
 		Layer2D fromMap = fromLayer.getFeatureMap(fromFeatureMapIndex);
 		Layer2D toMap = toLayer.getFeatureMap(toFeatureMapIndex);
 		// Kernel kernel = toLayer.getKernel();
