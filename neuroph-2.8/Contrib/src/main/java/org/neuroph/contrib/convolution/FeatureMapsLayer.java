@@ -1,3 +1,19 @@
+/**
+ * Copyright 2013 Neuroph Project http://neuroph.sourceforge.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.neuroph.contrib.convolution;
 
 import java.util.Arrays;
@@ -5,16 +21,21 @@ import java.util.Arrays;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.exceptions.NeurophException;
+import org.neuroph.util.NeuronProperties;
 
 /**
- * This class represents an array of 2 dimensional layers (Layer2D instances)
- * and it is base class for Convolution and Pooling layers.
- * 
+ * This class represents an array of feature maps which are 2 dimensional layers
+ * (Layer2D instances) and it is base class for Convolution and Pooling layers, 
+ * which are used in ConvolutionalNetwork
+ *
  * @author Boris Fulurija
  * @author Zoran Sevarac
+ * 
+ * @see ConvolutionalLayer
+ * @see PoolingLayer
+ * @see ConvolutionalNetwork
  */
-public abstract class FeatureMapsLayer extends Layer {
-
+public class FeatureMapsLayer extends Layer {
 
 	private static final long serialVersionUID = -6706741997689639209L;
 
@@ -24,38 +45,60 @@ public abstract class FeatureMapsLayer extends Layer {
 	protected Kernel kernel;
 
 	/**
-	 * Dimension for all 2D layers (feature maps)
+	 * Dimensions for all 2D layers (feature maps)
 	 */
-	protected Layer2D.Dimension mapDimension;
+	protected Layer2D.Dimensions mapDimensions;
 
 	/**
 	 * Array of feature maps (instances of Layer2D)
 	 */
 	private Layer2D[] featureMaps;
 
+        /**
+         * Creates a new empty feature maps layer with specified kernel
+         * @param kernel kernel to use for all feature maps
+         */
 	public FeatureMapsLayer(Kernel kernel) {
 		this.kernel = kernel;
-		featureMaps = new Layer2D[0];
+		this.featureMaps = new Layer2D[0];
 	}
 
 	/**
-	 * 
-	 * @param kernel
+	 * Creates a new empty feature maps layer with specified kernel and 
+         * feature map dimensions.
+         * 
+	 * @param kernel 
 	 *            kernel used for all feature maps in this layer
-	 * @param inputDimension
-	 *            mapDimension of feature maps in this layer
+	 * @param mapDimensions
+	 *            mapDimensions of feature maps in this layer
 	 */
-	public FeatureMapsLayer(Kernel kernel, Layer2D.Dimension dimension) {
-		this.mapDimension = dimension;
+	public FeatureMapsLayer(Kernel kernel, Layer2D.Dimensions mapDimensions) {
 		this.kernel = kernel;
-		featureMaps = new Layer2D[0];
+                this.mapDimensions = mapDimensions;		
+		this.featureMaps = new Layer2D[0];
 	}
+                
+        /**
+         * Creates new feature maps layer with specified kernel and feature maps.
+         * Also creates feature maps and neurons in feature maps;
+         * 
+         * @param kernel kernel used for all feature maps in this layer
+         * @param mapDimensions mapDimensions of feature maps in this layer
+         * @param mapCount number of feature maps
+         * @param neuronProp properties for neurons in feature maps
+         */
+	public FeatureMapsLayer(Kernel kernel, Layer2D.Dimensions mapDimensions, int mapCount, NeuronProperties neuronProp) {
+                this.kernel = kernel;	
+                this.mapDimensions = mapDimensions;
+                this.featureMaps = new Layer2D[0];
+		createFeatureMaps(mapCount, this.mapDimensions, neuronProp);
+	}        
 
+        
 	/**
-	 * Adds feature map (2d layer) to this layer
+	 * Adds a feature map (2d layer) to this feature map layer
 	 * 
-	 * @param featureMap
-	 *            to add
+	 * @param featureMap feature map to add
 	 */
 	public void addFeatureMap(Layer2D featureMap) {
 		if (featureMap == null) {
@@ -79,33 +122,53 @@ public abstract class FeatureMapsLayer extends Layer {
 		neurons = allNeurons;
 
 	}
+        
+        /**
+         * Creates and adds specifed number of feature maps to this layer
+         * @param mapCount number of feature maps to create
+         * @param dimensions feature map dimensions
+         * @param neuronProperties properties of neurons in feature maps
+         */        
+        protected final void createFeatureMaps(int mapCount, Layer2D.Dimensions dimensions , NeuronProperties neuronProperties) {           
+            for (int i = 0; i < mapCount; i++) {
+                addFeatureMap( new Layer2D(dimensions, neuronProperties) );
+            }            
+        }          
 
         /**
-         * Retruns feature map (Layer2D) at specified index
+         * Returns feature map (Layer2D) at specified index
          * @param index index of feature map
-         * @return feature map (Layer2D) at specified index
+         * 
+         * @return feature map (Layer2D instance) at specified index
          */
 	public Layer2D getFeatureMap(int index) {
 		return featureMaps[index];
 	}
-
-        
-        public void setFeatureMaps(Layer2D[] featureMaps) {
-            this.featureMaps = featureMaps;
-        }
-        
-        
-        
-
+           
+        /**
+         * Returns number of feature maps in this layer
+         * @return number of feature maps in this layer
+         */
 	public int getNumberOfMaps() {
 		return featureMaps.length;
 	}
 
+        /**
+         * Returns neuron instance at specified (x, y) position at specified feature map layer
+         * @param x neuron's x position
+         * @param y neuron's y position
+         * @param mapIndex feature map index
+         * @return neuron at specified (x, y, map) position
+         */
 	public Neuron getNeuronAt(int x, int y, int mapIndex) {
 		Layer2D map = featureMaps[mapIndex];
 		return map.getNeuronAt(x, y);
 	}
 
+        /**
+         * Returns total number of neurons in all feature maps
+         * @return total number of neurons in all feature maps
+         */
 	@Override
 	public int getNeuronsCount() {
 		int neuronCount = 0;
@@ -114,6 +177,9 @@ public abstract class FeatureMapsLayer extends Layer {
 		return neuronCount;
 	}
 
+        /**
+         * Calculates this layer (all feature maps)
+         */
 	@Override
 	public void calculate() {
 		for (Layer2D map : featureMaps) {
@@ -121,14 +187,31 @@ public abstract class FeatureMapsLayer extends Layer {
 		}
 	}
 
+        /**
+         * Returns kernel used by all feature maps in this layer
+         * @return kernel used by all feature maps in this layer
+         */
 	public Kernel getKernel() {
 		return kernel;
 	}
 
-	public Layer2D.Dimension getDimension() {
-		return mapDimension;
+        /**
+         * Returns dimensions of feature maps in this layer
+         * @return dimensions of feature maps in this layer
+         */
+	public Layer2D.Dimensions getMapDimensions() {
+		return mapDimensions;
 	}
-	
-	public abstract void connectMaps(Layer2D fromMap, Layer2D toMap);
+        
+       
+	/**
+         * Creates connections between two feature maps. It does nothing here,
+         * connectivity patterns are defined by subclasses...
+         * Maybe it should be even removed from here...
+         * 
+         * @param fromMap
+         * @param toMap 
+         */
+	public void connectMaps(Layer2D fromMap, Layer2D toMap) {};
 
 }

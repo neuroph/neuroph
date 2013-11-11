@@ -12,16 +12,15 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
-import org.neuroph.contrib.convolution.ConvolutionLayer;
-import org.neuroph.contrib.convolution.ConvolutionNeuralNetwork;
-import org.neuroph.contrib.convolution.ConvolutionUtils;
-import static org.neuroph.contrib.convolution.ConvolutionUtils.connectFeatureMaps;
+import org.neuroph.contrib.convolution.ConvolutionalLayer;
+import org.neuroph.contrib.convolution.ConvolutionalNetwork;
+import org.neuroph.contrib.convolution.ConvolutionalUtils;
 import org.neuroph.contrib.convolution.FeatureMapsLayer;
 import org.neuroph.contrib.convolution.InputMapsLayer;
 import org.neuroph.contrib.convolution.Kernel;
 import org.neuroph.contrib.convolution.Layer2D;
 import org.neuroph.contrib.convolution.PoolingLayer;
-import org.neuroph.contrib.convolution.learning.ConvolutionBackpropagation;
+import org.neuroph.contrib.convolution.learning.ConvolutionalBackpropagation;
 import org.neuroph.contrib.convolution.util.ModelMetric;
 import org.neuroph.contrib.convolution.util.WeightVisualiser;
 import org.neuroph.core.Layer;
@@ -34,7 +33,6 @@ import org.neuroph.core.input.WeightedSum;
 import org.neuroph.nnet.comp.neuron.BiasNeuron;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.util.ConnectionFactory;
-import org.neuroph.util.LayerFactory;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
 
@@ -55,6 +53,18 @@ import org.neuroph.util.TransferFunctionType;
  * 1. Jednostavno kreiranje default neuronske mreze
  * 2. Laka customizacija i kreiranje custom arhitektura: konvolucionih i pooling lejera i transfer/input funkcija
  * Napraviti prvo API i ond aprilagodti kod
+ * 
+ * ------------------------
+ * 
+ * promeniti nacin kreiranja i dodavanja feature maps layera
+ * resiti InputMaps Layer, overridovana metoda koja baca unsupported exception ukazuje da nesto nije u redu sa dizajnom
+ * Da li imamo potrebe za klasom kernel  - to je isto kao i dimension?
+ * 
+ * zasto je public abstract void connectMaps apstraktna? (u klasi FeatureMapsLayer)
+ * 
+ * InputMapsLayer konstruktoru superklase prosledjuje null...
+ * 
+ * fullConectMapLayers
  * 
  * @author zoran
  */
@@ -81,44 +91,34 @@ public class OCRExample {
 
                         LearningListener listener = new LearningListener();
                         
-			ConvolutionNeuralNetwork cnn = new ConvolutionNeuralNetwork();
+			ConvolutionalNetwork convolutionalNet = new ConvolutionalNetwork();
 
-			Layer2D.Dimension mapSize = new Layer2D.Dimension(28, 28);
+			Layer2D.Dimensions inputMapSize = new Layer2D.Dimensions(28, 28);
 			Kernel convolutionKernel = new Kernel(5, 5);
 			Kernel poolingKernel = new Kernel(2, 2);
 
-			InputMapsLayer inputLayer = new InputMapsLayer(mapSize);
-			ConvolutionLayer convolutionLayer1 = new ConvolutionLayer(inputLayer, convolutionKernel);
-			PoolingLayer poolingLayer1 = new PoolingLayer(convolutionLayer1, poolingKernel);
-			ConvolutionLayer convolutionLayer2 = new ConvolutionLayer(poolingLayer1, convolutionKernel);
-			PoolingLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel);
-			ConvolutionLayer convolutionLayer3 = new ConvolutionLayer(poolingLayer2, new Kernel(4, 4));
-
-			cnn.addLayer(inputLayer);
-			cnn.addLayer(convolutionLayer1);
-			cnn.addLayer(poolingLayer1);
-			cnn.addLayer(convolutionLayer2);
-			cnn.addLayer(poolingLayer2);
-			cnn.addLayer(convolutionLayer3);
-
-                        addFeatureMaps(inputLayer, 1);
-			addFeatureMaps(convolutionLayer1, 6);
-			addFeatureMaps(poolingLayer1, 6);
-			addFeatureMaps(convolutionLayer2, 16);
-			addFeatureMaps(poolingLayer2, 16);
-			addFeatureMaps(convolutionLayer3, 120);
-
-			System.out.println(convolutionLayer1.getDimension());
-			System.out.println(poolingLayer1.getDimension());
-			System.out.println(convolutionLayer2.getDimension());
-			System.out.println(poolingLayer2.getDimension());
-			System.out.println(convolutionLayer3.getDimension());
-
-			ConvolutionUtils.fullConectMapLayers(inputLayer, convolutionLayer1);
-			ConvolutionUtils.fullConectMapLayers(convolutionLayer1, poolingLayer1);
-			ConvolutionUtils.fullConectMapLayers(poolingLayer1, convolutionLayer2);
-			ConvolutionUtils.fullConectMapLayers(convolutionLayer2, poolingLayer2);
-			ConvolutionUtils.fullConectMapLayers(poolingLayer2, convolutionLayer3);
+			InputMapsLayer inputLayer = new InputMapsLayer(inputMapSize, 1);                                               
+                        // just add number of maps to this constructor, and provide constructors with neuronProperties
+			ConvolutionalLayer convolutionLayer1 = new ConvolutionalLayer(inputLayer, convolutionKernel, 6);
+			PoolingLayer poolingLayer1 = new PoolingLayer(convolutionLayer1, poolingKernel, 6);
+			ConvolutionalLayer convolutionLayer2 = new ConvolutionalLayer(poolingLayer1, convolutionKernel, 16);
+			PoolingLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel, 16);
+			ConvolutionalLayer convolutionLayer3 = new ConvolutionalLayer(poolingLayer2, new Kernel(4, 4), 120);
+                                        
+			convolutionalNet.addLayer(inputLayer);
+			convolutionalNet.addLayer(convolutionLayer1);
+			convolutionalNet.addLayer(poolingLayer1);
+			convolutionalNet.addLayer(convolutionLayer2);
+			convolutionalNet.addLayer(poolingLayer2);
+			convolutionalNet.addLayer(convolutionLayer3);
+                       
+                        // ostaje pitanje kako elegantno resiti povezivanje
+                        // mozda da layeri imaju metode za povezivanje sa prethodnim
+			ConvolutionalUtils.fullConectMapLayers(inputLayer, convolutionLayer1);
+			ConvolutionalUtils.fullConectMapLayers(convolutionLayer1, poolingLayer1);
+			ConvolutionalUtils.fullConectMapLayers(poolingLayer1, convolutionLayer2);
+			ConvolutionalUtils.fullConectMapLayers(convolutionLayer2, poolingLayer2);
+			ConvolutionalUtils.fullConectMapLayers(poolingLayer2, convolutionLayer3);
 
 			NeuronProperties neuronProperties = new NeuronProperties();
 			neuronProperties.setProperty("useBias", true);
@@ -127,28 +127,33 @@ public class OCRExample {
 
 			Layer outputLayer = new Layer(10, neuronProperties);
 
-                        cnn.addLayer(outputLayer);
+                        convolutionalNet.addLayer(outputLayer);
 			fullConnect(convolutionLayer3, outputLayer, true);
 
-			cnn.setInputNeurons(inputLayer.getNeurons());
-			cnn.setOutputNeurons(outputLayer.getNeurons());
+                        // this should be set by default
+			convolutionalNet.setInputNeurons(inputLayer.getNeurons());
+			convolutionalNet.setOutputNeurons(outputLayer.getNeurons());
 
-			cnn.setLearningRule(new ConvolutionBackpropagation());
-			cnn.getLearningRule().setLearningRate(0.05);
-			cnn.getLearningRule().setMaxIterations(20);
-
+			convolutionalNet.setLearningRule(new ConvolutionalBackpropagation());
+			convolutionalNet.getLearningRule().setLearningRate(0.05);
+			convolutionalNet.getLearningRule().setMaxIterations(20);
                         
-                        cnn.getLearningRule().addListener(listener);
+                        convolutionalNet.getLearningRule().addListener(listener);
+                        
+                        //----------------------------------------------------------------------
+                        
+			System.out.println(convolutionLayer1.getMapDimensions());
+			System.out.println(poolingLayer1.getMapDimensions());
+			System.out.println(convolutionLayer2.getMapDimensions());
+			System.out.println(poolingLayer2.getMapDimensions());
+			System.out.println(convolutionLayer3.getMapDimensions());                        
                         
                         
 			long start = System.currentTimeMillis();
-			cnn.learn(trainSet);
+			convolutionalNet.learn(trainSet);
 			System.out.println((System.currentTimeMillis() - start) / 1000.0);
-			ModelMetric.calculateModelMetric(cnn, testSet);
-			// for (Connection conn :
-			// poolingLayer1.getNeurons()[0].getInputConnections())
-			// System.out.println(conn.getWeight().getValue());
-			// test(cnn, testSet);
+			ModelMetric.calculateModelMetric(convolutionalNet, testSet);
+
 
 			WeightVisualiser visualiser1 = new WeightVisualiser(convolutionLayer1.getFeatureMap(0), convolutionKernel);
 			visualiser1.displayWeights();
@@ -176,20 +181,22 @@ public class OCRExample {
 	// Ovde definitivno ima smisla kreirati metodu getNeuronPrope().
 	// Bilo bi dobro kreirati sledeci konstruktor za Layer 2D
 	// Layer2D(FeatureMapsLayer topContainer)
-	private static void addFeatureMaps(FeatureMapsLayer hiddenLayer, int mapCount) {
-		for (int i = 0; i < mapCount; i++) {
-			// Layer2D featureMap = new Layer2D(hiddenLayer.getDimension(),
-			// hiddenLayer.getNeuronProperties());
-			Layer2D featureMap;
-			if (hiddenLayer instanceof ConvolutionLayer) {
-				featureMap = new Layer2D(hiddenLayer.getDimension(), ConvolutionLayer.DEFAULT_NEURON_PROP);
-			} else {
-				featureMap = new Layer2D(hiddenLayer.getDimension(), PoolingLayer.DEFAULT_NEURON_PROP);
-			}
-			hiddenLayer.addFeatureMap(featureMap);
-		}
-
-	}
+//	private static void addFeatureMaps(FeatureMapsLayer hiddenLayer, int mapCount) {
+//		for (int i = 0; i < mapCount; i++) {
+//			// Layer2D featureMap = new Layer2D(hiddenLayer.getMapDimensions(),
+//			// hiddenLayer.getNeuronProperties());
+//			Layer2D featureMap;
+//			if (hiddenLayer instanceof ConvolutionalLayer) {
+//				featureMap = new Layer2D(hiddenLayer.getMapDimensions(), ConvolutionalLayer.DEFAULT_NEURON_PROP);
+//			} else {
+//				featureMap = new Layer2D(hiddenLayer.getMapDimensions(), PoolingLayer.DEFAULT_NEURON_PROP);
+//			}
+//			hiddenLayer.addFeatureMap(featureMap);
+//		}
+//
+//	}
+        
+       
 
 	public static void saveImage(Layer2D outMap) throws IOException {
 		BufferedImage finalImage = new BufferedImage(outMap.getWidth(), outMap.getHeight(),
@@ -208,7 +215,7 @@ public class OCRExample {
 
 	}
 
-	public static void test(ConvolutionNeuralNetwork cnn, DataSet testSet) {
+	public static void test(ConvolutionalNetwork cnn, DataSet testSet) {
 		double sum = 0;
 		for (DataSetRow testSetRow : testSet.getRows()) {
 			cnn.setInput(testSetRow.getInput());

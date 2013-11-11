@@ -1,8 +1,8 @@
 package org.neuroph.contrib.convolution.example;
 
-import org.neuroph.contrib.convolution.ConvolutionLayer;
-import org.neuroph.contrib.convolution.ConvolutionNeuralNetwork;
-import org.neuroph.contrib.convolution.ConvolutionUtils;
+import org.neuroph.contrib.convolution.ConvolutionalLayer;
+import org.neuroph.contrib.convolution.ConvolutionalNetwork;
+import org.neuroph.contrib.convolution.ConvolutionalUtils;
 import org.neuroph.contrib.convolution.InputMapsLayer;
 import org.neuroph.contrib.convolution.Kernel;
 import org.neuroph.contrib.convolution.Layer2D;
@@ -15,28 +15,28 @@ import org.neuroph.util.NeuralNetworkFactory;
 public class SimpleLearningExample {
 
 	public static void testLearningOneLayer() {
-		ConvolutionNeuralNetwork convolutionNet = new ConvolutionNeuralNetwork();
-		convolutionNet.setLearningRule(new BackPropagation());
+		ConvolutionalNetwork convolutionNet = new ConvolutionalNetwork();
+		//convolutionNet.setLearningRule(new BackPropagation());
 
-		// all this should go to ConvolutionNeuralNetwork class
+		// all this should go to ConvolutionalNetwork class
 		// just provide methods for network properties specification or
 		// something...
 		Kernel convolutionKernel = new Kernel(5, 5);
 
 		// create input layer
-		Layer2D.Dimension inputDimension = new Layer2D.Dimension(5, 5);
-		InputMapsLayer inputLayer = new InputMapsLayer(inputDimension);
+		Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(5, 5);
+		InputMapsLayer inputLayer = new InputMapsLayer(inputDimension, 1);
 		// add input layer to network
 		convolutionNet.addLayer(inputLayer);
 
 		// create convolutional layer - use constructor instead of factory
 		// method
-		ConvolutionLayer convolutionLayer = new ConvolutionLayer(inputLayer, convolutionKernel);
+		ConvolutionalLayer convolutionLayer = new ConvolutionalLayer(inputLayer, convolutionKernel);
 		// create and add two feature maps to convolution layer
-		Layer2D featureMap1 = new Layer2D(convolutionLayer.getDimension(), ConvolutionLayer.DEFAULT_NEURON_PROP); // neuron
+		Layer2D featureMap1 = new Layer2D(convolutionLayer.getMapDimensions(), ConvolutionalLayer.DEFAULT_NEURON_PROP); // neuron
 		// properties
 		convolutionLayer.addFeatureMap(featureMap1);
-		Layer2D featureMap2 = new Layer2D(convolutionLayer.getDimension(), ConvolutionLayer.DEFAULT_NEURON_PROP); // neuron
+		Layer2D featureMap2 = new Layer2D(convolutionLayer.getMapDimensions(), ConvolutionalLayer.DEFAULT_NEURON_PROP); // neuron
 		// properties
 		convolutionLayer.addFeatureMap(featureMap2);
 
@@ -44,8 +44,8 @@ public class SimpleLearningExample {
 		convolutionNet.addLayer(convolutionLayer);
 
 		// connectFeatureMaps input and convolution layer
-		ConvolutionUtils.connectFeatureMaps(inputLayer, convolutionLayer, 0, 0);
-		ConvolutionUtils.connectFeatureMaps(inputLayer, convolutionLayer, 0, 1);
+		ConvolutionalUtils.connectFeatureMaps(inputLayer, convolutionLayer, 0, 0);
+		ConvolutionalUtils.connectFeatureMaps(inputLayer, convolutionLayer, 0, 1);
 
 		NeuralNetworkFactory.setDefaultIO(convolutionNet);
 

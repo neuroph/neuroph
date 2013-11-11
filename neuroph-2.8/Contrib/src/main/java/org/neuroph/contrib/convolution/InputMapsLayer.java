@@ -1,11 +1,23 @@
+/**
+ * Copyright 2013 Neuroph Project http://neuroph.sourceforge.net
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.neuroph.contrib.convolution;
 
-import static org.neuroph.contrib.convolution.PoolingLayer.DEFAULT_NEURON_PROP;
-import org.neuroph.core.Neuron;
-import org.neuroph.core.input.Max;
 import org.neuroph.core.transfer.Linear;
 import org.neuroph.nnet.comp.neuron.InputNeuron;
-import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
 
 /**
@@ -17,6 +29,9 @@ public class InputMapsLayer extends FeatureMapsLayer {
 
     private static final long serialVersionUID = -4982081431101626706L;
     
+    /**
+     * Default neuron properties for InputMapsLayer is InputNeuron with Linear transfer function 
+     */
     public static final  NeuronProperties DEFAULT_NEURON_PROP = new NeuronProperties();
 
     static {
@@ -25,25 +40,14 @@ public class InputMapsLayer extends FeatureMapsLayer {
     }
     
     
-    public InputMapsLayer( Layer2D.Dimension dimension) {
-        super(null, dimension);
-
-//        // create feature map for input neurons
-//        Layer2D featureMap = new Layer2D(dimension);
-//        
-//        // create input neurons and add them to feature map
-//      //  NeuronProperties neuronProperties = new NeuronProperties(InputNeuron.class, Linear.class);        
-//        for (int i = 0; i < dimension.getHeight() * dimension.getWidth(); i++) {
-//            Neuron neuron = NeuronFactory.createNeuron(InputMapsLayer.DEFAULT_NEURON_PROP);
-//            featureMap.addNeuron(neuron);
-//        }
-//        
-//        addFeatureMap(featureMap);
+    /**
+     * Create InputMapsLayer with specified number of maps with specified dimensions
+     * @param mapDimension dimensions of a single feature map
+     * @param mapCount  number of feature maps
+     */
+    public InputMapsLayer( Layer2D.Dimensions mapDimensions, int mapCount) {
+        super(null, mapDimensions, mapCount, InputMapsLayer.DEFAULT_NEURON_PROP );
     }
-
-	@Override
-	public void connectMaps(Layer2D fromMap, Layer2D toMap) {
-		throw new UnsupportedOperationException("Input layer can't have previous layer!");
-	}
-
+    
+    
 }
