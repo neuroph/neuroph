@@ -9,7 +9,7 @@ public class FeatureMapTest {
 
 	@Test
 	public void testEmptyFeatureMap() {
-		Layer2D.Dimension dimension = new Layer2D.Dimension(0, 0);
+		Layer2D.Dimensions dimension = new Layer2D.Dimensions(0, 0);
 		Layer2D featureMap = new Layer2D(dimension);
 		Assert.assertEquals(0, featureMap.getNeuronsCount());
 		Assert.assertEquals(0, featureMap.getHeight());
@@ -18,7 +18,7 @@ public class FeatureMapTest {
 
 	@Test
 	public void testFeatureMapWithOneNeuron() {
-		Layer2D.Dimension dimension = new Layer2D.Dimension(4, 3);
+		Layer2D.Dimensions dimension = new Layer2D.Dimensions(4, 3);
 		Layer2D featureMap = new Layer2D(dimension);
 		InputNeuron inputNeuron = new InputNeuron();
 		inputNeuron.setInput(1);
@@ -31,7 +31,7 @@ public class FeatureMapTest {
 
 	@Test
 	public void testFeatureMapWithManyNeurons() {
-		Layer2D.Dimension dimension = new Layer2D.Dimension(4, 3);
+		Layer2D.Dimensions dimension = new Layer2D.Dimensions(4, 3);
 		Layer2D featureMap = new Layer2D(dimension);
 		InputNeuron inputNeuron1 = new InputNeuron();
 		inputNeuron1.setInput(1);

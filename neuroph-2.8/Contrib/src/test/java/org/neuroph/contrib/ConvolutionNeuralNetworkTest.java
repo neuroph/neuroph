@@ -3,8 +3,8 @@ package org.neuroph.contrib;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.neuroph.contrib.convolution.ConvolutionLayer;
-import org.neuroph.contrib.convolution.ConvolutionNeuralNetwork;
+import org.neuroph.contrib.convolution.ConvolutionalLayer;
+import org.neuroph.contrib.convolution.ConvolutionalNetwork;
 import org.neuroph.contrib.convolution.FeatureMapsLayer;
 import org.neuroph.contrib.convolution.InputMapsLayer;
 import org.neuroph.contrib.convolution.Kernel;
@@ -15,17 +15,17 @@ import org.neuroph.nnet.comp.neuron.InputNeuron;
 
 public class ConvolutionNeuralNetworkTest {
 
-	ConvolutionNeuralNetwork network;
+	ConvolutionalNetwork network;
 	FeatureMapsLayer inputLayer;
 	Kernel kernel;
-	Layer2D.Dimension inputDimension;
+	Layer2D.Dimensions inputDimension;
 
 	@Before
 	public void setUp() {
-		network = new ConvolutionNeuralNetwork();
-		inputDimension = new Layer2D.Dimension(1, 1);
+		network = new ConvolutionalNetwork();
+		inputDimension = new Layer2D.Dimensions(1, 1);
 		kernel = new Kernel(1, 1);
-		inputLayer = new InputMapsLayer(inputDimension);
+		inputLayer = new InputMapsLayer(inputDimension, 1);
 	}
 
 	@Test
@@ -44,7 +44,7 @@ public class ConvolutionNeuralNetworkTest {
 
 	@Test
 	public void testCreateOneLayerWithOneFeatureMapWithManyNeurons() {
-		inputDimension = new Layer2D.Dimension(4, 4);
+		inputDimension = new Layer2D.Dimensions(4, 4);
 		Layer2D featureMap = new Layer2D(inputDimension);
 
 		CNNTestUtil.fillFeatureMapWithNeurons(featureMap);
@@ -60,7 +60,7 @@ public class ConvolutionNeuralNetworkTest {
 
 	@Test
 	public void testOutputValuesOneLayerOneFeatureMap() {
-		inputDimension = new Layer2D.Dimension(4, 4);
+		inputDimension = new Layer2D.Dimensions(4, 4);
 		Layer2D featureMap = new Layer2D(inputDimension);
 
 		double inputNeuronValue = 1;
@@ -95,7 +95,7 @@ public class ConvolutionNeuralNetworkTest {
 
 	@Test
 	public void testCreateOneLayerWithManyFeatureMapsWithManyNeurons() {
-		inputDimension = new Layer2D.Dimension(3, 5);
+		inputDimension = new Layer2D.Dimensions(3, 5);
 		Layer2D featureMap1 = new Layer2D(inputDimension);
 		Layer2D featureMap2 = new Layer2D(inputDimension);
 		InputNeuron inputNeuron1 = new InputNeuron();
@@ -122,7 +122,7 @@ public class ConvolutionNeuralNetworkTest {
 
 	@Test
 	public void testOutputValuesOneLayerManyFeatureMaps() {
-		inputDimension = new Layer2D.Dimension(3, 5);
+		inputDimension = new Layer2D.Dimensions(3, 5);
 		Layer2D featureMap1 = new Layer2D(inputDimension);
 		Layer2D featureMap2 = new Layer2D(inputDimension);
 		Layer2D featureMap3 = new Layer2D(inputDimension);
@@ -155,10 +155,10 @@ public class ConvolutionNeuralNetworkTest {
 
 	@Test
 	public void testMapLayerCreationWithOneMap() {
-		FeatureMapsLayer inputLayer = new InputMapsLayer(new Layer2D.Dimension(10, 10));
-		FeatureMapsLayer hiddenLayer1 = new ConvolutionLayer(inputLayer, new Kernel(5, 5));
+		FeatureMapsLayer inputLayer = new InputMapsLayer(new Layer2D.Dimensions(10, 10), 1);
+		FeatureMapsLayer hiddenLayer1 = new ConvolutionalLayer(inputLayer, new Kernel(5, 5));
 		FeatureMapsLayer hiddenLayer2 = new PoolingLayer(hiddenLayer1, new Kernel(2, 2));
-		FeatureMapsLayer outputLayer = new ConvolutionLayer(hiddenLayer2, new Kernel(3, 3));
+		FeatureMapsLayer outputLayer = new ConvolutionalLayer(hiddenLayer2, new Kernel(3, 3));
 
 //		ConvolutionUtils.addFeatureMap(inputLayer);
 //		ConvolutionUtils.addFeatureMap(hiddenLayer1);
@@ -173,10 +173,10 @@ public class ConvolutionNeuralNetworkTest {
 
 	@Test
 	public void testMapLayerCreationWithManyMaps() {
-		FeatureMapsLayer inputLayer = new InputMapsLayer(new Layer2D.Dimension(10, 10));
-		FeatureMapsLayer hiddenLayer1 = new ConvolutionLayer(inputLayer, new Kernel(5, 5));
+		FeatureMapsLayer inputLayer = new InputMapsLayer(new Layer2D.Dimensions(10, 10), 1);
+		FeatureMapsLayer hiddenLayer1 = new ConvolutionalLayer(inputLayer, new Kernel(5, 5));
 		FeatureMapsLayer hiddenLayer2 = new PoolingLayer(hiddenLayer1, new Kernel(2, 2));
-		FeatureMapsLayer outputLayer = new ConvolutionLayer(hiddenLayer2, new Kernel(3, 3));
+		FeatureMapsLayer outputLayer = new ConvolutionalLayer(hiddenLayer2, new Kernel(3, 3));
 		
 //		ConvolutionUtils.addFeatureMaps(inputLayer, 3);
 //		ConvolutionUtils.addFeatureMaps(hiddenLayer1, 3);

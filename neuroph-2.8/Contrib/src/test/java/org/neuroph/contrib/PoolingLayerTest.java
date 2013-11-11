@@ -6,7 +6,7 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.neuroph.contrib.convolution.ConvolutionUtils;
+import org.neuroph.contrib.convolution.ConvolutionalUtils;
 import org.neuroph.contrib.convolution.FeatureMapsLayer;
 import org.neuroph.contrib.convolution.InputMapsLayer;
 import org.neuroph.contrib.convolution.Kernel;
@@ -19,25 +19,25 @@ import org.neuroph.core.Weight;
 public class PoolingLayerTest {
 
 	FeatureMapsLayer inputLayer;
-	Layer2D.Dimension inputDimension;
+	Layer2D.Dimensions inputDimension;
 	Kernel kernel;
 
 	@Before
 	public void setUp() {
 		kernel = new Kernel(1, 1);
-		inputDimension = new Layer2D.Dimension(1, 1);
+		inputDimension = new Layer2D.Dimensions(1, 1);
 	}
 
 	@Test
 	public void testConnectTwoLayersWithOneFeatureMapOne2OneNeuronWithKernel1() {
 		// given
-		inputLayer = new InputMapsLayer(inputDimension);
+		inputLayer = new InputMapsLayer(inputDimension, 1);
 		FeatureMapsLayer hiddenLayer = new PoolingLayer(inputLayer, kernel);
-		Layer2D featureMap = new Layer2D(hiddenLayer.getDimension(), PoolingLayer.neuronProperties);
+		Layer2D featureMap = new Layer2D(hiddenLayer.getMapDimensions(), PoolingLayer.DEFAULT_NEURON_PROP);
 		hiddenLayer.addFeatureMap(featureMap);
 
 		// when
-		ConvolutionUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
+		ConvolutionalUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
 
 		// then
 		Neuron fromNeuron = inputLayer.getNeuronAt(0, 0, 0);
@@ -49,14 +49,14 @@ public class PoolingLayerTest {
 	public void testConnectTwoLayersWithOneFeatureMapFour2OneNeuronWithKernel3() {
 		// given
 		kernel = new Kernel(2, 2);
-		inputDimension = new Layer2D.Dimension(2, 2);
-		inputLayer = new InputMapsLayer(inputDimension);
+		inputDimension = new Layer2D.Dimensions(2, 2);
+		inputLayer = new InputMapsLayer(inputDimension, 1);
 		FeatureMapsLayer hiddenLayer = new PoolingLayer(inputLayer, kernel);
-		Layer2D featureMap = new Layer2D(hiddenLayer.getDimension(), PoolingLayer.neuronProperties);
+		Layer2D featureMap = new Layer2D(hiddenLayer.getMapDimensions(), PoolingLayer.DEFAULT_NEURON_PROP);
 		hiddenLayer.addFeatureMap(featureMap);
 
 		// when
-		ConvolutionUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
+		ConvolutionalUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
 
 		//then
 		Neuron pooledNeuron = hiddenLayer.getNeurons()[0];
@@ -74,24 +74,24 @@ public class PoolingLayerTest {
 	@Test
 	public void testPoolingTwoLayersWithOneFeatureMap() {
 		//given
-		inputDimension = new Layer2D.Dimension(4, 4);
+		inputDimension = new Layer2D.Dimensions(4, 4);
 		int kernelWidth = 2;
 		int kernelHeight = 2;
 		kernel = new Kernel(kernelWidth, kernelHeight);
 
-		inputLayer = new InputMapsLayer(inputDimension);
+		inputLayer = new InputMapsLayer(inputDimension, 1);
 		FeatureMapsLayer hiddenLayer = new PoolingLayer(inputLayer, kernel);
-		Layer2D featureMap = new Layer2D(hiddenLayer.getDimension(), PoolingLayer.neuronProperties);
+		Layer2D featureMap = new Layer2D(hiddenLayer.getMapDimensions(), PoolingLayer.DEFAULT_NEURON_PROP);
 		hiddenLayer.addFeatureMap(featureMap);
 
 		// when
-		ConvolutionUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
+		ConvolutionalUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
 
 		//then
 		Layer2D fromMap = inputLayer.getFeatureMap(0);
 		Layer2D toMap = hiddenLayer.getFeatureMap(0);
-		for (int x = 0; x < hiddenLayer.getDimension().getWidth(); x++) {
-			for (int y = 0; y < hiddenLayer.getDimension().getHeight(); y++) {
+		for (int x = 0; x < hiddenLayer.getMapDimensions().getWidth(); x++) {
+			for (int y = 0; y < hiddenLayer.getMapDimensions().getHeight(); y++) {
 				Neuron toNeuron = toMap.getNeuronAt(x, y);
 				for (int i = 0; i < toNeuron.getInputConnections().length; i++) {
 					int tempX = i % kernelWidth;

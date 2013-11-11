@@ -7,13 +7,13 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.neuroph.contrib.convolution.ConvolutionLayer;
-import org.neuroph.contrib.convolution.ConvolutionUtils;
+import org.neuroph.contrib.convolution.ConvolutionalLayer;
+import org.neuroph.contrib.convolution.ConvolutionalUtils;
 import org.neuroph.contrib.convolution.FeatureMapsLayer;
 import org.neuroph.contrib.convolution.InputMapsLayer;
 import org.neuroph.contrib.convolution.Kernel;
 import org.neuroph.contrib.convolution.Layer2D;
-import org.neuroph.contrib.convolution.Layer2D.Dimension;
+import org.neuroph.contrib.convolution.Layer2D.Dimensions;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
@@ -22,30 +22,30 @@ public class ConvolutionLayerTest {
 
 	FeatureMapsLayer inputLayer;
 	Kernel convolutionKernel;
-	Layer2D.Dimension inputDimension;
+	Layer2D.Dimensions inputDimension;
 	int inputMapIndex = 0;
 	int hiddenMapIndex = 0;
 
 	@Before
 	public void setUp() {
 		convolutionKernel = new Kernel(1, 1);
-		inputDimension = new Layer2D.Dimension(1, 1);
-		inputLayer = new InputMapsLayer(inputDimension);
+		inputDimension = new Layer2D.Dimensions(1, 1);
+		inputLayer = new InputMapsLayer(inputDimension, 1);
 	}
 
 	@Test
 	public void testConnectTwoLayersWithOneFeatureMapOne2OneNeuronWithKernel1() {
 		// given
 		convolutionKernel = new Kernel(1, 1);
-		inputLayer = new InputMapsLayer(inputDimension);
-		FeatureMapsLayer hiddenLayer = new ConvolutionLayer(inputLayer, convolutionKernel);
-		Layer2D hiddenFeatureMap = new Layer2D(hiddenLayer.getDimension(), ConvolutionLayer.neuronProperties);
+		inputLayer = new InputMapsLayer(inputDimension, 1);
+		FeatureMapsLayer hiddenLayer = new ConvolutionalLayer(inputLayer, convolutionKernel);
+		Layer2D hiddenFeatureMap = new Layer2D(hiddenLayer.getMapDimensions(), ConvolutionalLayer.DEFAULT_NEURON_PROP);
 		hiddenLayer.addFeatureMap(hiddenFeatureMap);
 
 		// when
 		int inputMapIndex = 0;
 		int hiddenMapIndex = 0;
-		ConvolutionUtils.connectFeatureMaps(inputLayer, hiddenLayer, inputMapIndex, hiddenMapIndex);
+		ConvolutionalUtils.connectFeatureMaps(inputLayer, hiddenLayer, inputMapIndex, hiddenMapIndex);
 
 		// then
 		int xCord = 0;
@@ -58,17 +58,17 @@ public class ConvolutionLayerTest {
 	@Test
 	public void testConnectTwoLayersWithOneFeatureMapFour2OneNeuronWithKernel3() {
 		// given
-		inputDimension = new Layer2D.Dimension(3, 3);
-		inputLayer = new InputMapsLayer(inputDimension);
+		inputDimension = new Layer2D.Dimensions(3, 3);
+		inputLayer = new InputMapsLayer(inputDimension, 1);
 		convolutionKernel = new Kernel(3, 3);
-		FeatureMapsLayer hiddenLayer = new ConvolutionLayer(inputLayer, convolutionKernel);
-		Layer2D hiddenFeatureMap = new Layer2D(hiddenLayer.getDimension());
+		FeatureMapsLayer hiddenLayer = new ConvolutionalLayer(inputLayer, convolutionKernel);
+		Layer2D hiddenFeatureMap = new Layer2D(hiddenLayer.getMapDimensions());
 
 		CNNTestUtil.fillFeatureMapWithNeurons(hiddenFeatureMap);
 		hiddenLayer.addFeatureMap(hiddenFeatureMap);
 
 		// when
-		ConvolutionUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
+		ConvolutionalUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
 
 		// then
 		Neuron[] hiddenNeurons = hiddenFeatureMap.getNeurons();
@@ -88,19 +88,19 @@ public class ConvolutionLayerTest {
 
 		// given
 		convolutionKernel = new Kernel(3, 3);
-		inputDimension = new Layer2D.Dimension(4, 4);
-		inputLayer = new InputMapsLayer(inputDimension);
-		FeatureMapsLayer hiddenLayer = new ConvolutionLayer(inputLayer, convolutionKernel);
-		Layer2D hiddenFeatureMap = new Layer2D(hiddenLayer.getDimension());
+		inputDimension = new Layer2D.Dimensions(4, 4);
+		inputLayer = new InputMapsLayer(inputDimension, 1);
+		FeatureMapsLayer hiddenLayer = new ConvolutionalLayer(inputLayer, convolutionKernel);
+		Layer2D hiddenFeatureMap = new Layer2D(hiddenLayer.getMapDimensions());
 
 		CNNTestUtil.fillFeatureMapWithNeurons(hiddenFeatureMap);
 		hiddenLayer.addFeatureMap(hiddenFeatureMap);
 
 		// when
-		ConvolutionUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
+		ConvolutionalUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
 
 		// then
-		Dimension hiddenDimension = hiddenLayer.getDimension();
+		Dimensions hiddenDimension = hiddenLayer.getMapDimensions();
 		Neuron[] hiddenNeurons = hiddenFeatureMap.getNeurons();
 
 		int existingNumberOfConnections = 0;
