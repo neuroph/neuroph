@@ -27,7 +27,7 @@ import org.neuroph.util.TransferFunctionType;
  * Convolutional layer is a special type of layer, used in convolutional neural
  * networks. It contains a collection of feature maps, default neuron settings
  * for convolutional layers, and method for creating connections to feature
- * maps.
+ * maps. The role of the convolutional layer is extaction of high level features.
  *
  * @author Boris Fulurija
  * @author Zoran Sevarac
@@ -109,6 +109,10 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
      * Creates connections with shared weights between two feature maps
      * Assumes that toMap is from Convolutional layer.
      * 
+     * Kernel is used as a sliding window, and kernel positions overlap. 
+     * Kernel is shifting right by  one position at a time.
+     * Neurons at the same kernel position share the same weights
+     * 
      * @param fromMap source feature map
      * @param toMap destination feature map
      */
@@ -124,14 +128,14 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
             weights[i] = weight;
         }
 
-        for (int x = 0; x < toMap.getWidth(); x++) {
+        for (int x = 0; x < toMap.getWidth(); x++) { // iterate all neurons by widthe and height in toMap
             for (int y = 0; y < toMap.getHeight(); y++) {
                 Neuron toNeuron = toMap.getNeuronAt(x, y);
-                for (int dy = 0; dy < kernel.getHeight(); dy++) {
+                for (int dy = 0; dy < kernel.getHeight(); dy++) { // iterate all kernel positions
                     for (int dx = 0; dx < kernel.getWidth(); dx++) {
-                        int fromX = x + dx;
-                        int fromY = y + dy;
-                        int currentWeightIndex = dx + dy * kernel.getHeight();
+                        int fromX = x + dx; // calculate the x position of the from neuron
+                        int fromY = y + dy; // calculate the y position of the from neuron
+                        int currentWeightIndex = dx + dy * kernel.getHeight(); // find the idx of the shared weight
                         Neuron fromNeuron = fromMap.getNeuronAt(fromX, fromY);
                         ConnectionFactory.createConnection(fromNeuron, toNeuron, weights[currentWeightIndex]);
                     }

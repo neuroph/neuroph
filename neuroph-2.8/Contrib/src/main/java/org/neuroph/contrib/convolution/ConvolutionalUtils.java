@@ -31,7 +31,7 @@ public class ConvolutionalUtils {
          */
 	public static void fullConectMapLayers(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer) {
 		// convolutional and pooling layers use different connectivity patterns
-            
+                // povezuje svaku mapu sa svakom u dva susedna feature map layera
                 if (toLayer instanceof ConvolutionalLayer) {
             		for (int i = 0; i < fromLayer.getNumberOfMaps(); i++) {
 				for (int j = 0; j < toLayer.getNumberOfMaps(); j++) {
@@ -40,6 +40,7 @@ public class ConvolutionalUtils {
                                     toLayer.connectMaps(fromMap, toMap);
 				}
 			}
+                  // direktna pvezanost - povezuje svaku feature mapu sa njoj odgovarajucom featre mapom u sledecem layeru      
 		} else if (toLayer instanceof PoolingLayer) { // we're connecting to Pooling layer
 			for (int i = 0; i < toLayer.getNumberOfMaps(); i++) {
                             Layer2D fromMap = fromLayer.getFeatureMap(i);

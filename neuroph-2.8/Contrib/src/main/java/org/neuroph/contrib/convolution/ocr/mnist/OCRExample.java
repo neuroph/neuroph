@@ -100,9 +100,9 @@ public class OCRExample {
 			InputMapsLayer inputLayer = new InputMapsLayer(inputMapSize, 1);                                               
                         // just add number of maps to this constructor, and provide constructors with neuronProperties
 			ConvolutionalLayer convolutionLayer1 = new ConvolutionalLayer(inputLayer, convolutionKernel, 6);
-			PoolingLayer poolingLayer1 = new PoolingLayer(convolutionLayer1, poolingKernel, 6);
+			PoolingLayer poolingLayer1 = new PoolingLayer(convolutionLayer1, poolingKernel);
 			ConvolutionalLayer convolutionLayer2 = new ConvolutionalLayer(poolingLayer1, convolutionKernel, 16);
-			PoolingLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel, 16);
+			PoolingLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel);
 			ConvolutionalLayer convolutionLayer3 = new ConvolutionalLayer(poolingLayer2, new Kernel(4, 4), 120);
                                         
 			convolutionalNet.addLayer(inputLayer);
