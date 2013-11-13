@@ -17,13 +17,14 @@ public class ConvolutionalBackpropagation extends BackPropagation {
 			for (Neuron neuron : layers[layerIdx].getNeurons()) {
 				double neuronError = this.calculateHiddenNeuronError(neuron);
 				neuron.setError(neuronError);
-				if (layers[layerIdx] instanceof ConvolutionalLayer) {
+				if (layers[layerIdx] instanceof ConvolutionalLayer) { // if it is convolutional layer c=adapt weughts, dont touch pooling. Pooling just propagate the error
 					this.updateNeuronWeights(neuron);
 				}
 			} // for
 		} // for
 	}
 
+        // why is thi seerror calculated this way. when many neurons update same weight
 	@Override
 	protected double calculateHiddenNeuronError(Neuron neuron) {
 		double totalError = super.calculateHiddenNeuronError(neuron);
