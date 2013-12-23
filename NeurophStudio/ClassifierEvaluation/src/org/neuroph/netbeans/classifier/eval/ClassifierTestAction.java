@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import org.goai.classification.samples.NeurophClassifierEvaluation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.openide.awt.ActionID;
@@ -53,8 +53,7 @@ public final class ClassifierTestAction implements ActionListener {
        } 
        
        evaluation.setClassNames(classNames);
-        //nacrtati grafik za test kalsifikatora po klasama koristeci GraphApi
-        evaluation.run();
+       evaluation.run();
         
        TestTopComponent.getDefault().output("Classifier evaluation results: \r\n"+evaluation.getEvaluationResults().toString());          
         ClassifierChartTopComponent tcc = new ClassifierChartTopComponent();
