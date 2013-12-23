@@ -23,7 +23,7 @@ import org.openide.windows.WindowManager;
 //import org.openide.util.ImageUtilities;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 
 import org.neuroph.netbeans.hwr.wiz.HWRUtil;
 import org.neuroph.netbeans.hwr.wiz.HWRecognitionManager;

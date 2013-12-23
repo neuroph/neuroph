@@ -8,7 +8,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -25,13 +24,11 @@ import org.openide.util.NbBundle;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ProxyLookup;
-import org.openide.windows.IOProvider;
-import org.openide.windows.InputOutput;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
 /**
- * Top component which displays Total MSE graph
+ * Top component which displays Real time Total MSE graph
  */
 @ConvertAsProperties(dtd = "-//org.neuroph.netbeans.main.easyneurons.errorgraph//GraphFrame//EN",
         autostore = false)
@@ -43,7 +40,7 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
      */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "GraphFrameTopComponent";
-    private static final String FILE_URL = "errorarray.txt";
+    public static final String FILE_BUFFER = "errorarray.txt";
     private volatile BufferedWriter buffWriter; // make this static?
     private static final long SLEEP_TIME = 10; // pause for drawing to make it run smoothly
     private static final int VALUES_LIMIT = 300; // this is time frame width - how many values displayed in one window frame
@@ -136,7 +133,7 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
 
         descriptor.addLineItems("Total MSE ");
         descriptor.setDetailsItems(new String[]{"Iteration", "Total Network Error"});
-        descriptor.setChartTitle("<html><font size='+1'><b>Network Error Graph</b></font></html>");
+        descriptor.setChartTitle("<html><font size='+1'><b>Total Network Error Graph</b></font></html>");
         descriptor.setXAxisDescription("<html>Iteration</html>");
         descriptor.setYAxisDescription("<html>Total Network Error</html>");
         chartSupport = ChartFactory.createSimpleXYChart(descriptor);
@@ -175,106 +172,42 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
 
     public void observe(LearningRule learningRule) {
 
-        File file = new File(FILE_URL);
-        if (file.exists()) {
-            file.delete();
+        File fileBuffer = new File(FILE_BUFFER);
+        if (fileBuffer.exists()) {
+            fileBuffer.delete();
         }
-        file = new File(FILE_URL);
+        fileBuffer = new File(FILE_BUFFER);
 
         try {
-            buffWriter = new BufferedWriter(new FileWriter(file)); // learning thread and GUI thread see different instances of this field
+            buffWriter = new BufferedWriter(new FileWriter(fileBuffer)); // learning thread and GUI thread see different instances of this field?
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
 
-
         buffer = new LearningInfoBuffer();
         drawingThread = new DrawingThread(buffer, chartSupport, buffWriter);
 
-
-        // openedChart = false; 
-        //     this.learningRule = learningRule;
-        learningRule.addListener(this); // trebalo bi otkaciti ovog listenera na kraju!!!
-
-
-//        drawingThread.setName("Drawing Thread");
+        learningRule.addListener(this); // trebalo bi otkaciti ovog listenera na kraju!!
         trainingController.train();
-//        trainingController.getNeuralNetAndDataSet().getNetwork().getLearningThread().setName("Learning Thread");
-
-//        drawingThread.start(); // ovaj startovati posle learning thread-a
-
     }
 
-    // verovatno neki wait i dalj eceka
-//    @Override
-//    public void  handleLearningEvent(LearningEvent le) {
-//       
-//        // if it is stop eent finalize learning...
-//        LMS lr = (LMS) le.getSource();   
-//     
-//        LearningInfo learningInfo = new LearningInfo(lr.getCurrentIteration(), lr.getTotalNetworkError());
-//        buffer.put(learningInfo);
-//        
-//        if (lr.isStopped()) {
-//            buffer.put(new LearningInfo(-1, -100.0));
-//            
-//            lr.removeListener(this);
-////            drawingThread.stop();
-////            drawingThread = null;
-////            lr.getNeuralNetwork().getLearningThread().stop();
-//            // ovaj put blokira learning thread... treba neki notify da ih oslobodi
-//            //buffer.releaseThreads();
-//        }
-//    }
     // note that this method is invoked from learning thread
     // when lerning thread is stoped buffreader becomes null1 why?
     // first time doesnt open, later opens two, it enters stop block 6 times - hows that possible?
     @Override
     public synchronized void handleLearningEvent(LearningEvent le) {
-
-//        if (buffWriter == null) {
-//            File file = new File(FILE_URL);
-//            try {
-//                buffWriter = new BufferedWriter(new FileWriter(file));
-//            } catch (IOException ex) {
-//                Exceptions.printStackTrace(ex);
-//            }
-//        }
-       
+     
         LMS lr = (LMS) le.getSource();
         if (le instanceof LearningStoppedEvent) {
                 finalizeFile(); // from some reason this is executed twice... - fixed! it was due the remaining listeners, now they are removed
-                openJFreeChartInAThread();                
                 lr.removeListener(this);
+                openJFreeChartInAThread();                                                
         } else {            
             LearningInfo learningInfo = new LearningInfo(lr.getCurrentIteration(), lr.getTotalNetworkError());
             // and put it on chart
             drawRealTimeChart(learningInfo);            
         }
         
-//        LMS lr = (LMS) le.getSource();
-//        boolean isStoped = lr.isStopped();
-//        // IsStopped true drugi put, eventualno treci
-//        if (!isStoped) { // if learning rule is running
-//            // get the learning info            
-//            LearningInfo learningInfo = new LearningInfo(lr.getCurrentIteration(), lr.getTotalNetworkError());
-//            // and put it on chart
-//            drawRealTimeChart(learningInfo);
-//        } else { // else if learning rule has stopped
-//            InputOutput io = IOProvider.getDefault().getIO("Neuroph", false);
-//            PrintWriter out = io.getOut();
-//            out.println("Entered handleLearningEvent after stop");
-//
-//            // when learning is stopped write the rest of data to file, and open chart for the whole training
-//
-//            if (!openedChart) {
-//                finalizeFile(); // from some reason this is executed twice...
-//                openJFreeChartInAThread();
-//            }
-//        }
-
- 
-
     }
     
     private void drawRealTimeChart( LearningInfo learningInfo ) {
@@ -331,7 +264,8 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    openJFreeChart();
+                    close();                    
+                    openJFreeChart();                    
                 }
             });
 

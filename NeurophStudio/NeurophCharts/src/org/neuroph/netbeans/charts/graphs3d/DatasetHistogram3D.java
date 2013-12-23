@@ -3,7 +3,7 @@ package org.neuroph.netbeans.charts.graphs3d;
 import org.jzy3d.chart.Chart;
 import org.jzy3d.colors.colormaps.ColorMapRainbow;
 import org.jzy3d.colors.colormaps.IColorMap;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.nugs.graph3d.JzyHistogram3DFactory;
 import org.nugs.graph3d.api.Histogram3DProperties;
 import org.nugs.graph3d.api.Histogram3DFactory;

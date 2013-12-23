@@ -1,9 +1,6 @@
 package org.neuroph.netbeans.properties;
 
 import java.beans.PropertyEditorSupport;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.LearningRule;
 
 /**

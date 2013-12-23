@@ -20,11 +20,8 @@ import org.openide.windows.WindowManager;
 @TopComponent.Description(preferredID = "JFreeChartTopComponent",
 persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
-@ActionID(category = "Window", id = "org.neuroph.netbeans.main.easyneurons.errorgraph.JFreeChartTopComponent")
-@ActionReference(path = "Menu/Window")
 @TopComponent.OpenActionRegistration(displayName = "#CTL_JFreeChartTopComponentAction")
 @Messages({
-    "CTL_JFreeChartTopComponentAction=Network Error Graph",
     "CTL_JFreeChartTopComponent=Total Network Error Graph",
     "HINT_JFreeChartTopComponent=This is a Total Network Error Graph for the whole training"
 })
@@ -33,7 +30,7 @@ public final class JFreeChartTopComponent extends TopComponent {
     private static JFreeChartTopComponent instance;
     private static final String PREFERRED_ID = "JFreeChartTopComponent";
     private BufferedReader br;
-    private static final String FILE_URL = "errorarray.txt";
+  //  private static final String FILE_URL = "errorarray.txt";
     int[] chartDataX;
     double[] chartDataY;
     Point2D[]points;
@@ -156,7 +153,7 @@ public final class JFreeChartTopComponent extends TopComponent {
 
         readChartDataFromFileBuffer();
 
-        Graph2DProperties prop = new Graph2DProperties("Network Error Graph", "Iteration", "Total network error");
+        Graph2DProperties prop = new Graph2DProperties("Total Network Error Graph", "Iteration", "Total network error");
         prop.setTooltipsVisible(true);
         
         LineChartFactory<ChartPanel> chart2DFactory = new JFreeLineChartFactory();
@@ -175,13 +172,13 @@ public final class JFreeChartTopComponent extends TopComponent {
 
         try {
             if (br == null) {
-                br = new BufferedReader(new FileReader(FILE_URL));
+                br = new BufferedReader(new FileReader(GraphFrameTopComponent.FILE_BUFFER));
             }
             String currentLine;
             int counter = 0;
 
             // Initialize arrays to number of lines in the file
-            LineNumberReader lnr = new LineNumberReader(new FileReader(FILE_URL));
+            LineNumberReader lnr = new LineNumberReader(new FileReader(GraphFrameTopComponent.FILE_BUFFER));
             lnr.skip(Long.MAX_VALUE);
             chartDataX = new int[lnr.getLineNumber()];
             chartDataY = new double[lnr.getLineNumber()];

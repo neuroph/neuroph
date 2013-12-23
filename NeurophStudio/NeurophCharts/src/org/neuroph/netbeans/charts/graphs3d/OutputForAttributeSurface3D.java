@@ -6,7 +6,7 @@ import org.jzy3d.colors.colormaps.IColorMap;
 import org.jzy3d.plot3d.builder.Mapper;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.nugs.graph3d.api.Point3D;
 import org.nugs.graph3d.JzySurface3DFactory;
 import org.nugs.graph3d.api.Surface3DFactory;

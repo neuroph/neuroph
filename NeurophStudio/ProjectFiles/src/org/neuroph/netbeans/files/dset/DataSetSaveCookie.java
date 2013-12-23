@@ -1,7 +1,7 @@
 package org.neuroph.netbeans.files.dset;
 
 import java.io.IOException;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.openide.cookies.SaveCookie;
 
 /**

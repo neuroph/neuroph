@@ -3,7 +3,7 @@ package org.neuroph.netbeans.charts.graphs2d;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import org.jfree.chart.ChartPanel;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.nugs.graph2d.JFreeLineChartFactory;
 import org.nugs.graph2d.api.Graph2DProperties;
 import org.nugs.graph2d.api.LineChartFactory;

@@ -3,8 +3,8 @@ package org.neuroph.netbeans.stock;
 import java.util.ArrayList;
 import java.util.List;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.TransferFunctionType;
 

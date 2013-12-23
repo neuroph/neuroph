@@ -167,13 +167,11 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
         trainingSet = new DataSet(2, 1); // why do we need this when we have ps param?
         this.pst = ps;
 
-
-         this.viewManager = ViewManager.getInstance();
+        this.viewManager = ViewManager.getInstance();
 
         inputSpacePanel = new InputSpacePanel();
         informationPanel = new InformationPanel();
         controllsPanel = new ControllsPanel(this);
-
 
         inputSpacePanel.setSize(570, 570);
         informationPanel.setSize(200, 50);
@@ -239,7 +237,7 @@ public final class MultiLayerPerceptronSampleTopComponent extends TopComponent i
 			((MomentumBackpropagation)learningRule).setMomentum(controllsPanel.getMomentum());
 		}
 
-            viewManager.openTrainingMonitorWindow(this.neuralNetAndDataSet);
+         //   viewManager.openTrainingMonitorWindow(this.neuralNetAndDataSet);
 
             GraphFrameTopComponent graphFrame = viewManager.openErrorGraphFrame();
             graphFrame.setTrainingController(trainingController);

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.jzy3d.chart.Chart;
 import org.jzy3d.colors.colormaps.IColorMap;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.nugs.graph2d.api.Attribute;
 import org.nugs.graph3d.MyColorMap;
 import org.nugs.graph3d.api.Point3D;

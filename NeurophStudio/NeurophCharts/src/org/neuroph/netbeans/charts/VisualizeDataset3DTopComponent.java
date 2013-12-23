@@ -1,8 +1,8 @@
 package org.neuroph.netbeans.charts;
 
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.nugs.graph2d.api.Attribute;
 import org.nugs.graph3d.Chart3DUtils;
 import org.nugs.graph3d.api.Point3D;

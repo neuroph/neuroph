@@ -2,14 +2,24 @@ package org.neuroph.netbeans.toolbar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.neuroph.dev.noprop.NoPropNet;
+import org.neuroph.dev.noprop.RangeNormalizer;
 import org.neuroph.netbeans.visual.TrainingController;
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingDialog;
+import org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSampleTopComponent;
+import org.neuroph.nnet.Adaline;
+import org.neuroph.nnet.MultiLayerPerceptron;
+import org.neuroph.nnet.NeuroFuzzyPerceptron;
+import org.neuroph.nnet.Perceptron;
+import org.neuroph.nnet.RbfNetwork;
+import org.neuroph.nnet.SupervisedHebbianNetwork;
 import org.neuroph.nnet.learning.DynamicBackPropagation;
 import org.neuroph.util.NeuralNetworkType;
+import org.neuroph.util.random.RangeRandomizer;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -63,38 +73,58 @@ public final class TrainToolbarAction implements ActionListener {
         if (neuralNetAndDataSet.getDataSet() != null) {
             neuralNetAndDataSet.setDataSet(neuralNetAndDataSet.getDataSet()); // ???????
 
-            NeuralNetworkType nnetType = neuralNetAndDataSet.getNetwork().getNetworkType();
+            //NeuralNetworkType nnetType = neuralNetAndDataSet.getNetwork().getNetworkType();
 
-            switch (nnetType) {
-                case ADALINE:
+            Class neuralNetClass = neuralNetAndDataSet.getNetwork().getClass();
+            
+            if (neuralNetClass.equals(Adaline.class) ||
+                neuralNetClass.equals(Perceptron.class) ||
+                neuralNetClass.equals(RbfNetwork.class) ||
+                neuralNetClass.equals(NeuroFuzzyPerceptron.class)) {
                     showLmsTrainingDialog();
-                    break;
-                case PERCEPTRON:
-                    showLmsTrainingDialog(); // perceptronTraining(); 
-                    break;
-                case MULTI_LAYER_PERCEPTRON:
-                    showMLPTrainingDialog();
-                    break;
-                case RBF_NETWORK:
-                    showLmsTrainingDialog(); // showRbfTrainingDialog 
-                    break;
-                case HOPFIELD:
-                    
-                    trainingController.train();
-                    break;
-                case KOHONEN: // KohonenTrainDlg(); 
-                    break;
-                case NEURO_FUZZY_REASONER:
-                    showLmsTrainingDialog();
-                    break;
-                case SUPERVISED_HEBBIAN_NET:
-                    showHebbianTrainingDialog();
-                    break;
-
-                default:
-                    trainingController.train();
-                    break;
-            } // switch
+            } else if (neuralNetClass.equals(MultiLayerPerceptron.class)) {
+                showMLPTrainingDialog();
+            } else if (neuralNetClass.equals(SupervisedHebbianNetwork.class)) {
+                showHebbianTrainingDialog();                        
+            } else if (neuralNetClass.equals(NoPropNet.class)) {
+                neuralNetAndDataSet.getNetwork().randomizeWeights(new RangeRandomizer(-1, 1));
+                neuralNetAndDataSet.getDataSet().normalize(new RangeNormalizer(-0.9, 0.9));
+                neuralNetAndDataSet.getDataSet().shuffle();
+                showLmsTrainingDialog();                        
+            } else {
+                trainingController.train();
+            }
+            
+//            switch (neuralNetClass) {
+//                case Adaline.class.toString():
+//                    showLmsTrainingDialog();
+//                    break;
+//                case PERCEPTRON:
+//                    showLmsTrainingDialog(); // perceptronTraining(); 
+//                    break;
+//                case MULTI_LAYER_PERCEPTRON:
+//                    showMLPTrainingDialog();
+//                    break;
+//                case RBF_NETWORK:
+//                    showLmsTrainingDialog(); // showRbfTrainingDialog 
+//                    break;
+//                case HOPFIELD:
+//                    
+//                    trainingController.train();
+//                    break;
+//                case KOHONEN: // KohonenTrainDlg(); 
+//                    break;
+//                case NEURO_FUZZY_REASONER:
+//                    showLmsTrainingDialog();
+//                    break;
+//                case SUPERVISED_HEBBIAN_NET:
+//                    showHebbianTrainingDialog();
+//                    break;
+//
+//                default:
+//                    trainingController.train();
+//                    break;
+//            } // switch
         }
     }
 

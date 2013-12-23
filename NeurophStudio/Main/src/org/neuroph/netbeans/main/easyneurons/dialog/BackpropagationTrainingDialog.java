@@ -610,9 +610,10 @@ public class BackpropagationTrainingDialog extends javax.swing.JDialog {
                 if (graphCheckBox.isSelected()) {
                     GraphFrameTopComponent graphFrame = viewManager.openErrorGraphFrame();
                     graphFrame.observe(learningRule);
+                } else {
+                    viewManager.openTrainingMonitorWindow(this.controller.getNeuralNetAndDataSet());
                 }
-
-                viewManager.openTrainingMonitorWindow(this.controller.getNeuralNetAndDataSet());
+                
 		controller.train();
 
 		this.dispose();

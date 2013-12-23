@@ -2,14 +2,12 @@ package org.neuroph.netbeans.charts;
 
 import org.jfree.chart.ChartPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.nugs.graph2d.api.Attribute;
-import org.neuroph.netbeans.charts.Bundle;
 import org.neuroph.netbeans.charts.graphs2d.Graph2DBuilder;
 import org.neuroph.netbeans.charts.graphs2d.DatasetScatter2D;
 import org.neuroph.netbeans.charts.graphs2d.DatasetSeries2D;
-import org.neuroph.netbeans.charts.Bundle;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.NbBundle.Messages;

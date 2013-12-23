@@ -23,6 +23,8 @@
                 <package>org.neuroph.core.learning.error</package>
                 <package>org.neuroph.core.learning.stop</package>
                 <package>org.neuroph.core.transfer</package>
+                <package>org.neuroph.dev.noprop</package>
+                <package>org.neuroph.dev.noprop.eval</package>
                 <package>org.neuroph.imgrec</package>
                 <package>org.neuroph.imgrec.image</package>
                 <package>org.neuroph.nnet</package>
@@ -44,6 +46,10 @@
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-ocr-2.8.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/neuroph-ocr-2.8.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/NoProp.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/NoProp.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-core-2.8.jar</runtime-relative-path>

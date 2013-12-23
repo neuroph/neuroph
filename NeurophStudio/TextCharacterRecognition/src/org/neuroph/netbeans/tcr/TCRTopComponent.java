@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.imgrec.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;

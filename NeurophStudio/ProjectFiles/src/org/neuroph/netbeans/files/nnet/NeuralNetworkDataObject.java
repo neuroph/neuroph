@@ -41,16 +41,13 @@ public class NeuralNetworkDataObject extends MultiDataObject {
         openSupport = new NeuralNetOpenSupport(getPrimaryEntry());        
         cookies.add((Node.Cookie) openSupport);      
         cookies.add(this);
-        loadData();
+        loadData();              
     }
 
     // creates node for projects window
     @Override
     protected Node createNodeDelegate() {
         DataNode node = new DataNode(this, Children.LEAF, getLookup());
-        node.setDisplayName(neuralNetwork.getLabel());        
-        node.setShortDescription("Neural network file");
-
         return node;
     }
 
@@ -90,4 +87,8 @@ public class NeuralNetworkDataObject extends MultiDataObject {
     public NeuralNetwork getNeuralNetwork() {
         return getLookup().lookup(NeuralNetwork.class);
     }
+    
+    
+    
+    
 }

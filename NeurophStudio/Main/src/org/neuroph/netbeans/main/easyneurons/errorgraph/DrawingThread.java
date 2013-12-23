@@ -24,14 +24,12 @@ public class DrawingThread extends Thread {
     long[] err = new long[1];
     boolean stop = false;
     private BufferedWriter buffWriter;
-    private static final String FILE_URL = "errorarray.txt";
 
     public DrawingThread(LearningInfoBuffer buffer, SimpleXYChartSupport chartSupport, BufferedWriter buffWriter) {
         this.buffer = buffer;
         this.chartSupport = chartSupport;
         this.buffWriter = buffWriter;   
     }
-
 
     @Override
     public void run() {

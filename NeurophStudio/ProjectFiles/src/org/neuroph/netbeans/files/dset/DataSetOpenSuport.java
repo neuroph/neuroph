@@ -1,6 +1,6 @@
 package org.neuroph.netbeans.files.dset;
 
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.main.easyneurons.DataSetTopComponent;
 import org.openide.cookies.CloseCookie;
 import org.openide.cookies.OpenCookie;

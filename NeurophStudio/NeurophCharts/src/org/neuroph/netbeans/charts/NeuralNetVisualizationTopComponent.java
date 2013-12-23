@@ -8,7 +8,7 @@ import org.jfree.chart.ChartPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.nugs.graph2d.JFreeLineChartFactory;
 import org.nugs.graph2d.api.Graph2DProperties;
 import org.nugs.graph2d.api.LineChartFactory;
@@ -20,12 +20,10 @@ import org.neuroph.netbeans.charts.graphs3d.Graph3DBuilder;
 import org.neuroph.netbeans.charts.graphs3d.OutputForAttributeSurface3D;
 import org.neuroph.netbeans.charts.graphs3d.OutputSurface3D;
 import org.nugs.graph2d.api.DataProvider2D;
-import org.neuroph.netbeans.charts.Bundle;
 import org.neuroph.netbeans.charts.providers2d.DatasetErrorDataProvider2D;
 import org.neuroph.netbeans.charts.providers2d.DatasetOutputDataProvider2D;
 import org.neuroph.netbeans.charts.providers2d.ErrorDataProvider2D;
 import org.neuroph.netbeans.charts.providers2d.OutputDataProvider2D;
-import org.neuroph.netbeans.charts.Bundle;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Lookup;
@@ -337,7 +335,7 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
         if (!c.isEmpty()) {
             dataset = (DataSet) c.iterator().next();
             datasetTextField.setEnabled(true);
-            datasetTextField.setText(dataset.toString());
+            datasetTextField.setText(dataset.getLabel());
             graphTypeCombo.removeAllItems();
             if (nnet != null && dataset != null) {
                 graphTypeCombo.addItem(new OutputSurface3D(nnet, dataset));

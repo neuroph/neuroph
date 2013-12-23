@@ -2,7 +2,7 @@ package org.neuroph.netbeans.files.dset;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.MIMEResolver;
 import org.openide.loaders.DataNode;
@@ -18,7 +18,7 @@ import org.openide.util.NbBundle;
 
 
  @NbBundle.Messages(
-    "DATA_SET_FILE=Neural Network File"
+    "DATA_SET_FILE=Data Set File"
  )
  @MIMEResolver.Registration(
    displayName="#DATA_SET_FILE",
@@ -49,8 +49,6 @@ public class DataSetDataObject extends MultiDataObject {
     @Override
     protected Node createNodeDelegate() {
         DataNode node = new DataNode(this, Children.LEAF, getLookup());
-        node.setDisplayName(dsFileObject.getName());
-        node.setShortDescription("Data set file");
         return node;
     }
 
@@ -59,7 +57,7 @@ public class DataSetDataObject extends MultiDataObject {
         return getCookieSet().getLookup();
     }
     
-    public void loadData() {
+    public final void loadData() {
         this.dataSet = readFromFile(dsFileObject);
         cookies.assign(DataSet.class, this.dataSet); // add data set to lookup
         

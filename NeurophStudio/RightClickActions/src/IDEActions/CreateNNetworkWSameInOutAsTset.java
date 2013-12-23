@@ -3,7 +3,7 @@ package IDEActions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.files.dset.DataSetDataObject;
 import org.neuroph.netbeans.wizards.*;
 import org.openide.DialogDisplayer;

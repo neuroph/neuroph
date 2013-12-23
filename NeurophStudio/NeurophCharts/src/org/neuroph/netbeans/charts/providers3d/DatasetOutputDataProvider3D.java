@@ -4,8 +4,8 @@ import org.nugs.graph3d.api.DataProvider3D;
 import java.util.List;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.nugs.graph2d.api.Attribute;
 import org.nugs.graph3d.api.Point3D;
 

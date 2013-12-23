@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.imr.utils;
 
 import java.awt.Component;
@@ -21,6 +17,7 @@ public class UtilWizardPanel2 implements WizardDescriptor.Panel {
     // is kept separate. This can be more efficient: if the wizard is created
     // but never displayed, or not all panels are displayed, it is better to
     // create only those which really need to be visible.
+    @Override
     public Component getComponent() {
         if (component == null) {
             component = new UtilVisualPanel2();
@@ -78,9 +75,11 @@ public class UtilWizardPanel2 implements WizardDescriptor.Panel {
     // settings object will be the WizardDescriptor, so you can use
     // WizardDescriptor.getProperty & putProperty to store information entered
     // by the user.
+    @Override
     public void readSettings(Object settings) {
     }
 
+    @Override
     public void storeSettings(Object settings) {
         WizardDescriptor wiz = (WizardDescriptor) settings;
         wiz.putProperty("networkName", component.getNetworkLabelField().getText());
