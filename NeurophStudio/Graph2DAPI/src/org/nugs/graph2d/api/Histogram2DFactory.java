@@ -1,7 +1,5 @@
 package org.nugs.graph2d.api;
 
-
-
 /**
  *
  * @author zoran

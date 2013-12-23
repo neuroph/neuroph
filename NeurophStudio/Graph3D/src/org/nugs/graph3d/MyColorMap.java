@@ -7,8 +7,8 @@ import java.util.List;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.IColorMappable;
 import org.jzy3d.colors.colormaps.IColorMap;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 
 /**
  *
