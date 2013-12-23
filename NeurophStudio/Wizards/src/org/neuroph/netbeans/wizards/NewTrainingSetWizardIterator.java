@@ -73,7 +73,7 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
         boolean cancelled = wizard.getValue() != WizardDescriptor.FINISH_OPTION;
         if (!cancelled) {
             NeurophProject project = (NeurophProject)wizard.getProperty("project");
-            CurrentProject.getInstance().setCurrentProject(project);
+            CurrentProject.getInstance().setCurrentProject(project);            
 //
 //            int inputs = Integer.parseInt((String) wizard.getProperty("input number"));
 //            int outputs = Integer.parseInt((String) wizard.getProperty("output number"));
