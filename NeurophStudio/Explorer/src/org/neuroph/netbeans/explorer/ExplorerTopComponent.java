@@ -9,7 +9,7 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.visual.widgets.NeuralLayerWidget;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;

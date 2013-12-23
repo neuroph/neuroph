@@ -1,7 +1,7 @@
 package org.neuroph.netbeans.explorer;
 
 import java.awt.Image;
-import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.data.DataSet;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.FilterNode.Children;
 import org.openide.nodes.PropertySupport;
