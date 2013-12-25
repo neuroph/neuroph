@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="org-neuroph-netbeans-imr-IMRAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.imr.ImgRecTestTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.imr.Bundle#CTL_IMRAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Window">
+            <file name="IMRAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-imr-IMRAction.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Templates">
+        <folder name="Neuroph">      
+            <file name="iMR">
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.imr.wiz.Bundle#Templates/Neuroph/iMR"/>
+                <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.imr.wiz.IMRWizardIterator"/>
+                <attr name="position" intvalue="225"/>
+                <attr name="template" boolvalue="true"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/imr/wiz/ImageRecognition.html"/>
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/imr/wiz/irIcon.png"/>
+            </file>
+        </folder>
+    </folder>    
+    
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="ImgRecTestTopComponent.settings" url="ImgRecTestTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="ImgRecTestTopComponent.wstcref" url="ImgRecTestTopComponentWstcref.xml"/>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>

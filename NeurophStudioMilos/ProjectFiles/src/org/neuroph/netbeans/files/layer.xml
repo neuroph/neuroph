@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <attr name="Templates\AWTForms\position" intvalue="1200"/>
+    <attr name="Templates\Beans\position" intvalue="1100"/>
+    <attr name="Templates\Classes\position" intvalue="900"/>
+    <attr name="Templates\GUIForms\position" intvalue="1000"/>
+    <attr name="Templates\JUnit\position" intvalue="1300"/>
+    <attr name="Templates\JWS\position" intvalue="100"/>
+    <attr name="Templates\Licenses\position" intvalue="1400"/>
+    <attr name="Templates\NetBeansModuleDevelopment-files\position" intvalue="400"/>
+    <attr name="Templates\NetBeansModuleDevelopment\position" intvalue="800"/>
+    <attr name="Templates\Neuroph\newTrainingSet\position" intvalue="200"/>
+    <attr name="Templates\Persistence\position" intvalue="1400"/>
+    <attr name="Templates\Privileged\position" intvalue="500"/>
+    <attr name="Templates\Properties\position" intvalue="1700"/>
+    <attr name="Templates\Recent\position" intvalue="700"/>
+    <attr name="Templates\XML\position" intvalue="1350"/>
+    <folder name="Actions">
+        <folder name="File">
+            <file name="org-openide-actions-SaveAction.instance">
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
+                <attr name="delegate" newvalue="org.openide.actions.SaveAction"/>
+                <attr name="selectionType" stringvalue="EXACTLY_ONE"/>
+                <attr name="surviveFocusChange" boolvalue="false"/>
+                <attr name="displayName" bundlevalue="org/openide/actions/Bundle#Save"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="iconBase" stringvalue="org/openide/resources/actions/save.png"/>
+                <attr name="type" stringvalue="org.openide.cookies.SaveCookie"/>
+            </file>
+        </folder>        
+        <folder name="BpelNodes"/>
+    </folder>
+    <file name="JSPPalette_hidden"/>
+    <folder name="Loaders">
+        <folder name="folder">
+            <folder name="any">
+                <folder name="Actions">
+                    <file name="CopyAction.shadow_hidden"/>
+                    <file name="CutAction.shadow_hidden"/>
+                    <file name="FindAction.shadow_hidden"/>
+                    <file name="PasteAction.shadow_hidden"/>
+                    <file name="Separator1.instance_hidden"/>
+                    <file name="ToolsAction.shadow_hidden"/>
+                </folder>
+            </folder>
+        </folder>
+        <folder name="text">
+            <folder name="x-nnet">
+                <folder name="Actions">
+                    <file name="org-openide-actions-CopyAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CopyAction.instance"/>
+                        <attr name="position" intvalue="400"/>
+                    </file>
+                    <file name="org-openide-actions-CutAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CutAction.instance"/>
+                        <attr name="position" intvalue="300"/>
+                    </file>
+                    <file name="org-openide-actions-DeleteAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-DeleteAction.instance"/>
+                        <attr name="position" intvalue="600"/>
+                    </file>
+                    <file name="org-openide-actions-FileSystemAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-FileSystemAction.instance"/>
+                        <attr name="position" intvalue="1100"/>
+                    </file>
+                    <file name="org-openide-actions-OpenAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-OpenAction.instance"/>
+                        <attr name="position" intvalue="100"/>
+                    </file>
+
+                    <file name="org-openide-actions-PropertiesAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-PropertiesAction.instance"/>
+                        <attr name="position" intvalue="1400"/>
+                    </file>
+                    <file name="org-openide-actions-RenameAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-RenameAction.instance"/>
+                        <attr name="position" intvalue="700"/>
+                    </file>
+                    <file name="sep-1.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="200"/>
+                    </file>
+                    <file name="sep-3.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="800"/>
+                    </file>
+                    <file name="sep-5.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="1200"/>
+                    </file>
+                </folder>
+                <folder name="Factories">
+                    <file name="NeuralNetworkDataLoader.instance">
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/files/nnet/neuralNetIcon.png"/>
+                        <attr name="dataObjectClass" stringvalue="org.neuroph.netbeans.files.nnet.NeuralNetworkDataObject"/>
+                        <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
+                        <attr name="mimeType" stringvalue="text/x-nnet"/>
+                    </file>
+                </folder>
+            </folder>
+            <folder name="x-tset">
+                <folder name="Actions">
+                    <file name="org-openide-actions-CopyAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CopyAction.instance"/>
+                        <attr name="position" intvalue="400"/>
+                    </file>
+                    <file name="org-openide-actions-CutAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CutAction.instance"/>
+                        <attr name="position" intvalue="300"/>
+                    </file>
+                    <file name="org-openide-actions-DeleteAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-DeleteAction.instance"/>
+                        <attr name="position" intvalue="600"/>
+                    </file>
+                    <file name="org-openide-actions-FileSystemAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-FileSystemAction.instance"/>
+                        <attr name="position" intvalue="1100"/>
+                    </file>
+                    <file name="org-openide-actions-PropertiesAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-PropertiesAction.instance"/>
+                        <attr name="position" intvalue="1400"/>
+                    </file>
+                    <file name="org-openide-actions-RenameAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-RenameAction.instance"/>
+                        <attr name="position" intvalue="700"/>
+                    </file>
+                    <file name="org-openide-actions-OpenAction.shadow">
+                        <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-OpenAction.instance"/>
+                        <attr name="position" intvalue="100"/>
+                    </file>
+                    <file name="sep-1.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="200"/>
+                    </file>
+                    <file name="sep-2.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="500"/>
+                    </file>
+                    <file name="sep-4.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="1000"/>
+                    </file>
+                    <file name="sep-5.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="1200"/>
+                    </file>
+                </folder>
+                <folder name="Factories">
+                    <file name="TrainingSetDataLoader.instance">
+                        <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/files/dset/iconTs.png"/>
+                        <attr name="dataObjectClass" stringvalue="org.neuroph.netbeans.files.dset.DataSetDataObject"/>
+                        <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
+                        <attr name="mimeType" stringvalue="text/x-tset"/>
+                    </file>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Menu">
+
+    <folder name="File">
+        <file name="SaveAction.shadow">
+            <attr name="originalFile" stringvalue="Actions/File/org-openide-actions-SaveAction.instance"/>
+            <attr name="position" intvalue="100"/>
+        </file>
+    </folder>
+            
+        
+        <file name="GoTo_hidden"/>
+        <folder name="Help">
+            <file name="Separator1.instance_hidden"/>
+            <file name="SeparatorAfterJavadoc.instance_hidden"/>
+            <file name="netbeans-kb.url_hidden"/>
+            <file name="org-netbeans-modules-autoupdate-ui-actions-CheckForUpdatesAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-bugzilla-ReportNBIssueAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-javadoc-search-IndexOverviewAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-javadoc-search-SearchDocAction.shadow_hidden"/>
+            <file name="shortcuts.xml_hidden"/>
+        </folder>
+        <file name="Profile_hidden"/>
+        <file name="Refactoring_hidden"/>
+        <file name="Source_hidden"/>
+        <folder name="Tools">
+            <file name="org-openide-actions-ToolsAction.shadow_hidden"/>
+        </folder>
+        <file name="Versioning_hidden"/>
+        <folder name="View">
+            <file name="org-netbeans-modules-versioning-core-ShowTextAnnotationsAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-versioning-ui-diff-ShowDiffSidebarAction.shadow_hidden"/>
+            <file name="toggle-non-printable-characters.shadow_hidden"/>
+            <file name="toggle-toolbar.shadow_hidden"/>
+        </folder>
+    </folder>
+
+    <folder name="Projects"/>
+
+    <folder name="Templates">
+
+        <file name="AWTForms_hidden"/>
+        <folder name="Neuroph">
+            <attr name="position" intvalue="-10"/>
+        </folder>
+        <folder name="JUnit">
+            <file name="JUnit3Suite.java_hidden"/>
+            <file name="JUnit3TestClass.java_hidden"/>
+        </folder>        
+        <folder name="Other">
+            <attr name="position" intvalue="1600"/>
+            <file name="CascadeStyleSheet.css_hidden"/>
+            <file name="EmptyYAML.yml_hidden"/>
+            <file name="JnlpTemplate.jnlp_hidden"/>
+            <file name="Project.xml_hidden"/>
+            <file name="SQLTemplate.sql_hidden"/>
+            <file name="html.html_hidden"/>
+            <file name="javascript.js_hidden"/>
+            <file name="json.json_hidden"/>
+            <file name="xhtml.xhtml_hidden"/>
+        </folder>
+        <file name="PHPUnit_hidden"/>
+        <file name="Persistence_hidden"/>
+        <folder name="Project">
+            <attr name="position" intvalue="600"/>
+            <file name="Maven2_hidden"/>
+  
+           </folder>
+        <file name="SaaSServices_hidden"/>
+        <file name="Scripting_hidden"/>
+        <file name="Services_hidden"/>
+        <file name="XML_hidden"/>
+    </folder>
+    <folder name="Toolbars">
+        <file name="Debugging.xml_hidden"/>
+        <folder name="File">
+            <file name="SaveAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-openide-actions-SaveAction.instance"/>
+                <attr name="position" intvalue="100"/>
+            </file>            
+            <file name="org-openide-actions-SaveAllAction.shadow_hidden"/>
+        </folder>
+        <file name="UndoRedo_hidden"/>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="navigatorTC.settings_hidden"/>
+            <file name="services.settings_hidden"/>
+        </folder>
+        <folder name="Modes">
+
+            <folder name="explorer"/>
+
+            <folder name="navigator">
+                <file name="GizmoIndicatorsTopComponent.wstcref_hidden"/>
+                <file name="JavaFXPreviewTopComponent.wstcref_hidden"/>
+                <file name="navigatorTC.wstcref_hidden"/>
+            </folder>
+
+        </folder>
+       
+    </folder>
+</filesystem>

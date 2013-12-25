@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.neuroph.netbeans.stock
+OpenIDE-Module-Layer: org/neuroph/netbeans/stock/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/neuroph/netbeans/stock/Bundle.properties
+OpenIDE-Module-Requires: org.openide.windows.WindowManager
+OpenIDE-Module-Specification-Version: 1.0
+

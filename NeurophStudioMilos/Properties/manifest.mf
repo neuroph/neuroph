@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.neuroph.netbeans.properties
+OpenIDE-Module-Layer: org/neuroph/netbeans/properties/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/neuroph/netbeans/properties/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

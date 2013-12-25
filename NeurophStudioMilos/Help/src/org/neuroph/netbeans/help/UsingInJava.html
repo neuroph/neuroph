@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Using Neural Networks in Java Code</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+<body style="font-family:Tahoma;font-size:11px;">
+
+	<h2>USING NEURAL NETWORKS IN JAVA CODE</h2>
+    <p>Neural networks trained and saved with easyNeurons can be easily used in your Java programs. You just need to import the Neuroph Library  neuroph.jar which is part of this distribution and do the following: <br>
+    </p>
+    <p>import org.neuroph.core.NeuralNetwork;<br>
+    import java.util.Vector;</p>
+    <p>/**<br>
+* This example shows how to load and use  neural network created and saved with easyNeurons <br>
+*/<br>
+    public class UseNeuralNetworkDemo {</p>
+    <blockquote>
+      <p> public static void main(String[] args) {</p>
+      <blockquote>
+        <p> // load neural network <br>
+          NeuralNetwork myNeuralNetwork = NeuralNetwork.load(&quot;mySamplePerceptron.nnet&quot;);<br>
+          // set network input<br>
+          myNeuralNetwork.setInput(1, 1); <br>
+          // calculate network<br>
+          myNeuralNetwork.calculate(); <br>
+          // get network output<br>
+        double[] networkOutput = myNeuralNetwork.getOutput(); </p>
+      </blockquote>
+      <p> }</p>
+</blockquote>
+  <p>}</p>
+  <p>&nbsp;</p>
+  <p>Also you can create, train and save neural network in Java code like this: </p>
+  <p>package org.neuroph.samples;</p>
+  <p>import org.neuroph.core.NeuralNetwork;<br>
+    import org.neuroph.nnet.Perceptron;<br>
+    import org.neuroph.core.data.DataSet;<br>
+    import org.neuroph.core.data.DataSetRow;<br>
+    </p>
+  <p>/**<br>
+    * This sample shows how to create, train, save and load simple Perceptron neural network <br>
+    */<br>
+    public class PerceptronSample {</p>
+  <blockquote>
+    <p> public static void main(String args[]) {</p>
+    <blockquote>
+      <p> // create training set (logical AND function)<br>
+       DataSet trainingSet = new DataSet(2, 1);<br>
+        trainingSet.addRow(new DataSetRow(new double[]{0, 0}, new double[]{0}));<br>
+        trainingSet.addRow(new DataSetRow(new double[]{0, 1}, new double[]{0}));<br>
+        trainingSet.addRow(new DataSetRow(new double[]{1, 0}, new double[]{0}));<br>
+        trainingSet.addRow(new DataSetRow(new double[]{1, 1}, new double[]{1}));</p>
+      <p> // create perceptron neural network<br>
+        NeuralNetwork myPerceptron = new Perceptron(2, 1);<br>
+        <br>
+        // learn the training set<br>
+        myPerceptron.learn(trainingSet);</p>
+      <p> // test perceptron<br>
+        System.out.println(&quot;Testing trained perceptron&quot;);<br>
+        testNeuralNetwork(myPerceptron, trainingSet);</p>
+      <p> // save trained perceptron<br>
+        myPerceptron.save(&quot;mySamplePerceptron.nnet&quot;);</p>
+      <p> // load saved neural network<br>
+        NeuralNetwork loadedPerceptron = NeuralNetwork.load(&quot;mySamplePerceptron.nnet&quot;);<br>
+        <br>
+        // test loaded neural network<br>
+        System.out.println(&quot;Testing loaded perceptron&quot;);<br>
+        testNeuralNetwork(loadedPerceptron, trainingSet);</p>
+    </blockquote>
+    <p> }</p>
+    <p> public static void testNeuralNetwork(NeuralNetwork nnet, DataSet testSet) {</p>
+    <blockquote>
+      <p> for(DataSetRow dataRow : testSet.getRows()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        nnet.setInput(dataRow.getInput());<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nnet.calculate();<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double[] networkOutput = nnet.getOutput();<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(&quot;Input: &quot; + Arrays.toString(dataRow.getInput()));<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot; Output: &quot; + Arrays.toString(networkOutput)); <br>
+      }</p>
+</blockquote>
+    <p> }</p>   
+</blockquote>
+  <p> }</p>
+  <p>For more examples see <em>org.neuroph.samples</em> package.</p>
+  <p>&nbsp; </p>
+</body>
+</html>

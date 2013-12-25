@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="org-neuroph-netbeans-hwr-HWRAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.hwr.HWRTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.hwr.Bundle#CTL_HWRAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+        </folder>
+    </folder>
+    
+    <folder name="Templates">
+        <folder name="Neuroph">      
+            <file name="hWR">
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.hwr.wiz.Bundle#Templates/Neuroph/hWR"/>
+                <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.hwr.wiz.HWRWizardIterator"/>
+                <attr name="template" boolvalue="true"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/hwr/wiz/hWR.html"/>
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/hwr/wiz/hwrIcon.png"/>
+            </file>
+        </folder>
+    </folder>    
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="HWRTopComponent.settings" url="HWRTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="HWRTopComponent.wstcref" url="HWRTopComponentWstcref.xml"/>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>

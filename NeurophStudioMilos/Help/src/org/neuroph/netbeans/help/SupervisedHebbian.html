@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Supervised Hebbian Network</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body style="font-family:Tahoma;font-size:11px;">
+    <h2>SUPERVISED HEBBIAN NETWORK</h2>
+    <p>Supervised Hebbian network
+      is feedforward network that use  Supervised Hebbian learning rule. Hebb's principle states that
+      weight between two neurons will increase if the two neurons activate
+  simultaneously,and it is reduced if they activate separately. It can be summarized as "<em>cells that fire together, wire together</em>". In the case of Supervised Hebbian Learning, the learning process is controlled (supervised) by Least Mean Squares rule. </p>
+    <h3>Supervised Hebbian</h3>
+    <p>To create and train Supervised Hebbian neural
+      network using Neuroph Studio<i> </i>do the following:</p>
+    <ol>
+      <li >Create Neuroph project</li>
+      <li >Create Supervised Hebbian network</li>
+      <li >Create training set</li>
+      <li >Train network </li>
+      <li >Test trained network&nbsp;</li>
+    </ol>
+    <p><strong>Step 1.</strong> To create 
+<strong>Neuroph project c</strong>lick File &gt; New Project.</p>
+    <p><img src="images/new project 1.png"></p>
+<p>&nbsp;</p>
+    Select Neuroph Project, click Next.
+<p><img src="images/new project 2.png"></p>
+<p>&nbsp;</p>
+
+    Enter project name and location, click Finish.
+<p><img src="images/new project 3.png"></p>
+    <p>Project is created, now create neural network. </p>
+    <p><strong>Step 2.</strong> Create Supervised Hebbian neural network. 
+    Click File &gt; New File
+    </p>
+<p><img src="images/new file.png"></p>
+<p>&nbsp;</p>
+    Select project from Project drop-down menu, select Neural Network file type, click next.
+<p><img src="images/new network.png"></p>
+<p>&nbsp;</p>
+    Enter network name, select Supervised Hebbian network type, click next.
+<p><img src="images/shebbian 001.png"></p>
+<p>&nbsp;</p>
+    <p>Enter number of
+      neurons in input and output layer, choose <b>Ramp</b> transfer function as
+<b>Create</b>button.</p>
+        <p><img src="images/shebbian 002.png"></p>
+<p>&nbsp;</p>
+
+    <p>&nbsp;This will create the Supervised Hebbian
+</p>
+        <p><img src="images/shebbian 003.png"></p>
+
+    <p>&nbsp;Now
+      we shall train this network to learn logical OR function. First we have to create the <i>training
+        set </i>according to OR truth
+      table, and we will use supervised learning method.</p>
+    <p><strong>Step 3.</strong>  In main menu click <b>File
+&gt;New File</b> to open training set wizard.</p>
+<p><img src="images/new file.png"></p>
+<p>&nbsp;</p>
+    Select Training set file type, then click next.
+<p><img src="images/new training set.png"></p>
+<p>&nbsp;</p>
+
+    <p>Enter training set name, choose type Supervised, number of inputs, 
+<b>Next</b>button.</p>
+        <p><img src="images/shebbian 004.png"></p>
+<p>&nbsp;</p>
+
+    <p>Then create training set by entering <b>training
+      elements</b> as input and desired output values of neurons in input and output
+      layer. Use <b>Add row</b> button to add new elements or press Enter, and
+<b>Finish</b>button.</p>
+            <p><img src="images/shebbian 005.png"></p>
+<p>&nbsp;</p>
+
+    <p><strong>Step 4.</strong> Training network. To start network
+      training procedure, in project window select training set
+<b>Train</b>button. </p>
+            <p><img src="images/shebbian 006.png"></p>
+
+    <p>In <b>Set Learning parameters </b>dialog
+      use default learning parameters, and just click the <b>Train</b> button.</p>
+            <p><img src="images/shebbian 007.png"></p>
+
+    <p>When the Total Net Error is zero, the
+      training is complete.</p>
+            <p><img src="images/shebbian 006 2.png"></p>
+
+    <p><b>Step 5.</b> testing network. After the training is complete, you
+      can test network by using <b>Set Input</b> button. This opens <b>Set Network
+        Input</b> dialog in which you can enter input values for network separated
+      with white space.</p>
+            <p><img src="images/shebbian 010.png"></p>
+
+    <p>The result of network test is shown on
+      picture below. Network learned logical OR function,so the value of output neuron
+      is 1. Test to see how the network behaves for other inputs. You can also use Test button which will test the network with the selected training set.</p>
+    <p><img src="images/shebbian 011.png"></p>
+    <h3>EXTERNAL LINKS </h3>
+    <p>To learn more about  the  Hebbian learning see:<br>
+      <br>
+      <object classid="java:org.netbeans.modules.javahelp.BrowserDisplayer">
+        <param name="content" value="http://en.wikipedia.org/wiki/Hebbian_theory.htm">
+        <param name="text" value="http://en.wikipedia.org/wiki/Hebbian_theory.htm">
+        <param name="textColor" value="blue">
+        </object >       
+</p>
+    <p>&nbsp;</p>
+
+</body>
+</html>

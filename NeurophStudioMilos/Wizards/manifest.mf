@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.neuroph.netbeans.wizards
+OpenIDE-Module-Layer: org/neuroph/netbeans/wizards/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/neuroph/netbeans/wizards/Bundle.properties
+OpenIDE-Module-Requires: org.openide.windows.IOProvider
+OpenIDE-Module-Specification-Version: 1.0
+

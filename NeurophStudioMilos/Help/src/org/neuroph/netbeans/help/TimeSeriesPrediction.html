@@ -1,0 +1,486 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Time Series Prediction</title>
+
+</head>
+
+<body style="font-family:Tahoma;font-size:11px;">
+<table width="100%" height="400" border="0" cellpadding="3" cellspacing="0">
+  <tr>
+    <td width="82%" valign="top" style="border-top: 1px solid #ccc; padding:15px;"><a href="image_recognition.html"></a>
+        <h2>TIME SERIES PREDICTION WITH FEED-FORWARD NEURAL NETWORKS</h2>
+      <p class="style2">&nbsp;</p>
+      <p class="style2"><b><span
+>A Beginners Guide and Tutorial for Neuroph</span></b></p>
+      <p><span
+>by Laura E. Carter-Greaves</span></p>
+      <p>&nbsp;</p>
+      <p><b><span >Introduction</span></b></p>
+      <p>&nbsp;</p>
+      <p align="justify" ><span lang="EN-GB" xml:lang="EN-GB">Neural networks
+        have been applied to time-series prediction for many years from forecasting stock
+        prices and sunspot activity to predicting the growth of tree rings. In essence
+        all forms of time series prediction are fundamentally the same. Namely given
+        data <b>x</b>=<b>x</b>(&#964;) which varies as a function of time &#964;, it
+        should be possible to learn the function that maps <b>x</b><sub>&#964;+1</sub>= <b>x</b><sub>&#964;</sub>.
+        Feed-forward networks can be applied directly to problems of this form
+        provided the data is suitably pre-processed (in fact  pre-processing of input data from any domain is always a very worthwhile effort  be it feature extraction, dimensional reduction or outlier rejection etc.). 
+        Consider a single variable <i>x</i> which varies with time, one common approach
+        is to sample <i>x</i> at regular time intervals to yield a series of
+        observations <i>x</i><sub>&#964;-2</sub>, <i>x</i><sub>&#964;-1, </sub><i>x</i><sub>&#964; </sub>and so on. We can then take such observations and present them as the
+        input vector to the network and use observation <i>x</i><sub>&#964;+1</sub> as the
+        target value. By stepping along the time axis one sample at a time we can form
+        the training set for the problem. In other words &lsquo;given the last three samples
+        what is the next value?&rsquo;. Once we have trained the network we should then be
+        able to present a new vector <i>x'</i><sub>&#964;-2</sub>, <i>x'</i><sub>&#964;-1, </sub><i>x'</i><sub>&#964;</sub> vector and predict <i>x'</i><sub>&#964;+1</sub>.
+        This is termed <i>one step ahead</i> prediction. We could also use the
+        predicted value as part of the next input vector then depending on how many
+        predicted values we allow to be fed back into the network we then have what is
+        termed <i>multi-step ahead</i> prediction. Unfortunately the latter approach
+        tends to diverge rapidly from the true pattern due to the accumulation of
+        errors.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">There are a few
+        problems with this simple approach though. First is the sampling rate between
+        observations often requires empirical optimization. Secondly the time series
+        may have an underlying trend, for example a steadily increasing value. If this
+        is not removed via <i>de-trending</i> when the network is shown new data it may
+        have great difficulty to extrapolate this trend. A more serious limitation is
+        the implicit assumption that the statistical properties of the data generator
+        are time dependant. If the generator is not time dependant then online learning
+        methods have too be employed so the network can &lsquo;track time&rsquo; in other words
+        track the changing statistical properties of the generator. </span><span lang="EN-GB" xml:lang="EN-GB">However, we wont
+          worry about these issues yet as this is a beginners tutorial. </span><span lang="EN-GB" xml:lang="EN-GB">Also we will not
+            be covering training and testing issues, though they will be mentioned in
+            passing. All we will be concentrating on is minimising the error during
+            training of the network and looking at the sampling and network topology
+            aspects of the neural networks.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><b><span
+>Introducing the problem.</span></b></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span
+>&nbsp;</span><span lang="EN-GB" xml:lang="EN-GB">We will be using
+        two basic data sets in this tutorial both artificially created so we do not
+        have to de-trend them and we know the statistical properties of the generator
+        are time dependant. The first a simple sine wave; the second is a supposition
+        of two sine waves. These are shown in the figures below.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">&nbsp;</span><img src="images/ts1.jpg" width="400" height="270" /><img src="images/ts2.jpg" width="435" height="270" /></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">So very simple
+        signals both absolutely deterministic with no noise and from a bounded problem
+        space.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Or are they that
+        simple?</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">If you imagine walking
+        along the simple sine wave, as you reach a peak (the slope decreases negatively)
+        you know you will go down in a little while. Equally as you reach a dip (the
+        slope decreases positively) you know you should go up in a bit. Also depending
+        on how accurately you have measured the slope you also know how far along you
+        are. But how accurately and for how long should you remember the slope for? The
+        last 5 steps, 15, 30, 90 steps? </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">It is even worse
+        for the supposition of the sine waves! The local slope at each peak and trough
+        are the same, but the peaks and troughs are at differing heights! Imagine standing
+        on the peak at 100&deg;? You know you should go down, but how far? If you where
+        standing on the peak at 180&deg; you still have to go down, but this time you go
+        down further &lsquo;<i>absolute</i>&rsquo; as you started this time at +0.3 but at the 100&deg;
+        peak you where at +1. The relative distance is still the same, but the absolute
+        starting height is different! Remember you cannot cheat and look at the graph
+        you only know where you have &lsquo;just&rsquo; come from<span class="style1"> (this is similar to the local minima problem in neural net training) </span>.
+        In other words you can only look at the last &lsquo;n&rsquo; samples you have. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">You could just
+        remember every step you have ever taken but that&rsquo;s cheating!</span></p>
+      <p align="justify"  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">This is why we
+        said earlier that the sampling frequency for the training set requires
+        &lsquo;empirical&rsquo; optimisation! There are methods for helping us out but these are
+        advanced methods from digital signal processing (DSP), dynamical systems theory
+        (DST) and information theory and are way beyond the scope of this tutorial.</span></p>
+      <p align="justify"  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">So we have to
+        work out a sampling frequency and a size of memory. Returning to the hill
+        walking analogy we could remember every of the last five steps or every fifth
+        step of the last 25. So what is the solution? Well we will just have to try
+        some training sets empirically and see what happens.</span></p>
+      <p align="justify"  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Remember the
+        &lsquo;memory&rsquo; is an input vector to the network, so that defines the number of input
+        nodes of the network. We will term the &lsquo;frequency&rsquo; as how often we remember a
+        step. So for example we will remember every fifth step and keep a running note
+        of the last twenty. In other words we will have walked 100 steps, but only remember
+        the 1<sup>st</sup>, 6<sup>th</sup>, 11<sup>th</sup> so on. As you can imagine
+        the number of possibilities grows astronomically large very quickly.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Using this
+        &lsquo;wordy&rsquo; notation the training sets that we will be using are described in the
+        table below.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0"
+ style='border-collapse:collapse;border:none'>
+          <tr>
+            <td width="284" colspan="4" valign="top" style='width:213.0pt;border:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Basic Sine
+              Wave</span></p></td>
+            <td width="284" colspan="4" valign="top" style='width:213.1pt;border:solid windowtext 1.0pt;
+  border-left:none;padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Supposition
+              Sine Wave</span></p></td>
+          </tr>
+          <tr>
+            <td width="82" valign="top" style='width:61.45pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Frequency</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Memory</span></p></td>
+            <td width="71" valign="top" style='width:53.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Distance</span></p></td>
+            <td width="61" valign="top" style='width:45.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Name</span></p></td>
+            <td width="82" valign="top" style='width:61.45pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Frequency</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Memory</span></p></td>
+            <td width="71" valign="top" style='width:53.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Distance</span></p></td>
+            <td width="61" valign="top" style='width:45.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Name</span></p></td>
+          </tr>
+          <tr>
+            <td width="82" valign="top" style='width:61.45pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">1</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">5</span></p></td>
+            <td width="71" valign="top" style='width:53.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">5</span></p></td>
+            <td width="61" valign="top" style='width:45.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">BSW15</span></p></td>
+            <td width="82" valign="top" style='width:61.45pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">1</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">5</span></p></td>
+            <td width="71" valign="top" style='width:53.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">5</span></p></td>
+            <td width="61" valign="top" style='width:45.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">SSW15</span></p></td>
+          </tr>
+          <tr>
+            <td width="82" valign="top" style='width:61.45pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">1</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">20</span></p></td>
+            <td width="71" valign="top" style='width:53.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">20</span></p></td>
+            <td width="61" valign="top" style='width:45.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">BSW120</span></p></td>
+            <td width="82" valign="top" style='width:61.45pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">1</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">20</span></p></td>
+            <td width="71" valign="top" style='width:53.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">20</span></p></td>
+            <td width="61" valign="top" style='width:45.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">SSW120</span></p></td>
+          </tr>
+          <tr>
+            <td width="82" valign="top" style='width:61.45pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">2</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">10</span></p></td>
+            <td width="71" valign="top" style='width:53.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">20</span></p></td>
+            <td width="61" valign="top" style='width:45.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">BSW210</span></p></td>
+            <td width="82" valign="top" style='width:61.45pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">2</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">10</span></p></td>
+            <td width="71" valign="top" style='width:53.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">20</span></p></td>
+            <td width="61" valign="top" style='width:45.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">SSW210</span></p></td>
+          </tr>
+          <tr>
+            <td width="82" valign="top" style='width:61.45pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">2</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">20</span></p></td>
+            <td width="71" valign="top" style='width:53.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">40</span></p></td>
+            <td width="61" valign="top" style='width:45.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">BSW220</span></p></td>
+            <td width="82" valign="top" style='width:61.45pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">5</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">40</span></p></td>
+            <td width="71" valign="top" style='width:53.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">200</span></p></td>
+            <td width="61" valign="top" style='width:45.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">SSW440</span></p></td>
+          </tr>
+          <tr>
+            <td width="82" valign="top" style='width:61.45pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">5</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">5</span></p></td>
+            <td width="71" valign="top" style='width:53.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">25</span></p></td>
+            <td width="61" valign="top" style='width:45.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">BSW55</span></p></td>
+            <td width="82" valign="top" style='width:61.45pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">10</span></p></td>
+            <td width="70" valign="top" style='width:52.65pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">10</span></p></td>
+            <td width="71" valign="top" style='width:53.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">100</span></p></td>
+            <td width="61" valign="top" style='width:45.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0pt 5.4pt 0pt 5.4pt'><p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">SSW1010</span></p></td>
+          </tr>
+      </table>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">&nbsp;</span><span lang="EN-GB" xml:lang="EN-GB">We will not be
+        using all of these training sets, but they are provided for you to experiment
+        with.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">You may well get
+        even better results than presented here. This is not an exhaustive paper on
+        this subject but just a primer to get you going and to think about things.
+        There are also many openly available papers on the internet for you to look
+        through.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">There is also a
+        program contained in the tutorial distribution pack to allow you to generate
+        your own data sets (generateDataSets.java) please feel free to experiment
+        with this and generate your own data sets. Why not extend it to add some
+        &lsquo;noise&rsquo; into the data, maybe even add some random errors in? Remember you will
+        have to scale your network inputs accordingly between [-1...1] though. In fact
+        why not change it to scale between [0...1] and using the Sigmoidal transfer
+        function. Does this make the training any better?</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><b><span
+>&nbsp;</span></b><b><span
+>Introducing the Network</span></b></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">We will be using
+        a standard multi layer back-propogation network often called a mult-layer
+        perceptron (MLP). &nbsp;We will also use the hyperbolic tangent or TanH transfer
+        functions as this has a range [-1&hellip;1] which fits our problem data nicely. We
+        will not be changing the learning parameter or the momentum term either at the
+        moment. We will just experiment with data sampling rates and differing
+        topologies.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Our next problem
+        is what should the topology of the network be? Firstly the input layer is
+        easily defined to be the memory size. Remember, we show the network a snapshot
+        of where we have just been. Also we are only making a &lsquo;one step ahead&rsquo;
+        prediction network so we only need one output node. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">That just leaves
+        the number of hidden nodes. Now there is some deep maths than we can use to
+        help us predict the number of nodes and topology we will need in the hidden
+        layers. One I will mention is a &lsquo;rule of thumb&rsquo; called the <i>Baum-Haussler
+          rule</i>. This states that;</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><img width="139" height="40" src="images/ts10.gif" /></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Where N<sub>hidden</sub> is the number of hidden nodes, N<sub>train</sub> is the number of training
+        patterns, E<sub>tolerance</sub> is the error we desire of the network, N<sub>input</sub> and N<sub>output</sub> are the number of input and output nodes respectively.
+        This rule of thumb <i>generally</i> ensures that the network generalises rather
+        than memorises the problem. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">It is relatively
+        easy too make a neural network learn a problem perfectly. However, we don&rsquo;t
+        just want it to learn a given problem, we want it too be able to generalise the
+        solution to data it has never seen before. Learning the problem perfectly but
+        not being able to predict on data it has never been shown before is called <i>over-fitting</i>.
+        The number of nodes is directly related to this balancing act between learning
+        the problem but not generalising, and conversely not even learning the problem.
+        This is why the number and topology of the nodes should be considered.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">But as this is a
+        beginners guide we will ignore this, and anyway it is much more fun to play
+        with the networks than follow a recipe!</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">So what we will
+        do is try some topologies out i.e. vary the number of hidden nodes and vary the
+        number of hidden layers.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><b><span
+>Experimenting with the basic Sine wave</span></b></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Let us start
+        simply shall we? Using Neuroph create a network with 5 input nodes, 10 hidden
+        nodes and 1 output node. So choose Networks-&gt;Multi Layer Perceptron. In the
+        neurons num type 5 10 1 and choose Tanh as the transfer function. You will get
+        a network that looks like this.</span><span
+>&nbsp;</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><img width="916" height="571" src="images/ts3.jpg" /></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Now load the BSW51
+        training set. Do this by Training-&gt;New Training Set. Enter the name e.g. BSW51,
+        type Supervised, inputs 5, outputs 1 and click next. Choose load from file and
+        select the BSW51 training file and set the delimiter to be the Tab character.
+        Remember a training set can be used over numerous network topologies just as
+        long as the number of inputs and outputs matches the training set vector.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Okay so let us
+        train the network. Click the Train button the <b><i>only</i></b> parameter to
+        change is the Limit Max Iterations so set this too be 1000. Click train and
+        watch what happens. You should see something similar to the following.</span><span
+>&nbsp;</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><img width="916" height="571" src="images/ts4.jpg" /></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">I say <i>similar</i> as depending on the <i>initial</i> weights connecting the neurones the error
+        curve will vary. For example, all I did for the following example run was
+        randomize the weights and re-run the training again. No other changes at all.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><img width="916" height="538" src="images/ts5.jpg" /></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">The behaviour is
+        the same but we really start too minimise 100 iterations later. But note what
+        happens we do not minimize the problem accurately enough, hence why we limited
+        the number of iterations to 1000. It is always good practice to limit the
+        number of iterations just to avoid a run-away system.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Okay next change
+        the topology and see what happens. So create a new network with 3 hidden nodes. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Train this new
+        network using the same data set (BSW51) and don&rsquo;t change any learning
+        parameters, just the maximum iterations to 1000. You should get something
+        similar to the following.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><img width="916" height="541" src="images/ts6.jpg" /></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">That is better
+        we are <i>converging</i> much faster but still not getting the accuracy we
+        want. We can change the number of hidden nodes, but something does not seem
+        correct. The error curve just gets stretched or squashed and never really
+        learns the problem accurately. What are our options? We could alter training
+        parameters etc. but let us try a much simpler option first.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Why not try a
+        network with two hidden layers? Create a 5-3-3-1 network as you have done
+        before. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Then train it on
+        the same data set. You should get something like the following.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><img width="916" height="526" src="images/ts7.jpg" /></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">That is much
+        better, fast convergence and a much lower total network error. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Remember we have
+        not changed any training parameters simply the network topology. Experiment and
+        see what happens. Does adding more nodes help or more layers? What is
+        happening? Try it out.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Remember
+        building a neural network is a balancing act between the data, the number and
+        topology of nodes and the training algorithm employed. All are mathematically
+        tractable issues; just the mathematics can get a bit scary at times.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Okay so far we
+        have only changed the topology but remember one major issue in time-series
+        prediction is the sampling of the data. So let us try that now. Load the
+        training set BSW210. Make a network just as before but this time its topology
+        is 10-3-3-1 and train it. Don&rsquo;t change the parameters, just set the max
+        iterations to 1000. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">When I run it I
+        get the following.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><img width="916" height="530" src="images/ts8.jpg" /></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">This is much
+        better. Fast convergence in fact the network stops training in 215 iterations
+        with a total network error of &lt;0.01. All we did was change the sampling frequency
+        and how many steps we remembered. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">This is how
+        important sampling frequency can be in time-series prediction. Remember this is
+        a very simple sine wave, with no errors, noise, missing data etc. In fact it
+        could not get much simpler. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">This neatly brings
+        us onto the supposition sine wave example. &nbsp;I will only do one example just to
+        prove it can be done, but you should really try them out for yourselves.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><img width="903" height="581" src="images/ts9.jpg" /></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">I have kept the
+        topology and sampling i.e. data set secret. So try it out yourself, have a
+        play, and scratch your head.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">A little hint is
+        do not always look at your feet when you walk on a mountain, you will miss the
+        big picture. Equally, don&rsquo;t look to far ahead or you may trip up.</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">&nbsp;</span><b><span lang="EN-GB" xml:lang="EN-GB">Conclusions</span></b></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Sampling data
+        correctly and choosing the correct network topology can have huge effects on
+        time-series prediction. We have also seen how sometimes it is more important to
+        have a couple of hidden layers with a few nodes rather than lots of nodes on
+        one hidden layer. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Neural net
+        research and use is based in maths and statistics, but playing with them and
+        trying them out is still the best bit. Well in my opinion anyway!</span></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><b><span lang="EN-GB" xml:lang="EN-GB">Authors Notes</span></b></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Firstly I hope I
+        have not bored you and you have enjoyed playing with Neuroph and this little
+        tutorial. </span><span lang="EN-GB" xml:lang="EN-GB">It is a very
+          simple tutorial using a purely feed-forward network from the standard Neuroph
+          toolkit.</span> <span lang="EN-GB" xml:lang="EN-GB">I hope in the
+            future to develop further architectures to support time series modelling.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">Currently I am
+        thinking about the following architectures; Time Delay NN, Jordan nets and Elman nets; plus a few bells and whistles such as convolutional memory,
+        exponential trace memory and recurrent back-propogation.</span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">In addition I
+        would like to develop some pre-processing libraries too clean the data up. Also
+        there is a whole field of research regarding phase-space projection and false
+        neighbour removal, to analyse the data, and to help predict what the memory
+        size should be and also how often the data should be sampled. </span></p>
+      <p  style='text-align:justify'><span lang="EN-GB" xml:lang="EN-GB">All comments and
+      criticism are most appreciated and well received.</span> </p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p  style='text-align:justify'><strong>Data Sets</strong></p>
+      <p  style='text-align:justify'>&nbsp;</p>
+      <p>All datasets used in this tutorial are available for download from<strong> http://neuroph.sourceforge.net/TimeSeriesDataSets.zip </strong></p>
+      <p>or  can be generated with training set generator available at <strong>org.neuroph.samples.timeseries</strong><br />
+      </p>
+      <p>&nbsp;</p>
+      <p><strong>See also:<br />
+          <a href="MultiLayerPerceptron.html"><br />
+          </a></strong><a href="MultiLayerPerceptron.html">Multi Layer Perceptron Tutorial</a><br />
+          <a href="StockMarketPrediction.html">Stock Market Prediction Tutorial</a> <br />
+      </p>
+      <p>&nbsp;</p></td>
+  </tr>
+</table>
+</body>
+</html>

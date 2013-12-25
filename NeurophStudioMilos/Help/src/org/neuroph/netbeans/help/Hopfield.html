@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Hopfield</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body style="font-family:Tahoma;font-size:11px;">
+    <h2>HOPFIELD NETWORK </h2>
+    <p>The Hopfield network is a recurrent neural
+      network in which all connections are symmetric. Hopfield nets serve as
+      content-addressable (associative) memory systems with binary threshold units. They are
+      guaranteed to converge to a local minimum, but convergence to one of the stored [<em>http://en.wikipedia.org/wiki/Hopfield_network</em>]</p>
+    <p>The simplest use of this network is
+      recognition of characters &ldquo;T&rdquo; and &ldquo;H&rdquo;, which we will use in our training set
+      for this network. It uses unsupervised learning method.</p>
+    <p>To create and train Hopfield neural network
+      with easyNeurons<i> </i>do the following:</p>
+    <ol>
+      <li >Create Neuroph project</li>
+      <li >Create Hopfield network</li>
+      <li >Create training set</li>
+      <li >Train network</li>
+      <li >Test network</li>
+    </ol>
+    <p><strong>Step 1.</strong> To create 
+Neuroph project click File &gt; New Project.</p>
+<p><img src="images/new project 1.png"></p>
+<p>&nbsp;</p>
+    Select Neuroph Project, click Next.
+<p><img src="images/new project 2.png"></p>
+<p>&nbsp;</p>
+    Enter project name and location, click Finish.
+<p><img src="images/new project 3.png"></p>
+    <p>This created the project, next create neural network.</p>
+    <p>&nbsp; </p>
+    <p><strong>Step 2.</strong> To create <strong>Hopfield</strong> network, click File &gt; New File    </p>
+<p><img src="images/new file.png"></p>
+<p>&nbsp;</p>
+    Select project from Project drop-down menu, select Neural Network file type, click next.
+<p><img src="images/new network.png"></p>
+<p>&nbsp;</p>
+    Enter network name, select Hopfield network type, click next.
+<p><img src="images/hopfield 001.png"></p>
+<p>&nbsp;</p>
+    <p>Enter number of
+  neurons for Hopfield network, and click <b>Finish</b> button. </p>
+    <p><img src="images/hopfield 002.png"></p>
+    <p>&nbsp;</p>
+    <p>This will create the Hopfield neural network
+      with nine neurons. By default, all neurons will have <b>Step</b> transfer
+  functions.</p>
+    <p><img src="images/hopfield 003.png"></p>
+    <p><strong>Step 3.</strong> To create training set in main menu click <b>File
+&gt;New File</b> to open training set wizard.</p>
+    <p><img src="images/new file.png"></p>
+<p>&nbsp;</p>
+    Select Training set file type, then click next.
+<p><img src="images/new training set.png"></p>
+<p>&nbsp;</p>
+    <p>Enter training set name, choose Unsupervised
+  type and enter number of inputs as shown on picture below.</p>
+    <p><img src="images/hopfield 004.png"></p>
+    <p>&nbsp;</p>
+    <p>No need to enter
+  number of outputs, because it uses unsupervised learning method.</p>
+    <p>Then create training set by entering two rows
+      of <b>training elements</b> as input. For character &ldquo;T&rdquo; enter: 111010010, and
+      for &ldquo;H&rdquo; enter: 101111101 as shown on picture below.</p>
+    <p><img src="images/hopfield 005.png"></p>
+    <p>&nbsp;</p>
+    <p><b>Step 4.</b> Train network. To start network training procedure,
+  in network window select training set from drop down list and click <b>Train</b> button. </p>
+    <p><img src="images/hopfield 006.png"></p>
+    <p> There are no
+      specific default learning parameters for show.</p>
+    <p>&nbsp;</p>
+    <p><b>Step 5.</b> &nbsp;After the training is complete, you
+  can test network by using <b>Set Input</b> button. </p>
+    <p><img src="images/hopfield 008.png"></p>
+    <p>&nbsp;</p>
+    <p>This opens <b>Set Network Input</b> dialog in which you can enter input values as set of 0 and 1 for characters &ldquo;H&rdquo;
+  or &ldquo;T&rdquo;.</p>
+    <p><img src="images/hopfield 009.png"></p>
+    <p>&nbsp;</p>
+    <p>The result of network test is shown on
+      picture below. Neurons are colored in way in which network looks like character
+&ldquo;H&rdquo;.</p>
+    <p><img src="images/hopfield 010.png"></p>
+    <p>&nbsp;</p>
+    <h3>HOPFIELD NETWORK IN JAVA CODE</h3>
+    <P>package org.neuroph.samples;</P>
+    <p>import org.neuroph.nnet.Hopfield;<br>
+      import org.neuroph.core.data.DataSet;<br>
+      import org.neuroph.core.data.DataSetRow;<br>
+      import java.util.Vector;</p>
+    <p>/**<br>
+      * This sample shows how to create and train Hopfield neural network<br>
+      */<br>
+      public class HopfieldSample {</p>
+    <blockquote>
+      <p> public static void main(String args[]) {</p>
+      <p> // create training set (H and T letter in 3x3 grid)<br>
+        DataSet trainingSet = new DataSet(9);<br>
+        trainingSet.addElement(new DataSetRow(new double[]{1, 0, 1, 
+        1, 1, 1,
+        1, 0, 1})); // H letter <br>
+        trainingSet.addElement(new DataSetRow(new double[]{1, 1, 1,
+        0, 1, 0,
+        0, 1, 0})); // T letter <br>
+        <br>
+        // create hopfield network<br>
+        Hopfield myHopfield = new Hopfield(9);<br>
+        // learn the training set<br>
+        myHopfield.learn(trainingSet);</p>
+      <p> // test hopfield network<br>
+        System.out.println(&quot;Testing network&quot;);</p>
+      <p> // add one more 'incomplete' H pattern for testing - it will be recognized as H<br>
+        trainingSet.addElement(new DataSetRow(new double[]{1, 0, 0,
+        1, 0, 1,
+        1, 0, 1})); // incomplete H letter </p>
+      <blockquote>
+        <p> for(DataSetRow dataRow : trainingSet.getRows()) {</p>
+        <blockquote>
+          <p>          myHopfield.setInput(dataRow.getInput());<br>
+            myHopfield.calculate();<br>
+            myHopfield.calculate(); <br>
+            double[ ] networkOutput = myHopfield.getOutput();</p>
+          <p>System.out.print(&quot;Input: &quot; + Arrays.toString(dataRow.getInput()) );<br>
+System.out.println(&quot; Output: &quot; + Arrays.toString(networkOutput) );</p>
+        </blockquote>
+        <p>          }</p>
+      </blockquote>
+      <p> }    </p>
+    </blockquote>
+    <p>}</p>
+    <h3>EXTERNAL LINKS </h3>
+    <p>To learn more about the  Hopfield network see:<br>
+        <br>
+        <object classid="java:org.netbeans.modules.javahelp.BrowserDisplayer">
+        <param name="content" value="http://www.learnartificialneuralnetworks.com/hopfield.html">
+        <param name="text" value="http://www.learnartificialneuralnetworks.com/hopfield.html">
+        <param name="textColor" value="blue">
+        </object >    <br>
+        <object classid="java:org.netbeans.modules.javahelp.BrowserDisplayer">
+        <param name="content" value="http://en.wikipedia.org/wiki/Hopfield_net">
+        <param name="text" value="http://en.wikipedia.org/wiki/Hopfield_net">
+        <param name="textColor" value="blue">
+        </object >                  
+   <br>
+</p>
+    <p>&nbsp;</p>
+</body>
+</html>
