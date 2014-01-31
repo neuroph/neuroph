@@ -83,11 +83,6 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
             Layer targetLayer = ((NeuralLayerWidget) targetWidget).getLayer();
             // TODO: move connection logic to editor / ConnectionFactory
             ConnectionFactory.fullConnect(myLayer, targetLayer);
-//            for (Neuron fromNeuron : myLayer.getNeurons()) {
-//                for (Neuron toNeuron : targetLayer.getNeurons()) {
-//                    ConnectionFactory.createConnection(fromNeuron, toNeuron);
-//                }
-//            }
         }
     }
 
@@ -184,7 +179,6 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
                     neuronLabel.setForeground(Color.BLACK);
                     neuronLabel.setAlignment(LabelWidget.Alignment.CENTER);
                     neuronLabel.setVerticalAlignment(LabelWidget.VerticalAlignment.BOTTOM);
-
 
                     neuronWrapperWidget.addChild(label);
                     neuronWrapperWidget1.addChild(neuronWrapperWidget);

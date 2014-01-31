@@ -314,6 +314,7 @@ public class NeuralNetworkScene extends ObjectScene  {
     public void visualizeNetwork() {
         inputsContainerWidget.removeChildren();
         outputsContainerWidget.removeChildren();
+        // todo: inputs and outputs container creation along with all possibl escanraios, nice graphics, and text
  
         // clear connections
         connectionLayer.removeChildren();
@@ -428,14 +429,12 @@ public class NeuralNetworkScene extends ObjectScene  {
         
        
         LearningRule learningRule = neuralNetwork.getLearningRule();
+        String learningRuleName = "none";        
+        
         if (learningRule != null) { // if learning rule is set
             LearningRuleWidget learningRuleWidget = new LearningRuleWidget(this, learningRule);
-
-            String learningRuleName = "none";
-            if (learningRule != null) {
-                learningRuleName = learningRule.getClass().toString();
-                learningRuleName = learningRuleName.substring(learningRuleName.lastIndexOf(".") + 1);
-            }
+            learningRuleName = learningRule.getClass().toString();
+            learningRuleName = learningRuleName.substring(learningRuleName.lastIndexOf(".") + 1);
 
             learningRuleWidget.setLabel(learningRuleName);
 
