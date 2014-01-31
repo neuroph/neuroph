@@ -79,7 +79,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="neuronInputFunctionComboBox" pref="139" max="32767" attributes="0"/>
+                              <Component id="neuronInputFunctionComboBox" max="32767" attributes="0"/>
                               <Component id="neuronTypeComboBox" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -92,8 +92,8 @@
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="numberOfLayersTextField" min="-2" pref="76" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="layerIndexTextField" min="-2" pref="76" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="188" max="32767" attributes="0"/>
                               </Group>
                               <Component id="numberOfNeuronsTextField" max="32767" attributes="0"/>
                               <Component id="neuronTransferFunctionComboBox" max="32767" attributes="0"/>
@@ -129,7 +129,7 @@
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="numberOfLayersTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="layerIndexTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="numberOfLayersLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
@@ -201,10 +201,10 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="numberOfLayersTextField">
+        <Component class="javax.swing.JTextField" name="layerIndexTextField">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/neuroph/netbeans/visual/dialogs/Bundle.properties" key="AddCustomLayerDialog.numberOfLayersTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/neuroph/netbeans/visual/dialogs/Bundle.properties" key="AddCustomLayerDialog.layerIndexTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>

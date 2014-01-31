@@ -37,7 +37,8 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
         this.scene = scene;
         editor = scene.getNeuralNetworkEditor();
         fillCombos();
-        this.layerIdx = layerIdx;
+        this.layerIdx = layerIdx+1;
+        layerIndexTextField.setText((layerIdx+1)+"");
     }
 
     public final void fillCombos() {
@@ -73,7 +74,7 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
         neuronTransferFunctionLabel = new javax.swing.JLabel();
         neuronTransferFunctionComboBox = new javax.swing.JComboBox();
         numberOfLayersLabel = new javax.swing.JLabel();
-        numberOfLayersTextField = new javax.swing.JTextField();
+        layerIndexTextField = new javax.swing.JTextField();
         createLayersButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
@@ -95,7 +96,7 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
 
         numberOfLayersLabel.setText(org.openide.util.NbBundle.getMessage(AddCustomLayerDialog.class, "AddCustomLayerDialog.numberOfLayersLabel.text")); // NOI18N
 
-        numberOfLayersTextField.setText(org.openide.util.NbBundle.getMessage(AddCustomLayerDialog.class, "AddCustomLayerDialog.numberOfLayersTextField.text")); // NOI18N
+        layerIndexTextField.setText(org.openide.util.NbBundle.getMessage(AddCustomLayerDialog.class, "AddCustomLayerDialog.layerIndexTextField.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -110,7 +111,7 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
                             .addComponent(neuronInputF))
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(neuronInputFunctionComboBox, 0, 139, Short.MAX_VALUE)
+                            .addComponent(neuronInputFunctionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(neuronTypeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,8 +121,8 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
                         .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(numberOfLayersTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(layerIndexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 188, Short.MAX_VALUE))
                             .addComponent(numberOfNeuronsTextField)
                             .addComponent(neuronTransferFunctionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -147,7 +148,7 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
                     .addComponent(numberOfNeuronsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(numberOfLayersTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(layerIndexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(numberOfLayersLabel))
                 .addGap(83, 83, 83))
         );
@@ -198,20 +199,17 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
 
     private void createLayersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createLayersButtonActionPerformed
         try {
-
             Class<? extends Neuron> someNeuron = ((String) neuronTypeComboBox.getSelectedItem()).equals("Neuron")
                     ? (Class<? extends Neuron>) Class.forName("org.neuroph.core." + (String) neuronTypeComboBox.getSelectedItem())
                     : (Class<? extends Neuron>) Class.forName("org.neuroph.nnet.comp.neuron." + (String) neuronTypeComboBox.getSelectedItem());
             Class<? extends TransferFunction> someTF = (Class<? extends TransferFunction>) Class.forName("org.neuroph.core.transfer." + ((String) neuronTransferFunctionComboBox.getSelectedItem()).trim());
             Class<? extends InputFunction> someIF = (Class<? extends InputFunction>) Class.forName("org.neuroph.core.input." + ((String) neuronInputFunctionComboBox.getSelectedItem()).trim());
             int numberOfNeurons = Integer.valueOf(numberOfNeuronsTextField.getText());
-            int numberOfLayers = Integer.valueOf(numberOfLayersTextField.getText());
+            layerIdx = Integer.valueOf(layerIndexTextField.getText());
 
-            for (int i = 0; i < numberOfLayers; i++) {
-                editor.addCustomLayer(someNeuron, someTF, someIF, numberOfNeurons, layerIdx);
-                this.dispose();
-            }
-            scene.refresh();
+           editor.addCustomLayer(someNeuron, someTF, someIF, numberOfNeurons, layerIdx-1);
+           this.dispose();
+           scene.refresh();
 
 
         } catch (ClassNotFoundException ex) {
@@ -274,6 +272,7 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton createLayersButton;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField layerIndexTextField;
     private javax.swing.JLabel neuronInputF;
     private javax.swing.JComboBox neuronInputFunctionComboBox;
     private javax.swing.JComboBox neuronTransferFunctionComboBox;
@@ -281,7 +280,6 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox neuronTypeComboBox;
     private javax.swing.JLabel neuronTypeLabel;
     private javax.swing.JLabel numberOfLayersLabel;
-    private javax.swing.JTextField numberOfLayersTextField;
     private javax.swing.JLabel numberOfNeuronsLabel;
     private javax.swing.JTextField numberOfNeuronsTextField;
     // End of variables declaration//GEN-END:variables
