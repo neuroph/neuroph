@@ -125,6 +125,8 @@ public class NeuralNetworkScene extends ObjectScene  {
 
         dataSetWidget = new IconNodeWidget(this);
         dataSetLabel = new LabelWidget(this, "DataSet: none (drag n drop to set)");
+        dataSetLabel.setForeground(Color.GRAY);
+        dataSetLabel.setFont(new Font("Arial", Font.PLAIN, 12));        
         dataSetWidget.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
         dataSetWidget.setLayout(LayoutFactory.createVerticalFlowLayout( LayoutFactory.SerialAlignment.CENTER, 4));
 
@@ -340,10 +342,36 @@ public class NeuralNetworkScene extends ObjectScene  {
         
         neuralNetworkWidget.redrawChildWidgets();        
 
-        // create inputs widgets
-        inputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
-        outputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
+        // create inputs and outputs widgets
+        createInputsWidget();
+        createOutputsWidget();
 
+        
+        // this shoul dalso be moved to neural network widget
+        LearningRule learningRule = neuralNetwork.getLearningRule();
+        String learningRuleName = "none";        
+        
+        if (learningRule != null) { // if learning rule is set
+            LearningRuleWidget learningRuleWidget = new LearningRuleWidget(this, learningRule);
+            learningRuleName = learningRule.getClass().toString();
+            learningRuleName = learningRuleName.substring(learningRuleName.lastIndexOf(".") + 1);
+
+            learningRuleWidget.setLabel(learningRuleName);
+
+            componentsWidgets = new ImageWidget(this);
+            componentsWidgets.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 4));
+            componentsWidgets.addChild(learningRuleWidget);
+            
+         //   removeObject(learningRule); // fix for affertion exception bellow
+ //           addObject(learningRule, learningRuleWidget);
+
+  //          neuralNetworkWidget.addChild(componentsWidgets);
+   //         componentsWidgets.setPreferredSize(new Dimension(500, 40));
+        }
+    }
+    
+    private void createInputsWidget() {
+        inputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));        
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
 
             for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
@@ -385,9 +413,16 @@ public class NeuralNetworkScene extends ObjectScene  {
             }
 
             // neuralNetworkWidget.addChild(0, inputsContainerWidget);
-        }
-
-        outputsContainerWidget.addChild(new LabelWidget(this, "Outputs:"));
+        }        
+    }
+    
+    private void createOutputsWidget() {
+        outputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
+        LabelWidget outputsLabel = new LabelWidget(this, "Outputs:");        
+        outputsLabel.setForeground(Color.GRAY);
+        outputsLabel.setFont(new Font("Arial", Font.PLAIN, 12)); 
+        outputsContainerWidget.addChild(outputsLabel);
+        
         if (neuralNetwork.getOutputNeurons() != null && neuralNetwork.getOutputNeurons().length < TOO_MANY_NEURONS) {
             for (int i = 0; i < neuralNetwork.getOutputNeurons().length; i++) {
                 LabelWidget outputLabel = new LabelWidget(this);
@@ -427,28 +462,7 @@ public class NeuralNetworkScene extends ObjectScene  {
             }
         }
         
-       
-        LearningRule learningRule = neuralNetwork.getLearningRule();
-        String learningRuleName = "none";        
-        
-        if (learningRule != null) { // if learning rule is set
-            LearningRuleWidget learningRuleWidget = new LearningRuleWidget(this, learningRule);
-            learningRuleName = learningRule.getClass().toString();
-            learningRuleName = learningRuleName.substring(learningRuleName.lastIndexOf(".") + 1);
-
-            learningRuleWidget.setLabel(learningRuleName);
-
-            componentsWidgets = new ImageWidget(this);
-            componentsWidgets.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 4));
-            componentsWidgets.addChild(learningRuleWidget);
-            
-         //   removeObject(learningRule); // fix for affertion exception bellow
- //           addObject(learningRule, learningRuleWidget);
-
-  //          neuralNetworkWidget.addChild(componentsWidgets);
-   //         componentsWidgets.setPreferredSize(new Dimension(500, 40));
-        }
-    }
+    }    
     
     /**
     * Creates single connecting line betweeen two layers
