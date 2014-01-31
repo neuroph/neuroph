@@ -2,6 +2,8 @@ package org.neuroph.netbeans.visual.widgets;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Point;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
@@ -9,6 +11,7 @@ import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
+import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.visual.widgets.actions.NeuralNetworkWidgetAcceptProvider;
 
@@ -47,4 +50,49 @@ public class NeuralNetworkWidget extends /*IconNodeWidget*/ Widget {
     public NeuralNetwork getNeuralNetwork() {
         return neuralNetwork;
     }
+    
+    private void drawEmptyNetwork() {
+            LabelWidget emptyLabel = new LabelWidget(this.getScene(), "Empty Neural Network");
+            emptyLabel.setForeground(Color.LIGHT_GRAY);
+            emptyLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            this.setLayout(LayoutFactory.createAbsoluteLayout());
+            emptyLabel.setPreferredLocation(new Point(60, 160));
+            this.addChild(emptyLabel);
+
+            LabelWidget emptyLabel2 = new LabelWidget(this.getScene(), "Drag n' drop  or right click to add layers");
+            emptyLabel2.setForeground(Color.LIGHT_GRAY);
+            emptyLabel2.setFont(new Font("Arial", Font.PLAIN, 11));
+            emptyLabel2.setPreferredLocation(new Point(35, 180));
+            this.addChild(emptyLabel2);
+    }
+    
+    public void redrawChildWidgets()  {
+        this.removeChildren();
+        if (neuralNetwork.getLayersCount() == 0) {
+            drawEmptyNetwork();
+        } else {
+            drawLayerWidgets();
+        }                      
+    }
+
+    private void drawLayerWidgets() {
+        NeuralNetworkScene nnScene = (NeuralNetworkScene)this.getScene();
+                
+        for (int i = 0; i < neuralNetwork.getLayersCount(); i++) { // iterate all layers in network
+            Layer layer = neuralNetwork.getLayerAt(i); // get layer for this widget
+            NeuralLayerWidget neuralLayerWidget = new NeuralLayerWidget(nnScene, layer); // create widget for layer
+
+            // TODO: these two should be removed from gere once we find different solution
+            nnScene.getLayers().add(layer);
+            nnScene.getLayersAndWidgets().put(layer, neuralLayerWidget);
+
+            if (nnScene.getObjects().contains(layer)) {
+               nnScene.removeObject(layer);
+            }
+            
+            nnScene.addObject(layer, neuralLayerWidget);
+            addChild(neuralLayerWidget);
+        }
+    }
+    
 }
