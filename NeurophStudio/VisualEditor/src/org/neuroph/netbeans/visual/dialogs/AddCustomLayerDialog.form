@@ -45,8 +45,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" pref="192" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" pref="223" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="createLayersButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -79,7 +79,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="neuronInputFunctionComboBox" pref="137" max="32767" attributes="0"/>
+                              <Component id="neuronInputFunctionComboBox" pref="139" max="32767" attributes="0"/>
                               <Component id="neuronTypeComboBox" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -87,17 +87,17 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="numberOfNeuronsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="neuronTransferFunctionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="numberOfLayersLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="neuronTransferFunctionComboBox" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="numberOfLayersTextField" min="-2" pref="76" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                               <Component id="numberOfNeuronsTextField" max="32767" attributes="0"/>
+                              <Component id="neuronTransferFunctionComboBox" max="32767" attributes="0"/>
                           </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="numberOfLayersLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                          <Component id="numberOfLayersTextField" min="-2" pref="76" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
