@@ -78,8 +78,8 @@ public class NeuralNetworkScene extends ObjectScene  {
     
     IconNodeWidget inputsContainerWidget = null;
     IconNodeWidget outputsContainerWidget = null;
-    IconNodeWidget dataSetWidget = null;
-    ImageWidget componentsWidgets = null;
+    ImageWidget dataSetWidget = null;
+    ImageWidget componentsWidgets = null;   // hold learningRuleWidget - should be moved to nn widget
   
     LabelWidget dataSetLabel;
     
@@ -123,7 +123,7 @@ public class NeuralNetworkScene extends ObjectScene  {
         LabelWidget neuralNetworkLabel = new LabelWidget(this, "Neural Network");
         neuralNetworkLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
-        dataSetWidget = new IconNodeWidget(this);
+        dataSetWidget = new ImageWidget(this);
         dataSetLabel = new LabelWidget(this, "DataSet: none (drag n drop to set)");
         dataSetLabel.setForeground(Color.GRAY);
         dataSetLabel.setFont(new Font("Arial", Font.PLAIN, 12));        
@@ -314,7 +314,7 @@ public class NeuralNetworkScene extends ObjectScene  {
     }
 
     public void visualizeNetwork() {
-        inputsContainerWidget.removeChildren();
+     
         outputsContainerWidget.removeChildren();
         // todo: inputs and outputs container creation along with all possibl escanraios, nice graphics, and text
  
@@ -371,6 +371,7 @@ public class NeuralNetworkScene extends ObjectScene  {
     }
     
     private void createInputsWidget() {
+        inputsContainerWidget.removeChildren();
         inputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));        
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
 
@@ -460,6 +461,11 @@ public class NeuralNetworkScene extends ObjectScene  {
                 connectionLayer.addChild(connWidget);
 
             }
+        } else {
+            LabelWidget notSetLabel = new LabelWidget(this, "Not set. Right click neuron or layer to set");        
+            notSetLabel.setForeground(Color.GRAY);
+            notSetLabel.setFont(new Font("Arial", Font.PLAIN, 9)); 
+            outputsContainerWidget.addChild(notSetLabel);            
         }
         
     }    

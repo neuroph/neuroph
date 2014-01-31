@@ -45,10 +45,12 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
         ArrayList inputFuncs = Neuroph.getInstance().getInputFunctions();
         javax.swing.DefaultComboBoxModel inputFunctionComboBoxModel = (new javax.swing.DefaultComboBoxModel(inputFuncs.toArray()));
         neuronInputFunctionComboBox.setModel(inputFunctionComboBoxModel);
+        neuronInputFunctionComboBox.setSelectedItem("WeightedSum");
 
         ArrayList transferFuncs = Neuroph.getInstance().getTransferFunctions();
         javax.swing.DefaultComboBoxModel transferFunctionComboBoxModel = (new javax.swing.DefaultComboBoxModel(transferFuncs.toArray()));
         neuronTransferFunctionComboBox.setModel(transferFunctionComboBoxModel);
+        neuronTransferFunctionComboBox.setSelectedItem("Sigmoid");
 
         ArrayList neuronClasses = Neuroph.getInstance().getNeurons();
         javax.swing.DefaultComboBoxModel neuronsComboBoxModel = (new javax.swing.DefaultComboBoxModel(neuronClasses.toArray()));
@@ -122,7 +124,7 @@ public class AddCustomLayerDialog extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(layerIndexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 188, Short.MAX_VALUE))
+                                .addGap(0, 82, Short.MAX_VALUE))
                             .addComponent(numberOfNeuronsTextField)
                             .addComponent(neuronTransferFunctionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
