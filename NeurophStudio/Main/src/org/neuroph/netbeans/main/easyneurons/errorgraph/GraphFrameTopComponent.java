@@ -40,17 +40,15 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
      */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "GraphFrameTopComponent";
-    public static final String FILE_BUFFER = "errorarray.txt";
+    public static final String FILE_BUFFER =   System.getProperty("java.io.tmpdir") +  "/errorarray.txt";
     private volatile BufferedWriter buffWriter; // make this static?
     private static final long SLEEP_TIME = 10; // pause for drawing to make it run smoothly
     private static final int VALUES_LIMIT = 300; // this is time frame width - how many values displayed in one window frame
     private SimpleXYChartSupport chartSupport;
-    //   LearningRule learningRule;
-    InstanceContent content;
-    AbstractLookup aLookup;
-//    int iteration = 0;
-//    double error = 0;
-//    long[] err = new long[1];
+
+    private InstanceContent content;
+    private AbstractLookup aLookup;
+
     LearningInfoBuffer buffer;
     DrawingThread drawingThread;
 

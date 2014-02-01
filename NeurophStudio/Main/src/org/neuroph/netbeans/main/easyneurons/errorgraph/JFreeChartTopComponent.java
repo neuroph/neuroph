@@ -171,7 +171,7 @@ public final class JFreeChartTopComponent extends TopComponent {
     public void readChartDataFromFileBuffer() { // double[][]  , int[][],  drawChart3Ddouble[][][], int[][][]
 
         try {
-            if (br == null) {
+            if (br == null) { // zasto ne vidi ovde ovaj fajl kad on vec postoji?
                 br = new BufferedReader(new FileReader(GraphFrameTopComponent.FILE_BUFFER));
             }
             String currentLine;
@@ -196,7 +196,7 @@ public final class JFreeChartTopComponent extends TopComponent {
 
             // Close BufferReader
             br = null;
-//
+            
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
