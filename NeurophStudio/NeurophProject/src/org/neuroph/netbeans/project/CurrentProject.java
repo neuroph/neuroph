@@ -67,6 +67,8 @@ public class CurrentProject implements LookupListener {
     }
 
     public String getNewNeuralNetworkName() {   
+        if (currentProject==null) return "";
+        
         String newNetworkName;
         int networkCount=0;
         boolean foundName=false;
