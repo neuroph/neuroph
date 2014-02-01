@@ -191,8 +191,8 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
                     }
                     
                     // these two should be removed, once we find different solution 
-                    nnScene.getNeurons().add(neuron);
-                    nnScene.getNeuronsAndWidgets().put(neuron, neuronWidget);
+//                    nnScene.getNeurons().add(neuron);
+//                    nnScene.getNeuronsAndWidgets().put(neuron, neuronWidget);
                 }
     }
     

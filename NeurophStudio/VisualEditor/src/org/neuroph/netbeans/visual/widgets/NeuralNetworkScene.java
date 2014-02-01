@@ -30,7 +30,6 @@ import org.netbeans.api.visual.widget.ImageWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -71,80 +70,65 @@ public class NeuralNetworkScene extends ObjectScene  {
     private LayerWidget interractionLayer;  // this layer is for drawing connections while connectiong
     private LayerWidget connectionLayer;    // this layer contains connections
   
+    private NeuralNetwork neuralNetwork;    
     private NeuralNetworkWidget neuralNetworkWidget;
-    private NeuralNetwork neuralNetwork;
+    //private ImageWidget componentsWidgets = null;   // hold learningRuleWidget - should be moved to nn widget    
     
     private DataSet dataSet;
-    
-    IconNodeWidget inputsContainerWidget = null;
-    IconNodeWidget outputsContainerWidget = null;
-    ImageWidget dataSetWidget = null;
-    ImageWidget componentsWidgets = null;   // hold learningRuleWidget - should be moved to nn widget
-  
-    LabelWidget dataSetLabel;
-    
+    private ImageWidget dataSetWidget = null;
+    private LabelWidget dataSetLabel;
+    private ImageWidget inputsContainerWidget = null;
+    private ImageWidget outputsContainerWidget = null;    
     
     private boolean waitingClick = false;
     private boolean waitingLayerClick = false;
     
-    // neurons and widgets bufferd index - object widget mapping from object scene shoul dbe used instead
-    private HashMap<Neuron, NeuronWidget> neuronsAndWidgets = new HashMap<>();
-    HashMap<Layer, NeuralLayerWidget> layersAndWidgets = new HashMap<>();
-        
-    InstanceContent content = new InstanceContent();
-    AbstractLookup aLookup = new AbstractLookup(content);
     
-    ArrayList<Neuron> neurons = new ArrayList<>();
-    ArrayList<Layer> layers = new ArrayList<>();
-        
+    private InstanceContent content = new InstanceContent();
+    private AbstractLookup aLookup = new AbstractLookup(content);
+    
+  //  private ArrayList<Neuron> neurons = new ArrayList<>();
+    private ArrayList<Layer> layers = new ArrayList<>();
+    
+    
     public static final int TOO_MANY_NEURONS = 100;
     public static final int TOO_MANY_CONNECTIONS = 250;
     
     private NeuralNetworkEditor networkEditor;
     private VisualEditorTopComponent topComponent;
     private ScenePreferences scenePreferences;
+    private ArrayList <NeuronConnectionWidget> connectionsToRoute = new ArrayList<>();
 
     public NeuralNetworkScene(NeuralNetwork neuralNet) {
 
         this.neuralNetwork = neuralNet;
-        neuralNetworkWidget = new NeuralNetworkWidget(this, neuralNet);
+        this.neuralNetworkWidget = new NeuralNetworkWidget(this, neuralNet);
 
-        setLayout(LayoutFactory.createOverlayLayout());
+        this.networkEditor = new NeuralNetworkEditor(neuralNet);
+        this.scenePreferences = new ScenePreferences();        
+        
+        setLayout(LayoutFactory.createOverlayLayout()); // layout for layer widgets
 
         connectionLayer = new LayerWidget(this);    // draw connections
         interractionLayer = new LayerWidget(this); // draw connections while creating them
         mainLayer = new LayerWidget(this);         // holds widget 
         mainLayer.setLayout(LayoutFactory.createVerticalFlowLayout( LayoutFactory.SerialAlignment.CENTER, 20));
                 
-        networkEditor = new NeuralNetworkEditor(neuralNet);
-
-        scenePreferences = new ScenePreferences();
-
-        LabelWidget neuralNetworkLabel = new LabelWidget(this, "Neural Network");
-        neuralNetworkLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-
         dataSetWidget = new ImageWidget(this);
         dataSetLabel = new LabelWidget(this, "DataSet: none (drag n drop to set)");
         dataSetLabel.setForeground(Color.GRAY);
         dataSetLabel.setFont(new Font("Arial", Font.PLAIN, 12));        
         dataSetWidget.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
         dataSetWidget.setLayout(LayoutFactory.createVerticalFlowLayout( LayoutFactory.SerialAlignment.CENTER, 4));
-
-        dataSetWidget.addChild(dataSetLabel);
+        dataSetWidget.addChild(dataSetLabel);        
         
+        inputsContainerWidget = new ImageWidget(this);
+        dataSetWidget.addChild(inputsContainerWidget);
         mainLayer.addChild(dataSetWidget);
         
-        inputsContainerWidget = new IconNodeWidget(this);
-    //    inputsContainerWidget.setBorder(BorderFactory.createLineBorder(15));
-//        mainLayer.addChild(new LabelWidget(this, "Inputs"));
-        dataSetWidget.addChild(inputsContainerWidget);
-
-
-      //  mainLayer.addChild(neuralNetworkLabel);
         mainLayer.addChild(neuralNetworkWidget);
 
-//        mainLayer.addChild(new LabelWidget(this, "Outputs"));
-        outputsContainerWidget = new IconNodeWidget(this);
+        outputsContainerWidget = new ImageWidget(this);
         outputsContainerWidget.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));      
         mainLayer.addChild(outputsContainerWidget);
 
@@ -252,7 +236,7 @@ public class NeuralNetworkScene extends ObjectScene  {
                     }
                     
                 } catch (        UnsupportedFlavorException | IOException ex) {
-                    Exceptions.printStackTrace(ex);
+                  //  Exceptions.printStackTrace(ex);
                 }
 
                 return ConnectorState.REJECT;
@@ -288,11 +272,7 @@ public class NeuralNetworkScene extends ObjectScene  {
     public DataSet getDataSet() {
         return dataSet;
     }
-    
-    
-    
-    
-
+              
     private Image getImageFromTransferable(Transferable transferable) {
         Object o = null;
         try {
@@ -314,63 +294,58 @@ public class NeuralNetworkScene extends ObjectScene  {
     }
 
     public void visualizeNetwork() {
-     
-        outputsContainerWidget.removeChildren();
-        // todo: inputs and outputs container creation along with all possibl escanraios, nice graphics, and text
- 
-        // clear connections
-        connectionLayer.removeChildren();
-
-        createNeuralNetworkWidget();
+        
+        // clear all connections
+        connectionLayer.removeChildren();        
+        
+        redrawNeuralNetworkWidget();
+        
+        // create inputs and outputs widgets and connections to inputs and outputs
+        redrawInputsWidgets();
+        redrawOutputsWidgets();           
 
         if (scenePreferences.isShowConnections()) {
             createConnections();
         }
         this.validate(); // only one call to validate since they ar eusing same scene instance   
 
-        createConnectionsBetweenNeuronsInSameLayer();
+        // ako je ovo pre validate gore u if-u, router baca null pointer exception...
+        if (scenePreferences.isShowConnections())
+            routeConnectionsInSameLayer();
+        
     }
 
     // Creates layer and neuron widgets
-    private void createNeuralNetworkWidget() {
-
-        // why do we nned this when we have ObjectScene? - they are still used when drawing connections
-        neurons = new ArrayList<>();
-        neuronsAndWidgets = new HashMap<>();
+    private void redrawNeuralNetworkWidget() {
+      //  neurons = new ArrayList<>();
         layers = new ArrayList<>();
-        layersAndWidgets = new HashMap<>();
         
         neuralNetworkWidget.redrawChildWidgets();        
-
-        // create inputs and outputs widgets
-        createInputsWidget();
-        createOutputsWidget();
-
-        
+                
         // this shoul dalso be moved to neural network widget
-        LearningRule learningRule = neuralNetwork.getLearningRule();
-        String learningRuleName = "none";        
-        
-        if (learningRule != null) { // if learning rule is set
-            LearningRuleWidget learningRuleWidget = new LearningRuleWidget(this, learningRule);
-            learningRuleName = learningRule.getClass().toString();
-            learningRuleName = learningRuleName.substring(learningRuleName.lastIndexOf(".") + 1);
-
-            learningRuleWidget.setLabel(learningRuleName);
-
-            componentsWidgets = new ImageWidget(this);
-            componentsWidgets.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 4));
-            componentsWidgets.addChild(learningRuleWidget);
-            
-         //   removeObject(learningRule); // fix for affertion exception bellow
- //           addObject(learningRule, learningRuleWidget);
-
-  //          neuralNetworkWidget.addChild(componentsWidgets);
-   //         componentsWidgets.setPreferredSize(new Dimension(500, 40));
-        }
+//        LearningRule learningRule = neuralNetwork.getLearningRule();
+//        String learningRuleName = "none";        
+//        
+//        if (learningRule != null) { // if learning rule is set
+//            LearningRuleWidget learningRuleWidget = new LearningRuleWidget(this, learningRule);
+//            learningRuleName = learningRule.getClass().toString();
+//            learningRuleName = learningRuleName.substring(learningRuleName.lastIndexOf(".") + 1);
+//
+//            learningRuleWidget.setLabel(learningRuleName);
+//
+//            componentsWidgets = new ImageWidget(this);
+//            componentsWidgets.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 4));
+//            componentsWidgets.addChild(learningRuleWidget);
+//            
+//         //   removeObject(learningRule); // fix for affertion exception bellow
+// //           addObject(learningRule, learningRuleWidget);
+//
+//  //          neuralNetworkWidget.addChild(componentsWidgets);
+//   //         componentsWidgets.setPreferredSize(new Dimension(500, 40));
+//        }
     }
     
-    private void createInputsWidget() {
+    private void redrawInputsWidgets() {
         inputsContainerWidget.removeChildren();
         inputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));        
         if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
@@ -381,7 +356,7 @@ public class NeuralNetworkScene extends ObjectScene  {
                 inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
                 inputsContainerWidget.addChild(inputLabel);
 
-                NeuronWidget targetWidget = neuronsAndWidgets.get(neuralNetwork.getInputNeurons()[i]);
+                NeuronWidget targetWidget = (NeuronWidget)findWidget(neuralNetwork.getInputNeurons()[i]);
 
                 if (scenePreferences.isShowConnections()) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
@@ -403,7 +378,7 @@ public class NeuralNetworkScene extends ObjectScene  {
 
             Layer sourceLayer = layers.get(0); // verovatno ne mora da bude samo prvi layer ...
 
-            NeuralLayerWidget sourceWidget = layersAndWidgets.get(sourceLayer);
+            NeuralLayerWidget sourceWidget = (NeuralLayerWidget)findWidget(sourceLayer);
             if (scenePreferences.isShowConnections()) {
                 ConnectionWidget connWidget = new ConnectionWidget(this);
                 // create connection between input widget and first neural layer widget
@@ -417,7 +392,8 @@ public class NeuralNetworkScene extends ObjectScene  {
         }        
     }
     
-    private void createOutputsWidget() {
+    private void redrawOutputsWidgets() {
+        outputsContainerWidget.removeChildren();
         outputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
         LabelWidget outputsLabel = new LabelWidget(this, "Outputs:");        
         outputsLabel.setForeground(Color.GRAY);
@@ -431,7 +407,7 @@ public class NeuralNetworkScene extends ObjectScene  {
                 outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
                 outputsContainerWidget.addChild(outputLabel);
 
-                NeuronWidget sourceWidget = neuronsAndWidgets.get(neuralNetwork.getOutputNeurons()[i]);
+                NeuronWidget sourceWidget = (NeuronWidget)findWidget(neuralNetwork.getOutputNeurons()[i]);
                 if (scenePreferences.isShowConnections()) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
 
@@ -451,7 +427,7 @@ public class NeuralNetworkScene extends ObjectScene  {
 
 
             //connect that neural layer widget with the previous one
-            NeuralLayerWidget sourceWidget = layersAndWidgets.get(targetlayer);
+            NeuralLayerWidget sourceWidget = (NeuralLayerWidget)findWidget(targetlayer);
             if (scenePreferences.isShowConnections()) {
                 ConnectionWidget connWidget = new ConnectionWidget(this);
 
@@ -492,20 +468,22 @@ public class NeuralNetworkScene extends ObjectScene  {
     }
 
     private void createConnections() {
+        connectionsToRoute.clear();
+        
         for (int currentLayerIdx = 0; currentLayerIdx < layers.size(); currentLayerIdx++) {
             Layer currentLayer = layers.get(currentLayerIdx);
             if (currentLayer.getNeuronsCount() > TOO_MANY_NEURONS) {
 
                 if (currentLayerIdx == 0) { // first/input layer
-                    NeuralLayerWidget sourceLayerWidget = layersAndWidgets.get(currentLayer);
-                    NeuralLayerWidget targetLayerWidget = layersAndWidgets.get(layers.get(currentLayerIdx + 1));
+                    NeuralLayerWidget sourceLayerWidget = (NeuralLayerWidget)findWidget(currentLayer); //layersAndWidgets.get(currentLayer);
+                    NeuralLayerWidget targetLayerWidget = (NeuralLayerWidget)findWidget(layers.get(currentLayerIdx + 1));
                     createNeuralLayersConnection(sourceLayerWidget, targetLayerWidget);
                     // sledeci layer bi trebalo da crta svoj einput konekcije ovo je mozda nepotrebno...
 
                 } else if (currentLayerIdx == layers.size() - 1) { // last, output layer 
                     //(ne mora da znaci da je iz prethodnog lejera
-                    NeuralLayerWidget sourceLayerWidget = layersAndWidgets.get(layers.get(currentLayerIdx - 1));
-                    NeuralLayerWidget targetLayerWidget = layersAndWidgets.get(layers.get(currentLayerIdx));
+                    NeuralLayerWidget sourceLayerWidget = (NeuralLayerWidget)findWidget(layers.get(currentLayerIdx - 1));
+                    NeuralLayerWidget targetLayerWidget = (NeuralLayerWidget)findWidget(layers.get(currentLayerIdx));
                     createNeuralLayersConnection(sourceLayerWidget, targetLayerWidget);
 
                 } else { // hidden layers                      
@@ -513,8 +491,8 @@ public class NeuralNetworkScene extends ObjectScene  {
                         continue;
                     }
 
-                    NeuralLayerWidget prevLayerWidget = layersAndWidgets.get(layers.get(currentLayerIdx - 1));
-                    NeuralLayerWidget currentLayerWidget = layersAndWidgets.get(currentLayer);
+                    NeuralLayerWidget prevLayerWidget = (NeuralLayerWidget)findWidget(layers.get(currentLayerIdx - 1));
+                    NeuralLayerWidget currentLayerWidget = (NeuralLayerWidget)findWidget(currentLayer);
                     createNeuralLayersConnection(prevLayerWidget, currentLayerWidget);
                 }
 
@@ -529,8 +507,8 @@ public class NeuralNetworkScene extends ObjectScene  {
                         }
 
                         // draw connection between two layers    
-                        NeuralLayerWidget prevLayerWidget = layersAndWidgets.get(layers.get(currentLayerIdx - 1));
-                        NeuralLayerWidget currentLayerWidget = layersAndWidgets.get(currentLayer);
+                        NeuralLayerWidget prevLayerWidget = (NeuralLayerWidget)findWidget(layers.get(currentLayerIdx - 1));
+                        NeuralLayerWidget currentLayerWidget = (NeuralLayerWidget)findWidget(currentLayer);
                         createNeuralLayersConnection(prevLayerWidget, currentLayerWidget);
                     }
                 }
@@ -543,8 +521,8 @@ public class NeuralNetworkScene extends ObjectScene  {
                         Connection[] inputConnections = targetNeuron.getInputConnections();
 
                         for (int c = 0; c < inputConnections.length; c++) {
-                            NeuronWidget targetWidget = neuronsAndWidgets.get(targetNeuron);
-                            NeuronWidget sourceWidget = neuronsAndWidgets.get(inputConnections[c].getFromNeuron());
+                            NeuronWidget targetWidget = (NeuronWidget)findWidget(targetNeuron);
+                            NeuronWidget sourceWidget = (NeuronWidget)findWidget(inputConnections[c].getFromNeuron());
                             if (sourceWidget == null) { // hack when layer is deleted
                                 continue;
                             }
@@ -559,8 +537,8 @@ public class NeuralNetworkScene extends ObjectScene  {
                         }
                     }
                 } else {
-                    NeuralLayerWidget previousLayer = layersAndWidgets.get(layers.get(currentLayerIdx - 1));
-                    NeuralLayerWidget nextLayer = layersAndWidgets.get(layers.get(currentLayerIdx));
+                    NeuralLayerWidget previousLayer = (NeuralLayerWidget)findWidget(layers.get(currentLayerIdx - 1));
+                    NeuralLayerWidget nextLayer = (NeuralLayerWidget)findWidget(layers.get(currentLayerIdx));
                     createNeuralLayersConnection(previousLayer, nextLayer);
                 }
 
@@ -600,17 +578,10 @@ public class NeuralNetworkScene extends ObjectScene  {
         this.waitingClick = waitingClick;
     }
 
-    private void createConnectionsBetweenNeuronsInSameLayer() {
-        for (Neuron neuron : neuronsAndWidgets.keySet()) {
-            for (ConnectionWidget connWidget : neuronsAndWidgets.get(neuron).getConnections()) {
-                Connection connection = ((NeuronConnectionWidget) connWidget).getConnection();
-                Neuron fromNeuron = connection.getFromNeuron();
-                Neuron toNeuron = connection.getToNeuron();
-                if (fromNeuron.getParentLayer().equals(toNeuron.getParentLayer())) {
-                    connWidget.setRouter(new RouterConnection(neuronsAndWidgets.get(fromNeuron), neuronsAndWidgets.get(fromNeuron), connWidget.getFirstControlPoint(), connWidget.getLastControlPoint()));
-                }
-            }
-        }
+    private void routeConnectionsInSameLayer() {        
+        for(NeuronConnectionWidget connWidget : connectionsToRoute) {
+           connWidget.setRouter(new RouterConnection(connWidget.getSrc(), connWidget.getTrg(), connWidget.getFirstControlPoint(), connWidget.getLastControlPoint()));
+        }        
     }
 
     public NeuralNetworkEditor getNeuralNetworkEditor() {
@@ -645,6 +616,12 @@ public class NeuralNetworkScene extends ObjectScene  {
 
         sourceWidget.addConnection(connWidget);
         targetWidget.addConnection(connWidget);
+               
+        // if this is a connection in same layer it need routing which is don eafter validation. ow jus add to routing list
+        if (sourceWidget.getNeuron().getParentLayer() == targetWidget.getNeuron().getParentLayer()) {
+           connectionsToRoute.add(connWidget);
+        }                
+        
         return connWidget;
 
     }
@@ -660,11 +637,12 @@ public class NeuralNetworkScene extends ObjectScene  {
         }
     }
 
-    public void showActivationColor(boolean show) {
-        for (Neuron neuron : neuronsAndWidgets.keySet()) {
-            neuronsAndWidgets.get(neuron).setActivationColor(show);
+    public void showActivationColor(boolean show) {     
+        // instead of redrawing everything, iterate neuronwidgets and set properties
+        if (scenePreferences.isShowActivationColor() != show) {
+            scenePreferences.setShowActivationColor(show);
+            refresh();
         }
-        scenePreferences.setShowActivationColor(show);
     }
 
     public void showConnections(boolean show) {
@@ -695,25 +673,8 @@ public class NeuralNetworkScene extends ObjectScene  {
         }
     }
 
-    public HashMap<Neuron, NeuronWidget> getNeuronsAndWidgets() {
-        return neuronsAndWidgets;
-    }
-
-    public ArrayList<Neuron> getNeurons() {
-        return neurons;
-    }
-
-    public HashMap<Layer, NeuralLayerWidget> getLayersAndWidgets() {
-        return layersAndWidgets;
-    }
-
     public ArrayList<Layer> getLayers() {
         return layers;
     }
-    
-    
-    
-    
-    
-    
+                        
 }

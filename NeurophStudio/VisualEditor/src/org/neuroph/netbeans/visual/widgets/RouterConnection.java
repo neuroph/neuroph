@@ -35,6 +35,7 @@ public class RouterConnection implements Router {
         //ako je veza sa samim sobom, onda Point jeste u centru widgeta
     }
 
+    @Override
     public List<Point> routeConnection(ConnectionWidget cw) {
         int firstX = first.x;
         int lastX = last.x;
@@ -57,7 +58,7 @@ public class RouterConnection implements Router {
         int distance = Math.abs(lastX - firstX);
         int middleY = currentY - distance / 2;
 
-        List<Point> points = new ArrayList<Point>();
+        List<Point> points = new ArrayList<>();
         double t = 0;
         while (t < 1) {
             int x = (int) (Math.pow(1 - t, 2) * firstX + 2 * t * (1 - t) * middleX + Math.pow(t, 2) * lastX);
@@ -96,7 +97,7 @@ public class RouterConnection implements Router {
         int firstX = first.x;
         int lastX = last.x;
         int currentY = first.y;
-        List<Point> points = new ArrayList<Point>();
+        List<Point> points = new ArrayList<>();
         if (firstX < lastX) { //ako je s leva na desno
             points.add(new Point(firstX + sizeFirst, currentY));
             points.add(new Point(lastX - sizeLast, currentY));
@@ -117,7 +118,7 @@ public class RouterConnection implements Router {
         int upY = currentY + sizeFirst*2; 
         int downY = (int) (currentY + 2 * Math.sqrt(Math.pow(sizeFirst, 2) / 5));
 
-        List<Point> points = new ArrayList<Point>();
+        List<Point> points = new ArrayList<>();
         double t = 0;
         while (t <= 1) {
             int x = (int) (Math.pow(1 - t, 3) * leftDownX + 3 * t * Math.pow(1 - t, 2) * leftUpX + 3 * (1 - t) * Math.pow(t, 2) * rightUpX + Math.pow(t, 3) * rightDownX);

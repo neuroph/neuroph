@@ -84,7 +84,7 @@ public class NeuralNetworkWidget extends /*IconNodeWidget*/ Widget {
 
             // TODO: these two should be removed from gere once we find different solution
             nnScene.getLayers().add(layer);
-            nnScene.getLayersAndWidgets().put(layer, neuralLayerWidget);
+           // nnScene.getLayersAndWidgets().put(layer, neuralLayerWidget);
 
             if (nnScene.getObjects().contains(layer)) {
                nnScene.removeObject(layer);
