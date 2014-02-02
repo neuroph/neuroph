@@ -2,22 +2,15 @@ package org.neuroph.netbeans.visual.widgets;
 
 import java.awt.Color;
 import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.action.TwoStateHoverProvider;
-import org.netbeans.api.visual.action.WidgetAction;
-import org.netbeans.api.visual.border.Border;
-import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.model.ObjectState;
 import org.netbeans.api.visual.widget.ConnectionWidget;
-import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Connection;
-import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.popup.NeuronConnectionPopupMenuProvider;
 
 
 /**
- * This class represents a connection between two neurons
+ * This class represents a connection widget between two neurons
  * http://bits.netbeans.org/dev/javadoc/org-netbeans-api-visual/org/netbeans/api/visual/widget/ConnectionWidget.html
  *
  * http://platform.netbeans.org/graph/common-usages.html // conenction anchors

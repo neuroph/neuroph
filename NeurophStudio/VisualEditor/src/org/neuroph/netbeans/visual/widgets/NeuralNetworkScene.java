@@ -118,7 +118,7 @@ public class NeuralNetworkScene extends ObjectScene  {
         dataSetLabel = new LabelWidget(this, "DataSet: none (drag n drop to set)");
         dataSetLabel.setForeground(Color.GRAY);
         dataSetLabel.setFont(new Font("Arial", Font.PLAIN, 12));        
-        dataSetWidget.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+        dataSetWidget.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));
         dataSetWidget.setLayout(LayoutFactory.createVerticalFlowLayout( LayoutFactory.SerialAlignment.CENTER, 4));
         dataSetWidget.addChild(dataSetLabel);        
         
@@ -129,7 +129,7 @@ public class NeuralNetworkScene extends ObjectScene  {
         mainLayer.addChild(neuralNetworkWidget);
 
         outputsContainerWidget = new ImageWidget(this);
-        outputsContainerWidget.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));      
+        outputsContainerWidget.setBorder(BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));      
         mainLayer.addChild(outputsContainerWidget);
 
         addChild(mainLayer);
@@ -353,7 +353,7 @@ public class NeuralNetworkScene extends ObjectScene  {
             for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
                 LabelWidget inputLabel = new LabelWidget(this);
                 inputLabel.setLabel("In " + (i + 1));
-                inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+                inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));
                 inputsContainerWidget.addChild(inputLabel);
 
                 NeuronWidget targetWidget = (NeuronWidget)findWidget(neuralNetwork.getInputNeurons()[i]);
@@ -373,7 +373,7 @@ public class NeuralNetworkScene extends ObjectScene  {
 
             LabelWidget inputLabel = new LabelWidget(this);
             inputLabel.setLabel(neuralNetwork.getInputNeurons().length + " Inputs");
-            inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+            inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));
             inputsContainerWidget.addChild(inputLabel);
 
             Layer sourceLayer = layers.get(0); // verovatno ne mora da bude samo prvi layer ...
@@ -404,7 +404,7 @@ public class NeuralNetworkScene extends ObjectScene  {
             for (int i = 0; i < neuralNetwork.getOutputNeurons().length; i++) {
                 LabelWidget outputLabel = new LabelWidget(this);
                 outputLabel.setLabel("Out " + (i + 1));
-                outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+                outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));
                 outputsContainerWidget.addChild(outputLabel);
 
                 NeuronWidget sourceWidget = (NeuronWidget)findWidget(neuralNetwork.getOutputNeurons()[i]);
@@ -421,7 +421,7 @@ public class NeuralNetworkScene extends ObjectScene  {
         } else if (neuralNetwork.getOutputNeurons() != null) {
             LabelWidget outputLabel = new LabelWidget(this);
             outputLabel.setLabel("Output " + neuralNetwork.getOutputNeurons().length);
-            outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.black));
+            outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));
             outputsContainerWidget.addChild(outputLabel);
             Layer targetlayer = layers.get(layers.size() - 1);
 
