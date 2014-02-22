@@ -301,6 +301,7 @@ public class NeuralNetwork <L extends LearningRule> implements Serializable {
                 learningRule.learn(trainingSet);
             }
         };
+        learningThread.setName("NeurophLearningThread");
         learningThread.start();
     }
 
