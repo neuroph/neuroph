@@ -91,6 +91,7 @@ public class DataSet implements Serializable /*
         this.rows = new ArrayList();
         this.inputSize = inputSize;
         this.isSupervised = false;
+        this.columnNames = new String[inputSize];
     }
 
     /**
@@ -104,6 +105,7 @@ public class DataSet implements Serializable /*
         this.inputSize = inputSize;
         this.outputSize = outputSize;
         this.isSupervised = true;
+        this.columnNames = new String[inputSize+outputSize];
     }
 
     /**
@@ -242,7 +244,7 @@ public class DataSet implements Serializable /*
         return columnNames[idx];
     }
     
-    public void setColumnName(String columnName, int idx) {
+    public void setColumnName(int idx, String columnName) {
         columnNames[idx] = columnName;
     }
     

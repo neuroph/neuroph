@@ -98,7 +98,7 @@ public class InputOutputNeuron extends Neuron {
 		if (!externalInputSet) { // ako ulaz nije setovan spolja
 			if (this.hasInputConnections()) // bias neuroni ne racunaju ulaz iz mreze jer
 									// nemaju ulaze
-				netInput = inputFunction.getOutput(this.inputConnections);
+				netInput = inputFunction.getOutput(this.inputConnections.asArray());
 		}
 
 		// calculqate cell output

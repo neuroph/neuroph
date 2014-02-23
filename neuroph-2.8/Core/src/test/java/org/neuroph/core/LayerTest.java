@@ -1,7 +1,5 @@
 package org.neuroph.core;
 
-import java.util.List;
-import java.util.Random;
 import static org.junit.Assert.*;
 import org.junit.*;
 
@@ -109,24 +107,6 @@ public class LayerTest {
         testlayer1.reset();
         assertEquals(0d, testneuron1.getNetInput(), .0001);
         assertEquals(0d, testneuron1.getOutput(), .0001);
-    }
-
-    @Test
-    public void testrandomizeWeights() {
-        testlayer2.randomizeWeights();
-        if (testneuron4.getWeights()[0].getValue() == .5 && testneuron4.getWeights()[1].getValue() == .5) {
-            fail();
-        }
-    }
-
-    @Test
-    public void testrandomizeWeights_double_double() {
-        testlayer2.randomizeWeights(.7, .9);
-        for (Weight w : testneuron4.getWeights()) {
-            if (w.getValue() < .6 || w.getValue() > .9) {
-                fail();
-            }
-        }
     }
 
     @Test

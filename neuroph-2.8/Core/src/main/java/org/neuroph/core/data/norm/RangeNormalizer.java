@@ -61,7 +61,7 @@ public class RangeNormalizer implements Normalizer {
         maxOut = new double[outputSize];
         minOut = new double[outputSize];   
         
-        for(int i=0; i<inputSize; i++) {
+        for(int i=0; i<outputSize; i++) {
             maxOut[i] = Double.MIN_VALUE;
             minOut[i] = Double.MAX_VALUE;
         }        

@@ -35,7 +35,7 @@ import org.neuroph.core.data.DataSet;
  */
 
 // TODO: importFromDatabase(sql, ...) and importFromUrl(url, ...)
-
+// rename to DataSetImport
 public class TrainingSetImport
 {
   
@@ -51,7 +51,7 @@ public class TrainingSetImport
      BufferedReader reader = new BufferedReader(fileReader);
 
      String line = "";
-      
+     // check if firs lin econtains column names and set datatset column names
       while((line = reader.readLine())!=null) {
         double[] inputs = new double[inputsCount];
         double[] outputs = new double[outputsCount];

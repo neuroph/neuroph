@@ -119,23 +119,7 @@ public class NeuronTest {
         assertFalse(weights.contains(testConnection14.getWeight()));
     }
 
-    @Test
-    public void testRandomizeInputWeights_0args() {                
-        instance3.randomizeWeights();
-        Weight[] weight2=instance3.getWeights();
-        assertTrue(weight2[1].getValue()!=.7);
-        assertTrue(weight2[1].getValue()!=.9);
-            }
 
-    @Test
-    public void testRandomizeInputWeights_double_double() {        
-        instance3.randomizeWeights(.1,.5);
-        Weight[] weights=instance3.getWeights();
-        for(Weight w : weights){
-            if((w.getValue()>.5)||(w.getValue()<.1))
-                fail();
-        }
-    }
 
     @Test
     public void testInitializeWeights_double() {             

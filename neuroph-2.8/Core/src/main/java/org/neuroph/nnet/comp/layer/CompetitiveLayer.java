@@ -69,7 +69,7 @@ public class CompetitiveLayer extends Layer {
 		
 		while (!hasWinner) {
 			int fireingNeurons = 0;
-			for(Neuron neuron : this.neurons) {
+			for(Neuron neuron : this.getNeurons()) {
 				neuron.calculate();
 				if (neuron.getOutput() > 0)
 					fireingNeurons += 1;
@@ -87,7 +87,7 @@ public class CompetitiveLayer extends Layer {
 			// now set reference to winner
 			double maxOutput = Double.MIN_VALUE;
 
-			for(Neuron neuron : this.neurons) {	
+			for(Neuron neuron : this.getNeurons()) {	
 				CompetitiveNeuron cNeuron = (CompetitiveNeuron)neuron;
 				cNeuron.setIsCompeting(false); // turn off competing mode
 				if (cNeuron.getOutput() > maxOutput) {

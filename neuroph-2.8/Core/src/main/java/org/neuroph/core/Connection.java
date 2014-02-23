@@ -59,13 +59,13 @@ public class Connection implements Serializable {
     public Connection(Neuron fromNeuron, Neuron toNeuron) {
 
         if (fromNeuron == null) {
-            throw new NeurophException("From neuron in connection cant be null !");
+            throw new IllegalArgumentException("From neuron in connection cant be null !");
         } else {
             this.fromNeuron = fromNeuron;
         }
 
         if (toNeuron == null) {
-            throw new NeurophException("To neuron in connection cant be null!");
+            throw new IllegalArgumentException("To neuron in connection cant be null!");
         } else {
             this.toNeuron = toNeuron;
         }
@@ -83,19 +83,19 @@ public class Connection implements Serializable {
      */
     public Connection(Neuron fromNeuron, Neuron toNeuron, Weight weight) {
         if (fromNeuron == null) {
-            throw new NeurophException("From neuron in connection cant be null !");
+            throw new IllegalArgumentException("From neuron in connection cant be null !");
         } else {
             this.fromNeuron = fromNeuron;
         }
 
         if (toNeuron == null) {
-            throw new NeurophException("To neuron in connection cant be null!");
+            throw new IllegalArgumentException("To neuron in connection cant be null!");
         } else {
             this.toNeuron = toNeuron;
         }
         
         if (weight == null) {
-            throw new NeurophException("Connection Weight cant be null!");
+            throw new IllegalArgumentException("Connection Weight cant be null!");
         } else {
             this.weight = weight;
         }        
@@ -112,13 +112,13 @@ public class Connection implements Serializable {
      */
     public Connection(Neuron fromNeuron, Neuron toNeuron, double weightVal) {
         if (fromNeuron == null) {
-            throw new NeurophException("From neuron in connection cant be null !");
+            throw new IllegalArgumentException("From neuron in connection cant be null !");
         } else {
             this.fromNeuron = fromNeuron;
         }
 
         if (toNeuron == null) {
-            throw new NeurophException("To neuron in connection cant be null!");
+            throw new IllegalArgumentException("To neuron in connection cant be null!");
         } else {
             this.toNeuron = toNeuron;
         }
@@ -141,7 +141,7 @@ public class Connection implements Serializable {
      */
     public void setWeight(Weight weight) {
         if (weight == null) {
-            throw new NeurophException("Connection Weight cant be null!");
+            throw new IllegalArgumentException("Connection Weight cant be null!");
         } else {
             this.weight = weight;
         }        
@@ -180,7 +180,7 @@ public class Connection implements Serializable {
      */
     public void setFromNeuron(Neuron fromNeuron) {
         if (fromNeuron == null) {
-            throw new NeurophException("From neuron in connection cant be null!");
+            throw new IllegalArgumentException("From neuron in connection cant be null!");
         } else {
             this.fromNeuron = fromNeuron;
         }
@@ -200,7 +200,7 @@ public class Connection implements Serializable {
      */
     public void setToNeuron(Neuron toNeuron) {
         if (toNeuron == null) {
-            throw new NeurophException("From neuron in connection cant be null!");
+            throw new IllegalArgumentException("From neuron in connection cant be null!");
         } else {
             this.toNeuron = toNeuron;
         }

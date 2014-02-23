@@ -25,7 +25,7 @@ import org.neuroph.core.learning.SupervisedLearning;
  */
 public class MaxErrorStop implements StopCondition, Serializable {
 
-    private SupervisedLearning learningRule;
+    private final SupervisedLearning learningRule;
     
     public MaxErrorStop(SupervisedLearning learningRule) {
         this.learningRule = learningRule;
