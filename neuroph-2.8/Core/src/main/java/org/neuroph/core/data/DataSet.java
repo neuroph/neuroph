@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
-import org.neuroph.core.data.norm.MaxNormalizer;
-import org.neuroph.core.data.norm.Normalizer;
-import org.neuroph.core.data.sample.Sampling;
-import org.neuroph.core.data.sample.SubSampling;
+import org.neuroph.util.data.norm.MaxNormalizer;
+import org.neuroph.util.data.norm.Normalizer;
+import org.neuroph.util.data.sample.Sampling;
+import org.neuroph.util.data.sample.SubSampling;
 
 /**
  * This class represents a collection of data rows (DataSetRow instances) used
@@ -117,7 +117,7 @@ public class DataSet implements Serializable /*
             throws VectorSizeMismatchException {
         
         if (row == null) {
-                    throw new NeurophException("Training dta row cannot be null!");
+                    throw new IllegalArgumentException("Training data row cannot be null!");
         }
         
         // check input vector size if it is predefined
@@ -425,11 +425,25 @@ public class DataSet implements Serializable /*
             BufferedReader reader = new BufferedReader(fileReader);
 
             String line = "";
-
+            boolean isFirstLine = true;
+            
             while ((line = reader.readLine()) != null) {
+                
+                // if first line is 'COLUMNS:'
+                if (isFirstLine) {
+                    if (line.trim().equals("COLUMNS:")) {
+                        line = reader.readLine();
+                        String[] colNames = line.split(delimiter); 
+                        dataSet.setColumnNames(colNames);
+                    }
+                    isFirstLine = false;
+                }
+                
+                String[] values = line.split(delimiter);                
+                
                 double[] inputs = new double[inputsCount];
                 double[] outputs = new double[outputsCount];
-                String[] values = line.split(delimiter);
+                
 
                 if (values[0].equals("")) {
                     continue; // skip if line was empty

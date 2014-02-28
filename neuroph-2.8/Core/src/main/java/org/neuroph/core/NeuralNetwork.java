@@ -26,7 +26,7 @@ import org.neuroph.core.data.DataSet;
 import org.neuroph.core.learning.IterativeLearning;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.util.NeuralNetworkType;
-import org.neuroph.util.NeurophArrayList;
+import org.neuroph.util.TypedArrayList;
 import org.neuroph.util.plugins.PluginBase;
 import org.neuroph.util.random.RangeRandomizer;
 import org.neuroph.util.random.WeightsRandomizer;
@@ -59,7 +59,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * Neural network layers
      */
     // private Layer[] layers;
-    private NeurophArrayList<Layer> layers;
+    private TypedArrayList<Layer> layers;
 
     /**
      * Neural network output buffer
@@ -69,12 +69,12 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     /**
      * Reference to network input neurons
      */
-    private NeurophArrayList<Neuron> inputNeurons;
+    private TypedArrayList<Neuron> inputNeurons;
 
     /**
      * Reference to network output neurons
      */
-    private NeurophArrayList<Neuron> outputNeurons;
+    private TypedArrayList<Neuron> outputNeurons;
 
     /**
      * Learning rule for this network
@@ -103,9 +103,9 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * Creates an instance of empty neural network.
      */
     public NeuralNetwork() {
-        this.layers = new NeurophArrayList<>(Layer.class);
-        this.inputNeurons = new NeurophArrayList<>(Neuron.class);
-        this.outputNeurons = new NeurophArrayList<>(Neuron.class);
+        this.layers = new TypedArrayList<>(Layer.class);
+        this.inputNeurons = new TypedArrayList<>(Neuron.class);
+        this.outputNeurons = new TypedArrayList<>(Neuron.class);
         this.plugins = new HashMap<>();
     }
 

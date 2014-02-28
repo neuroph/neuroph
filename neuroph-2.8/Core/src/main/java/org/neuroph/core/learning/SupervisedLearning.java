@@ -381,6 +381,16 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         return minErrorChangeIterationsCount;
     }
 
+    public ErrorFunction getErrorFunction() {
+        return errorFunction;
+    }
+
+    public void setErrorFunction(ErrorFunction errorFunction) {
+        this.errorFunction = errorFunction;
+    }
+    
+    
+
     /**
      * Calculates and updates sum of squared errors for single pattern, and updates total sum of squared pattern errors
      *

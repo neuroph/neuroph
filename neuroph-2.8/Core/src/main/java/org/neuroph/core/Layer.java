@@ -18,7 +18,7 @@ package org.neuroph.core;
 import java.io.Serializable;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
-import org.neuroph.util.NeurophArrayList;
+import org.neuroph.util.TypedArrayList;
 
 /**
  * <pre>
@@ -45,7 +45,7 @@ public class Layer implements Serializable {
     /**
      * Collection of neurons (Neuron instances)
      */
-    protected NeurophArrayList<Neuron> neurons;
+    protected TypedArrayList<Neuron> neurons;
 
     /**
      * Label for this layer
@@ -56,7 +56,7 @@ public class Layer implements Serializable {
      * Creates an instance of empty Layer
      */
     public Layer() {
-        neurons = new NeurophArrayList(Neuron.class);
+        neurons = new TypedArrayList(Neuron.class);
     }
 
     /**
@@ -67,7 +67,7 @@ public class Layer implements Serializable {
      * @param neuronProperties properties of neurons in layer
      */
     public Layer(int neuronsCount, NeuronProperties neuronProperties) {
-        neurons = new NeurophArrayList(Neuron.class, neuronsCount);
+        neurons = new TypedArrayList(Neuron.class, neuronsCount);
 
         for (int i = 0; i < neuronsCount; i++) {
             Neuron neuron = NeuronFactory.createNeuron(neuronProperties);
@@ -181,7 +181,7 @@ public class Layer implements Serializable {
         Neuron neuron = neurons.get(index);
         neuron.setParentLayer(null);
         neuron.removeAllConnections(); // why we're doing this here? maybe we shouldnt
-        neurons.remove(index);
+        neurons.remove(index);                
     }
 
     public final void removeAllNeurons() {

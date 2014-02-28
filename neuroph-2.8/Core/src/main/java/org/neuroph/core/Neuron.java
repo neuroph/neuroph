@@ -24,7 +24,7 @@ import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.core.transfer.Step;
 import org.neuroph.core.transfer.TransferFunction;
-import org.neuroph.util.NeurophArrayList;
+import org.neuroph.util.TypedArrayList;
 
 /**
  *<pre>
@@ -56,13 +56,13 @@ public class Neuron implements Serializable {
 	/**
 	 * Collection of neuron's input connections (connections to this neuron)
 	 */
-	protected NeurophArrayList<Connection> inputConnections;
+	protected TypedArrayList<Connection> inputConnections;
 
 	/**
 	 * Collection of neuron's output connections (connections from this to other
 	 * neurons)
 	 */
-	protected NeurophArrayList<Connection> outConnections;
+	protected TypedArrayList<Connection> outConnections;
 
         /**
 	 * Total net input for this neuron. Represents total input for this neuron
@@ -103,8 +103,8 @@ public class Neuron implements Serializable {
 	public Neuron() {
 		this.inputFunction = new WeightedSum();
 		this.transferFunction = new Step();
-                this.inputConnections = new NeurophArrayList<>(Connection.class);
-                this.outConnections = new NeurophArrayList<>(Connection.class);
+                this.inputConnections = new TypedArrayList<>(Connection.class);
+                this.outConnections = new TypedArrayList<>(Connection.class);
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class Neuron implements Serializable {
             
 		this.inputFunction = inputFunction;
 		this.transferFunction = transferFunction;
-                this.inputConnections = new NeurophArrayList<>(Connection.class);
-                this.outConnections = new NeurophArrayList<>(Connection.class);                
+                this.inputConnections = new TypedArrayList<>(Connection.class);
+                this.outConnections = new TypedArrayList<>(Connection.class);                
 	}
 
 	/**

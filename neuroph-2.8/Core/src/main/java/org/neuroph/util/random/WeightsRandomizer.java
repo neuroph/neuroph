@@ -48,7 +48,7 @@ public class WeightsRandomizer {
     public WeightsRandomizer(Random randomGenerator) {
         this.randomGenerator = randomGenerator;
     }    
-
+    
     /**
      * Gets random generator used to generate random values
      * @return random generator used to generate random values
@@ -57,17 +57,38 @@ public class WeightsRandomizer {
         return randomGenerator;
     }
 
+    public void setRandomGenerator(Random randomGenerator) {
+        this.randomGenerator = randomGenerator;
+    }
+    
+   
     /**
-     * Iterate all layers, neurons and connections in network, and randomize connection weights
+     * Iterates and randomizes all layers in specified network
      * @param neuralNetwork neural network to randomize
      */
     public void randomize(NeuralNetwork neuralNetwork) {
         for (Layer layer : neuralNetwork.getLayers()) {
-            for (Neuron neuron : layer.getNeurons()) {
-                for (Connection connection : neuron.getInputConnections()) {
-                    connection.getWeight().setValue(nextRandomWeight());
-                }
-            }
+            this.randomize(layer);
+        }
+    }
+    
+    /**
+     * Iterate and randomizes all neurons in specified layer
+     * @param layer layer to randomize
+     */    
+    public void randomize(Layer layer) {
+        for (Neuron neuron : layer.getNeurons()) {
+            randomize(neuron);
+        }
+    }
+    
+    /**
+     * Iterates and randomizes all connection weights in specified neuron
+     * @param neuron neuron to randomize
+     */        
+    public void randomize(Neuron neuron) {
+        for (Connection connection : neuron.getInputConnections()) {
+            connection.getWeight().setValue(nextRandomWeight());
         }
     }
 
