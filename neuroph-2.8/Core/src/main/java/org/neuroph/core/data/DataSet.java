@@ -1,5 +1,5 @@
 /**
- * Copyright 2010 Neuroph Project http://neuroph.sourceforge.net
+ * Copyright 2014 Neuroph Project http://neuroph.sourceforge.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -280,7 +280,6 @@ public class DataSet implements Serializable /*
         sb.append("Label:").append(label).append(System.lineSeparator());
                
         if (columnNames != null) {
-            sb.append("Columns: ");
             for(String columnName : columnNames) {
                 sb.append(columnName).append(", ");
             }
@@ -288,7 +287,6 @@ public class DataSet implements Serializable /*
             sb.append(System.lineSeparator());
         }    
         
-        sb.append("Rows:");
         for(DataSetRow row : rows) {
             sb.append(row);
             sb.append(System.lineSeparator());
@@ -300,7 +298,7 @@ public class DataSet implements Serializable /*
     public String toCSV() {
         StringBuilder sb = new StringBuilder();
         
-        if (columnNames != null) {
+        if ((columnNames != null)&& (columnNames.length > 0) ){
             for(String columnName : columnNames) {
                 sb.append(columnName).append(", ");
             }
@@ -416,35 +414,44 @@ public class DataSet implements Serializable /*
         }
     }
 
-    public static DataSet createFromFile(String filePath, int inputsCount, int outputsCount, String delimiter) {
+    /**
+     * Creates and returns data set from specified csv file
+     * 
+     * @param filePath path to csv dataset file to import
+     * @param inputsCount number of inputs
+     * @param outputsCount number of outputs
+     * @param delimiter delimiter of values
+     * @param loadColumnNames true if csv file contains column names in first line, false otherwise
+     * @return instance of dataset with values from specified file
+     */
+    public static DataSet createFromFile(String filePath, int inputsCount, int outputsCount, String delimiter, boolean loadColumnNames) {
         FileReader fileReader = null;
 
+        if (filePath == null) throw new IllegalArgumentException("File name cannot be null!");
+        if (inputsCount <= 0) throw new IllegalArgumentException("Number of inputs cannot be <= 0");
+        if (outputsCount < 0) throw new IllegalArgumentException("Number of outputs cannot be < 0");
+        if ((delimiter == null) || delimiter.isEmpty()) throw new IllegalArgumentException("Number of outputs cannot be <= 0");
+        
         try {
             DataSet dataSet = new DataSet(inputsCount, outputsCount);
             fileReader = new FileReader(new File(filePath));
             BufferedReader reader = new BufferedReader(fileReader);
 
-            String line = "";
-            boolean isFirstLine = true;
+            String line=null;
             
-            while ((line = reader.readLine()) != null) {
-                
-                // if first line is 'COLUMNS:'
-                if (isFirstLine) {
-                    if (line.trim().equals("COLUMNS:")) {
-                        line = reader.readLine();
-                        String[] colNames = line.split(delimiter); 
-                        dataSet.setColumnNames(colNames);
-                    }
-                    isFirstLine = false;
-                }
-                
+            if (loadColumnNames) {
+                // get column names from the first line
+                line = reader.readLine();
+                String[] colNames = line.split(delimiter); 
+                dataSet.setColumnNames(colNames);          
+            }
+            
+            while ((line = reader.readLine()) != null) {                                
                 String[] values = line.split(delimiter);                
                 
                 double[] inputs = new double[inputsCount];
                 double[] outputs = new double[outputsCount];
                 
-
                 if (values[0].equals("")) {
                     continue; // skip if line was empty
                 }
@@ -487,7 +494,7 @@ public class DataSet implements Serializable /*
         }
 
     }
-
+    
     public void normalize() {
         this.normalize(new MaxNormalizer());
     }
