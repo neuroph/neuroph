@@ -69,7 +69,7 @@ public class ShuttleLandingControlSample implements LearningEventListener {
         int outputsCount = 2;
 
         // create training set from file
-        DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, ",");
+        DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, ",", false);
 
 
         System.out.println("Creating neural network...");

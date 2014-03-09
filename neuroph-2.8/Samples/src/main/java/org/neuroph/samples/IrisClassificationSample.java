@@ -35,12 +35,12 @@ public class IrisClassificationSample {
      */
     public static void main(String[] args) {    
         // get the path to file with data
-        String inputFileName = IrisClassificationSample.class.getResource("data/iris_data_normalised.txt").getFile();
+        String inputFileName = "data_sets/iris_data_normalised.txt";
         
         // create MultiLayerPerceptron neural network
         MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 16, 3);
         // create training set from file
-        DataSet irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",");
+        DataSet irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
         // train the network with training set
         neuralNet.learn(irisDataSet);      
                         

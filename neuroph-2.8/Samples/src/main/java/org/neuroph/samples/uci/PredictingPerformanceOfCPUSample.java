@@ -73,7 +73,7 @@ public class PredictingPerformanceOfCPUSample implements LearningEventListener{
         int outputsCount = 1;
 
         // create training set from file
-        DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, ",");
+        DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, ",", false);
         dataSet.normalize();
 
 

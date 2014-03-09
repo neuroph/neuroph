@@ -32,7 +32,7 @@ public class RBFClassificationSample implements LearningEventListener {
         RBFNetwork neuralNet = new RBFNetwork(1, 15, 1);
         
         // create training set from file
-        DataSet dataSet = DataSet.createFromFile(inputFileName, 1, 1, ",");
+        DataSet dataSet = DataSet.createFromFile(inputFileName, 1, 1, ",", false);
 
         RBFLearning learningRule = ((RBFLearning)neuralNet.getLearningRule());
         learningRule.setLearningRate(0.02);

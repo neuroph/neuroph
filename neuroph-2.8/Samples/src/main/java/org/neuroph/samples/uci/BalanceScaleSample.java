@@ -70,7 +70,7 @@ public class BalanceScaleSample  implements LearningEventListener {
         int outputsCount = 3;
 
         // create training set from file
-        DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, "\t");
+        DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, "\t", false);
         
         
         System.out.println("Creating neural network...");
