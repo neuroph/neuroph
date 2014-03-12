@@ -44,11 +44,11 @@ public class JMLNeurophSample {
 
             //print out both to compare them
             System.out.println("Java-ML data set read from file");
-            print(jmlDataset);
+            printDataset(jmlDataset);
             System.out.println("Neuroph data set converted from Java-ML data set");
-            print(neurophDataset);
+            printDataset(neurophDataset);
             System.out.println("Java-ML data set reconverted from Neuroph data set");
-            print(jml);
+            printDataset(jml);
 
             System.out.println("JMLNeuroph classifier test");
             //test NeurophJMLClassifier
@@ -65,7 +65,7 @@ public class JMLNeurophSample {
      *
      * @param jmlDataset Dataset Java-ML data set
      */
-    public static void print(Dataset jmlDataset) {
+    public static void printDataset(Dataset jmlDataset) {
         System.out.println("JML dataset");
         Iterator iterator = jmlDataset.iterator();
 
@@ -82,7 +82,7 @@ public class JMLNeurophSample {
      *
      * @param neurophDataset Dataset Neuroph data set
      */
-    public static void print(DataSet neurophDataset) {
+    public static void printDataset(DataSet neurophDataset) {
         System.out.println("Neuroph dataset");
         Iterator iterator = neurophDataset.iterator();
 
@@ -145,21 +145,22 @@ public class JMLNeurophSample {
         neuralNet.getOutputNeurons()[2].setLabel("Virginica");
 
         // initialize NeurophJMLClassifier
-        JMLNeurophClassifier njmlClassifier = new JMLNeurophClassifier(neuralNet);
+        JMLNeurophClassifier jmlnClassifier = new JMLNeurophClassifier(neuralNet);
 
         // Process Java-ML data set
-        njmlClassifier.buildClassifier(jmlDataset);
+        jmlnClassifier.buildClassifier(jmlDataset);
 
-        // test item// - to do normalize this item
-        double[] item = {6.3, 2.9, 5.6, 1.8};
+        // test item
+        //double[] item = {5.1, 3.5, 1.4, 0.2}; // normalized item is below
+        double[] item = {-0.27777777777777773, 0.1249999999999999, -0.4322033898305085, -0.45833333333333337};
 
         // Java-ML instance out of test item
         Instance instance = new DenseInstance(item);
 
         // why are these not normalised?
-        System.out.println("NeurophJMLClassifier - classify of {6.3, 2.9, 5.6, 1.8}");
-        System.out.println(njmlClassifier.classify(instance));
-        System.out.println("NeurophJMLClassifier - classDistribution of {6.3, 2.9, 5.6, 1.8}");
-        System.out.println(njmlClassifier.classDistribution(instance));
+        System.out.println("NeurophJMLClassifier - classify of {0.22222222222222213, 0.6249999999999999, 0.06779661016949151, 0.04166666666666667}");
+        System.out.println(jmlnClassifier.classify(instance));
+        System.out.println("NeurophJMLClassifier - classDistribution of {0.22222222222222213, 0.6249999999999999, 0.06779661016949151, 0.04166666666666667}");
+        System.out.println(jmlnClassifier.classDistribution(instance));
     }
 }

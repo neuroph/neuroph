@@ -109,8 +109,6 @@ public class WekaNeurophSample {
             // set class index on data set
             wekaDataset.setClassIndex(4);
             
-
-
             // process data set
             neurophWekaClassifier.buildClassifier(wekaDataset);
 
@@ -122,9 +120,9 @@ public class WekaNeurophSample {
             Instance instance = new DenseInstance(1, item);
 
             // test classification
-            System.out.println("NeurophWekaClassifier - classifyInstance for {5.1, 3.5, 1.4, 0.2, 0.0}");
+            System.out.println("NeurophWekaClassifier - classifyInstance for {5.1, 3.5, 1.4, 0.2}");
             System.out.println("Class idx: "+neurophWekaClassifier.classifyInstance(instance));
-            System.out.println("NeurophWekaClassifier - distributionForInstance for {5.1, 3.5, 1.4, 0.2, 0.0}");
+            System.out.println("NeurophWekaClassifier - distributionForInstance for {5.1, 3.5, 1.4, 0.2}");
             double dist[] = neurophWekaClassifier.distributionForInstance(instance);            
             for (int i=0; i<dist.length; i++ ) {
                 System.out.println("Class "+i+": "+dist[i]);
