@@ -25,6 +25,7 @@ public class CharExtractor {
 
     /**
      * Creates new char extractor with soecified text image
+     * TODO: add background and foregrounf color
      * @param imageWithChars - image with text
      */
     public CharExtractor(BufferedImage imageWithChars) {
@@ -107,6 +108,7 @@ public class CharExtractor {
 
     /**
      * This method scans image pixels to the right until it finds next row where all pixel are white, y1 and y2.
+     * TODO: resiti broblem tolerancije n aboju bacgrounda kada ima prelaz...
      * @return - return true  when x2 value is changed and false when x2 value is not changed
      */
     private boolean findCropRightX() {
@@ -205,6 +207,10 @@ public class CharExtractor {
         return charImages;
     }
 
+    /**
+     * Extracts and returns char images to recognize as list of images
+     * @return 
+     */
     public List<BufferedImage> extractCharImagesToRecognize() {
         List<BufferedImage> trimedImages = new ArrayList<BufferedImage>();
         int i = 0;
