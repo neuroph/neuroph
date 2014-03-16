@@ -38,12 +38,10 @@ public class TestTimeSeries implements LearningEventListener {
         learningRule.addListener(this);        
         
         // create training set from file
-         trainingSet = DataSet.createFromFile(inputFileName, 5, 1, "\t");
+         trainingSet = DataSet.createFromFile(inputFileName, 5, 1, "\t", false);
         // train the network with training set
         neuralNet.learn(trainingSet);         
-        
-        // add observer here
-        
+              
         System.out.println("Done training.");          
     }
   

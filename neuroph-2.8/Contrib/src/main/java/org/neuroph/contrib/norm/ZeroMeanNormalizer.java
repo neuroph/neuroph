@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.core.data.norm.Normalizer;
+import org.neuroph.util.data.norm.Normalizer;
 
 public class ZeroMeanNormalizer implements Normalizer {
 
