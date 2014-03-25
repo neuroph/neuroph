@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: IDEActions
-OpenIDE-Module-Localizing-Bundle: IDEActions/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-
