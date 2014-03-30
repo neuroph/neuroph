@@ -782,12 +782,13 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 
     // This method is used to fire NeuralNetworkEvents
     public void fireNetworkEvent(NeuralNetworkEvent evt) {
-        Object[] listeners = this.listeners.getListenerList();
+        Object[] listenersObj = this.listeners.getListenerList();
+
         // Each listener occupies two elements - the first is the listener class
         // and the second is the listener instance
-        for (int i = 0; i < listeners.length; i += 2) {
-            if (listeners[i] == NeuralNetworkEvent.class) {
-                ((NeuralNetworkEventListener) listeners[i + 1]).handleNeuralNetworkEvent(evt);
+        for (int i = 0; i < listenersObj.length; i += 2) {
+            if (listenersObj[i] == NeuralNetworkEvent.class) {
+                ((NeuralNetworkEventListener) listenersObj[i + 1]).handleNeuralNetworkEvent(evt);
             }
         }
     }

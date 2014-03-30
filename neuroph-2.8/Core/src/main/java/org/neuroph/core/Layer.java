@@ -122,7 +122,8 @@ public class Layer implements Serializable {
         neurons.add(neuron);
         
         // notify network listeners that neuron has been added
-        parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                
+        if (parentNetwork != null)
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                
     }
 
     /**
@@ -147,7 +148,8 @@ public class Layer implements Serializable {
         neuron.setParentLayer(this);
         
         // notify network listeners that neuron has been added
-        parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                        
+        if (parentNetwork != null)
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                        
     }
 
     /**
@@ -191,14 +193,16 @@ public class Layer implements Serializable {
         neurons.remove(index);                
         
         // notify listeners that neuron has been removed
-        parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_REMOVED));                        
+        if (parentNetwork != null)
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_REMOVED));                        
     }
 
     public final void removeAllNeurons() {
         neurons.clear();
         
         // notify listeners that neurons has been removed
-        parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_REMOVED));                                
+        if (parentNetwork != null)
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_REMOVED));                                
     }
 
     /**
