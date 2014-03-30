@@ -168,7 +168,12 @@ public class Layer implements Serializable {
         neurons.set(index, neuron);
         
         // set neuron's parent layer to this layer                        
-        neuron.setParentLayer(this);        
+        neuron.setParentLayer(this);       
+        
+        // notify network listeners that neuron has been added
+        if (parentNetwork != null)
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                        
+        
     }
 
     /**
