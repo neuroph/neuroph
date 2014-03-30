@@ -30,6 +30,7 @@ public class MeanSquaredError implements ErrorFunction, Serializable {
         this.n = n;
     }
     
+    @Override
     public void reset() {
         totalSquaredErrorSum = 0;
     }

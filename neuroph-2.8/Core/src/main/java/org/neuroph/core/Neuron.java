@@ -17,9 +17,6 @@
 package org.neuroph.core;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Random;
-import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.core.transfer.Step;
@@ -136,11 +133,9 @@ public class Neuron implements Serializable {
 	public void calculate() {
                 if ((this.inputConnections.size() > 0)) {
 			this.netInput = this.inputFunction.getOutput(this.inputConnections.asArray());
-                        //if (this.netInput == Double.NaN) throw new NotANumberException();
 		}
 
                 this.output = this.transferFunction.getOutput(this.netInput);
-                //if (this.output == Double.NaN) throw new NotANumberException();
 	}
 
 	/**

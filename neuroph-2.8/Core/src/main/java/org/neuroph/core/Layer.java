@@ -16,6 +16,8 @@
 package org.neuroph.core;
 
 import java.io.Serializable;
+import org.neuroph.core.events.NeuralNetworkEvent;
+import org.neuroph.core.events.NeuralNetworkEventType;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TypedArrayList;
@@ -118,7 +120,9 @@ public class Layer implements Serializable {
 
         // add new neuron at the end of the array
         neurons.add(neuron);
-
+        
+        // notify network listeners that neuron has been added
+        parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                
     }
 
     /**
@@ -141,6 +145,9 @@ public class Layer implements Serializable {
         
         // set neuron's parent layer to this layer
         neuron.setParentLayer(this);
+        
+        // notify network listeners that neuron has been added
+        parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                        
     }
 
     /**
@@ -182,10 +189,16 @@ public class Layer implements Serializable {
         neuron.setParentLayer(null);
         neuron.removeAllConnections(); // why we're doing this here? maybe we shouldnt
         neurons.remove(index);                
+        
+        // notify listeners that neuron has been removed
+        parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_REMOVED));                        
     }
 
     public final void removeAllNeurons() {
         neurons.clear();
+        
+        // notify listeners that neurons has been removed
+        parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_REMOVED));                                
     }
 
     /**

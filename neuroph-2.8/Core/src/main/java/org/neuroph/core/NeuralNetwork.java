@@ -17,12 +17,12 @@ package org.neuroph.core;
 
 import java.io.*;
 import java.util.*;
-import org.neuroph.core.events.NeuralNetworkCalculatedEvent;
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.core.events.NeuralNetworkEventListener;
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.core.events.NeuralNetworkEventType;
 import org.neuroph.core.learning.IterativeLearning;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.util.NeuralNetworkType;
@@ -130,6 +130,9 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 
         // set parent network for added layer
         layer.setParentNetwork(this);
+        
+        // notify listeners that layer has been added
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_ADDED));
     }
 
     /**
@@ -160,6 +163,9 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 
         // set parent network for added layer
         layer.setParentNetwork(this);
+        
+        // notify listeners that layer has been added
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_ADDED));       
     }
 
     /**
@@ -170,7 +176,11 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     public void removeLayer(Layer layer) {
 //        int index = indexOf(layer);
 //        removeLayerAt(index);
+
         layers.remove(layer);
+        
+        // notify listeners that layer has been removed
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_REMOVED));        
     }
 
     /**
@@ -189,7 +199,12 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 //        if (layers.length > 0) {
 //            layers = Arrays.copyOf(layers, layers.length - 1);
 //        }
+
+        Layer layer = layers.get(index);
         layers.remove(index);
+        
+        // notify listeners that layer has been removed
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_REMOVED));
     }
 
     /**
@@ -256,10 +271,10 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     }
 
     /**
-     * Returns network output Vector. Output Vector is a collection of Double
+     * Returns network output vector. Output vector is an array  collection of Double
      * values.
      *
-     * @return network output Vector
+     * @return network output vector
      */
     public double[] getOutput() {
         // double[] outputVector = new double[outputNeurons.length];// use attribute to avoid creating to arrays and avoid GC work
@@ -278,7 +293,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
             layer.calculate();
         }
 
-        fireNetworkEvent(new NeuralNetworkCalculatedEvent(this));
+        fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.CALCULATED));
     }
 
     /**
@@ -765,8 +780,8 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
         listeners.remove(NeuralNetworkEventListener.class, listener);
     }
 
-    // This private class is used to fire LearningEvents
-    protected void fireNetworkEvent(NeuralNetworkEvent evt) {
+    // This method is used to fire NeuralNetworkEvents
+    public void fireNetworkEvent(NeuralNetworkEvent evt) {
         Object[] listeners = this.listeners.getListenerList();
         // Each listener occupies two elements - the first is the listener class
         // and the second is the listener instance

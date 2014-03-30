@@ -25,8 +25,15 @@ import org.neuroph.core.learning.LearningRule;
 
 public class LearningEvent extends java.util.EventObject {
     
-    public LearningEvent(LearningRule source) {
+    LearningEventType eventType;
+    
+    public LearningEvent(LearningRule source, LearningEventType eventType) {
         super(source);
+        this.eventType = eventType;
     }
-        
+
+    public LearningEventType getEventType() {
+        return eventType;
+    }
+                
 }

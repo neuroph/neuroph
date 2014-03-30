@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.neuroph.core.events.LearningEvent;
-import org.neuroph.core.events.LearningStoppedEvent;
+import org.neuroph.core.events.LearningEventType;
 import org.neuroph.core.learning.stop.MaxIterationsStop;
 import org.neuroph.core.learning.stop.StopCondition;
 
@@ -53,10 +53,13 @@ abstract public class IterativeLearning extends LearningRule implements
      * backward compatibility with serialized networks?
      */
     private int maxIterations = Integer.MAX_VALUE;
+    
     /**
      * Flag for indicating if the training iteration number is limited
      */
     private boolean iterationsLimited = false;
+   
+    
     protected List<StopCondition> stopConditions;
     /**
      * Flag for indicating if learning thread is paused
@@ -190,7 +193,7 @@ abstract public class IterativeLearning extends LearningRule implements
             }
 
             // notify listeners that epoch has ended
-            fireLearningEvent(new LearningEvent(this)); // notify listeners
+            fireLearningEvent(new LearningEvent(this, LearningEventType.EPOCH_ENDED));
 
             // Thread safe pause when learning is paused
             if (this.pausedLearning) {
@@ -206,7 +209,7 @@ abstract public class IterativeLearning extends LearningRule implements
 
         }
         
-        fireLearningEvent(new LearningStoppedEvent(this));
+        fireLearningEvent(new LearningEvent(this, LearningEventType.LEARNING_STOPPED));
     }
 
     protected boolean hasReachedStopCondition() {
@@ -241,8 +244,8 @@ abstract public class IterativeLearning extends LearningRule implements
     public void doOneLearningIteration(DataSet trainingSet) {
         beforeEpoch();
         doLearningEpoch(trainingSet);
-        fireLearningEvent(new LearningEvent(this)); // notify listeners
         afterEpoch();
+        fireLearningEvent(new LearningEvent(this, LearningEventType.LEARNING_STOPPED));; // notify listeners        
     }
 
     /**

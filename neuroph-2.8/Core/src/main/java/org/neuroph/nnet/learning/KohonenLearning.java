@@ -26,6 +26,7 @@ import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.core.events.LearningEventType;
 import org.neuroph.nnet.Kohonen;
 
 /**
@@ -65,7 +66,7 @@ public class KohonenLearning extends LearningRule {
 				} // while
 				currentIteration = k;
 				//this.notifyChange();	
-                                this.fireLearningEvent(new LearningEvent(this));
+                                fireLearningEvent(new LearningEvent(this, LearningEventType.EPOCH_ENDED));
 				if (isStopped()) return;
 			} // for k
 			learningRate = learningRate * 0.5;
