@@ -495,14 +495,6 @@ public class DataSet implements Serializable /*
 
     }
     
-    public void normalize() {
-        this.normalize(new MaxNormalizer());
-    }
-
-    public void normalize(Normalizer normalizer) {
-        normalizer.normalize(this);
-    }
-
     /**
      * Returns output vector size of training elements in this training set This
      * method is implementation of EngineIndexableSet interface, and it is added
