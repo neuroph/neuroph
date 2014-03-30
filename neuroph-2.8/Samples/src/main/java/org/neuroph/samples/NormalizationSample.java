@@ -19,6 +19,8 @@ package org.neuroph.samples;
 import java.util.Arrays;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import org.neuroph.util.data.norm.MaxMinNormalizer;
+import org.neuroph.util.data.norm.Normalizer;
 
 /**
  * This sample shows how to do data normalization in Neuroph.
@@ -38,13 +40,13 @@ public class NormalizationSample {
         dataSet.addRow(new DataSetRow(new double[]{47, 76}, new double[]{0}));
         dataSet.addRow(new DataSetRow(new double[]{98, 123}, new double[]{1}));
 
-        dataSet.normalize();
-        // or you can do as below
-        //trainingSet.normalize(new MaxMinNormalizer());
+        Normalizer norm = new MaxMinNormalizer();
+        norm.normalize(dataSet);
         
         // print out normalized training set
         for (DataSetRow dataSetRow : dataSet.getRows()) {
             System.out.print("Input: " + Arrays.toString(dataSetRow.getInput()));
+            System.out.print("Output: " + Arrays.toString(dataSetRow.getDesiredOutput()));            
         }
     }
 }

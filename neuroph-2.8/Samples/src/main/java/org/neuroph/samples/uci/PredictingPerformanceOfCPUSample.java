@@ -24,6 +24,8 @@ import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
+import org.neuroph.util.data.norm.MaxNormalizer;
+import org.neuroph.util.data.norm.Normalizer;
 
 /*
  * @author Ivana Bajovic
@@ -74,7 +76,8 @@ public class PredictingPerformanceOfCPUSample implements LearningEventListener{
 
         // create training set from file
         DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, ",", false);
-        dataSet.normalize();
+        Normalizer normalizer = new MaxNormalizer();
+        normalizer.normalize(dataSet);
 
 
         System.out.println("Creating neural network...");
