@@ -208,7 +208,7 @@ abstract public class IterativeLearning extends LearningRule implements
             }
 
         }
-        
+        onStop();
         fireLearningEvent(new LearningEvent(this, LearningEventType.LEARNING_STOPPED));
     }
 

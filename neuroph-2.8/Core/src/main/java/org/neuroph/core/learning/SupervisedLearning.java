@@ -186,9 +186,10 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         this.totalNetworkError = errorFunction.getTotalError();
         
         // moved stopping condition to separate method hasReachedStopCondition() so it can be overriden / customized in subclasses
-        if (hasReachedStopCondition()) {
-            stopLearning();
-        }
+        // this condition is allready checked in IterativeLearning.learn(DataSet trainingSet)
+//        if (hasReachedStopCondition()) {
+//            stopLearning();
+//        }
     }
 
     /**

@@ -21,6 +21,8 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base class for all neural network learning algorithms. It provides the
@@ -35,14 +37,17 @@ abstract public class LearningRule implements Serializable {
      * with a previous version of the class
      */
     private static final long serialVersionUID = 1L;
+    
     /**
      * Neural network to train
      */
     protected NeuralNetwork neuralNetwork;
+    
     /**
-     * Collection of training elements
+     * Training data set
      */
     private transient DataSet trainingSet;
+    
     /**
      * Flag to stop learning
      */
@@ -54,6 +59,9 @@ abstract public class LearningRule implements Serializable {
     protected transient javax.swing.event.EventListenerList listeners =
             new javax.swing.event.EventListenerList();
 
+    
+    private final Logger LOGGER = LoggerFactory.getLogger(LearningRule.class);    
+    
     /**
      * Creates new instance of learning rule
      */
@@ -98,9 +106,18 @@ abstract public class LearningRule implements Serializable {
 
     /**
      * Prepares the learning rule to run by setting stop flag to false
+     * If you override this method make sure you call parent method first
      */
     protected void onStart() {
         this.stopLearning = false;
+        LOGGER.info("Learning Started");
+    }
+    
+    /**
+     * Invoked after the learning has stopped
+     */
+    protected void onStop() {
+        LOGGER.info("Learning Stoped");
     }
 
     /**
