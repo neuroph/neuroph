@@ -54,44 +54,40 @@ First we have to create the training set</p>
     <p>&nbsp;</p>
 <p>In the new training set dialog, &nbsp;Enter training set name, choose Supervised
       type of training set from drop down list. Then enter number of
-inputs (2) and  outputs (1) as shown on picture below and click <b>Next </b>button.</p>
+inputs (2) and  outputs (1) as shown on picture click <b>Finish</b>button.</p>
     <p><img src="images/new training set parameters.png"></p>
     <p>&nbsp;</p>
     <p>Then create training set by entering values for <b>training
       elements</b>. Use <b>Add row</b> button to add new elements,
-and click <b>Finish</b> button when done.</p>
+and click <b>OK</b> button when done.</p>
     <p><img src="images/new training set inputs.png"></p>
     <p>&nbsp;</p>
     <p><strong>&nbsp;Step 4.</strong> To start network
-      training procedure, in network window select training set from drop down list
-<b>Train</b>button. </p>
-    <p><img src="images/training set train click.png"></p>
+      training procedure, drag n' drop training set to corresponding field in the network window, 
+      and 'Train' button will become enabled in toolbar. Click the 'Train' button to open Set Learning Parameters dialog.
+    </p>
+    <p><img src="images/adaline training set dnd.png"></p>
     <p>In <b><i>Set Learning parameters </i></b>dialog
       change default learning parameters. Set 0.00001 instead of 0.01 for <i>Max
         error</i>. Leave the <i>Display Error Graph</i> box checked, and just click the <b>Train</b> button.</p>
-    <p><img src="images/014 training set learning parameters.png"></p>
+    <p><img src="images/adaline set learning parameters.png"></p>
     <p>&nbsp;</p>
     <p>Training stopped after 18 iterations, with acceptable net error. Learning is  shown on the picture below. Note that number of iterations may vary, depending on initial weights which are randomly initialised.</p>
-<p><img src="images/graph.png"></p>
+<p><img src="images/adaline graph.png"></p>
     <p>&nbsp;</p>
-    <p><b>Step 5.</b> After the training is complete, you can test the  network for the whole training set by selecting training set to test, and clicking  <strong>Test</strong> button. Results for every input will be shown in <strong>Test Results</strong> tab.</p>
-<p><img src="images/network test.png"></p>
-    <p><img src="images/network test results.png"></p>
-    <p> To test network for single input click<b> Set
-      Input</b> button. This opens <b>Set Network Input</b> dialog in which
+    <p><b>Step 5.</b> After the training is complete, you can test the  network for the whole training set by drag n'drop data set to test, and clicking  <strong>Test</strong> button in toolbar. Results for every input will be shown in <strong>Test Results</strong> window.</p>
+    <p><img src="images/adaline test.png"></p>
+    <p><img src="images/adaline test results.png"></p>
+    <p> To test network for single input click<b> Set In</b> button in the toolbar. This opens <b>Set Network Input</b> dialog in which
       you can enter input values for network separated with white space. </p>
-<p><img src="images/set input click.png"></p>
-    <p><b>Note:</b> Input vector size
-    must match with network input dimension.</p>
-    <p><img src="images/set input.png"></p>
+    <p><b>Note:</b> Input that vector size must match with network input dimension.</p>
+    <p><img src="images/adaline set input.png"></p>
     <p>The result of network test is shown on
       the picture below. We can see that network has learned the provided data, since the value of
-    output neuron is  0.59 which is approximately to the desired output specified in training set 0.6 </p>
-    <p><img src="images/set input result.png"></p>
-    <p>You can select graph view from menu<strong> </strong>to see different network view. </p>
-    <p><img src="images/graph view.png"></p>
-    <p>In graph view, you can turn on the display of activation levels and connection weights, change display layout and mouse mode so you can transform or zoom network. </p>
-    <p>You can use command buttons to inspect the networks behaviour. SetInput to set network input, Calculate Net to perform calculation for whole network, Reset to reset  activation levels for all neurons to zero, and Randomize to randomize all network weights. </p>
+    output neuron is  0.31 which is approximately to the desired output specified in training set 0.3 </p>
+    <p><img src="images/adaline set input result.png"></p>
+    <p>You can turn on the display of activation levels and connection weights, or zoom network with ctrl+mousewheel. </p>
+    <p>You can use command buttons in toolbar to inspect the network behaviour. SetIn to set network input, Calculate to perform calculation for whole network, Reset to reset  activation levels for all neurons to zero, and Randomize to randomize all network weights. </p>
     <p><img src="images/020 adaline controls.png"></p>
     <h3>EXTERNAL LINKS </h3>
     <p>To learn more about  the  Adaline  see:<br>
