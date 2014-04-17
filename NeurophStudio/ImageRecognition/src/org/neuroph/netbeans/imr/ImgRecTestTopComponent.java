@@ -70,6 +70,7 @@ public final class ImgRecTestTopComponent extends TopComponent implements Lookup
 
         testImageLabel.setBackground(new java.awt.Color(255, 255, 255));
         testImageLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        testImageLabel.setMaximumSize(new java.awt.Dimension(300, 300));
         testImageLabel.setPreferredSize(new java.awt.Dimension(104, 104));
 
         org.openide.awt.Mnemonics.setLocalizedText(testAllButton, org.openide.util.NbBundle.getMessage(ImgRecTestTopComponent.class, "ImgRecTestTopComponent.testAllButton.text")); // NOI18N

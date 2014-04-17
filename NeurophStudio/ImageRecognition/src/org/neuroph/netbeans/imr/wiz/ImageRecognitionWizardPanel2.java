@@ -35,7 +35,7 @@ public class ImageRecognitionWizardPanel2 implements WizardDescriptor.Panel {
 
     public void storeSettings(Object data) {
         String imageDir = component.getJunkImageDirPath();
-        ((WizardDescriptor) data).putProperty("junkImageDir", imageDir);
+        ((WizardDescriptor) data).putProperty("junkDir", imageDir);
 
     }
 

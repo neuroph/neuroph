@@ -234,7 +234,7 @@ public final class IMRWizardIterator implements WizardDescriptor.InstantiatingIt
 
     public void createNeuralNetwork(String neuralNetworkName, String transferFunction, Dimension resolution, String hiddenLayersStr, List<String> imageLabels, ColorMode colorMode) {
         ArrayList<Integer> hiddenLayersNeuronsCount = VectorParser.parseInteger(hiddenLayersStr.trim());
-        NeuralNetwork activeNeuralNetwork = OcrHelper.createNewNeuralNetwork(neuralNetworkName, resolution, colorMode, imageLabels, hiddenLayersNeuronsCount, TransferFunctionType.valueOf(transferFunction.toUpperCase()));
+        NeuralNetwork activeNeuralNetwork = ImageRecognitionHelper.createNewNeuralNetwork(neuralNetworkName, resolution, colorMode, imageLabels, hiddenLayersNeuronsCount, TransferFunctionType.valueOf(transferFunction.toUpperCase()));
         NeurophProjectFilesFactory.getDefault().createNeuralNetworkFile(activeNeuralNetwork);
     }
 }
