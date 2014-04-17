@@ -16,7 +16,6 @@ import org.netbeans.spi.project.DeleteOperationImplementation;
 import org.netbeans.spi.project.MoveOperationImplementation;
 import org.netbeans.spi.project.MoveOrRenameOperationImplementation;
 import org.netbeans.spi.project.ProjectState;
-import org.netbeans.spi.project.ui.CustomizerProvider;
 import org.netbeans.spi.project.ui.support.DefaultProjectOperations;
 import org.openide.filesystems.FileObject;
 import org.openide.util.ChangeSupport;
@@ -316,7 +315,6 @@ public class NeurophProject implements Project {
 
         @Override
         public List<FileObject> getMetadataFiles() {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             return Collections.EMPTY_LIST;
         }
 
@@ -368,17 +366,6 @@ public class NeurophProject implements Project {
            return dataFiles;
         }
          
-     }
-    
-    
-//    private final class NeurophProjectCustomizerProvider implements CustomizerProvider {
-//
-//        @Override
-//        public void showCustomizer() {
-//            // show dialog to customize project here - otvori properrites tc
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        }
-//        
-//    }
+     }    
     
 }
