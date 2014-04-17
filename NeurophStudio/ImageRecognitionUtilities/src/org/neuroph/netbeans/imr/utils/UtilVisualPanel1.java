@@ -16,7 +16,7 @@ public final class UtilVisualPanel1 extends JPanel {
 
     @Override
     public String getName() {
-        return "Set trainig set parametars";
+        return "Set training set parametars";
     }
 
     public JTextField getImageHeightField() {
