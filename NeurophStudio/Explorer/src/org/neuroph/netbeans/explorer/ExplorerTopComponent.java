@@ -10,6 +10,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.core.learning.LearningRule;
 import org.neuroph.netbeans.visual.widgets.NeuralLayerWidget;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
@@ -156,7 +157,10 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
         resultCon = Utilities.actionsGlobalContext().lookupResult(Connection.class);
         resultCon.addLookupListener(this);
         resultChanged(new LookupEvent(resultCon));
-
+               
+        resultLearningRule = Utilities.actionsGlobalContext().lookupResult(LearningRule.class);
+        resultLearningRule.addLookupListener(this);
+        resultChanged(new LookupEvent(resultLearningRule));                
     }
 
     @Override
@@ -193,6 +197,7 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     Result<Neuron> resultNW;
     Result<Layer> resultLW;
     Result<Connection> resultCon;
+    Result<LearningRule> resultLearningRule;
     private boolean recursiveCall = false;
 
     @Override
@@ -246,14 +251,16 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
                     BeanTreeView btw = (BeanTreeView) jScrollPane1;
                     btw.setRootVisible(false);
                     this.setName("Explorer");
-                } else if (selectedItem instanceof Neuron || selectedItem instanceof Layer || selectedItem instanceof Connection) {
+                } else if (selectedItem instanceof Neuron || selectedItem instanceof Layer || selectedItem instanceof Connection || selectedItem instanceof LearningRule) {
                     Node[] nodes = new Node[1];
                     nodes[0] = objectsToNodes.get(selectedItem);
-                    try {
-                        recursiveCall = true;
-                        explorerManager.setSelectedNodes(nodes);
-                    } catch (PropertyVetoException ex) {
-                        Exceptions.printStackTrace(ex);
+                    if (nodes[0] != null) { // quick fix if objectsToNodes is empty...
+                        try {
+                            recursiveCall = true;
+                            explorerManager.setSelectedNodes(nodes);
+                        } catch (PropertyVetoException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
                     }
                 }
             }
