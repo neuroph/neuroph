@@ -310,6 +310,7 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
         return index > 0;
     }
 
+    @Override
     public void nextPanel() {
         if (!hasNext()) {
             throw new NoSuchElementException();

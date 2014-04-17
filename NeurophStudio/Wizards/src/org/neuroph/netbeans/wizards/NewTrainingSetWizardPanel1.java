@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.wizards;
 
 import java.awt.Component;
@@ -22,6 +18,7 @@ public class NewTrainingSetWizardPanel1 implements WizardDescriptor.ValidatingPa
     // is kept separate. This can be more efficient: if the wizard is created
     // but never displayed, or not all panels are displayed, it is better to
     // create only those which really need to be visible.
+    @Override
     public Component getComponent() {
         if (component == null) {
             component = new NewTrainingSetVisualPanel1();
@@ -29,6 +26,7 @@ public class NewTrainingSetWizardPanel1 implements WizardDescriptor.ValidatingPa
         return component;
     }
 
+    @Override
     public HelpCtx getHelp() {
         // Show no Help button for this panel:
         return HelpCtx.DEFAULT_HELP;
@@ -36,6 +34,7 @@ public class NewTrainingSetWizardPanel1 implements WizardDescriptor.ValidatingPa
         // return new HelpCtx(SampleWizardPanel1.class);
     }
 
+    @Override
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
         return true;
@@ -79,11 +78,12 @@ public class NewTrainingSetWizardPanel1 implements WizardDescriptor.ValidatingPa
     // settings object will be the WizardDescriptor, so you can use
     // WizardDescriptor.getProperty & putProperty to store information entered
     // by the user.
+    @Override
     public void readSettings(Object settings) {
-
 
     }
 
+    @Override
     public void storeSettings(Object settings) {
         NewTrainingSetValuesWizard.getInstance().setName(((NewTrainingSetVisualPanel1)getComponent()).getLabelTextField().getText().trim());
         ((WizardDescriptor) settings).putProperty("name", ((NewTrainingSetVisualPanel1)getComponent()).getLabelTextField().getText().trim());
@@ -103,8 +103,13 @@ public class NewTrainingSetWizardPanel1 implements WizardDescriptor.ValidatingPa
         ((WizardDescriptor) settings).putProperty("outputsNumber", ((NewTrainingSetVisualPanel1)getComponent()).getOutputsTextField().getText().trim());
         NewTrainingSetValuesWizard.getInstance().setType(((NewTrainingSetVisualPanel1)getComponent()).getTypeComboBox().getSelectedItem().toString().trim());
         ((WizardDescriptor) settings).putProperty("type", ((NewTrainingSetVisualPanel1)getComponent()).getTypeComboBox().getSelectedItem().toString().trim());
+        
+        ((WizardDescriptor) settings).putProperty("file", ((NewTrainingSetVisualPanel1)getComponent()).getFileField().getText().toString().trim());
+        ((WizardDescriptor) settings).putProperty("delimiter", ((NewTrainingSetVisualPanel1)getComponent()).getDelimiterComboBox().getSelectedItem().toString().trim());
+        
     }
 
+    @Override
     public void validate() throws WizardValidationException {
         String name = ((NewTrainingSetVisualPanel1) getComponent()).getLabelTextField().getText().trim();
         if (name.equals("") || name.equals(null)) {

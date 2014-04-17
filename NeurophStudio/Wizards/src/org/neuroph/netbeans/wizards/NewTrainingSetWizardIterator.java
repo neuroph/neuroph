@@ -3,20 +3,15 @@ package org.neuroph.netbeans.wizards;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.swing.JComponent;
-import javax.swing.JTable;
 import javax.swing.event.ChangeListener;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.core.data.DataSetRow;
 import org.neuroph.netbeans.project.CurrentProject;
 import org.neuroph.netbeans.project.NeurophProject;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
-import org.neuroph.netbeans.main.easyneurons.DataSetTableModel;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -36,8 +31,8 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
     private WizardDescriptor.Panel[] getPanels() {
         if (panels == null) {
             panels = new WizardDescriptor.Panel[]{
-                        new NewTrainingSetWizardPanel1(),
-                        new NewTrainingSetWizardPanel2()
+                        new NewTrainingSetWizardPanel1()//,
+//                        new NewTrainingSetWizardPanel2()
                     };
             String[] steps = createSteps();
             for (int i = 0; i < panels.length; i++) {
@@ -74,86 +69,35 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
         if (!cancelled) {
             NeurophProject project = (NeurophProject)wizard.getProperty("project");
             CurrentProject.getInstance().setCurrentProject(project);            
-//
-//            int inputs = Integer.parseInt((String) wizard.getProperty("input number"));
-//            int outputs = Integer.parseInt((String) wizard.getProperty("output number"));
-//            String label =(String) wizard.getProperty("name");
-//            String type = (String) wizard.getProperty("type");
-//
 
-//            JTable trainingSetTable = (JTable) wizard.getProperty("training set table");
-            JTable trainingSetTable = ((NewTrainingSetVisualPanel2)panels[1].getComponent()).getTrainingSetTable();
-            if (trainingSetTable.isEditing()) {
-                trainingSetTable.getCellEditor().stopCellEditing();
+            int inputsNumber = Integer.parseInt((String) wizard.getProperty("inputsNumber"));
+            int outputsNumber = Integer.parseInt((String) wizard.getProperty("outputsNumber"));
+            String label =(String) wizard.getProperty("name");
+            String type = (String) wizard.getProperty("type");
+            String file = (String) wizard.getProperty("file");
+            String delimiter = (String) wizard.getProperty("delimiter");
+            if (delimiter.equals("Space")) delimiter = " ";
+                else if (delimiter.equals("tab")) delimiter = "\t";
+
+            DataSet dataSet = null;
+                     
+            // import data from file here if selected
+            if (file.isEmpty()) {           
+                if (outputsNumber != 0)
+                    dataSet = new DataSet(inputsNumber, outputsNumber);  
+                else
+                    dataSet = new DataSet(inputsNumber);                 
+            } else {
+                dataSet = DataSet.createFromFile(file, inputsNumber, outputsNumber, delimiter);
             }
-
-            DataSet trainingSet = null;
             
-            DataSetTableModel tableModel = (DataSetTableModel) trainingSetTable.getModel();
-            ArrayList<ArrayList> dataVector = tableModel.getDataVector(); // ovaj dataVector je prazan i to j eproblem
-            Iterator<ArrayList> iterator = dataVector.iterator();
-            //trainingSet.clear();
-
-            String trainingSetType = (String) wizard.getProperty("type");
-            if (trainingSetType.equals("Unsupervised")) {
-                int inputsNumber = Integer.parseInt((String) wizard.getProperty("inputsNumber"));
-                trainingSet = new DataSet(inputsNumber);
-                trainingSet.setLabel((String) wizard.getProperty("name"));
-                while (iterator.hasNext()) {
-                    ArrayList rowVector = iterator.next();
-                    ArrayList<Double> doubleRowVector = new ArrayList<>();
-                    try {                        
-                        for (int i = 0; i < inputsNumber; i++) {
-                            double doubleVal = Double.parseDouble(rowVector.get(i).toString());
-                            doubleRowVector.add(new Double(doubleVal));
-                        }
-                    } catch (Exception ex) {
-                        continue;
-                    }
-
-                    DataSetRow trainingElement = new DataSetRow(
-                            doubleRowVector);
-                    trainingSet.addRow(trainingElement);
-                } // while
-            } else if (trainingSetType.equals("Supervised")) {
-                int inputsNumber = Integer.parseInt((String) wizard.getProperty("inputsNumber"));
-                int outputsNumber = Integer.parseInt((String) wizard.getProperty("outputsNumber"));
-                trainingSet = new DataSet(inputsNumber, outputsNumber);
-                trainingSet.setLabel((String) wizard.getProperty("name"));
-                
-                while (iterator.hasNext()) {
-                    ArrayList rowVector = iterator.next();
-                    ArrayList<Double> inputVector = new ArrayList<>();
-                    ArrayList<Double> outputVector = new ArrayList<>();
-
-                    try {
-                        for (int i = 0; i < inputsNumber; i++) {
-                            double doubleVal = Double.parseDouble(rowVector.get(i).toString());
-                            inputVector.add(new Double(doubleVal));
-                        }
-
-
-                        for (int i = 0; i < outputsNumber; i++) {
-                            double doubleVal = Double.parseDouble(rowVector.get(
-                                    inputsNumber + i).toString());
-                            outputVector.add(new Double(doubleVal));
-                        }
-                    } catch (Exception ex) {
-                        continue;
-                    }
-
-                    DataSetRow trainingElement = new DataSetRow(
-                            inputVector, outputVector);
-                    trainingSet.addRow(trainingElement);
-
-                }
-            }
-
+            dataSet.setLabel(label);
+            
             NeurophProjectFilesFactory fileFactory = NeurophProjectFilesFactory.getDefault();
-            fileFactory.createTrainingSetFile(trainingSet);
+            fileFactory.createTrainingSetFile(dataSet);
             
             
-       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Created data set "+trainingSet.getLabel()+"\r\n");
+           IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Created data set "+dataSet.getLabel()+"\r\n");
             
             String createdFilePath = fileFactory.getCreatedFilePath();
         
@@ -165,10 +109,12 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
         return Collections.EMPTY_SET;
     }
 
+    @Override
     public void initialize(WizardDescriptor wizard) {
         this.wizard = wizard;
     }
 
+    @Override
     public void uninitialize(WizardDescriptor wizard) {
         panels = null;
     }
