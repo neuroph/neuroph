@@ -10,7 +10,8 @@ import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingDialog;
-import org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSampleTopComponent;
+import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSamplesPanel;
+import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronSampleTopComponent;
 import org.neuroph.nnet.Adaline;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.NeuroFuzzyPerceptron;
@@ -18,7 +19,6 @@ import org.neuroph.nnet.Perceptron;
 import org.neuroph.nnet.RbfNetwork;
 import org.neuroph.nnet.SupervisedHebbianNetwork;
 import org.neuroph.nnet.learning.DynamicBackPropagation;
-import org.neuroph.util.NeuralNetworkType;
 import org.neuroph.util.random.RangeRandomizer;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -69,6 +69,28 @@ public final class TrainToolbarAction implements ActionListener {
      public void handleNeuralNetworkEvent(NeuralNetworkEvent nne) {
      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
      }*/
+    MultiLayerPerceptronSampleTopComponent mlp = MultiLayerPerceptronClassificationSamplesPanel.mlpSampleTc;
+    public void MLPCheck(){
+        
+        if (mlp != null) {
+            if (mlp.isTrainSignal()) {               
+                mlp.visualizationPreprocessing();
+                mlp.setVisualize(true);
+                mlp.setDrawingLocked(true);
+                if(MultiLayerPerceptronClassificationSamplesPanel.SHOW_POINTS && mlp.isAllPointsRemoved()||
+                        mlp.isPointDrawed()){
+                    
+                    try{                     
+                        mlp.drawPointsFromTrainingSet(neuralNetAndDataSet.getDataSet());
+                    }
+                    catch(Exception e){
+                        
+                    }
+                    
+                }
+            }
+        }
+    }
     public void train() {
         if (neuralNetAndDataSet.getDataSet() != null) {
             neuralNetAndDataSet.setDataSet(neuralNetAndDataSet.getDataSet()); // ???????
@@ -84,6 +106,7 @@ public final class TrainToolbarAction implements ActionListener {
                     showLmsTrainingDialog();
             } else if (neuralNetClass.equals(MultiLayerPerceptron.class)) {
                 showMLPTrainingDialog();
+                MLPCheck();                              
             } else if (neuralNetClass.equals(SupervisedHebbianNetwork.class)) {
                 showHebbianTrainingDialog();                        
             } else if (neuralNetClass.equals(NoPropNet.class)) {
@@ -137,8 +160,8 @@ public final class TrainToolbarAction implements ActionListener {
     private void showMLPTrainingDialog() {
         if (neuralNetAndDataSet.getNetwork().getLearningRule() instanceof DynamicBackPropagation) {
             BackpropagationTrainingDialog trainingDialog = new BackpropagationTrainingDialog(null, easyNeuronsViewController, true,
-                    this.neuralNetAndDataSet);
-            trainingDialog.setLocationRelativeTo(null);
+                    this.neuralNetAndDataSet);          
+            trainingDialog.setLocationRelativeTo(null);       
             trainingDialog.setVisible(true);
         } else {
             showLmsTrainingDialog();
