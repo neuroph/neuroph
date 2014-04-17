@@ -20,22 +20,27 @@ public class LayerConnectProvider implements ConnectProvider {
  
     }
 
+    @Override
     public boolean isSourceWidget(Widget widget) {
         return (widget instanceof NeuralLayerWidget);
     }
 
+    @Override
     public ConnectorState isTargetWidget(Widget widget, Widget widget1) {
         return (widget1 instanceof NeuronWidget || widget1 instanceof NeuralLayerWidget) ? ConnectorState.ACCEPT : ConnectorState.REJECT;
     }
 
+    @Override
     public boolean hasCustomTargetWidgetResolver(Scene scene) {
         return false;
     }
 
+    @Override
     public Widget resolveTargetWidget(Scene scene, Point point) {
         return null;
     }
 
+    @Override
     public void createConnection(Widget sourceWidget, Widget targetWidget) {
         if ((targetWidget instanceof NeuralLayerWidget) && (sourceWidget instanceof NeuralLayerWidget)) { 
             NeuralNetworkScene scene = (NeuralNetworkScene) sourceWidget.getScene();

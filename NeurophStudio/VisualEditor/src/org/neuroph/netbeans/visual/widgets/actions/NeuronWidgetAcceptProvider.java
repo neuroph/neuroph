@@ -39,7 +39,7 @@ public class NeuronWidgetAcceptProvider implements AcceptProvider {
 
 //        JOptionPane.showMessageDialog(null, "hello");
 
-        DataFlavor flavor = t.getTransferDataFlavors()[3];
+        DataFlavor flavor = t.getTransferDataFlavors()[4];
         Class droppedClass = flavor.getRepresentationClass();
         JComponent view = widget.getScene().getView();
         graphics = (Graphics2D) view.getGraphics();
@@ -70,8 +70,8 @@ public class NeuronWidgetAcceptProvider implements AcceptProvider {
         Object o = null;
         try {
             o = transferable.getTransferData(DataFlavor.imageFlavor);
-        } catch (IOException ex) {
-        } catch (UnsupportedFlavorException ex) {
+        } catch (IOException | UnsupportedFlavorException ex) {
+            Exceptions.printStackTrace(ex);
         }
         return o instanceof Image ? (Image) o : ImageUtilities.loadImage("org/netbeans/shapesample/palette/shape1.png");
     }
@@ -79,7 +79,7 @@ public class NeuronWidgetAcceptProvider implements AcceptProvider {
     @Override
     public void accept(Widget widget, Point point, Transferable t) {
 
-        DataFlavor flavor = t.getTransferDataFlavors()[3];
+        DataFlavor flavor = t.getTransferDataFlavors()[4];
         Class droppedClass = flavor.getRepresentationClass();
         try {
             if (droppedClass.getSuperclass().equals(TransferFunction.class)) {

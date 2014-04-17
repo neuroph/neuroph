@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE editor_palette_item PUBLIC
+"-//NetBeans//Editor Palette Item 1.1//EN"
+"http://www.netbeans.org/dtds/editor-palette-item-1_1.dtd">
+<editor_palette_item version="1.1">
+    <body><![CDATA[ org.neuroph.util.ConnectionFactory]]></body>
+    <icon16 urlvalue="org/neuroph/netbeans/visual/palette/items/icons/DirectConnect24.png"/>
+    <icon32 urlvalue="org/neuroph/netbeans/visual/palette/items/icons/DirectConnect32.png"/>
+    <inline-description>
+        <display-name>Direct Connectivity</display-name>
+        <tooltip>Direct Connectivity</tooltip>
+    </inline-description>
+</editor_palette_item>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE editor_palette_item PUBLIC
+"-//NetBeans//Editor Palette Item 1.1//EN"
+"http://www.netbeans.org/dtds/editor-palette-item-1_1.dtd">
+<editor_palette_item version="1.1">
+    <body><![CDATA[ org.neuroph.core.input.Sum]]></body>
+    <icon16 urlvalue="org/neuroph/netbeans/visual/palette/items/icons/InputFunction.png"/>
+    <icon32 urlvalue="org/neuroph/netbeans/visual/palette/items/icons/InputFunction.png"/>
+    <inline-description>
+        <display-name>Sum</display-name>
+        <tooltip>Sum</tooltip>
+    </inline-description>
+</editor_palette_item>

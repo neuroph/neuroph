@@ -307,7 +307,7 @@ public class NeuralNetworkScene extends ObjectScene  {
         if (scenePreferences.isShowConnections()) {
             createConnections();
         }
-        this.validate(); // only one call to validate since they ar eusing same scene instance   
+        this.validate(); // only one call to validate since they are using same scene instance   
 
         // ako je ovo pre validate gore u if-u, router baca null pointer exception...
         if (scenePreferences.isShowConnections())

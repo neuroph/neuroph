@@ -51,7 +51,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
 
     @Override
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
-        DataFlavor flavor = t.getTransferDataFlavors()[2];
+        DataFlavor flavor = t.getTransferDataFlavors()[4]; // bilo je 2 sad 4
         JComponent view = widget.getScene().getView();
         Class droppedClass = flavor.getRepresentationClass();
 
@@ -60,7 +60,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
 
     @Override
     public void accept(Widget widget, Point point, Transferable t) {
-        DataFlavor flavor = t.getTransferDataFlavors()[2];
+        DataFlavor flavor = t.getTransferDataFlavors()[4];
         Class droppedClass = flavor.getRepresentationClass();
 
         

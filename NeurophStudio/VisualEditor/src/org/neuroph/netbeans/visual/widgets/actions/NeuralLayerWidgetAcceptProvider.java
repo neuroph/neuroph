@@ -43,7 +43,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
     
     @Override
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
-        DataFlavor flavor = t.getTransferDataFlavors()[2];
+        DataFlavor flavor = t.getTransferDataFlavors()[4];
         Class droppedClass = flavor.getRepresentationClass();
         return isAcceptableWidget(droppedClass) ? ConnectorState.ACCEPT : ConnectorState.REJECT;
     }
@@ -51,7 +51,7 @@ public class NeuralLayerWidgetAcceptProvider implements AcceptProvider {
     @Override
     public void accept(Widget widget, Point point, Transferable t) {
         
-        DataFlavor flavor = t.getTransferDataFlavors()[2];
+        DataFlavor flavor = t.getTransferDataFlavors()[4];
         Class droppedClass = flavor.getRepresentationClass();
         
         try {

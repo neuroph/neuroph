@@ -19,6 +19,7 @@ public class PalleteItems extends Index.ArrayChildren {
         {"Layers", "org/neuroph/netbeans/visual/palette/icons/InputLayer" + iconSize2 + ".png", "InputLayer", "org.neuroph.nnet.comp.layer.InputLayer"},
         {"Layers", "org/neuroph/netbeans/visual/palette/icons/CompetitiveLayer" + iconSize2 + ".png", "CompetitiveLayer", "org.neuroph.nnet.comp.layer.CompetitiveLayer"},
         {"Layers","org/neuroph/netbeans/visual/palette/icons/CustomLayer" + iconSize + ".png","Custom Layer", "org.neuroph.netbeans.visual.dialogs.AddCustomLayerDialog"},
+
         {"Neurons", "org/neuroph/netbeans/visual/palette/icons/Neuron" + iconSize + ".png", "Neuron", "org.neuroph.core.Neuron"},
         {"Neurons", "org/neuroph/netbeans/visual/palette/icons/BiasNeuron" + iconSize + ".png", "BiasNeuron", "org.neuroph.nnet.comp.neuron.BiasNeuron"},
         {"Neurons", "org/neuroph/netbeans/visual/palette/icons/InputNeuron" + iconSize + ".png", "InputNeuron", "org.neuroph.nnet.comp.neuron.InputNeuron"},
@@ -26,8 +27,10 @@ public class PalleteItems extends Index.ArrayChildren {
         {"Neurons", "org/neuroph/netbeans/visual/palette/icons/DelayedNeuron" + iconSize + ".png", "DelayedNeuron", "org.neuroph.nnet.comp.neuron.DelayedNeuron"},
         {"Neurons", "org/neuroph/netbeans/visual/palette/icons/Competitive" + iconSize + ".png", "CompetitiveNeuron", "org.neuroph.nnet.comp.neuron.CompetitiveNeuron"},
         {"Neurons", "org/neuroph/netbeans/visual/palette/icons/TresholdNeuron" + iconSize + ".png", "ThresholdNeuron", "org.neuroph.nnet.comp.neuron.ThresholdNeuron"},
+     
         {"Connections","org/neuroph/netbeans/visual/palette/icons/FullConnect" + iconSize + ".png","Full connectivity","org.neuroph.core.Connection"},
         {"Connections","org/neuroph/netbeans/visual/palette/icons/DirectConnect" + iconSize + ".png","Direct connectivity","org.neuroph.util.ConnectionFactory"},
+        
         {"Input Functions", "org/neuroph/netbeans/visual/palette/icons/InputFunction.png", "Weighted Sum", "org.neuroph.core.input.WeightedSum"},
         {"Input Functions", "org/neuroph/netbeans/visual/palette/icons/InputFunction.png", "Sum", "org.neuroph.core.input.Sum"},
         {"Input Functions", "org/neuroph/netbeans/visual/palette/icons/InputFunction.png", "Sum Sqr", "org.neuroph.core.input.SumSqr"},

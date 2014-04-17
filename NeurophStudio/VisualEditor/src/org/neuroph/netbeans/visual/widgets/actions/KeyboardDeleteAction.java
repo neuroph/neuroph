@@ -1,19 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.visual.widgets.actions;
 
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
-import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.action.MoveProvider;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
+
 /**
  *
  * @author Ana
@@ -33,14 +28,16 @@ import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
                 if (object instanceof Layer) {
                     if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete selected layer?", "Delete Layer?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         Layer myLayer = (Layer) object;
-                        myLayer.getParentNetwork().removeLayer(myLayer);
+                    //    myLayer.getParentNetwork().removeLayer(myLayer);
+                        scene.getNeuralNetworkEditor().removeLayer(myLayer);
                         scene.refresh();
                     }
                 }
                 if (object instanceof Neuron) {
                     if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete selected neuron?", "Delete Neuron", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         Neuron myNeuron = (Neuron) object;
-                        myNeuron.getParentLayer().removeNeuron(myNeuron);
+                        //myNeuron.getParentLayer().removeNeuron(myNeuron);
+                        scene.getNeuralNetworkEditor().removeNeuron(myNeuron);
                         scene.refresh();
                     }
                 }
@@ -49,6 +46,7 @@ import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
                         Neuron srcNeuron = ((Connection) object).getFromNeuron();
                         Neuron trgNeuron = ((Connection) object).getToNeuron();
                         trgNeuron.removeInputConnectionFrom(srcNeuron);
+                      //  scene.getNeuralNetworkEditor().removeConnection(widget, widget);
                         scene.refresh();
                     }
                 }

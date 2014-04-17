@@ -2,14 +2,19 @@ package org.neuroph.netbeans.visual;
 
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import java.awt.BorderLayout;
+import java.io.IOException;
 import javax.swing.JComponent;
 import org.netbeans.spi.palette.PaletteController;
+import org.netbeans.spi.palette.PaletteFactory;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.netbeans.visual.palette.NeurophDnDHandler;
 import org.neuroph.netbeans.visual.palette.PaletteSupport;
+import org.neuroph.util.benchmark.MyBenchmarkTask;
 import org.openide.loaders.DataObject;
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
@@ -70,8 +75,14 @@ public final class VisualEditorTopComponent extends TopComponent {
 //        content.add(saveCookie);
 
         aLookup = new AbstractLookup(content);
+        try {
+            //palette = PaletteSupport.createPalette();
+            // http://bits.netbeans.org/dev/javadoc/org-netbeans-spi-palette/architecture-summary.html
+            palette = PaletteFactory.createPalette("NeurophPalette", new PaletteSupport.MyPaletteActions(), null, new NeurophDnDHandler());
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
 
-        palette = PaletteSupport.createPalette();
     }
 
     @Override

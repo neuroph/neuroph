@@ -8,8 +8,8 @@ import org.openide.nodes.AbstractNode;
 import org.openide.util.Lookup;
 
 /**
- *
- * @author Zoran
+ * This class provides a method to create a PaletteController which manages pallete support
+ * @author Zoran Sevarac
  */
 public class PaletteSupport {
 
@@ -19,7 +19,7 @@ public class PaletteSupport {
         return PaletteFactory.createPalette(paletteRoot, new MyPaletteActions(), null, new NeurophDnDHandler());
     }
 
-    private static class MyPaletteActions extends PaletteActions {
+    public static class MyPaletteActions extends PaletteActions {
 
         @Override
         public Action[] getImportActions() {
