@@ -12,7 +12,7 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <implementation-version/>
+                        <specification-version>1.24.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -39,7 +39,7 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <implementation-version/>
+                        <specification-version>1.38.2</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -71,7 +71,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <implementation-version/>
+                        <specification-version>1.0</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -95,7 +95,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <implementation-version/>
+                        <specification-version>7.28.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -103,7 +103,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <implementation-version/>
+                        <specification-version>8.5.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -143,7 +143,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <implementation-version/>
+                        <specification-version>6.60.1</specification-version>
                     </run-dependency>
                 </dependency>
             </module-dependencies>
