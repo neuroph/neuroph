@@ -210,11 +210,10 @@ public class TrainingDataFileDialog extends javax.swing.JDialog {
     public void chooseFile() {
         int option = this.fileChooser.showOpenDialog(this);
 
-        if ((option != 1) ||
-          (option == 0)) {
+        if (option == JFileChooser.APPROVE_OPTION ) {
           File selectedFile = this.fileChooser.getSelectedFile();
-          String  location = selectedFile.getPath();
-          this.fileField.setText(location);
+          String  fileLocation = selectedFile.getPath();
+          this.fileField.setText(fileLocation);
         }
 
     }

@@ -1,5 +1,6 @@
 package org.neuroph.netbeans.main.easyneurons.samples.perceptron;
 
+import org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.Vector;

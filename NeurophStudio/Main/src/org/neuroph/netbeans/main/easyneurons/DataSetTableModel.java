@@ -28,24 +28,26 @@ public class DataSetTableModel extends AbstractTableModel {
 		this.columnIdentifiers = new ArrayList<String>();
 		this.dataVector = new ArrayList<ArrayList>();
 				
-		DataSetRow trainingElement = trainingSet.getRowAt(0);
+		//DataSetRow trainingElement = trainingSet.getRowAt(0);
 
-		HIDDEN_INDEX = trainingElement.getInput().length;
+		//HIDDEN_INDEX = trainingElement.getInput().length;
+                
+                HIDDEN_INDEX = trainingSet.getInputSize();
 
-		double[] inputVector = trainingElement.getInput();
+		//double[] inputVector = trainingElement.getInput();
 
-		for (int i = 0; i < inputVector.length; i++) {
+		for (int i = 0; i < trainingSet.getInputSize(); i++) {
 			this.columnIdentifiers.add("Input " + (i + 1));
 		}
 
-		if (trainingElement.isSupervised()) {
-			double[] outputVector = ((DataSetRow) trainingElement)
-					.getDesiredOutput();
-			for (int i = 0; i < outputVector.length; i++) {
+		if (trainingSet.isSupervised()) {
+//			double[] outputVector = ((DataSetRow) trainingElement)
+			//		.getDesiredOutput();
+			for (int i = 0; i < trainingSet.getOutputSize(); i++) {
 				this.columnIdentifiers.add("Output " + (i + 1));
 			}
 			
-			HIDDEN_INDEX += outputVector.length;
+			HIDDEN_INDEX += trainingSet.getOutputSize();
 		}
 
                 
@@ -54,9 +56,9 @@ public class DataSetTableModel extends AbstractTableModel {
 		// columns = inputs + outputs
 		Iterator<DataSetRow> iterator = trainingSet.iterator();
 		while (iterator.hasNext()) {
-			trainingElement = iterator.next();
+			DataSetRow trainingElement = iterator.next();
                         //inputVector = VectorParser.convertToVector(trainingElement.getInput());
-			inputVector = trainingElement.getInput();
+			double[] inputVector = trainingElement.getInput();
 
 			ArrayList rowVector = new ArrayList();
                         for(double d : inputVector) {

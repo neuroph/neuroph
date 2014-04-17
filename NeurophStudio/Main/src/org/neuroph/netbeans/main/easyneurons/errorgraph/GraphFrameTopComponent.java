@@ -24,8 +24,9 @@ import org.openide.util.NbBundle;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ProxyLookup;
-import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
+import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.windows.TopComponent;
 
 /**
  * Top component which displays Real time Total MSE graph
@@ -33,7 +34,7 @@ import org.openide.windows.WindowManager;
 @ConvertAsProperties(dtd = "-//org.neuroph.netbeans.main.easyneurons.errorgraph//GraphFrame//EN",
         autostore = false)
 public final class GraphFrameTopComponent extends TopComponent implements LearningEventListener {
-
+    
     private static GraphFrameTopComponent instance;
     /**
      * path to the icon used by the component and its open action

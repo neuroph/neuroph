@@ -15,7 +15,7 @@ import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingMonitorTop
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.KohonenSampleTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.NFRSampleTopComponent;
-import org.neuroph.netbeans.main.easyneurons.samples.perceptron.PerceptronSampleTrainingSet;
+import org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.neuroph.nnet.Kohonen;
@@ -344,7 +344,7 @@ public class ViewManager implements
     }
 
     public void showMultiLayerPerceptronSample() {
-        org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.NeuralNetObserver markovNeuralNet = new org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.NeuralNetObserver() {
+        org.neuroph.netbeans.classificationsample.NeuralNetObserver markovNeuralNet = new org.neuroph.netbeans.classificationsample.NeuralNetObserver() {
             @Override
             public void update(Observable o, Object arg) {
                 NeuralNetwork net = getNnet();
@@ -371,7 +371,7 @@ public class ViewManager implements
             }
         };
 
-        org.neuroph.netbeans.main.easyneurons.samples.perceptron.PerceptronSampleTrainingSet pst = new PerceptronSampleTrainingSet();
+        org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet pst = new PerceptronSampleTrainingSet();
         pst.addObserver(trainingSet);
         pst.addObserver(markovNeuralNet);
 
@@ -381,7 +381,7 @@ public class ViewManager implements
         DataSet ts = trainingSet.getTrainingSet();
 
         //            org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample backpropagationVisualizer = new org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample(pst);
-        org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSampleTopComponent backpropagationVisualizer = new org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSampleTopComponent();
+        org.neuroph.netbeans.classificationsample.MultiLayerPerceptronSampleTopComponent backpropagationVisualizer = new org.neuroph.netbeans.classificationsample.MultiLayerPerceptronSampleTopComponent();
         backpropagationVisualizer.setTrainingSetForMultiLayerPerceptronSample(pst);
 
         backpropagationVisualizer.setVisible(true);

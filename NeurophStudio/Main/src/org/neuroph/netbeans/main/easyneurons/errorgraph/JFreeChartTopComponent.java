@@ -199,6 +199,8 @@ public final class JFreeChartTopComponent extends TopComponent {
             
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
+        } catch(NumberFormatException nex) {
+            Exceptions.printStackTrace(nex);
         }
     }
 /*

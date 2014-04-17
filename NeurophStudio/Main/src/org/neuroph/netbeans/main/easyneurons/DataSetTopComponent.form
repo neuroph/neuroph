@@ -142,12 +142,9 @@
                   <Component id="okButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="5" pref="5" max="5" attributes="0"/>
                   <Component id="addRowButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="5" pref="5" max="5" attributes="0"/>
-                  <Component id="loadButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="5" pref="5" max="5" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="5" pref="5" max="5" attributes="0"/>
-                  <Component id="helpButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -157,10 +154,10 @@
                   <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="okButton" min="-2" max="-2" attributes="0"/>
-                      <Component id="addRowButton" min="-2" max="-2" attributes="0"/>
-                      <Component id="loadButton" min="-2" max="-2" attributes="0"/>
-                      <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
-                      <Component id="helpButton" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="addRowButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
           </Group>
@@ -187,16 +184,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addRowButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="loadButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/neuroph/netbeans/main/easyneurons/Bundle.properties" key="DataSetTopComponent.loadButton.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadButtonActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JButton" name="cancelButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -206,14 +193,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="helpButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/neuroph/netbeans/main/easyneurons/Bundle.properties" key="DataSetTopComponent.helpButton.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-            </Property>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

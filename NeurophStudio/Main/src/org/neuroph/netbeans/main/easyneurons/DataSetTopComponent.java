@@ -98,9 +98,7 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         buttonPanel = new javax.swing.JPanel();
         okButton = new javax.swing.JButton();
         addRowButton = new javax.swing.JButton();
-        loadButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        helpButton = new javax.swing.JButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(addRowMenuItem, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.addRowMenuItem.text")); // NOI18N
         addRowMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -166,22 +164,12 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(loadButton, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.loadButton.text")); // NOI18N
-        loadButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadButtonActionPerformed(evt);
-            }
-        });
-
         org.openide.awt.Mnemonics.setLocalizedText(cancelButton, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
             }
         });
-
-        org.openide.awt.Mnemonics.setLocalizedText(helpButton, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.helpButton.text")); // NOI18N
-        helpButton.setEnabled(false);
 
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
@@ -192,12 +180,9 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
                 .addComponent(okButton)
                 .addGap(5, 5, 5)
                 .addComponent(addRowButton)
-                .addGap(5, 5, 5)
-                .addComponent(loadButton)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cancelButton)
-                .addGap(5, 5, 5)
-                .addComponent(helpButton))
+                .addContainerGap())
         );
         buttonPanelLayout.setVerticalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,10 +190,9 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
                 .addGap(5, 5, 5)
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(okButton)
-                    .addComponent(addRowButton)
-                    .addComponent(loadButton)
-                    .addComponent(cancelButton)
-                    .addComponent(helpButton)))
+                    .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(addRowButton)
+                        .addComponent(cancelButton))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -313,11 +297,6 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         ((DataSetTableModel) trainingSetTable.getModel()).addEmptyRow();
     }//GEN-LAST:event_addRowButtonActionPerformed
 
-    private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
-        TrainingDataFileDialog dialog = new TrainingDataFileDialog(inputs, outputs, this);
-        dialog.setVisible(true);
-    }//GEN-LAST:event_loadButtonActionPerformed
-
     private void addRowMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRowMenuItemActionPerformed
         ((DataSetTableModel) trainingSetTable.getModel()).addEmptyRow();
 }//GEN-LAST:event_addRowMenuItemActionPerformed
@@ -332,9 +311,7 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JButton cancelButton;
     private javax.swing.JMenuItem delRowMenuItem;
-    private javax.swing.JButton helpButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JButton loadButton;
     private javax.swing.JPanel namePanel;
     private javax.swing.JButton okButton;
     private javax.swing.JPopupMenu tablePopupMenu;
