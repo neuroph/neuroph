@@ -43,20 +43,19 @@
 neurons in input (2) and output layer (1) , choose <i>Perceptron Learning</i> and click <b>Create</b> button. </p>
     <p><img src="images/perceptron 002.png"></p>
     <p>This will create the Perceptron neural
-      network with two neurons in input, and one in output layer. By default, all
-<b>Step</b>transfer functions.</p>
+      network with two neurons in input, and one in output layer. By default, all neurons with <b>Step</b>transfer functions.</p>
     <p><img src="images/perceptron 003.png"></p>
     <p>Now we shall train this simple network to learn logical AND function. First we have to create the <i>training set </i>according to AND truth table.</p>
     <p>&nbsp;</p>
     <p><strong>Step 3.</strong>  To create training set,  click <b>File
-&gt;New File</b> to open training set wizard.</p>
+&gt;New File</b> to open Data Set wizard.</p>
     <p><img src="images/new file.png"></p>
 <p>&nbsp;</p>
-    Select Training set file type, then click next.
+    Select DataSet file type, then click next.
 <p><img src="images/new training set.png"></p>
 <p>&nbsp;</p>
     <p>Enter training set name, number of inputs and
-outputs as shown on picture below and click <b>Create</b> button.</p>
+outputs as shown on picture below and click <b>Finish</b> button.</p>
     <p><img src="images/perceptron 004.png"></p>
     <p>&nbsp;</p>
     <p>Then create training set by entering <b>training
@@ -65,8 +64,8 @@ layer. Use <b>Add row</b> button to add new elements, and click <b>OK</b> button
     <p><img src="images/perceptron 005.png"></p>
     <p>&nbsp;</p>
     <p><strong>Step 4.</strong> Training network. To start network
-      training procedure, in network window select training set from drop down list
-    and click <b>Train</b> button. </p>
+      training procedure, drag n' drop training set to corresponding field in the network window, 
+      and 'Train' button will become enabled in toolbar. Click the 'Train' button to open Set Learning Parameters dialog. </p>
 <p><img src="images/perceptron 006.png"></p>
 <p>&nbsp;</p>
     <p>In <b>Set Learning parameters </b>dialog
@@ -83,30 +82,23 @@ training is complete.</p>
     This will show test results in the new tab.
 <p><img src="images/perceptron 012.png"></p>
 <p>&nbsp;</p>
-    To test single  input, use <strong>Set Input</strong> button.
-<p><img src="images/perceptron 009 a.png"></p>
-<p>&nbsp;</p>
-<p>This will open <b>Set Network Input</b> dialog in which you can enter input values for network delimited with
-space.</p>
-    <p><img src="images/perceptron 009.png"></p>
+    To test single  input, use <strong>Set Input</strong> button. This will open <b>Set Network Input</b> dialog in which you can enter input values for network delimited with
+space.
+<p><img src="images/perceptron 009.png"></p>
     <p>&nbsp;</p>
     <p>The result of network test is shown on
       picture below. Network learned logical AND function. As we can see the output
-neuron has value 0. Test the network to see how it behaves for other input values. </p>
+neuron has value 1. Test the network to see how it behaves for other input values. </p>
     <p><img src="images/perceptron 010.png"></p>
     <p>&nbsp;</p>
-<p>You can select graph view to see different network view. </p>
-    <p><img src="images/perceptron 013.png"></p>
-    <p>In graph view, you can turn on the display of activation levels and connection weights, change display layout and mouse mode so you can transform or zoom network. </p>
     <p>&nbsp;</p>
     <p><strong>PERCEPTRON IN JAVA CODE </strong></p>
-<p>package org.neuroph.samples;</p>
-    <p>import org.neuroph.core.NeuralNetwork;<br>
+   <p>package org.neuroph.samples;</p>
+   <p>import java.util.Arrays;<br> 
+      import org.neuroph.core.NeuralNetwork;<br>
       import org.neuroph.nnet.Perceptron;<br>
       import org.neuroph.core.data.DataSet;<br>
-      import org.neuroph.core.data.DataSetRow;<br>
-      import org.neuroph.core.learning.SupervisedTrainingElement;<br>
-      import java.util.Vector;</p>
+      import org.neuroph.core.data.DataSetRow;</p>
 <p>/**<br>
 * This sample shows how to create, train, save and load simple Perceptron neural network
 <br>
@@ -132,7 +124,7 @@ public class PerceptronSample {</p>
         <p> // save trained perceptron<br>
           myPerceptron.save(&quot;mySamplePerceptron.nnet&quot;);</p>
         <p> // load saved neural network<br>
-          NeuralNetwork loadedPerceptron = NeuralNetwork.load(&quot;mySamplePerceptron.nnet&quot;);<br>
+          NeuralNetwork loadedPerceptron = NeuralNetwork.createFromFile(&quot;mySamplePerceptron.nnet&quot;);<br>
           <br>
           // test loaded neural network<br>
           System.out.println(&quot;Testing loaded perceptron&quot;);<br>

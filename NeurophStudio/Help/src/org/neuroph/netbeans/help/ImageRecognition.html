@@ -71,13 +71,13 @@ Select Image Recognition file type, and click <strong>Next</strong>.
   image editor with edit button.
 </p>
 
-<p><img src="images/ir 002.png" width="911" height="546" /></p>
+<p><img src="images/ir 002.png" /></p>
 <p><strong>Color mode</strong> - You can use image recognition in full color mode or in binary black and white mode. The binary black and white mode represents pixel as [0, 1] and so it uses less number of input neurons. 
 For some applications (like character recognition for example) binary black and white mode may be optimal solution.</p>
 <p>In next step choose image that shoul dnot be recognized, which will help to avoid false recognition. Usually these are blocks of all red, all green and all blue images, but also migh include others.<br />
   When you test your image recognition network, you'll figure out what makes sense to include here.
 </p>
-<p><img src="images/ir 002-2.png" width="830" height="526" /></p>
+<p><img src="images/ir 002-2.png"  /></p>
 <p>Then, enter Training Set Label and Image Sampling Resolution, and click <strong>Next</strong>.
 </p>
 <p><img src="images/ir 003.png" /></p>
@@ -95,9 +95,13 @@ For some applications (like character recognition for example) binary black and 
 <p><strong>Network label</strong> - The label for the neural network, which is usefull when you create several neural networks for the same problem, and  you're  comparing them.<br />
     <strong>Transfer function</strong> - This  setting determines which transfer function will be used by the neurons. In most cases you can leave the default settings 'Sigmoid', but sometimes using 'Tanh' can give you  better results. <br />
 <strong>Hidden Layers Neuron Counts</strong> - This is the most important setting which determines the number of hidden layers in network, and number of neurons in each hidden layer. Hidden layers are  layers between input and output layer. The trick is to have the smallest possible number of layers and neurons which can succesfully learn the training set. The smaller number of neurons - the faster learning, better generalization. Suitable number of  hidden neurons also depends of the number of input and output neurons, and the best value can be figured out by experimenting. For  start, try 8x8 images and one hidden layer with 12 neurons, which is the default setting. If you wany to increase number of neurons, just enter the number for example '12' neurons. If you want to add more than one layer of neurons enter the number of neurons in each layer separated with space. For example, if you enter '12 8 6' it will create three hidden layers with 12, 8 and 6 neurons.</p>
-<p> Click the '<strong>Finish</strong>' button to create the neural network. After you click the button new window with created neural network will  open. </p>
+<p> Click the '<strong>Finish</strong>' button to create the neural network. Click network from projects view to open it. </p>
+<p><img src="images/ir 004-2.png" /></p>
+
 <p>&nbsp;</p>
-<p><strong>Step 3.</strong> Training network. To train the network select the training set from project tree, and click the '<strong>Train</strong>' button. </p>
+<p><strong>Step 3.</strong> Training network. To start network
+      training procedure, drag n' drop training set to corresponding field in the network window, 
+      and 'Train' button will become enabled in toolbar. Click the 'Train' button to open Set Learning Parameters dialog. </p>
 <p><img src="images/ir 006.png" /></p>
 <p>&nbsp;</p>
 <p>This will open the dialog for setting learning parameters. Use the default learning setting and just click the <strong>Train</strong> button.</p>
@@ -117,7 +121,7 @@ For some applications (like character recognition for example) binary black and 
 <h3>3. Using Neuroph Image Recognition in Your Applications</h3>
 <p>Here is the sample code which shows how to use the image recognition neural network created and trained with <strong>Neuroph Studio</strong>. You can run this sample, just specify correct filenames for neural network and some test image. </p>
 <p>import org.neuroph.core.NeuralNetwork;<br />
-  import org.neuroph.contrib.imgrec.ImageRecognitionPlugin;<br />
+  import org.neuroph.imgrec.ImageRecognitionPlugin;<br />
   import java.util.HashMap;<br />
   import java.io.File;<br />
 import java.io.IOException;</p>
@@ -145,8 +149,8 @@ import java.io.IOException;</p>
 <blockquote>
   <p>imageRecognition.recognizeImage(new URL(&quot;http://www.example.com/someImage.jpg&quot;));</p>
 </blockquote>
-<p>For more details check the classes in <em>org.neuroph.contrib.imgrec</em> package. <br />
-To use image recognition classes, you must add a reference to <em>neuroph.jar</em> in your project (right click project &gt; Properties &gt; Libraries &gt; Add JAR/Folder)</p>
+<p>For more details check the classes in <em>org.neuroph.imgrec</em> package which is in ImageRec module. <br />
+To use image recognition classes, you must add a reference to <em>neuroph-xx.jar and neuroph-imgrec-xx.jar</em> in your project (right click project &gt; Properties &gt; Libraries &gt; Add JAR/Folder)</p>
 <p>&nbsp;</p>
 <h3><br />
   TROUBLESHOOTING</h3>
