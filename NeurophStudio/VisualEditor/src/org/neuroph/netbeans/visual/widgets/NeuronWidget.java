@@ -93,7 +93,8 @@ public class NeuronWidget extends IconNodeWidget /*Widget*/ implements Lookup.Pr
     public void notifyStateChanged(ObjectState previousState, ObjectState state) {
         super.notifyStateChanged(previousState, state);
         Color color = Color.red;
-        if(((NeuralNetworkScene) getScene()).getScenePreferences().isShowActivationColor())
+        // allways show neurons color
+       // if(((NeuralNetworkScene) getScene()).getScenePreferences().isShowActivationColor())
             color = NeuralNetworkUtils.getColor(neuron);
         
         if (state.isSelected())

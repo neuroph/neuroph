@@ -24,7 +24,6 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
         this.scene = scene;
         checkBoxShowConnections.setSelected(scene.getScenePreferences().isShowConnections());
         checkBoxShowActivationSize.setSelected(scene.getScenePreferences().isShowActivationSize());
-        checkBoxShowActivationColor.setSelected(scene.getScenePreferences().isShowActivationColor());
         checkBoxActivationLevels.setSelected(scene.getScenePreferences().isShowActivationLevels());
         checkBoxConnectionWeights.setSelected(scene.getScenePreferences().isShowConnectionWeights());
         checkBoxWeightHighlighting.setSelected(scene.getScenePreferences().isWeightHighlighting());
@@ -43,7 +42,6 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
         buttonCancel = new javax.swing.JButton();
         panelNeuron = new javax.swing.JPanel();
         checkBoxShowActivationSize = new javax.swing.JCheckBox();
-        checkBoxShowActivationColor = new javax.swing.JCheckBox();
         checkBoxActivationLevels = new javax.swing.JCheckBox();
         panelConnection = new javax.swing.JPanel();
         checkBoxShowConnections = new javax.swing.JCheckBox();
@@ -72,8 +70,6 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
 
         org.openide.awt.Mnemonics.setLocalizedText(checkBoxShowActivationSize, org.openide.util.NbBundle.getMessage(ScenePreferencesDialog.class, "ScenePreferencesDialog.checkBoxShowActivationSize.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(checkBoxShowActivationColor, org.openide.util.NbBundle.getMessage(ScenePreferencesDialog.class, "ScenePreferencesDialog.checkBoxShowActivationColor.text")); // NOI18N
-
         org.openide.awt.Mnemonics.setLocalizedText(checkBoxActivationLevels, org.openide.util.NbBundle.getMessage(ScenePreferencesDialog.class, "ScenePreferencesDialog.checkBoxActivationLevels.text")); // NOI18N
 
         javax.swing.GroupLayout panelNeuronLayout = new javax.swing.GroupLayout(panelNeuron);
@@ -83,7 +79,6 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
             .addGroup(panelNeuronLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelNeuronLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkBoxShowActivationColor)
                     .addComponent(checkBoxActivationLevels)
                     .addComponent(checkBoxShowActivationSize))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -95,8 +90,6 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
                 .addComponent(checkBoxActivationLevels)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkBoxShowActivationSize)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(checkBoxShowActivationColor)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -141,27 +134,27 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
                         .addContainerGap()
                         .addComponent(panelNeuron, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(buttonOK)
-                        .addGap(29, 29, 29)
-                        .addComponent(buttonCancel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panelConnection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(buttonOK, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelNeuron, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelConnection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonOK, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonCancel))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(buttonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonOK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -171,7 +164,6 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
     private void buttonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOKActionPerformed
         this.dispose();
         scene.showActivationSize(checkBoxShowActivationSize.isSelected());
-        scene.showActivationColor(checkBoxShowActivationColor.isSelected());
         scene.showConnections(checkBoxShowConnections.isSelected());
         scene.showActivationLevel(checkBoxActivationLevels.isSelected());
         scene.showConnectionWeights(checkBoxConnectionWeights.isSelected());
@@ -228,7 +220,6 @@ public class ScenePreferencesDialog extends javax.swing.JDialog {
     private javax.swing.JButton buttonOK;
     private javax.swing.JCheckBox checkBoxActivationLevels;
     private javax.swing.JCheckBox checkBoxConnectionWeights;
-    private javax.swing.JCheckBox checkBoxShowActivationColor;
     private javax.swing.JCheckBox checkBoxShowActivationSize;
     private javax.swing.JCheckBox checkBoxShowConnections;
     private javax.swing.JCheckBox checkBoxWeightHighlighting;

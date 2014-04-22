@@ -24,7 +24,7 @@ public class NeuralNetworkUtils {
         if (neuron == null) {
             return 30;
         }
-        double output = neuron.getOutput();
+        double output = Math.abs(neuron.getOutput());
         if (output <= -0.75) {
             return 15;
         }

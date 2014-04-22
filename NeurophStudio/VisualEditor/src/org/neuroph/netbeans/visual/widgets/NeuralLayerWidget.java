@@ -153,7 +153,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
                     Neuron neuron = layer.getNeuronAt(n);
                     NeuronWidget neuronWidget = new NeuronWidget(nnScene, neuron);
                     neuronWidget.setActivationSize(scenePreferences.isShowActivationSize());
-                    neuronWidget.setActivationColor(scenePreferences.isShowActivationColor());
+                    neuronWidget.setActivationColor(true /*scenePreferences.isShowActivationColor()*/);
 
                     if (nnScene.getObjects().contains(neuron)) {
                         nnScene.removeObject(neuron);

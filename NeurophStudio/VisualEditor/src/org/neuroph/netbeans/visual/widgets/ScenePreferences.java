@@ -20,7 +20,7 @@ public class ScenePreferences {
     public ScenePreferences() {
         showConnections = true;
         showActivationSize = false;
-        showActivationColor = false;
+        showActivationColor = true;
         showActivationLevels = true;
         showConnectionWeights = false;
         weightHighlighting = false;
