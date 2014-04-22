@@ -53,15 +53,16 @@ public final class DataSetSampleVisualPanel1 extends JPanel {
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(DataSetSampleVisualPanel1.class, "DataSetSampleVisualPanel1.jLabel2.text")); // NOI18N
 
         slideNumberOfPoints.setBackground(new java.awt.Color(255, 255, 255));
-        slideNumberOfPoints.setMaximum(1000);
-        slideNumberOfPoints.setValue(0);
+        slideNumberOfPoints.setMaximum(2000);
+        slideNumberOfPoints.setToolTipText(org.openide.util.NbBundle.getMessage(DataSetSampleVisualPanel1.class, "DataSetSampleVisualPanel1.slideNumberOfPoints.toolTipText")); // NOI18N
+        slideNumberOfPoints.setValue(1000);
         slideNumberOfPoints.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 slideNumberOfPointsStateChanged(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(labNumberOfPoints, org.openide.util.NbBundle.getMessage(DataSetSampleVisualPanel1.class, "DataSetSampleVisualPanel1.labNumberOfPoints.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(labNumberOfPoints, org.openide.util.NbBundle.getMessage(DataSetSampleVisualPanel1.class, "DataSetSampleVisualPanel1.labNumberOfPoints.text_1")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -123,11 +124,11 @@ public final class DataSetSampleVisualPanel1 extends JPanel {
 
     private void initShapes(int shapeIndex, int numberOfPoints) {
         shapes = new DataSetGenerator[8];
-        shapes[0] = new ElipseGenerator(numberOfPoints, 0.5, 0.5, 0.5, 0.25);
-        shapes[1] = new CircleGenerator(numberOfPoints, 0.5, 0.5, 0.125);
-        shapes[2] = new RingGenerator(numberOfPoints, 0.5, 0.5, 0.0625, 0.25);
-        shapes[3] = new MoonGenerator(numberOfPoints, 0.5, 0.5, 0.125);
-        shapes[4] = new SquareGenerator(numberOfPoints, 1);
+        shapes[0] = new ElipseGenerator(numberOfPoints, 0, 0, 1, 0.5);//0.5, 0.5, 0.5, 0.25
+        shapes[1] = new CircleGenerator(numberOfPoints, 0, 0, 0.5);//0.5, 0.5, 0.125
+        shapes[2] = new RingGenerator(numberOfPoints, 0, 0, 0.125, 0.5);//0.5, 0.5, 0.0625, 0.25
+        shapes[3] = new MoonGenerator(numberOfPoints, 0, 0, 0.5);//0.5, 0.5, 0.125
+        shapes[4] = new SquareGenerator(numberOfPoints, 1.25);
         shapes[5] = new DiamondGenerator(numberOfPoints, 1);
         shapes[6] = new XORGenerator(numberOfPoints);
         shapes[7] = new RandomPolynomialGenerator(numberOfPoints);

@@ -112,8 +112,11 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="maximum" type="int" value="1000"/>
-            <Property name="value" type="int" value="0"/>
+            <Property name="maximum" type="int" value="2000"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/neuroph/netbeans/wizards/Bundle.properties" key="DataSetSampleVisualPanel1.slideNumberOfPoints.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="value" type="int" value="1000"/>
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="slideNumberOfPointsStateChanged"/>
@@ -122,7 +125,7 @@
         <Component class="javax.swing.JLabel" name="labNumberOfPoints">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/neuroph/netbeans/datasetsamples/wizards/Bundle.properties" key="DataSetSampleVisualPanel1.labNumberOfPoints.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/neuroph/netbeans/wizards/Bundle.properties" key="DataSetSampleVisualPanel1.labNumberOfPoints.text_1" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
