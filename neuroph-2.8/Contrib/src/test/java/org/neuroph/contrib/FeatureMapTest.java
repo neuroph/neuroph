@@ -2,7 +2,7 @@ package org.neuroph.contrib;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.neuroph.contrib.convolution.Layer2D;
+import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.nnet.comp.neuron.InputNeuron;
 
 public class FeatureMapTest {

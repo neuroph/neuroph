@@ -3,7 +3,7 @@ package org.neuroph.contrib;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.neuroph.contrib.convolution.Layer2D;
+import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.core.Neuron;
 import org.neuroph.nnet.comp.neuron.InputNeuron;
 
