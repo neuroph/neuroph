@@ -22,6 +22,7 @@ import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import org.neuroph.core.events.LearningEventType;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
@@ -100,7 +101,8 @@ public class XorMultiLayerPerceptronSample implements LearningEventListener {
     @Override
     public void handleLearningEvent(LearningEvent event) {
         BackPropagation bp = (BackPropagation)event.getSource();
-        System.out.println(bp.getCurrentIteration() + ". iteration : "+ bp.getTotalNetworkError());
+        if (event.getEventType() != LearningEventType.LEARNING_STOPPED)
+            System.out.println(bp.getCurrentIteration() + ". iteration : "+ bp.getTotalNetworkError());
     }    
 
 }

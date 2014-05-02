@@ -54,7 +54,6 @@ public class PerceptronSample {
             // test loaded neural network
             System.out.println("Testing loaded perceptron");
             testNeuralNetwork(loadedPerceptron, trainingSet);
-
     }
 
     /**
