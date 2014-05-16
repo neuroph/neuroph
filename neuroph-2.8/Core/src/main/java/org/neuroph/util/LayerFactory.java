@@ -35,14 +35,14 @@ public class LayerFactory {
 	public static Layer createLayer(int neuronsCount, TransferFunctionType transferFunctionType) {
 		NeuronProperties neuronProperties = new NeuronProperties();
 		neuronProperties.setProperty("transferFunction", transferFunctionType);
-		Layer layer = createLayer(neuronsCount, neuronProperties);
+		Layer layer = new Layer(neuronsCount, neuronProperties);
 		return layer;
 	}
         
 	public static Layer createLayer(int neuronsCount, Class <? extends TransferFunction> transferFunctionClass) {
 		NeuronProperties neuronProperties = new NeuronProperties();
 		neuronProperties.setProperty("transferFunction", transferFunctionClass);
-		Layer layer = createLayer(neuronsCount, neuronProperties);
+		Layer layer = new Layer(neuronsCount, neuronProperties);
 		return layer;
 	}        
 

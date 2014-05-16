@@ -93,7 +93,7 @@ import java.util.RandomAccess;
  * @since   1.2
  */
 
-public class TypedArrayList<E> extends AbstractList<E>
+public class NeurophArrayList<E> extends AbstractList<E>
         implements List<E>, RandomAccess, Cloneable, java.io.Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -124,7 +124,7 @@ public class TypedArrayList<E> extends AbstractList<E>
      * @throws IllegalArgumentException if the specified initial capacity
      *         is negative
      */
-    public TypedArrayList(Class<E> elementType, int initialCapacity) {
+    public NeurophArrayList(Class<E> elementType, int initialCapacity) {
         super();
         if (initialCapacity < 0)
             throw new IllegalArgumentException("Illegal Capacity: "+
@@ -138,7 +138,7 @@ public class TypedArrayList<E> extends AbstractList<E>
     /**
      * Constructs an empty list with an initial capacity of ten.
      */
-    public TypedArrayList(Class<E> elementType) {
+    public NeurophArrayList(Class<E> elementType) {
         this(elementType, 0);
     }
 
@@ -290,7 +290,7 @@ public class TypedArrayList<E> extends AbstractList<E>
     public Object clone() {
         try {
             @SuppressWarnings("unchecked")
-                TypedArrayList<E> v = (TypedArrayList<E>) super.clone();
+                NeurophArrayList<E> v = (NeurophArrayList<E>) super.clone();
             v.elementData = Arrays.copyOf(elementData, size);
             v.modCount = 0;
             return v;
@@ -792,7 +792,7 @@ public class TypedArrayList<E> extends AbstractList<E>
             int i = cursor;
             if (i >= size)
                 throw new NoSuchElementException();
-            E[] elementData = TypedArrayList.this.elementData;
+            E[] elementData = NeurophArrayList.this.elementData;
             if (i >= elementData.length)
                 throw new ConcurrentModificationException();
             cursor = i + 1;
@@ -805,7 +805,7 @@ public class TypedArrayList<E> extends AbstractList<E>
             checkForComodification();
 
             try {
-                TypedArrayList.this.remove(lastRet);
+                NeurophArrayList.this.remove(lastRet);
                 cursor = lastRet;
                 lastRet = -1;
                 expectedModCount = modCount;
@@ -847,7 +847,7 @@ public class TypedArrayList<E> extends AbstractList<E>
             int i = cursor - 1;
             if (i < 0)
                 throw new NoSuchElementException();
-            E[] elementData = TypedArrayList.this.elementData;
+            E[] elementData = NeurophArrayList.this.elementData;
             if (i >= elementData.length)
                 throw new ConcurrentModificationException();
             cursor = i;
@@ -860,7 +860,7 @@ public class TypedArrayList<E> extends AbstractList<E>
             checkForComodification();
 
             try {
-                TypedArrayList.this.set(lastRet, e);
+                NeurophArrayList.this.set(lastRet, e);
             } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
@@ -871,7 +871,7 @@ public class TypedArrayList<E> extends AbstractList<E>
 
             try {
                 int i = cursor;
-                TypedArrayList.this.add(i, e);
+                NeurophArrayList.this.add(i, e);
                 cursor = i + 1;
                 lastRet = -1;
                 expectedModCount = modCount;

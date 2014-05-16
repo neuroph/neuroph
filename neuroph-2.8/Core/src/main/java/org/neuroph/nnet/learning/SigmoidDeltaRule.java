@@ -52,18 +52,6 @@ public class SigmoidDeltaRule extends LMS {
 	 */
 	@Override
 	protected void updateNetworkWeights(double[] outputError) {
-		this.calculateErrorAndUpdateOutputNeurons(outputError);
-	}
-
-	/**
-	 * This method implements weights update procedure for the output neurons
-	 * Calculates delta/error and calls updateNeuronWeights to update neuron's weights
-         * for each output neuron
-         * 
-	 * @param outputError
-	 *            error vector for output neurons
-	 */
-	protected void calculateErrorAndUpdateOutputNeurons(double[] outputError) {
 		int i = 0;
                 // for all output neurons
 		for(Neuron neuron : neuralNetwork.getOutputNeurons()) {

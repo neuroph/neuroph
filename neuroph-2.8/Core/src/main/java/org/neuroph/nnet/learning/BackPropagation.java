@@ -27,7 +27,7 @@ import org.neuroph.core.transfer.TransferFunction;
  * @author Zoran Sevarac <sevarac@gmail.com> 
  * 
  */
-public class BackPropagation extends SigmoidDeltaRule {
+public class BackPropagation extends LMS {
 	
 	/**
 	 * The class fingerprint that is set to indicate serialization
@@ -52,9 +52,41 @@ public class BackPropagation extends SigmoidDeltaRule {
 	 */
 	@Override
 	protected void updateNetworkWeights(double[] outputError) {
-		this.calculateErrorAndUpdateOutputNeurons(outputError); // inherited from SigmoidDeltaRule
-		this.calculateErrorAndUpdateHiddenNeurons();            // implemented in this class
+		this.calculateErrorAndUpdateOutputNeurons(outputError); 
+		this.calculateErrorAndUpdateHiddenNeurons();            
 	}
+        
+
+	/**
+	 * This method implements weights update procedure for the output neurons
+	 * Calculates delta/error and calls updateNeuronWeights to update neuron's weights
+         * for each output neuron
+         * 
+	 * @param outputError
+	 *            error vector for output neurons
+	 */
+	protected void calculateErrorAndUpdateOutputNeurons(double[] outputError) {
+		int i = 0;
+                // for all output neurons
+		for(Neuron neuron : neuralNetwork.getOutputNeurons()) {
+                        // if error is zero, just set zero error and continue to next neuron
+			if (outputError[i] == 0) {
+				neuron.setError(0);
+                                i++;
+				continue;
+			}
+			
+                        // otherwise calculate and set error/delta for the current neuron
+			TransferFunction transferFunction = neuron.getTransferFunction();
+			double neuronInput = neuron.getNetInput();
+			double delta = outputError[i] * transferFunction.getDerivative(neuronInput); // delta = (d-y)*df(net)
+			neuron.setError(delta);
+                        
+                        // and update weights of the current neuron
+			this.updateNeuronWeights(neuron);				
+			i++;
+		} // for				
+	}        
 
 	/**
 	 * This method implements weights adjustment for the hidden layers

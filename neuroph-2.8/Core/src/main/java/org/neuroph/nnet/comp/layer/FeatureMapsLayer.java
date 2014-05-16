@@ -22,7 +22,7 @@ import java.util.Arrays;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.util.NeuronProperties;
-import org.neuroph.util.TypedArrayList;
+import org.neuroph.util.NeurophArrayList;
 
 /**
  * This class represents an array of feature maps which are 2 dimensional layers
@@ -54,7 +54,7 @@ public class FeatureMapsLayer extends Layer {
 	 * Array of feature maps (instances of Layer2D)
 	 */
 	//private Layer2D[] featureMaps; // 
-        private TypedArrayList<Layer2D> featureMaps;
+        private NeurophArrayList<Layer2D> featureMaps;
 
         /**
          * Creates a new empty feature maps layer with specified kernel
@@ -63,7 +63,7 @@ public class FeatureMapsLayer extends Layer {
 	public FeatureMapsLayer(Kernel kernel) {
 		this.kernel = kernel;
 		//this.featureMaps = new Layer2D[0];
-                this.featureMaps = new TypedArrayList<Layer2D>(Layer2D.class);
+                this.featureMaps = new NeurophArrayList<Layer2D>(Layer2D.class);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class FeatureMapsLayer extends Layer {
 		this.kernel = kernel;
                 this.mapDimensions = mapDimensions;		
 		//this.featureMaps = new Layer2D[0];
-                this.featureMaps = new TypedArrayList<Layer2D>(Layer2D.class);
+                this.featureMaps = new NeurophArrayList<Layer2D>(Layer2D.class);
 	}
                 
         /**
@@ -95,7 +95,7 @@ public class FeatureMapsLayer extends Layer {
                 this.kernel = kernel;	
                 this.mapDimensions = mapDimensions;
                 //this.featureMaps = new Layer2D[0];
-                this.featureMaps = new TypedArrayList<Layer2D>(Layer2D.class);
+                this.featureMaps = new NeurophArrayList<Layer2D>(Layer2D.class);
 		createFeatureMaps(mapCount, this.mapDimensions, neuronProp);
 	}        
 

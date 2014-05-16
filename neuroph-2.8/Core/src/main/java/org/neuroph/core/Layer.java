@@ -20,7 +20,7 @@ import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.core.events.NeuralNetworkEventType;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
-import org.neuroph.util.TypedArrayList;
+import org.neuroph.util.NeurophArrayList;
 
 /**
  * <pre>
@@ -47,7 +47,7 @@ public class Layer implements Serializable {
     /**
      * Collection of neurons (Neuron instances)
      */
-    protected TypedArrayList<Neuron> neurons;
+    protected NeurophArrayList<Neuron> neurons;
 
     /**
      * Label for this layer
@@ -58,8 +58,16 @@ public class Layer implements Serializable {
      * Creates an instance of empty Layer
      */
     public Layer() {
-        neurons = new TypedArrayList(Neuron.class);
+        neurons = new NeurophArrayList(Neuron.class);
     }
+    
+    /**
+     * Creates an instance of empty Layer for specified number of neurons
+     * @param neuronsCount number of neurons in this layer
+     */
+    public Layer(int neuronsCount) {
+       neurons = new NeurophArrayList(Neuron.class, neuronsCount);
+    }    
 
     /**
      * Creates an instance of Layer with the specified number of neurons with
@@ -69,7 +77,7 @@ public class Layer implements Serializable {
      * @param neuronProperties properties of neurons in layer
      */
     public Layer(int neuronsCount, NeuronProperties neuronProperties) {
-        neurons = new TypedArrayList(Neuron.class, neuronsCount);
+        neurons = new NeurophArrayList(Neuron.class, neuronsCount);
 
         for (int i = 0; i < neuronsCount; i++) {
             Neuron neuron = NeuronFactory.createNeuron(neuronProperties);

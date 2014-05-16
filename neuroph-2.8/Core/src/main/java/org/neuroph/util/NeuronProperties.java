@@ -15,7 +15,6 @@
  */
 package org.neuroph.util;
 
-import java.util.Enumeration;
 import java.util.Iterator;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.input.InputFunction;
@@ -64,8 +63,6 @@ public class NeuronProperties extends Properties {
 
     public NeuronProperties(Class<? extends Neuron> neuronClass, TransferFunctionType transferFunctionType) {
         initKeys();
-//		this.setProperty("weightsFunction", WeightedInput.class);
-//		this.setProperty("summingFunction", Sum.class);
         this.setProperty("inputFunction", WeightedSum.class);
         this.setProperty("transferFunction", transferFunctionType.getTypeClass());
         this.setProperty("neuronType", neuronClass);
@@ -83,7 +80,7 @@ public class NeuronProperties extends Properties {
 
     // uraditi override za setProperty tako da za enum type uzima odgovarajuce klase
     private void initKeys() {
-        createKeys("weightsFunction", "summingFunction", "inputFunction", "transferFunction", "neuronType", "useBias"); // use bias prebaciti u NeuralNetworkProperties
+        createKeys("inputFunction", "transferFunction", "neuronType", "useBias"); // use bias prebaciti u NeuralNetworkProperties
     }
 
     public Class getInputFunction() {
