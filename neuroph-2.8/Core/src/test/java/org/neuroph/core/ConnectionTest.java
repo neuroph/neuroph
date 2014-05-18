@@ -1,7 +1,9 @@
 package org.neuroph.core;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.*;
+import org.junit.rules.ExpectedException;
 
 /**
  *
@@ -10,6 +12,7 @@ import org.junit.*;
 public class ConnectionTest {
     
     Neuron fromNeuron, toNeuron;
+    public ExpectedException exception = ExpectedException.none(); 
     
     public ConnectionTest() {
     }
@@ -32,6 +35,60 @@ public class ConnectionTest {
     public void tearDown() {
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void ConnectionIn(){
+    	Connection conn = new Connection(fromNeuron, null);
+    	 exception.expect(IllegalArgumentException.class);
+    	 exception.expectMessage("To neuron in connection cant be null!");
+    	 
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void ConnectionIn2(){
+    	Connection conn = new Connection(null,toNeuron );
+    	exception.expect(IllegalArgumentException.class);
+   	 	exception.expectMessage("From neuron in connection cant be null !");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void ConnectionIn3(){
+    	Connection conn = new Connection(null,toNeuron,12 );
+    	exception.expect(IllegalArgumentException.class);
+   	 	exception.expectMessage("From neuron in connection cant be null !");
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void ConnectionIn4(){
+    	Connection conn = new Connection(fromNeuron, null,0);
+    	 exception.expect(IllegalArgumentException.class);
+    	 exception.expectMessage("To neuron in connection cant be null!");
+    	 
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void ConnectionIn5(){
+    	Connection conn = new Connection(fromNeuron,null,new Weight(4));
+    	exception.expect(IllegalArgumentException.class);
+   	 	exception.expectMessage("To neuron in connection cant be null!");
+    }
+    
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void ConnectionIn6(){
+    	Connection conn = new Connection(null,toNeuron,new Weight(2) );
+    	exception.expect(IllegalArgumentException.class);
+   	 	exception.expectMessage("From neuron in connection cant be null !");
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void ConnectionIn7(){
+    	Connection conn = new Connection(fromNeuron, toNeuron,null);
+    	 exception.expect(IllegalArgumentException.class);
+    	 exception.expectMessage("Connection Weight cant be null!");
+    	 
+    }
+    @Test
+    public void ConnectionIn8(){
+    	Connection conn = new Connection(fromNeuron, toNeuron,new Weight(23));
+    	Assert.assertNotNull(conn);     	 
+    } 
     /**
      * Test of getWeight method, of class Connection.
      */
@@ -54,6 +111,17 @@ public class ConnectionTest {
         Connection instance = new Connection(fromNeuron, toNeuron);
         instance.setWeight(weight);
         assertEquals(weight, instance.getWeight());
+    }
+
+    /**
+     * Test of setWeight method, of class Connection.
+     */
+    @Test(expected  = IllegalArgumentException.class)
+    public void throwsExceptionWhenWeightIsSetToNull() {
+        System.out.println("setWeight");
+        Weight weight = null;
+        Connection instance = new Connection(fromNeuron, toNeuron);
+        instance.setWeight(weight);
     }
 
     /**
@@ -104,6 +172,12 @@ public class ConnectionTest {
         instance.setFromNeuron(fromNeuron);
         assertEquals(fromNeuron, instance.getFromNeuron());
     }
+    @Test(expected = IllegalArgumentException.class)
+    public void throwExceptionOnNullSetFromNeuron() {
+        System.out.println("setFromNeuron");
+        Connection instance = new Connection(new Neuron(), toNeuron);
+        instance.setFromNeuron(null);
+    }
 
     /**
      * Test of getToNeuron method, of class Connection.
@@ -126,5 +200,12 @@ public class ConnectionTest {
         Connection instance = new Connection(fromNeuron, new Neuron());
         instance.setToNeuron(toNeuron);
         assertEquals(toNeuron, instance.getToNeuron());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void throwExceptionOnNullSetToNeuron() {
+        System.out.println("setToNeuron");
+        Connection instance = new Connection(fromNeuron, new Neuron());
+        instance.setToNeuron(null);
     }
 }
