@@ -3,6 +3,7 @@ package org.neuroph.netbeans.charts.graphs3d;
 import org.jzy3d.chart.Chart;
 import org.nugs.graph2d.api.Attribute;
 import org.nugs.graph3d.api.DataProvider3D;
+import org.nugs.graph3d.api.Point3D;
 
 /**
  * Base class for all 3D graph builders
@@ -15,7 +16,7 @@ public abstract class Graph3DBuilder {
     protected Attribute attribute1;
     protected Attribute attribute2;
     protected Attribute attribute3;
-    protected DataProvider3D dataProvider3D;
+    protected DataProvider3D<Point3D> dataProvider3D;
 
     public abstract Chart createGraph();
 
