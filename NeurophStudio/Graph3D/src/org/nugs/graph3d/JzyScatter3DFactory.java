@@ -18,7 +18,7 @@ import org.nugs.graph3d.api.Scatter3DFactory;
  *
  * @author Vedrana Gajic
  */
-public class JzyScatter3DFactory implements Scatter3DFactory<Chart> {
+public class JzyScatter3DFactory implements Scatter3DFactory<Chart,Point3D> {
 
     /**
      * Create a scatter chart and open it on Chart launcher
