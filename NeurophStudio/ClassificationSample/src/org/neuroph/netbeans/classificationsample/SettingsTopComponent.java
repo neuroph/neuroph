@@ -64,7 +64,7 @@ public final class SettingsTopComponent extends TopComponent {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    private MultiLayerPerceptronClassificationSamplesPanel controllsPanel;
+    private MultiLayerPerceptronClassificationSamplePanel controllsPanel;
     
     private static SettingsTopComponent instance;
     private static final String PREFERRED_ID = "SettingsTopComponent";
@@ -82,7 +82,7 @@ public final class SettingsTopComponent extends TopComponent {
     }
     
     /**
-     * Obtain the MultiLayerPerceptronSampleTopComponent instance. Never call {@link #getDefault} directly!
+     * Obtain the MultiLayerPerceptronClassificationSampleTopComponent instance. Never call {@link #getDefault} directly!
      */
     public static synchronized SettingsTopComponent findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
@@ -100,16 +100,16 @@ public final class SettingsTopComponent extends TopComponent {
         return getDefault();
     }
     
-    public MultiLayerPerceptronClassificationSamplesPanel getControllsPanel() {
+    public MultiLayerPerceptronClassificationSamplePanel getControllsPanel() {
         return controllsPanel;
     }
 
-    public void setControllsPanel(MultiLayerPerceptronClassificationSamplesPanel controllsPanel) {
+    public void setControllsPanel(MultiLayerPerceptronClassificationSamplePanel controllsPanel) {
         this.controllsPanel = controllsPanel;
     }
     
-    public void initializePanel(MultiLayerPerceptronSampleTopComponent mlp){
-        controllsPanel = new MultiLayerPerceptronClassificationSamplesPanel(mlp);
+    public void initializePanel(MultiLayerPerceptronClassificationSampleTopComponent mlp){
+        controllsPanel = new MultiLayerPerceptronClassificationSamplePanel(mlp);
         controllsPanel.setSize(getMaximumSize());//415, 454
         add(controllsPanel);
     }
