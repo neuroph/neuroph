@@ -4,5 +4,5 @@
 <tc-ref version="2.0" >
     <module name="org.neuroph.netbeans.explorer" spec="1.0"/>
     <tc-id id="ExplorerTopComponent"/>
-    <state opened="true"/>
+    <state opened="false"/>
 </tc-ref>
