@@ -1,12 +1,29 @@
 package org.nugs.graph3d.api;
 
 /**
- *
+ * Provides methods to create 3D scatter graph
+ * C - graph panel class that will be created and returned by factory methods 
+ * P - class that is used to represent 3D point 
+ * 
  * @author zoran
  */
-public interface Scatter3DFactory<C> {
+public interface Scatter3DFactory<C, P> {
     
-    public C createScatter3D(Point3D[] points, Scatter3DProperties prop);
-    public C createScatter3D(Point3D[] points);
+    /**
+     * Creates and returns 3D scatter for given list of 3D points
+     * @param points an array of 3d points
+     * @return 3D scatter graph
+     */
+    public C createScatter3D(P[] points);    
+    
+    /**
+     * Creates and returns 3D scatter for given list of 3D points and scatter graph properties
+     * @param points an array of 3d points
+     * @param prop
+     * @return 
+     */
+    public C createScatter3D(P[] points, Scatter3DProperties prop);
+    
+
     
 }
