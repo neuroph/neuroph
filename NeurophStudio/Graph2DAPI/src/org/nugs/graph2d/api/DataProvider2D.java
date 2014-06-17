@@ -3,7 +3,8 @@ package org.nugs.graph2d.api;
 import java.awt.geom.Point2D;
 
 /**
- *
+ * Provides methods to get data from some model that will be visualized
+ * 
  * @author Vedrana Gajic
  */
 public interface DataProvider2D {

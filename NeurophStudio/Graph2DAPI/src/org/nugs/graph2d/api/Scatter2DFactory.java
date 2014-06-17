@@ -3,7 +3,9 @@ package org.nugs.graph2d.api;
 import org.jfree.data.xy.XYSeries;
 
 /**
- *
+ * Provides methods to create 2D scatter graphs
+ * C - graph panel class that will be created and returned by factory methods 
+ * 
  * @author zoran
  */
 public interface Scatter2DFactory<C> {

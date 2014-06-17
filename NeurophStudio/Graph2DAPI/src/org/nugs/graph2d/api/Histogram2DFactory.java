@@ -1,7 +1,9 @@
 package org.nugs.graph2d.api;
 
 /**
- *
+ * Provides methods to create 2D histograms
+ * C - graph panel class that will be created and returned by factory methods 
+ * 
  * @author zoran
  */
 public interface Histogram2DFactory<C> {
