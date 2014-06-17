@@ -29,6 +29,7 @@ import org.openide.windows.IOProvider;
 // TODO define position attribute
 @TemplateRegistration(         
         folder = "Neuroph",    
+        position = 220,
         displayName = "Sample Data Set",      
         iconBase = "org/neuroph/netbeans/wizards/iconTs.PNG",
         content="dataSetSample.html"
