@@ -34,7 +34,7 @@ public class OutputSurface3D extends Graph3DBuilder {
 
     @Override
     public Chart createGraph() {
-        points3d = dataProvider3D.getData(attribute1);
+        points3d = (Point3D[]) dataProvider3D.getData(attribute1);
         
         // add a copy of the last neuron outputs in order to display surface nicely
         points3dCopy = Arrays.copyOf(points3d, points3d.length+dataSetRowCount);

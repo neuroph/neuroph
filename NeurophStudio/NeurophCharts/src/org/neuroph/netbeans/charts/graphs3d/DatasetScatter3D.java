@@ -11,15 +11,13 @@ import org.nugs.graph3d.api.Point3D;
 import org.nugs.graph3d.JzyScatter3DFactory;
 import org.nugs.graph3d.api.Scatter3DProperties;
 import org.neuroph.netbeans.charts.providers3d.DatasetDataProvider3D;
-import org.nugs.graph3d.JzySurface3DFactory;
-import org.nugs.graph3d.api.Scatter3DFactory;
 
 /**
  * Scatter of the attributes of dataset (3D)
  *
  * @author Vedrana Gajic
  */
-public class DatasetScatter3D extends Graph3DBuilder {
+public class DatasetScatter3D extends Graph3DBuilder<Chart, Point3D> {
 
     private DataSet dataset;
 
@@ -37,7 +35,7 @@ public class DatasetScatter3D extends Graph3DBuilder {
     public Chart createGraph() {
 
 
-        Point3D[] points3d = dataProvider3D.getData(attribute1, attribute2, attribute3);
+        Point3D[] points3d = (Point3D[]) dataProvider3D.getData(attribute1, attribute2, attribute3);
 
         Scatter3DProperties properties = new Scatter3DProperties();
         properties.setDotSize(10);
@@ -51,7 +49,8 @@ public class DatasetScatter3D extends Graph3DBuilder {
         properties.setzAxeLabel(attribute3.getLabel());
 
         //  properties.setRadius((float)1.0/data[0].length);
-        Scatter3DFactory<Chart> chartFactory = new JzyScatter3DFactory();
+        JzyScatter3DFactory chartFactory = new JzyScatter3DFactory();
+        
         Chart chart = chartFactory.createScatter3D(points3d, properties);
 
 

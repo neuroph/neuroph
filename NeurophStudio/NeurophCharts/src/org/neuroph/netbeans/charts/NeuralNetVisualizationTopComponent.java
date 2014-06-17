@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import org.jfree.chart.ChartPanel;
+import org.jzy3d.chart.Chart;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -239,7 +240,7 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
     private void openInLauncherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openInLauncherButtonActionPerformed
 
         graphBuilder = (Graph3DBuilder) graphTypeCombo.getSelectedItem();
-        Chart3DUtils.openInChartLauncher(graphBuilder.createGraph());
+        Chart3DUtils.openInChartLauncher((Chart) graphBuilder.createGraph());
 
     }//GEN-LAST:event_openInLauncherButtonActionPerformed
 
@@ -350,7 +351,7 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
 
     private void visualize3D() {
         graphBuilder = (Graph3DBuilder) graphTypeCombo.getSelectedItem();
-        Chart3DUtils.addChartToPanel(graphBuilder.createGraph(), graphPanel);
+        Chart3DUtils.addChartToPanel((Chart) graphBuilder.createGraph(), graphPanel);
         jPanel1.revalidate();
         openInLauncherButton.setEnabled(true);
     }

@@ -32,7 +32,7 @@ public class DatasetHistogram3D extends Graph3DBuilder {
 
     @Override
     public Chart createGraph() {
-        points3d = dataProvider3D.getData(attribute1, attribute2, attribute3);
+        points3d = (Point3D[]) dataProvider3D.getData(attribute1, attribute2, attribute3);
         Histogram3DProperties prop = new Histogram3DProperties();
         IColorMap map = new ColorMapRainbow();
         map.setDirection(true);

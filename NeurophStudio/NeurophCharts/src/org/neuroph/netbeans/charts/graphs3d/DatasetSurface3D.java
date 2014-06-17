@@ -36,7 +36,7 @@ public class DatasetSurface3D extends Graph3DBuilder {
     @Override
     public Chart createGraph() {
 
-        points3d = dataProvider3D.getData(attribute1, attribute2, attribute3);
+        points3d = (Point3D[]) dataProvider3D.getData(attribute1, attribute2, attribute3);
 
         double xMin = NeurophChartUtilities.getMinValue(dataset, attribute1);
         double yMin = NeurophChartUtilities.getMinValue(dataset, attribute2);

@@ -1,24 +1,25 @@
 package org.neuroph.netbeans.charts.graphs3d;
 
-import org.jzy3d.chart.Chart;
 import org.nugs.graph2d.api.Attribute;
 import org.nugs.graph3d.api.DataProvider3D;
-import org.nugs.graph3d.api.Point3D;
 
 /**
  * Base class for all 3D graph builders
  * Override createGraph method to create specific types of graphs
  * 
+ * C - graph panel class that will be created and returned by factory methods 
+ * P - class that is used to represent 3D point 
+ * 
  * @author Vedrana Gajic
  */
-public abstract class Graph3DBuilder {
+public abstract class Graph3DBuilder<C, P> {
 
     protected Attribute attribute1;
     protected Attribute attribute2;
     protected Attribute attribute3;
-    protected DataProvider3D<Point3D> dataProvider3D;
+    protected DataProvider3D<P> dataProvider3D;
 
-    public abstract Chart createGraph();
+    public abstract C createGraph();
 
     public void setAttribute1(Attribute attribute1) {
         this.attribute1 = attribute1;
@@ -44,11 +45,11 @@ public abstract class Graph3DBuilder {
         return attribute3;
     }
 
-    public void setProvider3D(DataProvider3D provider) {
+    public void setDataProvider(DataProvider3D<P> provider) {
         this.dataProvider3D = provider;
     }
 
-    public DataProvider3D getProvider3D() {
+    public DataProvider3D<P> getDataProvider() {
         return dataProvider3D;
     }
 }

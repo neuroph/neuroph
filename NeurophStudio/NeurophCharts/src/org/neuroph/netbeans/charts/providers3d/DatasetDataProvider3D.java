@@ -47,7 +47,7 @@ public class DatasetDataProvider3D implements DataProvider3D {
         }
         return row.getInput()[attr.getIndex()];
     }
-
+   
     @Override
     public Point3D[] getData(Attribute ...attr) {
         int numberOfPoints = dataSet.getRows().size();

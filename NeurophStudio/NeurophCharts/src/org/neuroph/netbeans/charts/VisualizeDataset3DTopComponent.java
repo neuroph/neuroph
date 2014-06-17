@@ -1,5 +1,6 @@
 package org.neuroph.netbeans.charts;
 
+import org.jzy3d.chart.Chart;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
@@ -194,7 +195,7 @@ public final class VisualizeDataset3DTopComponent extends TopComponent {
         graphBuilder.setAttribute1(in1);
         graphBuilder.setAttribute2(in2);
         graphBuilder.setAttribute3(in3);
-        Chart3DUtils.addChartToPanel(graphBuilder.createGraph(), graphPanel);
+        Chart3DUtils.addChartToPanel((Chart) graphBuilder.createGraph(), graphPanel);
 
         graphPanel.validate();
         openInLauncherButton.setEnabled(true);
@@ -205,7 +206,7 @@ public final class VisualizeDataset3DTopComponent extends TopComponent {
     private void openInLauncherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openInLauncherButtonActionPerformed
 
         graphBuilder = (Graph3DBuilder) graphCombo.getSelectedItem();
-        Chart3DUtils.openInChartLauncher(graphBuilder.createGraph());
+        Chart3DUtils.openInChartLauncher((Chart) graphBuilder.createGraph());
 
 
 

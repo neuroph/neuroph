@@ -114,8 +114,8 @@
             </module-dependencies>
             <public-packages>
                 <package>org.neuroph.netbeans.charts</package>
-                <package>org.neuroph.netbeans.charts.graphs</package>
-                <package>org.neuroph.netbeans.charts.graphs2D</package>
+                <package>org.neuroph.netbeans.charts.graphs2d</package>
+                <package>org.neuroph.netbeans.charts.graphs3d</package>
                 <package>org.neuroph.netbeans.charts.providers2d</package>
                 <package>org.neuroph.netbeans.charts.providers3d</package>
                 <package>org.neuroph.netbeans.charts.util</package>

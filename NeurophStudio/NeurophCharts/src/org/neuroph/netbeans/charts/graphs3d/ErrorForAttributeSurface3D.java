@@ -38,7 +38,7 @@ public class ErrorForAttributeSurface3D extends Graph3DBuilder {
 
     @Override
     public Chart createGraph() {
-        points3d = dataProvider3D.getData(attribute2);
+        points3d = (Point3D[]) dataProvider3D.getData(attribute2);
         Surface3DProperties prop = new Surface3DProperties();
         IColorMap map = new ColorMapHotCold();
         map.setDirection(true);
