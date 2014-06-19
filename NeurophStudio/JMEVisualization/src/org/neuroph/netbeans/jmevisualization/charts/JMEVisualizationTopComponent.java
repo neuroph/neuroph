@@ -1,6 +1,5 @@
 package org.neuroph.netbeans.jmevisualization.charts;
 
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -90,25 +89,25 @@ public final class JMEVisualizationTopComponent extends TopComponent {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        panelVisualization = new javax.swing.JPanel();
+        visualizationPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        panelVisualization.setBackground(new java.awt.Color(255, 255, 255));
-        panelVisualization.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(JMEVisualizationTopComponent.class, "JMEVisualizationTopComponent.panelVisualization.border.title"))); // NOI18N
-        panelVisualization.setPreferredSize(new java.awt.Dimension(640, 480));
+        visualizationPanel.setBackground(new java.awt.Color(255, 255, 255));
+        visualizationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(JMEVisualizationTopComponent.class, "JMEVisualizationTopComponent.visualizationPanel.border.title"))); // NOI18N
+        visualizationPanel.setPreferredSize(new java.awt.Dimension(640, 480));
 
-        javax.swing.GroupLayout panelVisualizationLayout = new javax.swing.GroupLayout(panelVisualization);
-        panelVisualization.setLayout(panelVisualizationLayout);
-        panelVisualizationLayout.setHorizontalGroup(
-            panelVisualizationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout visualizationPanelLayout = new javax.swing.GroupLayout(visualizationPanel);
+        visualizationPanel.setLayout(visualizationPanelLayout);
+        visualizationPanelLayout.setHorizontalGroup(
+            visualizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 653, Short.MAX_VALUE)
         );
-        panelVisualizationLayout.setVerticalGroup(
-            panelVisualizationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        visualizationPanelLayout.setVerticalGroup(
+            visualizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
@@ -156,7 +155,7 @@ public final class JMEVisualizationTopComponent extends TopComponent {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(panelVisualization, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+                .addComponent(visualizationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -164,10 +163,10 @@ public final class JMEVisualizationTopComponent extends TopComponent {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelVisualization, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(visualizationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -191,8 +190,6 @@ public final class JMEVisualizationTopComponent extends TopComponent {
             @Override
             public void run() {
                 drawSampledataset();
-//                getVisualizationPanel().repaint();
-//                getVisualizationPanel().revalidate();
                 jmeCanvas.requestFocus(); // request focus to force repaint
  
             }
@@ -205,19 +202,19 @@ public final class JMEVisualizationTopComponent extends TopComponent {
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel panelVisualization;
+    private javax.swing.JPanel visualizationPanel;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JMEVisualization jme = JMEVisualization.getInstance();
-                jme.setWidth(640);
-                jme.setHeight(480);
+                jmeVisualization = new JMEVisualization();
+                jmeVisualization.setWidth(getVisualizationPanel().getWidth());
+                jmeVisualization.setHeight(getVisualizationPanel().getHeight());
 
-                jme.startApplication(); // send width and height here
-                jmeCanvas = jme.getJmeCanvasContext().getCanvas();
+                jmeVisualization.startApplication();
+                jmeCanvas = jmeVisualization.getJmeCanvasContext().getCanvas();
                 
                 getVisualizationPanel().setLayout(new FlowLayout());
                 getVisualizationPanel().add(jmeCanvas);
@@ -228,10 +225,13 @@ public final class JMEVisualizationTopComponent extends TopComponent {
     }
     
     java.awt.Canvas jmeCanvas;
+    JMEVisualization jmeVisualization;
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        jmeVisualization.stop();
+        getVisualizationPanel().remove(jmeCanvas); // proveri da li ovo radi ocekivano!!!!        
+        getVisualizationPanel().revalidate();
     }
 
     void writeProperties(java.util.Properties p) {
@@ -247,11 +247,11 @@ public final class JMEVisualizationTopComponent extends TopComponent {
     }
     
     public JPanel getVisualizationPanel(){
-        return panelVisualization;
+        return visualizationPanel;
     }
 
     public void drawSampledataset() {
-      JMEDatasetScatter3D jmeDataSetScatter = new JMEDatasetScatter3D(createSphereDataSet());           
+      JMEDatasetScatter3D jmeDataSetScatter = new JMEDatasetScatter3D(createSphereDataSet(), jmeVisualization);           
       jmeDataSetScatter.createGraph();
     }
     

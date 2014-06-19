@@ -60,36 +60,29 @@ public class JMEVisualization extends SimpleApplication {
         this.jmeCanvasContext = jmeCanvasContext;
     }
     
-    private static JMEVisualization instance;
-    
-    public static JMEVisualization getInstance() {
-        if (instance==null)
-            instance = new JMEVisualization();
-        return instance;
-    }
+//    private static JMEVisualization instance;
+//    
+//    public static JMEVisualization getInstance() {
+//        if (instance==null)
+//            instance = new JMEVisualization();
+//        return instance;
+//    }
            
     // ovde se na top component stavlja jme canvas koji crta grafike
     public void startApplication() {
+        AppSettings settings = new AppSettings(true);
+        settings.setWidth(getWidth());
+        settings.setHeight(getHeight());
 
+        setSettings(settings);
+        createCanvas();
 
-           //     JMEVisualization jmeVisualization =  JMEVisualization.getInstance();                
-                
-                AppSettings settings = new AppSettings(true);
-                settings.setWidth(getWidth());
-                settings.setHeight(getHeight());
-                                
-                setSettings(settings);
-                createCanvas();
-                
-                jmeCanvasContext = (JmeCanvasContext) getContext();
-              //  setJmeCanvasContext(jmeCanvasContext);
-                jmeCanvasContext.setSystemListener(this);
-                jmeCanvasContext.getCanvas().setPreferredSize(new Dimension(getWidth(), getHeight()));
-                                 
-                this.startCanvas();
-                               
+        jmeCanvasContext = (JmeCanvasContext) getContext();
+        jmeCanvasContext.setSystemListener(this);
+        jmeCanvasContext.getCanvas().setPreferredSize(new Dimension(getWidth(), getHeight()));
 
-    }    
+        this.startCanvas();
+    }
     
     public void addGeometry(Geometry geometry) {
         rootNode.attachChild(geometry);

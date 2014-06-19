@@ -18,6 +18,16 @@ import org.nugs.graph3d.api.Scatter3DProperties;
  * @author Milos Randjic
  */
 public class JMEScatter3DFactory implements Scatter3DFactory<Void, Point3D.Float>{
+    
+    private JMEVisualization jmeVisualization;    
+
+    public JMEScatter3DFactory(JMEVisualization jmeVisualization) {
+        this.jmeVisualization = jmeVisualization;        
+    }
+    
+    
+    
+    
     // pozovi ovo iz neke akcije da iscrtaj dataset
     @Override
     public Void createScatter3D(Point3D.Float[] points, Scatter3DProperties prop) {
@@ -27,13 +37,11 @@ public class JMEScatter3DFactory implements Scatter3DFactory<Void, Point3D.Float
         for (int i = 0; i < points.length; i++) {           
             data[i] = new Vector3f(points[i].getX(), points[i].getY(), points[i].getZ());              
         }
-        
-        JMEVisualization jMEVisualization = JMEVisualization.getInstance();
-        
+               
         Sphere sphere = new Sphere(32, 32, 1f);
         for (int i = 0; i < points.length; i++) {
             Geometry sphereGeometry = new Geometry("sphere " + i, sphere);
-            Material m = new Material(jMEVisualization.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+            Material m = new Material(jmeVisualization.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 //            if ((getCategoryMembership(data[i].x, data[i].y, data[i].z, 0, 0, 0, 100, 100, 100)) >= 0.5){
 //                m.setColor("Color", c1);
 //            }
@@ -44,7 +52,7 @@ public class JMEScatter3DFactory implements Scatter3DFactory<Void, Point3D.Float
             sphereGeometry.setMaterial(m);
             sphereGeometry.move(data[i]);
           //  rootNode.attachChild(sphereGeometry);
-            jMEVisualization.addGeometry(sphereGeometry);
+            jmeVisualization.addGeometry(sphereGeometry);
         }        
                          
         return null;

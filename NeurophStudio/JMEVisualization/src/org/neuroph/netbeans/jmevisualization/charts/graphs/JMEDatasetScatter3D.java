@@ -3,6 +3,7 @@ package org.neuroph.netbeans.jmevisualization.charts.graphs;
 import org.neuroph.netbeans.jmevisualization.charts.providers.DatasetDataProvider3D;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.charts.graphs3d.Graph3DBuilder;
+import org.neuroph.netbeans.jmevisualization.JMEVisualization;
 import org.nugs.graph2d.api.Attribute;
 import org.nugs.graph3d.api.Point3D;
 import org.nugs.graph3d.api.Scatter3DProperties;
@@ -16,11 +17,13 @@ public class JMEDatasetScatter3D extends Graph3DBuilder<Void, Point3D.Float>{
 
     private DataSet dataset;
     private Scatter3DProperties properties;
+    private JMEVisualization jmeVisualization;
     
-    public JMEDatasetScatter3D(DataSet dataset) {
+    public JMEDatasetScatter3D(DataSet dataset, JMEVisualization jmeVisualization) {
         super();
         dataProvider3D = new DatasetDataProvider3D(dataset);
         this.dataset = dataset;
+        this.jmeVisualization = jmeVisualization;
     }
     
     public DataSet getDataset() {
@@ -60,7 +63,7 @@ public class JMEDatasetScatter3D extends Graph3DBuilder<Void, Point3D.Float>{
         Point3D.Float[] points3D = (Point3D.Float[]) dataProvider3D.getData(attribute1, attribute2, attribute3);       
         
         // create jme scatter graph with these points
-        JMEScatter3DFactory jmeScatterFactory = new JMEScatter3DFactory();
+        JMEScatter3DFactory jmeScatterFactory = new JMEScatter3DFactory(jmeVisualization);
         jmeScatterFactory.createScatter3D(points3D);
         
         return null;
