@@ -1,11 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.jmevisualization.charts;
 
-import com.jme3.gde.core.sceneviewer.SceneViewerTopComponent;
-import com.jme3.system.JmeCanvasContext;
 import java.awt.FlowLayout;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -200,7 +194,15 @@ public final class JMEVisualizationTopComponent extends TopComponent {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {        
         drawSampledataset();
+         getVisualizationPanel().repaint();
+         getVisualizationPanel().revalidate();
+          }
+        });             
+         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -212,15 +214,21 @@ public final class JMEVisualizationTopComponent extends TopComponent {
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        JMEVisualization jme = JMEVisualization.getInstance();
-        jme.setWidth(640);
-        jme.setHeight(480);
-                               
-        JMEVisualization.startApplication();        
-        
-                repaint();
-                validate();
-                updateUI();
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JMEVisualization jme = JMEVisualization.getInstance();
+                jme.setWidth(640);
+                jme.setHeight(480);
+
+                jme.startApplication(); // send width and height here
+
+                getVisualizationPanel().setLayout(new FlowLayout());
+                getVisualizationPanel().add(jme.getJmeCanvasContext().getCanvas());
+                getVisualizationPanel().revalidate();
+            }
+        });    
+
     }
 
     @Override

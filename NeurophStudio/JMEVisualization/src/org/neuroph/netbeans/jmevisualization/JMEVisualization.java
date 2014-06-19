@@ -59,7 +59,6 @@ public class JMEVisualization extends SimpleApplication {
     public void setJmeCanvasContext(JmeCanvasContext jmeCanvasContext) {
         this.jmeCanvasContext = jmeCanvasContext;
     }
-
     
     private static JMEVisualization instance;
     
@@ -70,34 +69,26 @@ public class JMEVisualization extends SimpleApplication {
     }
            
     // ovde se na top component stavlja jme canvas koji crta grafike
-    public static void startApplication() {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
+    public void startApplication() {
 
-                JMEVisualization jmeVisualization =  JMEVisualization.getInstance();                
+
+           //     JMEVisualization jmeVisualization =  JMEVisualization.getInstance();                
                 
                 AppSettings settings = new AppSettings(true);
-                settings.setWidth(jmeVisualization.getWidth());
-                settings.setHeight(jmeVisualization.getHeight());
+                settings.setWidth(getWidth());
+                settings.setHeight(getHeight());
                                 
-                jmeVisualization.setSettings(settings);
-                jmeVisualization.createCanvas();
+                setSettings(settings);
+                createCanvas();
                 
-                JmeCanvasContext jmeCanvasContext = (JmeCanvasContext) jmeVisualization.getContext();
-                jmeVisualization.setJmeCanvasContext(jmeCanvasContext);
-                jmeCanvasContext.setSystemListener(jmeVisualization);
-                jmeCanvasContext.getCanvas().setPreferredSize(new Dimension(jmeVisualization.getWidth(), jmeVisualization.getHeight()));
-                   
-                //jmeVisualization.startCanvas();
-                
-                // put canvas on top component
-                JMEVisualizationTopComponent jtc = JMEVisualizationTopComponent.findInstance();
-                jtc.getVisualizationPanel().setLayout(new FlowLayout());
-                jtc.getVisualizationPanel().add(jmeCanvasContext.getCanvas());
-                jmeVisualization.startCanvas();
-            }
-        });
+                jmeCanvasContext = (JmeCanvasContext) getContext();
+              //  setJmeCanvasContext(jmeCanvasContext);
+                jmeCanvasContext.setSystemListener(this);
+                jmeCanvasContext.getCanvas().setPreferredSize(new Dimension(getWidth(), getHeight()));
+                                 
+                this.startCanvas();
+                               
+
     }    
     
     public void addGeometry(Geometry geometry) {
