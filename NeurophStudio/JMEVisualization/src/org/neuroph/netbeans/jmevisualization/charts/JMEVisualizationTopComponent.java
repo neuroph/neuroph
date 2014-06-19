@@ -1,5 +1,6 @@
 package org.neuroph.netbeans.jmevisualization.charts;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -182,26 +183,20 @@ public final class JMEVisualizationTopComponent extends TopComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-
-                                           
-
-//            }
-//        });
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
-            public void run() {        
-        drawSampledataset();
-         getVisualizationPanel().repaint();
-         getVisualizationPanel().revalidate();
-          }
-        });             
+            public void run() {
+                drawSampledataset();
+//                getVisualizationPanel().repaint();
+//                getVisualizationPanel().revalidate();
+                jmeCanvas.requestFocus(); // request focus to force repaint
+ 
+            }
+        });          
          
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -222,14 +217,17 @@ public final class JMEVisualizationTopComponent extends TopComponent {
                 jme.setHeight(480);
 
                 jme.startApplication(); // send width and height here
-
+                jmeCanvas = jme.getJmeCanvasContext().getCanvas();
+                
                 getVisualizationPanel().setLayout(new FlowLayout());
-                getVisualizationPanel().add(jme.getJmeCanvasContext().getCanvas());
+                getVisualizationPanel().add(jmeCanvas);
                 getVisualizationPanel().revalidate();
             }
         });    
 
     }
+    
+    java.awt.Canvas jmeCanvas;
 
     @Override
     public void componentClosed() {
