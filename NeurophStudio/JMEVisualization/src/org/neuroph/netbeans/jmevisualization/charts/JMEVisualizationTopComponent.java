@@ -210,8 +210,8 @@ public final class JMEVisualizationTopComponent extends TopComponent {
             @Override
             public void run() {
                 jmeVisualization = new JMEVisualization();
-                jmeVisualization.setWidth(getVisualizationPanel().getWidth());
-                jmeVisualization.setHeight(getVisualizationPanel().getHeight());
+                jmeVisualization.setWidth(getVisualizationPanel().getWidth()-15);
+                jmeVisualization.setHeight(getVisualizationPanel().getHeight()-30);
 
                 jmeVisualization.startApplication();
                 jmeCanvas = jmeVisualization.getJmeCanvasContext().getCanvas();
