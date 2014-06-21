@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.training;
 
 import org.neuroph.core.NeuralNetwork;
@@ -10,7 +6,7 @@ import org.neuroph.netbeans.project.NeurophProject;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 
 /**
- *
+ * Saves neural network wyhin a NeurophStudio project
  * @author zoran
  */
 public class SaveNeuralNetworkTask extends Task {
