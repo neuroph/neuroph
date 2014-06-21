@@ -771,18 +771,24 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 
     // This methods allows classes to register for LearningEvents
     public synchronized void addListener(NeuralNetworkEventListener listener) {
+        if (listener == null)
+            throw new IllegalArgumentException("listener is null!");
+        
         listeners.add(listener);
     }
 
     // This methods allows classes to unregister for LearningEvents
     public synchronized void removeListener(NeuralNetworkEventListener listener) {
+        if (listener == null)
+            throw new IllegalArgumentException("listener is null!");
+        
         listeners.remove(listener);
     }
 
     // This method is used to fire NeuralNetworkEvents
     public synchronized void fireNetworkEvent(NeuralNetworkEvent evt) {
-        for (int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).handleNeuralNetworkEvent(evt);
+        for (NeuralNetworkEventListener listener: listeners) {
+            listener.handleNeuralNetworkEvent(evt);
         }
     }
 }
