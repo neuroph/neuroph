@@ -96,8 +96,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     /**
      * List of neural network listeners
      */
-    private transient javax.swing.event.EventListenerList listeners
-            = new javax.swing.event.EventListenerList();
+    private transient List<NeuralNetworkEventListener> listeners = new ArrayList();
 
     /**
      * Creates an instance of empty neural network.
@@ -681,7 +680,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     private void readObject(java.io.ObjectInputStream in)
             throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        listeners = new javax.swing.event.EventListenerList();
+        listeners = new ArrayList();
     }
 
     /**
@@ -771,25 +770,19 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     }
 
     // This methods allows classes to register for LearningEvents
-    public void addListener(NeuralNetworkEventListener listener) {
-        listeners.add(NeuralNetworkEventListener.class, listener);
+    public synchronized void addListener(NeuralNetworkEventListener listener) {
+        listeners.add(listener);
     }
 
     // This methods allows classes to unregister for LearningEvents
-    public void removeListener(NeuralNetworkEventListener listener) {
-        listeners.remove(NeuralNetworkEventListener.class, listener);
+    public synchronized void removeListener(NeuralNetworkEventListener listener) {
+        listeners.remove(listener);
     }
 
     // This method is used to fire NeuralNetworkEvents
-    public void fireNetworkEvent(NeuralNetworkEvent evt) {
-        Object[] listenersObj = this.listeners.getListenerList();
-
-        // Each listener occupies two elements - the first is the listener class
-        // and the second is the listener instance
-        for (int i = 0; i < listenersObj.length; i += 2) {
-            if (listenersObj[i] == NeuralNetworkEvent.class) {
-                ((NeuralNetworkEventListener) listenersObj[i + 1]).handleNeuralNetworkEvent(evt);
-            }
+    public synchronized void fireNetworkEvent(NeuralNetworkEvent evt) {
+        for (int i = 0; i < listeners.size(); i++) {
+            listeners.get(i).handleNeuralNetworkEvent(evt);
         }
     }
 }

@@ -17,6 +17,8 @@ package org.neuroph.core.learning;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
@@ -56,8 +58,7 @@ abstract public class LearningRule implements Serializable {
     /**
      * List of learning rule listeners
      */
-    protected transient javax.swing.event.EventListenerList listeners =
-            new javax.swing.event.EventListenerList();
+    protected transient List<LearningEventListener> listeners = new ArrayList();
 
     
     private final Logger LOGGER = LoggerFactory.getLogger(LearningRule.class);    
@@ -139,31 +140,26 @@ abstract public class LearningRule implements Serializable {
     }
 
     // This methods allows classes to register for LearningEvents
-    public void addListener(LearningEventListener listener) {
-        listeners.add(LearningEventListener.class, listener);
+    public synchronized void addListener(LearningEventListener listener) {
+        listeners.add(listener);
     }
 
     // This methods allows classes to unregister for LearningEvents
-    public void removeListener(LearningEventListener listener) {
-        listeners.remove(LearningEventListener.class, listener);
+    public synchronized void removeListener(LearningEventListener listener) {
+        listeners.remove(listener);
     }
     
     // This private class is used to fire LearningEvents
-    protected void fireLearningEvent(LearningEvent evt) {
-        Object[] listeners = this.listeners.getListenerList();
-        // Each listener occupies two elements - the first is the listener class
-        // and the second is the listener instance
-        for (int i = 0; i < listeners.length; i += 2) {
-            if (listeners[i] == LearningEventListener.class) {
-                ((LearningEventListener) listeners[i + 1]).handleLearningEvent(evt);
-            }
+    protected synchronized void fireLearningEvent(LearningEvent evt) {
+        for (int i = 0; i < listeners.size(); i++) {
+          listeners.get(i).handleLearningEvent(evt);
         }
     }
     
     private void readObject(java.io.ObjectInputStream in)
         throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-         listeners = new javax.swing.event.EventListenerList();    
+         listeners = new ArrayList();    
     }       
 
     /**
