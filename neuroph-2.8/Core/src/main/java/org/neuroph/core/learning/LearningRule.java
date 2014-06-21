@@ -141,25 +141,31 @@ abstract public class LearningRule implements Serializable {
 
     // This methods allows classes to register for LearningEvents
     public synchronized void addListener(LearningEventListener listener) {
+        if (listener == null)
+            throw new IllegalArgumentException("listener is null!");
+        
         listeners.add(listener);
     }
 
     // This methods allows classes to unregister for LearningEvents
     public synchronized void removeListener(LearningEventListener listener) {
+        if (listener == null)
+            throw new IllegalArgumentException("listener is null!");        
+        
         listeners.remove(listener);
     }
     
     // This private class is used to fire LearningEvents
     protected synchronized void fireLearningEvent(LearningEvent evt) {
-        for (int i = 0; i < listeners.size(); i++) {
-          listeners.get(i).handleLearningEvent(evt);
+        for (LearningEventListener listener : listeners) {
+          listener.handleLearningEvent(evt);
         }
     }
     
     private void readObject(java.io.ObjectInputStream in)
         throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-         listeners = new ArrayList();    
+        listeners = new ArrayList();    
     }       
 
     /**
