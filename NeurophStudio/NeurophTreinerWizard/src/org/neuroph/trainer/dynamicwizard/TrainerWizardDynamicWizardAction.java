@@ -74,7 +74,7 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
 
             if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
 
-                SwingUtilities.invokeLater(new Runnable() {
+              (new Thread(new Runnable() {
                     @Override
                     public void run() {
 
@@ -126,7 +126,7 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         trainingProcess.execute();
 
                     }
-                });
+                })).start();
             }
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(null, "Please select project with data set", "Project required", JOptionPane.INFORMATION_MESSAGE);

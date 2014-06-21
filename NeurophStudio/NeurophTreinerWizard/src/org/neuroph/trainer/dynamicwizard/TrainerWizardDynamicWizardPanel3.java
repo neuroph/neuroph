@@ -22,6 +22,7 @@ public class TrainerWizardDynamicWizardPanel3 implements WizardDescriptor.Panel<
      */
     private Component component;
     private boolean isValid = true;
+
     private Component returnComponent() {
         int type = PanelManager.getInstance().getType();
         if (type == PanelManager.SIMPLE_WIZARD) {
@@ -73,24 +74,26 @@ public class TrainerWizardDynamicWizardPanel3 implements WizardDescriptor.Panel<
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
-        
+
         try {
             if (PanelManager.getInstance().getType() == PanelManager.SIMPLE_WIZARD) {
-                
+
                 String lr = SimplePanel.getPanel()
                         .getTextFieldLearningRates().getText().trim();
                 String hn = SimplePanel.getPanel()
                         .getTextFieldHiddenNeurons().getText().trim();
                 String tsp = SimplePanel.getPanel()
                         .getTextFieldPercents().getText().trim();
-                
+
                 String[] splitLr = lr.split(",");
                 String[] splitHn = hn.split(",");
                 String[] splitTsp = tsp.split(",");
+
                 //inicalize arrays
                 double[] learningRates = new double[splitLr.length];
                 int[] hiddenNeurons = new int[splitHn.length];
                 int[] trainingSetPercents = new int[splitTsp.length];
+
                 //fill arrays
                 for (int i = 0; i < splitLr.length; i++) {
                     learningRates[i] = Double.parseDouble(splitLr[i].trim());
@@ -102,7 +105,7 @@ public class TrainerWizardDynamicWizardPanel3 implements WizardDescriptor.Panel<
                     trainingSetPercents[i] = Integer.parseInt(splitTsp[i].trim());
                 }
                 int crossValRepeatCount = (Integer) SimplePanel.getPanel().getjSpinnerCV().getValue();
-                
+
                 wiz.putProperty("learningRates", learningRates);
                 wiz.putProperty("hiddenNeurons", hiddenNeurons);
                 wiz.putProperty("trainingSetPercents", trainingSetPercents);
@@ -114,9 +117,9 @@ public class TrainerWizardDynamicWizardPanel3 implements WizardDescriptor.Panel<
                 double[] learningRates = createLearningRates();
                 int[] hiddenNeurons = createHiddenNeurons();
                 int[] trainingSetPercents = createTrainingSetPercents();
-                
+
                 int crossValRepeatCount = (Integer) AdvancePanel.getObject().getjSpinnerCV().getValue();
-                
+
                 wiz.putProperty("learningRates", learningRates);
                 wiz.putProperty("hiddenNeurons", hiddenNeurons);
                 wiz.putProperty("trainingSetPercents", trainingSetPercents);
@@ -139,16 +142,15 @@ public class TrainerWizardDynamicWizardPanel3 implements WizardDescriptor.Panel<
         double max = (Double) AdvancePanel.getObject().getjSpinnerLrMax().getValue();
         double step = (Double) AdvancePanel.getObject().getjSpinnerLrStep().getValue();
 
-        int numEl = (int) (((max - min) / step) + 1);
-        double[] lr = new double[numEl];
+        int numEl = (int)Math.round( (max - min) / step) + 1;
+        double[] learningRates = new double[numEl];
         int j = 0;
         for (double i = min; i <= max; i += step) {
-            lr[j] = i;
+            learningRates[j] = i;
             j++;
         }
 
-        return lr;
-
+        return learningRates;
     }
 
     /**
@@ -197,38 +199,40 @@ public class TrainerWizardDynamicWizardPanel3 implements WizardDescriptor.Panel<
 
     @Override
     public void validate() throws WizardValidationException {
-        
-        try {
-            String lr = SimplePanel.getPanel()
-                    .getTextFieldLearningRates().getText().trim();
-            String hn = SimplePanel.getPanel()
-                    .getTextFieldHiddenNeurons().getText().trim();
-            String tsp = SimplePanel.getPanel()
-                    .getTextFieldPercents().getText().trim();
-            String[] splitLr = lr.split(",");
-            String[] splitHn = hn.split(",");
-            String[] splitTsp = tsp.split(",");
-            //inicalize arrays
-            double[] learningRates = new double[splitLr.length];
-            int[] hiddenNeurons = new int[splitHn.length];
-            int[] trainingSetPercents = new int[splitTsp.length];
-            //fill arrays
-            for (int i = 0; i < splitLr.length; i++) {
-                learningRates[i] = Double.parseDouble(splitLr[i]);
+
+        if (PanelManager.getInstance().getType() == PanelManager.SIMPLE_WIZARD) {
+
+            try {
+                String lr = SimplePanel.getPanel()
+                        .getTextFieldLearningRates().getText().trim();
+                String hn = SimplePanel.getPanel()
+                        .getTextFieldHiddenNeurons().getText().trim();
+                String tsp = SimplePanel.getPanel()
+                        .getTextFieldPercents().getText().trim();
+                String[] splitLr = lr.split(",");
+                String[] splitHn = hn.split(",");
+                String[] splitTsp = tsp.split(",");
+                //inicalize arrays
+                double[] learningRates = new double[splitLr.length];
+                int[] hiddenNeurons = new int[splitHn.length];
+                int[] trainingSetPercents = new int[splitTsp.length];
+                //fill arrays
+                for (int i = 0; i < splitLr.length; i++) {
+                    learningRates[i] = Double.parseDouble(splitLr[i]);
+                }
+                for (int i = 0; i < splitHn.length; i++) {
+                    hiddenNeurons[i] = Integer.parseInt(splitHn[i]);
+                }
+                for (int i = 0; i < splitTsp.length; i++) {
+                    trainingSetPercents[i] = Integer.parseInt(splitTsp[i]);
+                }
+                int crossValRepeatCount = (Integer) SimplePanel.getPanel().getjSpinnerCV().getValue();
+
+
+            } catch (Exception e) {
+                throw new WizardValidationException(null, e.getMessage(), null);
             }
-            for (int i = 0; i < splitHn.length; i++) {
-                hiddenNeurons[i] = Integer.parseInt(splitHn[i]);
-            }
-            for (int i = 0; i < splitTsp.length; i++) {
-                trainingSetPercents[i] = Integer.parseInt(splitTsp[i]);
-            }
-            int crossValRepeatCount = (Integer) SimplePanel.getPanel().getjSpinnerCV().getValue();
-          
-            
-        } catch (Exception e) {
-            
-            throw new WizardValidationException(null, e.getMessage(), null);
+
         }
     }
-
 }
