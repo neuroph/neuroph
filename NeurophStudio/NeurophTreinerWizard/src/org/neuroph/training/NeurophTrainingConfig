@@ -1,0 +1,32 @@
+
+
+<Training>
+    <DataSet name="dataSet" file="" inputs="" outputs="" delimiter=""/>
+    
+    <NormalizationTask dataSet="dataSet" class="MaxNormalization" />
+
+    <NormalizationTask dataSet="dataSet" class="RangeNormalization">
+        <param name="min" value="0.1"/> 
+        <param name="max" value="0.9"/> 
+    </NormalizationTask>
+
+    <SamplingTask >
+
+    <NeuralNetwork name="" class="MultiLayerPerceptron">
+        <LearningRule class="Backpropagation">
+        <param name="learningRule"/> 
+        <param name="" value=""/> 
+        <param name="" value=""/> 
+        <param name="" value=""/> 
+        <param name="" value=""/> 
+    </NeuralNetwork>
+
+    <TrainingSet src="dataSet" percent="60">
+    <TestSet? - rest of training set>
+    
+   
+    <CrossValidation>
+    
+    </CrossValidation>
+
+</Training>
