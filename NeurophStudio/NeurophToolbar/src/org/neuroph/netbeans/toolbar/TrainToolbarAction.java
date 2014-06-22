@@ -4,14 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.neuroph.dev.noprop.NoPropNet;
 import org.neuroph.dev.noprop.RangeNormalizer;
+import org.neuroph.netbeans.classificationsample.InputSettngsDialog;
 import org.neuroph.netbeans.visual.TrainingController;
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingDialog;
-import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSamplesPanel;
-import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronSampleTopComponent;
+import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSamplePanel;
+import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent;
+import org.neuroph.netbeans.classificationsample.Combinatorics;
 import org.neuroph.nnet.Adaline;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.NeuroFuzzyPerceptron;
@@ -43,81 +45,63 @@ public final class TrainToolbarAction implements ActionListener {
         this.neuralNetAndDataSet = context;
         trainingController = new TrainingController(neuralNetAndDataSet);
     }
-    
-    
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO implement action body
-//        Lookup global = Utilities.actionsGlobalContext();
-//        nnet = global.lookup(NeuralNetwork.class);
-//        if (nnet != null) {
-//            neuralNetAndDataSet = new NeuralNetAndDataSet(nnet);
-//            TopComponent projWindow = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
-//            trainingResultSets = projWindow.getLookup().lookupResult(DataSet.class);
-//            trainingResultSets.addLookupListener(this);
-//            resultChanged(new LookupEvent(trainingResultSets));
-//            train();
-//        }
-      //  neuralNetAndDataSet = NeurophManager.getDefault().getTraining();
         train();
-
     }
 
-    /*@Override
-     public void handleNeuralNetworkEvent(NeuralNetworkEvent nne) {
-     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     }*/
-    MultiLayerPerceptronSampleTopComponent mlp = MultiLayerPerceptronClassificationSamplesPanel.mlpSampleTc;
-    public void MLPCheck(){
-        
+    public void ClassificationSampleModuleCheck() {
+        MultiLayerPerceptronClassificationSampleTopComponent mlp = MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc;
         if (mlp != null) {
-            if (mlp.isTrainSignal()) {               
+            if (mlp.isTrainSignal()) {
                 mlp.visualizationPreprocessing();
-                mlp.setVisualize(true);
+                mlp.setVisualizationStarted(true);
                 mlp.setDrawingLocked(true);
-                if(MultiLayerPerceptronClassificationSamplesPanel.SHOW_POINTS && mlp.isAllPointsRemoved()||
-                        mlp.isPointDrawed()){
-                    
-                    try{                     
-                        mlp.drawPointsFromTrainingSet(neuralNetAndDataSet.getDataSet());
+                int[] storedInputs = InputSettngsDialog.getInstance().getStoredInputs();
+                if (mlp.getInputSpacePanel().positiveInputsOnly()) {
+                    mlp.generateSetValues(57, 0.0357142857142857/2.0);
+                } else {
+                    mlp.generateSetValues(57, 0.0357142857142857);
+                }
+                mlp.setInputs(Combinatorics.Variations.generateVariations(mlp.getSetValues(), neuralNetAndDataSet.getNetwork().getInputsCount(), true));
+                mlp.setStoredInputs(storedInputs);
+                if (MultiLayerPerceptronClassificationSamplePanel.SHOW_POINTS && mlp.isAllPointsRemoved()
+                        || mlp.isPointDrawed()) {
+                    try {
+                        mlp.drawPointsFromTrainingSet(neuralNetAndDataSet.getDataSet(), storedInputs);
+                    } catch (Exception e) {
                     }
-                    catch(Exception e){
-                        
-                    }
-                    
                 }
             }
         }
     }
+
     public void train() {
         if (neuralNetAndDataSet.getDataSet() != null) {
             neuralNetAndDataSet.setDataSet(neuralNetAndDataSet.getDataSet()); // ???????
 
-            //NeuralNetworkType nnetType = neuralNetAndDataSet.getNetwork().getNetworkType();
-
             Class neuralNetClass = neuralNetAndDataSet.getNetwork().getClass();
-            
-            if (neuralNetClass.equals(Adaline.class) ||
-                neuralNetClass.equals(Perceptron.class) ||
-                neuralNetClass.equals(RbfNetwork.class) ||
-                neuralNetClass.equals(NeuroFuzzyPerceptron.class)) {
-                    showLmsTrainingDialog();
+
+            if (neuralNetClass.equals(Adaline.class)
+                    || neuralNetClass.equals(Perceptron.class)
+                    || neuralNetClass.equals(RbfNetwork.class)
+                    || neuralNetClass.equals(NeuroFuzzyPerceptron.class)) {
+                showLmsTrainingDialog();
             } else if (neuralNetClass.equals(MultiLayerPerceptron.class)) {
                 showMLPTrainingDialog();
-                MLPCheck();                              
+                ClassificationSampleModuleCheck();
             } else if (neuralNetClass.equals(SupervisedHebbianNetwork.class)) {
-                showHebbianTrainingDialog();                        
+                showHebbianTrainingDialog();
             } else if (neuralNetClass.equals(NoPropNet.class)) {
                 neuralNetAndDataSet.getNetwork().randomizeWeights(new RangeRandomizer(-1, 1));
                 neuralNetAndDataSet.getDataSet().normalize(new RangeNormalizer(-0.9, 0.9));
                 neuralNetAndDataSet.getDataSet().shuffle();
-                showLmsTrainingDialog();                        
+                showLmsTrainingDialog();
             } else {
                 trainingController.train();
             }
-            
+
 //            switch (neuralNetClass) {
 //                case Adaline.class.toString():
 //                    showLmsTrainingDialog();
@@ -160,8 +144,8 @@ public final class TrainToolbarAction implements ActionListener {
     private void showMLPTrainingDialog() {
         if (neuralNetAndDataSet.getNetwork().getLearningRule() instanceof DynamicBackPropagation) {
             BackpropagationTrainingDialog trainingDialog = new BackpropagationTrainingDialog(null, easyNeuronsViewController, true,
-                    this.neuralNetAndDataSet);          
-            trainingDialog.setLocationRelativeTo(null);       
+                    this.neuralNetAndDataSet);
+            trainingDialog.setLocationRelativeTo(null);
             trainingDialog.setVisible(true);
         } else {
             showLmsTrainingDialog();
