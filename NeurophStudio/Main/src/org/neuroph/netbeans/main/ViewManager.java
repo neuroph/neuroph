@@ -381,7 +381,7 @@ public class ViewManager implements
         DataSet ts = trainingSet.getTrainingSet();
 
         //            org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample backpropagationVisualizer = new org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample(pst);
-        org.neuroph.netbeans.classificationsample.MultiLayerPerceptronSampleTopComponent backpropagationVisualizer = new org.neuroph.netbeans.classificationsample.MultiLayerPerceptronSampleTopComponent();
+        org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent backpropagationVisualizer = new org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent();
         backpropagationVisualizer.setTrainingSetForMultiLayerPerceptronSample(pst);
 
         backpropagationVisualizer.setVisible(true);

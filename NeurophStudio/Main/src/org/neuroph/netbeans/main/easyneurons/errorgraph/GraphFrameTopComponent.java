@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
-import org.neuroph.core.events.LearningStoppedEvent;
+import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.netbeans.main.LearningInfo;
 import org.neuroph.netbeans.visual.TrainingController;
@@ -26,6 +26,7 @@ import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ProxyLookup;
 import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.neuroph.core.events.LearningEventType;
 import org.openide.windows.TopComponent;
 
 /**
@@ -197,7 +198,7 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
     public synchronized void handleLearningEvent(LearningEvent le) {
      
         LMS lr = (LMS) le.getSource();
-        if (le instanceof LearningStoppedEvent) {
+        if (le.getEventType() ==  LearningEventType.LEARNING_STOPPED) {
                 finalizeFile(); // from some reason this is executed twice... - fixed! it was due the remaining listeners, now they are removed
                 lr.removeListener(this);
                 openJFreeChartInAThread();                                                
