@@ -18,9 +18,10 @@ import org.neuroph.nnet.Adaline;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.NeuroFuzzyPerceptron;
 import org.neuroph.nnet.Perceptron;
-import org.neuroph.nnet.RbfNetwork;
+import org.neuroph.nnet.RBFNetwork;
 import org.neuroph.nnet.SupervisedHebbianNetwork;
 import org.neuroph.nnet.learning.DynamicBackPropagation;
+import org.neuroph.util.data.norm.Normalizer;
 import org.neuroph.util.random.RangeRandomizer;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -85,7 +86,7 @@ public final class TrainToolbarAction implements ActionListener {
 
             if (neuralNetClass.equals(Adaline.class)
                     || neuralNetClass.equals(Perceptron.class)
-                    || neuralNetClass.equals(RbfNetwork.class)
+                    || neuralNetClass.equals(RBFNetwork.class)
                     || neuralNetClass.equals(NeuroFuzzyPerceptron.class)) {
                 showLmsTrainingDialog();
             } else if (neuralNetClass.equals(MultiLayerPerceptron.class)) {
@@ -94,8 +95,10 @@ public final class TrainToolbarAction implements ActionListener {
             } else if (neuralNetClass.equals(SupervisedHebbianNetwork.class)) {
                 showHebbianTrainingDialog();
             } else if (neuralNetClass.equals(NoPropNet.class)) {
+                
                 neuralNetAndDataSet.getNetwork().randomizeWeights(new RangeRandomizer(-1, 1));
-                neuralNetAndDataSet.getDataSet().normalize(new RangeNormalizer(-0.9, 0.9));
+                RangeNormalizer norm = new RangeNormalizer(-0.9, 0.9);
+                norm.normalize(neuralNetAndDataSet.getDataSet());
                 neuralNetAndDataSet.getDataSet().shuffle();
                 showLmsTrainingDialog();
             } else {
