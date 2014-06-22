@@ -88,7 +88,7 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
                 else
                     dataSet = new DataSet(inputsNumber);                 
             } else {
-                dataSet = DataSet.createFromFile(file, inputsNumber, outputsNumber, delimiter);
+                dataSet = DataSet.createFromFile(file, inputsNumber, outputsNumber, delimiter, false);
             }
             
             dataSet.setLabel(label);

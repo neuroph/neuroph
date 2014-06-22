@@ -23,7 +23,7 @@ import org.neuroph.nnet.MaxNet;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.Outstar;
 import org.neuroph.nnet.Perceptron;
-import org.neuroph.nnet.RbfNetwork;
+import org.neuroph.nnet.RBFNetwork;
 import org.neuroph.nnet.SupervisedHebbianNetwork;
 import org.neuroph.nnet.UnsupervisedHebbianNetwork;
 import org.neuroph.nnet.learning.BackPropagation;
@@ -226,7 +226,7 @@ public final class NewNeuralNetworkWizardIterator implements WizardDescriptor.In
                     int rbfinputNeurons = Integer.parseInt((String) getWizard().getProperty("input number"));
                     int rbfNeurons = Integer.parseInt((String) getWizard().getProperty("rbf number"));
                     int rbfoutputNeurons = Integer.parseInt((String) getWizard().getProperty("output number"));
-                    RbfNetwork nnet10 = NeuralNetworkFactory.createRbfNetwork(rbfinputNeurons, rbfNeurons, rbfoutputNeurons);
+                    RBFNetwork nnet10 = NeuralNetworkFactory.createRbfNetwork(rbfinputNeurons, rbfNeurons, rbfoutputNeurons);
                     nnet10.setLabel(neuralNetworkName);
                     fileFactory.createNeuralNetworkFile(nnet10);
                     RBFVisualPanel1.getInstance().clearForm();
