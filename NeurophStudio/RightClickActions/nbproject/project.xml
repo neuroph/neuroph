@@ -3,7 +3,7 @@
     <type>org.netbeans.modules.apisupport.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
-            <code-name-base>IDEActions</code-name-base>
+            <code-name-base>org.neuroph.netbeans.rightclick</code-name-base>
             <suite-component/>
             <module-dependencies>
                 <dependency>
@@ -138,7 +138,7 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
-                <package>IDEActions</package>
+                <package>org.neuroph.netbeans.rightclick</package>
             </public-packages>
         </data>
     </configuration>
