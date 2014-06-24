@@ -20,7 +20,7 @@ import org.nugs.graph3d.api.Histogram3DFactory;
  *
  * @author Vedrana Gajic
  */
-public class JzyHistogram3DFactory implements Histogram3DFactory<Chart> {
+public class JzyHistogram3DFactory implements Histogram3DFactory<Chart,Point3D> {
 
     /**
      * Create a histogram 3D chart
