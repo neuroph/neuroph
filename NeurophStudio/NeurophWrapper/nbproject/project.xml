@@ -9,13 +9,12 @@
             <public-packages>
                 <package>org.neuroph.contrib</package>
                 <package>org.neuroph.contrib.matrixmlp</package>
+                <package>org.neuroph.contrib.norm</package>
                 <package>org.neuroph.contrib.samples</package>
                 <package>org.neuroph.contrib.samples.stockmarket</package>
                 <package>org.neuroph.contrib.samples.timeseries</package>
                 <package>org.neuroph.core</package>
                 <package>org.neuroph.core.data</package>
-                <package>org.neuroph.core.data.norm</package>
-                <package>org.neuroph.core.data.sample</package>
                 <package>org.neuroph.core.events</package>
                 <package>org.neuroph.core.exceptions</package>
                 <package>org.neuroph.core.input</package>
@@ -32,32 +31,54 @@
                 <package>org.neuroph.nnet.comp.layer</package>
                 <package>org.neuroph.nnet.comp.neuron</package>
                 <package>org.neuroph.nnet.learning</package>
+                <package>org.neuroph.nnet.learning.kmeans</package>
+                <package>org.neuroph.nnet.learning.knn</package>
                 <package>org.neuroph.ocr</package>
+                <package>org.neuroph.samples</package>
+                <package>org.neuroph.samples.convolution</package>
+                <package>org.neuroph.samples.uci</package>
                 <package>org.neuroph.util</package>
                 <package>org.neuroph.util.benchmark</package>
+                <package>org.neuroph.util.data.norm</package>
+                <package>org.neuroph.util.data.sample</package>
                 <package>org.neuroph.util.io</package>
                 <package>org.neuroph.util.plugins</package>
                 <package>org.neuroph.util.random</package>
+                <package>org.slf4j</package>
+                <package>org.slf4j.helpers</package>
+                <package>org.slf4j.spi</package>
             </public-packages>
             <class-path-extension>
-                <runtime-relative-path>ext/neuroph-contrib-2.8.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/neuroph-contrib-2.8.jar</binary-origin>
+                <runtime-relative-path>ext/logback-core-1.1.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/logback-core-1.1.1.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/neuroph-ocr-2.8.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/neuroph-ocr-2.8.jar</binary-origin>
+                <runtime-relative-path>ext/neuroph-core-2.9.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/neuroph-core-2.9.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/slf4j-api-1.7.5.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/slf4j-api-1.7.5.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/NoProp.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/NoProp.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/neuroph-core-2.8.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/neuroph-core-2.8.jar</binary-origin>
+                <runtime-relative-path>ext/neuroph-ocr-2.9.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/neuroph-ocr-2.9.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/neuroph-imgrec-2.8.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/neuroph-imgrec-2.8.jar</binary-origin>
+                <runtime-relative-path>ext/neuroph-imgrec-2.9.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/neuroph-imgrec-2.9.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/neuroph-contrib-2.9.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/neuroph-contrib-2.9.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/neuroph-samples-2.9.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/neuroph-samples-2.9.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>
