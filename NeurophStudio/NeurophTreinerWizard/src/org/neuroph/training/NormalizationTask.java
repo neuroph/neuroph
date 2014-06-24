@@ -1,7 +1,7 @@
 package org.neuroph.training;
 
 import org.neuroph.core.data.DataSet;
-import org.neuroph.core.data.norm.Normalizer;
+import org.neuroph.util.data.norm.Normalizer;
 
 /**
  * 
@@ -28,6 +28,6 @@ public class NormalizationTask extends Task {
         logMessage("Normalizing data set using " + getName());
                  
         dataSet = (DataSet) getProcessVar(dataSetVarName); // get dataSet
-        dataSet.normalize(normalizer); // izgleda da baca exception ako je ts prazan...
+        normalizer.normalize(dataSet); // izgleda da baca exception ako je ts prazan...
     }
 }

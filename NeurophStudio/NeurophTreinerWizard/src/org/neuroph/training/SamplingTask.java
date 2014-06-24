@@ -1,9 +1,9 @@
 package org.neuroph.training;
 
 import org.neuroph.core.data.DataSet;
-import org.neuroph.core.data.sample.Sampling;
-import org.neuroph.core.data.sample.SubSampling;
 import org.neuroph.util.Properties;
+import org.neuroph.util.data.sample.Sampling;
+import org.neuroph.util.data.sample.SubSampling;
 
 /**
  * Executes sampling task for the data set in process.

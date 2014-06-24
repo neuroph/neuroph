@@ -1,6 +1,8 @@
 package org.neuroph.training;
 
-import org.neuroph.core.data.norm.MaxNormalizer;
+import org.neuroph.util.data.norm.MaxNormalizer;
+
+
 
 /**
  * TODO: normalizacija, sampling i testiranje, krosvalidacija

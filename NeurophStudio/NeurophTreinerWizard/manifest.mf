@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.neuroph.trainer.wizard
+OpenIDE-Module-Localizing-Bundle: org/neuroph/trainer/dynamicwizard/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
