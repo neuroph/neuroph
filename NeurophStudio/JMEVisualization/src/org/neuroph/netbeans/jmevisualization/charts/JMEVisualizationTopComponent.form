@@ -64,7 +64,7 @@
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Visualization Window">
+                <TitledBorder title="">
                   <ResourceString PropertyName="titleX" bundle="org/neuroph/netbeans/jmevisualization/charts/Bundle.properties" key="JMEVisualizationTopComponent.visualizationPanel.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
@@ -77,7 +77,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="653" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="661" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

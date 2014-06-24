@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.jmevisualization.JMEVisualization;
+import org.neuroph.netbeans.jmevisualization.charts.graphs.JMEDatasetHistogram3D;
 import org.neuroph.netbeans.jmevisualization.charts.graphs.JMEDatasetScatter3D;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -104,7 +105,7 @@ public final class JMEVisualizationTopComponent extends TopComponent {
         visualizationPanel.setLayout(visualizationPanelLayout);
         visualizationPanelLayout.setHorizontalGroup(
             visualizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 653, Short.MAX_VALUE)
+            .addGap(0, 661, Short.MAX_VALUE)
         );
         visualizationPanelLayout.setVerticalGroup(
             visualizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,9 +190,8 @@ public final class JMEVisualizationTopComponent extends TopComponent {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                drawSampledataset();
+                drawSampleDataset();
                 jmeCanvas.requestFocus(); // request focus to force repaint
- 
             }
         });          
          
@@ -250,9 +250,14 @@ public final class JMEVisualizationTopComponent extends TopComponent {
         return visualizationPanel;
     }
 
-    public void drawSampledataset() {
+    public void drawSampleDataset() {
       JMEDatasetScatter3D jmeDataSetScatter = new JMEDatasetScatter3D(createSphereDataSet(), jmeVisualization);           
       jmeDataSetScatter.createGraph();
+    }
+    
+    public void drawSampleHistogram() {
+      JMEDatasetHistogram3D jmeDataSetHistogram = new JMEDatasetHistogram3D(createSphereDataSet(), jmeVisualization);           
+      jmeDataSetHistogram.createGraph();
     }
     
     // created demo dataset
@@ -260,14 +265,14 @@ public final class JMEVisualizationTopComponent extends TopComponent {
 
         DataSet d = new DataSet(3, 1);
         Random r = new Random();
-        for (int i = 1; i <= 3000; i++) {
+        for (int i = 1; i <= 5000; i++) {
 
             double x = Math.round(r.nextGaussian() * 100);
             double y = Math.round(r.nextGaussian() * 100);
             double z = Math.round(r.nextGaussian() * 100);
 
             if ((getCategoryMembership(x, y, z, 0, 0, 0, 100, 100, 100)) >= 0.5) {
-                d.addRow(new double[]{x, y, z}, new double[]{1.0});
+                //d.addRow(new double[]{x, y, z}, new double[]{1.0});
             } else {
                 d.addRow(new double[]{x, y, z}, new double[]{0.0});
             }
