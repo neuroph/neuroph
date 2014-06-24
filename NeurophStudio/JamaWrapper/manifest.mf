@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.neuroph.jama
+OpenIDE-Module-Localizing-Bundle: org/neuroph/jama/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
