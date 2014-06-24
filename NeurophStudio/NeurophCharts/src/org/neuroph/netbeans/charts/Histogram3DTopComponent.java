@@ -151,7 +151,7 @@ public final class Histogram3DTopComponent extends TopComponent {
         properties.setzAxeLabel("Weight");
         //  properties.setRadius((float)1.0/data[0].length);
 
-        Histogram3DFactory<Chart> histogramFactory = new JzyHistogram3DFactory();
+        Histogram3DFactory<Chart,Point3D> histogramFactory = new JzyHistogram3DFactory();
         Chart chart = histogramFactory.createHistogram3D(data, properties);
        
         return chart;

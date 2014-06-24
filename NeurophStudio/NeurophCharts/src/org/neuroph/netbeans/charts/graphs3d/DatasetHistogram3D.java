@@ -43,7 +43,7 @@ public class DatasetHistogram3D extends Graph3DBuilder {
         prop.setzAxeLabel(attribute3.getLabel());
         prop.setChartWireframed(false);
 
-        Histogram3DFactory<Chart> histogramFactory = new JzyHistogram3DFactory();
+        Histogram3DFactory<Chart,Point3D> histogramFactory = new JzyHistogram3DFactory();
         Chart chart = histogramFactory.createHistogram3D(points3d, prop);
 
         return chart;
