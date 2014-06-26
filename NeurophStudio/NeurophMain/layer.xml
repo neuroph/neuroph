@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="org-neuroph-netbeans-main-easyneurons-TrainingSetEditFrameAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.TrainingSetEditFrameTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_TrainingSetEditFrameAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-dialog-NeuronPropertiesFrameAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.dialog.NeuronPropertiesFrameTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.dialog.Bundle#CTL_NeuronPropertiesFrameAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-dialog-NewNFRStudentDemoAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.dialog.NewNFRStudentDemoTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.dialog.Bundle#CTL_NewNFRStudentDemoAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-BasicNeuronSampleAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.samples.BasicNeuronSampleTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_BasicNeuronSampleAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-KohonenSampleAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.samples.KohonenSampleTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_KohonenSampleAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-NFRSampleAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.samples.NFRSampleTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_NFRSampleAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenBasicNeuronSample.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.samples.OpenBasicNeuronSample"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_OpenBasicNeuronSample"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenKohonenSample.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.samples.OpenKohonenSample"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_OpenKohonenSample"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenMultiLayerPerceptronSample.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.samples.OpenMultiLayerPerceptronSample"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_OpenMultiLayerPerceptronSample"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenNFRSample.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.samples.OpenNFRSample"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_OpenNFRSample"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenPerceptronSample.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.samples.OpenPerceptronSample"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_OpenPerceptronSample"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenRecomenderSample.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.samples.OpenRecomenderSample"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_OpenRecomenderSample"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-mlperceptron-MultiLayerPerceptronSampleAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSampleTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.Bundle#CTL_MultiLayerPerceptronSampleAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-perceptron-PerceptronSampleFrameAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.samples.perceptron.PerceptronSampleFrameTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.samples.perceptron.Bundle#CTL_PerceptronSampleFrameAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+        </folder>
+        <folder name="Samples">
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenKohonenSampleAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.samples.OpenKohonenSampleAction"/>
+                <attr name="displayName" bundlevalue="org-neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_OpenKohonenSampleAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Help">
+            <file name="org-neuroph-netbeans-main-easyneurons-OpenAboutBox.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-OpenAboutBox.instance"/>
+                <attr name="position" intvalue="100"/>
+            </file>
+        </folder>
+        <folder name="Window">
+            <attr name="org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction-separatorAfter.instance/NodeViewAction.shadow" boolvalue="true"/>
+            <attr name="org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction-separatorBefore.instance/org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction.shadow" boolvalue="true"/>
+            <attr name="org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction.shadow/NodeViewAction.shadow" boolvalue="true"/>
+            <attr name="org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction.shadow/org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction-separatorAfter.instance" boolvalue="true"/>
+            <file name="BasicNeuronSampleAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-BasicNeuronSampleAction.instance"/>
+            </file>
+            <file name="GraphFrameAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-errorgraph-GraphFrameAction.instance"/>
+            </file>
+            <file name="KohonenSampleAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-KohonenSampleAction.instance"/>
+            </file>
+            <file name="MessageBoxAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-MessageBoxAction.instance"/>
+            </file>
+            <file name="MultiLayerPerceptronSampleAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-mlperceptron-MultiLayerPerceptronSampleAction.instance"/>
+            </file>
+            <file name="NFRSampleAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-NFRSampleAction.instance"/>
+            </file>
+            <file name="NeuralNetworkViewFrameAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-NeuralNetworkViewFrameAction.instance"/>
+            </file>
+            <file name="NeuronPropertiesFrameAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-dialog-NeuronPropertiesFrameAction.instance"/>
+            </file>
+            <file name="NewNFRStudentDemoAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-dialog-NewNFRStudentDemoAction.instance"/>
+            </file>
+            <file name="PerceptronSampleFrameAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-perceptron-PerceptronSampleFrameAction.instance"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction-separatorAfter.instance">
+                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction-separatorBefore.instance">
+                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-OpenEasyNeuronsAppAction.instance"/>
+            </file>
+        </folder>
+        <folder name="Samples">
+            <attr name="org-neuroph-netbeans-main-easyneurons-samples-OpenBasicNeuronSample.shadow/org-neuroph-netbeans-main-easyneurons-samples-OpenRecomenderSample.shadow" boolvalue="true"/>
+            <attr name="org-neuroph-netbeans-main-easyneurons-samples-OpenMultiLayerPerceptronSample.shadow/org-neuroph-netbeans-main-easyneurons-samples-OpenPerceptronSample.shadow" boolvalue="true"/>
+            <attr name="org-neuroph-netbeans-main-easyneurons-samples-OpenNFRSample.shadow/org-neuroph-netbeans-main-easyneurons-samples-OpenKohonenSample.shadow" boolvalue="true"/>
+            <attr name="org-neuroph-netbeans-main-easyneurons-samples-OpenPerceptronSample.shadow/org-neuroph-netbeans-main-easyneurons-samples-OpenBasicNeuronSample.shadow" boolvalue="true"/>
+            <attr name="org-neuroph-netbeans-main-easyneurons-samples-OpenRecomenderSample.shadow/org-neuroph-netbeans-main-easyneurons-samples-OpenNFRSample.shadow" boolvalue="true"/>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenBasicNeuronSample.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-OpenBasicNeuronSample.instance"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenKohonenSample.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-OpenKohonenSample.instance"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenMultiLayerPerceptronSample.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-OpenMultiLayerPerceptronSample.instance"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenNFRSample.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-OpenNFRSample.instance"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenPerceptronSample.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-OpenPerceptronSample.instance"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenRecomenderSample.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-samples-OpenRecomenderSample.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="BasicNeuronSampleTopComponent.settings" url="BasicNeuronSampleTopComponentSettings.xml"/>
+            <file name="GraphFrameTopComponent.settings" url="GraphFrameTopComponentSettings.xml"/>
+            <file name="KohonenSampleTopComponent.settings" url="KohonenSampleTopComponentSettings.xml"/>
+            <file name="MultiLayerPerceptronSampleTopComponent.settings" url="MultiLayerPerceptronSampleTopComponentSettings.xml"/>
+            <file name="NFRSampleTopComponent.settings" url="NFRSampleTopComponentSettings.xml"/>
+            <file name="NeuralNetworkViewFrameTopComponent.settings" url="NeuralNetworkViewFrameTopComponentSettings.xml"/>
+            <file name="PerceptronSampleFrameTopComponent.settings" url="PerceptronSampleFrameTopComponentSettings.xml"/>          
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="BasicNeuronSampleTopComponent.wstcref" url="BasicNeuronSampleTopComponentWstcref.xml"/>
+                <file name="GraphFrameTopComponent.wstcref" url="GraphFrameTopComponentWstcref.xml"/>
+                <file name="KohonenSampleTopComponent.wstcref" url="KohonenSampleTopComponentWstcref.xml"/>
+                <file name="MultiLayerPerceptronSampleTopComponent.wstcref" url="MultiLayerPerceptronSampleTopComponentWstcref.xml"/>
+                <file name="NFRSampleTopComponent.wstcref" url="NFRSampleTopComponentWstcref.xml"/>
+                <file name="NeuralNetworkViewFrameTopComponent.wstcref" url="NeuralNetworkViewFrameTopComponentWstcref.xml"/>
+                <file name="NewNFRStudentDemoTopComponent.wstcref" url="NewNFRStudentDemoTopComponentWstcref.xml"/>
+                <file name="PerceptronSampleFrameTopComponent.wstcref" url="PerceptronSampleFrameTopComponentWstcref.xml"/>
+            </folder>
+            <folder name="properties">
+            </folder>
+        </folder>
+    </folder>
+</filesystem>

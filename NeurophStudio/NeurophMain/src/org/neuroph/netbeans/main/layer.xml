@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <attr name="Menu\BuildProject\position" intvalue="512"/>
+    <attr name="Menu\RunProject\position" intvalue="556"/>
+    <attr name="Menu\View\org-netbeans-core-actions-LogAction.shadow\position" intvalue="1000"/>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="org-neuroph-netbeans-main-easyneurons-TestAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.TestTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.Bundle#CTL_TestAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+              <file name="org-neuroph-netbeans-main-easyneurons-dialog-SupervisedTrainingMonitorFrameAction.instance">
+                <attr name="component" methodvalue="org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingMonitorTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.main.easyneurons.dialog.Bundle#CTL_SupervisedTrainingMonitorFrameAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-mlperceptron-panels-SettingsTopComponent.instance_hidden"/>
+        </folder>
+        <folder name="Samples">
+            <file name="org-neuroph-netbeans-main-easyneurons-samples-OpenKohonenSampleAction.instance">
+                <attr name="delegate" newvalue="org.neuroph.netbeans.main.easyneurons.samples.OpenKohonenSampleAction"/>
+                <attr name="displayName" bundlevalue="org-neuroph.netbeans.main.easyneurons.samples.Bundle#CTL_OpenKohonenSampleAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="File">
+            <attr name="position" intvalue="100"/>
+            <file name="Import_hidden"/>
+            <file name="Separator2.instance_hidden"/>
+            <file name="Separator4.instance_hidden"/>
+            <file name="org-netbeans-modules-editor-ExportHtmlAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-kenai-ui-OpenKenaiProjectAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-print-action-PageSetupAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-print-action-PrintAction.shadow_hidden"/>
+        </folder>
+        <folder name="Edit">
+            <attr name="position" intvalue="200"/>
+            <file name="Separator2.instance_hidden"/>
+            <file name="SeparatorAfterFindPrevious.instance_hidden"/>
+            <file name="SeparatorAfterProjectsSearch.instance_hidden"/>
+            <file name="WhereUsedAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-editor-MainMenuAction$FindNextAction.instance_hidden"/>
+            <file name="org-netbeans-modules-editor-MainMenuAction$FindPreviousAction.instance_hidden"/>
+            <file name="org-netbeans-modules-editor-MainMenuAction$FindSelectionAction.instance_hidden"/>
+            <file name="org-netbeans-modules-editor-MainMenuAction$PasteFormattedAction.instance_hidden"/>
+            <file name="org-netbeans-modules-editor-MainMenuAction$SelectIdentifierAction.instance_hidden"/>
+            <file name="org-netbeans-modules-editor-MainMenuAction$StartMacroRecordingAction.instance_hidden"/>
+            <file name="org-netbeans-modules-editor-MainMenuAction$StopMacroRecordingAction.instance_hidden"/>
+            <file name="org-netbeans-modules-search-FindInFilesAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-search-ReplaceInFilesAction.shadow_hidden"/>
+            <file name="org-openide-actions-FindAction.shadow_hidden"/>
+            <file name="org-openide-actions-ReplaceAction.shadow_hidden"/>
+            <file name="sep-before-reposearch.instance_hidden"/>
+        </folder>
+        <folder name="View">
+            <attr name="position" intvalue="250"/>
+            <file name="Separator1.instance_hidden"/>
+            <file name="Separator2.instance_hidden"/>
+            <file name="Separator3.instance_hidden"/>
+            <file name="org-netbeans-core-actions-HTMLViewAction.shadow_hidden"/>
+            <file name="org-netbeans-core-multiview-EditorsAction.instance_hidden"/>
+            <file name="org-netbeans-modules-editor-NbCodeFoldingAction.instance_hidden"/>
+            <file name="org-netbeans-modules-project-ui-SyncEditorWithViewsAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-versioning-ShowTextAnnotationsAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-versioning-diff-ShowDiffSidebarAction.shadow_hidden"/>
+            <file name="toggle-line-numbers.shadow_hidden"/>
+        </folder>
+        <folder name="Tools">
+            <file name="I18N_hidden"/>
+            <file name="LibrariesCustomizerAction.shadow_hidden"/>
+            <file name="PaletteManager_hidden"/>
+            <file name="Separator1.instance_hidden"/>
+            <file name="ServerManagerAction3.shadow_hidden"/>
+            <file name="VariablesCustomizerAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-favorites-templates-TemplatesAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-xml-catalog-CatalogAction.shadow_hidden"/>
+        </folder>
+        <folder name="Window">
+                <file name="TestAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-main-easyneurons-TestAction.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Templates">
+        <folder name="Project">
+            <folder name="Samples">
+                <file name="Standard_hidden"/>
+            </folder>
+            <folder name="Standard">
+                <file name="j2sefreeform.xml_hidden"/>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="BasicNeuronSampleTopComponent.settings" url="BasicNeuronSampleTopComponentSettings.xml"/>
+            <file name="GraphFrameTopComponent.settings" url="GraphFrameTopComponentSettings.xml"/>
+            <file name="KohonenSampleTopComponent.settings" url="KohonenSampleTopComponentSettings.xml"/>
+            <file name="MultiLayerPerceptronSampleTopComponent.settings" url="MultiLayerPerceptronSampleTopComponentSettings.xml"/>
+            <file name="NFRSampleTopComponent.settings" url="NFRSampleTopComponentSettings.xml"/>
+            <file name="PerceptronSampleFrameTopComponent.settings" url="PerceptronSampleFrameTopComponentSettings.xml"/>
+            <file name="SupervisedTrainingMonitorTopComponent.settings" url="SupervisedTrainingMonitorTopComponentSettings.xml"/>
+            <file name="TestTopComponent.settings" url="TestTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="BasicNeuronSampleTopComponent.wstcref" url="BasicNeuronSampleTopComponentWstcref.xml"/>
+                <file name="GraphFrameTopComponent.wstcref" url="GraphFrameTopComponentWstcref.xml"/>
+                <file name="KohonenSampleTopComponent.wstcref" url="KohonenSampleTopComponentWstcref.xml"/>
+                <file name="MultiLayerPerceptronSampleTopComponent.wstcref" url="MultiLayerPerceptronSampleTopComponentWstcref.xml"/>
+                <file name="NFRSampleTopComponent.wstcref" url="NFRSampleTopComponentWstcref.xml"/>
+                <file name="NewNFRStudentDemoTopComponent.wstcref" url="NewNFRStudentDemoTopComponentWstcref.xml"/>
+                <file name="PerceptronSampleFrameTopComponent.wstcref" url="PerceptronSampleFrameTopComponentWstcref.xml"/>
+                <file name="TestTopComponent.wstcref" url="TestTopComponentWstcref.xml"/>
+            </folder>
+            <folder name="navigator">
+                <file name="ExplorerTopComponent.wstcref" url="ExplorerTopComponentWstcref.xml"/>
+            </folder>
+            <folder name="output">
+                <file name="output.wstcref" url="outputWstcref.xml"/>
+            </folder>
+            <folder name="properties">
+                <file name="SupervisedTrainingMonitorTopComponent.wstcref" url="SupervisedTrainingMonitorTopComponentWstcref.xml"/>
+            </folder>
+             <file name="WindowManager.wswmgr" url="WindowManager.wswmgr"/>
+            
+        </folder>
+        <file name="WindowManager.wswmgr" url="WindowManager_1.wswmgr"/>
+    </folder>
+</filesystem>
