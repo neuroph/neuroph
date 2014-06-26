@@ -17,7 +17,6 @@ import org.neuroph.netbeans.main.easyneurons.samples.KohonenSampleTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.NFRSampleTopComponent;
 import org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
-import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.neuroph.nnet.Kohonen;
 import org.neuroph.nnet.NeuroFuzzyPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
