@@ -3,33 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.datasetgenerator.brain;
+package org.neuroph.datasetgen.shapes;
 
 import java.util.Random;
 import org.neuroph.core.data.*;
-import org.neuroph.datasetgenerator.base.DataSetGenerator;
+import org.neuroph.datasetgen.DataSetGenerator;
 
 /**
  *
  * @author Milos Randjic
  */
-public class ElipseGenerator extends DataSetGenerator {
+public class XORGenerator extends DataSetGenerator {
 
-    private final double x;
-    private final double y;
-    private final double a;
-    private final double b;
-
-    public ElipseGenerator(int numberOfPoints, double x, double y, double a, double b) {
+    public XORGenerator(int numberOfPoints) {
         super(numberOfPoints);
-        this.x = x;
-        this.y = y;
-        this.a = a;
-        this.b = b;
     }
 
-    private double getCategoryMembership(double randomX, double randomY, double x, double y, double a, double b) {
-        return (randomX - x) * (randomX - x) / (a * a) + (randomY - y) * (randomY - y) / (b * b);
+    private boolean getCategoryMembership(double randomX, double randomY) {
+        return (randomX > 0 && randomY > 0) || (randomX < 0 && randomY < 0);
     }
 
     @Override
@@ -40,11 +31,11 @@ public class ElipseGenerator extends DataSetGenerator {
             double randomX = r.nextGaussian();
             double randomY = r.nextGaussian();
             double[] desiredOutput = new double[1];
-            if (getCategoryMembership(randomX, randomY, x, y, a, b)<=1) {
+            if (getCategoryMembership(randomX, randomY)) {
                 desiredOutput[0] = 0;
             } else {
                 desiredOutput[0] = 1;
-            }                
+            }              
             dataSet.addRow(new DataSetRow(new double[]{randomX, randomY}, desiredOutput));
         }
         dataSet.setColumnNames(new String[]{"X","Y"});
@@ -54,7 +45,7 @@ public class ElipseGenerator extends DataSetGenerator {
 
     @Override
     public String toString() {
-        return "Elipse";
+        return "XOR";
     }
     
     

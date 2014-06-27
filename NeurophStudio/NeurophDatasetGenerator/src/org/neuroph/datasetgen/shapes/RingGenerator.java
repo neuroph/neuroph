@@ -3,24 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.datasetgenerator.brain;
+package org.neuroph.datasetgen.shapes;
 
 import java.util.Random;
 import org.neuroph.core.data.*;
-
+import org.neuroph.datasetgen.DataSetGenerator;
 
 /**
  *
  * @author Milos Randjic
  */
-public class MoonGenerator extends RingGenerator {
+public class RingGenerator extends DataSetGenerator {
 
-    public MoonGenerator(int numberOfPoints, double x, double y, double radius) {
-        super(numberOfPoints, x, y, radius, radius);
+    final double x;
+    final double y;
+    final double firstRadius;
+    final double secondRadius;
+
+    public RingGenerator(int numberOfPoints, double x, double y, double firstRadius, double secondRadius) {
+        super(numberOfPoints);
+        this.x = x;
+        this.y = y;
+        this.firstRadius = firstRadius;
+        this.secondRadius = secondRadius;
     }
 
-    private double getCategoryMembership(double randomX, double randomY, double offset, double radius) {
-        return ((randomX - (x + offset)) * (randomX - (x + offset)) + (randomY - y) * (randomY - y)) / radius;
+    private double getCategoryMembership(double randomX, double randomY, double radius) {
+        return ((randomX - x) * (randomX - x) + (randomY - y) * (randomY - y)) / radius;
     }
 
     @Override
@@ -31,7 +40,7 @@ public class MoonGenerator extends RingGenerator {
             double randomX = r.nextGaussian();
             double randomY = r.nextGaussian();
             double[] desiredOutput = new double[1];
-            if (getCategoryMembership(randomX, randomY, firstRadius + 0.25 , firstRadius) >= 1 && getCategoryMembership(randomX, randomY, 0.125, secondRadius) <= 1) {
+            if (getCategoryMembership(randomX, randomY, firstRadius) >= 1 && getCategoryMembership(randomX, randomY, secondRadius) <= 1) {
                 desiredOutput[0] = 0;
             } else {
                 desiredOutput[0] = 1;
@@ -45,7 +54,7 @@ public class MoonGenerator extends RingGenerator {
 
     @Override
     public String toString() {
-        return "Moon";
+        return "Ring";
     }
 
 }

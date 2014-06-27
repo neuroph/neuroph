@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.datasetgenerator.brain;
+package org.neuroph.datasetgen.shapes;
 
 import java.util.ArrayList;
 import java.util.Random;
 import org.neuroph.core.data.*;
-import org.neuroph.datasetgenerator.base.DataSetGenerator;
+import org.neuroph.datasetgen.DataSetGenerator;
 
 /**
  *

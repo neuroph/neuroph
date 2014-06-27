@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.neuroph.datasetgenerator.base;
+package org.neuroph.datasetgen;
 
 /**
  * @author Milos Randjic

@@ -3,24 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.datasetgenerator.brain;
+package org.neuroph.datasetgen.shapes;
 
 import java.util.Random;
 import org.neuroph.core.data.*;
-import org.neuroph.datasetgenerator.base.DataSetGenerator;
+
 
 /**
  *
  * @author Milos Randjic
  */
-public class XORGenerator extends DataSetGenerator {
+public class MoonGenerator extends RingGenerator {
 
-    public XORGenerator(int numberOfPoints) {
-        super(numberOfPoints);
+    public MoonGenerator(int numberOfPoints, double x, double y, double radius) {
+        super(numberOfPoints, x, y, radius, radius);
     }
 
-    private boolean getCategoryMembership(double randomX, double randomY) {
-        return (randomX > 0 && randomY > 0) || (randomX < 0 && randomY < 0);
+    private double getCategoryMembership(double randomX, double randomY, double offset, double radius) {
+        return ((randomX - (x + offset)) * (randomX - (x + offset)) + (randomY - y) * (randomY - y)) / radius;
     }
 
     @Override
@@ -31,11 +31,11 @@ public class XORGenerator extends DataSetGenerator {
             double randomX = r.nextGaussian();
             double randomY = r.nextGaussian();
             double[] desiredOutput = new double[1];
-            if (getCategoryMembership(randomX, randomY)) {
+            if (getCategoryMembership(randomX, randomY, firstRadius + 0.25 , firstRadius) >= 1 && getCategoryMembership(randomX, randomY, 0.125, secondRadius) <= 1) {
                 desiredOutput[0] = 0;
             } else {
                 desiredOutput[0] = 1;
-            }              
+            }
             dataSet.addRow(new DataSetRow(new double[]{randomX, randomY}, desiredOutput));
         }
         dataSet.setColumnNames(new String[]{"X","Y"});
@@ -45,9 +45,7 @@ public class XORGenerator extends DataSetGenerator {
 
     @Override
     public String toString() {
-        return "XOR";
+        return "Moon";
     }
-    
-    
 
 }
