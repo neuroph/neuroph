@@ -18,13 +18,13 @@ import org.openide.util.NbBundle.Messages;
 id = "IDEActions.Hist3DAction")
 @ActionRegistration(
     displayName = "#CTL_Hist3DAction")
-@Messages("CTL_Hist3DAction=Histogram 3D")
+@Messages("CTL_Hist3DAction=Weights Histogram 3D")
 public final class Hist3DAction extends AbstractAction implements ActionListener {
 
     private final NeuralNetworkDataObject context;
 
      public Hist3DAction(NeuralNetworkDataObject context) {
-        super("Histogram 3D");
+        super("Weights Histogram 3D");
         this.context = context;
     }
 

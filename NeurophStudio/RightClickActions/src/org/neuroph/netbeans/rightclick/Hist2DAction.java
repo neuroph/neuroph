@@ -18,13 +18,13 @@ import org.openide.util.NbBundle.Messages;
 id = "IDEActions.Hist2DAction")
 @ActionRegistration(
     displayName = "#CTL_Hist2DAction")
-@Messages("CTL_Hist2DAction=Histogram 2D")
+@Messages("CTL_Hist2DAction=Weights Histogram 2D")
 public final class Hist2DAction extends AbstractAction implements ActionListener {
 
     private final NeuralNetworkDataObject context;
 
     public Hist2DAction(NeuralNetworkDataObject context) {
-        super("Histogram 2D");
+        super("Weights Histogram 2D");
         this.context = context;
     }
 
