@@ -1,20 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.wizards;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
-import org.neuroph.datasetgenerator.base.DataSetGenerator;
-import org.neuroph.datasetgenerator.brain.CircleGenerator;
-import org.neuroph.datasetgenerator.brain.DiamondGenerator;
-import org.neuroph.datasetgenerator.brain.ElipseGenerator;
-import org.neuroph.datasetgenerator.brain.MoonGenerator;
-import org.neuroph.datasetgenerator.brain.RandomPolynomialGenerator;
-import org.neuroph.datasetgenerator.brain.RingGenerator;
-import org.neuroph.datasetgenerator.brain.SquareGenerator;
-import org.neuroph.datasetgenerator.brain.XORGenerator;
+import org.neuroph.datasetgen.DataSetGenerator;
+import org.neuroph.datasetgen.shapes.CircleGenerator;
+import org.neuroph.datasetgen.shapes.DiamondGenerator;
+import org.neuroph.datasetgen.shapes.ElipseGenerator;
+import org.neuroph.datasetgen.shapes.MoonGenerator;
+import org.neuroph.datasetgen.shapes.RandomPolynomialGenerator;
+import org.neuroph.datasetgen.shapes.RingGenerator;
+import org.neuroph.datasetgen.shapes.SquareGenerator;
+import org.neuroph.datasetgen.shapes.XORGenerator;
+
 
 public final class DataSetSampleVisualPanel1 extends JPanel {
 

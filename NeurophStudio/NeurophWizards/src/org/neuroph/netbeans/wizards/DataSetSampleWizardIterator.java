@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.wizards;
 
 import java.awt.Component;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,14 +11,11 @@ import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.templates.TemplateRegistration;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.datasetgenerator.base.DataSetGenerator;
+import org.neuroph.datasetgen.DataSetGenerator;
 import org.neuroph.netbeans.project.CurrentProject;
 import org.neuroph.netbeans.project.NeurophProject;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.openide.WizardDescriptor;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
-import org.openide.loaders.DataObject;
 import org.openide.windows.IOProvider;
 
 // TODO define position attribute
