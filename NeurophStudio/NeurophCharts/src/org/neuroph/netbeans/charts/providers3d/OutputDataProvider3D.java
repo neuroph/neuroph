@@ -17,7 +17,7 @@ import org.nugs.graph3d.api.Point3D;
  *
  * @author Vedrana Gajic
  */
-public class OutputDataProvider3D implements DataProvider3D {
+public class OutputDataProvider3D implements DataProvider3D<Point3D> {
 
     DataSet dataSet;
     NeuralNetwork nnet;

@@ -13,13 +13,13 @@ import org.nugs.graph3d.api.Point3D;
  *
  * @author Vedrana Gajic
  */
-public class ErrorDataProvider3D implements DataProvider3D {
+public class ErrorDataProvider3D implements DataProvider3D<Point3D> {
 
     DataSet dataSet;
     NeuralNetwork nnet;
 
-    public ErrorDataProvider3D() {
-    }
+//    public ErrorDataProvider3D() {
+//    }
 
     public ErrorDataProvider3D(DataSet dataSet, NeuralNetwork nnet) {
         this.dataSet = dataSet;

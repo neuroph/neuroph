@@ -13,12 +13,12 @@ import org.neuroph.netbeans.charts.util.NeurophChartUtilities;
  *
  * @author Vedrana Gajic
  */
-public class WeightsDataProvider3D implements DataProvider3D {
+public class WeightsDataProvider3D implements DataProvider3D<Point3D> {
 
     NeuralNetwork nnet;
 
-    public WeightsDataProvider3D() {
-    }
+//    public WeightsDataProvider3D() {
+//    }
 
     public WeightsDataProvider3D(NeuralNetwork nnet) {
         this.nnet = nnet;
