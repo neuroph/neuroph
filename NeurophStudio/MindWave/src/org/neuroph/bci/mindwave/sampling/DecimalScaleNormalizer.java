@@ -18,7 +18,8 @@ package org.neuroph.bci.mindwave.sampling;
 
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.core.data.norm.Normalizer;
+import org.neuroph.util.data.norm.Normalizer;
+
 
 /**
  * Decimal scaling normalization method, which normalize data by moving decimal point

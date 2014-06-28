@@ -290,11 +290,11 @@ public final class BCITopComponent extends TopComponent {
         }
               
        // create DataSet instance
-       DataSet dataSet = DataSet.createFromFile("preprocessed"+csvFilename, 10, 3, ",");
+       DataSet dataSet = DataSet.createFromFile("preprocessed"+csvFilename, 10, 3, ",", false);
       
        // normalize DataSet
        DecimalScaleNormalizer normalizer = new DecimalScaleNormalizer();
-        dataSet.normalize(normalizer);
+        normalizer.normalize(dataSet);
         double[] inputScale = normalizer.getInputScaleFactors(); // send this somehow to controller
         MindWaveManager.getInstance().setScaleFactors(inputScale);
         writeNormalizationScaleFactorsToFile(inputScale, csvFilename+".norm");
