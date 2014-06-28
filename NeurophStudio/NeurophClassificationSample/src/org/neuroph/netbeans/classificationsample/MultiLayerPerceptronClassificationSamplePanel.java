@@ -2,18 +2,17 @@ package org.neuroph.netbeans.classificationsample;
 
 import java.awt.Dimension;
 import javax.swing.DefaultComboBoxModel;
-import org.jdesktop.application.Action;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.datasetgenerator.base.DataSetGenerator;
-import org.neuroph.datasetgenerator.brain.CircleGenerator;
-import org.neuroph.datasetgenerator.brain.DiamondGenerator;
-import org.neuroph.datasetgenerator.brain.ElipseGenerator;
-import org.neuroph.datasetgenerator.brain.MoonGenerator;
-import org.neuroph.datasetgenerator.brain.RandomPolynomialGenerator;
-import org.neuroph.datasetgenerator.brain.RingGenerator;
-import org.neuroph.datasetgenerator.brain.SquareGenerator;
-import org.neuroph.datasetgenerator.brain.XORGenerator;
+import org.neuroph.datasetgen.DataSetGenerator;
+import org.neuroph.datasetgen.shapes.CircleGenerator;
+import org.neuroph.datasetgen.shapes.DiamondGenerator;
+import org.neuroph.datasetgen.shapes.ElipseGenerator;
+import org.neuroph.datasetgen.shapes.MoonGenerator;
+import org.neuroph.datasetgen.shapes.RandomPolynomialGenerator;
+import org.neuroph.datasetgen.shapes.RingGenerator;
+import org.neuroph.datasetgen.shapes.SquareGenerator;
+import org.neuroph.datasetgen.shapes.XORGenerator;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.util.NeuralNetworkFactory;
 import org.neuroph.util.TransferFunctionType;
@@ -31,6 +30,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     private NeuralNetwork neuralNetwork;
     private TransferFunctionType transferFunctionType;
     private DataSetGenerator[] shapes;
+    
     public static MultiLayerPerceptronClassificationSampleTopComponent mlpSampleTc;
     public static int VISUALIZATION_OPTION;
     public static boolean SHOW_POINTS;
@@ -98,7 +98,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         return new Integer(0);
     }
 
-    @Action
+    //@Action
     public void enableSetIterations() {
     }
 

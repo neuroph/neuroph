@@ -24,7 +24,7 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>org.neuroph.datasetgenerator</code-name-base>
+                    <code-name-base>org.neuroph.datasetgen</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
