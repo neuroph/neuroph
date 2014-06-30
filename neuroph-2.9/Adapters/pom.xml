@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.neuroph</groupId>
+    <artifactId>Adapters</artifactId>
+    <version>2.9</version>
+    <packaging>jar</packaging>
+
+    <name>Adapters</name>
+    <description>Please refer to https://github.com/holisticon/Adapters.</description>
+
+    <url>https://github.com/holisticon/Adapters</url>
+
+    <organization>
+        <name>Neuroph Project</name>
+        <url>http://neuroph.sourceforge.net/</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>Zoran Sevarac</name>
+            <email>sevarac@gmail.com</email>
+            <organization>Neuroph</organization>
+            <organizationUrl>http://neuroph.sourceforge.net/</organizationUrl>
+        </developer>
+    </developers>
+    
+      <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>neuroph-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
+            <artifactId>weka-dev</artifactId>
+            <version>3.7.5</version>
+    </dependency>
+            
+    <dependency>
+        <groupId>net.sf</groupId>
+        <artifactId>javaml</artifactId>
+        <version>0.1.7</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>be.abeel</groupId>
+        <artifactId>ajt</artifactId>
+        <version>2.9</version>
+    </dependency>    
+               
+            
+  </dependencies>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+        <encoding>UTF-8</encoding>
+    </properties>
+
+</project>
