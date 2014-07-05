@@ -6,7 +6,7 @@ import org.neuroph.netbeans.project.NeurophProject;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 
 /**
- * Saves neural network wyhin a NeurophStudio project
+ * Saves neural network within a NeurophStudio project
  * @author zoran
  */
 public class SaveNeuralNetworkTask extends Task {

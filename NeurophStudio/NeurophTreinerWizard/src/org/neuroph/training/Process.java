@@ -106,7 +106,7 @@ public class Process {
     }
     
     protected void logMessage(String msg) {
-        processLog.append(msg+System.lineSeparator());
+        processLog.append(msg).append(System.lineSeparator());
         fireProcessEvent(new ProcessEvent(this, msg));     
     }    
     
@@ -143,6 +143,6 @@ public class Process {
         for (ProcessEventListener listener: listeners) {
             listener.handleProcessEvent(event);
         }
-    }    
-       
+    }   
+          
 }

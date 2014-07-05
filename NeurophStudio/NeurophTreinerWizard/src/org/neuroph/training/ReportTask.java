@@ -16,13 +16,18 @@ public class ReportTask extends Task {
     @Override
     public void execute() {
         // this method should generate training summary to copy paste to paper
-          logMessage("Reporting task");
-          // calculate statistics about the traing
+          logMessage("Neural Network Training Report");
+          logMessage("==============================");
+          
+          // get training statistics
+          Stats iterationsStats = (Stats)getParentProcess().getVar("iterationStats");
+          Stats totalErrorStats = (Stats)getParentProcess().getVar("totalErrorStats");
+          
+          logMessage(iterationsStats.toString());
+          logMessage(totalErrorStats.toString());
+          
           // and generate reporting tables i asciidoc
 //        System.out.println(parentProcess.getProcessLog());  
-//        InputOutput io = IOProvider.getDefault().getIO ("Training Report", true);
-//        io.getOut().println (parentProcess.getProcessLog());
-//        io.getOut().close();
     }
     
 }

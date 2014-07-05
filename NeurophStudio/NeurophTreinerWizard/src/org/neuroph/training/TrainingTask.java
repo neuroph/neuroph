@@ -39,7 +39,10 @@ public class TrainingTask extends Task implements LearningEventListener {
         // get end error and number of iterations
         double totalError = ((BackPropagation)neuralNetwork.getLearningRule()).getTotalNetworkError();
         int iterations = ((BackPropagation)neuralNetwork.getLearningRule()).getCurrentIteration();
-       
+        
+        TrainingResult trainingResult = new TrainingResult(totalError, iterations);
+        getParentProcess().setVar("trainingResult", trainingResult);
+        
         // generate training infor that will be used for generating statistics in report        
         
         // log training results

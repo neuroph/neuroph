@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.trainer.dynamicwizard;
 
 import java.awt.Component;
@@ -13,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.training.DataSetLoaderTask;
 import org.neuroph.training.LoopTask;
@@ -23,6 +17,8 @@ import org.neuroph.training.ReportTask;
 import org.neuroph.training.SamplingTask;
 import org.neuroph.training.SaveNeuralNetworkTask;
 import org.neuroph.training.SetTrainingPropertiesTask;
+import org.neuroph.training.StatsTask;
+import org.neuroph.training.StoreTrainingResultTask;
 import org.neuroph.training.TestTask;
 import org.neuroph.training.TrainingPropertiesGeneratorTask;
 import org.neuroph.training.TrainingTask;
@@ -115,13 +111,20 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         SaveNeuralNetworkTask saveTask = new SaveNeuralNetworkTask("saveNetwork", "neuralNetwork");
                         trainingProcess.addTask(saveTask);
 
+                        // store training result for later statistics calculation
+                        StoreTrainingResultTask storeTrainingResultTask = new StoreTrainingResultTask("storeTrainingResultTask"); 
+                        trainingProcess.addTask(storeTrainingResultTask);
+                        
                         TestTask testTask = new TestTask("test", "neuralNetwork", "testSet"); // add test set here
                         trainingProcess.addTask(testTask);
                         
-                        // we should alos do cross validation with several test sets here...
-
+                        // we should also do cross validation with several test sets here...                                                                                          
                         trainingProcess.addTask(new LoopTask("setProperties", (Integer) wiz.getProperty("numIteration"))); // repeat while  there are settngs
-
+                        
+                        // calculate overall statistics
+                        StatsTask statsTask = new StatsTask("trainingStatistics"); // add test set here
+                        trainingProcess.addTask(statsTask);                                                
+                                           
                         trainingProcess.addTask(new ReportTask("report"));
                         trainingProcess.execute();
 
