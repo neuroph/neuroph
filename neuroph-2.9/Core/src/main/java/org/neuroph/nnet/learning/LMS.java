@@ -81,7 +81,7 @@ public class LMS extends SupervisedLearning implements Serializable {
      * 
      * @see LMS#updateNetworkWeights(double[]) 
      */
-    protected void updateNeuronWeights(Neuron neuron) {
+    public void updateNeuronWeights(Neuron neuron) {
         // get the error(delta) for specified neuron,
         double neuronError = neuron.getError();
 
