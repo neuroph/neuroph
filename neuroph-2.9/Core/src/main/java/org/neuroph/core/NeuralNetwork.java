@@ -17,6 +17,7 @@ package org.neuroph.core;
 
 import java.io.*;
 import java.util.*;
+
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.core.events.NeuralNetworkEventListener;
 import org.neuroph.core.exceptions.NeurophException;
@@ -171,12 +172,15 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * Removes specified layer from network
      *
      * @param layer layer to remove
+     * @throws Exception 
      */
-    public void removeLayer(Layer layer) {
+    public void removeLayer(Layer layer)  {
 //        int index = indexOf(layer);
 //        removeLayerAt(index);
 
-        layers.remove(layer);
+        if (!layers.remove(layer)){
+        	throw new RuntimeException("Layer not in Neural n/w");
+        }
         
         // notify listeners that layer has been removed
         fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_REMOVED));        
@@ -188,7 +192,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @param index int value represents index postion of layer which should be
      * removed
      */
-    public void removeLayerAt(int index) {
+    public void removeLayerAt(int index) throws ArrayIndexOutOfBoundsException{
 //        layers[index].removeAllNeurons();
 //        
 //        for (int i = index; i < layers.length - 1; i++) {
@@ -200,7 +204,9 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 //        }
 
         Layer layer = layers.get(index);
-        layers.remove(index);
+       
+        	layers.remove(index);
+        	
         
         // notify listeners that layer has been removed
         fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_REMOVED));
