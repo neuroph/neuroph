@@ -145,7 +145,7 @@ public class DataSetRow implements Serializable {
     }
 
     public boolean isSupervised() {
-        return (desiredOutput == null ? false : true);
+        return (desiredOutput != null);
     }
     
     @Override
@@ -156,15 +156,35 @@ public class DataSetRow implements Serializable {
         for(double in : input) {
             sb.append(in).append(", ");
         }
+        sb.delete(sb.length()-2, sb.length()-1);
         
         if (isSupervised()) {
-            sb.append("Desired output: ");
+            sb.append(" Desired output: ");
             for(double out : desiredOutput) {
                 sb.append(out).append(", ");
-            }            
+            }           
+            sb.delete(sb.length()-2, sb.length()-1);
         }
                        
-        return sb.toString();
-        
+        return sb.toString();        
     }
+    
+
+    public String toCSV() {
+        StringBuilder sb = new StringBuilder();
+        
+        for(double in : input) {
+            sb.append(in).append(", ");
+        }
+        
+        if (isSupervised()) {
+            for(double out : desiredOutput) {
+                sb.append(out).append(", ");
+            }           
+        }
+        
+        sb.delete(sb.length()-2, sb.length()-1);        
+                       
+        return sb.toString();        
+    }    
 }

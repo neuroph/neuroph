@@ -20,12 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
-import org.neuroph.util.data.norm.MaxNormalizer;
-import org.neuroph.util.data.norm.Normalizer;
 import org.neuroph.util.data.sample.Sampling;
 import org.neuroph.util.data.sample.SubSampling;
 
@@ -136,10 +132,28 @@ public class DataSet implements Serializable /*
         this.rows.add(row);
     }
 
+    /**
+     * Adds a new dataset row with specified input
+     * @param input 
+     */
     public void addRow(double[] input) {
+        if (input == null)
+            throw new IllegalArgumentException("Input for dataset row cannot be null!");
+
+        if (input.length != inputSize)
+            throw new NeurophException("Input size for given row is different from the data set size!");
+        
+        if (isSupervised) 
+            throw new NeurophException("Cannot add unsupervised row to supervised data set!");
+            
         this.addRow(new DataSetRow(input));
     }
 
+    /**
+     * Adds a new dataset row with specified input and output
+     * @param input
+     * @param output 
+     */
     public void addRow(double[] input, double[] output) {
         this.addRow(new DataSetRow(input, output));
     }
@@ -269,17 +283,17 @@ public class DataSet implements Serializable /*
     }
 
     /**
-     * Returns label of this training set
+     * Returns string representation of this data set
      *
-     * @return label of this training set
+     * @return string representation of this data set
      */
     @Override
     public String toString() {  
         StringBuilder sb = new StringBuilder();
-        sb.append("Dataset").append(System.lineSeparator());
-        sb.append("Label:").append(label).append(System.lineSeparator());
+        sb.append("Dataset Label: ").append(label).append(System.lineSeparator());
                
         if (columnNames != null) {
+            sb.append("Columns: ");
             for(String columnName : columnNames) {
                 sb.append(columnName).append(", ");
             }
@@ -288,13 +302,16 @@ public class DataSet implements Serializable /*
         }    
         
         for(DataSetRow row : rows) {
-            sb.append(row);
-            sb.append(System.lineSeparator());
+            sb.append(row).append(System.lineSeparator());
         }
         
         return sb.toString();
     }
     
+    /**
+     * Returns enire dataset in csv format
+     * @return 
+     */
     public String toCSV() {
         StringBuilder sb = new StringBuilder();
         
@@ -306,9 +323,9 @@ public class DataSet implements Serializable /*
             sb.append(System.lineSeparator());
         }
         
-        sb.append("Rows:");
+        // promeniti
         for(DataSetRow row : rows) {
-            sb.append(row);
+            sb.append(row.toCSV()); // nije dobro jer lepi input i desired output; treba bez toga mozda dodati u toCSV
             sb.append(System.lineSeparator());
         }
         
@@ -351,22 +368,38 @@ public class DataSet implements Serializable /*
     }
 
     public void saveAsTxt(String filePath, String delimiter) {
+        
+        if (filePath == null) throw new IllegalArgumentException("File path is null!");
+        
+        // default delimiter is space if other is not specified
         if ((delimiter == null) || delimiter.equals("")) {
             delimiter = " ";
         }
+        
 
         try (PrintWriter out = new PrintWriter(new FileWriter(new File(filePath)))) {
 
+        int columnCount = inputSize + outputSize;    
+        if ((columnNames != null) && (columnNames.length > 0)){
+            for(int i = 0; i< columnNames.length; i++) {
+                out.print(columnNames[i]);
+                if (i < columnCount-1) out.print(delimiter);
+            }
+            out.println();
+        }            
+            
             for (DataSetRow row : this.rows) {
                 double[] input = row.getInput();
                 for (int i = 0; i < input.length; i++) {
-                    out.print(input[i] + delimiter);
+                    out.print(input[i]);
+                    if (i < columnCount-1) out.print(delimiter);
                 }
 
                 if (row.isSupervised()) {
                     double[] output = row.getDesiredOutput();
                     for (int j = 0; j < output.length; j++) {
-                        out.print(output[j] + delimiter);
+                        out.print(output[j]);
+                        if (inputSize + j < columnCount-1) out.print(delimiter);
                     }
                 }
                 out.println();
@@ -397,7 +430,8 @@ public class DataSet implements Serializable /*
 
             oistream = new ObjectInputStream(new FileInputStream(filePath));
             DataSet dataSet = (DataSet) oistream.readObject();
-
+            dataSet.setFilePath(filePath);
+            
             return dataSet;
 
         } catch (IOException ioe) {
@@ -430,10 +464,11 @@ public class DataSet implements Serializable /*
         if (filePath == null) throw new IllegalArgumentException("File name cannot be null!");
         if (inputsCount <= 0) throw new IllegalArgumentException("Number of inputs cannot be <= 0");
         if (outputsCount < 0) throw new IllegalArgumentException("Number of outputs cannot be < 0");
-        if ((delimiter == null) || delimiter.isEmpty()) throw new IllegalArgumentException("Number of outputs cannot be <= 0");
-        
+        if ((delimiter == null) || delimiter.isEmpty()) throw new IllegalArgumentException("Delimiter cannot be null or empty!");
+             
         try {
             DataSet dataSet = new DataSet(inputsCount, outputsCount);
+            dataSet.setFilePath(filePath);
             fileReader = new FileReader(new File(filePath));
             BufferedReader reader = new BufferedReader(fileReader);
 
@@ -550,6 +585,7 @@ public class DataSet implements Serializable /*
         return trainAndTestSet;
     }
     
+    // remove sampling methods from here and do sampling from instance of Sampling implementations
     public DataSet[] sample(int percent) {
         Sampling sampling = new SubSampling(percent);
         return sampling.sample(this);
