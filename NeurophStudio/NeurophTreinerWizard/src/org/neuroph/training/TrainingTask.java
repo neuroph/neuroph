@@ -13,7 +13,7 @@ import org.neuroph.nnet.learning.BackPropagation;
  * @author zoran
  */
 public class TrainingTask extends Task implements LearningEventListener {
-    NeuralNetwork neuralNetwork;
+    NeuralNetwork neuralNetwork; // these should be injected!
     DataSet trainingSet;
     
     String neuralNetworkVarName, trainingSetVarName;
@@ -25,6 +25,7 @@ public class TrainingTask extends Task implements LearningEventListener {
         
     }
         
+    @Override
     public void execute() {
         logMessage("Training neural network \n");
         
@@ -54,9 +55,10 @@ public class TrainingTask extends Task implements LearningEventListener {
      * Log details during the training - error for each iteration
      * @param event 
      */
+    @Override
     public void handleLearningEvent(LearningEvent event) {
         BackPropagation bp = (BackPropagation) event.getSource();
-        parentProcess.logMessage(bp.getCurrentIteration() + ". iteration : " + bp.getTotalNetworkError());
+       // parentProcess.logMessage(bp.getCurrentIteration() + ". iteration : " + bp.getTotalNetworkError());
     }
 
    

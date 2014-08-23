@@ -31,6 +31,12 @@ import java.util.List;
  * 
  * api u osnovi da bude jednostavan ali da moze da se prosiri za kompleksne stvari
  * 
+ * this could be !!!!! Neuroph training container!!!!
+ * variables can be injected into tasks
+ * workflow!!!
+ * 
+ * see Injector http://code.google.com/p/tinydi/source/browse/trunk/TinyDI/src/main/java/com/googlecode/tinydi/Injector.java
+ * http://stackoverflow.com/questions/9392182/creating-a-simple-dependency-injection-container-in-java-dynamically-creating-o
  * 
  */
 public class Process {

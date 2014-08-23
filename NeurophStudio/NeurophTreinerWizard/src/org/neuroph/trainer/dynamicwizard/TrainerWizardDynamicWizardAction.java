@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.training.CrossValidationTask;
 import org.neuroph.training.DataSetLoaderTask;
 import org.neuroph.training.LoopTask;
 import org.neuroph.training.MultiLayerPerceptronFactoryTask;
@@ -102,7 +103,12 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         trainingProcess.addTask(new MultiLayerPerceptronFactoryTask("neuralNetFactory", "neuralNetworkProperties", "neuralNetwork"));
 
                         // this step should be optional. Should we save sampled sets?
-                        trainingProcess.addTask(new SamplingTask("trainingSetSampling"));
+                        //trainingProcess.addTask(new SamplingTask("trainingSetSampling"));
+                        // create training and tests set in crossvalidation task
+                        trainingProcess.addTask(new CrossValidationTask("crossValidationTask"));
+                        // in first step do sampling task and generate subsets
+                        // in each iteration pull out one and set training set from crossvalidation task
+                        
 
                         TrainingTask trainingTask = new TrainingTask("training", "neuralNetwork", "trainingSet");
                         trainingProcess.addTask(trainingTask);
@@ -118,6 +124,9 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         TestTask testTask = new TestTask("test", "neuralNetwork", "testSet"); // add test set here
                         trainingProcess.addTask(testTask);
                         
+                        // loop crossvalidation task from here                       
+                        trainingProcess.addTask(new LoopTask("crossValidationTask", 2)); // koliko puta izvretti korsvalidaciju
+                                
                         // we should also do cross validation with several test sets here...                                                                                          
                         trainingProcess.addTask(new LoopTask("setProperties", (Integer) wiz.getProperty("numIteration"))); // repeat while  there are settngs
                         
