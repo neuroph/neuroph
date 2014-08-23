@@ -55,7 +55,7 @@ public class ResilientPropagation extends BackPropagation {
      * @see ResilientPropagation#resillientWeightUpdate(org.neuroph.core.Weight) 
      */
     @Override
-    protected void updateNeuronWeights(Neuron neuron) {
+    public void updateNeuronWeights(Neuron neuron) {
         for (Connection connection : neuron.getInputConnections()) {
             double input = connection.getInput();
             if (input == 0) {

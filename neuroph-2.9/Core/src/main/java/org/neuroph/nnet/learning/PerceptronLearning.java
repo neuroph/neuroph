@@ -49,7 +49,7 @@ public class PerceptronLearning extends LMS {
 	 *            neuron to update weights
 	 */
         @Override
-	protected void updateNeuronWeights(Neuron neuron) {
+	public void updateNeuronWeights(Neuron neuron) {
                 // adjust the input connection weights with method from superclass
                 super.updateNeuronWeights(neuron);
 
