@@ -65,7 +65,7 @@ public class NeurophProjectRootNode extends FilterNode {
         nodeActions[4] = CommonProjectActions.deleteProjectAction();
         nodeActions[5] = CommonProjectActions.closeProjectAction();             
         
-        //nodeActions[4] = CommonProjectActions.customizeProjectAction();
+        //nodeActions[6] = CommonProjectActions.customizeProjectAction(); // za project properties na desni klik
 
         return nodeActions;
     }
