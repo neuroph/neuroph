@@ -3,6 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.neuroph</groupId>
+  <artifactId>neuroph-imgrec</artifactId>  
   <version>2.9</version>
   <packaging>jar</packaging>
 
@@ -32,7 +33,7 @@
       <version>x.x</version>
     </dependency>
   </dependencies>
-  <artifactId>neuroph-imgrec</artifactId>
+
     <build>
         <plugins>
             <plugin>
