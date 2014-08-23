@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.neuroph</groupId>
-    <artifactId>Adapters</artifactId>
+    <artifactId>neuroph-adapters</artifactId>
     <version>2.9</version>
     <packaging>jar</packaging>
 
@@ -25,32 +25,32 @@
         </developer>
     </developers>
     
-      <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>neuroph-core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>neuroph-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-dev</artifactId>
             <version>3.7.5</version>
-    </dependency>
+        </dependency>
             
-    <dependency>
-        <groupId>net.sf</groupId>
-        <artifactId>javaml</artifactId>
-        <version>0.1.7</version>
-    </dependency>
+        <dependency>
+            <groupId>net.sf</groupId>
+            <artifactId>javaml</artifactId>
+            <version>0.1.7</version>
+        </dependency>
     
-    <dependency>
-        <groupId>be.abeel</groupId>
-        <artifactId>ajt</artifactId>
-        <version>2.9</version>
-    </dependency>    
+        <dependency>
+            <groupId>be.abeel</groupId>
+            <artifactId>ajt</artifactId>
+            <version>2.9</version>
+        </dependency>    
                
             
-  </dependencies>
+    </dependencies>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
