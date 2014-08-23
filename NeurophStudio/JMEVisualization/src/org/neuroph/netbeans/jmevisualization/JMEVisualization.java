@@ -28,11 +28,8 @@ public class JMEVisualization extends SimpleApplication {
 
     private int width;
     private int height;
-    private static JPanel visualizationPanel;
-    
-    
-    
-    
+   // private static JPanel visualizationPanel;
+                
     @Override
     public void simpleInitApp() {   
         
@@ -49,8 +46,6 @@ public class JMEVisualization extends SimpleApplication {
     }
     
     private JmeCanvasContext jmeCanvasContext;
-
- 
  
     public JmeCanvasContext getJmeCanvasContext() {
         return jmeCanvasContext;
@@ -60,15 +55,6 @@ public class JMEVisualization extends SimpleApplication {
         this.jmeCanvasContext = jmeCanvasContext;
     }
     
-//    private static JMEVisualization instance;
-//    
-//    public static JMEVisualization getInstance() {
-//        if (instance==null)
-//            instance = new JMEVisualization();
-//        return instance;
-//    }
-           
-    // ovde se na top component stavlja jme canvas koji crta grafike
     public void startApplication() {
         AppSettings settings = new AppSettings(true);
         settings.setWidth(getWidth());
@@ -105,12 +91,4 @@ public class JMEVisualization extends SimpleApplication {
         height = aHeight;
     }
    
-    public static JPanel getVisualizationPanel() {
-        return visualizationPanel;
-    }
-
-    public static void setVisualizationPanel(JPanel visualizationPanel) {
-        JMEVisualization.visualizationPanel = visualizationPanel;
-    }
-
 }

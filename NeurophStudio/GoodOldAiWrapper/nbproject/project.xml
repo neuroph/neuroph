@@ -16,15 +16,9 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
-                <package>org.goai.api</package>
-                <package>org.goai.classification</package>
+                <package>org.goai.classification.api</package>
                 <package>org.goai.classification.eval</package>
                 <package>org.goai.classification.impl</package>
-                <package>org.goai.classification.samples</package>
-                <package>org.goai.core</package>
-                <package>org.goai.impl</package>
-                <package>org.goai.report</package>
-                <package>org.goai.samples</package>
             </public-packages>
             <class-path-extension>
                 <runtime-relative-path>ext/javaml-0.1.7.jar</runtime-relative-path>
@@ -33,10 +27,6 @@
             <class-path-extension>
                 <runtime-relative-path>ext/weka.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/weka.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/rapidminer.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/rapidminer.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/GoaiFramework.jar</runtime-relative-path>

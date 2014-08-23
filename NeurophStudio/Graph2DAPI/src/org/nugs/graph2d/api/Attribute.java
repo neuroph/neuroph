@@ -6,9 +6,21 @@ package org.nugs.graph2d.api;
  */
 public class Attribute {
 
-    private boolean isOutput;
-    private int index;
+    /**
+     * Attribute label that will be displayed on graph 
+     */
     private String label;
+    
+    /**
+     * Indicates if this is an output attribute
+     */
+    private boolean isOutput;
+    
+    /**
+     * Attribute index
+     */
+    private int index;
+    
 
     public Attribute() {
     }
