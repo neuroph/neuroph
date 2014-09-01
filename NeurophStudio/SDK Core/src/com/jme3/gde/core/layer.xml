@@ -278,7 +278,7 @@
             </folder>
         </folder>
     </folder>
-    <folder name="Toolbars">
+    <!-- folder name="Toolbars">
         <folder name="jMonkeyPlatform-Tools">
             <attr name="position" intvalue="175"/>
             <file name="com-jme3-gde-core-assets-actions-OpenModel.shadow">
@@ -286,8 +286,7 @@
                 <attr name="position" intvalue="20"/>
             </file>
         </folder>
-        <!--folder name="Memory_hidden">
-        </folder-->
+
         <folder name="File">
             <attr name="position" intvalue="100"/>
             <file name="com-jme3-gde-core-assets-actions-ConvertModel.shadow">
@@ -299,7 +298,7 @@
                 <attr name="position" intvalue="355"/>
             </file>
         </folder>
-    </folder>
+    </folder-->
     <folder name="Templates">
         <!--folder name="Filters">
             <file name="filter.j3f" url="filter.j3f">

@@ -49,26 +49,34 @@ public class SimplePanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jTextFieldLearningRates = new javax.swing.JTextField();
         jSpinnerCV = new javax.swing.JSpinner();
+        jLabel5 = new javax.swing.JLabel();
+        maxIterationsField = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        maxErrorField = new javax.swing.JTextField();
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.jLabel4.text")); // NOI18N
 
         jTextFieldPercents.setText(org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.jTextFieldPercents.text")); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.jLabel3.text")); // NOI18N
 
         jTextFieldHiddenNeurons.setText(org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.jTextFieldHiddenNeurons.text")); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.jLabel2.text")); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.jLabel1.text")); // NOI18N
 
         jTextFieldLearningRates.setText(org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.jTextFieldLearningRates.text")); // NOI18N
 
         jSpinnerCV.setValue(1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.jLabel5.text")); // NOI18N
+
+        maxIterationsField.setText(org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.maxIterationsField.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.jLabel6.text")); // NOI18N
+
+        maxErrorField.setText(org.openide.util.NbBundle.getMessage(SimplePanel.class, "SimplePanel.maxErrorField.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -81,15 +89,25 @@ public class SimplePanel extends javax.swing.JPanel {
                     .addComponent(jTextFieldHiddenNeurons)
                     .addComponent(jTextFieldPercents, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinnerCV, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 177, Short.MAX_VALUE)))
+                                .addComponent(jSpinnerCV, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(maxIterationsField)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(maxErrorField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addGap(0, 156, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -107,11 +125,23 @@ public class SimplePanel extends javax.swing.JPanel {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldPercents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jSpinnerCV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addComponent(maxIterationsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 48, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jSpinnerCV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(maxErrorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -133,16 +163,30 @@ public class SimplePanel extends javax.swing.JPanel {
         return jTextFieldPercents;
     }
 
+    public JTextField getMaxIterationsField() {
+        return maxIterationsField;
+    }
+
+    public JTextField getMaxErrorField() {
+        return maxErrorField;
+    }
+    
+    
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JSpinner jSpinnerCV;
     private javax.swing.JTextField jTextFieldHiddenNeurons;
     private javax.swing.JTextField jTextFieldLearningRates;
     private javax.swing.JTextField jTextFieldPercents;
+    private javax.swing.JTextField maxErrorField;
+    private javax.swing.JTextField maxIterationsField;
     // End of variables declaration//GEN-END:variables
 
     

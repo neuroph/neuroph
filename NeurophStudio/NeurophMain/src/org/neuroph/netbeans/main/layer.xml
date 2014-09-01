@@ -96,6 +96,9 @@
             </folder>
         </folder>
     </folder>
+    <folder name="Toolbars">
+        <file name="Standard.xml" url="Standard.xml"/>
+    </folder>
     <folder name="Windows2">
         <folder name="Components">
             <file name="BasicNeuronSampleTopComponent.settings" url="BasicNeuronSampleTopComponentSettings.xml"/>

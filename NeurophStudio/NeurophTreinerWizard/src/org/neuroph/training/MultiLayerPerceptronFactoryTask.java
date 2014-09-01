@@ -1,6 +1,7 @@
 package org.neuroph.training;
 
 import org.neuroph.nnet.MultiLayerPerceptron;
+import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.util.Properties;
 
 /**
@@ -35,12 +36,15 @@ public class MultiLayerPerceptronFactoryTask extends Task {
         int outputs = (Integer)neuralNetworkProperties.get("outputNeurons");
         int hidden = (Integer)neuralNetworkProperties.get("hiddenNeurons");
         double learningRate = (Double)neuralNetworkProperties.get("learningRate");        
-                
+        int maxIterations = (Integer)neuralNetworkProperties.get("maxIterations");
+        double maxError = (Double)neuralNetworkProperties.get("maxError");
+        
         MultiLayerPerceptron neuralNetwork = new MultiLayerPerceptron(inputs, hidden, outputs);
-        neuralNetwork.getLearningRule().setLearningRate(learningRate);  
+        neuralNetwork.getLearningRule().setLearningRate(learningRate);         
+        neuralNetwork.getLearningRule().setMaxIterations(maxIterations);        
+        neuralNetwork.getLearningRule().setMaxError(maxError);
 //        neuralNetwork.setLabel(name);
         
-
         setProcessVar(outputVarName, neuralNetwork);
         
         logMessage("Using "+inputs +" input, " + hidden + " hidden and "+outputs+" output neurons; learning rate: "+learningRate );

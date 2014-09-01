@@ -32,7 +32,7 @@ public class TrainingTask extends Task implements LearningEventListener {
         // get neural network and training set from process
         this.neuralNetwork = (NeuralNetwork)parentProcess.getVar(neuralNetworkVarName); 
         this.trainingSet =  (DataSet)parentProcess.getVar(trainingSetVarName); // use trainingSet here
-                               
+                        
         // add learning listener and log learning events (iterations, error) - add as logger
         neuralNetwork.getLearningRule().addListener(this);
         neuralNetwork.learn(trainingSet);       

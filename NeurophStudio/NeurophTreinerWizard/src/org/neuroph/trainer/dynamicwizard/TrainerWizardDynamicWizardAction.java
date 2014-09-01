@@ -87,6 +87,8 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         //set parameters for training process 
                         trainingPropertiesGeneratorTask.setLearningRates((double[]) wiz.getProperty("learningRates"));
                         trainingPropertiesGeneratorTask.setHiddenNeurons((int[]) wiz.getProperty("hiddenNeurons"));
+                        trainingPropertiesGeneratorTask.setMaxError((double) wiz.getProperty("maxError"));                        
+                        trainingPropertiesGeneratorTask.setMaxIterations((Integer) wiz.getProperty("maxIterations"));
                         trainingPropertiesGeneratorTask.setTrainingSetPercents((int[]) wiz.getProperty("trainingSetPercents"));
                         trainingPropertiesGeneratorTask.setDataSet((DataSet) wiz.getProperty("dataSet"));
                         trainingProcess.addTask(trainingPropertiesGeneratorTask);
@@ -128,7 +130,7 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         trainingProcess.addTask(new LoopTask("crossValidationTask", 2)); // koliko puta izvretti korsvalidaciju
                                 
                         // we should also do cross validation with several test sets here...                                                                                          
-                        trainingProcess.addTask(new LoopTask("setProperties", (Integer) wiz.getProperty("numIteration"))); // repeat while  there are settngs
+                       // trainingProcess.addTask(new LoopTask("setProperties", (Integer) wiz.getProperty("numIteration"))); // repeat while  there are settngs
                         
                         // calculate overall statistics
                         StatsTask statsTask = new StatsTask("trainingStatistics"); // add test set here

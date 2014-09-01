@@ -104,12 +104,18 @@ public class TrainerWizardDynamicWizardPanel3 implements WizardDescriptor.Panel<
                 for (int i = 0; i < splitTsp.length; i++) {
                     trainingSetPercents[i] = Integer.parseInt(splitTsp[i].trim());
                 }
+                
+                int maxIterations = Integer.parseInt( SimplePanel.getPanel().getMaxIterationsField().getText().trim());
+                double maxError = Double.parseDouble( SimplePanel.getPanel().getMaxErrorField().getText().trim());
                 int crossValRepeatCount = (Integer) SimplePanel.getPanel().getjSpinnerCV().getValue();
 
                 wiz.putProperty("learningRates", learningRates);
                 wiz.putProperty("hiddenNeurons", hiddenNeurons);
                 wiz.putProperty("trainingSetPercents", trainingSetPercents);
                 wiz.putProperty("crossValRepeatCount", crossValRepeatCount);
+                wiz.putProperty("maxIterations", maxIterations);
+                wiz.putProperty("maxError", maxError);
+                // whats numIteration - how many time to repear cross validaion
                 wiz.putProperty("numIteration", learningRates.length * hiddenNeurons.length * trainingSetPercents.length * crossValRepeatCount - 1);
             } else {
                 //Advanced wizard
@@ -118,12 +124,17 @@ public class TrainerWizardDynamicWizardPanel3 implements WizardDescriptor.Panel<
                 int[] hiddenNeurons = createHiddenNeurons();
                 int[] trainingSetPercents = createTrainingSetPercents();
 
+                int maxIterations = Integer.parseInt( AdvancePanel.getObject().getMaxIterationsField().getText().trim());
+                double maxError = Double.parseDouble( AdvancePanel.getObject().getMaxErrorField().getText().trim());                
                 int crossValRepeatCount = (Integer) AdvancePanel.getObject().getjSpinnerCV().getValue();
 
                 wiz.putProperty("learningRates", learningRates);
                 wiz.putProperty("hiddenNeurons", hiddenNeurons);
                 wiz.putProperty("trainingSetPercents", trainingSetPercents);
                 wiz.putProperty("crossValRepeatCount", crossValRepeatCount);
+                wiz.putProperty("maxIterations", maxIterations);
+                wiz.putProperty("maxError", maxError);
+              // whats numIteration - how many time to repear cross validaion
                 wiz.putProperty("numIteration", learningRates.length * hiddenNeurons.length * trainingSetPercents.length * crossValRepeatCount - 1);
             }
         } catch (NumberFormatException numberFormatException) {

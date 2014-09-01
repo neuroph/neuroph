@@ -20,6 +20,8 @@ public class TrainingPropertiesGeneratorTask extends Task {
     int[] trainingSetPercents = new int[]{60, 70};
     int crossValRepeatCount = 1;
     DataSet dataSet;
+    int maxIterations=0;
+    double maxError;
     // generated properties
     Stack<Properties> properties;
     String outputVarName = "trainingPropertiesStack";
@@ -63,6 +65,8 @@ public class TrainingPropertiesGeneratorTask extends Task {
 
                         Properties neuralNetworkProperties = new Properties();
                         neuralNetworkProperties.setProperty("learningRate", learningRates[l]);
+                        neuralNetworkProperties.setProperty("maxError", maxError);
+                        neuralNetworkProperties.setProperty("maxIterations", maxIterations);
                         neuralNetworkProperties.setProperty("hiddenNeurons", hiddenNeurons[h]);
                         neuralNetworkProperties.setProperty("inputNeurons", dataSet.getInputSize());
                         neuralNetworkProperties.setProperty("outputNeurons", dataSet.getOutputSize());
@@ -101,6 +105,16 @@ public class TrainingPropertiesGeneratorTask extends Task {
     public void setDataSet(DataSet dataSet) {
         this.dataSet = dataSet;
     }
+
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
+    }
+
+    public void setMaxError(double maxError) {
+        this.maxError = maxError;
+    }
+    
+    
     
 
 }
