@@ -1,6 +1,5 @@
 package org.nugs.graph3d;
 
-import org.nugs.graph2d.api.Attribute;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +8,7 @@ import org.jzy3d.colors.IColorMappable;
 import org.jzy3d.colors.colormaps.IColorMap;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import org.nugs.graph2d.api.Attribute;
 
 /**
  *
