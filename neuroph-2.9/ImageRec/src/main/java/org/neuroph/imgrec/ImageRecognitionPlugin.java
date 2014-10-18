@@ -16,7 +16,6 @@
 
 package org.neuroph.imgrec;
 
-import android.graphics.Bitmap;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +29,6 @@ import org.neuroph.imgrec.image.ImageFactory;
 
 import org.neuroph.core.Neuron;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
-import org.neuroph.imgrec.image.ImageAndroid;
 import org.neuroph.imgrec.image.ImageJ2SE;
 import org.neuroph.util.plugins.PluginBase;
 
