@@ -28,10 +28,10 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jSpinner1" alignment="0" pref="74" max="32767" attributes="0"/>
+                  <Component id="jSpinner1" alignment="0" max="32767" attributes="0"/>
                   <Component id="jSpinner2" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace pref="43" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -59,7 +59,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="w size:"/>
+        <Property name="text" type="java.lang.String" value="Window size:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="jSpinner1">

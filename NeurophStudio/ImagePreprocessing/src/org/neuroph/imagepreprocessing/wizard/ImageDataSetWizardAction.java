@@ -5,7 +5,6 @@
  */
 package org.neuroph.imagepreprocessing.wizard;
 
-import imagepreprocessing.filter.ImageFilterChain;
 import imagepreprocessing.manipulation.ImageManipulation;
 import java.awt.Color;
 import java.awt.Component;
@@ -26,6 +25,7 @@ import javax.swing.JOptionPane;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.imgrec.FractionRgbData;
 import org.neuroph.imgrec.ImageRecognitionHelper;
+import org.neuroph.imgrec.filter.ImageFilterChain;
 import org.neuroph.imgrec.image.Dimension;
 import org.neuroph.netbeans.imr.utils.ImagesLoader;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;

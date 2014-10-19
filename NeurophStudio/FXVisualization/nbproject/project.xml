@@ -4,7 +4,7 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
             <code-name-base>org.neuroph.netbeans.fxvis</code-name-base>
-            <standalone/>
+            <suite-component/>
             <module-dependencies>
                 <dependency>
                     <code-name-base>org.netbeans.modules.settings</code-name-base>
@@ -80,7 +80,9 @@
                     </run-dependency>
                 </dependency>
             </module-dependencies>
-            <public-packages/>
+            <public-packages>
+                <package>org.neuroph.netbeans.fxvis</package>
+            </public-packages>
             <class-path-extension>
                 <runtime-relative-path>ext/FXyzLib.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/FXyzLib.jar</binary-origin>

@@ -5,9 +5,8 @@
  */
 package org.neuroph.imagepreprocessing;
 
-import imagepreprocessing.filter.ImageFilter;
-import imagepreprocessing.filter.ImageFilterChain;
-import imagepreprocessing.helper.FilteredImage;
+
+
 import imagepreprocessing.manager.ImageFilterManager;
 import imagepreprocessing.view.ImagePanel;
 import java.awt.image.BufferedImage;
@@ -25,6 +24,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.neuroph.imgrec.filter.FilteredImage;
+import org.neuroph.imgrec.filter.ImageFilter;
+import org.neuroph.imgrec.filter.ImageFilterChain;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.explorer.ExplorerManager;

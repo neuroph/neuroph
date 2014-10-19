@@ -5,9 +5,7 @@
  */
 package imagepreprocessing.view;
 
-import imagepreprocessing.filter.ImageFilterChain;
-import imagepreprocessing.filter.impl.MedianFilter;
-import imagepreprocessing.filter.impl.OtsuBinarizeFilter;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +23,9 @@ import org.neuroph.imgrec.FractionRgbData;
 import org.neuroph.imgrec.ImageRecognitionHelper;
 import org.neuroph.imgrec.ImageRecognitionPlugin;
 import org.neuroph.imgrec.ImageSizeMismatchException;
+import org.neuroph.imgrec.filter.ImageFilterChain;
+import org.neuroph.imgrec.filter.impl.MedianFilter;
+import org.neuroph.imgrec.filter.impl.OtsuBinarizeFilter;
 import org.neuroph.imgrec.image.Dimension;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.util.TransferFunctionType;

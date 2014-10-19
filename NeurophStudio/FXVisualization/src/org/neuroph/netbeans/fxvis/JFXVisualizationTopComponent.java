@@ -19,11 +19,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
-import org.fxyz.composites.CameraTransformer;
+import org.fxyz.cameras.CameraTransformer;
+import org.fxyz.shapes.composites.Histogram;
+import org.fxyz.shapes.composites.ScatterPlot;
 import org.fxyz.tools.CubeViewer;
-import org.fxyz.tools.Histogram;
-import org.fxyz.tools.ScatterPlot;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
+import org.neuroph.netbeans.charts.providers3d.DatasetDataProvider3D;
 import org.neuroph.netbeans.charts.providers3d.WeightsDataProvider3D;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.nugs.graph2d.api.Attribute;
@@ -60,28 +63,56 @@ import org.openide.windows.TopComponent;
 })
 public final class JFXVisualizationTopComponent extends TopComponent {
 
-     private JFXPanel jfxPanel; //JFXPanel class
-     
-   private PerspectiveCamera camera;
-    private final double sceneWidth = 600;
-    private final double sceneHeight = 600;
-    private double cameraDistance = 500;
-    private ScatterPlot scatterPlot;     
-        private double scenex, sceney, scenez = 0;
+    private JFXPanel jfxPanel; //JFXPanel class
+    
+    /**
+     * 3D Histogram from fxyz
+     */
+    private Histogram histogram;
+
+    /**
+     * 3D scatter from fxyz
+     */
+    private ScatterPlot scatterPlot;
+
+    
+    
+    private PerspectiveCamera camera;    
+// private double cameraDistance = 500;
+    
+    // used for mouse tracking
+    private double scenex, sceney, scenez = 0;
+    
     private double fixedXAngle, fixedYAngle, fixedZAngle = 0;
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
-    private final DoubleProperty angleY = new SimpleDoubleProperty(0);    
-    private final DoubleProperty angleZ = new SimpleDoubleProperty(0);  
+    private final DoubleProperty angleY = new SimpleDoubleProperty(0);
+    private final DoubleProperty angleZ = new SimpleDoubleProperty(0);
+
+    // 3d coord cube from fxyz
+    private CubeViewer cubeViewer;
+    
+    // used for cubeViewer rotation & translation
+    private CameraTransformer cameraTransform = new CameraTransformer();
+
+    // used for setting camerTranformer behaviour
+    private double mousePosX;
+    private double mousePosY;
+    private double mouseOldX;
+    private double mouseOldY;
+    private double mouseDeltaX;
+    private double mouseDeltaY;
+        
+    Group sceneRoot;
+    Scene scene;    
     
     public JFXVisualizationTopComponent() {
         initComponents();
         setName(Bundle.CTL_FXVisualizationTopComponent());
         setToolTipText(Bundle.HINT_FXVisualizationTopComponent());
-        setLayout(new BorderLayout());   
-
-       // jfxPanel = new JFXPanel();
-         jfxPanel = new CubeViewerPanel();
-        add(jfxPanel, BorderLayout.CENTER);        
+        jfxPanel = new JFXPanel();
+        add(jfxPanel, BorderLayout.CENTER);
+        
+     
     }
 
     /**
@@ -91,63 +122,121 @@ public final class JFXVisualizationTopComponent extends TopComponent {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jPanel1 = new javax.swing.JPanel();
+        scatterButton = new javax.swing.JButton();
+        histogramButton = new javax.swing.JButton();
+        gridButton = new javax.swing.JButton();
+
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(scatterButton, org.openide.util.NbBundle.getMessage(JFXVisualizationTopComponent.class, "JFXVisualizationTopComponent.scatterButton.text")); // NOI18N
+        scatterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scatterButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        jPanel1.add(scatterButton, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(histogramButton, org.openide.util.NbBundle.getMessage(JFXVisualizationTopComponent.class, "JFXVisualizationTopComponent.histogramButton.text")); // NOI18N
+        histogramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                histogramButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(7, 0, 0, 0);
+        jPanel1.add(histogramButton, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(gridButton, org.openide.util.NbBundle.getMessage(JFXVisualizationTopComponent.class, "JFXVisualizationTopComponent.gridButton.text")); // NOI18N
+        gridButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gridButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 73;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(7, 0, 239, 0);
+        jPanel1.add(gridButton, gridBagConstraints);
+
+        add(jPanel1, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
-    @Override
-    public void componentOpened() {
+    private void gridButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gridButtonActionPerformed
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-             //   drawScatter();
-        //        drawHistogram();
-               // drawCube();
-           
+                drawCubeViewer();
             }
         });
+    }//GEN-LAST:event_gridButtonActionPerformed
+
+    private void histogramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_histogramButtonActionPerformed
+
+        Platform.runLater(() -> {
+            drawHistogram();
+        });
+    }//GEN-LAST:event_histogramButtonActionPerformed
+
+    private void scatterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scatterButtonActionPerformed
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                drawScatter();
+            }
+        });
+    }//GEN-LAST:event_scatterButtonActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton gridButton;
+    private javax.swing.JButton histogramButton;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton scatterButton;
+    // End of variables declaration//GEN-END:variables
+    @Override
+    public void componentOpened() {
+
     }
-    
-    private CubeViewer cubeViewer;
-    private CameraTransformer cameraTransform = new CameraTransformer();
-    
-    private double mousePosX;
-    private double mousePosY;
-    private double mouseOldX;
-    private double mouseOldY;
-    private double mouseDeltaX;
-    private double mouseDeltaY;
-        
-    private void drawCubeViewerPanel() {
-        
-    }
-    
-    private void drawCube() {
-      Group sceneRoot = new Group();
-        Scene scene = new Scene(sceneRoot, sceneWidth, sceneHeight);
+
+
+
+    private void drawCubeViewer() {
+        sceneRoot = new Group();
+        scene = new Scene(sceneRoot, jfxPanel.getWidth(), jfxPanel.getHeight());
         scene.setFill(Color.BLACK);
         //Setup camera and scatterplot cubeviewer
-        camera = new PerspectiveCamera(true);        
-        cubeViewer = new CubeViewer(1000, 100, true);
-        sceneRoot.getChildren().addAll(cubeViewer);        
+        camera = new PerspectiveCamera(true);
+        // velicina grida (skala), razmak izmedju resetki, svetlo, scatter raddius, debljina osa, grid size - debljina resetki?
+         cubeViewer = new CubeViewer(280, 20, true, 3, 5, 1);
+         cubeViewer.showSphereGroup(false);
+
+        sceneRoot.getChildren().addAll(cubeViewer);
         //setup camera transform for rotational support
         cubeViewer.getChildren().add(cameraTransform);
         cameraTransform.setTranslate(0, 0, 0);
         cameraTransform.getChildren().add(camera);
         camera.setNearClip(0.1);
-        camera.setFarClip(10000.0);
-        camera.setTranslateZ(-5000);
+        camera.setFarClip(30000.0);
+        camera.setTranslateZ(-500);
         cameraTransform.ry.setAngle(-45.0);
         cameraTransform.rx.setAngle(-10.0);
         //add a Point Light for better viewing of the grid coordinate system
@@ -155,38 +244,60 @@ public final class JFXVisualizationTopComponent extends TopComponent {
         cameraTransform.getChildren().add(light);
         light.setTranslateX(camera.getTranslateX());
         light.setTranslateY(camera.getTranslateY());
-        light.setTranslateZ(camera.getTranslateZ());        
+        light.setTranslateZ(camera.getTranslateZ());
         scene.setCamera(camera);
-        
+
         //Create and add some data to the Cube
         ArrayList<Double> dataX = new ArrayList<>();
         ArrayList<Double> dataY = new ArrayList<>();
         ArrayList<Double> dataZ = new ArrayList<>();
-        for(int i=-250;i<250;i++) {
-            dataX.add(new Double(i));
-            dataY.add(new Double(Math.sin(i)*50)+i);
-            dataZ.add(new Double(Math.cos(i)*50)+i);
+
+        DataProvider3D<Point3D> dataProvider = new WeightsDataProvider3D(new MultiLayerPerceptron(4, 5, 6, 10, 15, 20));
+
+        Attribute[] attributes = new Attribute[3];
+        // to do put some attribute shere
+        Point3D[] data = dataProvider.getData(attributes);
+
+        for (int i = 1; i < data.length; i++) {
+            Point3D p = data[i];
+            dataX.add(p.getX());
+            dataY.add(p.getY());
+            dataZ.add(p.getZ() * 100);
         }
-        //The cube viewer will add data nodes as cubes here but you can add
-        //your own scatter plot to the same space as the cube if you want.
+
         cubeViewer.setxAxisData(dataX);
         cubeViewer.setyAxisData(dataY);
-        cubeViewer.setzAxisData(dataZ);
+        cubeViewer.setzAxisData(dataZ);        
+        
+        //--------------------------------------------------------------
+        
+        
+        
         //First person shooter keyboard movement 
         scene.setOnKeyPressed(event -> {
             double change = 10.0;
             //Add shift modifier to simulate "Running Speed"
-            if(event.isShiftDown()) { change = 50.0; }
+            if (event.isShiftDown()) {
+                change = 50.0;
+            }
             //What key did the user press?
             KeyCode keycode = event.getCode();
             //Step 2c: Add Zoom controls
-            if(keycode == KeyCode.W) { camera.setTranslateZ(camera.getTranslateZ() + change); }
-            if(keycode == KeyCode.S) { camera.setTranslateZ(camera.getTranslateZ() - change); }
+            if (keycode == KeyCode.W) {
+                camera.setTranslateZ(camera.getTranslateZ() + change);
+            }
+            if (keycode == KeyCode.S) {
+                camera.setTranslateZ(camera.getTranslateZ() - change);
+            }
             //Step 2d:  Add Strafe controls
-            if(keycode == KeyCode.A) { camera.setTranslateX(camera.getTranslateX() - change); }
-            if(keycode == KeyCode.D) { camera.setTranslateX(camera.getTranslateX() + change); }
-        });        
-        
+            if (keycode == KeyCode.A) {
+                camera.setTranslateX(camera.getTranslateX() - change);
+            }
+            if (keycode == KeyCode.D) {
+                camera.setTranslateX(camera.getTranslateX() + change);
+            }
+        });
+
         scene.setOnMousePressed((MouseEvent me) -> {
             mousePosX = me.getSceneX();
             mousePosY = me.getSceneY();
@@ -200,10 +311,10 @@ public final class JFXVisualizationTopComponent extends TopComponent {
             mousePosY = me.getSceneY();
             mouseDeltaX = (mousePosX - mouseOldX);
             mouseDeltaY = (mousePosY - mouseOldY);
-            
+
             double modifier = 10.0;
             double modifierFactor = 0.1;
-            
+
             if (me.isControlDown()) {
                 modifier = 0.1;
             }
@@ -222,55 +333,44 @@ public final class JFXVisualizationTopComponent extends TopComponent {
                 cameraTransform.t.setX(cameraTransform.t.getX() + mouseDeltaX * modifierFactor * modifier * 0.3);  // -
                 cameraTransform.t.setY(cameraTransform.t.getY() + mouseDeltaY * modifierFactor * modifier * 0.3);  // -
             }
-        });        
-          jfxPanel.setScene(scene);  
-        
+        });
+        jfxPanel.setScene(scene);
+
     }
-    
-    
-       private Histogram histogram; 
+
     private void drawHistogram() {
-        Group sceneRoot = new Group();
-        Scene scene = new Scene(sceneRoot, sceneWidth, sceneHeight);
+        sceneRoot = new Group();
+        scene = new Scene(sceneRoot, jfxPanel.getWidth(), jfxPanel.getHeight());
         scene.setFill(Color.BLACK);
         camera = new PerspectiveCamera(true);
         camera.setNearClip(0.1);
-        camera.setFarClip(10000.0);
-        camera.setTranslateZ(-1000);
+        camera.setFarClip(30000.0);
+        camera.setTranslateZ(-100);
         scene.setCamera(camera);
+       //  cubeViewer = new CubeViewer(100, 10, true, 3, 5, 1);
+         //cubeViewer.showSphereGroup(false);
 
+     //   sceneRoot.getChildren().addAll(cubeViewer);
+        //setup camera transform for rotational support
+        sceneRoot.getChildren().add(cameraTransform);
+        
+        
         histogram = new Histogram(10, 1, true);
         sceneRoot.getChildren().addAll(histogram);
 
-        
         DataProvider3D<Point3D> dataProvider = new WeightsDataProvider3D(new MultiLayerPerceptron(4, 5, 4));
-        
+
         Attribute[] attributes = new Attribute[3];
         // to do put some attribute shere
         Point3D[] data = dataProvider.getData(attributes); // kako 50 5x5= 25 + 6x4 =24 + 1 = 50
-        
+
         // napravi ovo da bude genericko tako da radi za bilo koju arhitekturu
         float[][] arrayY = new float[2][26]; // potrebno je znati koliko ima lejera
         for (int i = 1; i < 50; i++) {
             Point3D p = data[i];
-            arrayY[(int)p.getX()-1][(int)p.getY()] = (float)p.getZ()*10;
-            System.out.println("x:"+p.getX()+" y:"+p.getY()+" z:"+p.getZ());
-        }        
-        
-//        int size = 30;
-//        int c=1;
-//        float[][] arrayY = new float[2 * size][2 * size];
-//        for (int i = -size; i < size; i++) {
-//            for (int j = -size; j < size; j++) {
-//                //Transcedental Gradient
-//                double xterm = (Math.cos(Math.PI * i / size) * Math.cos(Math.PI * i / size));
-//                double yterm = (Math.cos(Math.PI * j / size) * Math.cos(Math.PI * j / size));
-//                arrayY[i + size][j + size] = (float) (10 * ((xterm + yterm) * (xterm + yterm)));
-//            }
-//        }
-        
-        
-        
+            arrayY[(int) p.getX() - 1][(int) p.getY()] = (float) p.getZ() * 30;
+        }
+
         histogram.setHeightData(arrayY, 1, 4, Color.SKYBLUE, false, true);
 
         scene.setOnKeyPressed(event -> {
@@ -329,47 +429,56 @@ public final class JFXVisualizationTopComponent extends TopComponent {
             }
 
             angleY.set(fixedYAngle + sceney - event.getSceneX());
-        });     
-        
-        jfxPanel.setScene(scene);  
+        });
+
+        jfxPanel.setScene(scene);
     }
-    
-    
+
     private void drawScatter() {
-        Group sceneRoot = new Group();
-        Scene scene = new Scene(sceneRoot, sceneWidth, sceneHeight);
+        sceneRoot = new Group();
+        scene = new Scene(sceneRoot, jfxPanel.getWidth(), jfxPanel.getHeight());
         scene.setFill(Color.BLACK);
         camera = new PerspectiveCamera(true);
         camera.setNearClip(0.1);
-        camera.setFarClip(10000.0);
+        camera.setFarClip(30000.0);
         camera.setTranslateZ(-1000);
         scene.setCamera(camera);
 
+//         cubeViewer = new CubeViewer(100, 10, true, 3, 5, 1);
+//         cubeViewer.showSphereGroup(false);
+
+//        sceneRoot.getChildren().addAll(cubeViewer);
+        //setup camera transform for rotational support
+        sceneRoot.getChildren().add(cameraTransform);        
+        
         scatterPlot = new ScatterPlot(100, 1, true);
         sceneRoot.getChildren().addAll(scatterPlot);
 
-        // data is generated here - replace it with some data provider
-        
+        // data is generated here
         ArrayList<Double> dataX = new ArrayList<>();
         ArrayList<Double> dataY = new ArrayList<>();
         ArrayList<Double> dataZ = new ArrayList<>();
         
-        DataProvider3D<Point3D> dataProvider = new WeightsDataProvider3D(new MultiLayerPerceptron(4, 5, 6, 10, 15, 20));
-        
+        //create some random dataset here
+        //DataProvider3D<Point3D> dataProvider = new WeightsDataProvider3D(new MultiLayerPerceptron(4, 5, 6, 10, 15, 20));
+        DataSet someDataSet = createRandomDataSet();
+        DataProvider3D<Point3D> dataProvider = new DatasetDataProvider3D(someDataSet);
+
         Attribute[] attributes = new Attribute[3];
-        // to do put some attribute shere
+        attributes[0] = new Attribute(0, false, "labela1");
+        attributes[1] = new Attribute(1, false, "labela2");
+        attributes[2] = new Attribute(2, false, "labela3");
+        // to do put some attributes here
         Point3D[] data = dataProvider.getData(attributes);
-        
+
         for (int i = 1; i < data.length; i++) {
             Point3D p = data[i];
             dataX.add(p.getX());
             dataY.add(p.getY());
-            dataZ.add(p.getZ()*100);
+            dataZ.add(p.getZ());
         }
 
-                
         //--------------------------------------------------------------
-        
         scatterPlot.setXYZData(dataX, dataY, dataZ);
 
         scene.setOnKeyPressed(event -> {
@@ -430,7 +539,7 @@ public final class JFXVisualizationTopComponent extends TopComponent {
             angleY.set(fixedYAngle + sceney - event.getSceneX());
         });
 
-        jfxPanel.setScene(scene);     
+        jfxPanel.setScene(scene);
     }
 
     @Override
@@ -448,5 +557,18 @@ public final class JFXVisualizationTopComponent extends TopComponent {
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
+    }
+    
+    private DataSet createRandomDataSet() {
+        DataSet dataSet = new DataSet(3, 1);
+        for (int i = 0; i<1000; i++) {
+            double[] input = new double[3];
+            input[0] = Math.random() * 100;
+            input[1] = Math.random() * 100;
+            input[2] = Math.random() * 100;
+            DataSetRow row = new DataSetRow(input, new double[]{1});
+            dataSet.addRow(row);
+        }
+        return dataSet;
     }
 }

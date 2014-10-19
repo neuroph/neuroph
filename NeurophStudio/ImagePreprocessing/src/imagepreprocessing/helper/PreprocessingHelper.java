@@ -8,6 +8,9 @@ package imagepreprocessing.helper;
 /**
  * Class that contains all filter independent methods
  * that are being used in image filters implementation
+ * 
+ * Note: utility class which contains only one method
+ * 
  * @author Sanja
  */
 public class PreprocessingHelper {

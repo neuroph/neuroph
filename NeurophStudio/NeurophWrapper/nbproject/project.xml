@@ -61,6 +61,8 @@
                 <package>org.neuroph.dev.noprop</package>
                 <package>org.neuroph.dev.noprop.eval</package>
                 <package>org.neuroph.imgrec</package>
+                <package>org.neuroph.imgrec.filter</package>
+                <package>org.neuroph.imgrec.filter.impl</package>
                 <package>org.neuroph.imgrec.image</package>
                 <package>org.neuroph.nnet</package>
                 <package>org.neuroph.nnet.comp</package>
@@ -86,11 +88,11 @@
             </public-packages>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-core-2.9.jar</runtime-relative-path>
-                <binary-origin>/media/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-core-2.9.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-core-2.9.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-ocr-2.9.jar</runtime-relative-path>
-                <binary-origin>/media/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-ocr-2.9.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-ocr-2.9.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/logback-core-1.1.1.jar</runtime-relative-path>
@@ -98,11 +100,11 @@
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-contrib-2.9.jar</runtime-relative-path>
-                <binary-origin>/media/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-contrib-2.9.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-contrib-2.9.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-imgrec-2.9.jar</runtime-relative-path>
-                <binary-origin>/media/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-imgrec-2.9.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-imgrec-2.9.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/NoProp.jar</runtime-relative-path>
@@ -110,7 +112,7 @@
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-samples-2.9.jar</runtime-relative-path>
-                <binary-origin>/media/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-samples-2.9.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-samples-2.9.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/slf4j-api-1.7.5.jar</runtime-relative-path>
@@ -118,7 +120,7 @@
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-adapters-2.9.jar</runtime-relative-path>
-                <binary-origin>/media/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-adapters-2.9.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-adapters-2.9.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

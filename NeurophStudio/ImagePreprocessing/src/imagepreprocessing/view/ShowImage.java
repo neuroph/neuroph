@@ -5,8 +5,6 @@
  */
 package imagepreprocessing.view;
 
-import imagepreprocessing.filter.ImageFilterChain;
-import imagepreprocessing.helper.FilteredImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import org.neuroph.imgrec.filter.FilteredImage;
+import org.neuroph.imgrec.filter.ImageFilterChain;
 
 /**
  * GUI for image preprocessing

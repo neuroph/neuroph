@@ -1,36 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package imagepreprocessing.view;
 
-import imagepreprocessing.filter.IParametersPanel;
-import imagepreprocessing.filter.ImageFilter;
-import imagepreprocessing.filter.ImageFilterChain;
-import imagepreprocessing.filter.impl.AdaptiveTresholdBinarizeFilter;
-import imagepreprocessing.filter.impl.DCTgrayscale;
-import imagepreprocessing.filter.impl.DenoiseDCTFilter;
-import imagepreprocessing.filter.impl.Dilation;
-import imagepreprocessing.filter.impl.EdgeDetection;
-import imagepreprocessing.filter.impl.EraseBlackBorderFilter;
-import imagepreprocessing.filter.impl.GaussianBluring;
-import imagepreprocessing.filter.impl.GaussianNoise;
-import imagepreprocessing.filter.impl.GrayscaleFilter;
-import imagepreprocessing.filter.impl.HistogramEqualizationFilter;
-import imagepreprocessing.filter.impl.MaskSegmentationFilter;
-import imagepreprocessing.filter.impl.MeanFilter;
-import imagepreprocessing.filter.impl.MedianFilter;
-import imagepreprocessing.filter.impl.OtsuBinarizeFilter;
-import imagepreprocessing.filter.impl.SobelEdgeDetection;
-import imagepreprocessing.filter.impl.UnsharpMaskingFilter;
-import imagepreprocessing.manager.ImageFilterManager;
-import java.awt.Component;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import org.neuroph.imgrec.filter.ImageFilter;
+import org.neuroph.imgrec.filter.ImageFilterChain;
+import org.neuroph.imgrec.filter.impl.AdaptiveThresholdBinarizeFilter;
+import org.neuroph.imgrec.filter.impl.DCTgrayscale;
+import org.neuroph.imgrec.filter.impl.DenoiseDCTFilter;
+import org.neuroph.imgrec.filter.impl.Dilation;
+import org.neuroph.imgrec.filter.impl.EdgeDetection;
+import org.neuroph.imgrec.filter.impl.EraseBlackBorderFilter;
+import org.neuroph.imgrec.filter.impl.GaussianBluring;
+import org.neuroph.imgrec.filter.impl.GaussianNoise;
+import org.neuroph.imgrec.filter.impl.GrayscaleFilter;
+import org.neuroph.imgrec.filter.impl.HistogramEqualizationFilter;
+import org.neuroph.imgrec.filter.impl.MaskSegmentationFilter;
+import org.neuroph.imgrec.filter.impl.MeanFilter;
+import org.neuroph.imgrec.filter.impl.MedianFilter;
+import org.neuroph.imgrec.filter.impl.OtsuBinarizeFilter;
+import org.neuroph.imgrec.filter.impl.SobelEdgeDetection;
+import org.neuroph.imgrec.filter.impl.UnsharpMaskingFilter;
 
 /**
  * Panel for creating filter chain
@@ -46,13 +37,13 @@ public class ImagePreprocessingPanel extends javax.swing.JPanel {
     public DefaultListModel getSelectedFiltersLM() {
         return selectedFiltersLM;
     }
-    List<JPanel> parametersPanels;
+    HashMap<String, JPanel> parametersPanels;
 
     /**
      * Creates new form ImagePreprocessingPanel
      */
     public ImagePreprocessingPanel() {
-        parametersPanels = new ArrayList<JPanel>();
+        parametersPanels = new HashMap<>();
         initComponents();
         setLists();
         hideParameterPanels();
@@ -191,18 +182,17 @@ public class ImagePreprocessingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_selectedFiltersListMouseClicked
 
     private void selectedFiltersListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_selectedFiltersListValueChanged
-        ImageFilter selected = (ImageFilter) selectedFiltersList.getSelectedValue();
-        hideParameterPanels();
-        try {
-            if (selected != null) {
-                System.out.println("sddsa");
-                IParametersPanel ip = (IParametersPanel) selected;
-                getPanel(ip.getPanel()).setVisible(true);
-
-            }
-
-        } catch (Exception e) {
-        }
+//        ImageFilter selected = (ImageFilter) selectedFiltersList.getSelectedValue();
+//        hideParameterPanels();
+//        try {
+//            if (selected != null) {
+//                JPanel panel = getPanel(selected);
+//                panel.setVisible(true);
+//
+//            }
+//
+//        } catch (Exception e) {
+//        }
 
 
     }//GEN-LAST:event_selectedFiltersListValueChanged
@@ -236,7 +226,7 @@ public class ImagePreprocessingPanel extends javax.swing.JPanel {
     }
 
     private void addAllFilters() {
-        allFiltersLM.addElement(new AdaptiveTresholdBinarizeFilter());
+        allFiltersLM.addElement(new AdaptiveThresholdBinarizeFilter());
         allFiltersLM.addElement(new EraseBlackBorderFilter());
         allFiltersLM.addElement(new GrayscaleFilter());
         allFiltersLM.addElement(new HistogramEqualizationFilter());
@@ -255,8 +245,9 @@ public class ImagePreprocessingPanel extends javax.swing.JPanel {
     }
 
     private void addAllParametersPanels() {
-        //parametersPanels.add(medianPanel1);
-        //parametersPanels.add(adaptiveTresholdBinarizePanel1);
+        // these should be dialogs not panels
+      //  parametersPanels.put(MedianFilter.class.getName() , new MedianPanel());
+       // parametersPanels.put(AdaptiveThresholdBinarizeFilter.class.getName() , new AdaptiveTresholdBinarizePanel());
 
     }
 
@@ -283,29 +274,24 @@ public class ImagePreprocessingPanel extends javax.swing.JPanel {
         }
     }
 
-    private Component createParametarsPanel(ImageFilter filter) {
-
-        try {
-            IParametersPanel pp = (IParametersPanel) filter;
-            return pp.getPanel();
-        } catch (Exception e) {
-            return null;
-        }
-
-    }
 
     private void hideParameterPanels() {
-        for (JPanel jPanel : parametersPanels) {
+        for (JPanel jPanel : parametersPanels.values()) {
             jPanel.setVisible(false);
         }
     }
 
-    private JPanel getPanel(JPanel panel) {
-        for (JPanel jPanel : parametersPanels) {
-            if (jPanel.getClass().equals(panel.getClass())) {
-                return jPanel;
-            }
-        }
+    private JPanel getPanel(ImageFilter imageFilter) {
+//        for (JPanel jPanel : parametersPanels) {
+//            if (jPanel.getClass().equals(panel.getClass())) {
+//                return jPanel;
+//            }
+//        }
+        for (String key : parametersPanels.keySet()) {
+            if (key.equalsIgnoreCase(imageFilter.getClass().getName()))
+                return parametersPanels.get(key);
+        }        
+        
         return null;
     }
 

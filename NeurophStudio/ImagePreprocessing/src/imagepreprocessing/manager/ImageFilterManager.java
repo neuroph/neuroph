@@ -6,9 +6,9 @@
 
 package imagepreprocessing.manager;
 
-import imagepreprocessing.filter.ImageFilterChain;
 import java.util.ArrayList;
 import java.util.List;
+import org.neuroph.imgrec.filter.ImageFilterChain;
 
 /**
  * Class for managing list of filterChains
@@ -19,7 +19,7 @@ public class ImageFilterManager {
     List<ImageFilterChain> listOfFilters;
     
     private ImageFilterManager() {
-        listOfFilters = new ArrayList<ImageFilterChain>();
+        listOfFilters = new ArrayList<>();
     }
     
     public static ImageFilterManager getObject(){

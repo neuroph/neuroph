@@ -70,13 +70,13 @@ public class LearningRuleNode extends AbstractNode {
                 //set.put(maxIterations);
 
                 if (learningRule instanceof SupervisedLearning) {
-                    Property maxError = new PropertySupport.Reflection((SupervisedLearning) learningRule, Double.class, "getMaxError", null);
+                    Property<Double> maxError = new PropertySupport.Reflection((SupervisedLearning) learningRule, Double.class, "getMaxError", null);
                     maxError.setShortDescription("Max error");
                     maxError.setName("Max error");
                     set.put(maxError);
 
                     if (learningRule instanceof MomentumBackpropagation) {
-                        Property momentum = new PropertySupport.Reflection((MomentumBackpropagation) learningRule, Double.class, "getMomentum", null);
+                        Property<Double> momentum = new PropertySupport.Reflection((MomentumBackpropagation) learningRule, Double.class, "getMomentum", null);
                         momentum.setShortDescription("Momentum");
                         momentum.setName("Momentum");
                         set.put(momentum);

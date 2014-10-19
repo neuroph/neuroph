@@ -5,8 +5,6 @@
  */
 package org.neuroph.imagepreprocessing.wizard;
 
-import imagepreprocessing.filter.ImageFilter;
-import imagepreprocessing.filter.ImageFilterChain;
 import imagepreprocessing.manager.ImageFilterManager;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +16,8 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import org.neuroph.imgrec.filter.ImageFilter;
+import org.neuroph.imgrec.filter.ImageFilterChain;
 import org.openide.util.Exceptions;
 
 public final class ImageDataSetVisualPanel3 extends JPanel {

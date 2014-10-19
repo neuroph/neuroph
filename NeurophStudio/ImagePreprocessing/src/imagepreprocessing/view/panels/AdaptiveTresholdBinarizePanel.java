@@ -39,7 +39,7 @@ public class AdaptiveTresholdBinarizePanel extends javax.swing.JPanel {
 
         jLabel1.setText("k:");
 
-        jLabel2.setText("w size:");
+        jLabel2.setText("Window size:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -50,9 +50,9 @@ public class AdaptiveTresholdBinarizePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                    .addComponent(jSpinner1)
                     .addComponent(jSpinner2))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

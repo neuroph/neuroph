@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.neuroph.netbeans.fxvis;
 
 import java.util.ArrayList;
@@ -17,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import org.fxyz.composites.CameraTransformer;
+import org.fxyz.cameras.CameraTransformer;
 import org.fxyz.tools.CubeViewer;
 
 /**

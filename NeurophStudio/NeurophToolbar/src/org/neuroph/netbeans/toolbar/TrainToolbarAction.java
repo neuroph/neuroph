@@ -3,7 +3,7 @@ package org.neuroph.netbeans.toolbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.neuroph.dev.noprop.NoPropNet;
-import org.neuroph.dev.noprop.RangeNormalizer;
+
 import org.neuroph.netbeans.classificationsample.InputSettngsDialog;
 import org.neuroph.netbeans.visual.TrainingController;
 import org.neuroph.netbeans.main.ViewManager;
@@ -21,7 +21,7 @@ import org.neuroph.nnet.Perceptron;
 import org.neuroph.nnet.RBFNetwork;
 import org.neuroph.nnet.SupervisedHebbianNetwork;
 import org.neuroph.nnet.learning.DynamicBackPropagation;
-import org.neuroph.util.data.norm.Normalizer;
+import org.neuroph.util.data.norm.RangeNormalizer;
 import org.neuroph.util.random.RangeRandomizer;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
