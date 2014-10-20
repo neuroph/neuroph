@@ -2,6 +2,10 @@ package org.nugs.graph3d.api;
 
 //import org.jzy3d.maths.Range;
 
+import com.jme3.math.ColorRGBA;
+import java.util.ArrayList;
+
+
 /**
  *
  * @author Vedrana Gajic
@@ -12,11 +16,16 @@ public class Scatter3DProperties extends Chart3DProperties {
     private Range yRange = new Range(0, 5);
     private Range zRange = new Range(0, 5);
     private float dotSize = 1;
+    private ArrayList<ColorRGBA> pointColors;
 
-    
+
     public Scatter3DProperties() {
     }
-    
+
+    public Scatter3DProperties(ArrayList<ColorRGBA> pointColors) {
+        this.pointColors = pointColors;
+    }
+
     public Scatter3DProperties(Range xRange, Range yRange, float dotSize) {
         this.xRange = xRange;
         this.yRange = yRange;
@@ -60,6 +69,14 @@ public class Scatter3DProperties extends Chart3DProperties {
 
     public void setDotSize(float dotSize) {
         this.dotSize = dotSize;
+    }
+
+    public ArrayList<ColorRGBA> getPointColors() {
+        return pointColors;
+    }
+
+    public void setPointColors(ArrayList<ColorRGBA> dominantOutputColors) {
+        this.pointColors = dominantOutputColors;
     }
 
 }

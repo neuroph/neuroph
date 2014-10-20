@@ -7,6 +7,9 @@ package org.nugs.graph3d.api;
 public class Histogram3DProperties extends Chart3DProperties {
 
     private float radius = 0.35f;
+    private int maxBarsSize;
+    private int numberOfBarRows;
+    
     public Histogram3DProperties() {
     }
     
@@ -19,7 +22,6 @@ public class Histogram3DProperties extends Chart3DProperties {
      * Setter for radius of bars
      *
      * @param radius
-     * @return void
      */
     public void setRadius(float radius) {
         this.radius = radius;
@@ -32,5 +34,21 @@ public class Histogram3DProperties extends Chart3DProperties {
      */
     public float getRadius() {
         return radius;
+    }
+
+    public int getMaxBarsSize() {
+        return maxBarsSize;
+    }
+
+    public void setMaxBarsSize(int maxBarsSize) {
+        this.maxBarsSize = maxBarsSize;
+    }
+
+    public int getNumberOfBarRows() {
+        return numberOfBarRows;
+    }
+
+    public void setNumberOfBarRows(int numberOfBarRows) {
+        this.numberOfBarRows = numberOfBarRows;
     }
 }

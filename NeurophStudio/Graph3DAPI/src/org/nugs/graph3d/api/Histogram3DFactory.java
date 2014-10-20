@@ -7,6 +7,8 @@ package org.nugs.graph3d.api;
  * 
  * @author Zoran Sevarac
  * @author Milos Randjic
+ * @param <C>
+ * @param <P>
  */
 public interface Histogram3DFactory<C, P> {
     

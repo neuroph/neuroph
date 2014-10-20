@@ -6,6 +6,8 @@ package org.nugs.graph3d.api;
  * P - class that is used to represent 3D point 
  * 
  * @author zoran
+ * @param <C>
+ * @param <P>
  */
 public interface Scatter3DFactory<C, P> {
     
@@ -22,8 +24,6 @@ public interface Scatter3DFactory<C, P> {
      * @param prop
      * @return 
      */
-    public C createScatter3D(P[] points, Scatter3DProperties prop);
-    
-
+    public C createScatter3D(P[] points, Scatter3DProperties prop);  
     
 }

@@ -13,7 +13,7 @@ import org.neuroph.nnet.learning.BackPropagation;
  * @author zoran
  */
 public class TrainingTask extends Task implements LearningEventListener {
-    NeuralNetwork neuralNetwork; // these should be injected!
+    NeuralNetwork neuralNetwork; // these should be injected! using setters
     DataSet trainingSet;
     
     String neuralNetworkVarName, trainingSetVarName;
