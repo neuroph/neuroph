@@ -8,12 +8,11 @@ import org.neuroph.core.data.DataSetRow;
 
 /**
  * Provides methods for loading MNIST dataset (training and test set)
- * 
+ * <p/>
  * TODO: reorganizuj tako da imamo samo jedu metodu loadDataSet kojoj se
  * prosledjuje naziv i koja ucitava i datas et i test set
  * a ne da postoje dve posebne metode za to koje rade potpuno istu stvar
- * 
- * 
+ *
  * @author Boris Fulurija
  * @author Zoran Sevarac
  */
@@ -24,16 +23,15 @@ public class MNISTDataSet {
     public static final String TEST_LABEL_NAME = "t10k-labels.idx1-ubyte";
     public static final String TEST_IMAGE_NAME = "t10k-images.idx3-ubyte";
 
-    
+
     public static DataSet createFromFile(String labelPath, String imagePath, int sampleCount) throws IOException {
-        //List<MNISTImage> mnistImages = loadMNISTImages(labelPath, imagePath);
         MNISTImageLoader mnistLoader = new MNISTImageLoader("/" + labelPath, "/" + imagePath);
-        List<MNISTImage> mnistImages = mnistLoader.loadDigitImages();        
+        List<MNISTImage> mnistImages = mnistLoader.loadDigitImages();
         DataSet dataSet = createDataSet(mnistImages, sampleCount);
         return dataSet;
-    }    
-    
-    
+    }
+
+
 //    private static List<MNISTImage> loadMNISTImages(String labelPath, String imagePath) throws IOException {
 ////        String labelPath = "/" + TRAIN_LABEL_NAME;
 ////        String imagePath = "/" + TRAIN_IMAGE_NAME;
@@ -41,11 +39,8 @@ public class MNISTDataSet {
 //        List<MNISTImage> imageList = mnistLoader.loadDigitImages();
 //        return imageList;
 //    }    
-    
-    
-    
-    
-    
+
+
 //    public static DataSet loadTrainSet(int sampleCount) throws IOException {
 //        String labelPath = "/" + TRAIN_LABEL_NAME;
 //        String imagePath = "/" + TRAIN_IMAGE_NAME;        
@@ -93,6 +88,10 @@ public class MNISTDataSet {
             MNISTImage dImage = imageList.get(i);
             double[] input = new double[pixelCount];
             double[] output = new double[10];
+            for (int j = 0; j < 10; j++) {
+                output[j] = -1;
+            }
+
             output[dImage.getLabel()] = 1;
             byte[] imageData = dImage.getData();
             for (int j = 0; j < pixelCount; j++) {

@@ -16,6 +16,9 @@
 package org.neuroph.core;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.concurrent.ForkJoinPool;
+
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.core.events.NeuralNetworkEventType;
 import org.neuroph.util.NeuronFactory;
@@ -32,6 +35,7 @@ import org.neuroph.util.NeurophArrayList;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class Layer implements Serializable {
+
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
@@ -246,31 +250,18 @@ public class Layer implements Serializable {
     public int getNeuronsCount() {
         return neurons.size();
     }
+    static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
 
     /**
      * Performs calculaton for all neurons in this layer
      */
     public void calculate() {
 
-                //neuronCalculators = parentNetwork.getNeuronCalculators();
-        //   neuronCalculators = new CalculatorThread[4];
-//                if (neuronCalculators == null) {
         for (Neuron neuron : this.neurons.asArray()) { // use directly underlying array since its faster
             neuron.calculate();
         }
-//                } else {
-//                    for(int i = 0; i < LayerCalculatorThread.threadCount; i++) {
-//                            neuronCalculators[i] = new LayerCalculatorThread(i);
-//                            neuronCalculators[i].calculate(this);
-//                    }
-//                    
-//                    for(int i = 0; i < neuronCalculators.length; i++) {
-//                        try {
-//                            neuronCalculators[i].join();
-//                        } catch (InterruptedException ignore) {  }
-//                    }                    
 
-        //   }
+//        mainPool.invokeAll(Arrays.asList(neurons.asArray()));
     }
 
     /**

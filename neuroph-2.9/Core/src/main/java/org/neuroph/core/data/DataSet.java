@@ -468,9 +468,10 @@ public class DataSet implements Serializable /*
              
         try {
             DataSet dataSet = new DataSet(inputsCount, outputsCount);
+            InputStream inputStream = DataSet.class.getResourceAsStream(filePath);
             dataSet.setFilePath(filePath);
-            fileReader = new FileReader(new File(filePath));
-            BufferedReader reader = new BufferedReader(fileReader);
+//            fileReader = new FileReader(new File(filePath));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line=null;
             

@@ -15,6 +15,8 @@
  */
 package org.neuroph.nnet.comp.layer;
 
+import org.neuroph.core.transfer.Sigmoid;
+import org.neuroph.core.transfer.Tanh;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
@@ -22,6 +24,7 @@ import org.neuroph.core.input.Max;
 import org.neuroph.core.transfer.Linear;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
+import org.neuroph.util.TransferFunctionType;
 
 /**
  * Pooling layer is a special type of feature maps layer (FeatureMapsLayer) 
@@ -44,10 +47,10 @@ public class PoolingLayer extends FeatureMapsLayer {
     public static final NeuronProperties DEFAULT_NEURON_PROP = new NeuronProperties();
 
     static {
-        DEFAULT_NEURON_PROP.setProperty("useBias", false);
-        DEFAULT_NEURON_PROP.setProperty("transferFunction", Linear.class);
-        DEFAULT_NEURON_PROP.setProperty("inputFunction", Max.class);
-    }
+        DEFAULT_NEURON_PROP.setProperty("useBias", true);
+        DEFAULT_NEURON_PROP.setProperty("transferFunction",  TransferFunctionType.TANH);
+    DEFAULT_NEURON_PROP.setProperty("inputFunction", Max.class);
+}
 
     /**
      * Creates pooling layer with specified kernel, and appropriate map
@@ -124,7 +127,7 @@ public class PoolingLayer extends FeatureMapsLayer {
         for (int x = 0; x < fromMap.getWidth() - kernelWidth + 1; x += kernelWidth) {
             for (int y = 0; y < fromMap.getHeight() - kernelHeight + 1; y += kernelHeight) {
                 Weight weight = new Weight();
-                weight.setValue(1);
+//                weight.randomize(-0.15, 0.15);
                 Neuron toNeuron = toMap.getNeuronAt(x / kernelWidth, y / kernelHeight);
                 for (int dy = 0; dy < kernelHeight; dy++) {
                     for (int dx = 0; dx < kernelWidth; dx++) {

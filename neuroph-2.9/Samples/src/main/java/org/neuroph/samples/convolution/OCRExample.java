@@ -12,6 +12,8 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+import org.neuroph.core.NeuralNetwork;
+import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.comp.layer.ConvolutionalLayer;
 import org.neuroph.nnet.ConvolutionalNetwork;
 import org.neuroph.nnet.comp.ConvolutionalUtils;
@@ -20,7 +22,6 @@ import org.neuroph.nnet.comp.layer.InputMapsLayer;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.nnet.comp.layer.PoolingLayer;
-import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
@@ -30,6 +31,7 @@ import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.nnet.comp.neuron.BiasNeuron;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
@@ -72,10 +74,15 @@ public class OCRExample {
 
     static class LearningListener implements LearningEventListener {
 
+
+        long start = System.currentTimeMillis();
+
         public void handleLearningEvent(LearningEvent event) {
             BackPropagation bp = (BackPropagation) event.getSource();
             System.out.println("Current iteration: " + bp.getCurrentIteration());
             System.out.println("Error: " + bp.getTotalNetworkError());
+            System.out.println((System.currentTimeMillis() - start) / 1000.0);
+            start = System.currentTimeMillis();
         }
 
     }
@@ -85,13 +92,27 @@ public class OCRExample {
         try {
 
             // create training and test set from files
-            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME,
-                    MNISTDataSet.TRAIN_IMAGE_NAME,
-                    1000);
+            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 100);
+            DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
+//
+//            new org.neuroph.samples.norm.ZeroMeanNormalizer().normalize(trainSet);
+//            new org.neuroph.samples.norm.ZeroMeanNormalizer().normalize(testSet);
 
-            DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME,
-                    MNISTDataSet.TEST_IMAGE_NAME,
-                    100);
+
+            MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(784, 300, 10);
+            // create and set learning listener
+            LearningListener listener = new LearningListener();
+            neuralNet.getLearningRule().addListener(listener);
+            neuralNet.getLearningRule().setMaxError(0.1);
+            neuralNet.getLearningRule().setMaxIterations(24);
+            neuralNet.getLearningRule().setLearningRate(0.01);
+//            neuralNet.randomizeWeights();
+//            neuralNet.learn(trainSet);
+//            for (Neuron neuron : neuralNet.getOutputNeurons())
+//                neuron.setTransferFunction(new Sigmoid());
+            double average = 0;
+//            ModelMetric.calculateModelMetric(neuralNet, testSet);
+//            neuralNet.save("/mlp.nnet");
 
 
             // create convolutional neural network
@@ -102,63 +123,84 @@ public class OCRExample {
             Kernel poolingKernel = new Kernel(2, 2);
 
             InputMapsLayer inputLayer = new InputMapsLayer(inputMapSize, 1);
+            inputLayer.setLabel("Input Layer");
             // just add number of maps to this constructor, and provide constructors with neuronProperties
-            ConvolutionalLayer convolutionLayer1 = new ConvolutionalLayer(inputLayer, convolutionKernel, 6);
+            ConvolutionalLayer convolutionLayer1 = new ConvolutionalLayer(inputLayer, convolutionKernel, 8);
+            convolutionLayer1.setLabel("Convolution 1");
             PoolingLayer poolingLayer1 = new PoolingLayer(convolutionLayer1, poolingKernel);
-            ConvolutionalLayer convolutionLayer2 = new ConvolutionalLayer(poolingLayer1, convolutionKernel, 16);
-            PoolingLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel);
-            ConvolutionalLayer convolutionLayer3 = new ConvolutionalLayer(poolingLayer2, new Kernel(4, 4), 120);
+            poolingLayer1.setLabel("Pool 1");
+
 
             convolutionalNet.addLayer(inputLayer);
             convolutionalNet.addLayer(convolutionLayer1);
-            convolutionalNet.addLayer(poolingLayer1);
-            convolutionalNet.addLayer(convolutionLayer2);
-            convolutionalNet.addLayer(poolingLayer2);
-            convolutionalNet.addLayer(convolutionLayer3);
-
             ConvolutionalUtils.fullConectMapLayers(inputLayer, convolutionLayer1);
+
             ConvolutionalUtils.fullConectMapLayers(convolutionLayer1, poolingLayer1);
+            convolutionalNet.addLayer(poolingLayer1);
+
+            ConvolutionalLayer convolutionLayer2 = new ConvolutionalLayer(poolingLayer1, convolutionKernel, 16);
+            convolutionLayer2.setLabel("Convolution 2");
+            convolutionalNet.addLayer(convolutionLayer2);
             ConvolutionalUtils.fullConectMapLayers(poolingLayer1, convolutionLayer2);
+
+
+            PoolingLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel);
+            poolingLayer2.setLabel("Pool 2");
+            convolutionalNet.addLayer(poolingLayer2);
             ConvolutionalUtils.fullConectMapLayers(convolutionLayer2, poolingLayer2);
+
+            ConvolutionalLayer convolutionLayer3 = new ConvolutionalLayer(poolingLayer2, new Kernel(4, 4), 120);
+            convolutionLayer3.setLabel("Convolution 3");
+            convolutionalNet.addLayer(convolutionLayer3);
             ConvolutionalUtils.fullConectMapLayers(poolingLayer2, convolutionLayer3);
 
             NeuronProperties neuronProperties = new NeuronProperties();
             neuronProperties.setProperty("useBias", true);
-            neuronProperties.setProperty("transferFunction", TransferFunctionType.SIGMOID);
+            neuronProperties.setProperty("transferFunction", TransferFunctionType.TANH);
             neuronProperties.setProperty("inputFunction", WeightedSum.class);
+//
+//            Layer preFinal = new Layer(86, neuronProperties);
+//            convolutionalNet.addLayer(preFinal);
 
             Layer outputLayer = new Layer(10, neuronProperties);
-
             convolutionalNet.addLayer(outputLayer);
+//            ConnectionFactory.fullConnect(preFinal,outputLayer);
             fullConnect(convolutionLayer3, outputLayer, true);
 
             // this should be set by default
             convolutionalNet.setInputNeurons(inputLayer.getNeurons());
             convolutionalNet.setOutputNeurons(outputLayer.getNeurons());
 
-            convolutionalNet.setLearningRule(new ConvolutionalBackpropagation());
-            convolutionalNet.getLearningRule().setLearningRate(0.05);
+
+
+
+//            NeuralNetwork<BackPropagation> convolutionalNet = ConvolutionalNetwork.load("/mnist.nnet");
+
+            convolutionalNet.getLearningRule().setBatchMode(false);
+
+            convolutionalNet.setLearningRule(new MomentumBackpropagation());
+            convolutionalNet.getLearningRule().setLearningRate(0.0003);
             convolutionalNet.getLearningRule().setMaxIterations(20);
 
-
-            //----------------------------------------------------------------------
-
-            System.out.println(convolutionLayer1.getMapDimensions());
-            System.out.println(poolingLayer1.getMapDimensions());
-            System.out.println(convolutionLayer2.getMapDimensions());
-            System.out.println(poolingLayer2.getMapDimensions());
-            System.out.println(convolutionLayer3.getMapDimensions());
-
+            long start = System.currentTimeMillis();
 
             // create and set learning listener
-            LearningListener listener = new LearningListener();
+            listener = new LearningListener();
             convolutionalNet.getLearningRule().addListener(listener);
 
-            long start = System.currentTimeMillis();
+
+//            ModelMetric.calculateModelMetric(convolutionalNet, testSet);
+//
             convolutionalNet.learn(trainSet);
-            System.out.println((System.currentTimeMillis() - start) / 1000.0);
+//
             ModelMetric.calculateModelMetric(convolutionalNet, testSet);
 
+//            System.out.println((System.currentTimeMillis() - start) / 1000.0);
+            average += (System.currentTimeMillis() - start);
+
+            convolutionalNet.save("/mnist1.nnet");
+
+            System.out.println("AVERAGE: " + average / 1000);
 
             WeightVisualiser visualiser1 = new WeightVisualiser(convolutionLayer1.getFeatureMap(0), convolutionKernel);
             visualiser1.displayWeights();

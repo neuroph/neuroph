@@ -17,6 +17,7 @@
 package org.neuroph.util.random;
 
 import java.util.Random;
+
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -24,10 +25,11 @@ import org.neuroph.core.Neuron;
 
 /**
  * Basic weights randomizer, iterates and randomizes all connection weights in network.
+ *
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class WeightsRandomizer {
- 
+
     /**
      * Random number genarator used by randomizers
      */
@@ -39,18 +41,20 @@ public class WeightsRandomizer {
     public WeightsRandomizer() {
         this.randomGenerator = new Random();
     }
-    
+
     /**
      * Create a new instance of WeightsRandomizer with specified random generator
      * If you use the same random generators, you'll get the same random sequences
+     *
      * @param randomGenerator random geneartor to use for randomizing weights
-     */    
+     */
     public WeightsRandomizer(Random randomGenerator) {
         this.randomGenerator = randomGenerator;
-    }    
-    
+    }
+
     /**
      * Gets random generator used to generate random values
+     *
      * @return random generator used to generate random values
      */
     public Random getRandomGenerator() {
@@ -60,10 +64,11 @@ public class WeightsRandomizer {
     public void setRandomGenerator(Random randomGenerator) {
         this.randomGenerator = randomGenerator;
     }
-    
-   
+
+
     /**
      * Iterates and randomizes all layers in specified network
+     *
      * @param neuralNetwork neural network to randomize
      */
     public void randomize(NeuralNetwork neuralNetwork) {
@@ -71,29 +76,37 @@ public class WeightsRandomizer {
             this.randomize(layer);
         }
     }
-    
+
     /**
      * Iterate and randomizes all neurons in specified layer
+     *
      * @param layer layer to randomize
-     */    
+     */
     public void randomize(Layer layer) {
         for (Neuron neuron : layer.getNeurons()) {
             randomize(neuron);
         }
     }
-    
+
     /**
      * Iterates and randomizes all connection weights in specified neuron
+     *
      * @param neuron neuron to randomize
-     */        
+     */
     public void randomize(Neuron neuron) {
+        int numberOfInputConnections = neuron.getInputConnections().length;
+        double coefficient = 1d / Math.sqrt(numberOfInputConnections);
+        coefficient = coefficient == 0 ? 1 : coefficient;
         for (Connection connection : neuron.getInputConnections()) {
-            connection.getWeight().setValue(nextRandomWeight());
+            connection.getWeight().setValue(coefficient * nextRandomWeight());
+//            connection.getWeight().setValue(nextRandomWeight());
+
         }
     }
 
     /**
      * Returns next random value from random generator, that will be used to initialize weight
+     *
      * @return next random value fro random generator
      */
     protected double nextRandomWeight() {

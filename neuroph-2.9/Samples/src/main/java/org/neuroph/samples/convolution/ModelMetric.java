@@ -1,6 +1,8 @@
 package org.neuroph.samples.convolution;
 
 import java.util.PriorityQueue;
+
+import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 
 import org.neuroph.core.NeuralNetwork;
@@ -9,7 +11,7 @@ import org.neuroph.core.data.DataSetRow;
 
 public class ModelMetric {
 
-	public static void calculateModelMetric(NeuralNetwork<ConvolutionalBackpropagation> neuralNetwork, DataSet testSet) {
+	public static void calculateModelMetric(NeuralNetwork<BackPropagation> neuralNetwork, DataSet testSet) {
 
 		int totalWrong = 0;
 		int totalRight = 0;

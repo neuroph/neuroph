@@ -17,6 +17,8 @@ package org.neuroph.core;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.Future;
 
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.core.events.NeuralNetworkEventListener;
@@ -40,11 +42,12 @@ import org.neuroph.util.random.WeightsRandomizer;
  * and setting network specific learning rule.
  * </pre>
  *
+ * @author Zoran Sevarac <sevarac@gmail.com>
  * @see Layer
  * @see LearningRule
- * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class NeuralNetwork<L extends LearningRule> implements Serializable {
+
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
@@ -130,7 +133,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 
         // set parent network for added layer
         layer.setParentNetwork(this);
-        
+
         // notify listeners that layer has been added
         fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_ADDED));
     }
@@ -163,36 +166,36 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 
         // set parent network for added layer
         layer.setParentNetwork(this);
-        
+
         // notify listeners that layer has been added
-        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_ADDED));       
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_ADDED));
     }
 
     /**
      * Removes specified layer from network
      *
      * @param layer layer to remove
-     * @throws Exception 
+     * @throws Exception
      */
-    public void removeLayer(Layer layer)  {
+    public void removeLayer(Layer layer) {
 //        int index = indexOf(layer);
 //        removeLayerAt(index);
 
-        if (!layers.remove(layer)){
-        	throw new RuntimeException("Layer not in Neural n/w");
+        if (!layers.remove(layer)) {
+            throw new RuntimeException("Layer not in Neural n/w");
         }
-        
+
         // notify listeners that layer has been removed
-        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_REMOVED));        
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_REMOVED));
     }
 
     /**
      * Removes layer at specified index position from net
      *
      * @param index int value represents index postion of layer which should be
-     * removed
+     *              removed
      */
-    public void removeLayerAt(int index) throws ArrayIndexOutOfBoundsException{
+    public void removeLayerAt(int index) throws ArrayIndexOutOfBoundsException {
 //        layers[index].removeAllNeurons();
 //        
 //        for (int i = index; i < layers.length - 1; i++) {
@@ -204,10 +207,10 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 //        }
 
         Layer layer = layers.get(index);
-       
-        	layers.remove(index);
-        	
-        
+
+        layers.remove(index);
+
+
         // notify listeners that layer has been removed
         fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_REMOVED));
     }
@@ -294,10 +297,12 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * Performs calculation on whole network
      */
     public void calculate() {
+
         for (Layer layer : this.layers.asArray()) {
             layer.calculate();
         }
 
+//        List<Future<Long>> results = mainPool.invokeAll(Arrays.asList(layers.asArray()));
         fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.CALCULATED));
     }
 
@@ -326,7 +331,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     /**
      * Learn the specified training set, using specified learning rule
      *
-     * @param trainingSet set of training elements to learn
+     * @param trainingSet  set of training elements to learn
      * @param learningRule instance of learning rule to use for learning
      */
     public void learn(DataSet trainingSet, L learningRule) {
@@ -356,7 +361,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * specified training set, and immediately returns from method to the
      * current thread execution
      *
-     * @param trainingSet set of training elements to learn
+     * @param trainingSet  set of training elements to learn
      * @param learningRule learning algorithm
      */
     public void learnInNewThread(DataSet trainingSet, L learningRule) {
@@ -372,7 +377,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     }
 
     /**
-     * Pause the learning - puts learning thread in wait state. Makes sense only
+     * Pause the learning - puts learning thread in ca state. Makes sense only
      * wen learning is done in new thread with learnInNewThread() method
      */
     public void pauseLearning() {
@@ -494,13 +499,14 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
         }
         this.output = new double[outputNeurons.length];
     }
-    
+
     /**
      * Sets labels for output neurons
-     * @param labels  labels for output neurons
+     *
+     * @param labels labels for output neurons
      */
     public void setOutputLabels(String[] labels) {
-        for (int i=0; i<outputNeurons.size(); i++) {
+        for (int i = 0; i < outputNeurons.size(); i++) {
             outputNeurons.get(i).setLabel(labels[i]);
         }
     }
@@ -570,7 +576,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
             }
         }
     }
-    
+
     public boolean isEmpty() {
         return layers.isEmpty();
     }
@@ -579,8 +585,8 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * Creates connection with specified weight value between specified neurons
      *
      * @param fromNeuron neuron to connect
-     * @param toNeuron neuron to connect to
-     * @param weightVal connection weight value
+     * @param toNeuron   neuron to connect to
+     * @param weightVal  connection weight value
      */
     public void createConnection(Neuron fromNeuron, Neuron toNeuron, double weightVal) {
         //  Connection connection = new Connection(fromNeuron, toNeuron, weightVal);
@@ -779,7 +785,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     public synchronized void addListener(NeuralNetworkEventListener listener) {
         if (listener == null)
             throw new IllegalArgumentException("listener is null!");
-        
+
         listeners.add(listener);
     }
 
@@ -787,13 +793,13 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     public synchronized void removeListener(NeuralNetworkEventListener listener) {
         if (listener == null)
             throw new IllegalArgumentException("listener is null!");
-        
+
         listeners.remove(listener);
     }
 
     // This method is used to fire NeuralNetworkEvents
     public synchronized void fireNetworkEvent(NeuralNetworkEvent evt) {
-        for (NeuralNetworkEventListener listener: listeners) {
+        for (NeuralNetworkEventListener listener : listeners) {
             listener.handleNeuralNetworkEvent(evt);
         }
     }

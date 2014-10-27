@@ -18,6 +18,7 @@ package org.neuroph.nnet.comp.layer;
 
 import org.neuroph.nnet.comp.Kernel;
 import java.util.Arrays;
+import java.util.concurrent.ForkJoinPool;
 
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
@@ -38,7 +39,10 @@ import org.neuroph.util.NeurophArrayList;
  */
 public class FeatureMapsLayer extends Layer {
 
-	private static final long serialVersionUID = -6706741997689639209L;
+    static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+
+
+    private static final long serialVersionUID = -6706741997689639209L;
 
 	/**
 	 * Kernel used for all 2D layers (feature maps)
@@ -191,9 +195,15 @@ public class FeatureMapsLayer extends Layer {
          */
 	@Override
 	public void calculate() {
-		for (Layer2D map : featureMaps.asArray()) {
-			map.calculate();
-		}
+//		for (Layer2D map : featureMaps.asArray()) {
+//
+//			map.calculate();
+//		}
+
+        mainPool.invokeAll(Arrays.asList(featureMaps.asArray()));
+
+
+
 	}
 
         /**

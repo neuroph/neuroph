@@ -16,6 +16,7 @@
 
 package org.neuroph.nnet;
 
+import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
@@ -35,7 +36,7 @@ import org.neuroph.nnet.comp.layer.Layer2D;
  * 
  * @see ConvolutionalBackpropagation
  */
-public class ConvolutionalNetwork extends NeuralNetwork<ConvolutionalBackpropagation> {
+public class ConvolutionalNetwork extends NeuralNetwork<BackPropagation> {
 
 	private static final long serialVersionUID = -1393907449047650509L;
 

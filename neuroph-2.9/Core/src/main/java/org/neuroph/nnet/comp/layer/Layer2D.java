@@ -17,6 +17,9 @@
 package org.neuroph.nnet.comp.layer;
 
 import java.io.Serializable;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ForkJoinPool;
+
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.util.NeuronFactory;
@@ -30,7 +33,7 @@ import org.neuroph.util.NeuronProperties;
  * @author Boris Fulurija
  * @author Zoran Sevarac
  */
-public class Layer2D extends Layer {
+public class Layer2D extends Layer implements Callable<Void> {
 
     private static final long serialVersionUID = 2498669699995172395L;
     
@@ -103,6 +106,15 @@ public class Layer2D extends Layer {
         return getNeuronAt(x + y * (dimensions.getWidth()));
     }
 
+
+
+    @Override
+    public Void call() throws Exception {
+        calculate();
+        return null;
+    }
+
+
     /**
      * Dimensions (width and height) of the Layer2D
      *
@@ -147,4 +159,7 @@ public class Layer2D extends Layer {
             return dimensions;
         }
     }
+
+
+
 }
