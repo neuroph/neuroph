@@ -1,26 +1,26 @@
 package org.neuroph.contrib.evaluation.evaluators;
 
-import org.neuroph.contrib.evaluation.domain.ErrorMeasureResult;
+import org.neuroph.contrib.evaluation.domain.ErrorResult;
 
 
-public class MeanSquareErrorEvaluator implements NeurophEvaluator<ErrorMeasureResult> {
+public class MeanSquareErrorEvaluator implements NeurophEvaluator<ErrorResult> {
 
-    private double cumulativeError;
+    private double totalError;
     private double n;
 
     @Override
-    public void processResult(double[] predictedOutputs, double[] actualOutputs) {
+    public void processResult(double[] predictedOutput, double[] actualOutput) {
 
-        for (int i = 0; i < actualOutputs.length; i++) {
-            cumulativeError += (actualOutputs[i] - predictedOutputs[i]) * (actualOutputs[i] - predictedOutputs[i]);
+        for (int i = 0; i < actualOutput.length; i++) {
+            totalError += (actualOutput[i] - predictedOutput[i]) * (actualOutput[i] - predictedOutput[i]);
         }
         n++;
     }
 
     @Override
-    public ErrorMeasureResult getEvaluationResult() {
-        double averageError = cumulativeError / n;
-        return new ErrorMeasureResult.ErrorMeasureResultBuilder()
+    public ErrorResult getEvaluationResult() {
+        double averageError = totalError / n;
+        return new ErrorResult.ErrorMeasureResultBuilder()
                 .withError(averageError)
                 .createErrorMeasureResult();
     }

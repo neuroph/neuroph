@@ -16,6 +16,7 @@
 
 package org.neuroph.nnet.comp.layer;
 
+import org.neuroph.core.transfer.RectifiedLinear;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
@@ -45,7 +46,7 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
 
     static {
         DEFAULT_NEURON_PROP.setProperty("useBias", true);
-        DEFAULT_NEURON_PROP.setProperty("transferFunction", TransferFunctionType.TANH);
+        DEFAULT_NEURON_PROP.setProperty("transferFunction", RectifiedLinear.class);
         DEFAULT_NEURON_PROP.setProperty("inputFunction", WeightedSum.class);
     }
 

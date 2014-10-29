@@ -89,7 +89,7 @@ public class MNISTDataSet {
             double[] input = new double[pixelCount];
             double[] output = new double[10];
             for (int j = 0; j < 10; j++) {
-                output[j] = -1;
+                output[j] = 0;
             }
 
             output[dImage.getLabel()] = 1;

@@ -78,16 +78,16 @@ public class Tanh extends TransferFunction implements Serializable {
     @Override
     final public double getOutput(double net) {
         // conditional logic helps to avoid NaN
-//        if (net > 100) {
-//            return 1.0;
-//        } else if (net < -100) {
-//            return -1.0;
-//        }
-//
-//        double E_x = Math.exp(this.slope * net);
-//        this.output = (E_x - 1d) / (E_x + 1d);
+        if (net > 100) {
+            return 1.0;
+        } else if (net < -100) {
+            return -1.0;
+        }
+
+        double E_x = Math.exp(this.slope * net);
+        this.output = (E_x - 1d) / (E_x + 1d);
 //        this.output = 1.7159 * Math.tanh(2d/3d*net) ;
-        this.output = Math.tanh(net);
+//        this.output = Math.tanh(net);
 
         return this.output;
     }

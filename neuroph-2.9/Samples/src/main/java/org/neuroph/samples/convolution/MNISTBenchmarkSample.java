@@ -12,6 +12,10 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.learning.CrossEntropyError;
+import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.comp.layer.ConvolutionalLayer;
 import org.neuroph.nnet.ConvolutionalNetwork;
@@ -30,6 +34,7 @@ import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.nnet.comp.neuron.BiasNeuron;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
 import org.neuroph.samples.convolution.util.WeightVisualiser;
@@ -92,94 +97,94 @@ public class MNISTBenchmarkSample {
     public static void main(String[] args) {
         try {
 
-            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 100);
+            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60000);
             DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
 
 
-            MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(784, 300, 10);
-
+//            MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(784, 300, 10);
+//
             LearningListener listener = new LearningListener();
-            neuralNet.getLearningRule().addListener(listener);
-
-            neuralNet.getLearningRule().setMaxError(0.1);
-            neuralNet.getLearningRule().setMaxIterations(24);
-            neuralNet.getLearningRule().setLearningRate(0.01);
-
-            double average = 0;
+//            neuralNet.getLearningRule().addListener(listener);
+//
+//            neuralNet.getLearningRule().setMaxError(0.1);
+//            neuralNet.getLearningRule().setMaxIterations(24);
+//            neuralNet.getLearningRule().setLearningRate(0.01);
+//
+//            double average = 0;
 
 
 
 //            neuralNet.save("/mlp.nnet");
 
-
-            // create convolutional neural network
-            ConvolutionalNetwork convolutionalNet = new ConvolutionalNetwork();
-
-            Layer2D.Dimensions inputMapSize = new Layer2D.Dimensions(28, 28);
-            Kernel convolutionKernel = new Kernel(5, 5);
-            Kernel poolingKernel = new Kernel(2, 2);
-
-            InputMapsLayer inputLayer = new InputMapsLayer(inputMapSize, 1);
-            inputLayer.setLabel("Input Layer");
-            // just add number of maps to this constructor, and provide constructors with neuronProperties
-            ConvolutionalLayer convolutionLayer1 = new ConvolutionalLayer(inputLayer, convolutionKernel, 8);
-            convolutionLayer1.setLabel("Convolution 1");
-            PoolingLayer poolingLayer1 = new PoolingLayer(convolutionLayer1, poolingKernel);
-            poolingLayer1.setLabel("Pool 1");
-
-
-            convolutionalNet.addLayer(inputLayer);
-            convolutionalNet.addLayer(convolutionLayer1);
-            ConvolutionalUtils.fullConectMapLayers(inputLayer, convolutionLayer1);
-
-            ConvolutionalUtils.fullConectMapLayers(convolutionLayer1, poolingLayer1);
-            convolutionalNet.addLayer(poolingLayer1);
-
-            ConvolutionalLayer convolutionLayer2 = new ConvolutionalLayer(poolingLayer1, convolutionKernel, 16);
-            convolutionLayer2.setLabel("Convolution 2");
-            convolutionalNet.addLayer(convolutionLayer2);
-            ConvolutionalUtils.fullConectMapLayers(poolingLayer1, convolutionLayer2);
-
-
-            PoolingLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel);
-            poolingLayer2.setLabel("Pool 2");
-            convolutionalNet.addLayer(poolingLayer2);
-            ConvolutionalUtils.fullConectMapLayers(convolutionLayer2, poolingLayer2);
-
-            ConvolutionalLayer convolutionLayer3 = new ConvolutionalLayer(poolingLayer2, new Kernel(4, 4), 120);
-            convolutionLayer3.setLabel("Convolution 3");
-            convolutionalNet.addLayer(convolutionLayer3);
-            ConvolutionalUtils.fullConectMapLayers(poolingLayer2, convolutionLayer3);
-
-            NeuronProperties neuronProperties = new NeuronProperties();
-            neuronProperties.setProperty("useBias", true);
-            neuronProperties.setProperty("transferFunction", TransferFunctionType.TANH);
-            neuronProperties.setProperty("inputFunction", WeightedSum.class);
 //
-//            Layer preFinal = new Layer(86, neuronProperties);
-//            convolutionalNet.addLayer(preFinal);
+//            // create convolutional neural network
+//            ConvolutionalNetwork convolutionalNet = new ConvolutionalNetwork();
+//
+//            Layer2D.Dimensions inputMapSize = new Layer2D.Dimensions(28, 28);
+//            Kernel convolutionKernel = new Kernel(5, 5);
+//            Kernel poolingKernel = new Kernel(2, 2);
+//
+//            InputMapsLayer inputLayer = new InputMapsLayer(inputMapSize, 1);
+//            inputLayer.setLabel("Input Layer");
+//            // just add number of maps to this constructor, and provide constructors with neuronProperties
+//            ConvolutionalLayer convolutionLayer1 = new ConvolutionalLayer(inputLayer, convolutionKernel, 8);
+//            convolutionLayer1.setLabel("Convolution 1");
+//            PoolingLayer poolingLayer1 = new PoolingLayer(convolutionLayer1, poolingKernel);
+//            poolingLayer1.setLabel("Pool 1");
+//
+//
+//            convolutionalNet.addLayer(inputLayer);
+//            convolutionalNet.addLayer(convolutionLayer1);
+//            ConvolutionalUtils.fullConectMapLayers(inputLayer, convolutionLayer1);
+//
+//            ConvolutionalUtils.fullConectMapLayers(convolutionLayer1, poolingLayer1);
+//            convolutionalNet.addLayer(poolingLayer1);
+//
+//            ConvolutionalLayer convolutionLayer2 = new ConvolutionalLayer(poolingLayer1, convolutionKernel, 16);
+//            convolutionLayer2.setLabel("Convolution 2");
+//            convolutionalNet.addLayer(convolutionLayer2);
+//            ConvolutionalUtils.fullConectMapLayers(poolingLayer1, convolutionLayer2);
+//
+//
+//            PoolingLayer poolingLayer2 = new PoolingLayer(convolutionLayer2, poolingKernel);
+//            poolingLayer2.setLabel("Pool 2");
+//            convolutionalNet.addLayer(poolingLayer2);
+//            ConvolutionalUtils.fullConectMapLayers(convolutionLayer2, poolingLayer2);
+//
+//            ConvolutionalLayer convolutionLayer3 = new ConvolutionalLayer(poolingLayer2, new Kernel(4, 4), 120);
+//            convolutionLayer3.setLabel("Convolution 3");
+//            convolutionalNet.addLayer(convolutionLayer3);
+//            ConvolutionalUtils.fullConectMapLayers(poolingLayer2, convolutionLayer3);
+//
+//            NeuronProperties neuronProperties = new NeuronProperties();
+//            neuronProperties.setProperty("useBias", true);
+//            neuronProperties.setProperty("transferFunction", TransferFunctionType.SIGMOID);
+//            neuronProperties.setProperty("inputFunction", WeightedSum.class);
+////
+////            Layer preFinal = new Layer(86, neuronProperties);
+////            convolutionalNet.addLayer(preFinal);
+//
+//            Layer outputLayer = new Layer(10, neuronProperties);
+//            convolutionalNet.addLayer(outputLayer);
+////            ConnectionFactory.fullConnect(preFinal,outputLayer);
+//            fullConnect(convolutionLayer3, outputLayer, true);
+//
+//            // this should be set by default
+//            convolutionalNet.setInputNeurons(inputLayer.getNeurons());
+//            convolutionalNet.setOutputNeurons(outputLayer.getNeurons());
+//
 
-            Layer outputLayer = new Layer(10, neuronProperties);
-            convolutionalNet.addLayer(outputLayer);
-//            ConnectionFactory.fullConnect(preFinal,outputLayer);
-            fullConnect(convolutionLayer3, outputLayer, true);
-
-            // this should be set by default
-            convolutionalNet.setInputNeurons(inputLayer.getNeurons());
-            convolutionalNet.setOutputNeurons(outputLayer.getNeurons());
 
 
+            NeuralNetwork<BackPropagation> convolutionalNet = ConvolutionalNetwork.load("/fuluNET1.nnet");
+            NeuralNetworkEvaluationService.completeEvaluation(convolutionalNet, testSet);
 
-
-//            NeuralNetwork<BackPropagation> convolutionalNet = ConvolutionalNetwork.load("/mnist.nnet");
-
-            convolutionalNet.getLearningRule().setBatchMode(false);
 
             convolutionalNet.setLearningRule(new MomentumBackpropagation());
             convolutionalNet.getLearningRule().setLearningRate(0.0003);
-            convolutionalNet.getLearningRule().setMaxIterations(20);
-
-            long start = System.currentTimeMillis();
+            convolutionalNet.getLearningRule().setMaxError(0.00001);
+            convolutionalNet.getLearningRule().setMaxIterations(10);
+            convolutionalNet.getLearningRule().setErrorFunction(new MeanSquaredError());
 
             // create and set learning listener
             listener = new LearningListener();
@@ -189,24 +194,24 @@ public class MNISTBenchmarkSample {
 
             convolutionalNet.learn(trainSet);
 
-            average += (System.currentTimeMillis() - start);
+            NeuralNetworkEvaluationService.completeEvaluation(convolutionalNet, testSet);
 
-            convolutionalNet.save("/mnist1.nnet");
 
-            System.out.println("AVERAGE: " + average / 1000);
+            convolutionalNet.save("/fuluNET2.nnet");
 
-            WeightVisualiser visualiser1 = new WeightVisualiser(convolutionLayer1.getFeatureMap(0), convolutionKernel);
-            visualiser1.displayWeights();
-            WeightVisualiser visualiser2 = new WeightVisualiser(convolutionLayer1.getFeatureMap(1), convolutionKernel);
-            visualiser2.displayWeights();
-            WeightVisualiser visualiser3 = new WeightVisualiser(convolutionLayer1.getFeatureMap(2), convolutionKernel);
-            visualiser3.displayWeights();
-            WeightVisualiser visualiser4 = new WeightVisualiser(convolutionLayer1.getFeatureMap(3), convolutionKernel);
-            visualiser4.displayWeights();
-            WeightVisualiser visualiser5 = new WeightVisualiser(convolutionLayer1.getFeatureMap(4), convolutionKernel);
-            visualiser5.displayWeights();
-            WeightVisualiser visualiser6 = new WeightVisualiser(convolutionLayer1.getFeatureMap(5), convolutionKernel);
-            visualiser6.displayWeights();
+
+//            WeightVisualiser visualiser1 = new WeightVisualiser(convolutionLayer1.getFeatureMap(0), convolutionKernel);
+//            visualiser1.displayWeights();
+//            WeightVisualiser visualiser2 = new WeightVisualiser(convolutionLayer1.getFeatureMap(1), convolutionKernel);
+//            visualiser2.displayWeights();
+//            WeightVisualiser visualiser3 = new WeightVisualiser(convolutionLayer1.getFeatureMap(2), convolutionKernel);
+//            visualiser3.displayWeights();
+//            WeightVisualiser visualiser4 = new WeightVisualiser(convolutionLayer1.getFeatureMap(3), convolutionKernel);
+//            visualiser4.displayWeights();
+//            WeightVisualiser visualiser5 = new WeightVisualiser(convolutionLayer1.getFeatureMap(4), convolutionKernel);
+//            visualiser5.displayWeights();
+//            WeightVisualiser visualiser6 = new WeightVisualiser(convolutionLayer1.getFeatureMap(5), convolutionKernel);
+//            visualiser6.displayWeights();
 
         } catch (IOException e) {
             e.printStackTrace();

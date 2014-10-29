@@ -23,20 +23,25 @@ package org.neuroph.core.learning.error;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public interface ErrorFunction {
+
     /**
      * Retruns total network error
      * @return total network error
      */
     public double getTotalError();
-    
-    /**
-     * Add output error for single pattern to toal error
-     * @param outputError 
-     */
-    public void addOutputError(double [] outputError);
-    
+
     /**
      * Sets total error to zero
      */
     public void reset();
+
+    /**
+     * Calculates error for given
+     */
+    void calculatePatternError(double[] predictedOutput, double[] targetOutput);
+
+    /**
+     * Returns output neuron errors for last processed pattern
+     */
+    double[] getPatternError();
 }

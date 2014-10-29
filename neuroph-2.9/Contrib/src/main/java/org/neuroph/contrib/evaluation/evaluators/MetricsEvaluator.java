@@ -19,7 +19,7 @@ public class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
 
 
     @Override
-    public void processResult(double[] predictedOutputs, double[] actualOutputs) {
+    public void processResult(double[] predictedOutput, double[] actualOutput) {
 
     }
 
@@ -53,20 +53,21 @@ public class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
 
         private BinaryClassEvaluator(double threshold) {
             super(BINARY_CLASS_LABELS, BINARY_CLASSIFICATION);
+            this.threshold = threshold;
         }
 
         @Override
-        public void processResult(double[] predictedOutputs, double[] actualOutputs) {
-            double actualOutput = actualOutputs[0];
-            double predictedOutput = predictedOutputs[0];
+        public void processResult(double[] predictedOutput, double[] actualOutput) {
+            double actualOutputValue = actualOutput[0];
+            double predictedOutputValue = predictedOutput[0];
 
             int actualClass = FALSE;
             int predictedClass = FALSE;
 
-            if (actualOutput >= threshold) {
+            if (actualOutputValue >= threshold) {
                 actualClass = TRUE;
             }
-            if (predictedOutput >= threshold) {
+            if (predictedOutputValue >= threshold) {
                 predictedClass = TRUE;
             }
 
@@ -84,9 +85,9 @@ public class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
         }
 
         @Override
-        public void processResult(double[] predictedOutputs, double[] actualOutputs) {
-            int actualClass = ClassificationOutput.getMaxOutput(actualOutputs).getClassId();
-            int predictedClass = ClassificationOutput.getMaxOutput(predictedOutputs).getClassId();
+        public void processResult(double[] predictedOutput, double[] actualOutput) {
+            int actualClass = ClassificationOutput.getMaxOutput(actualOutput).getClassId();
+            int predictedClass = ClassificationOutput.getMaxOutput(predictedOutput).getClassId();
 
             confusionMatrix.incrementElement(actualClass, predictedClass);
         }

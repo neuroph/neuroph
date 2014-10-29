@@ -1,10 +1,10 @@
 package org.neuroph.contrib.evaluation.domain;
 
-public class ErrorMeasureResult {
+public class ErrorResult {
 
     private double error;
 
-    ErrorMeasureResult(double error) {
+    ErrorResult(double error) {
         this.error = error;
     }
 
@@ -24,8 +24,8 @@ public class ErrorMeasureResult {
             return this;
         }
 
-        public ErrorMeasureResult createErrorMeasureResult() {
-            return new ErrorMeasureResult(error);
+        public ErrorResult createErrorMeasureResult() {
+            return new ErrorResult(error);
         }
     }
 

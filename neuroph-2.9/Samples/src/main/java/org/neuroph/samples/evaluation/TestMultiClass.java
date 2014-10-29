@@ -1,5 +1,6 @@
 package org.neuroph.samples.evaluation;
 
+import org.neuroph.contrib.learning.CrossEntropyError;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
@@ -24,13 +25,15 @@ public class TestMultiClass {
     public static void main(String[] args) {
         String inputFileName = "/iris_data.txt";
 
-        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 5, 3);
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 10, 3);
         DataSet irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
         irisDataSet.shuffle();
 
         neuralNet.getLearningRule().addListener(new LearningListener());
         neuralNet.getLearningRule().setLearningRate(0.2);
         neuralNet.getLearningRule().setMaxIterations(100);
+        neuralNet.getLearningRule().setMaxError(0.00001);
+        neuralNet.getLearningRule().setErrorFunction(new CrossEntropyError());
 
         neuralNet.learn(irisDataSet);
 
