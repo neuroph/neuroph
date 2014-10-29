@@ -1,7 +1,5 @@
-package org.neuroph.samples.evaluation.domain;
+package org.neuroph.contrib.evaluation.domain;
 
-
-import com.sun.org.apache.bcel.internal.generic.ClassObserver;
 
 import java.util.PriorityQueue;
 

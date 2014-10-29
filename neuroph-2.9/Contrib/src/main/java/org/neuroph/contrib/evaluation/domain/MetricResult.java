@@ -1,6 +1,6 @@
-package org.neuroph.samples.evaluation.domain;
+package org.neuroph.contrib.evaluation.domain;
 
-import org.neuroph.samples.evaluation.ArrayUtils;
+import org.neuroph.contrib.utils.ArrayUtils;
 
 public class MetricResult {
 

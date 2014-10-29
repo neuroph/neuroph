@@ -1,9 +1,9 @@
-package org.neuroph.samples.evaluation.evaluators;
+package org.neuroph.contrib.evaluation.evaluators;
 
 import org.neuroph.core.data.DataSet;
-import org.neuroph.samples.evaluation.domain.ClassificationOutput;
-import org.neuroph.samples.evaluation.domain.ConfusionMatrix;
-import org.neuroph.samples.evaluation.domain.MetricResult;
+import org.neuroph.contrib.evaluation.domain.ClassificationOutput;
+import org.neuroph.contrib.evaluation.domain.ConfusionMatrix;
+import org.neuroph.contrib.evaluation.domain.MetricResult;
 
 public class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
 

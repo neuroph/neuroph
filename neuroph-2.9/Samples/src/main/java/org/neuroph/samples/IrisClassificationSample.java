@@ -24,7 +24,6 @@ import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
-import org.neuroph.samples.convolution.ModelMetric;
 
 /**
  * This sample shows how to train MultiLayerPerceptron neural network for iris classification problem using Neuroph
@@ -71,9 +70,6 @@ public class IrisClassificationSample {
 
         System.out.println("Done training.");
         System.out.println("Testing network...");
-        ModelMetric.calculateModelMetric(neuralNet, irisDataSet);
-
-//        testNeuralNetwork(neuralNet, irisDataSet);
     }
     
     /**

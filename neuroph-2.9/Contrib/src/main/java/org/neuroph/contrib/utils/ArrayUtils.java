@@ -1,4 +1,4 @@
-package org.neuroph.samples.evaluation;
+package org.neuroph.contrib.utils;
 
 public class ArrayUtils {
 

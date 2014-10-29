@@ -1,4 +1,4 @@
-package org.neuroph.samples.evaluation.evaluators;
+package org.neuroph.contrib.evaluation.evaluators;
 
 
 public interface NeurophEvaluator<T> {

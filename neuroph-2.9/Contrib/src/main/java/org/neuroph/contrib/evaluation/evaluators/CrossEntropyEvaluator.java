@@ -1,27 +1,29 @@
-package org.neuroph.samples.evaluation.evaluators;
+package org.neuroph.contrib.evaluation.evaluators;
 
-import org.neuroph.samples.evaluation.domain.ErrorMeasureResult;
+import org.neuroph.contrib.evaluation.domain.ErrorMeasureResult;
 
 
-public class MeanSquareErrorEvaluator implements NeurophEvaluator<ErrorMeasureResult> {
+public class CrossEntropyEvaluator implements NeurophEvaluator<ErrorMeasureResult> {
 
     private double cumulativeError;
     private double n;
+
 
     @Override
     public void processResult(double[] predictedOutputs, double[] actualOutputs) {
 
         for (int i = 0; i < actualOutputs.length; i++) {
-            cumulativeError += (actualOutputs[i] - predictedOutputs[i]) * (actualOutputs[i] - predictedOutputs[i]);
+            cumulativeError += actualOutputs[i] * Math.log(predictedOutputs[i]);
         }
         n++;
     }
 
     @Override
     public ErrorMeasureResult getEvaluationResult() {
-        double averageError = cumulativeError / n;
+        double averageError = -cumulativeError / n;
         return new ErrorMeasureResult.ErrorMeasureResultBuilder()
                 .withError(averageError)
                 .createErrorMeasureResult();
     }
 }
+

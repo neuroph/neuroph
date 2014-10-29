@@ -7,6 +7,7 @@ import org.neuroph.nnet.comp.layer.InputMapsLayer;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.samples.convolution.util.WeightVisualiser;
 import org.neuroph.util.NeuralNetworkFactory;
 
 public class SimpleLearningExample {
@@ -61,9 +62,6 @@ public class SimpleLearningExample {
         testSet.addRow(new double[]{0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0},
                 new double[]{0, 1});
 
-        // TEST NETWORK
-
-        ModelMetric.calculateModelMetric(convolutionNet, testSet);
 
     }
 

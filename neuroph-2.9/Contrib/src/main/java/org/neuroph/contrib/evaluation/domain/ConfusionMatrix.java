@@ -1,4 +1,4 @@
-package org.neuroph.samples.evaluation.domain;
+package org.neuroph.contrib.evaluation.domain;
 
 
 public class ConfusionMatrix {
