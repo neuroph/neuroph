@@ -173,11 +173,11 @@ public class MultiLayerPerceptron extends NeuralNetwork<BackPropagation> {
         NeuralNetworkFactory.setDefaultIO(this);
 
         // set learnng rule
-        this.setLearningRule(new BackPropagation());
-//        this.setLearningRule(new MomentumBackpropagation());
+//        this.setLearningRule(new BackPropagation());
+        this.setLearningRule(new MomentumBackpropagation());
         // this.setLearningRule(new DynamicBackPropagation());
 
-//        this.randomizeWeights(new RangeRandomizer(-0.7, 0.7));
+        this.randomizeWeights(new RangeRandomizer(-0.7, 0.7));
 
     }
 

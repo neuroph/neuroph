@@ -16,7 +16,7 @@
   
 <repositories>
     <repository>
-      <id>neuroph.sourceforge.net</id>
+      <classId>neuroph.sourceforge.net</classId>
       <url>http://neuroph.sourceforge.net/maven2/</url>
     </repository>
  </repositories>  
