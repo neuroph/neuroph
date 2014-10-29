@@ -1,10 +1,9 @@
-package org.neuroph.samples.evaluation.error;
+package org.neuroph.samples.evaluation.evaluators;
 
-import org.neuroph.samples.evaluation.BaseEvaluator;
 import org.neuroph.samples.evaluation.domain.ErrorMeasureResult;
 
 
-public class MSEEvaluator implements BaseEvaluator<ErrorMeasureResult> {
+public class MeanSquareErrorEvaluator implements NeurophEvaluator<ErrorMeasureResult> {
 
     private double cumulativeError;
     private double n;

@@ -1,10 +1,10 @@
-package org.neuroph.samples.evaluation.error;
+package org.neuroph.samples.evaluation.evaluators;
 
-import org.neuroph.samples.evaluation.BaseEvaluator;
+import org.neuroph.samples.evaluation.evaluators.NeurophEvaluator;
 import org.neuroph.samples.evaluation.domain.ErrorMeasureResult;
 
 
-public class CrossEntropyEvaluator implements BaseEvaluator<ErrorMeasureResult> {
+public class CrossEntropyEvaluator implements NeurophEvaluator<ErrorMeasureResult> {
 
     private double cumulativeError;
     private double n;

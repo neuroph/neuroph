@@ -1,7 +1,7 @@
-package org.neuroph.samples.evaluation;
+package org.neuroph.samples.evaluation.evaluators;
 
 
-public interface BaseEvaluator<T> {
+public interface NeurophEvaluator<T> {
 
     void processResult(double[] predictedOutputs, double[] actualOutputs);
 

@@ -6,9 +6,10 @@ import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
-import org.neuroph.samples.evaluation.error.CrossEntropyEvaluator;
-import org.neuroph.samples.evaluation.error.MSEEvaluator;
-import org.neuroph.samples.evaluation.performance.BinaryClassEvaluator;
+import org.neuroph.samples.evaluation.domain.MetricResult;
+import org.neuroph.samples.evaluation.evaluators.CrossEntropyEvaluator;
+import org.neuroph.samples.evaluation.evaluators.MeanSquareErrorEvaluator;
+import org.neuroph.samples.evaluation.evaluators.MetricsEvaluator;
 import org.neuroph.util.TransferFunctionType;
 
 public class TestBinaryClass {
@@ -40,21 +41,25 @@ public class TestBinaryClass {
 
         neuralNet.learn(trainingSet);
 
-        GenericEvaluator genericEvaluator = new GenericEvaluator();
-        genericEvaluator.add(MSEEvaluator.class, new MSEEvaluator());
-        genericEvaluator.add(CrossEntropyEvaluator.class, new CrossEntropyEvaluator());
-        genericEvaluator.add(BinaryClassEvaluator.class, new BinaryClassEvaluator(0));
-        genericEvaluator.evaluate(neuralNet, trainingSet);
+        NeuralNetworkEvaluationService neuralNetworkEvaluationService = new NeuralNetworkEvaluationService();
+        neuralNetworkEvaluationService.add(MeanSquareErrorEvaluator.class, new MeanSquareErrorEvaluator());
+        neuralNetworkEvaluationService.add(CrossEntropyEvaluator.class, new CrossEntropyEvaluator());
+        neuralNetworkEvaluationService.add(MetricsEvaluator.class, MetricsEvaluator.createEvaluator(trainingSet));
+        neuralNetworkEvaluationService.evaluate(neuralNet, trainingSet);
 
-
-        System.out.println("METRICS: ");
-        System.out.println(genericEvaluator.resultFor(MSEEvaluator.class).getEvaluationResult().getError());
-        System.out.println(genericEvaluator.resultFor(CrossEntropyEvaluator.class).getEvaluationResult().getError());
-        System.out.println(genericEvaluator.resultFor(BinaryClassEvaluator.class).getEvaluationResult().getAccuracy());
-        System.out.println(genericEvaluator.resultFor(BinaryClassEvaluator.class).getEvaluationResult().getError());
-        System.out.println(genericEvaluator.resultFor(BinaryClassEvaluator.class).getEvaluationResult().getPrecision());
-        System.out.println(genericEvaluator.resultFor(BinaryClassEvaluator.class).getEvaluationResult().getRecall());
-        System.out.println(genericEvaluator.resultFor(BinaryClassEvaluator.class).getEvaluationResult().getfScore());
+        System.out.println("#################################################");
+        System.out.println("Error Metrics: ");
+        System.out.println("MSE Error: " + neuralNetworkEvaluationService.resultFor(MeanSquareErrorEvaluator.class).getEvaluationResult().getError());
+        System.out.println("CrossEntropy Error: " + neuralNetworkEvaluationService.resultFor(CrossEntropyEvaluator.class).getEvaluationResult().getError());
+        System.out.println("#################################################");
+        System.out.println("Base Metrics: ");
+        MetricResult result = neuralNetworkEvaluationService.resultFor(MetricsEvaluator.class).getEvaluationResult();
+        System.out.println("Accuracy: " + result.getAccuracy());
+        System.out.println("Error Rate: " + result.getError());
+        System.out.println("Precision: " + result.getPrecision());
+        System.out.println("Recall: " + result.getRecall());
+        System.out.println("FScore: " + result.getfScore());
+        System.out.println("#################################################");
 
     }
 
