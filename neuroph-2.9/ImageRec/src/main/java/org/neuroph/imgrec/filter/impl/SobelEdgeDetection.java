@@ -112,9 +112,7 @@ public class SobelEdgeDetection implements ImageFilter,Serializable{
         
     }
     
-    protected double calculateGradient (int i, int j, double [][] sobelOperator) {
-        
-    
+    protected double calculateGradient (int i, int j, double [][] sobelOperator) {           
     	double sum = 0;
         
         int posX = 0;

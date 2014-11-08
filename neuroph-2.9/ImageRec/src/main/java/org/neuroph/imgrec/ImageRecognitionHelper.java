@@ -16,15 +16,23 @@
 
 package org.neuroph.imgrec;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.StringTokenizer;
+import javax.imageio.ImageIO;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.imgrec.image.Dimension;
+import org.neuroph.imgrec.image.Image;
+import org.neuroph.imgrec.image.ImageFactory;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.util.TransferFunctionType;
@@ -50,6 +58,7 @@ public class ImageRecognitionHelper {
          * @param layersNeuronsCount neuron counts in hidden layers
 	 * @param transferFunctionType type of transfer function to use for neurons in network
          * @param colorMode color mode
+     * @return 
 	 */
 	public static NeuralNetwork createNewNeuralNetwork(String label, Dimension samplingResolution, ColorMode colorMode, List<String> imageLabels,  List<Integer> layersNeuronsCount, TransferFunctionType transferFunctionType) {
 
@@ -94,13 +103,25 @@ public class ImageRecognitionHelper {
 		}
 	}
 
+        
+        /**
+         * Creates training set for the specified image labels and rgb data. Thi method is now forwarded to createRGBTrainingSet
+         * @param imageLabels image labels
+         * @param rgbDataMap map collection of rgb data
+         * @return training set for the specified image data
+         * @deprecated Use createRGBTrainingSet instead
+         */        
+        public static DataSet createTrainingSet(List<String> imageLabels, Map<String, FractionRgbData> rgbDataMap) 	{  
+            return createRGBTrainingSet(imageLabels, rgbDataMap);
+        }      
+        
         /**
          * Creates training set for the specified image labels and rgb data
          * @param imageLabels image labels
          * @param rgbDataMap map collection of rgb data
          * @return training set for the specified image data
          */
-	public static DataSet createTrainingSet(List<String> imageLabels, Map<String, FractionRgbData> rgbDataMap) 	{	
+	public static DataSet createRGBTrainingSet(List<String> imageLabels, Map<String, FractionRgbData> rgbDataMap) 	{	
                 int inputCount = rgbDataMap.values().iterator().next().getFlattenedRgbValues().length;
                 int outputCount = imageLabels.size();
 		DataSet trainingSet = new DataSet(inputCount, outputCount);
@@ -113,6 +134,27 @@ public class ImageRecognitionHelper {
 
                 return trainingSet;
 	}
+        
+        /**
+         * Creates training set for the specified image labels and hsl data
+         * @param imageLabels image labels
+         * @param hslDataMap map colletction of hsl data
+         * @return training set for the specified image data
+         */        
+        public static DataSet createHSLTrainingSet(List<String> imageLabels, Map<String, FractionHSLData> hslDataMap) 	{	
+                int inputCount = hslDataMap.values().iterator().next().getFlattenedHSLValues().length;
+                int outputCount = imageLabels.size();
+		DataSet trainingSet = new DataSet(inputCount, outputCount);
+
+		for (Entry<String, FractionHSLData> entry : hslDataMap.entrySet()) {
+			double[] input = entry.getValue().getFlattenedHSLValues();
+			double[] response = createResponse(entry.getKey(), imageLabels);
+			trainingSet.addRow(new DataSetRow(input, response));
+		}
+
+                return trainingSet;
+	}
+        
 
         /**
          * Creates binary black and white training set for the specified image labels and rgb data
@@ -123,6 +165,7 @@ public class ImageRecognitionHelper {
          */
         public static DataSet createBlackAndWhiteTrainingSet(List<String> imageLabels, Map<String, FractionRgbData> rgbDataMap) throws VectorSizeMismatchException
 	{
+            // TODO: Use some binarization image filter to do this; currently it works  with averaging RGB values
                 int inputCount = rgbDataMap.values().iterator().next().getFlattenedRgbValues().length / 3;
                 int outputCount = imageLabels.size();
 		DataSet trainingSet = new DataSet(inputCount, outputCount);
@@ -136,9 +179,65 @@ public class ImageRecognitionHelper {
 
             return trainingSet;
 	}
+        
+    /**
+     * Loads images from the specified dir, scales to specified resolution and creates RGB data for each image
+     * Puts HSL data in a Map using filenames as keys, and returns that map
+     * @param imgDir
+     * @param samplingResolution
+     * @throws java.io.IOException
+     */
+	public static Map<String, FractionRgbData> getFractionRgbDataForDirectory(File imgDir, Dimension samplingResolution) throws IOException
+	{
+		if(!imgDir.isDirectory()) {
+			throw new IllegalArgumentException("The given file must be a directory.  Argument is: " + imgDir);
+		}
+		
+		Map<String, FractionRgbData> rgbDataMap = new HashMap<>();
+		
+		ImageFilesIterator imagesIterator = new ImageFilesIterator(imgDir);
+		while (imagesIterator.hasNext()) {
+			File imgFile = imagesIterator.next();
+                        Image img = ImageFactory.getImage(imgFile);
+			img = ImageSampler.downSampleImage(samplingResolution, img);
+			String filenameOfCurrentImage = imagesIterator.getFilenameOfCurrentImage();
+			StringTokenizer st = new StringTokenizer(filenameOfCurrentImage, ".");
+			rgbDataMap.put(st.nextToken(), new FractionRgbData(img));
+		}
+		return rgbDataMap;
+	}      
+        
+     // creates hsl map from given image files - params should be files List<File> - or even better image files
+     public static Map<String, FractionHSLData> getFractionHSLDataForDirectory ( File imgDir, Dimension samplingResolution) throws IOException {
+        
+		if(!imgDir.isDirectory()) {
+			throw new IllegalArgumentException("The given file must be a directory.  Argument is: " + imgDir);
+		}         
+         
+       Map <String, FractionHSLData> map = new HashMap<>();
+       ImageFilesIterator imagesIterator = new ImageFilesIterator(imgDir);
+       
+        try {
+            while (imagesIterator.hasNext()) {
+                File imgFile = imagesIterator.next();
+                BufferedImage img = ImageIO.read(imgFile);
+                BufferedImage image = ImageUtilities.resizeImage(img, samplingResolution.getWidth(), samplingResolution.getHeight());
+                
+                String filenameOfCurrentImage = imgFile.getName();
+                //String filenameOfCurrentImage = imagesIterator.getFilenameOfCurrentImage();
+                StringTokenizer st = new StringTokenizer(filenameOfCurrentImage, ".");
+                map.put(st.nextToken(), new FractionHSLData(image));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return map;             
+     }        
 
         /**
-         * Creates network output vector (response) for the specified image data
+         * Creates binary network output vector (response) for the specified list of images
+         * Each network output (neuron) corresponds to one image.
          * @param inputLabel label of the input image
          * @param imageLabels labels used for output neurons
          * @return network response for the specified input

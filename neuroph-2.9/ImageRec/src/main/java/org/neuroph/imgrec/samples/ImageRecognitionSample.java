@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.neuroph.imgrec;
+package org.neuroph.imgrec.samples;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,19 +22,18 @@ import java.util.HashMap;
 
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
+import org.neuroph.imgrec.ImageRecognitionPlugin;
 
 /**
  * This sample shows how to use the image recognition neural network in your applications.
  * IMPORTANT NOTE: specify filenames for neural network and test image, or you'll get IOException
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
-public class ImageRecognitionSample {
-
-    
+public class ImageRecognitionSample {  
 
     public static void main(String[] args) {
           // load trained neural network saved with easyNeurons (specify existing neural network file here)
-          NeuralNetwork nnet = NeuralNetwork.load("MyImageRecognition.nnet");
+          NeuralNetwork nnet = NeuralNetwork.createFromFile("MyImageRecognition.nnet");
           // get the image recognition plugin from neural network
           ImageRecognitionPlugin imageRecognition = (ImageRecognitionPlugin)nnet.getPlugin(ImageRecognitionPlugin.class);
 
