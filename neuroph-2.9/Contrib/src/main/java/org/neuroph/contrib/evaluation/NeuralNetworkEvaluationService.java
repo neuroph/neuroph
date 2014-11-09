@@ -1,18 +1,24 @@
 package org.neuroph.contrib.evaluation;
 
 import org.neuroph.contrib.evaluation.domain.MetricResult;
-import org.neuroph.contrib.evaluation.evaluators.CrossEntropyEvaluator;
-import org.neuroph.contrib.evaluation.evaluators.MeanSquareErrorEvaluator;
+import org.neuroph.contrib.evaluation.evaluators.ErrorEvaluator;
 import org.neuroph.contrib.evaluation.evaluators.MetricsEvaluator;
+import org.neuroph.contrib.learning.CrossEntropyError;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.contrib.evaluation.evaluators.NeurophEvaluator;
+import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class NeuralNetworkEvaluationService {
+
+    private static Logger LOG = LoggerFactory.getLogger(NeuralNetworkEvaluationService.class);
+
 
     private Map<Class<?>, NeurophEvaluator> evaluators = new HashMap<>();
 
@@ -27,7 +33,7 @@ public class NeuralNetworkEvaluationService {
     }
 
     private void forwardPass(NeuralNetwork neuralNetwork, DataSetRow dataRow) {
-        neuralNetwork.setInput(dataRow.getInput());
+        neuralNetwork.setInput(dataRow);
         neuralNetwork.calculate();
     }
 
@@ -46,26 +52,25 @@ public class NeuralNetworkEvaluationService {
     public static void completeEvaluation(NeuralNetwork<BackPropagation> neuralNet, DataSet dataSet) {
 
         NeuralNetworkEvaluationService neuralNetworkEvaluationService = new NeuralNetworkEvaluationService();
-        neuralNetworkEvaluationService.add(MeanSquareErrorEvaluator.class, new MeanSquareErrorEvaluator());
-        neuralNetworkEvaluationService.add(CrossEntropyEvaluator.class, new CrossEntropyEvaluator());
+//        neuralNetworkEvaluationService.add(ErrorEvaluator.class, new ErrorEvaluator(new MeanSquaredError()));
+        neuralNetworkEvaluationService.add(ErrorEvaluator.class, new ErrorEvaluator(new MeanSquaredError()));
         neuralNetworkEvaluationService.add(MetricsEvaluator.class, MetricsEvaluator.createEvaluator(dataSet));
 
         neuralNetworkEvaluationService.evaluate(neuralNet, dataSet);
 
-
-        System.out.println("#################################################");
-        System.out.println("Errors: ");
-        System.out.println("MSE Error: " + neuralNetworkEvaluationService.resultFor(MeanSquareErrorEvaluator.class).getEvaluationResult().getError());
-        System.out.println("CrossEntropy Error: " + neuralNetworkEvaluationService.resultFor(CrossEntropyEvaluator.class).getEvaluationResult().getError());
-        System.out.println("#################################################");
-        System.out.println("Metrics: ");
+       LOG.info("#################################################");
+        LOG.info("Errors: ");
+//        System.out.println("MSE Error: " + neuralNetworkEvaluationService.resultFor(MeanSquareErrorEvaluator.class).getEvaluationResult().getError());
+        LOG.info("MeanSquare Error: " + neuralNetworkEvaluationService.resultFor(ErrorEvaluator.class).getEvaluationResult());
+        LOG.info("#################################################");
+        LOG.info("Metrics: ");
         MetricResult result = neuralNetworkEvaluationService.resultFor(MetricsEvaluator.class).getEvaluationResult();
-        System.out.println("Accuracy: " + result.getAccuracy());
-        System.out.println("Error Rate: " + result.getError());
-        System.out.println("Precision: " + result.getPrecision());
-        System.out.println("Recall: " + result.getRecall());
-        System.out.println("FScore: " + result.getfScore());
-        System.out.println("#################################################");
+        LOG.info("Accuracy: " + result.getAccuracy());
+        LOG.info("Error Rate: " + result.getError());
+        LOG.info("Precision: " + result.getPrecision());
+        LOG.info("Recall: " + result.getRecall());
+        LOG.info("FScore: " + result.getFScore());
+        LOG.info("#################################################");
     }
 
 

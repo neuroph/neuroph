@@ -5,11 +5,12 @@ import java.util.PriorityQueue;
 
 public class ClassificationOutput implements Comparable<ClassificationOutput> {
 
-    private int classId;
+    private int actualClass;
     private double outputValue;
 
-    public int getClassId() {
-        return classId;
+
+    public int getActualClass() {
+        return actualClass;
     }
 
     public double getOutputValue() {
@@ -17,8 +18,8 @@ public class ClassificationOutput implements Comparable<ClassificationOutput> {
     }
 
 
-    private ClassificationOutput(int classId, double outputValue) {
-        this.classId = classId;
+    private ClassificationOutput(int actualClass, double outputValue) {
+        this.actualClass = actualClass;
         this.outputValue = outputValue;
     }
 
@@ -32,7 +33,7 @@ public class ClassificationOutput implements Comparable<ClassificationOutput> {
         if (!(obj instanceof ClassificationOutput))
             return false;
         ClassificationOutput that = (ClassificationOutput) obj;
-        return this.getClassId() == that.getClassId();
+        return this.getActualClass() == that.getActualClass();
     }
 
     public int compareTo(ClassificationOutput o) {
@@ -46,7 +47,7 @@ public class ClassificationOutput implements Comparable<ClassificationOutput> {
 
     @Override
     public String toString() {
-        String object = "ID: " + getClassId() + ", Output: " + getOutputValue();
+        String object = "ID: " + getActualClass() + ", Output: " + getOutputValue();
         return object;
     }
 

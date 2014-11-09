@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.util.data.sample.Sampling;
@@ -46,38 +47,38 @@ public class DataSet implements Serializable /*
      * Collection of data rows
      */
     private List<DataSetRow> rows;
-    
+
     /**
      * Size of the input vector in data set rows
      */
     private int inputSize = 0;
-    
+
     /**
      * Size of output vector in data set rows
      */
     private int outputSize = 0;
-    
+
     /**
      * Column names/labels
      */
     private String[] columnNames;
-    
+
     /**
      * Flag which indicates if this data set containes data rows for supervised training
      */
     private boolean isSupervised = false;
-    
+
     /**
      * Label for this training set
      */
     private String label;
-    
+
     /**
      * Full file path including file name
      */
     private transient String filePath;
 
-    
+
     /**
      * Creates an instance of new empty training set
      *
@@ -93,7 +94,7 @@ public class DataSet implements Serializable /*
     /**
      * Creates an instance of new empty training set
      *
-     * @param inputSize Length of the input vector
+     * @param inputSize  Length of the input vector
      * @param outputSize Length of the output vector
      */
     public DataSet(int inputSize, int outputSize) {
@@ -101,7 +102,7 @@ public class DataSet implements Serializable /*
         this.inputSize = inputSize;
         this.outputSize = outputSize;
         this.isSupervised = true;
-        this.columnNames = new String[inputSize+outputSize];
+        this.columnNames = new String[inputSize + outputSize];
     }
 
     /**
@@ -111,11 +112,11 @@ public class DataSet implements Serializable /*
      */
     public void addRow(DataSetRow row)
             throws VectorSizeMismatchException {
-        
+
         if (row == null) {
-                    throw new IllegalArgumentException("Training data row cannot be null!");
+            throw new IllegalArgumentException("Training data row cannot be null!");
         }
-        
+
         // check input vector size if it is predefined
         if ((this.inputSize != 0)
                 && (row.getInput().length != this.inputSize)) {
@@ -134,7 +135,8 @@ public class DataSet implements Serializable /*
 
     /**
      * Adds a new dataset row with specified input
-     * @param input 
+     *
+     * @param input
      */
     public void addRow(double[] input) {
         if (input == null)
@@ -142,17 +144,18 @@ public class DataSet implements Serializable /*
 
         if (input.length != inputSize)
             throw new NeurophException("Input size for given row is different from the data set size!");
-        
-        if (isSupervised) 
+
+        if (isSupervised)
             throw new NeurophException("Cannot add unsupervised row to supervised data set!");
-            
+
         this.addRow(new DataSetRow(input));
     }
 
     /**
      * Adds a new dataset row with specified input and output
+     *
      * @param input
-     * @param output 
+     * @param output
      */
     public void addRow(double[] input, double[] output) {
         this.addRow(new DataSetRow(input, output));
@@ -210,10 +213,11 @@ public class DataSet implements Serializable /*
     public boolean isEmpty() {
         return this.rows.isEmpty();
     }
-    
+
     /**
      * Returns true if data set is supervised,  false otherwise
-     * @return 
+     *
+     * @return
      */
     public boolean isSupervised() {
         return this.isSupervised;
@@ -253,16 +257,15 @@ public class DataSet implements Serializable /*
     public void setColumnNames(String[] columnNames) {
         this.columnNames = columnNames;
     }
-    
+
     public String getColumnName(int idx) {
         return columnNames[idx];
     }
-    
+
     public void setColumnName(int idx, String columnName) {
         columnNames[idx] = columnName;
     }
-    
-    
+
 
     /**
      * Sets full file path for this training set
@@ -288,48 +291,49 @@ public class DataSet implements Serializable /*
      * @return string representation of this data set
      */
     @Override
-    public String toString() {  
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Dataset Label: ").append(label).append(System.lineSeparator());
-               
+
         if (columnNames != null) {
             sb.append("Columns: ");
-            for(String columnName : columnNames) {
+            for (String columnName : columnNames) {
                 sb.append(columnName).append(", ");
             }
-            sb.delete(sb.length()-2, sb.length()-1);
+            sb.delete(sb.length() - 2, sb.length() - 1);
             sb.append(System.lineSeparator());
-        }    
-        
-        for(DataSetRow row : rows) {
+        }
+
+        for (DataSetRow row : rows) {
             sb.append(row).append(System.lineSeparator());
         }
-        
+
         return sb.toString();
     }
-    
+
     /**
      * Returns enire dataset in csv format
-     * @return 
+     *
+     * @return
      */
     public String toCSV() {
         StringBuilder sb = new StringBuilder();
-        
-        if ((columnNames != null)&& (columnNames.length > 0) ){
-            for(String columnName : columnNames) {
+
+        if ((columnNames != null) && (columnNames.length > 0)) {
+            for (String columnName : columnNames) {
                 sb.append(columnName).append(", ");
             }
-            sb.delete(sb.length()-2, sb.length()-1);
+            sb.delete(sb.length() - 2, sb.length() - 1);
             sb.append(System.lineSeparator());
         }
-        
+
         // promeniti
-        for(DataSetRow row : rows) {
+        for (DataSetRow row : rows) {
             sb.append(row.toCSV()); // nije dobro jer lepi input i desired output; treba bez toga mozda dodati u toCSV
             sb.append(System.lineSeparator());
         }
-        
-        return sb.toString();        
+
+        return sb.toString();
     }
 
     /**
@@ -368,38 +372,38 @@ public class DataSet implements Serializable /*
     }
 
     public void saveAsTxt(String filePath, String delimiter) {
-        
+
         if (filePath == null) throw new IllegalArgumentException("File path is null!");
-        
+
         // default delimiter is space if other is not specified
         if ((delimiter == null) || delimiter.equals("")) {
             delimiter = " ";
         }
-        
+
 
         try (PrintWriter out = new PrintWriter(new FileWriter(new File(filePath)))) {
 
-        int columnCount = inputSize + outputSize;    
-        if ((columnNames != null) && (columnNames.length > 0)){
-            for(int i = 0; i< columnNames.length; i++) {
-                out.print(columnNames[i]);
-                if (i < columnCount-1) out.print(delimiter);
+            int columnCount = inputSize + outputSize;
+            if ((columnNames != null) && (columnNames.length > 0)) {
+                for (int i = 0; i < columnNames.length; i++) {
+                    out.print(columnNames[i]);
+                    if (i < columnCount - 1) out.print(delimiter);
+                }
+                out.println();
             }
-            out.println();
-        }            
-            
+
             for (DataSetRow row : this.rows) {
                 double[] input = row.getInput();
                 for (int i = 0; i < input.length; i++) {
                     out.print(input[i]);
-                    if (i < columnCount-1) out.print(delimiter);
+                    if (i < columnCount - 1) out.print(delimiter);
                 }
 
                 if (row.isSupervised()) {
                     double[] output = row.getDesiredOutput();
                     for (int j = 0; j < output.length; j++) {
                         out.print(output[j]);
-                        if (inputSize + j < columnCount-1) out.print(delimiter);
+                        if (inputSize + j < columnCount - 1) out.print(delimiter);
                     }
                 }
                 out.println();
@@ -408,8 +412,8 @@ public class DataSet implements Serializable /*
             out.flush();
 
         } catch (IOException ex) {
-           throw new NeurophException("Error saving data set file!", ex);
-        } 
+            throw new NeurophException("Error saving data set file!", ex);
+        }
     }
 
     /**
@@ -425,13 +429,13 @@ public class DataSet implements Serializable /*
             File file = new File(filePath);
             if (!file.exists()) {
                 throw new FileNotFoundException("Cannot find file: " + filePath);
-                
+
             }
 
             oistream = new ObjectInputStream(new FileInputStream(filePath));
             DataSet dataSet = (DataSet) oistream.readObject();
             dataSet.setFilePath(filePath);
-            
+
             return dataSet;
 
         } catch (IOException ioe) {
@@ -450,11 +454,11 @@ public class DataSet implements Serializable /*
 
     /**
      * Creates and returns data set from specified csv file
-     * 
-     * @param filePath path to csv dataset file to import
-     * @param inputsCount number of inputs
-     * @param outputsCount number of outputs
-     * @param delimiter delimiter of values
+     *
+     * @param filePath        path to csv dataset file to import
+     * @param inputsCount     number of inputs
+     * @param outputsCount    number of outputs
+     * @param delimiter       delimiter of values
      * @param loadColumnNames true if csv file contains column names in first line, false otherwise
      * @return instance of dataset with values from specified file
      */
@@ -464,8 +468,9 @@ public class DataSet implements Serializable /*
         if (filePath == null) throw new IllegalArgumentException("File name cannot be null!");
         if (inputsCount <= 0) throw new IllegalArgumentException("Number of inputs cannot be <= 0");
         if (outputsCount < 0) throw new IllegalArgumentException("Number of outputs cannot be < 0");
-        if ((delimiter == null) || delimiter.isEmpty()) throw new IllegalArgumentException("Delimiter cannot be null or empty!");
-             
+        if ((delimiter == null) || delimiter.isEmpty())
+            throw new IllegalArgumentException("Delimiter cannot be null or empty!");
+
         try {
             DataSet dataSet = new DataSet(inputsCount, outputsCount);
             InputStream inputStream = DataSet.class.getResourceAsStream(filePath);
@@ -473,21 +478,21 @@ public class DataSet implements Serializable /*
 //            fileReader = new FileReader(new File(filePath));
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-            String line=null;
-            
+            String line = null;
+
             if (loadColumnNames) {
                 // get column names from the first line
                 line = reader.readLine();
-                String[] colNames = line.split(delimiter); 
-                dataSet.setColumnNames(colNames);          
+                String[] colNames = line.split(delimiter);
+                dataSet.setColumnNames(colNames);
             }
-            
-            while ((line = reader.readLine()) != null) {                                
-                String[] values = line.split(delimiter);                
-                
+
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(delimiter);
+
                 double[] inputs = new double[inputsCount];
                 double[] outputs = new double[outputsCount];
-                
+
                 if (values[0].equals("")) {
                     continue; // skip if line was empty
                 }
@@ -509,7 +514,7 @@ public class DataSet implements Serializable /*
             return dataSet;
 
         } catch (FileNotFoundException ex) {
-           throw new NeurophException("Could not find data set file!", ex);
+            throw new NeurophException("Could not find data set file!", ex);
         } catch (IOException ex) {
             if (fileReader != null) {
                 try {
@@ -530,7 +535,7 @@ public class DataSet implements Serializable /*
         }
 
     }
-    
+
     /**
      * Returns output vector size of training elements in this training set This
      * method is implementation of EngineIndexableSet interface, and it is added
@@ -549,11 +554,11 @@ public class DataSet implements Serializable /*
 //    }
 
     // http://java.about.com/od/javautil/a/uniquerandomnum.htm
+
     /**
-     * 
      * @param trainSetPercent
      * @param testSetPercent
-     * @return 
+     * @return
      * @deprecated Use sample(int size) instead
      */
     public DataSet[] createTrainingAndTestSubsets(int trainSetPercent, int testSetPercent) {
@@ -585,17 +590,17 @@ public class DataSet implements Serializable /*
 
         return trainAndTestSet;
     }
-    
+
     // remove sampling methods from here and do sampling from instance of Sampling implementations
-    public DataSet[] sample(int percent) {
-        Sampling sampling = new SubSampling(percent);
+    public List<DataSet> sample(int percent) {
+        Sampling sampling = new SubSampling();
         return sampling.sample(this);
     }
 
-    public DataSet[] sample(Sampling sampling) {
+    public List<DataSet> sample(Sampling sampling) {
         return sampling.sample(this);
-    }    
-    
+    }
+
 
     /**
      * Returns output vector size of training elements in this training set.
@@ -616,46 +621,5 @@ public class DataSet implements Serializable /*
     public void shuffle() {
         Collections.shuffle(rows);
     }
-    /**
-     * Returns true if training set contains supervised training elements This
-     * method is implementation of EngineIndexableSet interface, and it is added
-     * to provide compatibility with Encog data sets and FlatNetwork
-     */
-//    @Override
-//    public boolean isSupervised() {
-//        return this.outputVectorSize > 0;
-//    }
-    /**
-     * Gets training data/record at specified index position. This method is
-     * implementation of EngineIndexableSet interface. It is added for
-     * Encog-Engine compatibility.
-     */
-//    @Override
-//    public void getRecord(long index, EngineData pair) {
-//        EngineData item = this.elements.get((int) index);
-//        pair.setInputArray(item.getInputArray());
-//        pair.setIdealArray(item.getIdealArray());
-//    }
-    /**
-     * Returns training elements/records count This method is implementation of
-     * EngineIndexableSet interface. It is added for Encog-Engine compatibility.
-     */
-//    @Override
-//    public long getRecordCount() {
-//        return this.elements.size();
-//    }
-    /**
-     * This method is implementation of EngineIndexableSet interface, and it is
-     * added to provide compatibility with Encog data sets and FlatNetwork.
-     *
-     * Some datasets are not memory based, they may make use of a SQL connection
-     * or a binary flat file. Because of this these datasets need to be cloned
-     * for multi-threaded training or performance will greatly suffer. Because
-     * this is a memory-based dataset, no cloning takes place and the "this"
-     * object is returned.
-     */
-//    @Override
-//    public EngineIndexableSet openAdditional() {
-//        return this;
-//    }
+
 }

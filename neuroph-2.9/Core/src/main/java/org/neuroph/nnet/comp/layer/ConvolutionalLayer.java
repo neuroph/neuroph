@@ -17,6 +17,7 @@
 package org.neuroph.nnet.comp.layer;
 
 import org.neuroph.core.transfer.RectifiedLinear;
+import org.neuroph.core.transfer.Tanh;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
@@ -124,12 +125,9 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
     public void connectMaps(Layer2D fromMap, Layer2D toMap) {
 
         int numberOfSharedWeights = kernel.getArea();
-        // create shared weights array
         Weight[] weights = new Weight[numberOfSharedWeights];
 
-        int numberOfInputConnections = toMap.getNeuronAt(0, 0).getInputConnections().length;
-        double coefficient = 1d / Math.sqrt(numberOfInputConnections);
-        coefficient = !Double.isInfinite(coefficient) || !Double.isNaN(coefficient) || coefficient == 0 ? 1 : coefficient;
+        double coefficient = getWeightCoeficient(toMap);
 
         for (int i = 0; i < numberOfSharedWeights; i++) {
             Weight weight = new Weight();
@@ -152,5 +150,12 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
                 }
             }
         }
+    }
+
+    private double getWeightCoeficient(Layer2D toMap) {
+        int numberOfInputConnections = toMap.getNeuronAt(0, 0).getInputConnections().length;
+        double coefficient = 1d / Math.sqrt(numberOfInputConnections);
+        coefficient = !Double.isInfinite(coefficient) || !Double.isNaN(coefficient) || coefficient == 0 ? 1 : coefficient;
+        return coefficient;
     }
 }

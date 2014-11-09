@@ -1,37 +1,25 @@
 package org.neuroph.samples.convolution;
 
-import org.neuroph.nnet.comp.layer.ConvolutionalLayer;
+import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;
-import org.neuroph.nnet.comp.ConvolutionalUtils;
-import org.neuroph.nnet.comp.layer.InputMapsLayer;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.samples.convolution.util.WeightVisualiser;
-import org.neuroph.util.NeuralNetworkFactory;
+import org.neuroph.nnet.learning.MomentumBackpropagation;
 
 public class SimpleLearningExample {
 
     public static void testLearningOneLayer() {
-        ConvolutionalNetwork convolutionNet = new ConvolutionalNetwork();
+        Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(5, 5);
+
         Kernel convolutionKernel = new Kernel(5, 5);
 
-        // create input layer
-        Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(5, 5);
-        InputMapsLayer inputLayer = new InputMapsLayer(inputDimension, 1);
-        // add input layer to network
-        convolutionNet.addLayer(inputLayer);
+        ConvolutionalNetwork convolutionNet = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputDimension, 1)
+                .withConvolutionLayer(convolutionKernel, 2)
+                .createNetwork();
+        convolutionNet.setLearningRule(new MomentumBackpropagation());
+        convolutionNet.getLearningRule().setErrorFunction(new MeanSquaredError());
 
-        // create convolution layer with 2 feature maps
-        ConvolutionalLayer convolutionLayer = new ConvolutionalLayer(inputLayer, convolutionKernel, 2);
-        // add convolution layer to network
-        convolutionNet.addLayer(convolutionLayer);
-
-        // connectFeatureMaps input and convolution layer
-        ConvolutionalUtils.connectFeatureMaps(inputLayer, convolutionLayer, 0, 0);
-        ConvolutionalUtils.connectFeatureMaps(inputLayer, convolutionLayer, 0, 1);
-
-        NeuralNetworkFactory.setDefaultIO(convolutionNet);
 
         // CREATE DATA SET
 
@@ -45,12 +33,12 @@ public class SimpleLearningExample {
 
         convolutionNet.getLearningRule().setMaxError(0.00001);
         convolutionNet.learn(dataSet);
-
-        WeightVisualiser visualiser1 = new WeightVisualiser(convolutionLayer.getFeatureMap(0), convolutionKernel);
-        visualiser1.displayWeights();
-
-        WeightVisualiser visualiser2 = new WeightVisualiser(convolutionLayer.getFeatureMap(1), convolutionKernel);
-        visualiser2.displayWeights();
+//
+//        WeightVisualiser visualiser1 = new WeightVisualiser(convolutionLayer.getFeatureMap(0), convolutionKernel);
+//        visualiser1.displayWeights();
+//
+//        WeightVisualiser visualiser2 = new WeightVisualiser(convolutionLayer.getFeatureMap(1), convolutionKernel);
+//        visualiser2.displayWeights();
 
         // CREATE TEST SET
 

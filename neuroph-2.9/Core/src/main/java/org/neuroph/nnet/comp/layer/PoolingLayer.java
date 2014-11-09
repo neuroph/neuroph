@@ -15,6 +15,7 @@
  */
 package org.neuroph.nnet.comp.layer;
 
+import org.neuroph.core.transfer.RectifiedLinear;
 import org.neuroph.core.transfer.Sigmoid;
 import org.neuroph.core.transfer.Tanh;
 import org.neuroph.nnet.comp.Kernel;
@@ -48,24 +49,9 @@ public class PoolingLayer extends FeatureMapsLayer {
 
     static {
         DEFAULT_NEURON_PROP.setProperty("useBias", true);
-        DEFAULT_NEURON_PROP.setProperty("transferFunction", TransferFunctionType.TANH);
+        DEFAULT_NEURON_PROP.setProperty("transferFunction", Tanh.class);
         DEFAULT_NEURON_PROP.setProperty("inputFunction", Max.class);
     }
-
-    /**
-     * Creates pooling layer with specified kernel, and appropriate map
-     * dimensions in regard to previous layer.
-     * @param fromLayer previous layer, which will be connected to this layer
-     * @param kernel kernel for all feature maps in this layer
-     */
-//    public PoolingLayer(FeatureMapsLayer fromLayer, Kernel kernel) {
-//        super(kernel);
-//        Layer2D.Dimensions fromDimension = fromLayer.getMapDimensions();
-//
-//        int mapWidth = fromDimension.getWidth() / kernel.getWidth();
-//        int mapHeight = fromDimension.getHeight() / kernel.getHeight();
-//        this.mapDimensions = new Layer2D.Dimensions(mapWidth, mapHeight);
-//    }
 
     /**
      * Creates pooling layer with specified kernel, appropriate map
@@ -114,20 +100,20 @@ public class PoolingLayer extends FeatureMapsLayer {
      * Creates connections with shared weights between two feature maps
      * Assumes that toMap is from Pooling layer.
      * <p/>
-     * In this implementation, there is no overlaping betweem kernel positions.
+     * In this implementation, there is no overlapping between kernel positions.
      *
-     * @param fromMap
-     * @param toMap
+     * @param fromMap source feature map
+     * @param toMap   destination feature map
      */
     @Override
     public void connectMaps(Layer2D fromMap, Layer2D toMap) {
         int kernelWidth = kernel.getWidth();
         int kernelHeight = kernel.getHeight();
-
+        Weight weight = new Weight();
+        weight.setValue(1);
         for (int x = 0; x < fromMap.getWidth() - kernelWidth + 1; x += kernelWidth) {
             for (int y = 0; y < fromMap.getHeight() - kernelHeight + 1; y += kernelHeight) {
-                Weight weight = new Weight();
-                weight.setValue(1);
+
                 Neuron toNeuron = toMap.getNeuronAt(x / kernelWidth, y / kernelHeight);
                 for (int dy = 0; dy < kernelHeight; dy++) {
                     for (int dx = 0; dx < kernelWidth; dx++) {

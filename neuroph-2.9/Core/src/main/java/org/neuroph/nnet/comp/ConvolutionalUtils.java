@@ -20,7 +20,6 @@ import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.nnet.comp.layer.PoolingLayer;
 import org.neuroph.nnet.comp.layer.ConvolutionalLayer;
 import org.neuroph.nnet.comp.layer.FeatureMapsLayer;
-
 /**
  * Utility functions for convolutional networks
  *
@@ -35,9 +34,7 @@ public class ConvolutionalUtils {
      * @param fromLayer from feature maps layer
      * @param toLayer   to feature maps layer
      */
-    public static void fullConectMapLayers(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer) {
-        // convolutional and pooling layers use different connectivity patterns
-        // povezuje svaku mapu sa svakom u dva susedna feature map layera
+    public static void fullConnectMapLayers(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer) {
         if (toLayer instanceof ConvolutionalLayer) {
             for (int i = 0; i < fromLayer.getNumberOfMaps(); i++) {
                 for (int j = 0; j < toLayer.getNumberOfMaps(); j++) {
@@ -46,8 +43,7 @@ public class ConvolutionalUtils {
                     toLayer.connectMaps(fromMap, toMap);
                 }
             }
-            // direct connectivity pattern - povezuje svaku feature mapu sa njoj odgovarajucom featre mapom u sledecem layeru
-        } else if (toLayer instanceof PoolingLayer) { // we're connecting to Pooling layer
+        } else if (toLayer instanceof PoolingLayer) {
             for (int i = 0; i < toLayer.getNumberOfMaps(); i++) {
                 Layer2D fromMap = fromLayer.getFeatureMap(i);
                 Layer2D toMap = toLayer.getFeatureMap(i);

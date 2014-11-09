@@ -1,14 +1,13 @@
 package org.neuroph.contrib.evaluation.evaluators;
 
-import org.neuroph.core.data.DataSet;
-import org.neuroph.contrib.evaluation.domain.ClassificationOutput;
 import org.neuroph.contrib.evaluation.domain.ConfusionMatrix;
 import org.neuroph.contrib.evaluation.domain.MetricResult;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.contrib.evaluation.domain.ClassificationOutput;
 
-public class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
+public abstract class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
 
     ConfusionMatrix confusionMatrix;
-    MetricResult cachedResults;
 
     private MetricsEvaluator(String[] labels, int classNumber) {
         confusionMatrix = new ConfusionMatrix.ConfusionMatrixBuilder()
@@ -17,20 +16,10 @@ public class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
                 .createConfusionMatrix();
     }
 
-
-    @Override
-    public void processResult(double[] predictedOutput, double[] actualOutput) {
-
-    }
-
     @Override
     public MetricResult getEvaluationResult() {
-        if (cachedResults == null) {
-            cachedResults = MetricResult.fromConfusionMatrix(confusionMatrix);
-        }
-        return cachedResults;
+        return MetricResult.fromConfusionMatrix(confusionMatrix);
     }
-
 
     public static MetricsEvaluator createEvaluator(final DataSet dataSet) {
         if (dataSet.getOutputSize() == 1) {
@@ -44,10 +33,10 @@ public class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
 
     private static class BinaryClassEvaluator extends MetricsEvaluator {
 
-        public static final String[] BINARY_CLASS_LABELS = new String[]{"Yes", "No"};
+        public static final String[] BINARY_CLASS_LABELS = new String[]{"No", "Yes"};
         public static final int BINARY_CLASSIFICATION = 2;
-        public static final int TRUE = 0;
-        public static final int FALSE = 1;
+        public static final int TRUE = 1;
+        public static final int FALSE = 0;
 
         private double threshold;
 
@@ -58,21 +47,18 @@ public class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
 
         @Override
         public void processResult(double[] predictedOutput, double[] actualOutput) {
-            double actualOutputValue = actualOutput[0];
-            double predictedOutputValue = predictedOutput[0];
-
-            int actualClass = FALSE;
-            int predictedClass = FALSE;
-
-            if (actualOutputValue >= threshold) {
-                actualClass = TRUE;
-            }
-            if (predictedOutputValue >= threshold) {
-                predictedClass = TRUE;
-            }
-
+            int actualClass = calculateClass(actualOutput[0]);
+            int predictedClass = calculateClass(predictedOutput[0]);
 
             confusionMatrix.incrementElement(actualClass, predictedClass);
+        }
+
+        private int calculateClass(double classResult) {
+            int classValue = FALSE;
+            if (classResult >= threshold) {
+                classValue = TRUE;
+            }
+            return classValue;
         }
 
     }
@@ -86,12 +72,11 @@ public class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
 
         @Override
         public void processResult(double[] predictedOutput, double[] actualOutput) {
-            int actualClass = ClassificationOutput.getMaxOutput(actualOutput).getClassId();
-            int predictedClass = ClassificationOutput.getMaxOutput(predictedOutput).getClassId();
+            int actualClass = ClassificationOutput.getMaxOutput(actualOutput).getActualClass();
+            int predictedClass = ClassificationOutput.getMaxOutput(predictedOutput).getActualClass();
 
             confusionMatrix.incrementElement(actualClass, predictedClass);
         }
-
     }
 
 }

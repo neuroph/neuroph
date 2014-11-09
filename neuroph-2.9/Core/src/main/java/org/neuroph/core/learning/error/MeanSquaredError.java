@@ -62,7 +62,7 @@ public class MeanSquaredError implements ErrorFunction, Serializable {
 
 
     @Override
-    public double[] getPatternError() {
+    public double[] getOutputDerivative() {
         return errorDerivative;
     }
 

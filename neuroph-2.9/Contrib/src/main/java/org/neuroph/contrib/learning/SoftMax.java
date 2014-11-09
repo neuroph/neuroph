@@ -27,6 +27,6 @@ public class SoftMax extends TransferFunction {
 
     @Override
     public double getDerivative(double net) {
-        return 1d * (1d - getOutput(net));
+        return 1d * (1d - output);
     }
 }

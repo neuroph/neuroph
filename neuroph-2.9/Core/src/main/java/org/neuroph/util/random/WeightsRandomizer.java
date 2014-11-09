@@ -22,6 +22,8 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
+import org.neuroph.nnet.comp.layer.FeatureMapsLayer;
+import org.neuroph.nnet.comp.layer.Layer2D;
 
 /**
  * Basic weights randomizer, iterates and randomizes all connection weights in network.
@@ -73,7 +75,7 @@ public class WeightsRandomizer {
      */
     public void randomize(NeuralNetwork neuralNetwork) {
         for (Layer layer : neuralNetwork.getLayers()) {
-            this.randomize(layer);
+                this.randomize(layer);
         }
     }
 
@@ -98,8 +100,8 @@ public class WeightsRandomizer {
         double coefficient = 1d / Math.sqrt(numberOfInputConnections);
         coefficient = coefficient == 0 ? 1 : coefficient;
         for (Connection connection : neuron.getInputConnections()) {
-            connection.getWeight().setValue(coefficient * nextRandomWeight());
-//            connection.getWeight().setValue(nextRandomWeight());
+//            connection.getWeight().setValue(coefficient * nextRandomWeight());
+            connection.getWeight().setValue(nextRandomWeight());
 
         }
     }

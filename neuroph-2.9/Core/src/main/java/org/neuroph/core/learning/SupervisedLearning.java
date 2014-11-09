@@ -111,7 +111,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         this.minErrorChangeIterationsCount = 0;
         this.previousEpochError = 0d;
 
-//        this.errorFunction = new MeanSquaredError();
+        this.errorFunction = new MeanSquaredError();
         // create stop condition structure based on settings               
         this.stopConditions.add(new MaxErrorStop(this));
     }
@@ -179,7 +179,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         this.neuralNetwork.calculate();
 
         errorFunction.calculatePatternError(neuralNetwork.getOutput(), trainingElement.getDesiredOutput());
-        this.updateNetworkWeights(errorFunction.getPatternError());
+        this.updateNetworkWeights(errorFunction.getOutputDerivative());
     }
 
     /**

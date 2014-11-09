@@ -36,7 +36,7 @@ import org.neuroph.util.NeuronProperties;
 public class Layer2D extends Layer implements Callable<Void> {
 
     private static final long serialVersionUID = 2498669699995172395L;
-    
+
     /**
      * Dimensions of this layer (width and height)
      */
@@ -50,14 +50,14 @@ public class Layer2D extends Layer implements Callable<Void> {
     public Layer2D(Dimensions dimensions) {
         this.dimensions = dimensions;
     }
-    
+
     /**
-     * Creates 2D layer with specified dimensions, filled with neurons with 
+     * Creates 2D layer with specified dimensions, filled with neurons with
      * specified properties
-     * 
-     * @param dimensions layer dimensions
+     *
+     * @param dimensions       layer dimensions
      * @param neuronProperties neuron properties
-     */    
+     */
     public Layer2D(Dimensions dimensions, NeuronProperties neuronProperties) {
         this(dimensions);
 
@@ -85,15 +85,16 @@ public class Layer2D extends Layer implements Callable<Void> {
         return dimensions.getHeight();
     }
 
-    
+
     /**
      * Returns dimensions of this layer
+     *
      * @return dimensions of this layer
      */
     public Dimensions getDimensions() {
         return dimensions;
     }
-       
+
 
     /**
      * Returns neuron at specified position in this layer
@@ -107,7 +108,6 @@ public class Layer2D extends Layer implements Callable<Void> {
     }
 
 
-
     @Override
     public Void call() throws Exception {
         calculate();
@@ -117,26 +117,26 @@ public class Layer2D extends Layer implements Callable<Void> {
 
     /**
      * Dimensions (width and height) of the Layer2D
-     *
      */
     public static class Dimensions implements Serializable {
 
         private static final long serialVersionUID = -4491706467345191108L;
-      
+
         private int width;
         private int height;
 
         /**
          * Creates new dimensions with specified width and height
-         * @param width
-         * @param height 
+         *
+         * @param width  total number  of columns
+         * @param height total number of rows
          */
         public Dimensions(int width, int height) {
             super();
             this.width = width;
             this.height = height;
         }
-        
+
         public int getWidth() {
             return width;
         }
@@ -159,7 +159,6 @@ public class Layer2D extends Layer implements Callable<Void> {
             return dimensions;
         }
     }
-
 
 
 }

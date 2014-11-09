@@ -22,19 +22,17 @@ public class WeightVisualiser {
 
 	private static final int RATIO = 20;
 
-	private List<List<Double>> manyMaps;
+	private List<List<Double>> featureDetector;
 	private Kernel kernel;
 
 	public WeightVisualiser(Layer2D map, Kernel kernel) {
-
 		this.kernel = kernel;
-
-		manyMaps = new ArrayList<List<Double>>();
+		this.featureDetector = new ArrayList<>();
 		initWeights(map);
 	}
 
 	private void initWeights(Layer2D map) {
-		List<Double> weights = new ArrayList<Double>();
+		List<Double> weights = new ArrayList<>();
 		Neuron neuron = map.getNeuronAt(0);
 		int counter = 0;
 		for (Connection conn : neuron.getInputConnections()) {
@@ -43,24 +41,24 @@ public class WeightVisualiser {
 					weights.add(conn.getWeight().getValue());
 					counter++;
 				} else {
-					manyMaps.add(weights);
-					weights = new ArrayList<Double>();
+					featureDetector.add(weights);
+					weights = new ArrayList<>();
 					weights.add(conn.getWeight().getValue());
 					counter = 1;
 				}
 			}
 		}
-		manyMaps.add(weights);
+		featureDetector.add(weights);
 
 	}
 
 	public void displayWeights() {
-		for (List<Double> currentKernel : manyMaps) {
-			displyWeight(currentKernel);
+		for (List<Double> currentKernel : featureDetector) {
+			displayWeight(currentKernel);
 		}
 	}
 
-	private void displyWeight(List<Double> currentKernel) {
+	private void displayWeight(List<Double> currentKernel) {
 
 		JFrame frame = new JFrame("Weight Visualiser: ");
 		frame.setSize(400, 400);

@@ -18,6 +18,7 @@ package org.neuroph.core;
 import java.io.*;
 import java.util.*;
 
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.core.events.NeuralNetworkEventListener;
 import org.neuroph.core.exceptions.NeurophException;
@@ -273,8 +274,13 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
             neuron.setInput(inputVector[i]); // set input to the coresponding neuron
             i++;
         }
-
     }
+
+
+    public void setInput(DataSetRow dataSetRow) throws VectorSizeMismatchException {
+        setInput(dataSetRow.getInput());
+    }
+
 
     /**
      * Returns network output vector. Output vector is an array  collection of Double

@@ -31,71 +31,32 @@ public class MNISTDataSet {
         return dataSet;
     }
 
-
-//    private static List<MNISTImage> loadMNISTImages(String labelPath, String imagePath) throws IOException {
-////        String labelPath = "/" + TRAIN_LABEL_NAME;
-////        String imagePath = "/" + TRAIN_IMAGE_NAME;
-//        MNISTImageLoader mnistLoader = new MNISTImageLoader("/" + labelPath, "/" + imagePath);
-//        List<MNISTImage> imageList = mnistLoader.loadDigitImages();
-//        return imageList;
-//    }    
-
-
-//    public static DataSet loadTrainSet(int sampleCount) throws IOException {
-//        String labelPath = "/" + TRAIN_LABEL_NAME;
-//        String imagePath = "/" + TRAIN_IMAGE_NAME;        
-//        List<MNISTImage> trainImages = loadMNISTImages(labelPath, imagePath);
-//        DataSet trainSet = crateDataSet(trainImages, sampleCount);
-//        return trainSet;
-//    }
-
-//    private static String createValidPath(String path) {
-//        if (path.charAt(path.length() - 1) != '/') {
-//            path += "/";
-//        }
-//        return path;
-//    }
-
-//    public static DataSet loadTestSet(int sampleCount) throws IOException {
-//        // path = createValidPath(path);
-//        List<MNISTImage> testImages = getTestDataSet();
-//        DataSet testSet = crateDataSet(testImages, sampleCount);
-//        return testSet;
-//    }
-
-//    private static List<MNISTImage> getTrainDataSet() throws IOException {
-//        String labelPath = "/" + TRAIN_LABEL_NAME;
-//        String imagePath = "/" + TRAIN_IMAGE_NAME;
-//        MNISTLoader db = new MNISTLoader(labelPath, imagePath);
-//        List<MNISTImage> imageList = db.loadDigitImages();
-//        return imageList;
-//    }
-//
-//    private static List<MNISTImage> getTestDataSet() throws IOException {
-//        String labelPath = "/" + TEST_LABEL_NAME;
-//        String imagePath = "/" + TEST_IMAGE_NAME;
-//        MNISTLoader db = new MNISTLoader(labelPath, imagePath);
-//        List<MNISTImage> imageList = db.loadDigitImages();
-//        return imageList;
-//    }
-
     // TODO; remove sampleCount param its ame as  list count
     private static DataSet createDataSet(List<MNISTImage> imageList, int sampleCount) {
 
         int pixelCount = imageList.get(0).getSize();
-        DataSet dataSet = new DataSet(pixelCount, 10);
+        int totalSize = 1024;
+        DataSet dataSet = new DataSet(totalSize, 10);
+
         for (int i = 0; i < sampleCount; i++) {
             MNISTImage dImage = imageList.get(i);
-            double[] input = new double[pixelCount];
+            double[] input = new double[totalSize];
             double[] output = new double[10];
             for (int j = 0; j < 10; j++) {
                 output[j] = 0;
             }
 
+            for (int j = 0; j < totalSize; j++) {
+                input[j] = 0;
+            }
+
             output[dImage.getLabel()] = 1;
             byte[] imageData = dImage.getData();
+            int k = 66;
             for (int j = 0; j < pixelCount; j++) {
-                input[j] = (imageData[j] & 0xff) / 255.0;
+                input[k++] = (imageData[j] & 0xff) / 255.0;
+                if (j % 28 == 27)
+                    k += 4;
             }
             DataSetRow row = new DataSetRow(input, output);
             dataSet.addRow(row);

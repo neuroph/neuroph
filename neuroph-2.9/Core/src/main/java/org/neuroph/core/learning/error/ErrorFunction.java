@@ -43,5 +43,5 @@ public interface ErrorFunction {
     /**
      * Returns output neuron errors for last processed pattern
      */
-    double[] getPatternError();
+    double[] getOutputDerivative();
 }

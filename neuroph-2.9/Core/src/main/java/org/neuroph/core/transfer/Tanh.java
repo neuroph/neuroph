@@ -86,7 +86,7 @@ public class Tanh extends TransferFunction implements Serializable {
 
         double E_x = Math.exp(this.slope * net);
         this.output = (E_x - 1d) / (E_x + 1d);
-//        this.output = 1.7159 * Math.tanh(2d/3d*net) ;
+//        this.output =  Math.tanh(2.0d/3.0*net) ;
 //        this.output = Math.tanh(net);
 
         return this.output;

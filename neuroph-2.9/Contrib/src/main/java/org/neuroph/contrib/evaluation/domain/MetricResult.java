@@ -2,6 +2,8 @@ package org.neuroph.contrib.evaluation.domain;
 
 import org.neuroph.contrib.utils.ArrayUtils;
 
+import java.util.List;
+
 public class MetricResult {
 
     private double accuracy;
@@ -30,10 +32,20 @@ public class MetricResult {
         return recall;
     }
 
-    public double getfScore() {
+    public double getFScore() {
         return fScore;
     }
 
+    @Override
+    public String toString() {
+        return "MetricResult{" +
+                "accuracy=" + accuracy +
+                ", error=" + error +
+                ", precision=" + precision +
+                ", recall=" + recall +
+                ", fScore=" + fScore +
+                '}';
+    }
 
     public static MetricResult fromConfusionMatrix(ConfusionMatrix confusionMatrix) {
         MetricResult metricsEvaluationResult = new MetricResult();
@@ -53,6 +65,58 @@ public class MetricResult {
         metricsEvaluationResult.fScore = ArrayUtils.average(fScores);
 
         return metricsEvaluationResult;
+    }
+
+    public static MetricResult averageFromMultipleRuns(List<MetricResult> results) {
+        double averageAccuracy = 0;
+        double averageError = 0;
+        double averagePrecision = 0;
+        double averageRecall = 0;
+        double averageFScore = 0;
+
+        for (MetricResult metricResult : results) {
+            averageAccuracy += metricResult.getAccuracy();
+            averageError += metricResult.getError();
+            averagePrecision += metricResult.getPrecision();
+            averageRecall += metricResult.getRecall();
+            averageFScore += metricResult.getFScore();
+        }
+
+        MetricResult averageMetricsResult = new MetricResult();
+
+        averageMetricsResult.accuracy = averageAccuracy / results.size();
+        averageMetricsResult.error = averageError / results.size();
+        averageMetricsResult.precision = averagePrecision / results.size();
+        averageMetricsResult.recall = averageRecall / results.size();
+        averageMetricsResult.fScore = averageFScore / results.size();
+
+        return averageMetricsResult;
+    }
+
+    public static MetricResult maxFromMultipleRuns(List<MetricResult> results) {
+        double maxAccuracy = 0;
+        double maxError = 0;
+        double maxPrecision = 0;
+        double maxRecall = 0;
+        double maxFScore = 0;
+
+        for (MetricResult metricResult : results) {
+            maxAccuracy = Math.max(maxAccuracy, metricResult.getAccuracy());
+            maxError  = Math.max(maxError, metricResult.getError());
+            maxPrecision  = Math.max(maxPrecision, metricResult.getPrecision());
+            maxRecall  = Math.max(maxRecall, metricResult.getRecall());
+            maxFScore = Math.max(maxFScore, metricResult.getFScore());
+        }
+
+        MetricResult averageMetricsResult = new MetricResult();
+
+        averageMetricsResult.accuracy = maxAccuracy ;
+        averageMetricsResult.error = maxError;
+        averageMetricsResult.precision = maxPrecision;
+        averageMetricsResult.recall = maxRecall;
+        averageMetricsResult.fScore = maxFScore;
+
+        return averageMetricsResult;
     }
 
     private static int getCorrect(double[][] matrix) {
@@ -82,10 +146,7 @@ public class MetricResult {
             for (int j = 0; j < matrix[0].length; j++) {
                 recall[i] += matrix[i][j];
             }
-            double divisor = matrix[i][i] == 0.0 ? 1.0 : matrix[i][i];
-            double divider =  recall[i] == 0.0 ? 1.0 : recall[i];
-
-            recall[i] = divisor / divider;
+            recall[i] = safelyDivide(matrix[i][i], recall[i]);
         }
         return recall;
     }
@@ -98,9 +159,7 @@ public class MetricResult {
             for (int j = 0; j < matrix[0].length; j++) {
                 precisions[i] += matrix[j][i];
             }
-            double divisor = matrix[i][i] == 0.0 ? 1 : matrix[i][i];
-            double divider =  precisions[i] == 0.0 ? 1.0 : precisions[i];
-            precisions[i] =  divisor / divider;
+            precisions[i] = safelyDivide(matrix[i][i], precisions[i]);
         }
         return precisions;
     }
@@ -108,12 +167,18 @@ public class MetricResult {
     private static double[] createFScoresForEachClass(double[] precisions, double[] recalls) {
         double[] fScores = new double[precisions.length];
 
-
         for (int i = 0; i < precisions.length; i++) {
             fScores[i] = 2 * (precisions[i] * recalls[i]) / (precisions[i] + recalls[i]);
         }
 
         return fScores;
+    }
+
+
+    private static double safelyDivide(double x, double y) {
+        double divisor = x == 0.0 ? 1 : x;
+        double divider = y == 0.0 ? 1.0 : y;
+        return divisor / divider;
     }
 
 
