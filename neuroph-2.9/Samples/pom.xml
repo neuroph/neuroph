@@ -76,7 +76,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.neuroph.samples.mnist.Test</mainClass>
+                            <mainClass>org.neuroph.samples.mnist.CnnMNIST</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

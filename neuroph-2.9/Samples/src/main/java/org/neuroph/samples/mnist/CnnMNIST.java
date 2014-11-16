@@ -42,7 +42,6 @@ public class CnnMNIST {
             BackPropagation bp = (BackPropagation) event.getSource();
             LOG.info("Epoch no#: [{}]. Error [{}]", bp.getCurrentIteration(), bp.getTotalNetworkError());
             LOG.info("Epoch execution time: {} sec", (System.currentTimeMillis() - start) / 1000.0);
-//
             neuralNetwork.save(bp.getCurrentIteration() + "_MNIST_CNN-MIC.nnet");
 
             start = System.currentTimeMillis();
@@ -67,7 +66,7 @@ public class CnnMNIST {
             LOG.info("{}-{}-{}", layer1, layer2, layer3);
 
 
-            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60000);
+            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 100);
             DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
 
             Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(32, 32);

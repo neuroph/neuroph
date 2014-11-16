@@ -38,16 +38,19 @@ public class TestMultiClass {
 
 
 
-        neuralNet.getLearningRule().addListener(new LearningListener());
+//        neuralNet.getLearningRule().addListener(new LearningListener());
         neuralNet.getLearningRule().setLearningRate(0.02);
-        neuralNet.getLearningRule().setMaxIterations(100);
-        neuralNet.getLearningRule().setMaxError(0.00001);
-        neuralNet.getLearningRule().setErrorFunction(new CrossEntropyError());
+//        neuralNet.getLearningRule().setMaxIterations(500);
+        neuralNet.getLearningRule().setMaxError(0.01);
+        neuralNet.getLearningRule().setErrorFunction(new MeanSquaredError());
 
+
+        long start = System.currentTimeMillis();
         neuralNet.learn(irisDataSet);
 
+        System.out.println("Time: " + (System.currentTimeMillis()-start)/1000.0);
 
-        NeuralNetworkEvaluationService.completeEvaluation(neuralNet, irisDataSet);
+//        NeuralNetworkEvaluationService.completeEvaluation(neuralNet, irisDataSet);
 
     }
 
