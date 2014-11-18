@@ -116,10 +116,16 @@ public class GenericConvolution implements ImageFilter{
     }
     
     public void normalizeKernel() {
-        int n = kernel.length*kernel.length;
+        int n = 0;
         for (int i = 0; i < kernel.length; i++) {
             for (int j = 0; j < kernel.length; j++) {
-                kernel[i][j]=kernel[i][j]/n;
+                n+=kernel[i][j];
+            }
+            
+        }
+        for (int i = 0; i < kernel.length; i++) {
+            for (int j = 0; j < kernel.length; j++) {
+                kernel[i][j] = kernel[i][j]/n;
             }
             
         }
