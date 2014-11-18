@@ -93,14 +93,18 @@ public class GenericConvolution implements ImageFilter{
     public double convolve(int x, int y, int radius) {
         
         double sum = 0;
+        int kernelI = 0;
         for (int i = x-radius; i <= x+radius; i++) {
+            int kernelJ = 0;
             for (int j = y-radius; j <= y+radius; j++) {              
                 if (i>0 && i<originalImage.getWidth() && j>0 && j<originalImage.getHeight()) {                
                     int color = new Color(originalImage.getRGB(i, j)).getRed();
-                    sum = sum + color;
+                    sum = sum + color*kernel[kernelI][kernelJ];
                     
-                }   
+                }
+                kernelJ++;
             }
+            kernelI++;
         }
         
         return sum;
