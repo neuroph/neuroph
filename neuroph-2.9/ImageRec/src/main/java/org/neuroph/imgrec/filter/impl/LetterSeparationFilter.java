@@ -18,7 +18,11 @@ public class LetterSeparationFilter implements ImageFilter {
 
     private BufferedImage originalImage;
     private BufferedImage filteredImage;
-
+/**
+ * radi otsu da dobije spojena crna slova i ra
+ * @param image
+ * @return 
+ */
     @Override
     public BufferedImage processImage(BufferedImage image) {
 
