@@ -9,8 +9,6 @@ package org.neuroph.ocr.workflow;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.neuroph.imgrec.filter.impl.OCRSeparationFilter;
 
 /**
@@ -32,8 +30,8 @@ public class LetterCreator {
         image = Share.getInstance().getImage();
     }
 
-    public void createLetterImage(int letterWidth, int letterHeight) {
-        int [] linePosition = linePositions(9);
+    public void createLetterImages(int letterWidth, int letterHeight) {
+        int [] linePosition = LetterCreator.this.findLinePositions(9);
         OCRSeparationFilter osf = new OCRSeparationFilter(letterWidth, letterHeight, location, text);
         osf.setLinePositions(linePosition);
         osf.setDimension(30, 30);
@@ -42,18 +40,20 @@ public class LetterCreator {
     }
 
     
-    public int[] linePositions(int window) {
-        int [] histogram = histogram(image);
-        int [] gradient = gradient(histogram);
-        int [] linePos = linePositions(gradient, window);
+    public int[] findLinePositions(int lineHeightThresh) {
+        int [] blackHistogram = blackHistogramByHeight(image);
+        int [] gradients = calculateHistogramGradients(blackHistogram);
+        int [] linePos = findLinePositions(gradients, lineHeightThresh);
         return linePos;
     }
     
-    private int [] histogram(BufferedImage imageP) {
+    // return blackHistogram of black pixes by imageheight
+    // assumes input imge is binaried image
+    private int [] blackHistogramByHeight(BufferedImage imageP) {
         int height = imageP.getHeight();
         int width = imageP.getWidth();
         
-        int [] histogram = new int[height];
+        int [] blackHistogram = new int[height];
         
         int color;
         int black = 0;
@@ -61,17 +61,18 @@ public class LetterCreator {
             for (int j = 0; j < width; j++) {
                 color = new Color(imageP.getRGB(j, i)).getRed();
                 if (color == black) {
-                    histogram[i]++;
+                    blackHistogram[i]++;
                 }
             }
         }
-        return histogram;
+        return blackHistogram;
     } 
 
-    private int [] gradient (int [] histogram) {
-        int [] gradient = new int [histogram.length];
+    // calculas radient as a difference between two neighbouring elemements (lines)
+    private int [] calculateHistogramGradients (int [] blackHistogram) {
+        int [] gradient = new int [blackHistogram.length];
         for (int i = 1; i < gradient.length; i++) {
-            gradient[i] = histogram[i]-histogram[i-1];
+            gradient[i] = blackHistogram[i]-blackHistogram[i-1];
         }
         return gradient;
     }
@@ -79,26 +80,26 @@ public class LetterCreator {
     /**
      * 
      * @param gradient 
-     * @param window window is actually height of the letter
+     * @param lineHeightThresh lineHeightThresh is actually height of the letter
      * @return 
      */
-    private int [] linePositions(int gradient [], int window) {
+    private int [] findLinePositions(int gradient [], int lineHeightThresh) {
         ArrayList<Integer> lines = new ArrayList<Integer>();
         int sum = 0;
         int count = 0;
-        for (int i = 0; i < gradient.length; i++) {
-            sum += gradient[i];
+        for (int row = 0; row < gradient.length; row++) {
+            sum += gradient[row];
             if (sum != 0) {
                 count++;
                 continue;
             }
             if (sum == 0) {
-                if (count < window) {
+                if (count < lineHeightThresh) {
                     count = 0;
                 }
-                else { //count >= window
-                    int startLetter = i-count;
-                    int endLetter = i;
+                else { //count >= lineHeightThresh // found line!
+                    int startLetter = row-count;
+                    int endLetter = row;
                     int line = (startLetter+endLetter)/2;
                     lines.add(line);
                     count=0;
@@ -114,6 +115,7 @@ public class LetterCreator {
             array[i] = list.get(i);
             
         }
+
         return array;
     }
     

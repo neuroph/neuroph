@@ -5,13 +5,16 @@
  */
 package org.neuroph.ocr.workflow;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import org.neuroph.imgrec.FractionHSLData;
 import org.neuroph.imgrec.FractionRgbData;
 import org.neuroph.imgrec.ImageRecognitionHelper;
+import org.neuroph.imgrec.filter.ImageFilterChain;
 import org.neuroph.imgrec.filter.impl.GrayscaleFilter;
 import org.neuroph.imgrec.filter.impl.LetterSeparationFilter;
 import org.neuroph.imgrec.image.Dimension;
@@ -26,18 +29,21 @@ public class Test {
 
         String pathText = "C:/Users/Mihailo/Desktop/OCR workflow/part_75.txt";
         String pathImage = "C:/Users/Mihailo/Desktop/OCR workflow/part_75.png";
-        Reader.readImage(pathImage);
+        //Reader.readImage(pathImage);
+                    
+        BufferedImage image = ImageIO.read(new File(pathImage));
+        Share.getInstance().setImage(image);
         Reader.readText(pathText);
-
-        Filters filters = new Filters();
-        filters.addFilter(new GrayscaleFilter());
-        filters.addFilter(new LetterSeparationFilter());
-        filters.processImage();
+        
+        ImageFilterChain filterChain = new ImageFilterChain();  
+        filterChain.addFilter(new GrayscaleFilter());
+        filterChain.addFilter(new LetterSeparationFilter());
+        BufferedImage filteredImage = filterChain.processImage(image); // output: binrizovna slka, sa belom izmedju slova
 
         System.out.println("Creating letters...");
         String locationFolder = "C:\\Users\\Mihailo\\Desktop\\OCR workflow\\letters";
         LetterCreator letterCreator = new LetterCreator(locationFolder);
-        letterCreator.createLetterImage(80, 80); //dimensions of the image
+        letterCreator.createLetterImages(80, 80); //dimensions of the image
 
         ArrayList<String> letterLabels = Share.getInstance().getLetterLabels();
 
