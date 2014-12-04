@@ -15,7 +15,7 @@ import org.neuroph.imgrec.filter.ImageFilter;
 
 
 /**
- *
+ * 
  * @author Sanja
  */
 public class EdgeDetection implements ImageFilter,Serializable {

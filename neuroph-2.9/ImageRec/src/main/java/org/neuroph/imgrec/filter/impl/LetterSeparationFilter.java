@@ -11,7 +11,9 @@ import org.neuroph.imgrec.ImageUtilities;
 import org.neuroph.imgrec.filter.ImageFilter;
 
 /**
- *
+ * Prvo izrcunav threshold na osnovu otsu i binrzije
+ * zatim na osnu bw i originalne slike podesaava(spusta) threshold tako da slova ne budu spojena
+ * 
  * @author Mihailo Stupar
  */
 public class LetterSeparationFilter implements ImageFilter {
@@ -31,7 +33,7 @@ public class LetterSeparationFilter implements ImageFilter {
         int width = originalImage.getWidth();
         int height = originalImage.getHeight();
 
-        boolean[][] matrix = new boolean[width][height];
+        boolean[][] matrix = new boolean[width][height]; // black n white oolean matrix; true = blck, false = white
 
         filteredImage = new BufferedImage(width, height, originalImage.getType());
 
@@ -39,7 +41,7 @@ public class LetterSeparationFilter implements ImageFilter {
 
         int totalNumberOfpixels = height * width;
 
-        int treshold = treshold(histogram, totalNumberOfpixels);
+        int threshold = threshold(histogram, totalNumberOfpixels);
 
         int black = 0;
         int white = 255;
@@ -52,7 +54,7 @@ public class LetterSeparationFilter implements ImageFilter {
             for (int j = 0; j < height; j++) {
                 gray = new Color(originalImage.getRGB(i, j)).getRed();
 
-                if (gray > treshold) {
+                if (gray > threshold) {
                     matrix[i][j] = false;
                 } else {
                     matrix[i][j] = true;
@@ -61,7 +63,7 @@ public class LetterSeparationFilter implements ImageFilter {
             }
         }
 
-        int blackTreshold = letterTreshold(originalImage, matrix);
+        int blackTreshold = letterThreshold(originalImage, matrix);
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -81,7 +83,8 @@ public class LetterSeparationFilter implements ImageFilter {
 
         return filteredImage;
     }
-
+    
+    // hitoram from otsu method for grayscae dimage
     public int[] imageHistogram(BufferedImage image) {
 
         int[] histogram = new int[256];
@@ -99,7 +102,8 @@ public class LetterSeparationFilter implements ImageFilter {
         return histogram;
     }
 
-    public int letterTreshold(BufferedImage original, boolean[][] matrix) {
+    
+    public int letterThreshold(BufferedImage original, boolean[][] matrix) {
         double sum = 0;
         int count = 0;
 
@@ -118,10 +122,11 @@ public class LetterSeparationFilter implements ImageFilter {
             return 0;
         }
 
-        return (int) Math.round((sum * 3) / (count * 2));
+        return (int) Math.round((sum * 3) / (count * 2)); // 3 i 2 su plinkove konstnte
     }
 
-    private int treshold(int[] histogram, int total) {
+    // thresold po otsu metodi
+    private int threshold(int[] histogram, int total) {
         float sum = 0;
         for (int i = 0; i < 256; i++) {
             sum += i * histogram[i];

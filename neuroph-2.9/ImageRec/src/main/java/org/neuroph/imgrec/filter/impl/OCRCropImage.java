@@ -66,7 +66,7 @@ public class OCRCropImage implements ImageFilter {
             for (int j = 0; j < width; j++) {
                 color = new Color(originalImage.getRGB(j, i)).getRed();
                 if (color == black) {
-                    startH = j;
+                    startH = i;
                     break loop;
                 }
             }
@@ -83,7 +83,7 @@ public class OCRCropImage implements ImageFilter {
             for (int i = 0; i < height; i++) {
                 color = new Color(originalImage.getRGB(j, i)).getRed();
                 if (color == black) {
-                    startW = i;
+                    startW = j;
                     break loop;
                 }
             }
@@ -97,10 +97,10 @@ public class OCRCropImage implements ImageFilter {
         int endH = 0;
         loop:
         for (int i = height - 1; i >= 0; i--) {
-            for (int j = width; j >= 0; j--) {
+            for (int j = width-1; j >= 0; j--) {
                 color = new Color(originalImage.getRGB(j, i)).getRed();
                 if (color == black) {
-                    endH = j;
+                    endH = i;
                     break loop;
                 }
             }
@@ -113,11 +113,11 @@ public class OCRCropImage implements ImageFilter {
         int black = 0;
         int endW = 0;
         loop:
-        for (int j = width; j >= 0; j--) {
+        for (int j = width-1; j >= 0; j--) {
             for (int i = height - 1; i >= 0; i--) {
                 color = new Color(originalImage.getRGB(j, i)).getRed();
                 if (color == black) {
-                    endW = i;
+                    endW = j;
                     break loop;
                 }
             }
@@ -127,6 +127,8 @@ public class OCRCropImage implements ImageFilter {
 
     private void fillImage(int startH, int startW, int endH, int endW) {
 
+       
+        
         // fill the image with white color
         int alpha = new Color(originalImage.getRGB(width / 2, height / 2)).getRed();
         int whiteRGB = ImageUtilities.colorToRGB(alpha, 255, 255, 255);
@@ -149,6 +151,7 @@ public class OCRCropImage implements ImageFilter {
         LinkedList<String> queue = new LinkedList<>();
         String pos = newCenterH + " " + newCenterW + " " + oldCenterH + " " + oldCenterW;
         queue.addLast(pos);
+        visited[newCenterH][newCenterW] = true;
         try {
             while (!queue.isEmpty()) {
                 String tmp = queue.removeFirst();
@@ -156,15 +159,18 @@ public class OCRCropImage implements ImageFilter {
                 int nw = Integer.parseInt(tmp.split(" ")[1]);
                 int oh = Integer.parseInt(tmp.split(" ")[2]);
                 int ow = Integer.parseInt(tmp.split(" ")[3]);
+              
                 filteredImage.setRGB(nw, nh, originalImage.getRGB(ow, oh));
 
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
-                        int tmpH = nh + i;
-                        int tmpW = nw + i;
-                        if (!visited[tmpH][tmpW]) {
-                            visited[tmpH][tmpW] = true;
-                            queue.addLast(nh + " " + nw + " " + oh + " " + ow);
+                        int n_tmpH = nh + i;
+                        int n_tmpW = nw + j;
+                        int o_tmpH = oh + i;
+                        int o_tmpW = ow + j;
+                        if (!visited[n_tmpH][n_tmpW]) {
+                            visited[n_tmpH][n_tmpW] = true;
+                            queue.addLast(n_tmpH + " " + n_tmpW + " " + o_tmpH + " " + o_tmpW);
                         }
                     }
                 }

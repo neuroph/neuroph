@@ -162,20 +162,25 @@ public class OCRSeparationFilter implements ImageFilter {
 
     private void saveToFile(BufferedImage img, String letterName) {
         File outputfile = new File(location + letterName + ".png");
-        if (cropHeight == 0 || cropWidth == 0) {
+        BufferedImage crop = img;
+        if (cropHeight != 0 || cropWidth != 0) {
             OCRCropImage ci = new OCRCropImage();
-            ci.setDimension(width, height);
-            img = ci.processImage(img);
+            ci.setDimension(cropWidth, cropHeight);
+            crop = ci.processImage(img);
         }
         
         
         try {
-            ImageIO.write(img, "png", outputfile);
+            ImageIO.write(crop, "png", outputfile);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
+    /**
+     *  pretopstavka da s ekoriste samo slova, mala i velika
+     *  26 mali i 26 velikih, zato je counts[52]
+     */
     private void prepare() {
         counts = new int[52];
         for (int i = 0; i < counts.length; i++) {
@@ -189,6 +194,7 @@ public class OCRSeparationFilter implements ImageFilter {
         }
         text = pom;
         //====================================================
+        // ako nije setovan linepostions proci kroz sve linije
         if (linePositions == null) {
             linePositions = new int[height];
 
@@ -199,6 +205,12 @@ public class OCRSeparationFilter implements ImageFilter {
 
     }
 
+    
+    /**
+     * trenutno radi samo sa slovima, malim i velikim
+     * promeniti da prepoznaje i druge karaktere
+     * @return naziv slova, npr A ili c
+     */
     private String createName() {
 
         int offsetBIG = 65;
