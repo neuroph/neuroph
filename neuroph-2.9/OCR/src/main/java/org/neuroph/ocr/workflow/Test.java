@@ -31,7 +31,6 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
 
-        
         String pathImage = "C:/Users/Mihailo/Desktop/OCR workflow/part_75.png";
         BufferedImage image = ImageIO.read(new File(pathImage));
 
@@ -43,12 +42,9 @@ public class Test {
         } catch (IOException e) {
             System.err.println("File not found.");
         }
-        
-        
-        
+
 //        Share.getInstance().setImage(image);
 //        Reader.readText(pathText);
-
         ImageFilterChain filterChain = new ImageFilterChain();
         filterChain.addFilter(new GrayscaleFilter());
         filterChain.addFilter(new LetterSeparationFilter());
@@ -56,8 +52,8 @@ public class Test {
 
         LinePositions linePos = new LinePositions(binarizedImage);
         linePos.setLineHeightThresh(9);  // 
-        int [] linePositions = linePos.findLinePositions();
-        
+        int[] linePositions = linePos.findLinePositions();
+
         String locationFolder = "C:\\Users\\Mihailo\\Desktop\\OCR workflow\\letters";
         OCRSeparationFilter separation = new OCRSeparationFilter();
         separation.setDimension(30, 30);
@@ -65,16 +61,12 @@ public class Test {
         separation.setLocationFolder(locationFolder);
 //        separation.setLocationFolder(locationFolder);
         separation.processImage(binarizedImage);
-        
-        
-        
         System.out.println("Creating letters...");
 //        String locationFolder = "C:\\Users\\Mihailo\\Desktop\\OCR workflow\\letters";
 //        LetterCreator letterCreator = new LetterCreator(locationFolder);
 //        letterCreator.createLetterImages(80, 80); //dimensions of the image
 
 //        ArrayList<String> letterLabels = Share.getInstance().getLetterLabels();
-
         Map<String, FractionHSLData> map = ImageRecognitionHelper.getFractionHSLDataForDirectory(new File(locationFolder), new Dimension(20, 20));
     }
 
