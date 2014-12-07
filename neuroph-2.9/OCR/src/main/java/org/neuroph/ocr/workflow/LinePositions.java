@@ -3,55 +3,62 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.ocr.workflow;
 
+package org.neuroph.ocr.workflow;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import org.neuroph.imgrec.filter.impl.OCRSeparationFilter;
 
 /**
- *
+ * 
  * @author Mihailo
  */
-public class LetterCreator {
-
-    private String location;
-    private String text;
+public class LinePositions {
+    
     private BufferedImage image;
-    
+    private int lineHeightThresh;
 
-    
-
-    public LetterCreator(String location) {
-        this.location = location+"\\";
-        text = Share.getInstance().getText();
-        image = Share.getInstance().getImage();
+    public LinePositions(BufferedImage image) {
+        this.image = image;
+        lineHeightThresh = 0;
     }
 
-    public void createLetterImages(int letterWidth, int letterHeight) {
-//        int [] linePosition = LetterCreator.this.findLinePositions(9);
-//        OCRSeparationFilter osf = new OCRSeparationFilter(letterWidth, letterHeight, location, text);
-//        osf.setLinePositions(linePosition);
-//        osf.setDimension(30, 30);
-//        osf.processImage(image);
-//        Share.getInstance().setLetterLabels(osf.getLetterLabels());
+    public LinePositions() {
+        lineHeightThresh = 0;
     }
 
+    /**
+     * The height of each letter in the text measured in pixels
+     * @param lineHeightThresh 
+     */
+    // Treba dodati koja vrednost ide z akoju velicinu slova ako je slika skenirana sa 300bpi
+    public void setLineHeightThresh(int lineHeightThresh) {
+        this.lineHeightThresh = lineHeightThresh;
+    }
     
-    public int[] findLinePositions(int lineHeightThresh) {
-        int [] blackHistogram = blackHistogramByHeight(image);
+    
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+    
+    /**
+     * Calculate the pixel position of each line in document
+     * @return array of pixels positions
+     */
+    public int [] findLinePositions() {
+        int [] blackHistogram = blackHistogramByHeight();
         int [] gradients = calculateHistogramGradients(blackHistogram);
-        int [] linePos = findLinePositions(gradients, lineHeightThresh);
+        int [] linePos = findLinePositions(gradients);
         return linePos;
     }
     
     // return blackHistogram of black pixes by imageheight
     // assumes input imge is binaried image
-    private int [] blackHistogramByHeight(BufferedImage imageP) {
-        int height = imageP.getHeight();
-        int width = imageP.getWidth();
+    private int [] blackHistogramByHeight() {
+        int height = image.getHeight();
+        int width = image.getWidth();
         
         int [] blackHistogram = new int[height];
         
@@ -59,7 +66,7 @@ public class LetterCreator {
         int black = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                color = new Color(imageP.getRGB(j, i)).getRed();
+                color = new Color(image.getRGB(j, i)).getRed();
                 if (color == black) {
                     blackHistogram[i]++;
                 }
@@ -67,7 +74,7 @@ public class LetterCreator {
         }
         return blackHistogram;
     } 
-
+    
     // calculas radient as a difference between two neighbouring elemements (lines)
     private int [] calculateHistogramGradients (int [] blackHistogram) {
         int [] gradient = new int [blackHistogram.length];
@@ -77,13 +84,13 @@ public class LetterCreator {
         return gradient;
     }
     
+    
     /**
-     * 
      * @param gradient 
      * @param lineHeightThresh lineHeightThresh is actually height of the letter
      * @return 
      */
-    private int [] findLinePositions(int gradient [], int lineHeightThresh) {
+    private int [] findLinePositions(int gradient []) {
         ArrayList<Integer> lines = new ArrayList<Integer>();
         int sum = 0;
         int count = 0;
@@ -105,7 +112,7 @@ public class LetterCreator {
                     count=0;
                 }
             }
-        } 
+        }
         return list2array(lines);
     }
     
@@ -115,13 +122,8 @@ public class LetterCreator {
             array[i] = list.get(i);
             
         }
-
         return array;
     }
-    
-    
-    
-    
     
     
 }
