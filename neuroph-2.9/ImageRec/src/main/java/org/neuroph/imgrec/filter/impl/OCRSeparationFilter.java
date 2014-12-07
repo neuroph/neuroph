@@ -39,20 +39,17 @@ public class OCRSeparationFilter implements ImageFilter {
     private int[] counts;
 
     private int[] linePositions = null;
-    private ArrayList<String> letterLabels;
+//    private ArrayList<String> letterLabels;
 
     private String text;
     private int seqNum = 0;
 
-    public OCRSeparationFilter() {
-    }
+    
 
-    public OCRSeparationFilter(int letterWidth, int letterHeight, String location, String text) {
-        this.letterWidth = letterWidth;
-        this.letterHeight = letterHeight;
-        this.location = location;
-        this.text = text;
-        letterLabels = new ArrayList<>();
+    public OCRSeparationFilter() {
+        letterWidth = 0;
+        letterHeight = 0;
+//        letterLabels = new ArrayList<>(); 
         cropHeight = 0;
         cropWidth = 0;
     }
@@ -84,7 +81,7 @@ public class OCRSeparationFilter implements ImageFilter {
                     if (color == white) {
                         visited[i][j] = true;
                     } else {
-                        BFStraverse(i, j);
+                        BFStraverseAndSave(i, j);
 
                     }
 
@@ -94,7 +91,7 @@ public class OCRSeparationFilter implements ImageFilter {
         return originalImage;
     }
 
-    private void BFStraverse(int startI, int startJ) {
+    private void BFStraverseAndSave(int startI, int startJ) {
 
         int gapWidth = letterWidth / 5 * 2;  //start x coordinate of letter, 2/5 itended
         int gapHeight = letterHeight / 5 * 2;  //start y coordinate of letter 
@@ -229,7 +226,7 @@ public class OCRSeparationFilter implements ImageFilter {
             counts[key - offsetSMALL + offsetARRAY]++;
         }
         String name = c + "_" + number;
-        letterLabels.add(c+"");
+//        letterLabels.add(c+"");
         return name;
     }
 
@@ -237,14 +234,43 @@ public class OCRSeparationFilter implements ImageFilter {
         this.linePositions = linePositions;
     }
 
-    public ArrayList<String> getLetterLabels() {
-        return letterLabels;
-    }
+//    public ArrayList<String> getLetterLabels() {
+//        return letterLabels;
+//    }
 
-    
+    /**
+     * The dimension of the image with a single letter
+     * Letter will be in the center of the image
+     * If the dimension is too small, the letter will be cropped
+     * treba dodati preporucene velicine za svaki font
+     * @param cropHeight
+     * @param cropWidth 
+     */
     public void setDimension(int cropHeight, int cropWidth) {
         this.cropHeight = cropHeight;
         this.cropWidth = cropWidth;
+        letterWidth = 3*cropWidth;
+        letterHeight = 3*cropHeight;
     } 
+
+    /**
+     * @param location Location path/folder where the images with letters
+     * will be saved
+     */
+    public void setLocationFolder(String location) {
+        this.location = location;
+    }
+
+    
+    /**
+     * The text that corresponds to the text on image
+     * Used for name of each image
+     * @param text 
+     */
+    public void setText(String text) {
+        this.text = text;
+    }
+    
+    
     
 }
