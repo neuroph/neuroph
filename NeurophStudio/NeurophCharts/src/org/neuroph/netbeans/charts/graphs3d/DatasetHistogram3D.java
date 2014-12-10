@@ -38,9 +38,9 @@ public class DatasetHistogram3D extends Graph3DBuilder {
         map.setDirection(true);
         prop.setChartColor(map);
         prop.setRadius(0.003f);
-        prop.setxAxeLabel(attribute1.getLabel());
-        prop.setyAxeLabel(attribute2.getLabel());
-        prop.setzAxeLabel(attribute3.getLabel());
+        prop.setXAxeLabel(attribute1.getLabel());
+        prop.setYAxeLabel(attribute2.getLabel());
+        prop.setZAxeLabel(attribute3.getLabel());
         prop.setChartWireframed(false);
 
         Histogram3DFactory<Chart,Point3D> histogramFactory = new JzyHistogram3DFactory();

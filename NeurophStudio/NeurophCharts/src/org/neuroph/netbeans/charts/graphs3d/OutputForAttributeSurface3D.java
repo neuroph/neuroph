@@ -39,15 +39,15 @@ public class OutputForAttributeSurface3D extends Graph3DBuilder {
         prop.setChartColor(map);
         prop.setChartQuality(Quality.Nicest);
         prop.setChartWireframed(true);
-        prop.setxRange(new Range(0, 1));
+        prop.setXRange(new Range(0, 1));
 
         int outNeuronCount = nnet.getLayerAt(attribute1.getIndex()).getNeuronsCount();
-        prop.setyRange(new Range(1, outNeuronCount));
-        prop.setyAxeInteger(true);
+        prop.setYRange(new Range(1, outNeuronCount));
+        prop.setYAxeInteger(true);
 
-        prop.setxAxeLabel("Chosen input"); //Dataset row/chosen attr
-        prop.setyAxeLabel("Output neuron"); //output neuron
-        prop.setzAxeLabel("Error"); //err/out
+        prop.setXAxeLabel("Chosen input"); //Dataset row/chosen attr
+        prop.setYAxeLabel("Output neuron"); //output neuron
+        prop.setZAxeLabel("Error"); //err/out
 
         pointIdx = 1;
         

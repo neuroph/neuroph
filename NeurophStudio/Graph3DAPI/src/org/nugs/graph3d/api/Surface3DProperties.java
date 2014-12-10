@@ -27,7 +27,7 @@ public class Surface3DProperties extends Chart3DProperties {
      *
      * @return int
      */
-    public int getxSteps() {
+    public int getXSteps() {
         return xSteps;
     }
 
@@ -37,7 +37,7 @@ public class Surface3DProperties extends Chart3DProperties {
      * @param xSteps function steps for x values
      * @return void
      */
-    public void setxSteps(int xSteps) {
+    public void setXSteps(int xSteps) {
         this.xSteps = xSteps;
     }
 
@@ -46,7 +46,7 @@ public class Surface3DProperties extends Chart3DProperties {
      *
      * @return int
      */
-    public int getySteps() {
+    public int getYSteps() {
         return ySteps;
     }
 
@@ -56,7 +56,7 @@ public class Surface3DProperties extends Chart3DProperties {
      * @param ySteps function steps for y values
      * @return void
      */
-    public void setySteps(int ySteps) {
+    public void setYSteps(int ySteps) {
         this.ySteps = ySteps;
     }
 
@@ -65,7 +65,7 @@ public class Surface3DProperties extends Chart3DProperties {
      *
      * @return Range
      */
-    public Range getxRange() {
+    public Range getXRange() {
         return xRange;
     }
 
@@ -75,7 +75,7 @@ public class Surface3DProperties extends Chart3DProperties {
      * @param xRange (Example: new Range(1,10))
      * @return void
      */
-    public void setxRange(Range xRange) {
+    public void setXRange(Range xRange) {
         this.xRange = xRange;
     }
 
@@ -84,7 +84,7 @@ public class Surface3DProperties extends Chart3DProperties {
      *
      * @return Range
      */
-    public Range getyRange() {
+    public Range getYRange() {
         return yRange;
     }
 
@@ -94,7 +94,7 @@ public class Surface3DProperties extends Chart3DProperties {
      * @param yRange (Example: new Range(1,10))
      * @return void
      */
-    public void setyRange(Range yRange) {
+    public void setYRange(Range yRange) {
         this.yRange = yRange;
     }
 }

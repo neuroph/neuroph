@@ -5,7 +5,10 @@ import org.nugs.graph3d.api.Point3D;
 import java.beans.Beans;
 import java.util.LinkedList;
 import java.util.List;
+import javax.media.opengl.GLCapabilities;
 import org.jzy3d.chart.Chart;
+import org.jzy3d.chart.factories.AWTChartComponentFactory;
+import org.jzy3d.chart.factories.IChartComponentFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.maths.Coord3d;
@@ -17,6 +20,7 @@ import org.jzy3d.plot3d.primitives.Shape;
 import org.jzy3d.plot3d.primitives.axes.layout.providers.RegularTickProvider;
 import org.jzy3d.plot3d.primitives.axes.layout.providers.StaticTickProvider;
 import org.jzy3d.plot3d.primitives.axes.layout.renderers.IntegerTickRenderer;
+import org.jzy3d.plot3d.rendering.canvas.Quality;
 import org.nugs.graph3d.api.Surface3DFactory;
 
 /**
@@ -36,23 +40,31 @@ public class JzySurface3DFactory implements Surface3DFactory<Chart> {
     public Chart createSurface(Mapper mapper, Surface3DProperties prop) {
         Beans.setDesignTime(false);
 
-        org.jzy3d.maths.Range xRange = new Range(prop.getxRange().getMin(), prop.getxRange().getMax() );
-        org.jzy3d.maths.Range yRange = new Range(prop.getyRange().getMin(), prop.getyRange().getMax());
+        org.jzy3d.maths.Range xRange = new Range(prop.getXRange().getMin(), prop.getXRange().getMax() );
+        org.jzy3d.maths.Range yRange = new Range(prop.getYRange().getMin(), prop.getYRange().getMax());
         
-        final Shape surface = Builder.buildOrthonormal(new OrthonormalGrid(xRange, prop.getxSteps(), yRange, prop.getySteps()), mapper);
+        final Shape surface = Builder.buildOrthonormal(new OrthonormalGrid(xRange, prop.getXSteps(), yRange, prop.getYSteps()), mapper);
         surface.setColorMapper(new ColorMapper(prop.getChartColor(), surface.getBounds().getZmin(), surface.getBounds().getZmax(), new Color(1, 1, 1, .5f)));
         surface.setFaceDisplayed(true);
         surface.setWireframeDisplayed(prop.isChartWireframed());
         surface.setWireframeColor(prop.getWireframeColor());
 
         // Create a chart and add surface
-        Chart chart = new Chart(prop.getChartQuality());
-        chart.getAxeLayout().setXAxeLabel(prop.getxAxeLabel());
-        chart.getAxeLayout().setYAxeLabel(prop.getyAxeLabel());
-        chart.getAxeLayout().setZAxeLabel(prop.getzAxeLabel());
-        if (prop.isxAxeInteger()) {
+       // Chart chart = new Chart(prop.getChartQuality());
+        	Quality quality = new Quality(true, true, true, true, true, true, false);
+        GLCapabilities capabilities = org.jzy3d.chart.Settings.getInstance().getGLCapabilities();
+        capabilities.setSampleBuffers(true); // false = ragged edges around large points. true = smooth rounding.        
+        AWTChartComponentFactory accf = new AWTChartComponentFactory();
+        
+        Chart chart = new Chart( accf,  quality, /*"awt"*/ IChartComponentFactory.Toolkit.newt.name(), capabilities);
+        
+        
+        chart.getAxeLayout().setXAxeLabel(prop.getXAxeLabel());
+        chart.getAxeLayout().setYAxeLabel(prop.getYAxeLabel());
+        chart.getAxeLayout().setZAxeLabel(prop.getZAxeLabel());
+        if (prop.isXAxeInteger()) {
             chart.getAxeLayout().setXTickRenderer(new IntegerTickRenderer());
-            int xMax = (int) prop.getxRange().getMax();
+            int xMax = (int) prop.getXRange().getMax();
             if (xMax < 20) {
                 chart.getAxeLayout().setXTickProvider(new StaticTickProvider(getRowsOfData(xMax)));
             } else {
@@ -60,9 +72,9 @@ public class JzySurface3DFactory implements Surface3DFactory<Chart> {
                 chart.getAxeLayout().setXTickProvider(new RegularTickProvider(20));
             }
         }
-        if (prop.isyAxeInteger()) {
+        if (prop.isYAxeInteger()) {
             chart.getAxeLayout().setYTickRenderer(new IntegerTickRenderer());
-            int yMax = (int) prop.getyRange().getMax();
+            int yMax = (int) prop.getYRange().getMax();
             if (yMax < 20) {
                 //Ako ih je manje od 20 neka koraka bude onoliko koliko ih ima
                 chart.getAxeLayout().setYTickProvider(new StaticTickProvider(getRowsOfData(yMax)));
@@ -113,12 +125,12 @@ public class JzySurface3DFactory implements Surface3DFactory<Chart> {
 
         // Create a chart and add surface
         Chart chart = new Chart(prop.getChartQuality());
-        chart.getAxeLayout().setXAxeLabel(prop.getxAxeLabel());
-        chart.getAxeLayout().setYAxeLabel(prop.getyAxeLabel());
-        chart.getAxeLayout().setZAxeLabel(prop.getzAxeLabel());
-        if (prop.isxAxeInteger()) {
+        chart.getAxeLayout().setXAxeLabel(prop.getXAxeLabel());
+        chart.getAxeLayout().setYAxeLabel(prop.getYAxeLabel());
+        chart.getAxeLayout().setZAxeLabel(prop.getZAxeLabel());
+        if (prop.isXAxeInteger()) {
             chart.getAxeLayout().setXTickRenderer(new IntegerTickRenderer());
-            int xMax = (int) prop.getxRange().getMax();
+            int xMax = (int) prop.getXRange().getMax();
             if (xMax < 20) {
                 chart.getAxeLayout().setXTickProvider(new StaticTickProvider(getRowsOfData(xMax)));
             } else {
@@ -126,9 +138,9 @@ public class JzySurface3DFactory implements Surface3DFactory<Chart> {
                 chart.getAxeLayout().setXTickProvider(new RegularTickProvider(20));
             }
         }
-        if (prop.isyAxeInteger()) {
+        if (prop.isYAxeInteger()) {
             chart.getAxeLayout().setYTickRenderer(new IntegerTickRenderer());
-            int yMax = (int) prop.getyRange().getMax();
+            int yMax = (int) prop.getYRange().getMax();
             if (yMax < 20) {
                 //Ako ih je manje od 20 neka koraka bude onoliko koliko ih ima
                 chart.getAxeLayout().setYTickProvider(new StaticTickProvider(getRowsOfData(yMax)));
@@ -154,10 +166,10 @@ public class JzySurface3DFactory implements Surface3DFactory<Chart> {
         return createSurface(points, new Surface3DProperties());
     }
 
-    private static float[] getRowsOfData(int l) {
-        float[] rows = new float[l];
+    private static double[] getRowsOfData(int count) {
+        double[] rows = new double[count];
 
-        for (int i = 0; i < l; i++) {
+        for (int i = 0; i < count; i++) {
             rows[i] = i + 1;
         }
         return rows;

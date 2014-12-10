@@ -18,7 +18,7 @@ public class MyColorMap implements IColorMap {
 
     boolean direction = true;
     HashMap colorsMap;
-    Color[] colors = {Color.RED, Color.BLUE, new Color(java.awt.Color.ORANGE), Color.GREEN, Color.YELLOW, Color.CYAN, Color.GRAY, Color.MAGENTA, Color.BLACK, new Color(java.awt.Color.PINK)};
+    Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.CYAN, Color.GRAY, Color.MAGENTA, Color.BLACK};
     private DataSet dataset;
     private List<Attribute> attributes;
 
@@ -30,7 +30,7 @@ public class MyColorMap implements IColorMap {
     }
 
     @Override
-    public Color getColor(IColorMappable icm, float f, float f1, float f2) {
+    public Color getColor(IColorMappable icm, double f, double f1, double f2) {
         Color color;
         color = Color.BLUE;
 
@@ -77,11 +77,11 @@ public class MyColorMap implements IColorMap {
         return color;
 
     }
-
-    @Override
-    public Color getColor(IColorMappable icm, float f) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+// error od jogl 2.0.2
+//    @Override
+//    public Color getColor(IColorMappable icm, float f) {
+//        throw new UnsupportedOperationException("Not supported yet.");
+//    }
 
     @Override
     public void setDirection(boolean bln) {
@@ -109,4 +109,20 @@ public class MyColorMap implements IColorMap {
 
         }
     }
+
+    @Override
+    public Color getColor(IColorMappable icm, double d) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double colorComponentRelative(double d, double d1, double d2, double d3) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double colorComponentAbsolute(double d, double d1, double d2, double d3, double d4) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

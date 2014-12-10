@@ -49,15 +49,15 @@ public class OutputSurface3D extends Graph3DBuilder {
         prop.setChartQuality(Quality.Nicest);
         prop.setChartWireframed(true);
         int outputNeuronCount = neuralNet.getLayerAt(attribute1.getIndex()).getNeuronsCount();
-        prop.setyRange(new Range(1, outputNeuronCount+1)); // repeat values for last neuron in order to display surface nicely
-        prop.setyAxeInteger(true);
+        prop.setYRange(new Range(1, outputNeuronCount+1)); // repeat values for last neuron in order to display surface nicely
+        prop.setYAxeInteger(true);
 
-        prop.setxRange(new Range(1, dataSetRowCount));
-        prop.setxAxeInteger(true);
+        prop.setXRange(new Range(1, dataSetRowCount));
+        prop.setXAxeInteger(true);
 
-        prop.setxAxeLabel("Dataset row"); //Dataset row/chosen attr
-        prop.setyAxeLabel("Neuron"); //output neuron
-        prop.setzAxeLabel("Output"); //err/out
+        prop.setXAxeLabel("Dataset row"); //Dataset row/chosen attr
+        prop.setYAxeLabel("Neuron"); //output neuron
+        prop.setZAxeLabel("Output"); //err/out
 
         Surface3DFactory<Chart> surfaceFactory = new JzySurface3DFactory();
         Chart chart = surfaceFactory.createSurface(new Mapper() {

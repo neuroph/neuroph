@@ -49,15 +49,15 @@ public class ErrorSurface3D extends Graph3DBuilder {
         prop.setChartColor(map);;
         prop.setChartQuality(Quality.Nicest);
         prop.setChartWireframed(true);
-        prop.setyRange(new Range(1, outputNeuronCount+1)); // repeat values for last neuron in order to display surface nicely
-        prop.setyAxeInteger(true);
+        prop.setYRange(new Range(1, outputNeuronCount+1)); // repeat values for last neuron in order to display surface nicely
+        prop.setYAxeInteger(true);
 
-        prop.setxRange(new Range(1, dataSetRowCount));
-        prop.setxAxeInteger(true);
+        prop.setXRange(new Range(1, dataSetRowCount));
+        prop.setXAxeInteger(true);
 
-        prop.setxAxeLabel("Dataset row"); //Dataset row/chosen attr
-        prop.setyAxeLabel("Neuron"); //output neuron
-        prop.setzAxeLabel("Error"); //err/out
+        prop.setXAxeLabel("Dataset row"); //Dataset row/chosen attr
+        prop.setYAxeLabel("Neuron"); //output neuron
+        prop.setZAxeLabel("Error"); //err/out
 
         Surface3DFactory<Chart> surfaceFactory = new JzySurface3DFactory();
 

@@ -106,9 +106,9 @@ public class JMEDatasetScatter3D extends Graph3DBuilder<Void, Point3D.Float> {
          */
         properties = new Scatter3DProperties();
         properties.setDotSize(1f);
-        properties.setxAxeLabel(attribute1.getLabel());
-        properties.setyAxeLabel(attribute2.getLabel());
-        properties.setzAxeLabel(attribute3.getLabel());
+        properties.setXAxeLabel(attribute1.getLabel());
+        properties.setYAxeLabel(attribute2.getLabel());
+        properties.setZAxeLabel(attribute3.getLabel());
         properties.setPointColors(dominantOutputColors);
 
         /*

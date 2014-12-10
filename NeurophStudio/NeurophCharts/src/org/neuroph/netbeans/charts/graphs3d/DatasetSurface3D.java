@@ -43,18 +43,18 @@ public class DatasetSurface3D extends Graph3DBuilder {
         double xMax = NeurophChartUtilities.getMaxValue(dataset, attribute1);
         double yMax = NeurophChartUtilities.getMaxValue(dataset, attribute2);
         Surface3DProperties prop = new Surface3DProperties();
-        prop.setxAxeLabel(attribute1.getLabel());
-        prop.setyAxeLabel(attribute2.getLabel());
-        prop.setzAxeLabel(attribute3.getLabel());
+        prop.setXAxeLabel(attribute1.getLabel());
+        prop.setYAxeLabel(attribute2.getLabel());
+        prop.setZAxeLabel(attribute3.getLabel());
         IColorMap map = new ColorMapHotCold();
         map.setDirection(true);
         prop.setChartColor(map);
-        prop.setxSteps(50);
-        prop.setySteps(50);
+        prop.setXSteps(50);
+        prop.setYSteps(50);
         prop.setChartQuality(Quality.Nicest);
         prop.setChartWireframed(true);
-        prop.setxRange(new Range(xMin, xMax));
-        prop.setyRange(new Range(yMin, yMax));
+        prop.setXRange(new Range(xMin, xMax));
+        prop.setYRange(new Range(yMin, yMax));
 
         pointIdx = 0;
         

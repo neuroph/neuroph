@@ -3,7 +3,10 @@ package org.nugs.graph3d;
 import org.nugs.graph3d.api.Histogram3DProperties;
 import org.nugs.graph3d.api.Point3D;
 import java.beans.Beans;
+import javax.media.opengl.GLCapabilities;
 import org.jzy3d.chart.Chart;
+import org.jzy3d.chart.factories.AWTChartComponentFactory;
+import org.jzy3d.chart.factories.IChartComponentFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.IColorMap;
@@ -13,6 +16,7 @@ import org.jzy3d.plot3d.primitives.axes.layout.providers.RegularTickProvider;
 import org.jzy3d.plot3d.primitives.axes.layout.providers.SmartTickProvider;
 import org.jzy3d.plot3d.primitives.axes.layout.providers.StaticTickProvider;
 import org.jzy3d.plot3d.primitives.axes.layout.renderers.IntegerTickRenderer;
+import org.jzy3d.plot3d.rendering.canvas.Quality;
 import org.jzy3d.plot3d.rendering.scene.Scene;
 import org.nugs.graph3d.api.Histogram3DFactory;
 
@@ -31,7 +35,15 @@ public class JzyHistogram3DFactory implements Histogram3DFactory<Chart,Point3D> 
      */
     @Override
     public Chart createHistogram3D(Point3D[] points, Histogram3DProperties prop) {
-        Chart chart = new Chart(prop.getChartQuality());
+     //   Chart chart = new Chart(prop.getChartQuality());
+   	Quality quality = new Quality(true, true, true, true, true, true, false);
+        GLCapabilities capabilities = org.jzy3d.chart.Settings.getInstance().getGLCapabilities();
+        capabilities.setSampleBuffers(true); // false = ragged edges around large points. true = smooth rounding.        
+        AWTChartComponentFactory accf = new AWTChartComponentFactory();
+        
+        Chart chart = new Chart( accf,  quality, /*"awt"*/ IChartComponentFactory.Toolkit.newt.name(), capabilities);    
+        
+        
         Scene scene = chart.getScene();
         Beans.setDesignTime(false);
         for (int row = 0; row < points.length; row++) {
@@ -52,13 +64,13 @@ public class JzyHistogram3DFactory implements Histogram3DFactory<Chart,Point3D> 
                 scene.add(bar);
             }
         }
-        chart.getAxeLayout().setXAxeLabel(prop.getxAxeLabel());
-        chart.getAxeLayout().setYAxeLabel(prop.getyAxeLabel());
-        chart.getAxeLayout().setZAxeLabel(prop.getzAxeLabel());
-        if (prop.isxAxeInteger()) {
+        chart.getAxeLayout().setXAxeLabel(prop.getXAxeLabel());
+        chart.getAxeLayout().setYAxeLabel(prop.getYAxeLabel());
+        chart.getAxeLayout().setZAxeLabel(prop.getZAxeLabel());
+        if (prop.isXAxeInteger()) {
             chart.getAxeLayout().setXTickRenderer(new IntegerTickRenderer());
         }
-        if (prop.isyAxeInteger()) {
+        if (prop.isYAxeInteger()) {
             chart.getAxeLayout().setYTickRenderer(new IntegerTickRenderer());
         }
 
@@ -94,11 +106,11 @@ public class JzyHistogram3DFactory implements Histogram3DFactory<Chart,Point3D> 
         return chart;
     }
 
-    private static float[] getRowsOfData(Point3D[] points) {
-        int l = (int) points[points.length - 1].getX();
-        float[] rows = new float[l];
+    private static double[] getRowsOfData(Point3D[] points) {
+        int count = (int) points[points.length - 1].getX();
+        double[] rows = new double[count];
 
-        for (int i = 0; i < l; i++) {
+        for (int i = 0; i < count; i++) {
             rows[i] = i + 1;
         }
         return rows;

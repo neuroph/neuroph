@@ -144,11 +144,11 @@ public final class Histogram3DTopComponent extends TopComponent {
 
     public Chart createCustomChart() {
         Histogram3DProperties properties = new Histogram3DProperties();
-        properties.setxAxeInteger(true);
-        properties.setyAxeInteger(true);
-        properties.setxAxeLabel("Layer");
-        properties.setyAxeLabel("Connection");
-        properties.setzAxeLabel("Weight");
+        properties.setXAxeInteger(true);
+        properties.setYAxeInteger(true);
+        properties.setXAxeLabel("Layer");
+        properties.setYAxeLabel("Connection");
+        properties.setZAxeLabel("Weight");
         //  properties.setRadius((float)1.0/data[0].length);
 
         Histogram3DFactory<Chart,Point3D> histogramFactory = new JzyHistogram3DFactory();

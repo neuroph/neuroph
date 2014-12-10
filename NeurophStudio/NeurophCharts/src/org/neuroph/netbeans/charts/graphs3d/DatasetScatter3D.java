@@ -44,9 +44,9 @@ public class DatasetScatter3D extends Graph3DBuilder<Chart, Point3D> {
         IColorMap map = new MyColorMap(dataset, attributes);
         map.setDirection(true);
         properties.setChartColor(map);
-        properties.setxAxeLabel(attribute1.getLabel());
-        properties.setyAxeLabel(attribute2.getLabel());
-        properties.setzAxeLabel(attribute3.getLabel());
+        properties.setXAxeLabel(attribute1.getLabel());
+        properties.setYAxeLabel(attribute2.getLabel());
+        properties.setZAxeLabel(attribute3.getLabel());
 
         //  properties.setRadius((float)1.0/data[0].length);
         JzyScatter3DFactory chartFactory = new JzyScatter3DFactory();

@@ -28,7 +28,8 @@ import java.util.List;
 
 /**
  * This class provides Iterator for the image files (jpg and png) in the
- * specified directory next() method loads and returns File objects
+ * specified directory
+ * next() method loads and returns File objects
  *
  * @author Jon Tait
  */

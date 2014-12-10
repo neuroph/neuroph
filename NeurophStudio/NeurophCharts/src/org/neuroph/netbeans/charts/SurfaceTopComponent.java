@@ -164,13 +164,13 @@ public final class SurfaceTopComponent extends TopComponent {
         prop.setChartColor(new ColorMapRainbow());
         prop.setChartQuality(Quality.Advanced);
         prop.setChartWireframed(true);
-        prop.setxAxeInteger(true);
-        prop.setyAxeInteger(true);
-        prop.setxAxeLabel("Layer");
-        prop.setyAxeLabel("Connection");
-        prop.setzAxeLabel("Weight");
-        prop.setxRange(new Range(1, lcount)); 
-        prop.setyRange(new Range(1, ccount));
+        prop.setXAxeInteger(true);
+        prop.setYAxeInteger(true);
+        prop.setXAxeLabel("Layer");
+        prop.setYAxeLabel("Connection");
+        prop.setZAxeLabel("Weight");
+        prop.setXRange(new Range(1, lcount)); 
+        prop.setYRange(new Range(1, ccount));
         Surface3DFactory<Chart> surfaceFactory = new JzySurface3DFactory();
         Chart chart = surfaceFactory.createSurface(new Mapper() {
             @Override

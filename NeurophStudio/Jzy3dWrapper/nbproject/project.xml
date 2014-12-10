@@ -15,6 +15,7 @@
                 <package>com.jogamp.common.os</package>
                 <package>com.jogamp.common.type</package>
                 <package>com.jogamp.common.util</package>
+                <package>com.jogamp.common.util.awt</package>
                 <package>com.jogamp.common.util.cache</package>
                 <package>com.jogamp.common.util.locks</package>
                 <package>com.jogamp.gluegen.runtime</package>
@@ -25,7 +26,6 @@
                 <package>com.jogamp.graph.font</package>
                 <package>com.jogamp.graph.geom</package>
                 <package>com.jogamp.graph.geom.opengl</package>
-                <package>com.jogamp.graph.math</package>
                 <package>com.jogamp.nativewindow</package>
                 <package>com.jogamp.nativewindow.awt</package>
                 <package>com.jogamp.nativewindow.egl</package>
@@ -42,6 +42,8 @@
                 <package>com.jogamp.newt.swt</package>
                 <package>com.jogamp.newt.util</package>
                 <package>com.jogamp.opengl</package>
+                <package>com.jogamp.opengl.math</package>
+                <package>com.jogamp.opengl.math.geom</package>
                 <package>com.jogamp.opengl.swt</package>
                 <package>com.jogamp.opengl.util</package>
                 <package>com.jogamp.opengl.util.av</package>
@@ -64,9 +66,9 @@
                 <package>javax.media.opengl.glu.gl2</package>
                 <package>javax.media.opengl.glu.gl2es1</package>
                 <package>jogamp.common</package>
-                <package>jogamp.common.awt</package>
                 <package>jogamp.common.jvm</package>
                 <package>jogamp.common.os</package>
+                <package>jogamp.common.os.elf</package>
                 <package>jogamp.common.util.locks</package>
                 <package>jogamp.graph.curve.opengl</package>
                 <package>jogamp.graph.curve.opengl.shader</package>
@@ -80,8 +82,6 @@
                 <package>jogamp.graph.font.typecast.t2</package>
                 <package>jogamp.graph.font.typecast.tt.engine</package>
                 <package>jogamp.graph.geom.plane</package>
-                <package>jogamp.graph.math</package>
-                <package>jogamp.graph.math.plane</package>
                 <package>jogamp.nativewindow</package>
                 <package>jogamp.nativewindow.awt</package>
                 <package>jogamp.nativewindow.jawt</package>
@@ -97,20 +97,23 @@
                 <package>jogamp.newt.awt.event</package>
                 <package>jogamp.newt.driver</package>
                 <package>jogamp.newt.driver.awt</package>
+                <package>jogamp.newt.driver.bcm.vc.iv</package>
+                <package>jogamp.newt.driver.linux</package>
                 <package>jogamp.newt.driver.macosx</package>
                 <package>jogamp.newt.driver.windows</package>
                 <package>jogamp.newt.driver.x11</package>
                 <package>jogamp.newt.event</package>
+                <package>jogamp.newt.swt</package>
+                <package>jogamp.newt.swt.event</package>
                 <package>jogamp.opengl</package>
                 <package>jogamp.opengl.awt</package>
                 <package>jogamp.opengl.egl</package>
                 <package>jogamp.opengl.es1</package>
-                <package>jogamp.opengl.es2</package>
+                <package>jogamp.opengl.es3</package>
                 <package>jogamp.opengl.gl2</package>
                 <package>jogamp.opengl.gl4</package>
                 <package>jogamp.opengl.glu</package>
                 <package>jogamp.opengl.glu.error</package>
-                <package>jogamp.opengl.glu.gl2</package>
                 <package>jogamp.opengl.glu.gl2.nurbs</package>
                 <package>jogamp.opengl.glu.mipmap</package>
                 <package>jogamp.opengl.glu.nurbs</package>
@@ -118,50 +121,63 @@
                 <package>jogamp.opengl.glu.tessellator</package>
                 <package>jogamp.opengl.macosx.cgl</package>
                 <package>jogamp.opengl.macosx.cgl.awt</package>
+                <package>jogamp.opengl.openal.av</package>
                 <package>jogamp.opengl.util</package>
                 <package>jogamp.opengl.util.av</package>
                 <package>jogamp.opengl.util.av.impl</package>
                 <package>jogamp.opengl.util.glsl</package>
                 <package>jogamp.opengl.util.glsl.fixedfunc</package>
+                <package>jogamp.opengl.util.jpeg</package>
                 <package>jogamp.opengl.util.pngj</package>
                 <package>jogamp.opengl.util.pngj.chunks</package>
                 <package>jogamp.opengl.windows.wgl</package>
                 <package>jogamp.opengl.windows.wgl.awt</package>
                 <package>jogamp.opengl.x11.glx</package>
+                <package>org.jzy3d.analysis</package>
                 <package>org.jzy3d.bridge</package>
                 <package>org.jzy3d.bridge.awt</package>
+                <package>org.jzy3d.bridge.newt.controllers</package>
+                <package>org.jzy3d.bridge.newt.controllers.keyboard</package>
+                <package>org.jzy3d.bridge.newt.controllers.mouse</package>
                 <package>org.jzy3d.bridge.swing</package>
-                <package>org.jzy3d.bridge.swt</package>
                 <package>org.jzy3d.chart</package>
                 <package>org.jzy3d.chart.controllers</package>
                 <package>org.jzy3d.chart.controllers.camera</package>
                 <package>org.jzy3d.chart.controllers.keyboard.camera</package>
+                <package>org.jzy3d.chart.controllers.keyboard.lights</package>
+                <package>org.jzy3d.chart.controllers.keyboard.screenshot</package>
                 <package>org.jzy3d.chart.controllers.mouse</package>
                 <package>org.jzy3d.chart.controllers.mouse.camera</package>
                 <package>org.jzy3d.chart.controllers.mouse.picking</package>
                 <package>org.jzy3d.chart.controllers.mouse.selection</package>
                 <package>org.jzy3d.chart.controllers.targets</package>
                 <package>org.jzy3d.chart.controllers.thread.camera</package>
+                <package>org.jzy3d.chart.factories</package>
                 <package>org.jzy3d.chart.graphs</package>
                 <package>org.jzy3d.colors</package>
                 <package>org.jzy3d.colors.colormaps</package>
                 <package>org.jzy3d.contour</package>
                 <package>org.jzy3d.events</package>
-                <package>org.jzy3d.factories</package>
-                <package>org.jzy3d.global</package>
                 <package>org.jzy3d.io</package>
+                <package>org.jzy3d.io.obj</package>
+                <package>org.jzy3d.junit</package>
+                <package>org.jzy3d.junit.replay</package>
+                <package>org.jzy3d.junit.replay.events</package>
                 <package>org.jzy3d.maths</package>
                 <package>org.jzy3d.maths.algorithms</package>
+                <package>org.jzy3d.maths.algorithms.convexhull</package>
+                <package>org.jzy3d.maths.algorithms.convexhull.algorithms</package>
+                <package>org.jzy3d.maths.algorithms.convexhull.utils</package>
                 <package>org.jzy3d.maths.algorithms.interpolation</package>
-                <package>org.jzy3d.maths.algorithms.interpolation.bernstein</package>
+                <package>org.jzy3d.maths.algorithms.interpolation.algorithms</package>
                 <package>org.jzy3d.maths.graphs</package>
+                <package>org.jzy3d.maths.parameq</package>
                 <package>org.jzy3d.picking</package>
                 <package>org.jzy3d.plot2d.primitive</package>
                 <package>org.jzy3d.plot2d.rendering</package>
                 <package>org.jzy3d.plot3d.builder</package>
                 <package>org.jzy3d.plot3d.builder.concrete</package>
                 <package>org.jzy3d.plot3d.builder.delaunay</package>
-                <package>org.jzy3d.plot3d.builder.delaunay.jdt</package>
                 <package>org.jzy3d.plot3d.pipelines</package>
                 <package>org.jzy3d.plot3d.primitives</package>
                 <package>org.jzy3d.plot3d.primitives.axes</package>
@@ -174,10 +190,14 @@
                 <package>org.jzy3d.plot3d.primitives.graphs.impl</package>
                 <package>org.jzy3d.plot3d.primitives.graphs.layout</package>
                 <package>org.jzy3d.plot3d.primitives.interactive.tools</package>
+                <package>org.jzy3d.plot3d.primitives.parameq</package>
                 <package>org.jzy3d.plot3d.primitives.pickable</package>
                 <package>org.jzy3d.plot3d.primitives.selectable</package>
                 <package>org.jzy3d.plot3d.primitives.textured</package>
+                <package>org.jzy3d.plot3d.primitives.vbo</package>
                 <package>org.jzy3d.plot3d.rendering.canvas</package>
+                <package>org.jzy3d.plot3d.rendering.compat</package>
+                <package>org.jzy3d.plot3d.rendering.image</package>
                 <package>org.jzy3d.plot3d.rendering.legends</package>
                 <package>org.jzy3d.plot3d.rendering.legends.colorbars</package>
                 <package>org.jzy3d.plot3d.rendering.lights</package>
@@ -186,7 +206,9 @@
                 <package>org.jzy3d.plot3d.rendering.textures</package>
                 <package>org.jzy3d.plot3d.rendering.tooltips</package>
                 <package>org.jzy3d.plot3d.rendering.view</package>
+                <package>org.jzy3d.plot3d.rendering.view.annotation</package>
                 <package>org.jzy3d.plot3d.rendering.view.controllers</package>
+                <package>org.jzy3d.plot3d.rendering.view.layout</package>
                 <package>org.jzy3d.plot3d.rendering.view.modes</package>
                 <package>org.jzy3d.plot3d.text</package>
                 <package>org.jzy3d.plot3d.text.align</package>
@@ -202,16 +224,88 @@
                 <package>org.jzy3d.utils</package>
             </public-packages>
             <class-path-extension>
-                <runtime-relative-path>ext/gluegen-rt.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/gluegen-rt.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/org.jzy3d-0.9.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/org.jzy3d-0.9.jar</binary-origin>
+                <runtime-relative-path>ext/jogl-all-natives-linux-amd64.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-amd64.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jogl-all.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt-natives-macosx-universal.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-macosx-universal.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jogl-all-natives-windows-amd64.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-windows-amd64.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jogl-all-natives-linux-armv6hf.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-armv6hf.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt-natives-linux-i586.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-i586.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jogl-all-natives-solaris-amd64.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-solaris-amd64.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt-natives-windows-i586.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-windows-i586.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt-natives-solaris-amd64.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-solaris-amd64.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jogl-all-natives-linux-i586.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-i586.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt-natives-windows-amd64.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-windows-amd64.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jogl-all-natives-linux-armv6.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-armv6.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jogl-all-natives-solaris-i586.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-solaris-i586.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt-natives-linux-armv6.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-armv6.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt-natives-solaris-i586.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-solaris-i586.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jogl-all-natives-macosx-universal.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-macosx-universal.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jzy3d-api-0.9.1.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jzy3d-api-0.9.1.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt-natives-linux-armv6hf.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-armv6hf.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jogl-all-natives-windows-i586.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-windows-i586.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gluegen-rt-natives-linux-amd64.jar</runtime-relative-path>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-amd64.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

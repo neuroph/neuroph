@@ -100,7 +100,7 @@ public class Chart3DProperties {
      *
      * @return String
      */
-    public String getxAxeLabel() {
+    public String getXAxeLabel() {
         return xAxeLabel;
     }
 
@@ -110,7 +110,7 @@ public class Chart3DProperties {
      * @param xAxeLabel String
      * @return void
      */
-    public void setxAxeLabel(String xAxeLabel) {
+    public void setXAxeLabel(String xAxeLabel) {
         this.xAxeLabel = xAxeLabel;
     }
 
@@ -119,7 +119,7 @@ public class Chart3DProperties {
      *
      * @return String
      */
-    public String getyAxeLabel() {
+    public String getYAxeLabel() {
         return yAxeLabel;
     }
 
@@ -129,7 +129,7 @@ public class Chart3DProperties {
      * @param yAxeLabel String
      * @return void
      */
-    public void setyAxeLabel(String yAxeLabel) {
+    public void setYAxeLabel(String yAxeLabel) {
         this.yAxeLabel = yAxeLabel;
     }
 
@@ -138,7 +138,7 @@ public class Chart3DProperties {
      *
      * @return String
      */
-    public String getzAxeLabel() {
+    public String getZAxeLabel() {
         return zAxeLabel;
     }
 
@@ -148,7 +148,7 @@ public class Chart3DProperties {
      * @param zAxeLabel String
      * @return void
      */
-    public void setzAxeLabel(String zAxeLabel) {
+    public void setZAxeLabel(String zAxeLabel) {
         this.zAxeLabel = zAxeLabel;
     }
 
@@ -157,7 +157,7 @@ public class Chart3DProperties {
      *
      * @return boolean
      */
-    public boolean isxAxeInteger() {
+    public boolean isXAxeInteger() {
         return xAxeInteger;
     }
 
@@ -167,7 +167,7 @@ public class Chart3DProperties {
      * @param xAxeInteger
      * @return void
      */
-    public void setxAxeInteger(boolean xAxeInteger) {
+    public void setXAxeInteger(boolean xAxeInteger) {
         this.xAxeInteger = xAxeInteger;
     }
 
@@ -176,7 +176,7 @@ public class Chart3DProperties {
      *
      * @return boolean
      */
-    public boolean isyAxeInteger() {
+    public boolean isYAxeInteger() {
         return yAxeInteger;
     }
 
@@ -186,7 +186,7 @@ public class Chart3DProperties {
      * @param yAxeInteger
      * @return void
      */
-    public void setyAxeInteger(boolean yAxeInteger) {
+    public void setYAxeInteger(boolean yAxeInteger) {
         this.yAxeInteger = yAxeInteger;
     }
 }
