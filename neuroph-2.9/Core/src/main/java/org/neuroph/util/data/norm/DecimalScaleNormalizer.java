@@ -102,7 +102,7 @@ public class DecimalScaleNormalizer implements Normalizer {
         }
 
         for (int i = 0; i < maxOut.length; i++) {
-            while (maxIn[i] > 1) {
+            while (maxOut[i] > 1) {
                 maxOut[i] = maxOut[i] / 10.0;
                 scaleFactorOut[i] = scaleFactorOut[i] * 10;
             }
