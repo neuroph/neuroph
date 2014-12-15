@@ -3,9 +3,6 @@ package org.neuroph.samples.mnist;
 import java.io.IOException;
 
 import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
-import org.neuroph.contrib.evaluation.domain.MetricResult;
-import org.neuroph.contrib.model.selection.ErrorEstimationMethod;
-import org.neuroph.contrib.model.selection.KFoldCrossValidation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;

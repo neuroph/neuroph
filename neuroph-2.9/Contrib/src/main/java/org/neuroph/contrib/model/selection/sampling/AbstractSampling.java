@@ -12,10 +12,10 @@ import java.util.List;
  */
 public abstract class AbstractSampling implements Sampling {
 
-    private final int numberOfFolds;
+    protected final int numberOfSamples;
 
-    public AbstractSampling(int numberOfFolds) {
-        this.numberOfFolds = numberOfFolds;
+    public AbstractSampling(int numberOfSamples) {
+        this.numberOfSamples = numberOfSamples;
     }
 
 
@@ -29,8 +29,8 @@ public abstract class AbstractSampling implements Sampling {
     public List<DataSet> sample(DataSet dataSet) {
         populateInternalDataStructure(dataSet);
 
-        List<DataSet> dataSets = new ArrayList<>(numberOfFolds);
-        for (int i = 0; i < numberOfFolds; i++) {
+        List<DataSet> dataSets = new ArrayList<>(numberOfSamples);
+        for (int i = 0; i < numberOfSamples; i++) {
             dataSets.add(createDataSetFold(dataSet));
         }
         return dataSets;
@@ -38,16 +38,16 @@ public abstract class AbstractSampling implements Sampling {
 
 
     private DataSet createDataSetFold(DataSet dataSet) {
-        int numberOfElements = dataSet.getRows().size();
-        int foldSize = numberOfElements / numberOfFolds;
 
         DataSet foldSet = new DataSet(dataSet.getInputSize(), dataSet.getOutputSize());
-        for (int j = 0; j < foldSize; j++) {
+        for (int j = 0; j < getSampleSize(); j++) {
             foldSet.addRow(getNextDataSetRow());
         }
 
         return foldSet;
     }
+
+    protected abstract int getSampleSize();
 
 
     /**

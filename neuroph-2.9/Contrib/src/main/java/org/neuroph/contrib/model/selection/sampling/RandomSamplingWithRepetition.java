@@ -23,6 +23,11 @@ public class RandomSamplingWithRepetition extends AbstractSampling {
     }
 
     @Override
+    protected int getSampleSize() {
+        return dataDeque.size();
+    }
+
+    @Override
     protected DataSetRow getNextDataSetRow() {
         return dataDeque.pop();
     }

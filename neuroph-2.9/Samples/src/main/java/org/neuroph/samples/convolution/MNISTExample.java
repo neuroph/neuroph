@@ -2,8 +2,8 @@ package org.neuroph.samples.convolution;
 
 import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
 import org.neuroph.contrib.evaluation.domain.MetricResult;
-import org.neuroph.contrib.model.selection.ErrorEstimationMethod;
-import org.neuroph.contrib.model.selection.KFoldCrossValidation;
+import org.neuroph.contrib.model.selection.estimation.ErrorEstimationMethod;
+import org.neuroph.contrib.model.selection.estimation.KFoldCrossValidation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;

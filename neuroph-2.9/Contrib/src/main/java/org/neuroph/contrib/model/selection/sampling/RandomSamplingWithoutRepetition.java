@@ -12,8 +12,13 @@ public class RandomSamplingWithoutRepetition extends AbstractSampling {
 
     private DataSet dataSet;
 
-    public RandomSamplingWithoutRepetition(final int numberOfFolds) {
-        super(numberOfFolds);
+    public RandomSamplingWithoutRepetition(final int numberOfSamples) {
+        super(numberOfSamples);
+    }
+
+    @Override
+    protected int getSampleSize() {
+        return dataSet.size() / numberOfSamples;
     }
 
     @Override

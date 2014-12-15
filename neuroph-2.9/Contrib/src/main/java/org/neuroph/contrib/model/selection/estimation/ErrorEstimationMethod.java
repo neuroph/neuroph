@@ -1,4 +1,4 @@
-package org.neuroph.contrib.model.selection;
+package org.neuroph.contrib.model.selection.estimation;
 
 import org.neuroph.contrib.evaluation.domain.MetricResult;
 import org.neuroph.core.NeuralNetwork;
