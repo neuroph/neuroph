@@ -31,6 +31,9 @@ public abstract class MetricsEvaluator implements NeurophEvaluator<MetricResult>
     }
 
 
+    /**
+     * Binary evaluator used for computation of metrics in case when data has only one output result (one output neuron)
+     */
     private static class BinaryClassEvaluator extends MetricsEvaluator {
 
         public static final String[] BINARY_CLASS_LABELS = new String[]{"No", "Yes"};
@@ -63,7 +66,10 @@ public abstract class MetricsEvaluator implements NeurophEvaluator<MetricResult>
 
     }
 
-
+    /**
+     * Evaluator used for computation of metrics in case when data has
+     * multiple classes - one vs many classification
+     */
     private static class MultiClassEvaluator extends MetricsEvaluator {
 
         private MultiClassEvaluator(DataSet dataSet) {

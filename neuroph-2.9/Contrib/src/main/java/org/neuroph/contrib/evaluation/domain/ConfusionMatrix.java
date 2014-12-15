@@ -1,6 +1,8 @@
 package org.neuroph.contrib.evaluation.domain;
 
-
+/**
+ * Confusion matrix container
+ */
 public class ConfusionMatrix {
 
     public static final int STRING_DEFAULT_WIDTH = 5;
@@ -12,10 +14,19 @@ public class ConfusionMatrix {
         this.confusionMatrix = confusionMatrix;
     }
 
+    /**
+     *
+     * @return confusion matrix as double array
+     */
     public double[][] getConfusionMatrix() {
         return confusionMatrix;
     }
 
+    /**
+     *
+     * @param actual class id of correct classification
+     * @param predicted class id of predicted classification
+     */
     public void incrementElement(int actual, int predicted) {
         confusionMatrix[actual][predicted]++;
     }
@@ -48,7 +59,9 @@ public class ConfusionMatrix {
         return builder.toString();
     }
 
-
+    /**
+     * Builder class used to create ConfusionMatrix objects
+     */
     public static class ConfusionMatrixBuilder {
         private String[] labels;
         private double[][] confusionMatrix;

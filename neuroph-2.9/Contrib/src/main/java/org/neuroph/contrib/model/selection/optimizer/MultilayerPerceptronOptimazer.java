@@ -1,9 +1,7 @@
 package org.neuroph.contrib.model.selection.optimizer;
 
-import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
 import org.neuroph.contrib.evaluation.domain.MetricResult;
 import org.neuroph.contrib.model.selection.ErrorEstimationMethod;
-import org.neuroph.contrib.model.selection.KFoldCrossValidation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
@@ -13,22 +11,38 @@ import org.neuroph.nnet.learning.BackPropagation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @param <T> Type which defined which LearningRule will be used during model optimization
+ */
 public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements NeurophModelOptimizer {
 
     private static Logger LOG = LoggerFactory.getLogger(MultilayerPerceptronOptimazer.class);
 
 
+    /**
+     *
+     */
     private Set<List<Integer>> allArchitectures = new HashSet<>();
+    /**
+     * Optimal optimizer which will be selected during optimization process
+     */
     private NeuralNetwork<BackPropagation> optimalClassifier;
+    /**
+     * Average metric scores for selected optimal classififer
+     */
     private MetricResult optimalResult;
-
+    /**
+     * Method used for classifier error estimation (KFold, Bootstrap)
+     */
     private ErrorEstimationMethod errorEstimationMethod;
+    /**
+     * Learning rule used during classifier learning stage
+     */
     private BackPropagation learningRule;
 
     private int maxLayers = 1;
@@ -68,6 +82,11 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
     }
 
 
+    /**
+     *
+     * @param dataSet training set used for error estimation
+     * @return neural network model with optimized architecture for provided data set
+     */
     @Override
     public NeuralNetwork createOptimalModel(DataSet dataSet) {
 
@@ -109,8 +128,7 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
         return optimalClassifier;
     }
 
-
-    public void findArchitectures(int currentLayer, int lastLayerNeuronCount, List<Integer> nerons) {
+    private void findArchitectures(int currentLayer, int lastLayerNeuronCount, List<Integer> nerons) {
         allArchitectures.add(new ArrayList<>(nerons));
 
         if (lastLayerNeuronCount + neuronIncrement <= maxNeuronsPerLayer) {
@@ -147,11 +165,11 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
         public void handleLearningEvent(LearningEvent event) {
             BackPropagation bp = (BackPropagation) event.getSource();
 
-                foldErrors[bp.getCurrentIteration() - 1] += bp.getTotalNetworkError() / foldSize;
+            foldErrors[bp.getCurrentIteration() - 1] += bp.getTotalNetworkError() / foldSize;
             if (bp.getCurrentIteration() % 5 == 0)
                 neuralNetwork.save(architecture + "_" + bp.getCurrentIteration() + "_MNIST_MLP.nnet");
 
-            LOG.info("Epoch execution time: {} sec" , (System.currentTimeMillis() - start) / 1000.0);
+            LOG.info("Epoch execution time: {} sec", (System.currentTimeMillis() - start) / 1000.0);
             start = System.currentTimeMillis();
         }
 

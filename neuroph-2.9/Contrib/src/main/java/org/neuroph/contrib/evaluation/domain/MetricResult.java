@@ -4,6 +4,9 @@ import org.neuroph.contrib.utils.ArrayUtils;
 
 import java.util.List;
 
+/**
+ * Container class for all metrics which use confusion matrix for their computation
+ */
 public class MetricResult {
 
     private double accuracy;
@@ -47,6 +50,10 @@ public class MetricResult {
                 '}';
     }
 
+    /**
+     * @param confusionMatrix confusion matrix computed on test set
+     * @return result numeric scores calculated  using confusion matrix
+     */
     public static MetricResult fromConfusionMatrix(ConfusionMatrix confusionMatrix) {
         MetricResult metricsEvaluationResult = new MetricResult();
 
@@ -67,6 +74,11 @@ public class MetricResult {
         return metricsEvaluationResult;
     }
 
+    /**
+     *
+     * @param results list of different metric results computed on different sets of data
+     * @return average metrics computed different MetricResults
+     */
     public static MetricResult averageFromMultipleRuns(List<MetricResult> results) {
         double averageAccuracy = 0;
         double averageError = 0;
@@ -93,6 +105,11 @@ public class MetricResult {
         return averageMetricsResult;
     }
 
+    /**
+     *
+     * @param results list of different metric results computed on different sets of data
+     * @return maximum metrics computed different MetricResults
+     */
     public static MetricResult maxFromMultipleRuns(List<MetricResult> results) {
         double maxAccuracy = 0;
         double maxError = 0;
@@ -102,15 +119,15 @@ public class MetricResult {
 
         for (MetricResult metricResult : results) {
             maxAccuracy = Math.max(maxAccuracy, metricResult.getAccuracy());
-            maxError  = Math.max(maxError, metricResult.getError());
-            maxPrecision  = Math.max(maxPrecision, metricResult.getPrecision());
-            maxRecall  = Math.max(maxRecall, metricResult.getRecall());
+            maxError = Math.max(maxError, metricResult.getError());
+            maxPrecision = Math.max(maxPrecision, metricResult.getPrecision());
+            maxRecall = Math.max(maxRecall, metricResult.getRecall());
             maxFScore = Math.max(maxFScore, metricResult.getFScore());
         }
 
         MetricResult averageMetricsResult = new MetricResult();
 
-        averageMetricsResult.accuracy = maxAccuracy ;
+        averageMetricsResult.accuracy = maxAccuracy;
         averageMetricsResult.error = maxError;
         averageMetricsResult.precision = maxPrecision;
         averageMetricsResult.recall = maxRecall;

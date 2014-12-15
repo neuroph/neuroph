@@ -2,35 +2,28 @@ package org.neuroph.contrib.model.selection.sampling;
 
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.util.data.sample.Sampling;
 
 import java.util.*;
 
-public class RandomSamplingWithoutRepetition implements Sampling {
+/**
+ * Sampling algorithm where each element can be placed only in one sample
+ */
+public class RandomSamplingWithoutRepetition extends AbstractSampling {
 
-    private int numberOfFolds;
+    private DataSet dataSet;
 
     public RandomSamplingWithoutRepetition(final int numberOfFolds) {
-        this.numberOfFolds = numberOfFolds;
+        super(numberOfFolds);
     }
 
     @Override
-    public List<DataSet> sample(DataSet dataSet) {
-
-        int foldSize = dataSet.getRows().size() / numberOfFolds;
-        List<DataSet> dataSets = new ArrayList<>(numberOfFolds);
-        Deque<DataSetRow> dataDeque = new ArrayDeque<>();
-
-        dataDeque.addAll(dataSet.getRows());
-
-        for (int i = 0; i < numberOfFolds; i++) {
-            DataSet foldSet = new DataSet(dataSet.getInputSize(), dataSet.getOutputSize());
-
-            for (int j = 0; j < foldSize; j++) {
-                foldSet.addRow(dataDeque.pop());
-            }
-            dataSets.add(foldSet);
-        }
-        return dataSets;
+    protected DataSetRow getNextDataSetRow() {
+        return dataSet.getRowAt(new Random().nextInt(dataSet.size()));
     }
+
+    @Override
+    protected void populateInternalDataStructure(DataSet dataSet) {
+        this.dataSet = dataSet;
+    }
+
 }

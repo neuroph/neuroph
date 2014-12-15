@@ -1,15 +1,11 @@
 package org.neuroph.samples.evaluation;
 
-import org.neuroph.contrib.learning.CrossEntropyError;
-import org.neuroph.contrib.model.selection.optimizer.MultilayerPerceptronOptimazer;
-import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
-import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
 
 public class TestMultiClass {
 
@@ -37,7 +33,6 @@ public class TestMultiClass {
         irisDataSet.shuffle();
 
 
-
 //        neuralNet.getLearningRule().addListener(new LearningListener());
         neuralNet.getLearningRule().setLearningRate(0.02);
 //        neuralNet.getLearningRule().setMaxIterations(500);
@@ -48,7 +43,7 @@ public class TestMultiClass {
         long start = System.currentTimeMillis();
         neuralNet.learn(irisDataSet);
 
-        System.out.println("Time: " + (System.currentTimeMillis()-start)/1000.0);
+        System.out.println("Time: " + (System.currentTimeMillis() - start) / 1000.0);
 
 //        NeuralNetworkEvaluationService.completeEvaluation(neuralNet, irisDataSet);
 

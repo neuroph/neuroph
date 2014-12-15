@@ -50,6 +50,11 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.5</version>
         </dependency>
+        <dependency>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
+            <artifactId>weka-stable</artifactId>
+            <version>3.6.6</version>
+        </dependency>
 
     </dependencies>
     <artifactId>neuroph-samples</artifactId>

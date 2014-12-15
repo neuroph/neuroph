@@ -2,7 +2,9 @@ package org.neuroph.contrib.evaluation.evaluators;
 
 import org.neuroph.core.learning.error.ErrorFunction;
 
-
+/**
+ * Calculates scalar result using ErrorFunction
+ */
 public class ErrorEvaluator implements NeurophEvaluator<Double> {
 
     private ErrorFunction errorFunction;

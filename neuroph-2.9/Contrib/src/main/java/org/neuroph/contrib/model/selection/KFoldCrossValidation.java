@@ -8,6 +8,7 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.neuroph.util.data.sample.Sampling;
 import org.neuroph.util.random.NguyenWidrowRandomizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,30 +16,41 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Error estimation method which uses sampling without repetition
+ */
 public class KFoldCrossValidation implements ErrorEstimationMethod {
 
     private static Logger LOG = LoggerFactory.getLogger(KFoldCrossValidation.class);
 
     //TODO this is ideal for dependency injection
     private NeuralNetworkEvaluationService evaluationService = new NeuralNetworkEvaluationService();
-
+    private Sampling sampling;
     private int numberOfFolds;
 
+    /**
+     * Default constructor for creating KFold error estimation
+     * @param numberOfFolds defines number of folds where
+     */
     public KFoldCrossValidation(int numberOfFolds) {
         this.numberOfFolds = numberOfFolds;
+        this.sampling = new RandomSamplingWithoutRepetition(numberOfFolds);
     }
 
+    /**
+     * @param neuralNetwork supervised neural network
+     * @param dataSet       test data used to create other sub-sets
+     * @return average metrics for all folds
+     */
     @Override
     public MetricResult computeErrorEstimate(NeuralNetwork<BackPropagation> neuralNetwork, DataSet dataSet) {
         evaluationService.add(MetricsEvaluator.class, MetricsEvaluator.createEvaluator(dataSet));
         dataSet.shuffle();
 
-        List<DataSet> folds = new RandomSamplingWithoutRepetition(numberOfFolds).sample(dataSet);
-
+        List<DataSet> folds = sampling.sample(dataSet);
         List<MetricResult> results = new ArrayList<>();
 
         for (int i = 0; i < folds.size(); i++) {
-//            LOG.info("Fold number: [{}]", i);
             DataSet trainSet = new DataSet(dataSet.getInputSize(), dataSet.getOutputSize());
             DataSet validationSet = new DataSet(dataSet.getInputSize(), dataSet.getOutputSize());
             //TODO DataSets should be immutable
@@ -55,15 +67,18 @@ public class KFoldCrossValidation implements ErrorEstimationMethod {
             neuralNetwork.learn(trainSet);
             evaluationService.evaluate(neuralNetwork, validationSet);
             results.add(evaluationService.resultFor(MetricsEvaluator.class).getEvaluationResult());
+
+            restartNeuralNetwork(neuralNetwork);
+
             LOG.info(evaluationService.resultFor(MetricsEvaluator.class).getEvaluationResult().toString());
 
-//            neuralNetwork.reset();
-//            neuralNetwork.getLearningRule().getErrorFunction().reset();
-            neuralNetwork.randomizeWeights(new NguyenWidrowRandomizer(-0.5, 0.5));
         }
 
-
         return MetricResult.averageFromMultipleRuns(results);
+    }
+
+    private void restartNeuralNetwork(NeuralNetwork<BackPropagation> neuralNetwork) {
+        neuralNetwork.randomizeWeights(new NguyenWidrowRandomizer(-0.5, 0.5));
     }
 
 
