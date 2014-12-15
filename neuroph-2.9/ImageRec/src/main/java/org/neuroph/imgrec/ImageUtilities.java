@@ -214,7 +214,7 @@ public class ImageUtilities {
     public static BufferedImage trimImage(BufferedImage imageToTrim) {
         int y1 = trimLockup(imageToTrim);
         int y2 = trimLockdown(imageToTrim, y1);
-        int x1 = 0;
+        int x1 = 0; // why zero? search white pixels from left...
         int x2 = imageToTrim.getWidth();
         return cropImage(imageToTrim, x1, y1, x2, y2);
     }
