@@ -1,4 +1,4 @@
-package org.neuroph.contrib.model.estimation;
+package org.neuroph.contrib.model.errorestimation;
 
 import org.neuroph.contrib.model.sampling.RandomSamplingWithoutRepetition;
 import org.neuroph.core.data.DataSet;

@@ -1,7 +1,7 @@
-package org.neuroph.contrib.model.evaluation.stat;
+package org.neuroph.contrib.model.metricevaluation.stat;
 
 
-import org.neuroph.contrib.model.evaluation.domain.ClassificationOutput;
+import org.neuroph.contrib.model.metricevaluation.domain.ClassificationOutput;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;

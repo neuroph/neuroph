@@ -1,12 +1,12 @@
-package org.neuroph.contrib.model.evaluation;
+package org.neuroph.contrib.model.metricevaluation;
 
-import org.neuroph.contrib.model.evaluation.domain.MetricResult;
-import org.neuroph.contrib.model.evaluation.evaluators.ErrorEvaluator;
-import org.neuroph.contrib.model.evaluation.evaluators.MetricsEvaluator;
+import org.neuroph.contrib.model.metricevaluation.domain.MetricResult;
+import org.neuroph.contrib.model.metricevaluation.evaluators.ErrorEvaluator;
+import org.neuroph.contrib.model.metricevaluation.evaluators.MetricsEvaluator;
+import org.neuroph.contrib.model.metricevaluation.evaluators.NeurophEvaluator;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.contrib.model.evaluation.evaluators.NeurophEvaluator;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.slf4j.Logger;

@@ -1,9 +1,9 @@
-package org.neuroph.contrib.model.estimation;
+package org.neuroph.contrib.model.errorestimation;
 
 
-import org.neuroph.contrib.model.evaluation.NeuralNetworkEvaluationService;
-import org.neuroph.contrib.model.evaluation.domain.MetricResult;
-import org.neuroph.contrib.model.evaluation.evaluators.MetricsEvaluator;
+import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.model.metricevaluation.domain.MetricResult;
+import org.neuroph.contrib.model.metricevaluation.evaluators.MetricsEvaluator;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.learning.BackPropagation;
