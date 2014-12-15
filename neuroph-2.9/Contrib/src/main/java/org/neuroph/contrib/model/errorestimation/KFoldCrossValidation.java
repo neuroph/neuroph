@@ -1,6 +1,6 @@
-package org.neuroph.contrib.model.selection.estimation;
+package org.neuroph.contrib.model.estimation;
 
-import org.neuroph.contrib.model.selection.sampling.RandomSamplingWithoutRepetition;
+import org.neuroph.contrib.model.sampling.RandomSamplingWithoutRepetition;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 

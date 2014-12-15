@@ -1,4 +1,4 @@
-package org.neuroph.contrib.evaluation.domain;
+package org.neuroph.contrib.model.evaluation.domain;
 
 import org.neuroph.contrib.utils.ArrayUtils;
 

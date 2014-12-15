@@ -1,13 +1,10 @@
-package org.neuroph.contrib.model.selection.sampling;
+package org.neuroph.contrib.model.sampling;
 
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.util.data.sample.Sampling;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 
 /**
  * Sampling algorithm where each element can be placed in multiple samples

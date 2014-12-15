@@ -1,6 +1,6 @@
 package org.neuroph.samples.mnist;
 
-import org.neuroph.contrib.evaluation.domain.ClassificationOutput;
+import org.neuroph.contrib.model.evaluation.domain.ClassificationOutput;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;

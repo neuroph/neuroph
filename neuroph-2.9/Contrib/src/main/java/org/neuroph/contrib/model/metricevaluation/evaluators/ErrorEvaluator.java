@@ -1,4 +1,4 @@
-package org.neuroph.contrib.evaluation.evaluators;
+package org.neuroph.contrib.model.evaluation.evaluators;
 
 import org.neuroph.core.learning.error.ErrorFunction;
 

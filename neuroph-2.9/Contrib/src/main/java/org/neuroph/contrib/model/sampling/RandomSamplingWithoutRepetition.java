@@ -1,4 +1,4 @@
-package org.neuroph.contrib.model.selection.sampling;
+package org.neuroph.contrib.model.sampling;
 
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;

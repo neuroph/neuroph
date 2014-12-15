@@ -1,4 +1,4 @@
-package org.neuroph.contrib.evaluation.evaluators;
+package org.neuroph.contrib.model.evaluation.evaluators;
 
 /**
  * Interface used to define a contract which all concrete Evaluators must obey

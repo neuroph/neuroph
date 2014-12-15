@@ -1,6 +1,6 @@
-package org.neuroph.contrib.model.selection.estimation;
+package org.neuroph.contrib.model.estimation;
 
-import org.neuroph.contrib.evaluation.domain.MetricResult;
+import org.neuroph.contrib.model.evaluation.domain.MetricResult;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.learning.BackPropagation;

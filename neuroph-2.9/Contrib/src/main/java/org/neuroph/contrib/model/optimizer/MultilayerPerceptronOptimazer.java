@@ -1,7 +1,7 @@
-package org.neuroph.contrib.model.selection.optimizer;
+package org.neuroph.contrib.model.optimizer;
 
-import org.neuroph.contrib.evaluation.domain.MetricResult;
-import org.neuroph.contrib.model.selection.estimation.ErrorEstimationMethod;
+import org.neuroph.contrib.model.evaluation.domain.MetricResult;
+import org.neuroph.contrib.model.estimation.ErrorEstimationMethod;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;

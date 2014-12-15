@@ -1,6 +1,6 @@
-package org.neuroph.contrib.model.selection.estimation;
+package org.neuroph.contrib.model.estimation;
 
-import org.neuroph.contrib.model.selection.sampling.RandomSamplingWithRepetition;
+import org.neuroph.contrib.model.sampling.RandomSamplingWithRepetition;
 import org.neuroph.core.data.DataSet;
 
 import java.util.List;
