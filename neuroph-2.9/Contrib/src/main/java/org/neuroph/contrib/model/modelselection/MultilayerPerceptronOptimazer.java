@@ -1,5 +1,6 @@
 package org.neuroph.contrib.model.modelselection;
 
+import org.neuroph.contrib.model.errorestimation.BootstrapEstimationMethod;
 import org.neuroph.contrib.model.errorestimation.ErrorEstimationMethod;
 import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
 import org.neuroph.contrib.model.metricevaluation.domain.MetricResult;
@@ -52,6 +53,9 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
     private int maxNeuronsPerLayer = 30;
     private int neuronIncrement = 1;
 
+    /**
+     * If ErrorEstimationMethod is not provided use KFoldCrossValidation by default
+     */
     public MultilayerPerceptronOptimazer() {
         errorEstimationMethod = new KFoldCrossValidation(10);
     }
@@ -160,8 +164,6 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
             BackPropagation bp = (BackPropagation) event.getSource();
             foldErrors[bp.getCurrentIteration() - 1] += bp.getTotalNetworkError() / foldSize;
         }
-
-
     }
 
 }

@@ -3,32 +3,35 @@ package org.neuroph.contrib.model.sampling;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
- * Sampling algorithm where each element can be placed only in one sample
+ * Sampling algorithm where each element can be placed in multiple samples
  */
 public class RandomSamplingWithoutRepetition extends AbstractSampling {
 
-    private DataSet dataSet;
+    Deque<DataSetRow> dataDeque;
 
-    public RandomSamplingWithoutRepetition(final int numberOfSamples) {
-        super(numberOfSamples);
+
+    public RandomSamplingWithoutRepetition(final int numberOfFolds) {
+        super(numberOfFolds);
+        dataDeque = new ArrayDeque<>();
     }
 
     @Override
     protected int getSampleSize() {
-        return dataSet.size() / numberOfSamples;
+        return dataDeque.size() / numberOfSamples;
     }
 
     @Override
     protected DataSetRow getNextDataSetRow() {
-        return dataSet.getRowAt(new Random().nextInt(dataSet.size()));
+        return dataDeque.pop();
     }
 
     @Override
     protected void populateInternalDataStructure(DataSet dataSet) {
-        this.dataSet = dataSet;
-    }
+        dataDeque.addAll(dataSet.getRows());
 
+    }
 }
