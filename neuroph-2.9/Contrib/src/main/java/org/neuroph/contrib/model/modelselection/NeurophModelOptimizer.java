@@ -1,4 +1,4 @@
-package org.neuroph.contrib.model.optimizer;
+package org.neuroph.contrib.model.modelselection;
 
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;

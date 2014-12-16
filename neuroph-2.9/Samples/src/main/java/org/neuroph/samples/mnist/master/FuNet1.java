@@ -1,6 +1,6 @@
-package org.neuroph.samples.mnist;
+package org.neuroph.samples.mnist.master;
 
-import org.neuroph.contrib.model.evaluation.domain.ClassificationOutput;
+import org.neuroph.contrib.model.metricevaluation.domain.ClassificationOutput;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
@@ -19,6 +19,9 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
+/**
+ * Simple application which demonstrated the usage of CNN for digit recognition
+ */
 public class FuNet1 extends JFrame implements Runnable {
 
     private BufferedImage canvas;

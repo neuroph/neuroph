@@ -9,7 +9,6 @@ public class ErrorEvaluator implements NeurophEvaluator<Double> {
 
     private ErrorFunction errorFunction;
 
-
     public ErrorEvaluator(final ErrorFunction errorFunction) {
         this.errorFunction = errorFunction;
     }

@@ -1,10 +1,10 @@
-package org.neuroph.samples.mnist;
+package org.neuroph.samples.mnist.learn;
 
 
-import org.neuroph.contrib.model.evaluation.NeuralNetworkEvaluationService;
-import org.neuroph.contrib.model.estimation.ErrorEstimationMethod;
-import org.neuroph.contrib.model.estimation.KFoldCrossValidation;
-import org.neuroph.contrib.model.optimizer.MultilayerPerceptronOptimazer;
+import org.neuroph.contrib.model.errorestimation.ErrorEstimationMethod;
+import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
+import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.model.modelselection.MultilayerPerceptronOptimazer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.learning.BackPropagation;
@@ -14,11 +14,25 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class MultyLayerMNIST {
+/**
+ * Utility class which can be used from command prompt to train MLP
+ */
+public class MultiLayerMNIST {
 
-    private static Logger LOG = LoggerFactory.getLogger(MultyLayerMNIST.class);
+    private static Logger LOG = LoggerFactory.getLogger(MultiLayerMNIST.class);
 
 
+    /**
+     * @param args Command line parameters used to initialize parameters of multi layer neural network optimizer
+     *             [0] - maximal number of epochs during learning
+     *             [1] - learning error stop condition
+     *             [2] - learning rate used during learning process
+     *             [3] - number of validation folds
+     *             [4] - max number of layers in neural network
+     *             [5] - min neuron count per layer
+     *             [6] - max neuron count per layer
+     *             [7] - neuron increment count
+     */
     public static void main(String[] args) throws IOException {
 
         int maxIter = Integer.parseInt(args[0]);

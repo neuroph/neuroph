@@ -54,12 +54,12 @@ public abstract class AbstractErrorEstimationMethod implements ErrorEstimationMe
     private void calculateResults(NeuralNetwork<BackPropagation> neuralNetwork, DataSet dataSet) {
         List<DataSet> samples = sampling.sample(dataSet);
 
+        //TODO Good place for parallelization.
+        // But in order to make this possible NeuralNetwork must be cloneable or immutable
         for (int i = 0; i < samples.size(); i++) {
             trainNetwork(neuralNetwork, samples, i);
             evaluateResults(neuralNetwork, samples, i);
             restartNeuralNetwork(neuralNetwork);
-
-            LOG.info(evaluationService.resultFor(MetricsEvaluator.class).getEvaluationResult().toString());
         }
     }
 
@@ -76,7 +76,7 @@ public abstract class AbstractErrorEstimationMethod implements ErrorEstimationMe
 
 
     private void restartNeuralNetwork(NeuralNetwork<BackPropagation> neuralNetwork) {
-        neuralNetwork.randomizeWeights(new NguyenWidrowRandomizer(-0.5, 0.5));
+        neuralNetwork.reset();
     }
 
 

@@ -64,7 +64,6 @@ public class NeuralNetworkEvaluationService {
     public static void completeEvaluation(NeuralNetwork<BackPropagation> neuralNet, DataSet dataSet) {
 
         NeuralNetworkEvaluationService neuralNetworkEvaluationService = new NeuralNetworkEvaluationService();
-//        neuralNetworkEvaluationService.add(ErrorEvaluator.class, new ErrorEvaluator(new MeanSquaredError()));
         neuralNetworkEvaluationService.add(ErrorEvaluator.class, new ErrorEvaluator(new MeanSquaredError()));
         neuralNetworkEvaluationService.add(MetricsEvaluator.class, MetricsEvaluator.createEvaluator(dataSet));
 
@@ -72,7 +71,6 @@ public class NeuralNetworkEvaluationService {
 
         LOG.info("#################################################");
         LOG.info("Errors: ");
-//        System.out.println("MSE Error: " + neuralNetworkEvaluationService.resultFor(MeanSquareErrorEvaluator.class).getEvaluationResult().getError());
         LOG.info("MeanSquare Error: " + neuralNetworkEvaluationService.resultFor(ErrorEvaluator.class).getEvaluationResult());
         LOG.info("#################################################");
         LOG.info("Metrics: ");

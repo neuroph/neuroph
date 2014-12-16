@@ -81,7 +81,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.neuroph.samples.mnist.CnnMNIST</mainClass>
+                            <mainClass>org.neuroph.samples.mnist.learn.CnnMNIST</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
