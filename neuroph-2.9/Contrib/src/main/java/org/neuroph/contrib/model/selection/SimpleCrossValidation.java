@@ -9,7 +9,8 @@ import org.neuroph.core.data.DataSet;
 
 import java.util.List;
 
-public class SimpleCrossValidation implements ErrorEstimationMethod {
+// 2 fold validation, first version of k fold
+public class SimpleCrossValidation implements ErrorEstimationMethod { 
 
     //goood place for autowiring!!!
     NeuralNetworkEvaluationService evaluationService = new NeuralNetworkEvaluationService();

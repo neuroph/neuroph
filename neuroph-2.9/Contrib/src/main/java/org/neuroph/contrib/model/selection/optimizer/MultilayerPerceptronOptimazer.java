@@ -1,9 +1,7 @@
 package org.neuroph.contrib.model.selection.optimizer;
 
-import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
 import org.neuroph.contrib.evaluation.domain.MetricResult;
 import org.neuroph.contrib.model.selection.ErrorEstimationMethod;
-import org.neuroph.contrib.model.selection.KFoldCrossValidation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
@@ -13,7 +11,6 @@ import org.neuroph.nnet.learning.BackPropagation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
