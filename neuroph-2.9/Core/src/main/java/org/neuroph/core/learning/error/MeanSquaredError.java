@@ -20,34 +20,44 @@ import java.io.Serializable;
 
 /**
  * Commonly used mean squared error
+ *
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class MeanSquaredError implements ErrorFunction, Serializable {
-    private transient double totalSquaredErrorSum;
+
+    private transient double totalError;
+    /**
+     * Number of patterns - n 
+     */
     private transient double n;
 
-    public MeanSquaredError(double n) {
-        this.n = n;
+    public MeanSquaredError() {
+        reset();
     }
-    
+
+
     @Override
     public void reset() {
-        totalSquaredErrorSum = 0;
+        totalError = 0d;
+        n = 0;
     }
-        
+
+
     @Override
     public double getTotalError() {
-        return totalSquaredErrorSum/n;
+        return totalError / n;
     }
 
     @Override
-    public void addOutputError(double[] outputError) {
-        double outputErrorSqrSum = 0;
-        for (double error : outputError) {
-            outputErrorSqrSum += (error * error) * 0.5;
-        }
+    public double[]calculatePatternError(double[] predictedOutput, double[] targetOutput) {
+        double[] patternError = new double[targetOutput.length];
 
-        this.totalSquaredErrorSum += outputErrorSqrSum;
+        for (int i = 0; i < predictedOutput.length; i++) {
+            patternError[i] =  targetOutput[i] - predictedOutput[i];
+            totalError += patternError[i] * patternError[i] * 0.5;
+        }
+        n++;
+        return patternError;
     }
-    
+
 }

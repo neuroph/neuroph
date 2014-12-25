@@ -125,7 +125,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         this.previousEpochError = 0d;
 
         this.trainingSetSize = getTrainingSet().size();        
-        this.errorFunction = new MeanSquaredError(trainingSetSize);        
+        this.errorFunction = new MeanSquaredError();        
         
         // create stop condition structure based on settings               
         this.stopConditions.add(new MaxErrorStop(this));       
@@ -182,7 +182,6 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         }
 
         // calculate total network error as MSE. Use MSE so network does not grow with bigger training sets
-        // this.totalNetworkError = this.totalSquaredErrorSum / this.trainingSetSize;
         this.totalNetworkError = errorFunction.getTotalError();
         
         // moved stopping condition to separate method hasReachedStopCondition() so it can be overriden / customized in subclasses
@@ -205,10 +204,8 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         this.neuralNetwork.calculate();
         double[] output = this.neuralNetwork.getOutput();
         double[] desiredOutput = trainingElement.getDesiredOutput();
-        double[] outputError = this.calculateOutputError(desiredOutput, output);
-        //this.addToSquaredErrorSum(outputError);
-        errorFunction.addOutputError(outputError);
-        this.updateNetworkWeights(outputError);
+        double[] patternError = errorFunction.calculatePatternError(output, desiredOutput);
+        this.updateNetworkWeights(patternError);
     }
     
     /**
