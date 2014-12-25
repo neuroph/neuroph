@@ -7,7 +7,7 @@ import org.neuroph.contrib.learning.CrossEntropyError;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.contrib.evaluation.evaluators.Evaluator;
+import org.neuroph.contrib.evaluation.evaluators.NeurophEvaluator;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.slf4j.Logger;
@@ -15,38 +15,37 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-// runs multiple NeurophEvaluator s
 public class NeuralNetworkEvaluationService {
 
     private static Logger LOG = LoggerFactory.getLogger(NeuralNetworkEvaluationService.class);
 
 
-    private Map<Class<?>, Evaluator> evaluators = new HashMap<>();
+    private Map<Class<?>, NeurophEvaluator> evaluators = new HashMap<>();
 
 
     public void evaluate(NeuralNetwork neuralNetwork, DataSet dataSet) {
         for (DataSetRow dataRow : dataSet.getRows()) {
             forwardPass(neuralNetwork, dataRow);
-            for (Evaluator evaluator : evaluators.values()) {
+            for (NeurophEvaluator evaluator : evaluators.values()) {
                 evaluator.processResult(neuralNetwork.getOutput(), dataRow.getDesiredOutput());
             }
         }
     }
 
     private void forwardPass(NeuralNetwork neuralNetwork, DataSetRow dataRow) {
-        neuralNetwork.setInput(dataRow.getInput());
+        neuralNetwork.setInput(dataRow);
         neuralNetwork.calculate();
     }
 
 
-    public <T extends Evaluator> void add(Class<T> type, T instance) {
+    public <T extends NeurophEvaluator> void add(Class<T> type, T instance) {
         if (type == null)
             throw new NullPointerException("Type is null. Please make sure that you pass correct class.");
         evaluators.put(type, instance);
 
     }
 
-    public <T extends Evaluator> T resultFor(Class<T> type) {
+    public <T extends NeurophEvaluator> T resultFor(Class<T> type) {
         return type.cast(evaluators.get(type));
     }
 

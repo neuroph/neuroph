@@ -65,7 +65,7 @@ public class McNemarTest {
     }
 
     private void forwardPass(NeuralNetwork neuralNetwork, DataSetRow dataRow) {
-        neuralNetwork.setInput(dataRow.getInput());
+        neuralNetwork.setInput(dataRow);
         neuralNetwork.calculate();
     }
 

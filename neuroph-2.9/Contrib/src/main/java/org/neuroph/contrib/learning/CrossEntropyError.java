@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class CrossEntropyError implements ErrorFunction, Serializable {
 
+    private double[] errorDerivative;
     private transient double totalError;
     private transient double n;
 
@@ -23,21 +24,22 @@ public class CrossEntropyError implements ErrorFunction, Serializable {
     }
 
     @Override
-    public double[] calculatePatternError(double[] predictedOutput, double[] targetOutput) {
-        double[] patternError = new double[targetOutput.length];
+    public void calculatePatternError(double[] predictedOutput, double[] targetOutput) {
+        errorDerivative = new double[targetOutput.length];
 
         if (predictedOutput.length != targetOutput.length)
             throw new IllegalArgumentException("Output array length and desired output array length must be the same size!");
 
         for (int i = 0; i < predictedOutput.length; i++) {
-            patternError[i] =  targetOutput[i] - predictedOutput[i];
+            errorDerivative[i] =  targetOutput[i] - predictedOutput[i];
             totalError += targetOutput[i] * Math.log(predictedOutput[i]) ;
 
         }
         n++;
-        
-        return patternError;
     }
 
-
+    @Override
+    public double[] getOutputDerivative() {
+        return errorDerivative;
+    }
 }

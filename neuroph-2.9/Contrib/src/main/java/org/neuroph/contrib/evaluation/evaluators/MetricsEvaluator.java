@@ -5,7 +5,7 @@ import org.neuroph.contrib.evaluation.domain.MetricResult;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.contrib.evaluation.domain.ClassificationOutput;
 
-public abstract class MetricsEvaluator implements Evaluator<MetricResult> {
+public abstract class MetricsEvaluator implements NeurophEvaluator<MetricResult> {
 
     ConfusionMatrix confusionMatrix;
 

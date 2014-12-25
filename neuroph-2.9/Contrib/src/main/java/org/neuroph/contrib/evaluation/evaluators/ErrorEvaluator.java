@@ -3,9 +3,9 @@ package org.neuroph.contrib.evaluation.evaluators;
 import org.neuroph.core.learning.error.ErrorFunction;
 
 
-public class ErrorEvaluator implements Evaluator<Double> {
+public class ErrorEvaluator implements NeurophEvaluator<Double> {
 
-    private ErrorFunction errorFunction; // this shoul dbe changed to real MSE not Neuroph
+    private ErrorFunction errorFunction;
 
 
     public ErrorEvaluator(final ErrorFunction errorFunction) {
