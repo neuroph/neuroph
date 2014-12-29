@@ -36,12 +36,8 @@ public interface ErrorFunction {
     public void reset();
 
     /**
-     * Calculates error for given
+     * Calculates pattern error for given predicted and target output
      */
-    void calculatePatternError(double[] predictedOutput, double[] targetOutput);
+    public double[]  calculatePatternError(double[] predictedOutput, double[] targetOutput);
 
-    /**
-     * Returns output neuron errors for last processed pattern
-     */
-    double[] getOutputDerivative();
 }

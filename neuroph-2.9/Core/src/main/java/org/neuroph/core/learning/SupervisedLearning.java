@@ -175,11 +175,9 @@ abstract public class SupervisedLearning extends IterativeLearning implements
     protected void learnPattern(DataSetRow trainingElement) {
         double[] input = trainingElement.getInput();
         this.neuralNetwork.setInput(input);
-
         this.neuralNetwork.calculate();
-
-        errorFunction.calculatePatternError(neuralNetwork.getOutput(), trainingElement.getDesiredOutput());
-        this.updateNetworkWeights(errorFunction.getOutputDerivative());
+        double[] patternError = errorFunction.calculatePatternError(neuralNetwork.getOutput(), trainingElement.getDesiredOutput());
+        this.updateNetworkWeights(patternError);
     }
 
     /**

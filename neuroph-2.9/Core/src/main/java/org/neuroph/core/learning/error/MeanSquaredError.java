@@ -25,24 +25,24 @@ import java.io.Serializable;
  */
 public class MeanSquaredError implements ErrorFunction, Serializable {
 
-    private double[] errorDerivative;
     private transient double totalError;
+    /**
+     * Number of patterns - n 
+     */
     private transient double n;
 
     public MeanSquaredError() {
-        initializeToZero();
+        reset();
     }
 
 
     @Override
     public void reset() {
-        initializeToZero();
-    }
-
-    private void initializeToZero() {
         totalError = 0d;
         n = 0;
     }
+
+
 
     @Override
     public double getTotalError() {
@@ -50,20 +50,15 @@ public class MeanSquaredError implements ErrorFunction, Serializable {
     }
 
     @Override
-    public void calculatePatternError(double[] predictedOutput, double[] targetOutput) {
-        errorDerivative = new double[targetOutput.length];
+    public double[]calculatePatternError(double[] predictedOutput, double[] targetOutput) {
+        double[] patternError = new double[targetOutput.length];
 
         for (int i = 0; i < predictedOutput.length; i++) {
-            errorDerivative[i] =  targetOutput[i] - predictedOutput[i];
-            totalError += errorDerivative[i] * errorDerivative[i] * 0.5;
+            patternError[i] =  targetOutput[i] - predictedOutput[i];
+            totalError += patternError[i] * patternError[i] * 0.5;
         }
         n++;
-    }
-
-
-    @Override
-    public double[] getOutputDerivative() {
-        return errorDerivative;
+        return patternError;
     }
 
 }

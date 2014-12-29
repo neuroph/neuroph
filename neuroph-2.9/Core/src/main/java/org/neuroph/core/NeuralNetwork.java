@@ -277,11 +277,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     }
 
 
-    public void setInput(DataSetRow dataSetRow) throws VectorSizeMismatchException {
-        setInput(dataSetRow.getInput());
-    }
-
-
     /**
      * Returns network output vector. Output vector is an array  collection of Double
      * values.
