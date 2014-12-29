@@ -5,6 +5,9 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.transfer.TransferFunction;
 
+/**
+ * Activation function which enforces that output neurons have probability distribution (sum of all outputs is one)
+ */
 public class SoftMax extends TransferFunction {
 
     private Layer layer;

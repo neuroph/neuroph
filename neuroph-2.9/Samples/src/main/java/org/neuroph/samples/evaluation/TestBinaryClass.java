@@ -1,11 +1,14 @@
 package org.neuroph.samples.evaluation;
 
-import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.TransferFunctionType;
 
+/**
+ * Simple example which shows how to use EvaluationService on Binary classification problem (XOR problem)
+ */
 public class TestBinaryClass {
 
     public static void main(String[] args) {
@@ -16,10 +19,7 @@ public class TestBinaryClass {
         trainingSet.addRow(new DataSetRow(new double[]{1, 0}, new double[]{1}));
         trainingSet.addRow(new DataSetRow(new double[]{1, 1}, new double[]{0}));
 
-        // create multi layer perceptron
         MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(TransferFunctionType.TANH, 2, 3, 1);
-
-
         neuralNet.learn(trainingSet);
 
         NeuralNetworkEvaluationService.completeEvaluation(neuralNet, trainingSet);

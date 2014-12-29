@@ -1,9 +1,9 @@
 package org.neuroph.samples.convolution;
 
-import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
-import org.neuroph.contrib.evaluation.domain.MetricResult;
-import org.neuroph.contrib.model.selection.ErrorEstimationMethod;
-import org.neuroph.contrib.model.selection.KFoldCrossValidation;
+import org.neuroph.contrib.model.errorestimation.ErrorEstimationMethod;
+import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
+import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.model.metricevaluation.domain.MetricResult;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
@@ -118,12 +118,8 @@ public class MNISTExample {
 
             MetricResult validationResult = errorEstimationMethod.computeErrorEstimate(convolutionNetwork, trainSet);
 
-
-
             NeuralNetworkEvaluationService.completeEvaluation(convolutionNetwork, testSet);
-
-
-            convolutionNetwork.save("/fuluNET4.nnet");
+            convolutionNetwork.save("/mnist.nnet");
 
 
         } catch (IOException e) {

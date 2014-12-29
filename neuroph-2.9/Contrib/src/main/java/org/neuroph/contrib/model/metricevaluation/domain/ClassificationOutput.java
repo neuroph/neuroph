@@ -1,13 +1,21 @@
-package org.neuroph.contrib.evaluation.domain;
+package org.neuroph.contrib.model.metricevaluation.domain;
 
 
 import java.util.PriorityQueue;
 
+/**
+ * Wrapper class used for ordering classification results
+ */
 public class ClassificationOutput implements Comparable<ClassificationOutput> {
 
     private int actualClass;
     private double outputValue;
 
+
+    private ClassificationOutput(int actualClass, double outputValue) {
+        this.actualClass = actualClass;
+        this.outputValue = outputValue;
+    }
 
     public int getActualClass() {
         return actualClass;
@@ -15,12 +23,6 @@ public class ClassificationOutput implements Comparable<ClassificationOutput> {
 
     public double getOutputValue() {
         return outputValue;
-    }
-
-
-    private ClassificationOutput(int actualClass, double outputValue) {
-        this.actualClass = actualClass;
-        this.outputValue = outputValue;
     }
 
 
@@ -51,6 +53,12 @@ public class ClassificationOutput implements Comparable<ClassificationOutput> {
         return object;
     }
 
+
+    /**
+     *
+     * @param results classification results computed by NeuralNetwork @see NeuralNetwork.getOutput
+     * @return priority queue ordered by total results of each class in classifier
+     */
     public static PriorityQueue<ClassificationOutput> orderedOutput(final double[] results) {
         PriorityQueue<ClassificationOutput> classificationOutput = new PriorityQueue<>();
 

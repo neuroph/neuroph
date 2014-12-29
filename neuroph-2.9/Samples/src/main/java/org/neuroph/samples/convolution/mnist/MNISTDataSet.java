@@ -54,7 +54,10 @@ public class MNISTDataSet {
             byte[] imageData = dImage.getData();
             int k = 66;
             for (int j = 0; j < pixelCount; j++) {
-                input[k++] = (imageData[j] & 0xff) / 255.0;
+                if ((imageData[j] & 0xff) > 0)
+                    input[k++] = 255;
+                else
+                    k++;
                 if (j % 28 == 27)
                     k += 4;
             }

@@ -3,8 +3,16 @@ package org.neuroph.samples.norm;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 
+/**
+ * Utility class with methods for calculating dataset statistics
+ */
 public class DataSetStatistics {
 
+    /**
+     *
+     * @param dataSet Neuroph dataset
+     * @return arithmetic mean for each variable in data set
+     */
 	public static double[] calculateMean(DataSet dataSet) {
 		double[] mean = new double[dataSet.getInputSize()];
 
@@ -20,6 +28,11 @@ public class DataSetStatistics {
 		return mean;
 	}
 
+    /**
+     *
+     * @param dataSet Neuroph dataset
+     * @return maximum value for each variable in data set
+     */
 	public static double[] calculateMaxByColumns(DataSet dataSet) {
 
 		int inputSize = dataSet.getInputSize();
@@ -39,6 +52,11 @@ public class DataSetStatistics {
 		return maxColumnElements;
 	}
 
+    /**
+     *
+     * @param dataSet Neuroph dataset
+     * @return minimum value for each variable in data set
+     */
 	public static double[] calculateMinByColumns(DataSet dataSet) {
 
 		int inputSize = dataSet.getInputSize();

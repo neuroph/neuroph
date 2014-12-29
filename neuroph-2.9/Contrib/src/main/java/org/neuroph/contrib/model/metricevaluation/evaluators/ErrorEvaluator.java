@@ -1,12 +1,13 @@
-package org.neuroph.contrib.evaluation.evaluators;
+package org.neuroph.contrib.model.metricevaluation.evaluators;
 
 import org.neuroph.core.learning.error.ErrorFunction;
 
-
+/**
+ * Calculates scalar result using ErrorFunction
+ */
 public class ErrorEvaluator implements NeurophEvaluator<Double> {
 
     private ErrorFunction errorFunction;
-
 
     public ErrorEvaluator(final ErrorFunction errorFunction) {
         this.errorFunction = errorFunction;

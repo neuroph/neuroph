@@ -5,7 +5,9 @@ import org.neuroph.core.learning.error.ErrorFunction;
 
 import java.io.Serializable;
 
-
+/**
+ * Special error function which is recommended to be used in classification models
+ */
 public class CrossEntropyError implements ErrorFunction, Serializable {
 
     private double[] errorDerivative;

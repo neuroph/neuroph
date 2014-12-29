@@ -1,11 +1,17 @@
 package org.neuroph.samples.evaluation.optimization;
 
-import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
-import org.neuroph.contrib.model.selection.optimizer.MultilayerPerceptronOptimazer;
+import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.model.modelselection.MultilayerPerceptronOptimazer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.learning.BackPropagation;
 
+/**
+ * Example which demonstrated how to use MultilayerPerceptronOptimazer in order to create optimal
+ * network architecture for IRIS dataset
+ * <p/>
+ * Default optimization parameters are used.
+ */
 public class IrisOptimization {
 
 
@@ -13,17 +19,22 @@ public class IrisOptimization {
         String inputFileName = "/iris_data.txt";
 
         DataSet irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
-
-        BackPropagation bp = new BackPropagation();
-        bp.setMaxIterations(100);
-        bp.setMaxError(0.0001);
+        BackPropagation learningRule = createLearningRule();
 
         NeuralNetwork neuralNet = new MultilayerPerceptronOptimazer<>()
-                .withLearningRule(bp)
+                .withLearningRule(learningRule)
                 .createOptimalModel(irisDataSet);
 
+        neuralNet.learn(irisDataSet);
         NeuralNetworkEvaluationService.completeEvaluation(neuralNet, irisDataSet);
 
+    }
+
+    private static BackPropagation createLearningRule() {
+        BackPropagation learningRule = new BackPropagation();
+        learningRule.setMaxIterations(50);
+        learningRule.setMaxError(0.0001);
+        return learningRule;
     }
 
 }

@@ -1,9 +1,9 @@
-package org.neuroph.contrib.model.selection.optimizer;
+package org.neuroph.contrib.model.modelselection;
 
-import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
-import org.neuroph.contrib.evaluation.domain.MetricResult;
-import org.neuroph.contrib.model.selection.ErrorEstimationMethod;
-import org.neuroph.contrib.model.selection.KFoldCrossValidation;
+import org.neuroph.contrib.model.errorestimation.BootstrapEstimationMethod;
+import org.neuroph.contrib.model.errorestimation.ErrorEstimationMethod;
+import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
+import org.neuroph.contrib.model.metricevaluation.domain.MetricResult;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
@@ -13,28 +13,52 @@ import org.neuroph.nnet.learning.BackPropagation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @param <T> Type which defined which LearningRule will be used during model optimization
+ */
 public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements NeurophModelOptimizer {
 
     private static Logger LOG = LoggerFactory.getLogger(MultilayerPerceptronOptimazer.class);
 
-
+    /**
+     *
+     */
     private Set<List<Integer>> allArchitectures = new HashSet<>();
-    private NeuralNetwork<BackPropagation> optimalClassifier;
-    private MetricResult optimalResult;
 
+    private List<Integer> optimalArchitecure;
+    /**
+     * Optimal optimizer which will be selected during optimization process
+     */
+    private NeuralNetwork<BackPropagation> optimalClassifier;
+    /**
+     * Average metric scores for selected optimal classififer
+     */
+    private MetricResult optimalResult;
+    /**
+     * Method used for classifier error estimation (KFold, Bootstrap)
+     */
     private ErrorEstimationMethod errorEstimationMethod;
+    /**
+     * Learning rule used during classifier learning stage
+     */
     private BackPropagation learningRule;
 
     private int maxLayers = 1;
     private int minNeuronsPerLayer = 1;
     private int maxNeuronsPerLayer = 30;
     private int neuronIncrement = 1;
+
+    /**
+     * If ErrorEstimationMethod is not provided use KFoldCrossValidation by default
+     */
+    public MultilayerPerceptronOptimazer() {
+        errorEstimationMethod = new KFoldCrossValidation(10);
+    }
 
     public MultilayerPerceptronOptimazer withMaxLayers(int maxLayers) {
         this.maxLayers = maxLayers;
@@ -68,6 +92,10 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
     }
 
 
+    /**
+     * @param dataSet training set used for error estimation
+     * @return neural network model with optimized architecture for provided data set
+     */
     @Override
     public NeuralNetwork createOptimalModel(DataSet dataSet) {
 
@@ -83,34 +111,28 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
 
             LOG.info("Architecture: [{}]", architecture);
 
-
-            long start = System.currentTimeMillis();
             MultiLayerPerceptron network = new MultiLayerPerceptron(architecture);
-            LearningListener listener = new LearningListener(network, architecture.toString(), 10, learningRule.getMaxIterations());
+            LearningListener listener = new LearningListener(10, learningRule.getMaxIterations());
             learningRule.addListener(listener);
             network.setLearningRule(learningRule);
             MetricResult result = errorEstimationMethod.computeErrorEstimate(network, dataSet);
 
-
-            LOG.info(result.toString());
-            LOG.info("Average epoch errors: [{}]", listener.foldErrors);
-
-            LOG.info("Execution time: [{}] seconds", (System.currentTimeMillis() - start) / 1000.0);
-
             if (optimalResult == null || optimalResult.getFScore() < result.getFScore()) {
-                LOG.info("Architecture [{}] became optimal architecture.", architecture);
+                LOG.info("Architecture [{}] became optimal architecture  with metrics {}", architecture, result);
                 optimalResult = result;
                 optimalClassifier = network;
+                optimalArchitecure = architecture;
             }
 
             LOG.info("#################################################################");
         }
 
+
+        LOG.info("Optimal Architecture: {}", optimalArchitecure);
         return optimalClassifier;
     }
 
-
-    public void findArchitectures(int currentLayer, int lastLayerNeuronCount, List<Integer> nerons) {
+    private void findArchitectures(int currentLayer, int lastLayerNeuronCount, List<Integer> nerons) {
         allArchitectures.add(new ArrayList<>(nerons));
 
         if (lastLayerNeuronCount + neuronIncrement <= maxNeuronsPerLayer) {
@@ -129,33 +151,19 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
 
     static class LearningListener implements LearningEventListener {
 
-        private final NeuralNetwork neuralNetwork;
-        private String architecture;
         private double[] foldErrors;
         private int foldSize;
 
-        public LearningListener(NeuralNetwork neuralNetwork, String architecture, int foldSize, int maxIterations) {
-            this.neuralNetwork = neuralNetwork;
-            this.architecture = architecture;
+        public LearningListener(int foldSize, int maxIterations) {
+
             this.foldSize = foldSize;
             this.foldErrors = new double[maxIterations];
         }
 
-
-        long start = System.currentTimeMillis();
-
         public void handleLearningEvent(LearningEvent event) {
             BackPropagation bp = (BackPropagation) event.getSource();
-
-                foldErrors[bp.getCurrentIteration() - 1] += bp.getTotalNetworkError() / foldSize;
-            if (bp.getCurrentIteration() % 5 == 0)
-                neuralNetwork.save(architecture + "_" + bp.getCurrentIteration() + "_MNIST_MLP.nnet");
-
-            LOG.info("Epoch execution time: {} sec" , (System.currentTimeMillis() - start) / 1000.0);
-            start = System.currentTimeMillis();
+            foldErrors[bp.getCurrentIteration() - 1] += bp.getTotalNetworkError() / foldSize;
         }
-
-
     }
 
 }

@@ -1,8 +1,8 @@
-package org.neuroph.samples.mnist;
+package org.neuroph.samples.mnist.learn;
 
 import java.io.IOException;
 
-import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;
@@ -17,46 +17,27 @@ import org.neuroph.samples.convolution.mnist.MNISTDataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
-
+/**
+ * Utility class which can be used from command prompt to train ConvolutionalNetwork
+ */
 public class CnnMNIST {
 
     private static Logger LOG = LoggerFactory.getLogger(CnnMNIST.class);
 
 
-    static class LearningListener implements LearningEventListener {
-
-        private final NeuralNetwork neuralNetwork;
-        private DataSet testSet;
-
-        public LearningListener(NeuralNetwork neuralNetwork, DataSet testSet) {
-            this.testSet = testSet;
-            this.neuralNetwork = neuralNetwork;
-        }
-
-
-        long start = System.currentTimeMillis();
-
-        @Override
-        public void handleLearningEvent(LearningEvent event) {
-            BackPropagation bp = (BackPropagation) event.getSource();
-            LOG.info("Epoch no#: [{}]. Error [{}]", bp.getCurrentIteration(), bp.getTotalNetworkError());
-            LOG.info("Epoch execution time: {} sec", (System.currentTimeMillis() - start) / 1000.0);
-//
-            neuralNetwork.save(bp.getCurrentIteration() + "_MNIST_CNN-MIC.nnet");
-
-            start = System.currentTimeMillis();
-            if (bp.getCurrentIteration() % 5 == 0)
-                NeuralNetworkEvaluationService.completeEvaluation(neuralNetwork, testSet);
-        }
-
-    }
-
+    /**
+     * @param args Command line parameters used to initialize parameters of convolutional network
+     *             [0] - maximal number of epochs during learning
+     *             [1] - learning error stop condition
+     *             [2] - learning rate used during learning process
+     *             [3] - number of feature maps in 1st convolutional layer
+     *             [4] - number of feature maps in 2nd convolutional layer
+     *             [5] - number of feature maps in 3rd convolutional layer
+     */
     public static void main(String[] args) {
         try {
 
-            // take params from cmd line
+
             int maxIter = Integer.parseInt(args[0]);
             double maxError = Double.parseDouble(args[1]);
             double learningRate = Double.parseDouble(args[2]);
@@ -68,16 +49,14 @@ public class CnnMNIST {
             LOG.info("{}-{}-{}", layer1, layer2, layer3);
 
 
-            // load datasets
-            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60000);
+            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 100);
             DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
 
-            // create convolutional neural net
-            Layer2D.Dimensions inputLayerDimension = new Layer2D.Dimensions(32, 32); 
+            Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(32, 32);
             Kernel convolutionKernel = new Kernel(5, 5);
             Kernel poolingKernel = new Kernel(2, 2);
 
-            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputLayerDimension, 1)
+            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputDimension, 1)
                     .withConvolutionLayer(convolutionKernel, layer1)
                     .withPoolingLayer(poolingKernel)
                     .withConvolutionLayer(convolutionKernel, layer2)
@@ -96,14 +75,39 @@ public class CnnMNIST {
             convolutionNetwork.setLearningRule(backPropagation);
             convolutionNetwork.learn(trainSet);
 
-            // run evaluation
             NeuralNetworkEvaluationService.completeEvaluation(convolutionNetwork, testSet);
-//            convolutionNetwork.save("/finalCNN.nnet"); // saving is done in handleLearningEvent
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private static class LearningListener implements LearningEventListener {
+
+        private final NeuralNetwork neuralNetwork;
+        private DataSet testSet;
+
+        public LearningListener(NeuralNetwork neuralNetwork, DataSet testSet) {
+            this.testSet = testSet;
+            this.neuralNetwork = neuralNetwork;
+        }
+
+
+        long start = System.currentTimeMillis();
+
+        public void handleLearningEvent(LearningEvent event) {
+            BackPropagation bp = (BackPropagation) event.getSource();
+            LOG.info("Epoch no#: [{}]. Error [{}]", bp.getCurrentIteration(), bp.getTotalNetworkError());
+            LOG.info("Epoch execution time: {} sec", (System.currentTimeMillis() - start) / 1000.0);
+            neuralNetwork.save(bp.getCurrentIteration() + "_MNIST_CNN-MIC.nnet");
+
+            start = System.currentTimeMillis();
+            if (bp.getCurrentIteration() % 5 == 0)
+                NeuralNetworkEvaluationService.completeEvaluation(neuralNetwork, testSet);
+        }
+
     }
 
 
