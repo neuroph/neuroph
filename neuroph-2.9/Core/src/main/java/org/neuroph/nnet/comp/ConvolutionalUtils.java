@@ -20,55 +20,52 @@ import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.nnet.comp.layer.PoolingLayer;
 import org.neuroph.nnet.comp.layer.ConvolutionalLayer;
 import org.neuroph.nnet.comp.layer.FeatureMapsLayer;
-
 /**
- * Utility functions for convolutional networks 
- * 
+ * Utility functions for convolutional networks
+ *
  * @author Boris Fulurija
  * @author Zorn Sevarac
  */
 public class ConvolutionalUtils {
-             
-        /**
-         * Creates full connectivity between feature maps in two layers
-         * @param fromLayer from feature maps layer
-         * @param toLayer to feature maps layer
-         */
-	public static void fullConectMapLayers(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer) {
-		// convolutional and pooling layers use different connectivity patterns
-                // povezuje svaku mapu sa svakom u dva susedna feature map layera
-                if (toLayer instanceof ConvolutionalLayer) {
-            		for (int i = 0; i < fromLayer.getNumberOfMaps(); i++) {
-				for (int j = 0; j < toLayer.getNumberOfMaps(); j++) {
-                                    Layer2D fromMap = fromLayer.getFeatureMap(i);
-                                    Layer2D toMap = toLayer.getFeatureMap(j);
-                                    toLayer.connectMaps(fromMap, toMap);
-				}
-			}
-                  // direct connectivity pattern - povezuje svaku feature mapu sa njoj odgovarajucom featre mapom u sledecem layeru      
-		} else if (toLayer instanceof PoolingLayer) { // we're connecting to Pooling layer
-			for (int i = 0; i < toLayer.getNumberOfMaps(); i++) {
-                            Layer2D fromMap = fromLayer.getFeatureMap(i);
-                            Layer2D toMap = toLayer.getFeatureMap(i);
-                            toLayer.connectMaps(fromMap, toMap);
-			}
-		}
-	}
-        
-   
-	/**
-	 * Creates connections between two feature maps
-	 * 
-	 * @param fromLayer parent layer for from feature map
-	 * @param toLayer parent layer for to feature map
-	 * @param fromFeatureMapIndex index of from feature map
-	 * @param toFeatureMapIndex index of to feature map
-	 */
-	public static void connectFeatureMaps(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer,
-		int fromFeatureMapIndex, int toFeatureMapIndex) {
-		Layer2D fromMap = fromLayer.getFeatureMap(fromFeatureMapIndex);
-		Layer2D toMap = toLayer.getFeatureMap(toFeatureMapIndex);
-		toLayer.connectMaps(fromMap, toMap);
-	}
-        
+
+    /**
+     * Creates full connectivity between feature maps in two layers
+     *
+     * @param fromLayer from feature maps layer
+     * @param toLayer   to feature maps layer
+     */
+    public static void fullConnectMapLayers(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer) {
+        if (toLayer instanceof ConvolutionalLayer) {
+            for (int i = 0; i < fromLayer.getNumberOfMaps(); i++) {
+                for (int j = 0; j < toLayer.getNumberOfMaps(); j++) {
+                    Layer2D fromMap = fromLayer.getFeatureMap(i);
+                    Layer2D toMap = toLayer.getFeatureMap(j);
+                    toLayer.connectMaps(fromMap, toMap);
+                }
+            }
+        } else if (toLayer instanceof PoolingLayer) {
+            for (int i = 0; i < toLayer.getNumberOfMaps(); i++) {
+                Layer2D fromMap = fromLayer.getFeatureMap(i);
+                Layer2D toMap = toLayer.getFeatureMap(i);
+                toLayer.connectMaps(fromMap, toMap);
+            }
+        }
+    }
+
+
+    /**
+     * Creates connections between two feature maps
+     *
+     * @param fromLayer           parent layer for from feature map
+     * @param toLayer             parent layer for to feature map
+     * @param fromFeatureMapIndex index of from feature map
+     * @param toFeatureMapIndex   index of to feature map
+     */
+    public static void connectFeatureMaps(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer,
+                                          int fromFeatureMapIndex, int toFeatureMapIndex) {
+        Layer2D fromMap = fromLayer.getFeatureMap(fromFeatureMapIndex);
+        Layer2D toMap = toLayer.getFeatureMap(toFeatureMapIndex);
+        toLayer.connectMaps(fromMap, toMap);
+    }
+
 }

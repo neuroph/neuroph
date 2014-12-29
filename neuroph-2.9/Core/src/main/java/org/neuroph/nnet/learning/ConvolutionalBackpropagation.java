@@ -6,7 +6,7 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.nnet.learning.BackPropagation;
 
-public class ConvolutionalBackpropagation extends BackPropagation {
+public class ConvolutionalBackpropagation extends MomentumBackpropagation {
 
 	private static final long serialVersionUID = -7134947805154423695L;
 
@@ -24,13 +24,16 @@ public class ConvolutionalBackpropagation extends BackPropagation {
 		} // for
 	}
 
-        // why is thi seerror calculated this way. when many neurons update same weight
-	@Override
-	protected double calculateHiddenNeuronError(Neuron neuron) {
-		double totalError = super.calculateHiddenNeuronError(neuron);
-		Layer2D parentLayer = (Layer2D) neuron.getParentLayer();
-		double weight = parentLayer.getDimensions().getHeight() * parentLayer.getDimensions().getWidth();
-		return totalError / weight;
-	}
+//	@Override
+//	protected double calculateHiddenNeuronError(Neuron neuron) {
+//		double totalError = super.calculateHiddenNeuronError(neuron);
+//
+//        if (neuron.getParentLayer() instanceof  Layer2D) {
+//            Layer2D parentLayer = (Layer2D) neuron.getParentLayer();
+//            double weight = parentLayer.getHeight() * parentLayer.getWidth();
+//            return totalError / weight;
+//        }
+//        return totalError;
+//	}
 
 }
