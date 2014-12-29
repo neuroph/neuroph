@@ -111,14 +111,14 @@ abstract public class LearningRule implements Serializable {
      */
     protected void onStart() {
         this.stopLearning = false;
-        LOGGER.info("Learning Started");
+//        LOGGER.info("Learning Started");
     }
     
     /**
      * Invoked after the learning has stopped
      */
     protected void onStop() {
-        LOGGER.info("Learning Stoped");
+//        LOGGER.info("Learning Stoped");
     }
 
     /**
