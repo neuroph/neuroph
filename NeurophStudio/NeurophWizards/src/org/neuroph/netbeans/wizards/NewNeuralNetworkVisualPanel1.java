@@ -52,7 +52,7 @@ public final class NewNeuralNetworkVisualPanel1 extends JPanel {
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(NewNeuralNetworkVisualPanel1.class, "NewNeuralNetworkVisualPanel1.jLabel2.text")); // NOI18N
 
         neuralNetworkTypeList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Empty Neural Network", "Adaline", "Perceptron", "Multi Layer Perceptron", "Hopfield", "BAM", "Kohonen", "Supervised Hebbian", "Unsupervised Hebbian", "Maxnet", "Competitive Network", "RBF", "Instar", "OutStar", "NoProp" };
+            String[] strings = { "Empty Neural Network", "Adaline", "Perceptron", "Multi Layer Perceptron", "Hopfield", "BAM", "Kohonen", "Supervised Hebbian", "Unsupervised Hebbian", "Maxnet", "Competitive Network", "RBF", "Instar", "OutStar", "NoProp", "ConvolutionalNetwork" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });

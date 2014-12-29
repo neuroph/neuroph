@@ -60,7 +60,7 @@ public class DynamicBackPropagation extends MomentumBackpropagation{
             // smaller error -> bigger learning rate; converege faster
             // the amount of earning rate change is proportional to error change - by using errorChange
 
-            double errorChange = this.previousEpochError - this.totalNetworkError;
+            double errorChange = this.previousEpochError - getErrorFunction().getTotalError();
             this.learningRate = this.learningRate + (errorChange*learningRateChange);
 
             if (this.learningRate > this.maxLearningRate)
@@ -120,7 +120,7 @@ public class DynamicBackPropagation extends MomentumBackpropagation{
         }
 
         protected void adjustMomentum() {
-            double errorChange = this.previousEpochError - this.totalNetworkError;
+            double errorChange = this.previousEpochError - getErrorFunction().getTotalError();
             this.momentum = this.momentum + (errorChange*momentumChange);
 
             if (this.momentum > this.maxMomentum)
