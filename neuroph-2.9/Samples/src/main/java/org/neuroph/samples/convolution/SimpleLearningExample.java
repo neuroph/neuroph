@@ -7,6 +7,11 @@ import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 
+
+/**
+ * This is simple sample to show that learning procedure works
+ * @author zoran
+ */
 public class SimpleLearningExample {
 
     public static void testLearningOneLayer() {

@@ -50,6 +50,9 @@ import java.io.IOException;
  * <p/>
  * fullConnectMapLayers
  *
+ * 
+ * Same as CNNMNIST just with hardoced params
+ * 
  * @author zoran
  */
 

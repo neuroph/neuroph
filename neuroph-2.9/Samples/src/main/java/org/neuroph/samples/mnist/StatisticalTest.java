@@ -9,6 +9,10 @@ import org.neuroph.samples.convolution.mnist.MNISTDataSet;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * Loads two neural networks from command line and performs McNemar statistical test
+ * @author zoran
+ */
 public class StatisticalTest {
 
 

@@ -3,9 +3,6 @@ package org.neuroph.samples.mnist;
 import java.io.IOException;
 
 import org.neuroph.contrib.evaluation.NeuralNetworkEvaluationService;
-import org.neuroph.contrib.evaluation.domain.MetricResult;
-import org.neuroph.contrib.model.selection.ErrorEstimationMethod;
-import org.neuroph.contrib.model.selection.KFoldCrossValidation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;
@@ -19,6 +16,9 @@ import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
+
 
 public class CnnMNIST {
 
@@ -38,6 +38,7 @@ public class CnnMNIST {
 
         long start = System.currentTimeMillis();
 
+        @Override
         public void handleLearningEvent(LearningEvent event) {
             BackPropagation bp = (BackPropagation) event.getSource();
             LOG.info("Epoch no#: [{}]. Error [{}]", bp.getCurrentIteration(), bp.getTotalNetworkError());
@@ -55,7 +56,7 @@ public class CnnMNIST {
     public static void main(String[] args) {
         try {
 
-
+            // take params from cmd line
             int maxIter = Integer.parseInt(args[0]);
             double maxError = Double.parseDouble(args[1]);
             double learningRate = Double.parseDouble(args[2]);
@@ -67,14 +68,16 @@ public class CnnMNIST {
             LOG.info("{}-{}-{}", layer1, layer2, layer3);
 
 
+            // load datasets
             DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60000);
             DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
 
-            Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(32, 32);
+            // create convolutional neural net
+            Layer2D.Dimensions inputLayerDimension = new Layer2D.Dimensions(32, 32); 
             Kernel convolutionKernel = new Kernel(5, 5);
             Kernel poolingKernel = new Kernel(2, 2);
 
-            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputDimension, 1)
+            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputLayerDimension, 1)
                     .withConvolutionLayer(convolutionKernel, layer1)
                     .withPoolingLayer(poolingKernel)
                     .withConvolutionLayer(convolutionKernel, layer2)
@@ -93,8 +96,9 @@ public class CnnMNIST {
             convolutionNetwork.setLearningRule(backPropagation);
             convolutionNetwork.learn(trainSet);
 
+            // run evaluation
             NeuralNetworkEvaluationService.completeEvaluation(convolutionNetwork, testSet);
-//            convolutionNetwork.save("/finalCNN.nnet");
+//            convolutionNetwork.save("/finalCNN.nnet"); // saving is done in handleLearningEvent
 
 
         } catch (IOException e) {

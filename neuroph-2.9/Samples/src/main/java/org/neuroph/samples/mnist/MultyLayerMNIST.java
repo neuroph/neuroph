@@ -14,6 +14,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+/**
+ * Trains MNIST using MLP
+ * @author zoran
+ */
 public class MultyLayerMNIST {
 
     private static Logger LOG = LoggerFactory.getLogger(MultyLayerMNIST.class);
