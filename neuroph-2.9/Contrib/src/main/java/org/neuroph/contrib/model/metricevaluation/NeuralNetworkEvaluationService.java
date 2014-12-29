@@ -85,7 +85,7 @@ public class NeuralNetworkEvaluationService {
 
 
     private void forwardPass(NeuralNetwork neuralNetwork, DataSetRow dataRow) {
-        neuralNetwork.setInput(dataRow);
+        neuralNetwork.setInput(dataRow.getInput());
         neuralNetwork.calculate();
     }
 
