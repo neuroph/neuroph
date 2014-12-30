@@ -80,7 +80,7 @@
         <Component class="javax.swing.JList" name="neuralNetworkTypeList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="15">
+              <StringArray count="16">
                 <StringItem index="0" value="Empty Neural Network"/>
                 <StringItem index="1" value="Adaline"/>
                 <StringItem index="2" value="Perceptron"/>
@@ -96,6 +96,7 @@
                 <StringItem index="12" value="Instar"/>
                 <StringItem index="13" value="OutStar"/>
                 <StringItem index="14" value="NoProp"/>
+                <StringItem index="15" value="ConvolutionalNetwork"/>
               </StringArray>
             </Property>
             <Property name="selectionMode" type="int" value="0"/>

@@ -20,7 +20,10 @@ import java.util.Arrays;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import org.neuroph.core.events.LearningEvent;
+import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.nnet.MultiLayerPerceptron;
+import org.neuroph.nnet.learning.BackPropagation;
 
 /**
  * This sample shows how to train MultiLayerPerceptron neural network for iris classification problem using Neuroph
@@ -28,26 +31,45 @@ import org.neuroph.nnet.MultiLayerPerceptron;
  * training and inspecting neural networks
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
-public class IrisClassificationSample {  
-    
+public class IrisClassificationSample {
+
+    static class LearningListener implements LearningEventListener {
+
+
+        long start = System.currentTimeMillis();
+
+        public void handleLearningEvent(LearningEvent event) {
+            BackPropagation bp = (BackPropagation) event.getSource();
+            System.out.println("Current iteration: " + bp.getCurrentIteration());
+            System.out.println("Error: " + bp.getTotalNetworkError());
+            System.out.println((System.currentTimeMillis() - start) / 1000.0);
+            start = System.currentTimeMillis();
+        }
+
+    }
+
+
     /**
      *  Runs this sample
      */
     public static void main(String[] args) {    
         // get the path to file with data
-        String inputFileName = "data_sets/iris_data_normalised.txt";
+        String inputFileName = "/iris_data.txt";
         
         // create MultiLayerPerceptron neural network
-        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 16, 3);
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 3, 3);
         // create training set from file
         DataSet irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
         // train the network with training set
-        neuralNet.learn(irisDataSet);      
-                        
+
+        neuralNet.getLearningRule().addListener(new LearningListener());
+        neuralNet.getLearningRule().setLearningRate(0.002);
+        neuralNet.getLearningRule().setMaxIterations(300);
+
+        neuralNet.learn(irisDataSet);
+
         System.out.println("Done training.");
         System.out.println("Testing network...");
-        
-        testNeuralNetwork(neuralNet, irisDataSet);
     }
     
     /**

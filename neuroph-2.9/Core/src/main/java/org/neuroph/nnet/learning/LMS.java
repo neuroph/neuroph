@@ -52,9 +52,7 @@ public class LMS extends SupervisedLearning implements Serializable {
      *   
      * @param outputError
      *            output error vector for some network input- the difference between desired and actual output
-     * 
-     * @see SupervisedLearning#calculateOutputError(double[], double[]) 
-     * @see SupervisedLearning#learnPattern(org.neuroph.core.learning.SupervisedTrainingElement)  learnPattern
+     * @see SupervisedLearning#learnPattern(org.neuroph.core.data.DataSetRow)  learnPattern
      */
     @Override
     protected void updateNetworkWeights(double[] outputError) {

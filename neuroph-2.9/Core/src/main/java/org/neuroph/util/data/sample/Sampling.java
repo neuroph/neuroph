@@ -18,10 +18,15 @@ package org.neuroph.util.data.sample;
 
 import org.neuroph.core.data.DataSet;
 
+import java.util.List;
+
 /**
  * Interface for data set sampling  methods.
+ *
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public interface Sampling {
-    public DataSet[] sample(DataSet dataSet);
+
+    public List<DataSet> sample(DataSet dataSet);
+
 }
