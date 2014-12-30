@@ -4,6 +4,9 @@ import java.awt.Component;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.netbeans.wizards.ConvolutionalNetworkVisualPanel1;
+import org.neuroph.nnet.ConvolutionalNetwork;
+import org.neuroph.nnet.comp.Kernel;
+import org.neuroph.nnet.comp.layer.Layer2D;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 
@@ -30,12 +33,12 @@ public class ConvolutionalNetworkWizard implements NetworkWizard {
         Kernel poolingKernel = new Kernel(2, 2);
 
         ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputDimension, 1)
-                .withConvolutionLayer(convolutionKernel, numberOfMaps[0])
+                .withConvolutionLayer(convolutionKernel, Integer.parseInt(numberOfMaps[0]))
                 .withPoolingLayer(poolingKernel)
-                .withConvolutionLayer(convolutionKernel, numberOfMaps[1])
+                .withConvolutionLayer(convolutionKernel, Integer.parseInt(numberOfMaps[1]))
                 .withPoolingLayer(poolingKernel)
-                .withConvolutionLayer(convolutionKernel, numberOfMaps[2])
-                .withFullConnectedLayer(outputNeuronCount)
+                .withConvolutionLayer(convolutionKernel, Integer.parseInt(numberOfMaps[2]))
+                .withFullConnectedLayer(Integer.parseInt(outputNeuronCount))
                 .createNetwork();
 
         convolutionNetwork.setLabel(neuralNetworkName);

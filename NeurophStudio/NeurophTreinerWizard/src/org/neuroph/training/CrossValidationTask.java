@@ -1,5 +1,6 @@
 package org.neuroph.training;
 
+import java.util.List;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.util.Properties;
@@ -15,7 +16,7 @@ public class CrossValidationTask extends Task {
     private DataSet dataSet;
     
     Sampling sampling; // sampling method
-    DataSet[] dataSetSamples;    // store k subsamples: 1 for testing, k-1 for training.
+    List<DataSet> dataSetSamples;    // store k subsamples: 1 for testing, k-1 for training.
     int iteration = 0;
     int folds=0;
     
@@ -63,7 +64,7 @@ public class CrossValidationTask extends Task {
 
             this.sampling = new SubSampling(trainingSetPercent);
             //dataSetSamples = dataSet.sample(sampling);
-            dataSetSamples = sampling.sample(dataSet);
+            List<DataSet> dataSetSamples = sampling.sample(dataSet);
             
             
             // types of subsampling: 
@@ -71,10 +72,10 @@ public class CrossValidationTask extends Task {
             // da li se preklapaju
             // koji procenat
 
-            parentProcess.setVar("testSet", dataSetSamples[0]);
-            parentProcess.setVar("trainingSet", dataSetSamples[1]);            
+            parentProcess.setVar("testSet", dataSetSamples.get(0));
+            parentProcess.setVar("trainingSet", dataSetSamples.get(1));            
         } else if (iteration+1 <= folds) { // on next execution only set next training sets
-            parentProcess.setVar("trainingSet", dataSetSamples[iteration+1]);            
+            parentProcess.setVar("trainingSet", dataSetSamples.get(iteration+1));            
         } else { // when you finish with all training sets reset and startall over on next execution
           iteration = 0;  
         }

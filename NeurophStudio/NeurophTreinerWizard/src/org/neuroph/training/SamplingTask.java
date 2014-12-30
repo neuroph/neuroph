@@ -1,5 +1,6 @@
 package org.neuroph.training;
 
+import java.util.List;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.util.Properties;
 import org.neuroph.util.data.sample.Sampling;
@@ -12,7 +13,7 @@ import org.neuroph.util.data.sample.SubSampling;
 public class SamplingTask extends Task {
     DataSet dataSet;
     Sampling sampling;
-    DataSet[] dataSetSample;
+    List<DataSet> dataSetSample;
           
     public SamplingTask(String name) {
         super(name);
@@ -36,8 +37,8 @@ public class SamplingTask extends Task {
         this.sampling = new SubSampling(trainingSetPercent);        
         dataSetSample = dataSet.sample(sampling);
         
-        parentProcess.setVar("trainingSet", dataSetSample[0]);
-        parentProcess.setVar("testSet", dataSetSample[1]);
+        parentProcess.setVar("trainingSet", dataSetSample.get(0));
+        parentProcess.setVar("testSet", dataSetSample.get(1));
     }
 
     

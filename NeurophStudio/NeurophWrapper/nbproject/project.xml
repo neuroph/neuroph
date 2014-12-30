@@ -44,11 +44,20 @@
                 <package>org.neuroph.adapters.jml</package>
                 <package>org.neuroph.adapters.weka</package>
                 <package>org.neuroph.contrib</package>
+                <package>org.neuroph.contrib.graphml</package>
+                <package>org.neuroph.contrib.learning</package>
                 <package>org.neuroph.contrib.matrixmlp</package>
-                <package>org.neuroph.contrib.norm</package>
+                <package>org.neuroph.contrib.model.errorestimation</package>
+                <package>org.neuroph.contrib.model.metricevaluation</package>
+                <package>org.neuroph.contrib.model.metricevaluation.domain</package>
+                <package>org.neuroph.contrib.model.metricevaluation.evaluators</package>
+                <package>org.neuroph.contrib.model.metricevaluation.stat</package>
+                <package>org.neuroph.contrib.model.modelselection</package>
+                <package>org.neuroph.contrib.model.sampling</package>
                 <package>org.neuroph.contrib.samples</package>
                 <package>org.neuroph.contrib.samples.stockmarket</package>
                 <package>org.neuroph.contrib.samples.timeseries</package>
+                <package>org.neuroph.contrib.utils</package>
                 <package>org.neuroph.core</package>
                 <package>org.neuroph.core.data</package>
                 <package>org.neuroph.core.events</package>
@@ -64,6 +73,7 @@
                 <package>org.neuroph.imgrec.filter</package>
                 <package>org.neuroph.imgrec.filter.impl</package>
                 <package>org.neuroph.imgrec.image</package>
+                <package>org.neuroph.imgrec.samples</package>
                 <package>org.neuroph.nnet</package>
                 <package>org.neuroph.nnet.comp</package>
                 <package>org.neuroph.nnet.comp.layer</package>
@@ -72,8 +82,17 @@
                 <package>org.neuroph.nnet.learning.kmeans</package>
                 <package>org.neuroph.nnet.learning.knn</package>
                 <package>org.neuroph.ocr</package>
+                <package>org.neuroph.ocr.samples</package>
                 <package>org.neuroph.samples</package>
                 <package>org.neuroph.samples.convolution</package>
+                <package>org.neuroph.samples.convolution.mnist</package>
+                <package>org.neuroph.samples.convolution.util</package>
+                <package>org.neuroph.samples.evaluation</package>
+                <package>org.neuroph.samples.evaluation.optimization</package>
+                <package>org.neuroph.samples.mnist.learn</package>
+                <package>org.neuroph.samples.mnist.master</package>
+                <package>org.neuroph.samples.mnist.test</package>
+                <package>org.neuroph.samples.norm</package>
                 <package>org.neuroph.samples.uci</package>
                 <package>org.neuroph.util</package>
                 <package>org.neuroph.util.benchmark</package>
