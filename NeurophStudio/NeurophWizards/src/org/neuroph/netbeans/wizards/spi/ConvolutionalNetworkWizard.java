@@ -53,12 +53,13 @@ public class ConvolutionalNetworkWizard implements NetworkWizard {
         ((WizardDescriptor) settings).putProperty("inputWidth", ((ConvolutionalNetworkVisualPanel1) getComponent()).getInputWidth().getText().trim());
         ((WizardDescriptor) settings).putProperty("inputHeight", ((ConvolutionalNetworkVisualPanel1) getComponent()).getInputHeight().getText().trim());
         ((WizardDescriptor) settings).putProperty("numberOfMaps", ((ConvolutionalNetworkVisualPanel1) getComponent()).getNumberOfMaps().getText().trim());
-        ((WizardDescriptor) settings).putProperty("outputNeuronCount", ((ConvolutionalNetworkVisualPanel1) getComponent()).getNumberOfMaps().getText().trim());
+        ((WizardDescriptor) settings).putProperty("outputNeuronCount", ((ConvolutionalNetworkVisualPanel1) getComponent()).getOutputNeurons().getText().trim());
 
     }
 
     @Override
     public void validatePanelData() throws WizardValidationException {
+        int a=0;
         try {
             Integer.parseInt(((ConvolutionalNetworkVisualPanel1) getComponent()).getKernelWidth().getText().trim());
         } catch (NumberFormatException ex) {

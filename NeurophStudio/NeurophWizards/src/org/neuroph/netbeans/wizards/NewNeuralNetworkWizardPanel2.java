@@ -22,7 +22,10 @@ public class NewNeuralNetworkWizardPanel2 implements WizardDescriptor.Validating
     // but never displayed, or not all panels are displayed, it is better to
     // create only those which really need to be visible.
     public Component getComponent() {
-        return wizard.getComponent();
+        if (wizard != null)
+            return wizard.getComponent();
+        else 
+            return new JPanel();
     }
 
     public HelpCtx getHelp() {
