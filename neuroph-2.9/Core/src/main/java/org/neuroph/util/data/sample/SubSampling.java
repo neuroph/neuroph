@@ -29,48 +29,47 @@ import org.neuroph.core.data.DataSet;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class SubSampling implements Sampling {
+
+    int percent;
+
+    public SubSampling(int percent) {
+        this.percent = percent;
+    }
+
     @Override
     public List<DataSet> sample(DataSet dataSet) {
-        return null;
+        List<DataSet> subSets = new ArrayList<>();
+
+        // create array of random idxs
+        ArrayList<Integer> randoms = new ArrayList<>();
+        for (int i = 0; i < dataSet.size(); i++) {
+            randoms.add(i);
+        }
+
+        Collections.shuffle(randoms);
+
+        int inputSize = dataSet.getInputSize();
+        int outputSize = dataSet.getOutputSize();
+
+        // create sample data set
+        DataSet subSet = new DataSet(inputSize, outputSize);
+        int trainingElementsCount = dataSet.size() * percent / 100;
+        for (int i = 0; i < trainingElementsCount; i++) {
+            int idx = randoms.get(i);
+            subSet.addRow(dataSet.getRowAt(idx));
+        }
+        subSets.add(subSet);
+
+        // create rest of rows to data set
+        subSet = new DataSet(inputSize, outputSize);
+        int testElementsCount = dataSet.size() - trainingElementsCount;
+        for (int i = 0; i < testElementsCount; i++) {
+            int idx = randoms.get(trainingElementsCount + i);
+            subSet.addRow(dataSet.getRowAt(idx));
+        }
+        subSets.add(subSet);
+
+        return subSets;
     }
-//    int percent;
-//
-//    public SubSampling(int percent) {
-//        this.percent = percent;
-//    }
-//
-//    @Override
-//    public DataSet[] sample(DataSet dataSet) {
-//        DataSet[] subSets = new DataSet[2];
-//
-//        // create array of random idxs
-//        ArrayList<Integer> randoms = new ArrayList<>();
-//        for (int i = 0; i < dataSet.size(); i++) {
-//            randoms.add(i);
-//        }
-//
-//        Collections.shuffle(randoms);
-//
-//        int inputSize = dataSet.getInputSize();
-//        int outputSize = dataSet.getOutputSize();
-//
-//        // create sample data set
-//        subSets[0] = new DataSet(inputSize, outputSize);
-//        int trainingElementsCount = dataSet.size() * percent / 100;
-//        for (int i = 0; i < trainingElementsCount; i++) {
-//            int idx = randoms.get(i);
-//            subSets[0].addRow(dataSet.getRowAt(idx));
-//        }
-//
-//        // create rest of rows to data set
-//        subSets[1] = new DataSet(inputSize, outputSize);
-//        int testElementsCount = dataSet.size() - trainingElementsCount;
-//        for (int i = 0; i < testElementsCount; i++) {
-//            int idx = randoms.get(trainingElementsCount + i);
-//            subSets[1].addRow(dataSet.getRowAt(idx));
-//        }
-//
-//        return subSets;
-//    }
     
 }

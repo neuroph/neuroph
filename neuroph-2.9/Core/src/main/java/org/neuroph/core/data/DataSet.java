@@ -593,7 +593,7 @@ public class DataSet implements Serializable /*
 
     // remove sampling methods from here and do sampling from instance of Sampling implementations
     public List<DataSet> sample(int percent) {
-        Sampling sampling = new SubSampling();
+        Sampling sampling = new SubSampling(percent);
         return sampling.sample(this);
     }
 
