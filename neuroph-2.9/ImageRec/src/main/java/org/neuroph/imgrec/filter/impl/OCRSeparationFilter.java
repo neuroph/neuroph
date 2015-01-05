@@ -151,7 +151,7 @@ public class OCRSeparationFilter implements ImageFilter {
         }
 
         String name = createName();
-        saveToFile(letter, seqNum+"_"+name); //potrebno je izbaciti seqNum i ostaviti samo name
+        saveToFile(letter, name); //potrebno je izbaciti seqNum i ostaviti samo name
         
         seqNum++;
 
