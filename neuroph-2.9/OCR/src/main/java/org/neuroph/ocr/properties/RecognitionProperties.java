@@ -13,7 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.imgrec.ImageRecognitionPlugin;
 import org.neuroph.ocr.util.OCRCropImage;
@@ -25,12 +24,12 @@ import org.neuroph.ocr.util.Word;
  * @author Mihailo Stupar
  */
 public class RecognitionProperties extends Properties {
-    
+
     private String recognizedTextPath;
     private NeuralNetwork nnet;
     private ImageRecognitionPlugin plugin;
     private String text;
-    
+
     private boolean[][] visited;  //sluzi samo za procesiranje slike, za BFS
 
     public RecognitionProperties(LetterInformation letterInformation, TextInformation textInformation) {
@@ -55,7 +54,7 @@ public class RecognitionProperties extends Properties {
     }
 
     /**
-     * @param path path of the trained neural network
+     * @param networkPath path of the trained neural network
      */
     public void setNetworkPath(String networkPath) {
         nnet = NeuralNetwork.createFromFile(networkPath);
@@ -70,23 +69,26 @@ public class RecognitionProperties extends Properties {
         int imageWidth = image.getWidth();
         visited = new boolean[imageHeight][imageWidth];
         text = "";
-        
+
         for (int i = 0; i < textInformation.numberOfRows(); i++) {
-            text += recognizeRow(i) + "\n";
+            String rowText = recognizeRow(i);
+            if (!rowText.isEmpty()) {
+                text += rowText + "\n";
+            }
         }
-        
+
         visited = null; //prevent lottering
     }
-    
+
     private String recognizeRow(int row) {
         String rowText = "";
         List<Word> words = textInformation.getWordsAtRow(row);
-        
+
         for (int i = 0; i < words.size(); i++) {
             int rowPixel = textInformation.getRowAt(row);
             Word word = words.get(i);
             rowText += recognizeWord(word, rowPixel);
-            
+
             if ((i + 1) == words.size()) { //trenutno smo na poslednjoj reci u redu
                 rowText += addSpaces(word, null);
             } else {
@@ -95,29 +97,38 @@ public class RecognitionProperties extends Properties {
             }
         }
         return rowText;
-        
+
     }
-    
+
     private String recognizeWord(Word word, int rowPixel) {
         String wordText = "";
-        
+
         int tmpWidth = 3 * letterInformation.getCropWidth();
         int tmpHeight = 3 * letterInformation.getCropHeight();
         int letterSize = letterInformation.getLetterSize();
-        
+
         int start = word.getStartPixel();
         int end = word.getEndPixel();
-        
+
         Color white = Color.WHITE;
         Color color;
-        
-        for (int k = -(letterSize / 4); k < (letterSize / 4); k++) {
-            int i = rowPixel + k;
-            if (i < 0 || i > image.getHeight()) {
-                continue;
-            }
-            for (int j = start; j < end; j++) {
-                
+        //======================================================================
+        for (int j = start; j < end; j++) {
+            for (int k = -(letterSize / 4); k < (letterSize / 4); k++) {
+                int i = rowPixel + k;
+                if (i < 0 || i > image.getHeight()) {
+                    continue;
+                }
+
+        //======================================================================
+//        gornja vrzija je ispravna ova ne radi kako treba
+//            for (int k = -(letterSize / 4); k < (letterSize / 4); k++) {
+//            int i = rowPixel + k;
+//            if (i < 0 || i > image.getHeight()) {
+//                continue;
+//            }
+//            for (int j = start; j < end; j++) {
+        //======================================================================
                 color = new Color(image.getRGB(j, i));
                 if (color.equals(white)) {
                     visited[i][j] = true;
@@ -133,7 +144,7 @@ public class RecognitionProperties extends Properties {
         }
         return wordText;
     }
-    
+
     private String recognizeLetter(BufferedImage image) {
         // samo za test 
 //        OCRUtilities.saveToFile(image, "C:\\Users\\Mihailo\\Desktop\\OCR\\test-letters", new Random().nextInt()+"", "png");
@@ -141,7 +152,7 @@ public class RecognitionProperties extends Properties {
         Map<String, Double> output = plugin.recognizeImage(image);
         return OCRUtilities.getCharacter(output);
     }
-    
+
     private String addSpaces(Word first, Word second) {
         if (second == null) {
             return "";
@@ -149,7 +160,7 @@ public class RecognitionProperties extends Properties {
         String space = "";
         int gap = second.getStartPixel() - first.getEndPixel();
         int num = gap / letterInformation.getSpaceGap();
-        
+
         for (int i = 0; i < num; i++) {
             space += " ";
         }
@@ -162,7 +173,7 @@ public class RecognitionProperties extends Properties {
     public String getRecognizedText() {
         return text;
     }
-    
+
     /**
      * save the recognized text to the file specified earlier in location folder
      */
@@ -183,7 +194,7 @@ public class RecognitionProperties extends Properties {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
+
     }
-    
+
 }

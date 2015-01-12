@@ -18,7 +18,6 @@ import org.neuroph.imgrec.ColorMode;
 import org.neuroph.imgrec.FractionRgbData;
 import org.neuroph.imgrec.ImageRecognitionHelper;
 import org.neuroph.imgrec.filter.ImageFilterChain;
-import org.neuroph.imgrec.filter.impl.Dilation;
 import org.neuroph.imgrec.filter.impl.GrayscaleFilter;
 import org.neuroph.imgrec.filter.impl.OtsuBinarizeFilter;
 import org.neuroph.imgrec.image.Dimension;
@@ -37,16 +36,15 @@ public class TrainingSample {
     public static void main(String[] args) throws IOException {
 
         //     User input parameteres       
-//******************************************************************************************************************************       
+//*******************************************************************************************************************************       
         String imagePath = "C:/Users/Mihailo/Desktop/OCR/training.png"; //path to the image with letters                        *
-        String folderPath = "C:/Users/Mihailo/Desktop/OCR/letters/"; // loaction folder for storing segmented lettres           *
+        String folderPath = "C:/Users/Mihailo/Desktop/OCR/letters/"; // loaction folder for storing segmented letters           *
         String textPath = "C:/Users/Mihailo/Desktop/OCR/training.txt"; // path to the .txt file with text on the image          *
         String networkPath = "C:/Users/Mihailo/Desktop/OCR/nnet/network.nnet"; // location where the network will be stored     *
         int fontSize = 12; // fontSize, predicted by height of the letters, minimum font size is 12 pt                          *
         int scanQuality = 300; // scan quality, minimum quality is 300 dpi                                                      *
 //*******************************************************************************************************************************
-       
-        
+
         BufferedImage image = ImageIO.read(new File(imagePath));
         ImageFilterChain chain = new ImageFilterChain();
         chain.addFilter(new GrayscaleFilter());
@@ -64,7 +62,7 @@ public class TrainingSample {
         properties.prepareTrainingSet();
 
         List<String> characterLabels = properties.getCharacterLabels();
-       
+
         Map<String, FractionRgbData> map = ImageRecognitionHelper.getFractionRgbDataForDirectory(new File(folderPath), new Dimension(20, 20));
         DataSet dataSet = ImageRecognitionHelper.createBlackAndWhiteTrainingSet(characterLabels, map);
 
@@ -74,7 +72,7 @@ public class TrainingSample {
         NeuralNetwork nnet = ImageRecognitionHelper.createNewNeuralNetwork("someNetworkName", new Dimension(20, 20), ColorMode.BLACK_AND_WHITE, characterLabels, hiddenLayers, TransferFunctionType.SIGMOID);
         BackPropagation bp = (BackPropagation) nnet.getLearningRule();
         bp.setLearningRate(0.3);
-        bp.setMaxError(0.005);
+        bp.setMaxError(0.0001);
 
         System.out.println("Start learning...");
         nnet.learn(dataSet);
