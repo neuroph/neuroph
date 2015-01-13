@@ -12,39 +12,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.neuroph.ocr.util.OCRUtilities;
-import org.neuroph.ocr.util.Word;
+import org.neuroph.ocr.util.WordPosition;
 
 /**
  *
  * @author Mihailo
  */
-public class TextInformation {
+public class Text {
     
-    private List<Integer> rowPositions;
-    private Map<Integer, List<Word>> map;
-    private LetterInformation letterInfo;
+    private List<Integer> linePositions;
+    private Map<Integer, List<WordPosition>> map;
+    private Letter letterInfo;
     
     private BufferedImage image;
 
-    public TextInformation(BufferedImage image, LetterInformation letterInformation) {
+    public Text(BufferedImage image, Letter letterInformation) {
         this.letterInfo = letterInformation;
         this.image = image;
-        rowPositions = OCRUtilities.rowPositions(image, letterInformation.getSmallestSizeLetter());
+        linePositions = OCRUtilities.rowPositions(image, letterInformation.getSmallestSizeLetter());
         createMap();
         populateMap();
     }
     
     
     private void populateMap() {
-        for (Integer row : rowPositions) {
+        for (Integer row : linePositions) {
             map.put(row, OCRUtilities.wordsPositions(image, row, letterInfo.getLetterSize(), letterInfo.getSpaceGap()));
         }  
     }
     
     private void createMap() {
-        map = new HashMap<Integer, List<Word>>();
-        for (Integer row : rowPositions) {
-            map.put(row, new ArrayList<Word>());
+        map = new HashMap<Integer, List<WordPosition>>();
+        for (Integer row : linePositions) {
+            map.put(row, new ArrayList<WordPosition>());
         }
     }
     
@@ -53,7 +53,7 @@ public class TextInformation {
      * @return number of rows 
      */
     public int numberOfRows() {
-        return rowPositions.size();
+        return linePositions.size();
     }
     
     /**
@@ -62,17 +62,17 @@ public class TextInformation {
      * @return pixel position of the row at the index
      */
     public int getRowAt(int index) {
-        return rowPositions.get(index);
+        return linePositions.get(index);
     }
     
     /**
      * return objects of class Word as List 
      * @param index index of row, start from 0
      * @return list of Word
-     * @see Word
+     * @see WordPosition
      */
-    public List<Word> getWordsAtRow(int index) {
-        int key = rowPositions.get(index);
+    public List<WordPosition> getWordsAtRow(int index) {
+        int key = linePositions.get(index);
         return map.get(key);
     }
     
@@ -80,11 +80,11 @@ public class TextInformation {
      * return objects of class Word as List 
      * @param pixel pixel position of the row
      * @return list of Word
-     * @see Word
+     * @see WordPosition
      * @throws NullPointerException if the pixel is not result of method 
  getRowAt(index)
      */
-    public List<Word> getWordsAtPixel(int pixel) {
+    public List<WordPosition> getWordsAtPixel(int pixel) {
         return map.get(pixel);
     }
 

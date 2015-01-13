@@ -22,9 +22,9 @@ import org.neuroph.imgrec.filter.impl.GrayscaleFilter;
 import org.neuroph.imgrec.filter.impl.OtsuBinarizeFilter;
 import org.neuroph.imgrec.image.Dimension;
 import org.neuroph.nnet.learning.BackPropagation;
-import org.neuroph.ocr.properties.LetterInformation;
-import org.neuroph.ocr.properties.TextInformation;
-import org.neuroph.ocr.properties.TrainingProperties;
+import org.neuroph.ocr.properties.Letter;
+import org.neuroph.ocr.properties.Text;
+import org.neuroph.ocr.properties.OCRTraining;
 import org.neuroph.util.TransferFunctionType;
 
 /**
@@ -51,12 +51,12 @@ public class TrainingSample {
         chain.addFilter(new OtsuBinarizeFilter());
         BufferedImage binarizedImage = chain.processImage(image);
 
-        LetterInformation letterInfo = new LetterInformation(scanQuality, fontSize);
+        Letter letterInfo = new Letter(scanQuality, fontSize);
 //        letterInfo.recognizeDots(); // call this method only if you want to recognize dots and other litle characters, in progress
 
-        TextInformation texTInfo = new TextInformation(binarizedImage, letterInfo);
+        Text texTInfo = new Text(binarizedImage, letterInfo);
 
-        TrainingProperties properties = new TrainingProperties(letterInfo, texTInfo);
+        OCRTraining properties = new OCRTraining(letterInfo, texTInfo);
         properties.setFolderPath(folderPath);
         properties.setTrainingTextPath(textPath);
         properties.prepareTrainingSet();

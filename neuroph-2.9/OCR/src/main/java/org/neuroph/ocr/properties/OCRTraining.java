@@ -20,7 +20,7 @@ import org.neuroph.ocr.util.OCRUtilities;
  *
  * @author Mihailo Stupar
  */
-public class TrainingProperties extends Properties {
+public class OCRTraining extends Properties {
 
     private String folderPath;
     private String trainingText;
@@ -28,7 +28,7 @@ public class TrainingProperties extends Properties {
 
     private List<String> characterLabels;
 
-    public TrainingProperties(LetterInformation letterInformation, TextInformation textInformation) {
+    public OCRTraining(Letter letterInformation, Text textInformation) {
         super(letterInformation, textInformation);
         imageExtension = "png";
     }

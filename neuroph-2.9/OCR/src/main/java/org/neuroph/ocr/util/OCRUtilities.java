@@ -68,8 +68,8 @@ public class OCRUtilities {
      * between letters.
      * @return
      */
-    public static List<Word> wordsPositions(BufferedImage image, int row, int letterSize, int spaceGap) {
-        List<Word> words = new ArrayList<Word>();
+    public static List<WordPosition> wordsPositions(BufferedImage image, int row, int letterSize, int spaceGap) {
+        List<WordPosition> words = new ArrayList<WordPosition>();
         int[] histogram = horizontalHistogram(image, row, letterSize);
         int[] histogramIMS = histogramIgnoreMiniSpaces(histogram, spaceGap);
 
@@ -81,7 +81,7 @@ public class OCRUtilities {
                 if (count > 0) {
                     int start = i - count;
                     int end = i - 1;
-                    Word w = new Word(start, end);
+                    WordPosition w = new WordPosition(start, end);
                     words.add(w);
                 }
                 count = 0;
@@ -263,6 +263,12 @@ public class OCRUtilities {
         return gradient;
     }
 
+    /**
+     * 
+     * @param gradient
+     * @param ignoredSize - noise 
+     * @return 
+     */
     private static List<Integer> linePositions(int[] gradient, int ignoredSize) {
         ArrayList<Integer> lines = new ArrayList<Integer>();
         int sum = 0;

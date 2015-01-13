@@ -17,13 +17,13 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.imgrec.ImageRecognitionPlugin;
 import org.neuroph.ocr.util.OCRCropImage;
 import org.neuroph.ocr.util.OCRUtilities;
-import org.neuroph.ocr.util.Word;
+import org.neuroph.ocr.util.WordPosition;
 
 /**
  *
  * @author Mihailo Stupar
  */
-public class RecognitionProperties extends Properties {
+public class TextRecognition extends Properties {
 
     private String recognizedTextPath;
     private NeuralNetwork nnet;
@@ -32,7 +32,7 @@ public class RecognitionProperties extends Properties {
 
     private boolean[][] visited;  //sluzi samo za procesiranje slike, za BFS
 
-    public RecognitionProperties(LetterInformation letterInformation, TextInformation textInformation) {
+    public TextRecognition(Letter letterInformation, Text textInformation) {
         super(letterInformation, textInformation);
     }
 
@@ -82,17 +82,17 @@ public class RecognitionProperties extends Properties {
 
     private String recognizeRow(int row) {
         String rowText = "";
-        List<Word> words = textInformation.getWordsAtRow(row);
+        List<WordPosition> words = textInformation.getWordsAtRow(row);
 
         for (int i = 0; i < words.size(); i++) {
             int rowPixel = textInformation.getRowAt(row);
-            Word word = words.get(i);
+            WordPosition word = words.get(i);
             rowText += recognizeWord(word, rowPixel);
 
             if ((i + 1) == words.size()) { //trenutno smo na poslednjoj reci u redu
                 rowText += addSpaces(word, null);
             } else {
-                Word next = words.get(i + 1);
+                WordPosition next = words.get(i + 1);
                 rowText += addSpaces(word, next);
             }
         }
@@ -100,7 +100,7 @@ public class RecognitionProperties extends Properties {
 
     }
 
-    private String recognizeWord(Word word, int rowPixel) {
+    private String recognizeWord(WordPosition word, int rowPixel) {
         String wordText = "";
 
         int tmpWidth = 3 * letterInformation.getCropWidth();
@@ -153,7 +153,7 @@ public class RecognitionProperties extends Properties {
         return OCRUtilities.getCharacter(output);
     }
 
-    private String addSpaces(Word first, Word second) {
+    private String addSpaces(WordPosition first, WordPosition second) {
         if (second == null) {
             return "";
         }

@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Mihailo Stupar
  */
-public class LetterInformation {
+public class Letter {
 
     private int cropWidth;
     private int cropHeight;
@@ -23,7 +23,7 @@ public class LetterInformation {
     private int scanQuality;
     private int fontSize;
 
-    public LetterInformation(int scanQuality, int fontSize) {
+    public Letter(int scanQuality, int fontSize) {
         this.scanQuality = scanQuality;
         this.fontSize = fontSize;
 

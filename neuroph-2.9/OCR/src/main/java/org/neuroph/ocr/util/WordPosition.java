@@ -10,12 +10,12 @@ package org.neuroph.ocr.util;
  * 
  * @author Mihailo Stupar
  */
-public class Word {
+public class WordPosition {
    
     private int startPixel;
     private int endPixel;
 
-    public Word(int startPixel, int endPixel) {
+    public WordPosition(int startPixel, int endPixel) {
         this.startPixel = startPixel;
         this.endPixel = endPixel;
     }

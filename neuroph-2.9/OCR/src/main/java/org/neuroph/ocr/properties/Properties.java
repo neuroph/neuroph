@@ -17,11 +17,11 @@ public abstract class Properties {
     protected int scanQuality;
     protected int fontSize;
 
-    protected LetterInformation letterInformation;
-    protected TextInformation textInformation;
+    protected Letter letterInformation;
+    protected Text textInformation;
    
     
-    public Properties(LetterInformation letterInformation, TextInformation textInformation) {
+    public Properties(Letter letterInformation, Text textInformation) {
         this.letterInformation = letterInformation;
         this.textInformation = textInformation;
         this.image = textInformation.getImage();
@@ -33,7 +33,7 @@ public abstract class Properties {
      * dimensions of letter, of spacing, of cropped image...
      * @return Information about letter 
      */
-    public LetterInformation getLetterInformation() {
+    public Letter getLetterInformation() {
         return letterInformation;
     }
 
@@ -41,7 +41,7 @@ public abstract class Properties {
      * informations about line positions, word positions...
      * @return informations about text 
      */
-    public TextInformation getTextInformation() {
+    public Text getTextInformation() {
         return textInformation;
     }
 

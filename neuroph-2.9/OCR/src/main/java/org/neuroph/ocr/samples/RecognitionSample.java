@@ -12,9 +12,9 @@ import javax.imageio.ImageIO;
 import org.neuroph.imgrec.filter.ImageFilterChain;
 import org.neuroph.imgrec.filter.impl.GrayscaleFilter;
 import org.neuroph.imgrec.filter.impl.OtsuBinarizeFilter;
-import org.neuroph.ocr.properties.LetterInformation;
-import org.neuroph.ocr.properties.RecognitionProperties;
-import org.neuroph.ocr.properties.TextInformation;
+import org.neuroph.ocr.properties.Letter;
+import org.neuroph.ocr.properties.TextRecognition;
+import org.neuroph.ocr.properties.Text;
 
 /**
  *
@@ -39,12 +39,12 @@ public class RecognitionSample {
         chain.addFilter(new OtsuBinarizeFilter());
         BufferedImage binarizedImage = chain.processImage(image);
 
-        LetterInformation letterInfo = new LetterInformation(scanQuality, fontSize);
+        Letter letterInfo = new Letter(scanQuality, fontSize);
 //        letterInfo.recognizeDots(); // call this method only if you want to recognize dots and other litle characters, in progress
 
-        TextInformation texTInfo = new TextInformation(binarizedImage, letterInfo);
+        Text texTInfo = new Text(binarizedImage, letterInfo);
 
-        RecognitionProperties properties = new RecognitionProperties(letterInfo, texTInfo);
+        TextRecognition properties = new TextRecognition(letterInfo, texTInfo);
 
         properties.setNetworkPath(networkPath);
 
