@@ -1,9 +1,8 @@
 package org.neuroph.contrib.model.modelselection;
 
-import org.neuroph.contrib.model.errorestimation.BootstrapEstimationMethod;
-import org.neuroph.contrib.model.errorestimation.ErrorEstimationMethod;
+import org.neuroph.contrib.model.errorestimation.Bootstrapping;
 import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
-import org.neuroph.contrib.model.metricevaluation.domain.MetricResult;
+import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
 
 /**
  * @param <T> Type which defined which LearningRule will be used during model optimization
@@ -38,11 +38,11 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
     /**
      * Average metric scores for selected optimal classififer
      */
-    private MetricResult optimalResult;
+    private ClassificationMetrics optimalResult;
     /**
      * Method used for classifier error estimation (KFold, Bootstrap)
      */
-    private ErrorEstimationMethod errorEstimationMethod;
+    private KFoldCrossValidation errorEstimationMethod;
     /**
      * Learning rule used during classifier learning stage
      */
@@ -81,7 +81,7 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
     }
 
 
-    public MultilayerPerceptronOptimazer withErrorEstimationMethod(ErrorEstimationMethod errorEstimationMethod) {
+    public MultilayerPerceptronOptimazer withErrorEstimationMethod(KFoldCrossValidation errorEstimationMethod) {
         this.errorEstimationMethod = errorEstimationMethod;
         return this;
     }
@@ -115,7 +115,7 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
             LearningListener listener = new LearningListener(10, learningRule.getMaxIterations());
             learningRule.addListener(listener);
             network.setLearningRule(learningRule);
-            MetricResult result = errorEstimationMethod.computeErrorEstimate(network, dataSet);
+            ClassificationMetrics result = errorEstimationMethod.computeErrorEstimate(network, dataSet);
 
             if (optimalResult == null || optimalResult.getFScore() < result.getFScore()) {
                 LOG.info("Architecture [{}] became optimal architecture  with metrics {}", architecture, result);

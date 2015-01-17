@@ -1,13 +1,12 @@
-package org.neuroph.contrib.model.metricevaluation.domain;
+package org.neuroph.contrib.eval.classification;
 
-import org.neuroph.contrib.utils.ArrayUtils;
 
 import java.util.List;
 
 /**
  * Container class for all metrics which use confusion matrix for their computation
  */
-public class MetricResult {
+public class ClassificationMetrics {
 
     private double accuracy;
 
@@ -54,10 +53,10 @@ public class MetricResult {
      * @param confusionMatrix confusion matrix computed on test set
      * @return result numeric scores calculated  using confusion matrix
      */
-    public static MetricResult fromConfusionMatrix(ConfusionMatrix confusionMatrix) {
-        MetricResult metricsEvaluationResult = new MetricResult();
+    public static ClassificationMetrics fromConfusionMatrix(ConfusionMatrix confusionMatrix) {
+        ClassificationMetrics metricsEvaluationResult = new ClassificationMetrics();
 
-        double[][] matrix = confusionMatrix.getConfusionMatrix();
+        double[][] matrix = confusionMatrix.getValues();
 
         int totalElements = getDataSetSize(matrix);
         int totalCorrect = getCorrect(matrix);
@@ -67,9 +66,9 @@ public class MetricResult {
 
         metricsEvaluationResult.accuracy = (double) totalCorrect / totalElements;
         metricsEvaluationResult.error = 1.0 - metricsEvaluationResult.accuracy;
-        metricsEvaluationResult.precision = ArrayUtils.average(precisions);
-        metricsEvaluationResult.recall = ArrayUtils.average(recalls);
-        metricsEvaluationResult.fScore = ArrayUtils.average(fScores);
+        metricsEvaluationResult.precision = Utils.average(precisions);
+        metricsEvaluationResult.recall = Utils.average(recalls);
+        metricsEvaluationResult.fScore = Utils.average(fScores);
 
         return metricsEvaluationResult;
     }
@@ -79,14 +78,14 @@ public class MetricResult {
      * @param results list of different metric results computed on different sets of data
      * @return average metrics computed different MetricResults
      */
-    public static MetricResult averageFromMultipleRuns(List<MetricResult> results) {
+    public static ClassificationMetrics averageFromMultipleRuns(List<ClassificationMetrics> results) {
         double averageAccuracy = 0;
         double averageError = 0;
         double averagePrecision = 0;
         double averageRecall = 0;
         double averageFScore = 0;
 
-        for (MetricResult metricResult : results) {
+        for (ClassificationMetrics metricResult : results) {
             averageAccuracy += metricResult.getAccuracy();
             averageError += metricResult.getError();
             averagePrecision += metricResult.getPrecision();
@@ -94,7 +93,7 @@ public class MetricResult {
             averageFScore += metricResult.getFScore();
         }
 
-        MetricResult averageMetricsResult = new MetricResult();
+        ClassificationMetrics averageMetricsResult = new ClassificationMetrics();
 
         averageMetricsResult.accuracy = averageAccuracy / results.size();
         averageMetricsResult.error = averageError / results.size();
@@ -110,14 +109,14 @@ public class MetricResult {
      * @param results list of different metric results computed on different sets of data
      * @return maximum metrics computed different MetricResults
      */
-    public static MetricResult maxFromMultipleRuns(List<MetricResult> results) {
+    public static ClassificationMetrics maxFromMultipleRuns(List<ClassificationMetrics> results) {
         double maxAccuracy = 0;
         double maxError = 0;
         double maxPrecision = 0;
         double maxRecall = 0;
         double maxFScore = 0;
 
-        for (MetricResult metricResult : results) {
+        for (ClassificationMetrics metricResult : results) {
             maxAccuracy = Math.max(maxAccuracy, metricResult.getAccuracy());
             maxError = Math.max(maxError, metricResult.getError());
             maxPrecision = Math.max(maxPrecision, metricResult.getPrecision());
@@ -125,7 +124,7 @@ public class MetricResult {
             maxFScore = Math.max(maxFScore, metricResult.getFScore());
         }
 
-        MetricResult averageMetricsResult = new MetricResult();
+        ClassificationMetrics averageMetricsResult = new ClassificationMetrics();
 
         averageMetricsResult.accuracy = maxAccuracy;
         averageMetricsResult.error = maxError;
@@ -155,8 +154,9 @@ public class MetricResult {
     }
 
 
+    // ovo nije tacno jer  j eisto kao i ovo ispod
     private static double[] createRecallForEachClass(ConfusionMatrix confusionMatrix) {
-        double[][] matrix = confusionMatrix.getConfusionMatrix();
+        double[][] matrix = confusionMatrix.getValues();
         double[] recall = new double[matrix.length];
 
         for (int i = 0; i < matrix.length; i++) {
@@ -168,8 +168,9 @@ public class MetricResult {
         return recall;
     }
 
+    // ovo nije tacno jer  j eisto kao i ovo ispod
     private static double[] createPrecisionForEachClass(ConfusionMatrix confusionMatrix) {
-        double[][] matrix = confusionMatrix.getConfusionMatrix();
+        double[][] matrix = confusionMatrix.getValues();
         double[] precisions = new double[matrix.length];
 
         for (int i = 0; i < matrix.length; i++) {

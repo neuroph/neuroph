@@ -1,7 +1,7 @@
-package org.neuroph.contrib.model.metricevaluation.stat;
+package org.neuroph.contrib.eval.classification;
 
 
-import org.neuroph.contrib.model.metricevaluation.domain.ClassificationOutput;
+import org.neuroph.contrib.eval.classification.ClassificationResult;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
@@ -23,15 +23,23 @@ public class McNemarTest {
         for (DataSetRow dataRow : dataSet.getRows()) {
             forwardPass(network1, dataRow);
             forwardPass(network2, dataRow);
+           
+            double[] networkOutput1 = network1.getOutput();
+            double[] networkOutput2 = network2.getOutput();
+            
+            int maxNeuronIdx1 = Utils.maxIdx(networkOutput1);
+            int maxNeuronIdx2 = Utils.maxIdx(networkOutput2);         
+            
+            ClassificationResult output1 = new ClassificationResult(maxNeuronIdx1, networkOutput1[maxNeuronIdx1]);
+            ClassificationResult output2 = new ClassificationResult(maxNeuronIdx2, networkOutput2[maxNeuronIdx2]);     
 
-
-            ClassificationOutput output1 = ClassificationOutput.getMaxOutput(network1.getOutput());
-            ClassificationOutput output2 = ClassificationOutput.getMaxOutput(network2.getOutput());
+//            ClassificationResult output1 = ClassificationResult.fromMaxOutput(network1.getOutput());
+//            ClassificationResult output2 = ClassificationResult.fromMaxOutput(network2.getOutput());
 
             //are their results different
-            if (output1.getActualClass() != output2.getActualClass()) {
+            if (output1.getClassIdx() != output2.getClassIdx()) {
                 //if first one is correct and second incorrect
-                if (output1.getActualClass() == getDesiredClass(dataRow.getDesiredOutput())) {
+                if (output1.getClassIdx() == getDesiredClass(dataRow.getDesiredOutput())) {
                     contigencyMatrix[1][0]++;
                     //if first is incorrect and second is correct
                 } else {
@@ -39,7 +47,7 @@ public class McNemarTest {
                 }
             } else {
                 //if both are correct
-                if (output1.getActualClass() == getDesiredClass(dataRow.getDesiredOutput())) {
+                if (output1.getClassIdx() == getDesiredClass(dataRow.getDesiredOutput())) {
                     contigencyMatrix[1][1]++;
                     //if both are incorrect
                 } else {
@@ -48,7 +56,7 @@ public class McNemarTest {
             }
         }
 
-        prinprintContingencyMatrix();
+        printContingencyMatrix();
 
         double a = Math.abs(contigencyMatrix[0][1] - contigencyMatrix[1][0]) - 1;
         double hiSquare = (a * a) / (contigencyMatrix[0][1] + contigencyMatrix[1][0]);
@@ -58,7 +66,7 @@ public class McNemarTest {
         return hiSquare > 3.841;
     }
 
-    private void prinprintContingencyMatrix() {
+    private void printContingencyMatrix() {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
                 System.out.print(contigencyMatrix[i][j] + " ");

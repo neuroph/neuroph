@@ -1,11 +1,11 @@
-package org.neuroph.contrib.model.metricevaluation.evaluators;
+package org.neuroph.contrib.eval;
 
 import org.neuroph.core.learning.error.ErrorFunction;
 
 /**
  * Calculates scalar result using ErrorFunction
  */
-public class ErrorEvaluator implements NeurophEvaluator<Double> {
+public class ErrorEvaluator implements Evaluator<Double> {
 
     private ErrorFunction errorFunction;
 
@@ -14,12 +14,12 @@ public class ErrorEvaluator implements NeurophEvaluator<Double> {
     }
 
     @Override
-    public void processResult(double[] predictedOutput, double[] actualOutput) {
-        errorFunction.calculatePatternError(predictedOutput, actualOutput);
+    public void processNetworkResult(double[] networkOutput, double[] desiredOutput) {
+        errorFunction.calculatePatternError(networkOutput, desiredOutput);
     }
 
     @Override
-    public Double getEvaluationResult() {
+    public Double getResult() {
         return errorFunction.getTotalError();
     }
 }
