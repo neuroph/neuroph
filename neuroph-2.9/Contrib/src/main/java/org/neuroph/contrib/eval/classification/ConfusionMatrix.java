@@ -16,18 +16,27 @@ public class ConfusionMatrix {
     private double[][] values;
     
     /**
+     * Number of classes
+     */
+    private int classCount;
+    
+    private int total = 0;
+    
+    
+    /**
      * Default setting for formating toString
      */
-    private  static final int STRING_DEFAULT_WIDTH = 5;    
+    private  static final int STRING_DEFAULT_WIDTH = 7;    
     
     /**
      * Creates new confusion matrix with specified labels and number of classes
      * @param labels
-     * @param classNumber 
+     * @param classCount 
      */
-    public ConfusionMatrix(String[] labels, int classNumber) {
-        this.labels = labels;        
-        this.values = new double[classNumber][classNumber];
+    public ConfusionMatrix(String[] labels, int classCount) {
+        this.labels = labels;     
+        this.classCount = classCount;
+        this.values = new double[classCount][classCount];
     }
 
     /**
@@ -55,7 +64,12 @@ public class ConfusionMatrix {
      */
     public void incrementElement(int actual, int predicted) {
         values[actual][predicted]++;
+        total++;
     }
+    
+    int getClassCount() {
+        return classCount;
+    }    
 
     @Override
     public String toString() {
@@ -80,5 +94,57 @@ public class ConfusionMatrix {
         }
         return builder.toString();
     }
+
+    public int getTruePositive(int clsIdx) {
+        return (int)values[clsIdx][clsIdx];
+    }
+    
+    public int getTrueNegative(int clsIdx) {
+        int trueNegative = 0;
+        
+        for(int i = 0; i < classCount; i++) {
+            if (i == clsIdx) continue; 
+            for(int j = 0; j < classCount; j++) {
+                if (j == clsIdx) continue; 
+                trueNegative += values[i][j];
+            }
+        }
+        
+        return trueNegative;
+    }    
+
+    public int getFalsePositive(int clsIdx) {
+        int falsePositive = 0;
+        
+        for(int i=0; i<classCount; i++) {
+            if (i == clsIdx) continue; 
+            falsePositive += values[i][clsIdx];
+        }
+        
+        return falsePositive;
+    }
+
+    public int getFalseNegative(int clsIdx) {
+        int falseNegative = 0;
+        
+        for(int i=0; i<classCount; i++) {
+            if (i == clsIdx) continue; 
+            falseNegative += values[clsIdx][i];
+        }
+        
+        return falseNegative;
+    }
+
+    public String[] getLabels() {
+        return labels;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+    
+    
+    
+
     
 }

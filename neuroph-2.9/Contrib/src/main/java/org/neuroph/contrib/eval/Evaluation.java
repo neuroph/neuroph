@@ -1,8 +1,5 @@
 package org.neuroph.contrib.eval;
 
-import org.neuroph.contrib.eval.ErrorEvaluator;
-import org.neuroph.contrib.eval.ClassificationMetricsEvaluator;
-import org.neuroph.contrib.eval.Evaluator;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
@@ -12,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import org.neuroph.contrib.eval.classification.ClassificationMeasure;
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
+import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 
 /**
  * Evaluation service used to run different evaluators on trained model
@@ -33,10 +32,11 @@ public class Evaluation {
      * @param dataSet       test data set used for evaluation
      */
     public void evaluateDataSet(NeuralNetwork neuralNetwork, DataSet dataSet) {
-        for (DataSetRow dataRow : dataSet.getRows()) {
-             neuralNetwork.setInput(dataRow.getInput());
-             neuralNetwork.calculate();
-             
+        for (DataSetRow dataRow : dataSet.getRows()) {      // iterate all dataset rows
+             neuralNetwork.setInput(dataRow.getInput());    // apply input to neural network
+             neuralNetwork.calculate();                     // and calculate neural network    
+            
+            // feed actual neural network along with desired output to all evaluators
             for (Evaluator evaluator : evaluators.values()) { // for now we have only kfold and mse
                 evaluator.processNetworkResult(neuralNetwork.getOutput(), dataRow.getDesiredOutput());
             }
@@ -84,19 +84,32 @@ public class Evaluation {
         evaluation.addEvaluator(ClassificationMetricsEvaluator.createForDataSet(dataSet));
 
         evaluation.evaluateDataSet(neuralNet, dataSet);
-
-        LOG.info("#################################################");
-        LOG.info("Errors: ");
-        LOG.info("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult());
-        LOG.info("#################################################");
-        LOG.info("Metrics: ");
-        ClassificationMetrics result = evaluation.getEvaluator(ClassificationMetricsEvaluator.MultiClassEvaluator.class).getResult();
-        LOG.info("Accuracy: " + result.getAccuracy());
-        LOG.info("Error Rate: " + result.getError());
-        LOG.info("Precision: " + result.getPrecision());
-        LOG.info("Recall: " + result.getRecall());
-        LOG.info("FScore: " + result.getFScore());
-        LOG.info("#################################################");
+       // use logger here  - see how to make it print out
+        // http://saltnlight5.blogspot.com/2013/08/how-to-configure-slf4j-with-different.html
+        System.out.println("##############################################################################");
+//        System.out.println("Errors: ");
+        System.out.println("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult());
+        System.out.println("##############################################################################");
+        System.out.println("Confusion Matrix: ");
+        
+        ClassificationMetricsEvaluator evaluator = evaluation.getEvaluator(ClassificationMetricsEvaluator.MultiClassEvaluator.class);
+        ConfusionMatrix confusionMatrix = evaluator.getConfusionMatrix();
+        System.out.println(confusionMatrix.toString());
+        
+        System.out.println("##############################################################################");
+        System.out.println("Classification metrics: ");        
+        ClassificationMetrics[] metrics = evaluator.getResult();
+       
+//        ClassificationMetrics[] measures = ClassificationMetrics.createFromMatrix(confusionMatrix);
+        for(ClassificationMetrics cm : metrics)
+            System.out.println(cm.toString());
+        
+//        System.out.println("Accuracy: " + result.getAccuracy());
+//        System.out.println("Error Rate: " + result.getError());
+//        System.out.println("Precision: " + result.getPrecision());
+//        System.out.println("Recall: " + result.getRecall());
+//        System.out.println("FScore: " + result.getFScore());
+        System.out.println("##############################################################################");
     }
 
 }

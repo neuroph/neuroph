@@ -5,7 +5,7 @@ import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.classification.Utils;
 import org.neuroph.core.data.DataSet;
 
-public abstract class ClassificationMetricsEvaluator implements Evaluator<ClassificationMetrics> {
+public abstract class ClassificationMetricsEvaluator implements Evaluator<ClassificationMetrics[]> {
 
     ConfusionMatrix confusionMatrix;
 
@@ -14,9 +14,15 @@ public abstract class ClassificationMetricsEvaluator implements Evaluator<Classi
     }
 
     @Override
-    public ClassificationMetrics getResult() {
-        return ClassificationMetrics.fromConfusionMatrix(confusionMatrix);
+    public ClassificationMetrics[] getResult() {
+        return  ClassificationMetrics.createFromMatrix(confusionMatrix);
     }
+
+    public ConfusionMatrix getConfusionMatrix() {
+        return confusionMatrix;
+    }
+    
+    
 
     public static ClassificationMetricsEvaluator createForDataSet(final DataSet dataSet) {
         if (dataSet.getOutputSize() == 1) {
@@ -69,8 +75,9 @@ public abstract class ClassificationMetricsEvaluator implements Evaluator<Classi
      */
     public static class MultiClassEvaluator extends ClassificationMetricsEvaluator {
 
-        private MultiClassEvaluator(DataSet dataSet) {
-            super(dataSet.getColumnNames(), dataSet.getOutputSize());
+        private MultiClassEvaluator(DataSet dataSet) {            
+            super(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"} , dataSet.getOutputSize());
+            // dataSet.getColumnNames()
         }
 
         @Override

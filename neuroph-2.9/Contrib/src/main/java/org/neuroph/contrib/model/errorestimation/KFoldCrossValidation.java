@@ -53,7 +53,8 @@ public class KFoldCrossValidation  {
         initializeData(dataSet);
         calculateResults(neuralNetwork, dataSet);
 
-        return ClassificationMetrics.averageFromMultipleRuns(results);
+       // return ClassificationMetrics.averageFromMultipleRuns(results);
+        return null;
     }
 
     private void initializeData(DataSet dataSet) {
@@ -84,7 +85,8 @@ public class KFoldCrossValidation  {
     private void evaluateResults(NeuralNetwork<BackPropagation> neuralNetwork, List<DataSet> samples, int i) {
         DataSet testSet = createValidationSet(samples, i);
         evaluation.evaluateDataSet(neuralNetwork, testSet);
-        results.add(evaluation.getEvaluator(ClassificationMetricsEvaluator.class).getResult());
+        // works for binary what if we have multiple classes
+        results.add(evaluation.getEvaluator(ClassificationMetricsEvaluator.class).getResult()[0]);
     }
 
 

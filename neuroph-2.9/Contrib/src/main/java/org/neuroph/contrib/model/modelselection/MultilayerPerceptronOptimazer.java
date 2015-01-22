@@ -117,7 +117,7 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
             network.setLearningRule(learningRule);
             ClassificationMetrics result = errorEstimationMethod.computeErrorEstimate(network, dataSet);
 
-            if (optimalResult == null || optimalResult.getFScore() < result.getFScore()) {
+            if (optimalResult == null || optimalResult.getFMeasure()< result.getFMeasure()) {
                 LOG.info("Architecture [{}] became optimal architecture  with metrics {}", architecture, result);
                 optimalResult = result;
                 optimalClassifier = network;

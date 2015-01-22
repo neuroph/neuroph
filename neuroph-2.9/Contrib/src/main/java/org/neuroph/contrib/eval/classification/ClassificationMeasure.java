@@ -20,12 +20,14 @@ import static java.lang.Math.sqrt;
  * 
  */
 public class ClassificationMeasure {
-
+    // maybe add class field here
     double falseNegative;
     double falsePositive;
     double trueNegative;
     double truePositive;
     double total;
+    
+    String classLabel;
 
 
    /**
@@ -42,9 +44,19 @@ public class ClassificationMeasure {
         this.trueNegative = trueNegative;
         this.falsePositive = falsePositive;
         this.falseNegative = falseNegative;                        
-        this.total = falseNegative + falsePositive + trueNegative + truePositive;
+        this.total = falseNegative + falsePositive + trueNegative + truePositive; // not in case of multicLASS!
     }
 
+    public String getClassLabel() {
+        return classLabel;
+    }
+
+    public void setClassLabel(String classLabel) {
+        this.classLabel = classLabel;
+    }
+
+    
+    
     /**
      * Calculate and return classification accuracy measure
      * @return 
@@ -93,7 +105,6 @@ public class ClassificationMeasure {
     public double getTotal() {
         return total;
     }
-
 
     public double getFalseDiscoveryRate() {
         return falsePositive / (truePositive + falsePositive);
@@ -159,7 +170,9 @@ public class ClassificationMeasure {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
+        
+        sb.append("Class: "+classLabel).append("\n");
+        sb.append("Total items: ").append(getTotal()).append("\n");        
         sb.append("True positive:").append(truePositive).append("\n");
         sb.append("True negative:").append(trueNegative).append("\n");
         sb.append("False positive:").append(falsePositive).append("\n");   
@@ -167,8 +180,7 @@ public class ClassificationMeasure {
         sb.append("Sensitivity or true positive rate (TPR): ").append(getSensitivity()).append("\n");
         sb.append("Specificity (SPC) or true negative rate (TNR): ").append(getSpecificity()).append("\n");
         sb.append("Fall-out or false positive rate (FPR): ").append(getFalsePositiveRate()).append("\n");
-        sb.append("False negative rate (FNR): ").append(getFalseNegativeRate()).append("\n");
-        sb.append("Total items: ").append(getTotal()).append("\n");
+        sb.append("False negative rate (FNR): ").append(getFalseNegativeRate()).append("\n");        
         sb.append("Accuracy (ACC): ").append(getAccuracy()).append("\n");
         sb.append("Precision or positive predictive value (PPV): ").append(getPrecision()).append("\n");
         sb.append("Recall: ").append(getRecall()).append("\n");        

@@ -20,25 +20,13 @@ public class RunEvaluation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        NeuralNetwork nnet = new MultiLayerPerceptron(4, 3, 6);
-        DataSet dataSet = new DataSet(4, 6);
-        
-        
-        // pripremi mrezu istreniranu sa MICR karakterima
-        // pripremi dataset za trening i testiranje
-        // omoguciti da svaki DataSetRow ima label/klasu - da li je to neophodno?
-        
-        // napravi neki test za evaluaciju MICR: isterniranu MICR mrezu i dataset
+        NeuralNetwork nnet = NeuralNetwork.createFromFile("MicrNetwork.nnet");
+        DataSet dataSet =  DataSet.load("MicrDataColor.tset");
+            
+        // spoj classificationMeasure and ClassificationMetric
         
         Evaluation.runFullEvaluation(nnet, dataSet);
-        
-        // ispisi rezultate evaluacije
-        // srednju kvadratnu gresku
-        // matricu konfuzije
-        // mere klasifikacije
-        
-        
-        
+         
     }
     
 }
