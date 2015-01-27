@@ -7,6 +7,30 @@
             <suite-component/>
             <module-dependencies/>
             <public-packages>
+                <package>ch.qos.logback.classic</package>
+                <package>ch.qos.logback.classic.boolex</package>
+                <package>ch.qos.logback.classic.db</package>
+                <package>ch.qos.logback.classic.db.names</package>
+                <package>ch.qos.logback.classic.encoder</package>
+                <package>ch.qos.logback.classic.filter</package>
+                <package>ch.qos.logback.classic.gaffer</package>
+                <package>ch.qos.logback.classic.helpers</package>
+                <package>ch.qos.logback.classic.html</package>
+                <package>ch.qos.logback.classic.jmx</package>
+                <package>ch.qos.logback.classic.joran</package>
+                <package>ch.qos.logback.classic.joran.action</package>
+                <package>ch.qos.logback.classic.jul</package>
+                <package>ch.qos.logback.classic.log4j</package>
+                <package>ch.qos.logback.classic.net</package>
+                <package>ch.qos.logback.classic.net.server</package>
+                <package>ch.qos.logback.classic.pattern</package>
+                <package>ch.qos.logback.classic.pattern.color</package>
+                <package>ch.qos.logback.classic.selector</package>
+                <package>ch.qos.logback.classic.selector.servlet</package>
+                <package>ch.qos.logback.classic.sift</package>
+                <package>ch.qos.logback.classic.spi</package>
+                <package>ch.qos.logback.classic.turbo</package>
+                <package>ch.qos.logback.classic.util</package>
                 <package>ch.qos.logback.core</package>
                 <package>ch.qos.logback.core.boolex</package>
                 <package>ch.qos.logback.core.db</package>
@@ -44,20 +68,17 @@
                 <package>org.neuroph.adapters.jml</package>
                 <package>org.neuroph.adapters.weka</package>
                 <package>org.neuroph.contrib</package>
+                <package>org.neuroph.contrib.eval</package>
+                <package>org.neuroph.contrib.eval.classification</package>
                 <package>org.neuroph.contrib.graphml</package>
                 <package>org.neuroph.contrib.learning</package>
                 <package>org.neuroph.contrib.matrixmlp</package>
                 <package>org.neuroph.contrib.model.errorestimation</package>
-                <package>org.neuroph.contrib.model.metricevaluation</package>
-                <package>org.neuroph.contrib.model.metricevaluation.domain</package>
-                <package>org.neuroph.contrib.model.metricevaluation.evaluators</package>
-                <package>org.neuroph.contrib.model.metricevaluation.stat</package>
                 <package>org.neuroph.contrib.model.modelselection</package>
                 <package>org.neuroph.contrib.model.sampling</package>
                 <package>org.neuroph.contrib.samples</package>
                 <package>org.neuroph.contrib.samples.stockmarket</package>
                 <package>org.neuroph.contrib.samples.timeseries</package>
-                <package>org.neuroph.contrib.utils</package>
                 <package>org.neuroph.core</package>
                 <package>org.neuroph.core.data</package>
                 <package>org.neuroph.core.events</package>
@@ -82,7 +103,9 @@
                 <package>org.neuroph.nnet.learning.kmeans</package>
                 <package>org.neuroph.nnet.learning.knn</package>
                 <package>org.neuroph.ocr</package>
+                <package>org.neuroph.ocr.properties</package>
                 <package>org.neuroph.ocr.samples</package>
+                <package>org.neuroph.ocr.util</package>
                 <package>org.neuroph.samples</package>
                 <package>org.neuroph.samples.convolution</package>
                 <package>org.neuroph.samples.convolution.mnist</package>
@@ -103,6 +126,7 @@
                 <package>org.neuroph.util.random</package>
                 <package>org.slf4j</package>
                 <package>org.slf4j.helpers</package>
+                <package>org.slf4j.impl</package>
                 <package>org.slf4j.spi</package>
             </public-packages>
             <class-path-extension>
@@ -122,6 +146,10 @@
                 <binary-origin>release/modules/ext/neuroph-contrib-2.9.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
+                <runtime-relative-path>ext/logback-core-1.1.2.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/logback-core-1.1.2.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
                 <runtime-relative-path>ext/neuroph-imgrec-2.9.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/neuroph-imgrec-2.9.jar</binary-origin>
             </class-path-extension>
@@ -136,6 +164,10 @@
             <class-path-extension>
                 <runtime-relative-path>ext/slf4j-api-1.7.5.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/slf4j-api-1.7.5.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/logback-classic-1.1.2.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/logback-classic-1.1.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-adapters-2.9.jar</runtime-relative-path>

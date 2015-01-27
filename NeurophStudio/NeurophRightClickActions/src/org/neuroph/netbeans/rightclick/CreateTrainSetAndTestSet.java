@@ -58,6 +58,7 @@ public final class CreateTrainSetAndTestSet implements ActionListener {
         if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
             // do something
             try {
+                // we should specify how many datasets and percent for each
                 String numTest = (String) wiz.getProperty("numTest");
                 String numTraining = (String) wiz.getProperty("numTraining");
                 DataSet[] tsetArray = context.getDataSet().createTrainingAndTestSubsets(Integer.parseInt(numTraining), Integer.parseInt(numTest));

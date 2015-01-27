@@ -27,7 +27,6 @@ public final class ShuffleTrainingSetAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ev) {
-        System.out.println(context.toString());
         context.getDataSet().shuffle();
     }
 }

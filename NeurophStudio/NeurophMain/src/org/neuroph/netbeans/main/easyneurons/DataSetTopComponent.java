@@ -93,12 +93,12 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         namePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         traningSetLabelTextField = new javax.swing.JTextField();
-        tableScrollPane = new javax.swing.JScrollPane();
-        trainingSetTable = new javax.swing.JTable();
         buttonPanel = new javax.swing.JPanel();
         okButton = new javax.swing.JButton();
         addRowButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        tableScrollPane = new javax.swing.JScrollPane();
+        dataSetTable = new org.netbeans.swing.etable.ETable();
 
         org.openide.awt.Mnemonics.setLocalizedText(addRowMenuItem, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.addRowMenuItem.text")); // NOI18N
         addRowMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -116,104 +116,50 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         });
         tablePopupMenu.add(delRowMenuItem);
 
+        setLayout(new java.awt.BorderLayout());
+
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.jLabel1.text")); // NOI18N
+        namePanel.add(jLabel1);
 
         traningSetLabelTextField.setColumns(30);
+        namePanel.add(traningSetLabelTextField);
 
-        trainingSetTable.setModel(tableModel);
-        trainingSetTable.setComponentPopupMenu(tablePopupMenu);
-        tableScrollPane.setViewportView(trainingSetTable);
-
-        javax.swing.GroupLayout namePanelLayout = new javax.swing.GroupLayout(namePanel);
-        namePanel.setLayout(namePanelLayout);
-        namePanelLayout.setHorizontalGroup(
-            namePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(namePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(traningSetLabelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(243, 243, 243))
-            .addGroup(namePanelLayout.createSequentialGroup()
-                .addComponent(tableScrollPane)
-                .addContainerGap())
-        );
-        namePanelLayout.setVerticalGroup(
-            namePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(namePanelLayout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(namePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(traningSetLabelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        add(namePanel, java.awt.BorderLayout.PAGE_START);
 
         org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.okButton.text")); // NOI18N
+        okButton.setPreferredSize(new java.awt.Dimension(100, 29));
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
             }
         });
+        buttonPanel.add(okButton);
 
         org.openide.awt.Mnemonics.setLocalizedText(addRowButton, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.addRowButton.text")); // NOI18N
+        addRowButton.setPreferredSize(new java.awt.Dimension(100, 29));
         addRowButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addRowButtonActionPerformed(evt);
             }
         });
+        buttonPanel.add(addRowButton);
 
         org.openide.awt.Mnemonics.setLocalizedText(cancelButton, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.cancelButton.text")); // NOI18N
+        cancelButton.setPreferredSize(new java.awt.Dimension(100, 29));
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
             }
         });
+        buttonPanel.add(cancelButton);
 
-        javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
-        buttonPanel.setLayout(buttonPanelLayout);
-        buttonPanelLayout.setHorizontalGroup(
-            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(buttonPanelLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(okButton)
-                .addGap(5, 5, 5)
-                .addComponent(addRowButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cancelButton)
-                .addContainerGap())
-        );
-        buttonPanelLayout.setVerticalGroup(
-            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(buttonPanelLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(okButton)
-                    .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(addRowButton)
-                        .addComponent(cancelButton))))
-        );
+        add(buttonPanel, java.awt.BorderLayout.SOUTH);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(namePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(namePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        dataSetTable.setModel(tableModel);
+        dataSetTable.setComponentPopupMenu(tablePopupMenu);
+        tableScrollPane.setViewportView(dataSetTable);
+
+        add(tableScrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -221,8 +167,8 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        if (trainingSetTable.isEditing()) {
-            trainingSetTable.getCellEditor().stopCellEditing();
+        if (dataSetTable.isEditing()) {
+            dataSetTable.getCellEditor().stopCellEditing();
         }
 
         if (this.traningSetLabelTextField.getText().trim().isEmpty()) {
@@ -294,29 +240,30 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void addRowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRowButtonActionPerformed
-        ((DataSetTableModel) trainingSetTable.getModel()).addEmptyRow();
+        ((DataSetTableModel) dataSetTable.getModel()).addEmptyRow();
     }//GEN-LAST:event_addRowButtonActionPerformed
 
     private void addRowMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRowMenuItemActionPerformed
-        ((DataSetTableModel) trainingSetTable.getModel()).addEmptyRow();
+        ((DataSetTableModel) dataSetTable.getModel()).addEmptyRow();
 }//GEN-LAST:event_addRowMenuItemActionPerformed
 
     private void delRowMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delRowMenuItemActionPerformed
-        ((DataSetTableModel) trainingSetTable.getModel())
-                .removeRow(trainingSetTable.getSelectedRow());
+        ((DataSetTableModel) dataSetTable.getModel())
+                .removeRow(dataSetTable.getSelectedRow());
 }//GEN-LAST:event_delRowMenuItemActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addRowButton;
     private javax.swing.JMenuItem addRowMenuItem;
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JButton cancelButton;
+    private org.netbeans.swing.etable.ETable dataSetTable;
     private javax.swing.JMenuItem delRowMenuItem;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel namePanel;
     private javax.swing.JButton okButton;
     private javax.swing.JPopupMenu tablePopupMenu;
     private javax.swing.JScrollPane tableScrollPane;
-    private javax.swing.JTable trainingSetTable;
     private javax.swing.JTextField traningSetLabelTextField;
     // End of variables declaration//GEN-END:variables
 
@@ -382,9 +329,9 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         if (!tableModel.hasEmptyRow()) {
             tableModel.addEmptyRow();
         }
-        trainingSetTable.setSurrendersFocusOnKeystroke(true);
+        dataSetTable.setSurrendersFocusOnKeystroke(true);
 
-        TableColumn hidden = trainingSetTable.getColumnModel().getColumn(tableModel.HIDDEN_INDEX);
+        TableColumn hidden = dataSetTable.getColumnModel().getColumn(tableModel.HIDDEN_INDEX);
         hidden.setMinWidth(2);
         hidden.setPreferredWidth(2);
         hidden.setMaxWidth(2);
@@ -392,7 +339,7 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
 
         this.trainingSetLabel = trainingSet.getLabel();
         this.traningSetLabelTextField.setText(this.trainingSetLabel);
-        this.trainingSetTable.getTableHeader().setReorderingAllowed(false);
+        this.dataSetTable.getTableHeader().setReorderingAllowed(false);
     }
 
     public void setTrainingSetEditFrameVariables(DataSet trainingSet) {
@@ -408,9 +355,9 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         if (!tableModel.hasEmptyRow()) {
             tableModel.addEmptyRow();
         }
-        trainingSetTable.setSurrendersFocusOnKeystroke(true);
+        dataSetTable.setSurrendersFocusOnKeystroke(true);
 
-        TableColumn hidden = trainingSetTable.getColumnModel().getColumn(tableModel.HIDDEN_INDEX);
+        TableColumn hidden = dataSetTable.getColumnModel().getColumn(tableModel.HIDDEN_INDEX);
         hidden.setMinWidth(2);
         hidden.setPreferredWidth(2);
         hidden.setMaxWidth(2);
@@ -454,8 +401,8 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
 //    }
     @Action
     public void deleteTableRow() {
-        //int selected_row = trainingSetTable.getSelectedRow();
-        ((DataSetTableModel) trainingSetTable.getModel()).removeRow(trainingSetTable.getSelectedRow());
+        //int selected_row = dataSetTable.getSelectedRow();
+        ((DataSetTableModel) dataSetTable.getModel()).removeRow(dataSetTable.getSelectedRow());
 
     }
 //
@@ -528,12 +475,12 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
     public void highlightLastRow(int row) {
         int lastrow = tableModel.getRowCount();
         if (row == lastrow - 1) {
-            trainingSetTable.setRowSelectionInterval(lastrow - 1, lastrow - 1);
+            dataSetTable.setRowSelectionInterval(lastrow - 1, lastrow - 1);
         } else {
-            trainingSetTable.setRowSelectionInterval(row + 1, row + 1);
+            dataSetTable.setRowSelectionInterval(row + 1, row + 1);
         }
 
-        trainingSetTable.setColumnSelectionInterval(0, 0);
+        dataSetTable.setColumnSelectionInterval(0, 0);
     }
 
     @Override
@@ -578,8 +525,8 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
                 int column = evt.getColumn();
                 int row = evt.getFirstRow();
                 // System.out.println("row: " + row + " column: " + column);
-                trainingSetTable.setColumnSelectionInterval(column + 1, column + 1);
-                trainingSetTable.setRowSelectionInterval(row, row);
+                dataSetTable.setColumnSelectionInterval(column + 1, column + 1);
+                dataSetTable.setRowSelectionInterval(row, row);
             }
         }
     }
@@ -594,10 +541,10 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         this.dataSet = trainingSet;
 
         this.tableModel = new DataSetTableModel(this.dataSet);
-        this.trainingSetTable.setModel(this.tableModel);
-        trainingSetTable.setSurrendersFocusOnKeystroke(true);
+        this.dataSetTable.setModel(this.tableModel);
+        dataSetTable.setSurrendersFocusOnKeystroke(true);
 
-        TableColumn hidden = trainingSetTable.getColumnModel().getColumn(tableModel.HIDDEN_INDEX);
+        TableColumn hidden = dataSetTable.getColumnModel().getColumn(tableModel.HIDDEN_INDEX);
         hidden.setMinWidth(2);
         hidden.setPreferredWidth(2);
         hidden.setMaxWidth(2);

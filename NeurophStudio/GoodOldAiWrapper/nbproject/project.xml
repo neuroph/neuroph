@@ -19,6 +19,7 @@
                 <package>org.goai.classification.api</package>
                 <package>org.goai.classification.eval</package>
                 <package>org.goai.classification.impl</package>
+                <package>org.goai.classification.samples</package>
             </public-packages>
             <class-path-extension>
                 <runtime-relative-path>ext/javaml-0.1.7.jar</runtime-relative-path>

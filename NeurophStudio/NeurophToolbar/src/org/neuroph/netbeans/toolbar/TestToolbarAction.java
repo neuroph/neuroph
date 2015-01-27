@@ -5,7 +5,13 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Iterator;
+import org.neuroph.contrib.eval.ClassificationMetricsEvaluator;
+import org.neuroph.contrib.eval.ErrorEvaluator;
+import org.neuroph.contrib.eval.Evaluation;
+import org.neuroph.contrib.eval.classification.ClassificationMetrics;
+import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 import org.neuroph.core.data.DataSetRow;
+import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
 import org.openide.awt.ActionID;
@@ -40,9 +46,34 @@ public class TestToolbarAction implements ActionListener {
         TestTopComponent.getDefault().open();
         TestTopComponent.getDefault().requestActive();
         TestTopComponent.getDefault().clear();
+       
+        
+        
+        
         
        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Testing neural network "+trainingController.getNetwork().getLabel() +" for data set "+trainingController.getDataSet().getLabel());        
 
+        Evaluation evaluation = new Evaluation();
+        evaluation.addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
+        evaluation.addEvaluator(ClassificationMetricsEvaluator.createForDataSet(trainingController.getDataSet()));
+
+        evaluation.evaluateDataSet(trainingController.getNetwork(), trainingController.getDataSet());
+        
+         TestTopComponent.getDefault().output("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult()+"\r\n");
+        
+        
+        ClassificationMetricsEvaluator evaluator = evaluation.getEvaluator(ClassificationMetricsEvaluator.MultiClassEvaluator.class);
+        ConfusionMatrix confusionMatrix = evaluator.getConfusionMatrix();  
+        
+        TestTopComponent.getDefault().output("Confusion matrrix:\r\n");
+        TestTopComponent.getDefault().output(confusionMatrix.toString()+"\r\n\r\n");
+       
+        TestTopComponent.getDefault().output("Classification metrics\r\n");
+        ClassificationMetrics[] metrics = evaluator.getResult();      
+        for(ClassificationMetrics cm : metrics)
+            TestTopComponent.getDefault().output(cm.toString());   
+        
+       /*
         double totalMSE = 0;
 
         Iterator<DataSetRow> iterator = trainingController.getDataSet().iterator();
@@ -71,6 +102,8 @@ public class TestToolbarAction implements ActionListener {
         totalMSE = totalMSE / trainingController.getDataSet().size();
 
         TestTopComponent.getDefault().output("Total Mean Square Error: " + totalMSE);
+       */        
+      
     }
 
     private String arrayToString(double[] arr) {
