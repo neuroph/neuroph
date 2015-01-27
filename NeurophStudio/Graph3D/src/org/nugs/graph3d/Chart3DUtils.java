@@ -2,6 +2,8 @@ package org.nugs.graph3d;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import org.jzy3d.chart.Chart;
 import org.jzy3d.chart.ChartLauncher;
@@ -31,7 +33,8 @@ public class Chart3DUtils {
      */
     public static void addChartToPanel(Chart chart, JPanel panel) {
         panel.removeAll();
-        panel.setLayout(new BorderLayout());
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setPreferredSize(new Dimension(panel.getParent().getWidth() , panel.getParent().getHeight()-150));
         panel.add((Component) chart.getCanvas());
     }
 }
