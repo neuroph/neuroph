@@ -2,10 +2,15 @@ package org.neuroph.netbeans.classifier.eval;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.goai.classification.samples.NeurophClassifierEvaluation;
+import org.neuroph.contrib.eval.ClassificationEvaluator;
+import org.neuroph.contrib.eval.ErrorEvaluator;
+import org.neuroph.contrib.eval.Evaluation;
+import org.neuroph.contrib.eval.classification.ClassificationMetrics;
+import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.openide.awt.ActionID;
@@ -41,26 +46,48 @@ public final class ClassifierTestAction implements ActionListener {
        DataSet dataSet = trainingController.getDataSet();
        
        // just run GOAI classifier evaluat here and put results in TC!
-        NeurophClassifierEvaluation evaluation = 
-                new NeurophClassifierEvaluation(neuralNet, dataSet); 
-        
-    //    String[] classNames = {"Setosa", "Versicolor", "Virginica"}; // these shoul dbe set either from output neurons or data set...        
+//        NeurophClassifierEvaluation evaluation = 
+//                new NeurophClassifierEvaluation(neuralNet, dataSet); 
+//        
+//    //    String[] classNames = {"Setosa", "Versicolor", "Virginica"}; // these shoul dbe set either from output neurons or data set...        
        String[] classNames =  new String[neuralNet.getOutputsCount()];// = {"LeftHand", "RightHand", "Foot", "Rest"};        
        int i = 0;
        for(Neuron n : neuralNet.getOutputNeurons()) {
            classNames[i] = n.getLabel(); 
            i++;
        } 
-       
-       evaluation.setClassNames(classNames);
-       evaluation.run();
+//       
+//       evaluation.setClassNames(classNames);
+//       evaluation.run();
         
-       TestTopComponent.getDefault().output("Classifier evaluation results: \r\n"+evaluation.getEvaluationResults().toString());          
-        ClassifierChartTopComponent tcc = new ClassifierChartTopComponent();
-        tcc.setEvaluationResult(evaluation.getEvaluationResults());
- 
-        tcc.open();
-        tcc.requestActive();
+       
+       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Testing neural network "+trainingController.getNetwork().getLabel() +" for data set "+trainingController.getDataSet().getLabel());        
+
+        Evaluation evaluation = new Evaluation();
+        evaluation.addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
+        evaluation.addEvaluator(new ClassificationEvaluator.MultiClass(classNames));
+    
+        evaluation.evaluateDataSet(trainingController.getNetwork(), trainingController.getDataSet());
+        
+        TestTopComponent.getDefault().output("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult()+"\r\n");
+                
+        ClassificationEvaluator evaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);
+        ConfusionMatrix confusionMatrix = evaluator.getConfusionMatrix();  
+        
+        TestTopComponent.getDefault().output("Confusion matrrix:\r\n");
+        TestTopComponent.getDefault().output(confusionMatrix.toString()+"\r\n\r\n");
+       
+        TestTopComponent.getDefault().output("Classification metrics\r\n");
+        ClassificationMetrics[] metrics = evaluator.getResult();      
+        for(ClassificationMetrics cm : metrics)
+            TestTopComponent.getDefault().output(cm.toString());          
+       
+//       TestTopComponent.getDefault().output("Classifier evaluation results: \r\n"+evaluation.getEvaluationResults().toString());          
+//        ClassifierChartTopComponent tcc = new ClassifierChartTopComponent();
+//        tcc.setEvaluationResult(evaluation.getEvaluationResults());
+// 
+//        tcc.open();
+//        tcc.requestActive();
        
     }
 }

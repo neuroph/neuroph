@@ -38,7 +38,8 @@ public class NeuronWidgetAcceptProvider implements AcceptProvider {
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
 
 //        JOptionPane.showMessageDialog(null, "hello");
-
+        if (t.getTransferDataFlavors().length < 5 ) return ConnectorState.REJECT ; // ako dnd data set onda ne reaaguj na ovo
+        
         DataFlavor flavor = t.getTransferDataFlavors()[4];
         Class droppedClass = flavor.getRepresentationClass();
         JComponent view = widget.getScene().getView();

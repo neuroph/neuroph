@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.InvalidDnDOperationException;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -277,8 +278,10 @@ public class NeuralNetworkScene extends ObjectScene  {
         Object o = null;
         try {
             o = transferable.getTransferData(DataFlavor.imageFlavor);
-        } catch (IOException | UnsupportedFlavorException ex) {
+        } catch (IOException | UnsupportedFlavorException | InvalidDnDOperationException ex) {
+            // InvalidDnDOperationException thwown by com.jme3.gde.core.scene.SceneApplication
         }
+        
         return o instanceof Image ? (Image) o : ImageUtilities.loadImage("org/netbeans/shapesample/palette/shape1.png");
     }
 
@@ -467,6 +470,7 @@ public class NeuralNetworkScene extends ObjectScene  {
         connectionLayer.addChild(connWidget);
     }
 
+    // creates connections 
     private void createConnections() {
         connectionsToRoute.clear();
         

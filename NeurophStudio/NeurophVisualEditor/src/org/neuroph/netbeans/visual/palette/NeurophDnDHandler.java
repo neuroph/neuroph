@@ -17,6 +17,10 @@ import org.openide.util.datatransfer.ExTransferable;
 
 /**
  *
+ * Transferable
+ * DataFlavor
+ * AbstractNode
+ * 
  * @author Zoran Sevarac
  */
 public class NeurophDnDHandler extends DragAndDropHandler {
@@ -35,7 +39,8 @@ public class NeurophDnDHandler extends DragAndDropHandler {
   //      PalleteItem palleteItem = node.getLookup().lookup(PalleteItem.class);  
 //        final Class dropClass = palleteItem.getDropClass();
 
-                  
+        
+        // ovu sliciu verovatno koristi da bi je prkazao tokm dnd?
         final Image image = (Image) node.getIcon(2); // BeanInfo.ICON_COLOR_16x16
         et.put(new ExTransferable.Single(DataFlavor.imageFlavor) {
              @Override

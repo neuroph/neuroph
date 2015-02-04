@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import org.netbeans.api.visual.action.AcceptProvider;
@@ -31,6 +33,9 @@ import org.neuroph.nnet.learning.PerceptronLearning;
 import org.neuroph.nnet.learning.SigmoidDeltaRule;
 import org.neuroph.nnet.learning.UnsupervisedHebbianLearning;
 import org.neuroph.util.ConnectionFactory;
+import org.openide.loaders.DataNode;
+import org.openide.loaders.DataObject;
+import org.openide.util.Exceptions;
 import org.openide.windows.WindowManager;
 
 /**
@@ -51,8 +56,26 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
 
     @Override
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
+      //   ovde treba napraviti razliku izmedju dnd sa palete i dataobjecta iz projekta jer baca array index exception
+        // https://blogs.oracle.com/geertjan/entry/draganddrophandler_and_enclose_in
+// http://bits.netbeans.org/dev/javadoc/org-openide-nodes/org/openide/nodes/doc-files/api.html    
+// http://netbeans.dzone.com/nb-how-to-drag-drop-with-nodes-api    
+        // https://blogs.oracle.com/geertjan/entry/drag_and_drop_without_activeeditorsupport
+        // https://blogs.oracle.com/geertjan/entry/draganddrophandler_and_enclose_in
+// uvek iteriraj data flavors i vidi dal ima neki koji prihvatas
+//        try {
+//            DataFlavor flavor1 = t.getTransferDataFlavors()[0]; 
+//            DataObject dsdo = (DataObject)t.getTransferData(flavor1);
+////           ((DataNode)t.getTransferData(flavor1)).getLookup().lookup( DataObject.class );
+//        } catch (UnsupportedFlavorException ex) {
+//            Exceptions.printStackTrace(ex);
+//        } catch (IOException ex) {
+//            Exceptions.printStackTrace(ex);
+//        }
+         
+        if (t.getTransferDataFlavors().length < 5 ) return ConnectorState.REJECT ; // ako dnd data set onda ne reaaguj na ovo
+        
         DataFlavor flavor = t.getTransferDataFlavors()[4]; // bilo je 2 sad 4
-        JComponent view = widget.getScene().getView();
         Class droppedClass = flavor.getRepresentationClass();
 
         return canAccept(droppedClass) ? ConnectorState.ACCEPT : ConnectorState.REJECT;

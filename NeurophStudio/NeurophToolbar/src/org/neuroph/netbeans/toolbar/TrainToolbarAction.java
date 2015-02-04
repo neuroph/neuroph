@@ -14,6 +14,7 @@ import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingDialog;
 import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSamplePanel;
 import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent;
 import org.neuroph.netbeans.classificationsample.Combinatorics;
+import org.neuroph.netbeans.main.easyneurons.dialog.NewSupervisedTrainingDialog;
 import org.neuroph.nnet.Adaline;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.NeuroFuzzyPerceptron;
@@ -39,12 +40,12 @@ import org.openide.util.NbBundle.Messages;
 public final class TrainToolbarAction implements ActionListener {
 
     private final NeuralNetAndDataSet neuralNetAndDataSet;
-    private TrainingController trainingController;
+  //  private TrainingController trainingController;
     ViewManager easyNeuronsViewController;
 
     public TrainToolbarAction(NeuralNetAndDataSet context) {
         this.neuralNetAndDataSet = context;
-        trainingController = new TrainingController(neuralNetAndDataSet);
+       
     }
 
     @Override
@@ -102,6 +103,7 @@ public final class TrainToolbarAction implements ActionListener {
                 neuralNetAndDataSet.getDataSet().shuffle();
                 showLmsTrainingDialog();
             } else {
+                TrainingController trainingController = new TrainingController(neuralNetAndDataSet);
                 trainingController.train();
             }
 
@@ -139,9 +141,9 @@ public final class TrainToolbarAction implements ActionListener {
     }
 
     private void showLmsTrainingDialog() {
-        SupervisedTrainingDialog trainingDialog = new SupervisedTrainingDialog(null, true, this.neuralNetAndDataSet);
-        trainingDialog.setLocationRelativeTo(null);
-        trainingDialog.setVisible(true);
+        NewSupervisedTrainingDialog dialog = new NewSupervisedTrainingDialog(null, true, this.neuralNetAndDataSet);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
     }
 
     private void showMLPTrainingDialog() {

@@ -113,7 +113,7 @@ public class XMLStorage {
     
     static String colorToString (Color color) {
 	if (colorToName.containsKey (color))
-	    return (String) colorToName.get (color);
+	    return colorToName.get (color);
 	return Integer.toHexString (color.getRGB ());
     }
     
@@ -121,7 +121,7 @@ public class XMLStorage {
         if (color.startsWith ("#")) 
             color = color.substring (1);
 	if (nameToColor.containsKey (color))
-	    return (Color) nameToColor.get (color);
+	    return nameToColor.get (color);
         try {
             return new Color ((int) Long.parseLong (color, 16));
         } catch (NumberFormatException ex) {

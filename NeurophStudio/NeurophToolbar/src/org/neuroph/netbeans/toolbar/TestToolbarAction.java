@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Iterator;
-import org.neuroph.contrib.eval.ClassificationMetricsEvaluator;
+import org.neuroph.contrib.eval.ClassificationEvaluator;
 import org.neuroph.contrib.eval.ErrorEvaluator;
 import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
@@ -46,23 +46,22 @@ public class TestToolbarAction implements ActionListener {
         TestTopComponent.getDefault().open();
         TestTopComponent.getDefault().requestActive();
         TestTopComponent.getDefault().clear();
-       
-        
-        
-        
+             /*      
+        // ovo ubaciti u classifier evaluation
+        // napraviti sve tako da se iz dataseta uzimaju labele klasa (labele outputa)
+        // napraviti kompletan handy workflow za micr scenario 
         
        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Testing neural network "+trainingController.getNetwork().getLabel() +" for data set "+trainingController.getDataSet().getLabel());        
 
         Evaluation evaluation = new Evaluation();
         evaluation.addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
-        evaluation.addEvaluator(ClassificationMetricsEvaluator.createForDataSet(trainingController.getDataSet()));
-
+        evaluation.addEvaluator(new ClassificationEvaluator.MultiClass(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}));
+    
         evaluation.evaluateDataSet(trainingController.getNetwork(), trainingController.getDataSet());
         
-         TestTopComponent.getDefault().output("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult()+"\r\n");
-        
-        
-        ClassificationMetricsEvaluator evaluator = evaluation.getEvaluator(ClassificationMetricsEvaluator.MultiClassEvaluator.class);
+        TestTopComponent.getDefault().output("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult()+"\r\n");
+                
+        ClassificationEvaluator evaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);
         ConfusionMatrix confusionMatrix = evaluator.getConfusionMatrix();  
         
         TestTopComponent.getDefault().output("Confusion matrrix:\r\n");
@@ -72,8 +71,9 @@ public class TestToolbarAction implements ActionListener {
         ClassificationMetrics[] metrics = evaluator.getResult();      
         for(ClassificationMetrics cm : metrics)
             TestTopComponent.getDefault().output(cm.toString());   
+        */
         
-       /*
+       
         double totalMSE = 0;
 
         Iterator<DataSetRow> iterator = trainingController.getDataSet().iterator();
@@ -102,7 +102,7 @@ public class TestToolbarAction implements ActionListener {
         totalMSE = totalMSE / trainingController.getDataSet().size();
 
         TestTopComponent.getDefault().output("Total Mean Square Error: " + totalMSE);
-       */        
+            
       
     }
 

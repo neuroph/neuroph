@@ -100,9 +100,9 @@ class ColoringStorage {
                 if (name.equals ("fontscolors")) {
                 } else
                 if (name.equals ("fontcolor")) {
-                    String n = (String) attributes.getValue ("syntaxName");
+                    String n = attributes.getValue ("syntaxName");
                     if (n == null)
-                        n = (String) attributes.getValue ("name");
+                        n = attributes.getValue ("name");
                     if (n == null) {
                         System.out.println("no syntaxName " + attributes);
                         return;
@@ -140,7 +140,7 @@ class ColoringStorage {
                     if (attributes.getValue ("default") != null)
                         a.addAttribute (
                             "default", 
-                            (String) attributes.getValue ("default")
+                            attributes.getValue ("default")
                         );
                     colorings.put (n, a);
                     last = a;

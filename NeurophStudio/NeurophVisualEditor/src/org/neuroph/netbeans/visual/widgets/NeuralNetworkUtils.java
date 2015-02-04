@@ -1,6 +1,7 @@
 package org.neuroph.netbeans.visual.widgets;
 
 import java.awt.Color;
+import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 
@@ -130,9 +131,14 @@ public class NeuralNetworkUtils {
         return new Color(192, 192, 192); //gray
     }
     public static int countConnections(Layer layer) {
-        int count = 0;
+        if (layer == null) return 0; // fix for bug caused by NeuralNetworkScene
+        
+        int count = 0;        
         for (Neuron neuron : layer.getNeurons()) {
-            count += neuron.getInputConnections().length;
+            if (neuron == null) continue; // zasto se ovde desava da neuron bude null? onemoguciti dodavanje null neurona u layere
+            Connection[] conns = neuron.getInputConnections();
+            if (conns != null)
+                count += conns.length;
         }
         return count;
     }    
