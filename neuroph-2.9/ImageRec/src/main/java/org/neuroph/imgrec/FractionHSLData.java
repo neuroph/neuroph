@@ -3,6 +3,8 @@ package org.neuroph.imgrec;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import org.neuroph.imgrec.image.Image;
+import org.neuroph.imgrec.image.ImageJ2SE;
 
 /**
  *
@@ -59,7 +61,7 @@ public class FractionHSLData {
 		flattenedHSLValues = new double[width * height * 3];
                 flattenedHueValues = new double[width * height];
 			
-		populateHSLArrays(img);  
+		populateHSLArrays(new ImageJ2SE(img));  
 	}
 	else{//no input image specified so default all values
 		width=0;
@@ -72,6 +74,22 @@ public class FractionHSLData {
 	}
     }
         
+    
+	public FractionHSLData(Image img)
+	{
+		width = img.getWidth();
+		height = img.getHeight();
+		
+		hueValues = new double[height][width];
+		saturationValues = new double[height][width];
+		lightnessValues = new double[height][width];
+		flattenedHSLValues = new double[width * height * 3];
+                flattenedHueValues = new double[width * height];
+		
+		populateHSLArrays(img);
+	}    
+    
+    
     /**
 	 * Fills the HSL matrices from image
 	 * @param img image to get rgb data from
@@ -82,7 +100,7 @@ public class FractionHSLData {
      * Fills the HSL matrices from image - this is where conversion from RGB to HSL is done
      * @param image image to use    
      */
-    protected void populateHSLArrays(BufferedImage image) {
+    protected void populateHSLArrays(Image image) {
             
             double red;
             double green;
@@ -96,7 +114,7 @@ public class FractionHSLData {
             for (int j = 0; j < width; j++) {
                 for (int i = 0; i < height; i++) {
                     
-                    Color color= new Color(image.getRGB(j, i));
+                    Color color= new Color(image.getPixel(j, i)); // it was getRGB
                     
                     red = color.getRed();
                     green = color.getGreen();

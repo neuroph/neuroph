@@ -63,7 +63,7 @@ public class ImageRecognitionPlugin extends PluginBase implements Serializable {
 	public ImageRecognitionPlugin(Dimension samplingResolution) {
 		super(IMG_REC_PLUGIN_NAME);
 		this.samplingResolution = samplingResolution;
-                this.colorMode = ColorMode.FULL_COLOR;
+                this.colorMode = ColorMode.COLOR_RGB;
 	}
 
 	/**
@@ -104,16 +104,23 @@ public class ImageRecognitionPlugin extends PluginBase implements Serializable {
 	 *            image to recognize
 	 */
 	public void setInput(Image img) throws ImageSizeMismatchException {
-		FractionRgbData imgRgb = new FractionRgbData(ImageSampler
-				.downSampleImage(samplingResolution, img, img.getType()));
+
 		double input[];
 
-		if (this.colorMode == ColorMode.FULL_COLOR)
-			input = imgRgb.getFlattenedRgbValues();
-		else if (this.colorMode == ColorMode.BLACK_AND_WHITE)
+		if (this.colorMode == ColorMode.COLOR_RGB) {
+                    FractionRgbData imgRgb = new FractionRgbData(ImageSampler
+				.downSampleImage(samplingResolution, img, img.getType()));                    
+			input = imgRgb.getFlattenedRgbValues();                        
+                } else if (this.colorMode == ColorMode.COLOR_HSL) {
+                    FractionHSLData imgHsl = new FractionHSLData(ImageSampler
+				.downSampleImage(samplingResolution, img, img.getType()));                    
+			input = imgHsl.getFlattenedHSLValues();                                        
+                } else if (this.colorMode == ColorMode.BLACK_AND_WHITE) {
+                    FractionRgbData imgRgb = new FractionRgbData(ImageSampler
+				.downSampleImage(samplingResolution, img, img.getType()));                                        
 			input = FractionRgbData.convertRgbInputToBinaryBlackAndWhite(imgRgb
 					.getFlattenedRgbValues());
-		else
+                } else
 			throw new RuntimeException("Unknown color mode!");
 
                 try {

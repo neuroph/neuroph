@@ -18,10 +18,16 @@ import org.neuroph.contrib.eval.classification.ConfusionMatrix;
  */
 public class Evaluation {
 
-    private static Logger LOG = LoggerFactory.getLogger(Evaluation.class);
+    private static Logger LOGGER = LoggerFactory.getLogger("neuroph");
 
     private Map<Class<?>, Evaluator> evaluators = new HashMap<>();
 
+    public Evaluation() {
+          addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
+    }
+
+    
+    
     
 
     /**
@@ -44,11 +50,11 @@ public class Evaluation {
     }
 
     /**
-     * @param type
-     * @param instance
-     * @param <T>
-     */
+    *
+    */
     public  void addEvaluator(Evaluator evaluator) { /* <T extends Evaluator>     |  Class<T> type, T instance */      
+        if (evaluator == null) throw new IllegalArgumentException("Evaluator cannot be null!");
+            
         evaluators.put(evaluator.getClass(), evaluator);
     }
 
@@ -80,36 +86,29 @@ public class Evaluation {
     public static void runFullEvaluation(NeuralNetwork<BackPropagation> neuralNet, DataSet dataSet) {
 
         Evaluation evaluation = new Evaluation();
-        evaluation.addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
-        evaluation.addEvaluator(ClassificationMetricsEvaluator.createForDataSet(dataSet));
+        // take onlu output column names here
+        evaluation.addEvaluator(new ClassificationEvaluator.MultiClass(dataSet.getColumnNames())); // these two should be added by default
 
         evaluation.evaluateDataSet(neuralNet, dataSet);
        // use logger here  - see how to make it print out
         // http://saltnlight5.blogspot.com/2013/08/how-to-configure-slf4j-with-different.html
-        System.out.println("##############################################################################");
-//        System.out.println("Errors: ");
-        System.out.println("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult());
-        System.out.println("##############################################################################");
-        System.out.println("Confusion Matrix: ");
+        LOGGER.info("##############################################################################");
+//        LOGGER.info("Errors: ");
+        LOGGER.info("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult());
+        LOGGER.info("##############################################################################");
+        ClassificationEvaluator classificationEvaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);
+        ConfusionMatrix confusionMatrix = classificationEvaluator.getConfusionMatrix();        
         
-        ClassificationMetricsEvaluator evaluator = evaluation.getEvaluator(ClassificationMetricsEvaluator.MultiClassEvaluator.class);
-        ConfusionMatrix confusionMatrix = evaluator.getConfusionMatrix();
-        System.out.println(confusionMatrix.toString());
+        LOGGER.info("Confusion Matrix: \r\n"+confusionMatrix.toString());
+              
         
-        System.out.println("##############################################################################");
-        System.out.println("Classification metrics: ");        
-        ClassificationMetrics[] metrics = evaluator.getResult();
-       
-//        ClassificationMetrics[] measures = ClassificationMetrics.createFromMatrix(confusionMatrix);
+        LOGGER.info("##############################################################################");
+        LOGGER.info("Classification metrics: ");        
+        ClassificationMetrics[] metrics = classificationEvaluator.getResult();      
         for(ClassificationMetrics cm : metrics)
-            System.out.println(cm.toString());
-        
-//        System.out.println("Accuracy: " + result.getAccuracy());
-//        System.out.println("Error Rate: " + result.getError());
-//        System.out.println("Precision: " + result.getPrecision());
-//        System.out.println("Recall: " + result.getRecall());
-//        System.out.println("FScore: " + result.getFScore());
-        System.out.println("##############################################################################");
+            LOGGER.info(cm.toString());
+
+        LOGGER.info("##############################################################################");
     }
 
 }

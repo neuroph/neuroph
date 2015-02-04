@@ -1,9 +1,9 @@
 package org.neuroph.samples.mnist.learn;
 
 
-import org.neuroph.contrib.model.errorestimation.ErrorEstimationMethod;
 import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
-import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
+import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.contrib.model.modelselection.MultilayerPerceptronOptimazer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
@@ -55,21 +55,21 @@ public class MultiLayerMNIST {
         bp.setMaxIterations(maxIter);
         bp.setMaxError(maxError);
         bp.setLearningRate(learningRate);
-
-        ErrorEstimationMethod errorEstimationMethod = new KFoldCrossValidation(validationFolds);
-
-        NeuralNetwork neuralNet = new MultilayerPerceptronOptimazer<>()
-                .withLearningRule(bp)
-                .withErrorEstimationMethod(errorEstimationMethod)
-                .withMaxLayers(maxLayers)
-                .withMaxNeurons(maxNeuronCount)
-                .withMinNeurons(minNeuronCount)
-                .withNeuronIncrement(neuronIncrement)
-                .createOptimalModel(trainSet);
+// commented out due to errors
+//        KFoldCrossValidation errorEstimationMethod = new KFoldCrossValidation(neuralNet, trainSet, validationFolds);
+//
+//        NeuralNetwork neuralNet = new MultilayerPerceptronOptimazer<>()
+//                .withLearningRule(bp)
+//                .withErrorEstimationMethod(errorEstimationMethod)
+//                .withMaxLayers(maxLayers)
+//                .withMaxNeurons(maxNeuronCount)
+//                .withMinNeurons(minNeuronCount)
+//                .withNeuronIncrement(neuronIncrement)
+//                .createOptimalModel(trainSet);
 
         LOG.info("Evaluating model on Test Set.....");
-
-        NeuralNetworkEvaluationService.completeEvaluation(neuralNet, testSet);
+// commented out due to errors
+      //  Evaluation.runFullEvaluation(neuralNet, testSet);
 
         LOG.info("MLP learning for MNIST successfully finished.....");
     }

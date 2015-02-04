@@ -26,7 +26,7 @@ import org.neuroph.core.data.DataSetRow;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class MaxNormalizer implements Normalizer {
-    double[] maxIn, maxOut; // contains max values for in and out columns
+    double[] maxIn, maxOut; // these contain max values for in and out columns
     
     
     @Override
@@ -46,6 +46,11 @@ public class MaxNormalizer implements Normalizer {
 
     }    
    
+   
+   /**
+    * Finds max values for columns in input and output vector for given data set
+    * @param dataSet  
+    */
     private void findMaxVectors(DataSet dataSet) {
         int inputSize = dataSet.getInputSize();
         int outputSize = dataSet.getOutputSize();
@@ -75,6 +80,7 @@ public class MaxNormalizer implements Normalizer {
                                     
         }         
     }   
+    
     
     public double[] normalizeMax(double[] vector, double[] max) {
         double[] normalizedVector = new double[vector.length];

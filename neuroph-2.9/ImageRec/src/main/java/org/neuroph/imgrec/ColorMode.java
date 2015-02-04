@@ -21,6 +21,7 @@ package org.neuroph.imgrec;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public enum ColorMode {
-    FULL_COLOR,
+    COLOR_RGB,
+    COLOR_HSL,
     BLACK_AND_WHITE;
 }

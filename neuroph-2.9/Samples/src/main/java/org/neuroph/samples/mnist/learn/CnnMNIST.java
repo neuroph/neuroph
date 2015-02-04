@@ -2,7 +2,7 @@ package org.neuroph.samples.mnist.learn;
 
 import java.io.IOException;
 
-import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;
@@ -75,7 +75,7 @@ public class CnnMNIST {
             convolutionNetwork.setLearningRule(backPropagation);
             convolutionNetwork.learn(trainSet);
 
-            NeuralNetworkEvaluationService.completeEvaluation(convolutionNetwork, testSet);
+            Evaluation.runFullEvaluation(convolutionNetwork, testSet);
 
 
         } catch (IOException e) {
@@ -105,7 +105,7 @@ public class CnnMNIST {
 
             start = System.currentTimeMillis();
             if (bp.getCurrentIteration() % 5 == 0)
-                NeuralNetworkEvaluationService.completeEvaluation(neuralNetwork, testSet);
+                Evaluation.runFullEvaluation(neuralNetwork, testSet);
         }
 
     }

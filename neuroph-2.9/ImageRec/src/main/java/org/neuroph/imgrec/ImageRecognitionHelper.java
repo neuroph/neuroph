@@ -63,9 +63,9 @@ public class ImageRecognitionHelper {
 	public static NeuralNetwork createNewNeuralNetwork(String label, Dimension samplingResolution, ColorMode colorMode, List<String> imageLabels,  List<Integer> layersNeuronsCount, TransferFunctionType transferFunctionType) {
 
                 int numberOfInputNeurons;
-                if (colorMode == ColorMode.FULL_COLOR) {
+                if ((colorMode == ColorMode.COLOR_RGB) || (colorMode == ColorMode.COLOR_HSL) ){ // for full color rgb or hsl
                     numberOfInputNeurons = 3 * samplingResolution.getWidth() * samplingResolution.getHeight();
-                } else {
+                } else { // for black n white network
                     numberOfInputNeurons = samplingResolution.getWidth() * samplingResolution.getHeight();
                 }
 
@@ -131,6 +131,12 @@ public class ImageRecognitionHelper {
 			double[] response = createResponse(entry.getKey(), imageLabels);
 			trainingSet.addRow(new DataSetRow(input, response));
 		}
+                
+                // set labels for output columns
+                int inputSize = trainingSet.getInputSize();
+                for (int c= 0; c<trainingSet.getOutputSize() ; c++) {
+                    trainingSet.setColumnName(inputSize+c, imageLabels.get(c));
+                }
 
                 return trainingSet;
 	}
@@ -152,6 +158,13 @@ public class ImageRecognitionHelper {
 			trainingSet.addRow(new DataSetRow(input, response));
 		}
 
+                // set labels for output columns
+                int inputSize = trainingSet.getInputSize();
+                for (int c= 0; c<trainingSet.getOutputSize() ; c++) {
+                    trainingSet.setColumnName(inputSize+c, imageLabels.get(c));
+                }
+                
+                
                 return trainingSet;
 	}
         
@@ -176,7 +189,13 @@ public class ImageRecognitionHelper {
                         double[] response = createResponse(entry.getKey(), imageLabels);
 			trainingSet.addRow(new DataSetRow(inputBW, response));
 		}
-
+                
+                // set labels for output columns
+                int inputSize = trainingSet.getInputSize();
+                for (int c= 0; c<trainingSet.getOutputSize() ; c++) {
+                    trainingSet.setColumnName(inputSize+c, imageLabels.get(c));
+                }
+              
             return trainingSet;
 	}
         

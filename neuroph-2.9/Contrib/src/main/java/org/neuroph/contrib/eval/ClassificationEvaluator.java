@@ -5,12 +5,15 @@ import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.classification.Utils;
 import org.neuroph.core.data.DataSet;
 
-public abstract class ClassificationMetricsEvaluator implements Evaluator<ClassificationMetrics[]> {
+public abstract class ClassificationEvaluator implements Evaluator<ClassificationMetrics[]> {
 
     ConfusionMatrix confusionMatrix;
+    private double threshold;
+    
+    
 
-    private ClassificationMetricsEvaluator(String[] labels, int classNumber) {
-        confusionMatrix = new ConfusionMatrix(labels, classNumber);
+    private ClassificationEvaluator(String[] labels) {
+        confusionMatrix = new ConfusionMatrix(labels, labels.length);
     }
 
     @Override
@@ -21,34 +24,44 @@ public abstract class ClassificationMetricsEvaluator implements Evaluator<Classi
     public ConfusionMatrix getConfusionMatrix() {
         return confusionMatrix;
     }
+
+    public double getThreshold() {
+        return threshold;
+    }
+
+    public void setThreshold(double threshold) {
+        this.threshold = threshold;
+    }
+    
+    
     
     
 
-    public static ClassificationMetricsEvaluator createForDataSet(final DataSet dataSet) {
-        if (dataSet.getOutputSize() == 1) {
-            //TODO how can we handle different thresholds??? - use thresholds for both binary and multiclass
-            return new BinaryClassEvaluator(0.5);
-        } else {
-            return new MultiClassEvaluator(dataSet);
-        }
-    }
+//    public static ClassificationEvaluator createForDataSet(final DataSet dataSet) {
+//        if (dataSet.getOutputSize() == 1) {
+//            //TODO how can we handle different thresholds??? - use thresholds for both binary and multiclass
+//            return new Binary(0.5);
+//        } else {
+//            return new MultiClass(dataSet);
+//        }
+//    }
 
 
     /**
      * Binary evaluator used for computation of metrics in case when data has only one output result (one output neuron)
      */
-    public static class BinaryClassEvaluator extends ClassificationMetricsEvaluator {
+    public static class Binary extends ClassificationEvaluator {
 
         public static final String[] BINARY_CLASS_LABELS = new String[]{"False", "True"};
-        public static final int BINARY_CLASSIFICATION = 2;
         public static final int TRUE = 1;
         public static final int FALSE = 0;
 
-        private double threshold;
+        
 
-        private BinaryClassEvaluator(double threshold) {
-            super(BINARY_CLASS_LABELS, BINARY_CLASSIFICATION);
-            this.threshold = threshold;
+        public Binary(double threshold) {
+            super(BINARY_CLASS_LABELS);
+            setThreshold(threshold);
+
         }
 
         @Override
@@ -61,7 +74,7 @@ public abstract class ClassificationMetricsEvaluator implements Evaluator<Classi
 
         private int classForValueOf(double classResult) {
             int classValue = FALSE;
-            if (classResult >= threshold) {
+            if (classResult >= getThreshold()) {
                 classValue = TRUE;
             }
             return classValue;
@@ -73,10 +86,11 @@ public abstract class ClassificationMetricsEvaluator implements Evaluator<Classi
      * Evaluator used for computation of metrics in case when data has
      * multiple classes - one vs many classification
      */
-    public static class MultiClassEvaluator extends ClassificationMetricsEvaluator {
+    public static class MultiClass extends ClassificationEvaluator {
 
-        private MultiClassEvaluator(DataSet dataSet) {            
-            super(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"} , dataSet.getOutputSize());
+        // TODO: use column labels here
+        public MultiClass(String[] classLabels) {            
+            super(classLabels);
             // dataSet.getColumnNames()
         }
 

@@ -1,6 +1,6 @@
 package org.neuroph.samples.evaluation;
 
-import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.MultiLayerPerceptron;
@@ -23,7 +23,7 @@ public class TestMultiClass {
         configureLearningRule(neuralNet);
         neuralNet.learn(irisDataSet);
 
-        NeuralNetworkEvaluationService.completeEvaluation(neuralNet, irisDataSet);
+        Evaluation.runFullEvaluation(neuralNet, irisDataSet);
     }
 
     private static DataSet loadDataSet() {

@@ -44,7 +44,7 @@ public class RGBImageRecognitionTrainingSample {
         // create neural network
         List <Integer> hiddenLayers = new ArrayList<>();
         hiddenLayers.add(12);
-        NeuralNetwork nnet = ImageRecognitionHelper.createNewNeuralNetwork("someNetworkName", new Dimension(20,20), ColorMode.FULL_COLOR, imageLabels, hiddenLayers, TransferFunctionType.SIGMOID);
+        NeuralNetwork nnet = ImageRecognitionHelper.createNewNeuralNetwork("someNetworkName", new Dimension(20,20), ColorMode.COLOR_RGB, imageLabels, hiddenLayers, TransferFunctionType.SIGMOID);
 
         // set learning rule parameters
         MomentumBackpropagation mb = (MomentumBackpropagation)nnet.getLearningRule();

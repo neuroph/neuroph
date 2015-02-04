@@ -17,57 +17,86 @@
 package org.neuroph.util.data.sample;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.neuroph.core.data.DataSet;
 
 /**
- * This class provides subsampling of a data set, and creates two subsets of a
- * given data set - for training and testing.
+ * This class provides subsampling of a data set, and creates a specified number of subsets of a
+ * specified number of samples form given data set.
  * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class SubSampling implements Sampling {
 
-    int percent;
-
-    public SubSampling(int percent) {
-        this.percent = percent;
+    
+    /**
+     * Number of sub sets
+     */
+    private int subSetCount;
+        
+    /**
+     * Sizes of each subset
+     */
+    private int[] subSetSizes;
+    
+       
+    /**
+     * Sampling will produce a specified number of subsets of equal sizes
+     * Handy for K Fold subsampling
+     * 
+     * @param subSetCount number of subsets to produce
+     */
+    public SubSampling(int subSetCount) { // without repetition        
+        this.subSetCount = subSetCount;
+        this.subSetSizes = null;
     }
+    
+    
+    /**
+     * Sampling will produce subsets of specified sizes (in percents)
+     * 
+     * @param subSetSizes 
+     */
+    public SubSampling(int ... subSetSizes) { // without repetition
+        // sum of these must be 100%???
+         this.subSetSizes = subSetSizes;
+         this.subSetCount = subSetSizes.length;
+    }       
+    
+    // how many folds and fold sizes
+    // int[] percent , int ...    
+    // int folds    
 
     @Override
     public List<DataSet> sample(DataSet dataSet) {
+        if (subSetSizes == null) {
+            int  singleSubSetSize = dataSet.size() / subSetCount;
+            subSetSizes = new int[subSetCount];
+            for(int i=0; i< subSetCount; i++)
+               subSetSizes[i] = singleSubSetSize;
+        }
+                
         List<DataSet> subSets = new ArrayList<>();
 
-        // create array of random idxs
-        ArrayList<Integer> randoms = new ArrayList<>();
-        for (int i = 0; i < dataSet.size(); i++) {
-            randoms.add(i);
-        }
-
-        Collections.shuffle(randoms);
+        // shuffle dataset in order to randomize rows that will be used to fill subsets
+        dataSet.shuffle();
 
         int inputSize = dataSet.getInputSize();
         int outputSize = dataSet.getOutputSize();
 
-        // create sample data set
-        DataSet subSet = new DataSet(inputSize, outputSize);
-        int trainingElementsCount = dataSet.size() * percent / 100;
-        for (int i = 0; i < trainingElementsCount; i++) {
-            int idx = randoms.get(i);
-            subSet.addRow(dataSet.getRowAt(idx));
+        int idxCounter = 0;
+        for(int s=0; s < subSetSizes.length; s++) {
+            // create new sample subset
+            DataSet newSubSet = new DataSet(inputSize, outputSize);
+            // fill subset with rows
+            for (int i = 0; i < subSetSizes[s]; i++) {                
+                newSubSet.addRow(dataSet.getRowAt(idxCounter));
+                idxCounter++;
+            }
+            // add subset to th elist of subsets to return
+            subSets.add(newSubSet);
         }
-        subSets.add(subSet);
-
-        // create rest of rows to data set
-        subSet = new DataSet(inputSize, outputSize);
-        int testElementsCount = dataSet.size() - trainingElementsCount;
-        for (int i = 0; i < testElementsCount; i++) {
-            int idx = randoms.get(trainingElementsCount + i);
-            subSet.addRow(dataSet.getRowAt(idx));
-        }
-        subSets.add(subSet);
 
         return subSets;
     }

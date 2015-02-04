@@ -1,6 +1,6 @@
 package org.neuroph.samples.mnist.master;
 
-import org.neuroph.contrib.model.metricevaluation.domain.ClassificationOutput;
+import org.neuroph.contrib.eval.classification.ClassificationResult;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
+import org.neuroph.contrib.eval.classification.Utils;
 
 /**
  * Simple application which demonstrated the usage of CNN for digit recognition
@@ -321,14 +322,18 @@ public class FuNet1 extends JFrame implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        double[] networkOutput = network.getOutput();
+        int maxNeuronIdx = Utils.maxIdx(networkOutput);
 
-        ClassificationOutput max = ClassificationOutput.getMaxOutput(network.getOutput());
+        ClassificationResult max = new ClassificationResult(maxNeuronIdx, networkOutput[maxNeuronIdx]);
+
 
         System.out.println("New calculation:");
-        System.out.println("Class: " + max.getActualClass());
-        System.out.println("Probability: " + max.getOutputValue());
+        System.out.println("Class: " + max.getClassIdx());
+        System.out.println("Probability: " + max.getNeuronOutput());
 
-        label.setText(String.valueOf(max.getActualClass()));
+        label.setText(String.valueOf(max.getClassIdx()));
 
 
     }

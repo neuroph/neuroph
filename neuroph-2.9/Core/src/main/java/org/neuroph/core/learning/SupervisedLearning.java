@@ -27,6 +27,7 @@ import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.learning.error.ErrorFunction;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.core.learning.stop.MaxErrorStop;
+import org.neuroph.core.learning.stop.StopCondition;
 
 // TODO:  random pattern order
 
@@ -79,6 +80,9 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      */
     public SupervisedLearning() {
         super();
+        this.errorFunction = new MeanSquaredError();
+        // create stop condition structure based on settings               
+        this.stopConditions.add(new MaxErrorStop(this));        
     }
 
     /**
@@ -111,9 +115,10 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         this.minErrorChangeIterationsCount = 0;
         this.previousEpochError = 0d;
 
-        this.errorFunction = new MeanSquaredError();
-        // create stop condition structure based on settings               
-        this.stopConditions.add(new MaxErrorStop(this));
+        // this is now done in constructor
+//        this.errorFunction = new MeanSquaredError();
+//        // create stop condition structure based on settings               
+//        this.stopConditions.add(new MaxErrorStop(this));
     }
 
     @Override
@@ -242,6 +247,10 @@ abstract public class SupervisedLearning extends IterativeLearning implements
 //    }
 
 
+//    public void addStopCondition(StopCondition stopCondition) {        
+//        stopConditions.add(stopCondition);
+//    }
+    
     /**
      * Returns true if learning is performed in batch mode, false otherwise
      *

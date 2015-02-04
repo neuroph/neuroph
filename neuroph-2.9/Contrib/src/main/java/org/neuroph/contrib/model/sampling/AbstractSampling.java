@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Skeleton class which makes easy to implement concrete Sampling algorithms
+ * TODO: Remove this class
  */
 public abstract class AbstractSampling implements Sampling {
 

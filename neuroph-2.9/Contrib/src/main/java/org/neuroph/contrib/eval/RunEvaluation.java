@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.contrib.eval;
 
 import org.neuroph.contrib.eval.Evaluation;
@@ -22,8 +17,6 @@ public class RunEvaluation {
     public static void main(String[] args) {
         NeuralNetwork nnet = NeuralNetwork.createFromFile("MicrNetwork.nnet");
         DataSet dataSet =  DataSet.load("MicrDataColor.tset");
-            
-        // spoj classificationMeasure and ClassificationMetric
         
         Evaluation.runFullEvaluation(nnet, dataSet);
          

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.neuroph.contrib.eval.ClassificationEvaluator;
 import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
 
 /**
@@ -57,7 +58,7 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
      * If ErrorEstimationMethod is not provided use KFoldCrossValidation by default
      */
     public MultilayerPerceptronOptimazer() {
-        errorEstimationMethod = new KFoldCrossValidation(10);
+       // errorEstimationMethod = new KFoldCrossValidation(10);
     }
 
     public MultilayerPerceptronOptimazer withMaxLayers(int maxLayers) {
@@ -115,11 +116,16 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
             LearningListener listener = new LearningListener(10, learningRule.getMaxIterations());
             learningRule.addListener(listener);
             network.setLearningRule(learningRule);
-            ClassificationMetrics result = errorEstimationMethod.computeErrorEstimate(network, dataSet);
+            
+            errorEstimationMethod = new KFoldCrossValidation(network, dataSet, 10);
+            errorEstimationMethod.run();
+            // FIX
+            ClassificationMetrics[] result = errorEstimationMethod.getEvaluator( ClassificationEvaluator.MultiClass.class).getResult();
 
-            if (optimalResult == null || optimalResult.getFMeasure()< result.getFMeasure()) {
+            // nadji onaj sa najmanjim f measure
+            if (optimalResult == null || optimalResult.getFMeasure()< result[0].getFMeasure()) {
                 LOG.info("Architecture [{}] became optimal architecture  with metrics {}", architecture, result);
-                optimalResult = result;
+                optimalResult = result[0];
                 optimalClassifier = network;
                 optimalArchitecure = architecture;
             }

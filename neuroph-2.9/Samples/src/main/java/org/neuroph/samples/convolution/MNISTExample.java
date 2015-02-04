@@ -1,9 +1,9 @@
 package org.neuroph.samples.convolution;
 
-import org.neuroph.contrib.model.errorestimation.ErrorEstimationMethod;
 import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
-import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
-import org.neuroph.contrib.model.metricevaluation.domain.MetricResult;
+import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
+import org.neuroph.contrib.eval.Evaluation;
+import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
@@ -114,11 +114,12 @@ public class MNISTExample {
             backPropagation.setErrorFunction(new MeanSquaredError());
 
             convolutionNetwork.setLearningRule(backPropagation);
-            ErrorEstimationMethod errorEstimationMethod = new KFoldCrossValidation(6);
+            KFoldCrossValidation crossValidation = new KFoldCrossValidation(convolutionNetwork, testSet, 6);
+            
+            
+           // ClassificationMetrics validationResult = crossValidation.computeErrorEstimate(convolutionNetwork, trainSet);
 
-            MetricResult validationResult = errorEstimationMethod.computeErrorEstimate(convolutionNetwork, trainSet);
-
-            NeuralNetworkEvaluationService.completeEvaluation(convolutionNetwork, testSet);
+            Evaluation.runFullEvaluation(convolutionNetwork, testSet);
             convolutionNetwork.save("/mnist.nnet");
 
 

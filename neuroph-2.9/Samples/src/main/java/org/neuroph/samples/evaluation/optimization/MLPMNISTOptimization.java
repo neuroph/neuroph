@@ -1,6 +1,6 @@
 package org.neuroph.samples.evaluation.optimization;
 
-import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.contrib.model.modelselection.MultilayerPerceptronOptimazer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
@@ -28,7 +28,7 @@ public class MLPMNISTOptimization {
                 .withLearningRule(learningRule)
                 .createOptimalModel(trainSet);
 
-        NeuralNetworkEvaluationService.completeEvaluation(neuralNet, testSet);
+        Evaluation.runFullEvaluation(neuralNet, testSet);
     }
 
     private static BackPropagation createLearningRule() {

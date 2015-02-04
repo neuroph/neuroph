@@ -1,6 +1,6 @@
 package org.neuroph.samples.evaluation;
 
-import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.MultiLayerPerceptron;
@@ -22,7 +22,7 @@ public class TestBinaryClass {
         MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(TransferFunctionType.TANH, 2, 3, 1);
         neuralNet.learn(trainingSet);
 
-        NeuralNetworkEvaluationService.completeEvaluation(neuralNet, trainingSet);
+        Evaluation.runFullEvaluation(neuralNet, trainingSet);
     }
 
 }

@@ -1,6 +1,6 @@
 package org.neuroph.samples.mnist.test;
 
-import org.neuroph.contrib.model.metricevaluation.stat.McNemarTest;
+import org.neuroph.contrib.eval.classification.McNemarTest;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;

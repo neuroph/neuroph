@@ -1,6 +1,6 @@
 package org.neuroph.samples.evaluation.optimization;
 
-import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.contrib.model.modelselection.MultilayerPerceptronOptimazer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
@@ -26,7 +26,7 @@ public class IrisOptimization {
                 .createOptimalModel(irisDataSet);
 
         neuralNet.learn(irisDataSet);
-        NeuralNetworkEvaluationService.completeEvaluation(neuralNet, irisDataSet);
+        Evaluation.runFullEvaluation(neuralNet, irisDataSet);
 
     }
 

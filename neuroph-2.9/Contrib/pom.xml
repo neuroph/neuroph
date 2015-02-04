@@ -26,6 +26,11 @@
       <artifactId>neuroph-core</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>neuroph-imgrec</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
     <artifactId>neuroph-contrib</artifactId>
     <build>

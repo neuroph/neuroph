@@ -114,7 +114,7 @@ public class DataSet implements Serializable /*
             throws VectorSizeMismatchException {
 
         if (row == null) {
-            throw new IllegalArgumentException("Training data row cannot be null!");
+            throw new IllegalArgumentException("Data set row cannot be null!");
         }
 
         // check input vector size if it is predefined
@@ -129,7 +129,7 @@ public class DataSet implements Serializable /*
             throw new VectorSizeMismatchException("Output vector size does not match data set output size!");
         }
 
-        // if everything went ok add training row
+        // if everything was ok add training row
         this.rows.add(row);
     }
 
@@ -559,7 +559,7 @@ public class DataSet implements Serializable /*
      * @param trainSetPercent
      * @param testSetPercent
      * @return
-     * @deprecated Use sample(int size) instead
+     * TODO: use subsampling for implementation of this
      */
     public DataSet[] createTrainingAndTestSubsets(int trainSetPercent, int testSetPercent) {
         DataSet[] trainAndTestSet = new DataSet[2];
@@ -591,11 +591,6 @@ public class DataSet implements Serializable /*
         return trainAndTestSet;
     }
 
-    // remove sampling methods from here and do sampling from instance of Sampling implementations
-    public List<DataSet> sample(int percent) {
-        Sampling sampling = new SubSampling(percent);
-        return sampling.sample(this);
-    }
 
     public List<DataSet> sample(Sampling sampling) {
         return sampling.sample(this);

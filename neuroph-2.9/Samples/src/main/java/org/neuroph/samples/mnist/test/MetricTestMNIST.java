@@ -1,6 +1,6 @@
 package org.neuroph.samples.mnist.test;
 
-import org.neuroph.contrib.model.metricevaluation.NeuralNetworkEvaluationService;
+import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
@@ -22,7 +22,7 @@ public class MetricTestMNIST {
         DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
         NeuralNetwork nn = NeuralNetwork.load(new FileInputStream(args[0]));
 
-        NeuralNetworkEvaluationService.completeEvaluation(nn, testSet);
+        Evaluation.runFullEvaluation(nn, testSet);
     }
 
 }
