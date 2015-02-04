@@ -64,7 +64,7 @@ public class ImageRecognitionWizardPanel1  implements WizardDescriptor.Panel  {
             if (b.getModel() == group.getSelection()) {
                String selectedColorMode = b.getText() ;
                 if (selectedColorMode != null && selectedColorMode.equalsIgnoreCase("Color")) {
-                    return ColorMode.FULL_COLOR;
+                    return ColorMode.COLOR_RGB;
                 } else if (selectedColorMode != null && selectedColorMode.equalsIgnoreCase("Black and white")) {
                     return ColorMode.BLACK_AND_WHITE;
                 } else {

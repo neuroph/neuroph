@@ -47,11 +47,11 @@ public final class IMRVisualPanel1 extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(IMRVisualPanel1.class, "IMRVisualPanel1.jLabel1.text")); // NOI18N
 
-        imageDirField.setColumns(35);
         imageDirField.setEditable(false);
+        imageDirField.setColumns(35);
 
-        junkDirField.setColumns(35);
         junkDirField.setEditable(false);
+        junkDirField.setColumns(35);
 
         org.openide.awt.Mnemonics.setLocalizedText(chooseImageDirButton, org.openide.util.NbBundle.getMessage(IMRVisualPanel1.class, "IMRVisualPanel1.chooseImageDirButton.text")); // NOI18N
         chooseImageDirButton.addActionListener(new java.awt.event.ActionListener() {
@@ -87,9 +87,6 @@ public final class IMRVisualPanel1 extends JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bwRadioButton)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -105,14 +102,12 @@ public final class IMRVisualPanel1 extends JPanel {
                                 .addComponent(chooseImageDirButton)))
                         .addGap(136, 136, 136))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(colorRadioButton)
-                        .addContainerGap(426, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addContainerGap(392, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addContainerGap(370, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bwRadioButton)
+                            .addComponent(colorRadioButton)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

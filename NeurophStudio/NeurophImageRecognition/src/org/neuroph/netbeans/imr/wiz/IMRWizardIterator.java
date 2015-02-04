@@ -15,6 +15,7 @@ import javax.swing.event.ChangeListener;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.imgrec.ColorMode;
+import org.neuroph.imgrec.FractionHSLData;
 import org.neuroph.imgrec.FractionRgbData;
 import org.neuroph.imgrec.ImageRecognitionHelper;
 import org.neuroph.imgrec.image.Dimension;
@@ -82,7 +83,7 @@ public final class IMRWizardIterator implements WizardDescriptor.InstantiatingIt
         ColorMode colorMode = (ColorMode) wizard.getProperty("colorMode");
         Dimension samplingResollution = (Dimension) wizard.getProperty("resolution");
         String trainigSetName = (String) wizard.getProperty("trainigSetName");
-        List<String> imageLabels = createTrainingSet(imageDir, junkDir, samplingResollution, colorMode, trainigSetName);
+        List<String> imageLabels = createDataSet(imageDir, junkDir, samplingResollution, colorMode, trainigSetName);
         String neuralNetworkName = (String) wizard.getProperty("networkName");
         String neurons = (String) wizard.getProperty("neurons");
         String transferFunction = (String) wizard.getProperty("transferFunction");
@@ -189,13 +190,22 @@ public final class IMRWizardIterator implements WizardDescriptor.InstantiatingIt
         return res;
     }
 
-    private List<String> createTrainingSet(String imageDir, String junkDir, Dimension samplingResolution, ColorMode colorMode, String trainigSetName) {
+    private List<String> createDataSet(String imageDir, String junkDir, Dimension samplingResolution, ColorMode colorMode, String trainigSetName) {
+        DataSet dataSet = null;
+        
         HashMap<String, FractionRgbData> rgbDataMap = new HashMap<String, FractionRgbData>();
+        HashMap<String, FractionHSLData> hslDataMap = new HashMap<String, FractionHSLData>();
+        
         List imageLabels = new ArrayList<String>();
 
+        // load color infor for images to recognize
         try {
+            // get labels for all images
             File labeledImagesDir = new File(imageDir);
-            rgbDataMap.putAll(ImagesLoader.getFractionRgbDataForDirectory(labeledImagesDir, samplingResolution));
+            if (colorMode == ColorMode.COLOR_HSL)  {
+                hslDataMap.putAll(ImageRecognitionHelper.getFractionHSLDataForDirectory(labeledImagesDir, samplingResolution));
+            } else
+                rgbDataMap.putAll(ImageRecognitionHelper.getFractionRgbDataForDirectory(labeledImagesDir, samplingResolution)); // pre je koristio ImageLoader
 
             for (String imgName : rgbDataMap.keySet()) {
                 StringTokenizer st = new StringTokenizer(imgName, "._");
@@ -204,30 +214,40 @@ public final class IMRWizardIterator implements WizardDescriptor.InstantiatingIt
                     imageLabels.add(imageLabel);
                 }
             }
-            Collections.sort(imageLabels);
+            Collections.sort(imageLabels);                        
         } catch (IOException ioe) {
             System.err.println("Unable to load images from labeled images dir: '" + imageDir + "'");
             System.err.println(ioe.toString());
         }
 
+        // load junk images
         if ((junkDir != null) && (!junkDir.equals(""))) {
             try {
                 File junkImagesDir = new File(junkDir);
-                rgbDataMap.putAll(ImagesLoader.getFractionRgbDataForDirectory(junkImagesDir, samplingResolution));
+                
+            if (colorMode == ColorMode.COLOR_HSL)  {
+                hslDataMap.putAll(ImageRecognitionHelper.getFractionHSLDataForDirectory(junkImagesDir, samplingResolution));
+            } else
+                rgbDataMap.putAll(ImageRecognitionHelper.getFractionRgbDataForDirectory(junkImagesDir, samplingResolution)); // pre je koristio ImageLoader
+                
+                
             } catch (IOException ioe) {
                 System.err.println("Unable to load images from junk images dir: '" + junkDir + "'");
                 System.err.println(ioe.toString());
             }
         }
-        DataSet activeTrainingSet = null;
-        if (colorMode == ColorMode.FULL_COLOR) {
-            activeTrainingSet = ImageRecognitionHelper.createTrainingSet(imageLabels, rgbDataMap);
+
+        // create data set
+        if (colorMode == ColorMode.COLOR_RGB) {
+            dataSet = ImageRecognitionHelper.createRGBTrainingSet(imageLabels, rgbDataMap);
+        } else if (colorMode == ColorMode.COLOR_HSL) {                                    
+            dataSet = ImageRecognitionHelper.createHSLTrainingSet(imageLabels, hslDataMap); 
         } else {
-            activeTrainingSet = ImageRecognitionHelper.createBlackAndWhiteTrainingSet(imageLabels, rgbDataMap);
+            dataSet = ImageRecognitionHelper.createBlackAndWhiteTrainingSet(imageLabels, rgbDataMap);
         }
 
-        activeTrainingSet.setLabel(trainigSetName);
-        NeurophProjectFilesFactory.getDefault().createTrainingSetFile(activeTrainingSet);
+        dataSet.setLabel(trainigSetName);
+        NeurophProjectFilesFactory.getDefault().createTrainingSetFile(dataSet);
         
         return imageLabels;
     }

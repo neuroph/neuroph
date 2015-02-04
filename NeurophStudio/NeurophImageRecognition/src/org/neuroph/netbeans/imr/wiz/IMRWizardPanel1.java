@@ -96,8 +96,10 @@ public class IMRWizardPanel1 implements WizardDescriptor.Panel {
         ColorMode colorMode;
         String selectedColorMode = component.getColorModelButtonGroup().getSelection().getActionCommand();
 
-        if (selectedColorMode.equalsIgnoreCase("Color")) colorMode = ColorMode.FULL_COLOR;
-            else colorMode = ColorMode.BLACK_AND_WHITE;
+        if (selectedColorMode.equalsIgnoreCase("Color RGB")) colorMode = ColorMode.COLOR_RGB;
+        else if (selectedColorMode.equalsIgnoreCase("Color HSL")) colorMode = ColorMode.COLOR_HSL;
+        else colorMode = ColorMode.BLACK_AND_WHITE;
+        
         return colorMode;
        
     }

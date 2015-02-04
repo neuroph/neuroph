@@ -128,7 +128,8 @@ public class ImageRecognitionVisualPanel1 extends javax.swing.JPanel implements 
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        colorRadioButton = new javax.swing.JRadioButton();
+        rgbRadioButton = new javax.swing.JRadioButton();
+        hsvRadioButton = new javax.swing.JRadioButton();
         bwRadioButton = new javax.swing.JRadioButton();
         jScrollPane1 = new BeanTreeView();
         imagePreviewLabel = new javax.swing.JLabel();
@@ -142,7 +143,7 @@ public class ImageRecognitionVisualPanel1 extends javax.swing.JPanel implements 
         widthLabel = new javax.swing.JLabel();
         heightLabel = new javax.swing.JLabel();
 
-        colorModeButtonGroup.add(colorRadioButton);
+        colorModeButtonGroup.add(rgbRadioButton);
         colorModeButtonGroup.add(bwRadioButton);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -167,9 +168,12 @@ public class ImageRecognitionVisualPanel1 extends javax.swing.JPanel implements 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText(org.openide.util.NbBundle.getMessage(ImageRecognitionVisualPanel1.class, "ImageRecognitionVisualPanel1.jLabel2.text")); // NOI18N
 
-        colorModeButtonGroup.add(colorRadioButton);
-        colorRadioButton.setSelected(true);
-        colorRadioButton.setText(org.openide.util.NbBundle.getMessage(ImageRecognitionVisualPanel1.class, "ImageRecognitionVisualPanel1.colorRadioButton.text")); // NOI18N
+        colorModeButtonGroup.add(rgbRadioButton);
+        rgbRadioButton.setSelected(true);
+        rgbRadioButton.setText(org.openide.util.NbBundle.getMessage(ImageRecognitionVisualPanel1.class, "ImageRecognitionVisualPanel1.rgbRadioButton.text")); // NOI18N
+
+        colorModeButtonGroup.add(hsvRadioButton);
+        hsvRadioButton.setText(org.openide.util.NbBundle.getMessage(ImageRecognitionVisualPanel1.class, "ImageRecognitionVisualPanel1.hsvRadioButton.text")); // NOI18N
 
         colorModeButtonGroup.add(bwRadioButton);
         bwRadioButton.setText(org.openide.util.NbBundle.getMessage(ImageRecognitionVisualPanel1.class, "ImageRecognitionVisualPanel1.bwRadioButton.text")); // NOI18N
@@ -181,7 +185,8 @@ public class ImageRecognitionVisualPanel1 extends javax.swing.JPanel implements 
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(colorRadioButton)
+                    .addComponent(rgbRadioButton)
+                    .addComponent(hsvRadioButton)
                     .addComponent(bwRadioButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -190,8 +195,10 @@ public class ImageRecognitionVisualPanel1 extends javax.swing.JPanel implements 
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(colorRadioButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rgbRadioButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(hsvRadioButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bwRadioButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -324,7 +331,7 @@ public class ImageRecognitionVisualPanel1 extends javax.swing.JPanel implements 
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(127, 127, 127))
+                .addGap(121, 121, 121))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -371,9 +378,9 @@ public class ImageRecognitionVisualPanel1 extends javax.swing.JPanel implements 
     private javax.swing.JButton addImageButton;
     private javax.swing.JRadioButton bwRadioButton;
     private javax.swing.ButtonGroup colorModeButtonGroup;
-    private javax.swing.JRadioButton colorRadioButton;
     private javax.swing.JButton editButton;
     private javax.swing.JLabel heightLabel;
+    private javax.swing.JRadioButton hsvRadioButton;
     private javax.swing.JLabel imagePreviewLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -384,6 +391,7 @@ public class ImageRecognitionVisualPanel1 extends javax.swing.JPanel implements 
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton removeButton;
+    private javax.swing.JRadioButton rgbRadioButton;
     private javax.swing.JLabel widthLabel;
     // End of variables declaration//GEN-END:variables
 

@@ -49,7 +49,7 @@ public class NeuralNetworkTraining {
         List<Integer> hiddenLayers = new ArrayList<Integer>();
         hiddenLayers.add(12);
 
-        nnet = ImageRecognitionHelper.createNewNeuralNetwork("network", new Dimension(20, 20), ColorMode.FULL_COLOR, imageLabels, hiddenLayers, TransferFunctionType.SIGMOID);
+        nnet = ImageRecognitionHelper.createNewNeuralNetwork("network", new Dimension(20, 20), ColorMode.COLOR_RGB, imageLabels, hiddenLayers, TransferFunctionType.SIGMOID);
 
         System.out.println("NNet created!");
     }

@@ -187,8 +187,7 @@ public final class GraphFrameTopComponent extends TopComponent implements Learni
         buffer = new LearningInfoBuffer();
         drawingThread = new DrawingThread(buffer, chartSupport, buffWriter);
 
-        learningRule.addListener(this); // trebalo bi otkaciti ovog listenera na kraju!!
-        trainingController.train();
+        learningRule.addListener(this); // trebalo bi otkaciti ovog listenera na kraju!!       
     }
 
     // note that this method is invoked from learning thread

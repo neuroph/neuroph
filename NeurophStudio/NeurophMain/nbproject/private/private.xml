@@ -3,6 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophMain/src/org/neuroph/netbeans/main/easyneurons/dialog/BackPropagationTrainingDialog.java</file>
+            <file>file:/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophMain/src/org/neuroph/netbeans/main/easyneurons/dialog/SupervisedTrainingDialog.java</file>
+        </group>
     </open-files>
 </project-private>
