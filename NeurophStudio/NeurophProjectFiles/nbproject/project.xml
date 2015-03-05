@@ -197,10 +197,8 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
-                <package>org.neuroph.netbeans.files</package>
-                <package>org.neuroph.netbeans.files.dset</package>
                 <package>org.neuroph.netbeans.files.nnet</package>
-                <package>org.neuroph.netbeans.files.project.templates</package>
+                <package>org.neuroph.netbeans.files.tset</package>
             </public-packages>
         </data>
     </configuration>

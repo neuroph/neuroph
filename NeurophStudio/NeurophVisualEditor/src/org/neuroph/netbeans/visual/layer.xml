@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
-    <folder name="Actions">
+<!--    <folder name="Actions">
         <folder name="Window"/>
     </folder>
     <folder name="Menu">
@@ -16,7 +16,7 @@
                 <file name="VisualEditorTopComponent.wstcref" url="VisualEditorTopComponentWstcref.xml"/>
             </folder>
         </folder>
-    </folder>
+    </folder>-->
     <folder name="NeurophPalette">
         <folder name="Layers">
             <file name="LayerItem.xml" url="palette/items/LayerItem.xml"/>

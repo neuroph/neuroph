@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.netbeans.files.dset.DataSetDataObject;
+import org.neuroph.netbeans.files.tset.DataSetDataObject;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;

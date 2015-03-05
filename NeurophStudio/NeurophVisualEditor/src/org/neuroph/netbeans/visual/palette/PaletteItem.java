@@ -4,7 +4,7 @@ package org.neuroph.netbeans.visual.palette;
  *
  * @author Zoran Sevarac
  */
-public class PalleteItem {
+public class PaletteItem {
 
     String icon;
     String title;
@@ -17,9 +17,6 @@ public class PalleteItem {
 
     public void setDropClass(Class dropClass) {
         this.dropClass = dropClass;
-    }
-
-    public PalleteItem() {
     }
 
     public String getCategory() {
@@ -38,13 +35,11 @@ public class PalleteItem {
         this.icon = icon;
     }
 
+    public String getTitle() {
+        return title;
+    }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-
-    public String getTitle() {
-        return title;
     }
 }

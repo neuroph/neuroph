@@ -1,11 +1,9 @@
 package org.neuroph.netbeans.visual.widgets.actions;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import org.netbeans.api.visual.action.AcceptProvider;
@@ -17,11 +15,11 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.core.learning.SupervisedLearning;
 import org.neuroph.core.learning.UnsupervisedLearning;
-import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.neuroph.netbeans.visual.NeuralNetworkEditor;
 import org.neuroph.netbeans.visual.dialogs.AddCompetitiveLayerDialog;
 import org.neuroph.netbeans.visual.dialogs.AddCustomLayerDialog;
 import org.neuroph.netbeans.visual.dialogs.AddInputLayerDialog;
+import org.neuroph.netbeans.visual.palette.PaletteItemNode;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkScene;
 import org.neuroph.netbeans.visual.widgets.NeuralNetworkWidget;
 import org.neuroph.nnet.comp.layer.CompetitiveLayer;
@@ -33,76 +31,75 @@ import org.neuroph.nnet.learning.PerceptronLearning;
 import org.neuroph.nnet.learning.SigmoidDeltaRule;
 import org.neuroph.nnet.learning.UnsupervisedHebbianLearning;
 import org.neuroph.util.ConnectionFactory;
-import org.openide.loaders.DataNode;
-import org.openide.loaders.DataObject;
-import org.openide.util.Exceptions;
+import org.openide.nodes.Node;
+import org.openide.nodes.NodeTransfer;
+import org.openide.util.ImageUtilities;
 import org.openide.windows.WindowManager;
 
 /**
  *
  * @author hrza
+ * @author Boris Perović
  */
 public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
 
-    private NeuralNetworkWidget neuralNetworkWidget;
-    private NeuralNetworkScene scene;
-    private Graphics2D graphics;
+    private final NeuralNetworkWidget neuralNetworkWidget;
+    private final NeuralNetworkScene scene;
 
     public NeuralNetworkWidgetAcceptProvider(NeuralNetworkWidget neuralNetworkWidget) {
         this.neuralNetworkWidget = neuralNetworkWidget;
         this.scene = ((NeuralNetworkScene) neuralNetworkWidget.getScene());
-
     }
 
     @Override
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable t) {
-      //   ovde treba napraviti razliku izmedju dnd sa palete i dataobjecta iz projekta jer baca array index exception
+        //   ovde treba napraviti razliku izmedju dnd sa palete i dataobjecta iz projekta jer baca array index exception
         // https://blogs.oracle.com/geertjan/entry/draganddrophandler_and_enclose_in
 // http://bits.netbeans.org/dev/javadoc/org-openide-nodes/org/openide/nodes/doc-files/api.html    
 // http://netbeans.dzone.com/nb-how-to-drag-drop-with-nodes-api    
         // https://blogs.oracle.com/geertjan/entry/drag_and_drop_without_activeeditorsupport
         // https://blogs.oracle.com/geertjan/entry/draganddrophandler_and_enclose_in
-// uvek iteriraj data flavors i vidi dal ima neki koji prihvatas
-//        try {
-//            DataFlavor flavor1 = t.getTransferDataFlavors()[0]; 
-//            DataObject dsdo = (DataObject)t.getTransferData(flavor1);
-////           ((DataNode)t.getTransferData(flavor1)).getLookup().lookup( DataObject.class );
-//        } catch (UnsupportedFlavorException ex) {
-//            Exceptions.printStackTrace(ex);
-//        } catch (IOException ex) {
-//            Exceptions.printStackTrace(ex);
-//        }
-         
-        if (t.getTransferDataFlavors().length < 5 ) return ConnectorState.REJECT ; // ako dnd data set onda ne reaaguj na ovo
-        
-        DataFlavor flavor = t.getTransferDataFlavors()[4]; // bilo je 2 sad 4
-        Class droppedClass = flavor.getRepresentationClass();
 
-        return canAccept(droppedClass) ? ConnectorState.ACCEPT : ConnectorState.REJECT;
+        Node node = NodeTransfer.node(t, NodeTransfer.DND_COPY_OR_MOVE);
+        if (node instanceof PaletteItemNode) {
+            PaletteItemNode pin = (PaletteItemNode) node;
+            Image dragImage = ImageUtilities.loadImage(pin.getPaletteItem().getIcon());
+            JComponent view = widget.getScene().getView();
+            Graphics2D g2 = (Graphics2D) view.getGraphics();
+            view.paintImmediately(view.getVisibleRect());
+
+            Point globalPoint = widget.convertLocalToScene(point);
+            g2.drawImage(dragImage, globalPoint.x, globalPoint.y, view);
+
+            Class droppedClass = pin.getPaletteItem().getDropClass();
+            return canAccept(droppedClass) ? ConnectorState.ACCEPT : ConnectorState.REJECT;
+        } else {
+            return ConnectorState.REJECT;
+        }
     }
 
     @Override
     public void accept(Widget widget, Point point, Transferable t) {
-        DataFlavor flavor = t.getTransferDataFlavors()[4];
-        Class droppedClass = flavor.getRepresentationClass();
+        Node node = NodeTransfer.node(t, NodeTransfer.DND_COPY_OR_MOVE);
+        PaletteItemNode pin = (PaletteItemNode) node;
+        Class droppedClass = pin.getPaletteItem().getDropClass();
 
-        
-        if ((neuralNetworkWidget.getNeuralNetwork().getLayersCount() == 0)&&(droppedClass.equals(Layer.class) || droppedClass.getSuperclass().equals(Layer.class))) {
+        if ((neuralNetworkWidget.getNeuralNetwork().getLayersCount() == 0) && (droppedClass.equals(Layer.class) || droppedClass.getSuperclass().equals(Layer.class))) {
             neuralNetworkWidget.removeChildren();
             neuralNetworkWidget.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 50));
         }
-        
+
         int dropIdx = 0;
         // note: first child is not layer!
         for (int i = 0; i < neuralNetworkWidget.getChildren().size(); i++) {
             double layerWidgetPosition = neuralNetworkWidget.getChildren().get(i).getLocation().getY();
             if (point.getY() < layerWidgetPosition) {
                 //dropIdx = i - 1; // 
-                dropIdx = i; 
+                dropIdx = i;
                 break;
             } else {
-              //  dropIdx = neuralNetworkWidget.getChildren().size()-1;
-                  dropIdx = neuralNetworkWidget.getChildren().size();
+                //  dropIdx = neuralNetworkWidget.getChildren().size()-1;
+                dropIdx = neuralNetworkWidget.getChildren().size();
             }
 
         }
@@ -119,7 +116,6 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                  ConnectionFactory.fullConnect(fromLayer, toLayer);*/
                 scene.refresh();
             }
-
 
         }
         if (droppedClass.equals(ConnectionFactory.class)) {
@@ -181,7 +177,7 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
                     scene.refresh();
                 } else {
                     editor.addEmptyLayer(dropIdx, (Layer) droppedClass.newInstance());
-                     scene.refresh();
+                    scene.refresh();
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -212,33 +208,33 @@ public class NeuralNetworkWidgetAcceptProvider implements AcceptProvider {
             dialog.setVisible(true);
             scene.refresh();
         }
-        
+
         //WindowManager.getDefault().findTopComponent(GraphViewTopComponent.)
     }
 
     public boolean canAccept(Class droppedClass) {
         Class superclass = droppedClass.getSuperclass();
-                       
-        if (superclass!=null) {
-        
-        return droppedClass.equals(Layer.class) || superclass.equals(Layer.class)
-                || droppedClass.equals(Connection.class) || superclass.equals(Connection.class)
-                || droppedClass.equals(ConnectionFactory.class) || superclass.equals(ConnectionFactory.class)
-                || droppedClass.equals(LearningRule.class)
-                || superclass.equals(LearningRule.class)
-                || superclass.equals(SupervisedLearning.class)
-                || superclass.equals(PerceptronLearning.class)
-                || superclass.equals(BackPropagation.class)
-                || superclass.equals(MomentumBackpropagation.class)
-                || superclass.equals(UnsupervisedLearning.class)
-                || superclass.equals(UnsupervisedHebbianLearning.class)
-                || superclass.equals(SigmoidDeltaRule.class)
-                || superclass.equals(LMS.class)
-                || droppedClass.equals(AddCustomLayerDialog.class); // FIX: why this!? this shoud be removed
+
+        if (superclass != null) {
+
+            return droppedClass.equals(Layer.class) || superclass.equals(Layer.class)
+                    || droppedClass.equals(Connection.class) || superclass.equals(Connection.class)
+                    || droppedClass.equals(ConnectionFactory.class) || superclass.equals(ConnectionFactory.class)
+                    || droppedClass.equals(LearningRule.class)
+                    || superclass.equals(LearningRule.class)
+                    || superclass.equals(SupervisedLearning.class)
+                    || superclass.equals(PerceptronLearning.class)
+                    || superclass.equals(BackPropagation.class)
+                    || superclass.equals(MomentumBackpropagation.class)
+                    || superclass.equals(UnsupervisedLearning.class)
+                    || superclass.equals(UnsupervisedHebbianLearning.class)
+                    || superclass.equals(SigmoidDeltaRule.class)
+                    || superclass.equals(LMS.class)
+                    || droppedClass.equals(AddCustomLayerDialog.class); // FIX: why this!? this shoud be removed
         } else {
-                return droppedClass.equals(Layer.class) 
-                || droppedClass.equals(Connection.class) 
-                || droppedClass.equals(ConnectionFactory.class);    // izbaciti i ConnectioFactory? to kad radis punu povezanost i sl.
+            return droppedClass.equals(Layer.class)
+                    || droppedClass.equals(Connection.class)
+                    || droppedClass.equals(ConnectionFactory.class);    // izbaciti i ConnectioFactory? to kad radis punu povezanost i sl.
         }
     }
 }

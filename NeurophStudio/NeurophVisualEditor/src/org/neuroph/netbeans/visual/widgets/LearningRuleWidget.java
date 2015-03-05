@@ -6,14 +6,11 @@ package org.neuroph.netbeans.visual.widgets;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.model.ObjectState;
-import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
-import org.neuroph.core.Neuron;
 import org.neuroph.core.learning.LearningRule;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;

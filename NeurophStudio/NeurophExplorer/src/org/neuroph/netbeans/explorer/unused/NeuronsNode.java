@@ -1,4 +1,4 @@
-package org.neuroph.netbeans.explorer;
+package org.neuroph.netbeans.explorer.unused;
 
 import java.awt.Image;
 import org.neuroph.core.Neuron;

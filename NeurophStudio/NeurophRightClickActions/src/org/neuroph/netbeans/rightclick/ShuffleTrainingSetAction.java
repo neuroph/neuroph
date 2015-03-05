@@ -2,7 +2,7 @@ package org.neuroph.netbeans.rightclick;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.neuroph.netbeans.files.dset.DataSetDataObject;
+import org.neuroph.netbeans.files.tset.DataSetDataObject;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;

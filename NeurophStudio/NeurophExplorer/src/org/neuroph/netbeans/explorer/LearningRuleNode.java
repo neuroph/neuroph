@@ -11,8 +11,7 @@ import org.openide.nodes.Children;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
-import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
+import org.openide.util.lookup.Lookups;
 
 /**
  *
@@ -20,22 +19,20 @@ import org.openide.util.lookup.InstanceContent;
  */
 public class LearningRuleNode extends AbstractNode {
 
-    LearningRule learningRule;
+    private final LearningRule learningRule;
 
     public LearningRuleNode(LearningRule learningRule) {
-        this(learningRule, new InstanceContent());
+        super(Children.LEAF, Lookups.singleton(learningRule));
+        this.learningRule = learningRule;
     }
 
-    private LearningRuleNode(LearningRule learningRule, InstanceContent content) {
-        super(Children.LEAF, new AbstractLookup(content));
-        content.add(this);
-        content.add(learningRule);
-        this.learningRule = learningRule;
+    public LearningRule getLearningRule() {
+        return learningRule;
     }
 
     @Override
     public Image getIcon(int type) {
-        return ImageUtilities.loadImage("org/neuroph/netbeans/explorer/learningRuleIcon.png");
+        return ImageUtilities.loadImage("org/neuroph/netbeans/explorer/icons/learningRuleIcon.png");
     }
 
     @Override
@@ -45,13 +42,11 @@ public class LearningRuleNode extends AbstractNode {
 
     @Override
     protected Sheet createSheet() {
-
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setName("Learning rule properties");
 
         try {
-
             Property type = new PropertySupport.Reflection(learningRule, Class.class, "getClass", null);
             type.setShortDescription("Type");
             type.setName("Type");
@@ -68,7 +63,6 @@ public class LearningRuleNode extends AbstractNode {
                 //maxIterations.setShortDescription("Max iterations");
                 //maxIterations.setName("Max iterations");
                 //set.put(maxIterations);
-
                 if (learningRule instanceof SupervisedLearning) {
                     Property<Double> maxError = new PropertySupport.Reflection((SupervisedLearning) learningRule, Double.class, "getMaxError", null);
                     maxError.setShortDescription("Max error");
@@ -83,9 +77,6 @@ public class LearningRuleNode extends AbstractNode {
                     }
                 }
             }
-
-
-
         } catch (NoSuchMethodException ex) {
             ErrorManager.getDefault();
         } catch (Exception ex) {
