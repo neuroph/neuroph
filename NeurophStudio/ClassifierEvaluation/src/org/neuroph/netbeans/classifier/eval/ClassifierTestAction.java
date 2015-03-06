@@ -45,21 +45,14 @@ public final class ClassifierTestAction implements ActionListener {
        NeuralNetwork neuralNet = trainingController.getNetwork();
        DataSet dataSet = trainingController.getDataSet();
        
-       // just run GOAI classifier evaluat here and put results in TC!
-//        NeurophClassifierEvaluation evaluation = 
-//                new NeurophClassifierEvaluation(neuralNet, dataSet); 
-//        
-//    //    String[] classNames = {"Setosa", "Versicolor", "Virginica"}; // these shoul dbe set either from output neurons or data set...        
+   
        String[] classNames =  new String[neuralNet.getOutputsCount()];// = {"LeftHand", "RightHand", "Foot", "Rest"};        
        int i = 0;
        for(Neuron n : neuralNet.getOutputNeurons()) {
            classNames[i] = n.getLabel(); 
            i++;
        } 
-//       
-//       evaluation.setClassNames(classNames);
-//       evaluation.run();
-        
+
        
        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Testing neural network "+trainingController.getNetwork().getLabel() +" for data set "+trainingController.getDataSet().getLabel());        
 
@@ -72,22 +65,26 @@ public final class ClassifierTestAction implements ActionListener {
         TestTopComponent.getDefault().output("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult()+"\r\n");
                 
         ClassificationEvaluator evaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);
-        ConfusionMatrix confusionMatrix = evaluator.getConfusionMatrix();  
+        ConfusionMatrix confusionMatrix = evaluator.getResult();  
         
         TestTopComponent.getDefault().output("Confusion matrrix:\r\n");
         TestTopComponent.getDefault().output(confusionMatrix.toString()+"\r\n\r\n");
        
         TestTopComponent.getDefault().output("Classification metrics\r\n");
-        ClassificationMetrics[] metrics = evaluator.getResult();      
+        ClassificationMetrics[] metrics = ClassificationMetrics.createFromMatrix(confusionMatrix);      
+   
+        ClassificationMetrics.Stats average = ClassificationMetrics.average(metrics);
+        
         for(ClassificationMetrics cm : metrics)
-            TestTopComponent.getDefault().output(cm.toString());          
+            TestTopComponent.getDefault().output(cm.toString()+"\r\n");    
+        
+        TestTopComponent.getDefault().output(average.toString());   
+        
+        
        
-//       TestTopComponent.getDefault().output("Classifier evaluation results: \r\n"+evaluation.getEvaluationResults().toString());          
-//        ClassifierChartTopComponent tcc = new ClassifierChartTopComponent();
-//        tcc.setEvaluationResult(evaluation.getEvaluationResults());
-// 
-//        tcc.open();
-//        tcc.requestActive();
+        
+        // calculate avg mse
+        // and avg metrics
        
     }
 }

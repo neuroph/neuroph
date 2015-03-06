@@ -63,8 +63,10 @@ public class ImageRecognitionWizardPanel1  implements WizardDescriptor.Panel  {
             JRadioButton b = (JRadioButton)e.nextElement();
             if (b.getModel() == group.getSelection()) {
                String selectedColorMode = b.getText() ;
-                if (selectedColorMode != null && selectedColorMode.equalsIgnoreCase("Color")) {
+                if (selectedColorMode != null && selectedColorMode.equalsIgnoreCase("Color RGB")) {
                     return ColorMode.COLOR_RGB;
+                } else if (selectedColorMode != null && selectedColorMode.equalsIgnoreCase("Color HSV")) {
+                    return ColorMode.COLOR_HSL;
                 } else if (selectedColorMode != null && selectedColorMode.equalsIgnoreCase("Black and white")) {
                     return ColorMode.BLACK_AND_WHITE;
                 } else {

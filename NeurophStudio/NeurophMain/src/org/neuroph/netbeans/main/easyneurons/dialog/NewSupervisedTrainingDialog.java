@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.main.easyneurons.dialog;
 
 import org.neuroph.netbeans.main.ViewManager;
@@ -57,6 +52,7 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         maxErrorField = new javax.swing.JTextField();
@@ -75,11 +71,14 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         crossValidationCheckBox = new javax.swing.JCheckBox();
-        jLabel2 = new javax.swing.JLabel();
-        numberOfSubsetsField = new javax.swing.JTextField();
+        subsetDistField = new javax.swing.JTextField();
+        subsetCountRadioButton = new javax.swing.JRadioButton();
+        subsetCountField = new javax.swing.JTextField();
+        subsetDistRadioButton = new javax.swing.JRadioButton();
+        saveNetworksCheckBox = new javax.swing.JCheckBox();
+        allowRepetitionCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.jPanel1.border.title"))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -127,15 +126,6 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
         jPanel1.add(limitIterationsCheckBox, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 24;
-        gridBagConstraints.ipady = -38;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 12, 0, 12);
-        getContentPane().add(jPanel1, gridBagConstraints);
-
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.jPanel2.border.title"))); // NOI18N
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -176,15 +166,6 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(12, 84, 29, 45);
         jPanel2.add(momentumField, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 12;
-        gridBagConstraints.ipady = -27;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 12);
-        getContentPane().add(jPanel2, gridBagConstraints);
-
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(trainButton, org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.trainButton.text")); // NOI18N
@@ -215,16 +196,10 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 75);
         jPanel3.add(closeButton, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 12, 24, 12);
-        getContentPane().add(jPanel3, gridBagConstraints);
-
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.jPanel4.border.title"))); // NOI18N
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
+        graphCheckBox.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(graphCheckBox, org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.graphCheckBox.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -243,58 +218,124 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(12, 28, 18, 0);
         jPanel4.add(jLabel5, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipady = -15;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
-        getContentPane().add(jPanel4, gridBagConstraints);
-
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.jPanel5.border.title"))); // NOI18N
-        jPanel5.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(crossValidationCheckBox, org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.crossValidationCheckBox.text")); // NOI18N
-        crossValidationCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                crossValidationCheckBoxStateChanged(evt);
+        crossValidationCheckBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                crossValidationCheckBoxItemStateChanged(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(29, 42, 0, 0);
-        jPanel5.add(crossValidationCheckBox, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.jLabel2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(23, 42, 0, 0);
-        jPanel5.add(jLabel2, gridBagConstraints);
+        subsetDistField.setText(org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.subsetDistField.text")); // NOI18N
+        subsetDistField.setEnabled(false);
 
-        numberOfSubsetsField.setText(org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.numberOfSubsetsField.text")); // NOI18N
-        numberOfSubsetsField.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 74;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 19, 35, 59);
-        jPanel5.add(numberOfSubsetsField, gridBagConstraints);
+        buttonGroup1.add(subsetCountRadioButton);
+        org.openide.awt.Mnemonics.setLocalizedText(subsetCountRadioButton, org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.subsetCountRadioButton.text")); // NOI18N
+        subsetCountRadioButton.setEnabled(false);
+        subsetCountRadioButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                subsetCountRadioButtonItemStateChanged(evt);
+            }
+        });
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = -12;
-        gridBagConstraints.ipady = -38;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 12);
-        getContentPane().add(jPanel5, gridBagConstraints);
+        subsetCountField.setText(org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.subsetCountField.text")); // NOI18N
+        subsetCountField.setEnabled(false);
+
+        buttonGroup1.add(subsetDistRadioButton);
+        org.openide.awt.Mnemonics.setLocalizedText(subsetDistRadioButton, org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.subsetDistRadioButton.text")); // NOI18N
+        subsetDistRadioButton.setEnabled(false);
+        subsetDistRadioButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                subsetDistRadioButtonItemStateChanged(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(saveNetworksCheckBox, org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.saveNetworksCheckBox.text")); // NOI18N
+        saveNetworksCheckBox.setEnabled(false);
+
+        org.openide.awt.Mnemonics.setLocalizedText(allowRepetitionCheckBox, org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.allowRepetitionCheckBox.text")); // NOI18N
+        allowRepetitionCheckBox.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(crossValidationCheckBox)
+                            .addComponent(subsetDistRadioButton)
+                            .addComponent(subsetCountRadioButton)
+                            .addComponent(saveNetworksCheckBox)
+                            .addComponent(allowRepetitionCheckBox)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(subsetCountField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(subsetDistField, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(105, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(crossValidationCheckBox)
+                .addGap(18, 18, 18)
+                .addComponent(subsetCountRadioButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(subsetCountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(subsetDistRadioButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(subsetDistField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(allowRepetitionCheckBox)
+                .addGap(18, 18, 18)
+                .addComponent(saveNetworksCheckBox)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -323,9 +364,22 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
 		}
                 
                 if (crossValidationCheckBox.isSelected()) {
-                    trainingController.setUseCrossvalidation(true);
-                    trainingController.setNumberOfCrossvalSubsets(Integer.parseInt( numberOfSubsetsField.getText().trim()));
+                    trainingController.setUseCrossvalidation(true);                    
+                    
+                    if (subsetCountRadioButton.isSelected())
+                        trainingController.setNumberOfCrossvalSubsets(Integer.parseInt( subsetCountField.getText().trim()));
+                    else if (subsetDistRadioButton.isSelected()) {                        
+                        String[] distStr = subsetDistField.getText().trim().split(" ");
+                        int[] dist = new int[distStr.length];
+                        for(int i=0; i<distStr.length; i++)
+                            dist[i] = Integer.parseInt(distStr[i]);
+                                                
+                         trainingController.setCrossvalSubsetsDistribution(dist);
+                         trainingController.setAllowSamplesRepeat(allowRepetitionCheckBox.isSelected());
+                         trainingController.setSaveNetworks(saveNetworksCheckBox.isSelected());
+                    }
                 }
+                
                 
 		
                 if (graphCheckBox.isSelected()) {                    
@@ -351,15 +405,35 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_limitIterationsCheckBoxStateChanged
 
-    private void crossValidationCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_crossValidationCheckBoxStateChanged
-         if (this.numberOfSubsetsField.isEnabled()) {
-            this.numberOfSubsetsField.setEnabled(false);
-            graphCheckBox.setSelected(true);
-        } else {
-            this.numberOfSubsetsField.setEnabled(true);
+    private void crossValidationCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_crossValidationCheckBoxItemStateChanged
+        if (crossValidationCheckBox.isSelected()) {            
             graphCheckBox.setSelected(false);
+            graphCheckBox.setEnabled(false);
+            subsetCountRadioButton.setEnabled(true);
+            subsetDistRadioButton.setEnabled(true);   
+            saveNetworksCheckBox.setEnabled(true);
+            allowRepetitionCheckBox.setEnabled(true);
+        } else {
+            graphCheckBox.setEnabled(true);
+            graphCheckBox.setSelected(true);
+            subsetCountRadioButton.setEnabled(false);
+            subsetDistRadioButton.setEnabled(false);     
+            subsetCountField.setEnabled(false);
+            subsetDistField.setEnabled(false);
+            saveNetworksCheckBox.setEnabled(false);
+            allowRepetitionCheckBox.setEnabled(false);
         }
-    }//GEN-LAST:event_crossValidationCheckBoxStateChanged
+    }//GEN-LAST:event_crossValidationCheckBoxItemStateChanged
+
+    private void subsetDistRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_subsetDistRadioButtonItemStateChanged
+       subsetDistField.setEnabled(true);
+       subsetCountField.setEnabled(false);
+    }//GEN-LAST:event_subsetDistRadioButtonItemStateChanged
+
+    private void subsetCountRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_subsetCountRadioButtonItemStateChanged
+        subsetCountField.setEnabled(true);
+        subsetDistField.setEnabled(false);
+    }//GEN-LAST:event_subsetCountRadioButtonItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -405,11 +479,12 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox allowRepetitionCheckBox;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton closeButton;
     private javax.swing.JCheckBox crossValidationCheckBox;
     private javax.swing.JCheckBox graphCheckBox;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
@@ -423,7 +498,11 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
     private javax.swing.JTextField maxIterationsField;
     private javax.swing.JTextField momentumField;
     private javax.swing.JLabel momentumLabel;
-    private javax.swing.JTextField numberOfSubsetsField;
+    private javax.swing.JCheckBox saveNetworksCheckBox;
+    private javax.swing.JTextField subsetCountField;
+    private javax.swing.JRadioButton subsetCountRadioButton;
+    private javax.swing.JTextField subsetDistField;
+    private javax.swing.JRadioButton subsetDistRadioButton;
     private javax.swing.JButton trainButton;
     // End of variables declaration//GEN-END:variables
 }
