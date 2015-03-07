@@ -33,8 +33,8 @@ public class NeuronConnectionWidget extends ConnectionWidget {
         NeuralNetworkScene nnScene = (NeuralNetworkScene) scene;
 
         getActions().addAction(ActionFactory.createPopupMenuAction(new NeuronConnectionPopupMenuProvider(src, trg)));
-        getActions().addAction(nnScene.createObjectHoverAction());
         getActions().addAction(nnScene.createSelectAction());
+        getActions().addAction(nnScene.createObjectHoverAction());
        
 
         /*

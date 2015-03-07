@@ -1,4 +1,4 @@
-package org.neuroph.netbeans.files.nnet;
+package org.neuroph.netbeans.files.tset;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Collection;
 import org.netbeans.api.actions.Openable;
-import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.netbeans.main.easyneurons.DataSetTopComponent;
 import org.neuroph.netbeans.visual.VisualEditorTopComponent;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -31,67 +32,67 @@ import org.openide.util.lookup.ProxyLookup;
 import org.openide.windows.WindowManager;
 
 @Messages({
-    "LBL_NeuralNetwork_LOADER=Files of NeuralNetwork"
+    "LBL_DataSet_LOADER=Files of DataSet"
 })
 @MIMEResolver.ExtensionRegistration(
-        displayName = "#LBL_NeuralNetwork_LOADER",
-        mimeType = "text/x-nnet",
-        extension = {"nnet", "NNET"}
+        displayName = "#LBL_DataSet_LOADER",
+        mimeType = "text/x-tset",
+        extension = {"tset", "TSET"}
 )
 @DataObject.Registration(
-        mimeType = "text/x-nnet",
-        iconBase = "org/neuroph/netbeans/files/nnet/neuralNetIcon.png",
-        displayName = "#LBL_NeuralNetwork_LOADER",
+        mimeType = "text/x-tset",
+        iconBase = "org/neuroph/netbeans/files/tset/tsetIcon.png",
+        displayName = "#LBL_DataSet_LOADER",
         position = 300
 )
 @ActionReferences({
     @ActionReference(
-            path = "Loaders/text/x-nnet/Actions",
+            path = "Loaders/text/x-tset/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.OpenAction"),
             position = 100,
             separatorAfter = 200
     ),
     @ActionReference(
-            path = "Loaders/text/x-nnet/Actions",
+            path = "Loaders/text/x-tset/Actions",
             id = @ActionID(category = "Edit", id = "org.openide.actions.CutAction"),
             position = 300
     ),
     @ActionReference(
-            path = "Loaders/text/x-nnet/Actions",
+            path = "Loaders/text/x-tset/Actions",
             id = @ActionID(category = "Edit", id = "org.openide.actions.CopyAction"),
             position = 400,
             separatorAfter = 500
     ),
     @ActionReference(
-            path = "Loaders/text/x-nnet/Actions",
+            path = "Loaders/text/x-tset/Actions",
             id = @ActionID(category = "Edit", id = "org.openide.actions.DeleteAction"),
             position = 600
     ),
     @ActionReference(
-            path = "Loaders/text/x-nnet/Actions",
+            path = "Loaders/text/x-tset/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.RenameAction"),
             position = 700,
             separatorAfter = 800
     ),
     @ActionReference(
-            path = "Loaders/text/x-nnet/Actions",
+            path = "Loaders/text/x-tset/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.SaveAsTemplateAction"),
             position = 900,
             separatorAfter = 1000
     ),
     @ActionReference(
-            path = "Loaders/text/x-nnet/Actions",
+            path = "Loaders/text/x-tset/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.FileSystemAction"),
             position = 1100,
             separatorAfter = 1200
     ),
     @ActionReference(
-            path = "Loaders/text/x-nnet/Actions",
+            path = "Loaders/text/x-tset/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.ToolsAction"),
             position = 1300
     ),
     @ActionReference(
-            path = "Loaders/text/x-nnet/Actions",
+            path = "Loaders/text/x-tset/Actions",
             id = @ActionID(category = "System", id = "org.openide.actions.PropertiesAction"),
             position = 1400
     )
@@ -99,24 +100,24 @@ import org.openide.windows.WindowManager;
 /**
  * @author Boris Perović
 */
-public class NeuralNetworkDataObject extends MultiDataObject implements Openable, LookupListener {
+public class DataSetDataObject extends MultiDataObject implements Openable, LookupListener {
 
     FileObject fileObject;
-    NeuralNetwork<?> neuralNetwork;
-    VisualEditorTopComponent nnetTopComponent;
+    DataSet dataSet;
+    DataSetTopComponent dataSetTopComponent;
     
     private final InstanceContent content = new InstanceContent();
     private final AbstractLookup aLookup = new AbstractLookup(content);
-    private Lookup.Result<VisualEditorTopComponent.Save> savable;
-    private VisualEditorTopComponent.Save oldSave;
-
-    public NeuralNetworkDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
+    private Lookup.Result<DataSetTopComponent.Save> savable;
+    private DataSetTopComponent.Save oldSave;
+    
+    public DataSetDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
         fileObject = pf;
-//        registerEditor("text/x-nnet", false); // Opens the standard source editor, and has problems since the encoding is set to Windows-1252 and not UTF-8
+//        registerEditor("text/x-tset", false); // Opens the standard source editor, and has problems since the encoding is set to Windows-1252 and not UTF-8
         
-        neuralNetwork = readFromFile(pf);
-        content.add(neuralNetwork);
+        dataSet = readFromFile(pf);
+        content.add(dataSet);
         
         this.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -125,7 +126,7 @@ public class NeuralNetworkDataObject extends MultiDataObject implements Openable
                     WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
                         @Override
                         public void run() {
-                            nnetTopComponent.setName(fileObject.getNameExt());
+                            dataSetTopComponent.setName(fileObject.getNameExt());
                         }
                     });
                 }
@@ -133,8 +134,8 @@ public class NeuralNetworkDataObject extends MultiDataObject implements Openable
         });
     }
 
-    public NeuralNetwork<?> getNeuralNetwork() {
-        return neuralNetwork;
+    public DataSet getDataSet() {
+        return dataSet;
     }
 
     @Override
@@ -146,26 +147,28 @@ public class NeuralNetworkDataObject extends MultiDataObject implements Openable
     protected Node createNodeDelegate() {
         return new DataNode(this, Children.LEAF, new ProxyLookup(getLookup(), aLookup));
     }
+    
     @Override
     public void open() {
-        content.remove(neuralNetwork);
-        neuralNetwork = readFromFile(fileObject);
-        content.add(neuralNetwork);
+        content.remove(dataSet);
+        dataSet = readFromFile(fileObject);
+        content.add(dataSet);
         
-        if (nnetTopComponent == null || !nnetTopComponent.isOpened()) {
-            nnetTopComponent = new VisualEditorTopComponent(neuralNetwork, fileObject.getNameExt());
-            nnetTopComponent.setFileObject(fileObject);
-            nnetTopComponent.open();
+        if (dataSetTopComponent == null || !dataSetTopComponent.isOpened()) {
+            dataSetTopComponent = new DataSetTopComponent(this);
+//            nnetTopComponent.setFileObject(fileObject);
+            dataSetTopComponent.open();
         }
-        savable = nnetTopComponent.getLookup().lookupResult(VisualEditorTopComponent.Save.class);
+        
+        savable = dataSetTopComponent.getLookup().lookupResult(DataSetTopComponent.Save.class);
         savable.addLookupListener(this);
-        nnetTopComponent.requestActive();
+        dataSetTopComponent.requestActive();
     }
-
-    private NeuralNetwork<?> readFromFile(FileObject fileObject) {
+    
+    private DataSet readFromFile(FileObject fileObject) {
         try (ObjectInputStream stream = new ObjectInputStream(fileObject.getInputStream())) {
-            NeuralNetwork<?> nn = (NeuralNetwork) stream.readObject();
-            return nn;
+            DataSet ds = (DataSet) stream.readObject();
+            return ds;
         } catch (ClassNotFoundException | IOException ex) {
             System.err.println(ex.getMessage());
             Exceptions.printStackTrace(ex);
@@ -176,12 +179,11 @@ public class NeuralNetworkDataObject extends MultiDataObject implements Openable
     @Override
     protected void handleDelete() throws IOException {
         super.handleDelete();
-        if (nnetTopComponent != null) nnetTopComponent.close();
+        if (dataSetTopComponent != null) dataSetTopComponent.close();
 //                        ExplorerTopComponent explorerTopComponent = (ExplorerTopComponent) WindowManager.getDefault().findTopComponent("easyUMLExplorerTopComponent");
 //                        explorerTopComponent.getExplorerManager().setRootContext(Node.EMPTY);
 //                        explorerTopComponent.getExplorerTree().setRootVisible(false);
     }
-
 
     @Override
     public void resultChanged(LookupEvent ev) {
@@ -189,8 +191,8 @@ public class NeuralNetworkDataObject extends MultiDataObject implements Openable
         Collection instances = source.allInstances();
         if (!instances.isEmpty()) {
             for (Object instance : instances) {
-                if (instance instanceof VisualEditorTopComponent.Save && oldSave == null) {
-                    oldSave = (VisualEditorTopComponent.Save) instance;
+                if (instance instanceof DataSetTopComponent.Save && oldSave == null) {
+                    oldSave = (DataSetTopComponent.Save) instance;
                     content.add(instance);
                 }
                 break;

@@ -7,8 +7,7 @@ import org.openide.nodes.FilterNode.Children;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
-import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
+import org.openide.util.lookup.Lookups;
 
 /**
  *
@@ -16,37 +15,34 @@ import org.openide.util.lookup.InstanceContent;
  */
 public class ExplorerDataSetNode extends AbstractNode {
 
-    private DataSet dataSet;
-
+    private final DataSet dataSet;
+    
     public ExplorerDataSetNode(DataSet dataSet) {
-        this(dataSet, new InstanceContent());
-    }
-
-    private ExplorerDataSetNode(DataSet dataSet, InstanceContent content) {
-        super(Children.LEAF, new AbstractLookup(content));
-        content.add(this);
-
+        super(Children.LEAF, Lookups.singleton(dataSet));
         this.dataSet = dataSet;
         this.setDisplayName(dataSet.getLabel());
     }
 
+    public DataSet getDataSet() {
+        return dataSet;
+    }
+
     @Override
     public Image getIcon(int type) {
-        return ImageUtilities.loadImage("org/neuroph/netbeans/files/dset/iconTs.png");
+        return ImageUtilities.loadImage("org/neuroph/netbeans/files/tset/tsetIcon.png");
     }
 
     @Override
     protected Sheet createSheet() {
-
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         set.setName("Data Set Properties");
 
         try {
-            Property label = new PropertySupport.Reflection(dataSet, String.class, "getLabel", null);
-            Property inputSize = new PropertySupport.Reflection(dataSet, Integer.class, "getInputSize", null);
-            Property outputSize = new PropertySupport.Reflection(dataSet, Integer.class, "getOutputSize", null);
-            Property size = new PropertySupport.Reflection(dataSet, Integer.class, "size", null);
+            Property<String> label = new PropertySupport.Reflection<>(dataSet, String.class, "getLabel", null);
+            Property<Integer> inputSize = new PropertySupport.Reflection<>(dataSet, Integer.class, "getInputSize", null);
+            Property<Integer> outputSize = new PropertySupport.Reflection<>(dataSet, Integer.class, "getOutputSize", null);
+            Property<Integer> size = new PropertySupport.Reflection<>(dataSet, Integer.class, "size", null);
 
             label.setName("Label");
             inputSize.setName("Input size");

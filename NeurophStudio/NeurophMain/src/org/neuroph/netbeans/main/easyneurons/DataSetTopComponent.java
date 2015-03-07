@@ -1,6 +1,7 @@
 package org.neuroph.netbeans.main.easyneurons;
 
 import java.awt.Component;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JTable;
@@ -9,11 +10,18 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import org.jdesktop.application.Action;
+import org.netbeans.spi.actions.AbstractSavable;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.netbeans.main.easyneurons.dialog.TrainingDataFileDialog;
-import org.openide.cookies.SaveCookie;
+import org.neuroph.netbeans.explorer.ExplorerDataSetNode;
+import org.neuroph.netbeans.explorer.ExplorerTopComponent;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
+import org.openide.NotifyDescriptor.Confirmation;
+import org.openide.explorer.ExplorerManager;
+import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
+import org.openide.loaders.SaveAsCapable;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
@@ -22,21 +30,30 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ProxyLookup;
 import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays training set.
  */
-public final class DataSetTopComponent extends TopComponent implements LookupListener {
+public final class DataSetTopComponent extends TopComponent implements LookupListener, ExplorerManager.Provider {
 
     /**
      * path to the icon used by the component and its open action
      */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "DataSetTopComponent";
-    private AbstractLookup aLookup;
-    SaveCookie saveCookie;
-    private InstanceContent content;
-
+    private InstanceContent content = new InstanceContent();
+    private AbstractLookup aLookup = new AbstractLookup(content);
+    private FileObject fileObject;
+    
+    private DataSet dataSet;
+    private DataSetTableModel tableModel;
+    private String trainingSetType;
+    private int inputs, outputs;
+    private String trainingSetLabel;
+    
+    private final ExplorerManager explorerManager = new ExplorerManager();
+    
     public DataSetTopComponent() {
         tableModel = new DataSetTableModel();
         initComponents();
@@ -47,13 +64,10 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         //content = new InstanceContent();
     }
-
+    
     public DataSetTopComponent(DataObject dataSetDataObject) {
-        // this();  
-//        this.dataSet = dataSet;
-//        this.saveCookie = cookie;
-        this.dataSet = dataSetDataObject.getLookup().lookup(DataSet.class);
-        this.saveCookie = dataSetDataObject.getLookup().lookup(SaveCookie.class);             
+        this.dataSet = dataSetDataObject.getNodeDelegate().getLookup().lookup(DataSet.class);
+        this.fileObject = dataSetDataObject.getPrimaryFile();       
 
         tableModel = new DataSetTableModel();
         initComponents();
@@ -63,13 +77,14 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         putClientProperty(TopComponent.PROP_DRAGGING_DISABLED, Boolean.TRUE);
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         this.setTrainingSetEditFrameVariables(dataSet);
-        content = new InstanceContent();
-        content.add(dataSet); // dodati i ovo u lookup....
-        content.add(saveCookie);
-        aLookup = new AbstractLookup(content);
         
+        explorerManager.setRootContext(new ExplorerDataSetNode(dataSet));
+        
+        content.add(dataSet); // dodati i ovo u lookup....
+        content.add(new Save(this, content)); //TODO enable this on notifyModified
+        content.add(new SaveAs(this));
     }
-
+    
     @Override
     public Lookup getLookup() {
         return new ProxyLookup(
@@ -77,6 +92,76 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
                     super.getLookup(),
                     aLookup
                 });
+    }
+    
+    @Override
+    public void componentOpened() {
+        if (this.dataSet != null) {
+            setName(dataSet.getLabel());
+        } else {
+            setName("Training set not loaded");
+        }
+//        if (content == null) {
+//            content = new InstanceContent();
+//        }
+        WindowManager.getDefault().findTopComponent("ExplorerTopComponent").open();
+    }
+    
+    @Override
+    public void componentClosed() {
+        //  ViewManager.getInstance().onTrainingSetClose(dataSet);
+        
+        TopComponent exTC = WindowManager.getDefault().findTopComponent("ExplorerTopComponent");
+        if (exTC != null) {
+            ExplorerTopComponent explorerTC = (ExplorerTopComponent) exTC;
+            if (explorerTC.isValidDSetInRoot(dataSet)) {
+                explorerTC.emptyTree();
+            }
+        }
+    }
+    
+    @Override
+    protected void componentActivated() {
+        super.componentActivated();
+        // update table model here
+        setTrainingSet(this.dataSet); // needs to be refreshe d if it is normalised for example...
+        
+        TopComponent tc = WindowManager.getDefault().findTopComponent("ExplorerTopComponent");
+        if (tc != null) {
+            ExplorerTopComponent explorerTC = (ExplorerTopComponent) tc;
+            explorerTC.initializeOrSelectDSetRoot(dataSet);
+        }
+    }
+     @Override
+    public boolean canClose() {
+        Save saveObj = getLookup().lookup(Save.class);
+        if (saveObj != null) {
+            Confirmation msg = new NotifyDescriptor.Confirmation(
+                    "Do you want to save \"" + this.getName() + "\"?",
+                    NotifyDescriptor.YES_NO_OPTION,
+                    NotifyDescriptor.QUESTION_MESSAGE);
+            Object result = DialogDisplayer.getDefault().notify(msg);
+            if (NotifyDescriptor.YES_OPTION.equals(result)) {
+                saveTopComponent();
+
+                // disable "Save" option
+                content.remove(saveObj);
+                saveObj.unregisterPublic();
+            } else if (NotifyDescriptor.NO_OPTION.equals(result)) {
+                // disable "Save" option
+                content.remove(saveObj);
+                saveObj.unregisterPublic();
+            } else {
+                // do not close, as the dialog has been closed
+                return false;
+            }
+        }
+        return super.canClose();
+    }
+
+    @Override
+    public ExplorerManager getExplorerManager() {
+        return explorerManager;
     }
 
     /**
@@ -170,17 +255,17 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         if (dataSetTable.isEditing()) {
             dataSetTable.getCellEditor().stopCellEditing();
         }
-
+        
         if (this.traningSetLabelTextField.getText().trim().isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please enter the training set name!");
             return;
         }
-
+        
         this.dataSet.setLabel(this.traningSetLabelTextField.getText().trim());
         ArrayList<ArrayList> dataVector = this.tableModel.getDataVector();
         Iterator<ArrayList> iterator = dataVector.iterator();
         this.dataSet.clear();
-
+        
         if (this.trainingSetType.equals("Unsupervised")) {
             while (iterator.hasNext()) {
                 ArrayList rowVector = iterator.next();
@@ -193,7 +278,7 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
                 } catch (Exception ex) {
                     continue;
                 }
-
+                
                 DataSetRow trainingElement = new DataSetRow(doubleRowVector);
                 this.dataSet.addRow(trainingElement);
             }
@@ -202,13 +287,13 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
                 ArrayList rowVector = iterator.next();
                 ArrayList<Double> inputVector = new ArrayList<Double>();
                 ArrayList<Double> outputVector = new ArrayList<Double>();
-
+                
                 try {
                     for (int i = 0; i < this.inputs; i++) {
                         double doubleVal = Double.parseDouble(rowVector.get(i).toString());
                         inputVector.add(new Double(doubleVal));
                     }
-
+                    
                     for (int i = 0; i < this.outputs; i++) {
                         double doubleVal = Double.parseDouble(rowVector.get(
                                 this.inputs + i).toString());
@@ -217,11 +302,11 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
                 } catch (Exception ex) {
                     continue;
                 }
-
+                
                 DataSetRow trainingElement = new DataSetRow(
                         inputVector, outputVector);
                 this.dataSet.addRow(trainingElement);
-
+                
             }
         }
 
@@ -233,7 +318,6 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         // a neural network frame treba da slusa te dogadjaje. Kako dodati slusaoca???
         // potencilajni problem j esto se ti prozori otvaraju i zatvaraju
         // mozda najbolje to resiti preko lookup-a
-
 //        ProjectManager.getInstance().updateTrainingSets(this.dataSet);
         //this.dispose();
         this.close();
@@ -271,49 +355,17 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
     public int getPersistenceType() {
         return TopComponent.PERSISTENCE_NEVER;
     }
-
-    @Override
-    public void componentOpened() {
-        if (this.dataSet != null) {
-            setName(dataSet.getLabel());
-        } else {
-            setName("Training set not loaded");
-        }
-//        if (content == null) {
-//            content = new InstanceContent();
-//        }
-    }
-
-    @Override
-    public void componentClosed() {
-        //  ViewManager.getInstance().onTrainingSetClose(dataSet);
-    }
-
-    @Override
-    protected void componentActivated() {
-        super.componentActivated();
-        // update table model here
-        setTrainingSet(this.dataSet); // needs to be refreshe d if it is normalised for example...
-    }
-    
-    
-    
-
+   
     private void readPropertiesImpl(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
     }
-
+    
     @Override
     protected String preferredID() {
         return PREFERRED_ID;
     }
-    private DataSet dataSet;
-    private DataSetTableModel tableModel;
-    private String trainingSetType;
-    private int inputs, outputs;
-    private String trainingSetLabel;
-
+    
     public void setTrainingSetEditFrameVariables(DataSet trainingSet, String type, int inputs, int outputs) {
         this.trainingSetType = type;
         this.dataSet = trainingSet;
@@ -323,25 +375,25 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
 
         //tableModel.addTableModelListener(new TrainingSetEditFrame.InteractiveTableModelListener());
         tableModel.addTableModelListener(new DataSetTopComponent.InteractiveTableModelListener());
-
+        
         initComponents();
-
+        
         if (!tableModel.hasEmptyRow()) {
             tableModel.addEmptyRow();
         }
         dataSetTable.setSurrendersFocusOnKeystroke(true);
-
+        
         TableColumn hidden = dataSetTable.getColumnModel().getColumn(tableModel.HIDDEN_INDEX);
         hidden.setMinWidth(2);
         hidden.setPreferredWidth(2);
         hidden.setMaxWidth(2);
         hidden.setCellRenderer(new InteractiveRenderer(tableModel.HIDDEN_INDEX));
-
+        
         this.trainingSetLabel = trainingSet.getLabel();
         this.traningSetLabelTextField.setText(this.trainingSetLabel);
         this.dataSetTable.getTableHeader().setReorderingAllowed(false);
     }
-
+    
     public void setTrainingSetEditFrameVariables(DataSet trainingSet) {
         this.dataSet = trainingSet;
         this.tableModel = new DataSetTableModel(trainingSet);
@@ -349,20 +401,20 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
 
         //tableModel.addTableModelListener(new TrainingSetEditFrame.InteractiveTableModelListener());
         tableModel.addTableModelListener(new DataSetTopComponent.InteractiveTableModelListener());
-
+        
         initComponents();
-
+        
         if (!tableModel.hasEmptyRow()) {
             tableModel.addEmptyRow();
         }
         dataSetTable.setSurrendersFocusOnKeystroke(true);
-
+        
         TableColumn hidden = dataSetTable.getColumnModel().getColumn(tableModel.HIDDEN_INDEX);
         hidden.setMinWidth(2);
         hidden.setPreferredWidth(2);
         hidden.setMaxWidth(2);
         hidden.setCellRenderer(new InteractiveRenderer(tableModel.HIDDEN_INDEX));
-
+        
         this.trainingSetLabel = trainingSet.getLabel();
         this.traningSetLabelTextField.setText(this.trainingSetLabel);
 
@@ -382,7 +434,7 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
             this.inputs = trainingSet.getInputSize();
             //          }
         }
-
+        
     }
 
     /**
@@ -403,7 +455,7 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
     public void deleteTableRow() {
         //int selected_row = dataSetTable.getSelectedRow();
         ((DataSetTableModel) dataSetTable.getModel()).removeRow(dataSetTable.getSelectedRow());
-
+        
     }
 //
 //    @Action
@@ -479,22 +531,22 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         } else {
             dataSetTable.setRowSelectionInterval(row + 1, row + 1);
         }
-
+        
         dataSetTable.setColumnSelectionInterval(0, 0);
     }
-
+    
     @Override
     public void resultChanged(LookupEvent ev) {
     }
-
+    
     class InteractiveRenderer extends DefaultTableCellRenderer {
-
+        
         protected int interactiveColumn;
-
+        
         public InteractiveRenderer(int interactiveColumn) {
             this.interactiveColumn = interactiveColumn;
         }
-
+        
         @Override
         public Component getTableCellRendererComponent(JTable table,
                 Object value, boolean isSelected, boolean hasFocus, int row,
@@ -509,17 +561,16 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
                         && !DataSetTopComponent.this.tableModel.hasEmptyRow()) {
                     DataSetTopComponent.this.tableModel.addEmptyRow();
                 }
-
-
+                
                 highlightLastRow(row);
             }
-
+            
             return c;
         }
     }
-
+    
     public class InteractiveTableModelListener implements TableModelListener {
-
+        
         public void tableChanged(TableModelEvent evt) {
             if (evt.getType() == TableModelEvent.UPDATE) {
                 int column = evt.getColumn();
@@ -539,21 +590,21 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
 //    }
     public void setTrainingSet(DataSet trainingSet) {
         this.dataSet = trainingSet;
-
+        
         this.tableModel = new DataSetTableModel(this.dataSet);
         this.dataSetTable.setModel(this.tableModel);
         dataSetTable.setSurrendersFocusOnKeystroke(true);
-
+        
         TableColumn hidden = dataSetTable.getColumnModel().getColumn(tableModel.HIDDEN_INDEX);
         hidden.setMinWidth(2);
         hidden.setPreferredWidth(2);
         hidden.setMaxWidth(2);
         hidden.setCellRenderer(new InteractiveRenderer(tableModel.HIDDEN_INDEX));
-
+        
         this.tableModel.fireTableDataChanged();
-
+        
     }
-
+    
     private void setTableModel() {
         if (dataSet.size() > 0) {
             DataSetRow trainingElement = (DataSetRow) dataSet.getRowAt(0);
@@ -571,6 +622,96 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
                 this.inputs = trainingElement.getInput().length;
                 //this.inputs = trainingElement.getInput().size();
             }
+        }
+    }
+    
+    private void saveTopComponentToPath(String path) {
+        dataSet.save(path);
+    }
+    
+    private void saveTopComponent() {
+        String filePath = fileObject.getPath();
+        dataSet.save(filePath);
+    }
+
+    /**
+     * Enables SaveAs functionality.
+     */
+    private class SaveAs implements SaveAsCapable {
+
+        DataSetTopComponent dataSetTopComponent;
+
+        public SaveAs(DataSetTopComponent dataSetTopComponent) {
+            this.dataSetTopComponent = dataSetTopComponent;
+        }
+
+        @Override
+        public void saveAs(FileObject folder, String name) throws IOException {
+            String path = folder.getPath() + "/" + name;
+            dataSetTopComponent.saveTopComponentToPath(path);
+        }
+    }
+
+    /**
+     * Enables Save functionality.
+     */    
+    public class Save extends AbstractSavable {
+        
+        private final DataSetTopComponent dataSetTopComponent;
+        private final InstanceContent ic;
+        
+        public Save(DataSetTopComponent topComponent, InstanceContent instanceContent) {
+            this.dataSetTopComponent = topComponent;
+            this.ic = instanceContent;
+            register();
+        }
+        
+        @Override
+        protected String findDisplayName() {
+            return "Data set " + dataSetTopComponent.getName(); // get display name somehow
+        }
+
+        /**
+         * Exposes unregister() method so that this Save object can be removed
+         * from SavableRegistry if the file has been saved in some other way.
+         * A user can save the file on closing of the UMLTopComponent, if it has
+         * not been saved.
+         */
+        public void unregisterPublic() {
+            unregister();
+        }
+        
+        @Override
+        protected void handleSave() throws IOException {
+//            Confirmation msg = new NotifyDescriptor.Confirmation(
+//                    "Do you want to save \"" + umlTopComponent.getName() + "\"?",
+//                    NotifyDescriptor.OK_CANCEL_OPTION,
+//                    NotifyDescriptor.QUESTION_MESSAGE);
+//            Object result = DialogDisplayer.getDefault().notify(msg);
+//            //When user clicks "Yes", indicating they really want to save,
+//            //we need to disable the Save button and Save menu item,
+//            //so that it will only be usable when the next change is made
+//            // save 'obj' somehow
+//            if (NotifyDescriptor.OK_OPTION.equals(result)) {
+            dataSetTopComponent.saveTopComponent();
+
+//            ic.remove(this);  //TODO reenable this on notifyModified
+//            } else {
+//                throw new IOException();
+//            }
+        }
+        
+        @Override
+        public boolean equals(Object other) {
+            if (other instanceof Save) {
+                return ((Save) other).dataSetTopComponent.equals(dataSetTopComponent);
+            }
+            return false;
+        }
+        
+        @Override
+        public int hashCode() {
+            return dataSetTopComponent.hashCode();
         }
     }
 }

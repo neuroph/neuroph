@@ -1,6 +1,7 @@
 package org.neuroph.netbeans.explorer;
 
 import java.awt.Image;
+import java.util.concurrent.Callable;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.transfer.TransferFunction;
@@ -12,11 +13,10 @@ import org.neuroph.netbeans.properties.NeuronLabelEditor;
 import org.neuroph.netbeans.properties.TransferFunctionEditor;
 import org.openide.ErrorManager;
 import org.openide.nodes.AbstractNode;
+import org.openide.nodes.Children;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
-import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
 
 /**
@@ -27,16 +27,10 @@ import org.openide.util.lookup.Lookups;
  */
 public class NeuronNode extends AbstractNode {
 
-    private Neuron neuron;
+    private final Neuron neuron;
 
     public NeuronNode(Neuron neuron) {
-        this(neuron, new InstanceContent());
-    }
-
-    private NeuronNode(Neuron neuron, InstanceContent content) {
-        super(new NeuronChildren(neuron), new AbstractLookup(content));
-        content.add(this);
-        content.add(neuron);
+        super(Children.createLazy(new ChildrenSetCallable(neuron)), Lookups.singleton(neuron));
         this.neuron = neuron;
     }
 
@@ -46,7 +40,7 @@ public class NeuronNode extends AbstractNode {
 
     @Override
     public Image getIcon(int type) {
-        return ImageUtilities.loadImage("org/neuroph/netbeans/explorer/neuronIcon.png");
+        return ImageUtilities.loadImage("org/neuroph/netbeans/explorer/icons/neuronIcon.png");
     }
 
     @Override
@@ -111,5 +105,26 @@ public class NeuronNode extends AbstractNode {
 
         sheet.put(set);
         return sheet;
+    }
+    
+    // To enable creating leaf nodes at start, otherwise we need to pass a factory,
+    // which can expand only manually and then check that there are no children nodes
+    private static class ChildrenSetCallable implements Callable<Children> {
+
+        private final Neuron key;
+
+        private ChildrenSetCallable(Neuron key) {
+            this.key = key;
+        }
+
+        @Override
+        public Children call() throws Exception {
+            if (key.getInputConnections().length == 0) {
+                return Children.LEAF;
+            } else {
+                // synchronous so that selection of members doesn't miss (if everything was not yet generated)
+                return Children.create(new NeuronChildFactory(key), false);
+            }
+        }
     }
 }

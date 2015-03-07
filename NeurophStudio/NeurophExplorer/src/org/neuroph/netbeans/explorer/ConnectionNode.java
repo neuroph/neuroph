@@ -16,17 +16,21 @@ import org.openide.util.lookup.Lookups;
  * @author zoran
  */
 public class ConnectionNode extends AbstractNode {
-    Connection connection;
+
+    private final Connection connection;
 
     public ConnectionNode(Connection connection) {
         super(Children.LEAF, Lookups.singleton(connection));
-
         this.connection = connection;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 
     @Override
     public Image getIcon(int type) {
-        return ImageUtilities.loadImage("org/neuroph/netbeans/explorer/connectionIcon.png");
+        return ImageUtilities.loadImage("org/neuroph/netbeans/explorer/icons/connectionIcon.png");
     }
 
     @Override
@@ -42,18 +46,17 @@ public class ConnectionNode extends AbstractNode {
 
         try {
             Weight weight = connection.getWeight();
-            Property weightProp = new PropertySupport.Reflection(weight, Double.class, "getValue", null);
+            Property<Double> weightProp = new PropertySupport.Reflection<>(weight, Double.class, "getValue", null);
             weightProp.setShortDescription("Connection Weight");
             weightProp.setName("Weight");
             set.put(weightProp);
         } catch (NoSuchMethodException ex) {
             ErrorManager.getDefault().log(ex.getMessage());
         } catch (Exception ex) {
-           ErrorManager.getDefault().log(ex.getMessage());
+            ErrorManager.getDefault().log(ex.getMessage());
         }
 
         sheet.put(set);
         return sheet;
     }
-
 }

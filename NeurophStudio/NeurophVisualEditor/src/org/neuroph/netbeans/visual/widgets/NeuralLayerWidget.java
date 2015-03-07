@@ -90,15 +90,27 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
     public void notifyStateChanged(ObjectState previousState, ObjectState state) {
         super.notifyStateChanged(previousState, state);
 
-        if (state.isSelected()) {
+//        if (state.isSelected()) {
+//            setBorder(SELECTED_BORDER);
+//        } else {
+//            if (state.isHovered()) {
+//                setBorder(HOVER_BORDER);
+//                setCursor(new Cursor(Cursor.HAND_CURSOR));
+//            } else {
+//                setBorder(DEFAULT_BORDER);
+//            }
+//        }
+        
+        boolean focused = state.isFocused();
+        boolean hovered = state.isHovered();
+
+        if (focused) {
             setBorder(SELECTED_BORDER);
+        } else if (hovered) {
+            setBorder(HOVER_BORDER);
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
         } else {
-            if (state.isHovered()) {
-                setBorder(HOVER_BORDER);
-                setCursor(new Cursor(Cursor.HAND_CURSOR));
-            } else {
-                setBorder(DEFAULT_BORDER);
-            }
+            setBorder(DEFAULT_BORDER);
         }
     }
     
@@ -199,7 +211,7 @@ public class NeuralLayerWidget extends IconNodeWidget implements Lookup.Provider
     // why are we doing manual resize? it should be done automatically using FlowLayout
     private void resizeLayer() {
         int i = getChildren().size(); // adjust size to th enumber of neurons
-        Dimension d = new Dimension(((int) (i * 65)) + 70 , (int) getPreferredSize().getHeight());
+        Dimension d = new Dimension(i*65 + 70 , (int) getPreferredSize().getHeight());
         setPreferredSize(d);
     }    
 

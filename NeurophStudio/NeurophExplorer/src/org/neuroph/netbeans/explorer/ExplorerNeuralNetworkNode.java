@@ -9,37 +9,39 @@ import org.neuroph.netbeans.properties.LearningRuleEditor;
 import org.neuroph.netbeans.properties.OutputNeuronsEditor;
 import org.openide.ErrorManager;
 import org.openide.nodes.AbstractNode;
+import org.openide.nodes.Children;
 import org.openide.nodes.Node.Property;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
-import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
+import org.openide.util.lookup.Lookups;
 
 /**
  * Node for neural network in Explorer window
+ *
  * @author Ivana Jovicic
  * @author Zoran Sevarac
+ * @author Boris Perović <borisvperovic@gmail.com>
  */
-public class ExplorerNeuralNetworkNode extends AbstractNode  {
-    NeuralNetwork neuralNet;
-    
-    
-    public ExplorerNeuralNetworkNode(NeuralNetwork neuralNet) {
-        this(neuralNet, new InstanceContent());
-    }
-
 // http://bits.netbeans.org/dev/javadoc/org-openide-nodes/org/openide/nodes/AbstractNode.html#AbstractNode%28org.openide.nodes.Children,%20org.openide.util.Lookup%29
 // http://bits.netbeans.org/dev/javadoc/org-openide-nodes/org/openide/nodes/Node.html#Node%28org.openide.nodes.Children,%20org.openide.util.Lookup%29
-    private ExplorerNeuralNetworkNode(NeuralNetwork neuralNet, InstanceContent content ) {
-     // http://platform.netbeans.org/tutorials/nbm-nodesapi2.html#propertysheet
+// http://platform.netbeans.org/tutorials/nbm-nodesapi2.html#propertysheet
+public class ExplorerNeuralNetworkNode extends AbstractNode {
+
+    private final NeuralNetwork<?> neuralNet;
+    
+    public ExplorerNeuralNetworkNode(NeuralNetwork<?> neuralNet) {
+        // synchronous so that selection doesn't miss (if everything was not yet generated)
+        super(Children.create(new ExplorerNeuralNetworkChildFactory(neuralNet), false), Lookups.singleton(neuralNet));
         
-      super( new ExplorerNeuralNetworkChildren(neuralNet), new AbstractLookup(content) );     
-      content.add(this);
-      this.setDisplayName(neuralNet.getLabel());
-      this.neuralNet = neuralNet;
+        this.neuralNet = neuralNet;
+        this.setDisplayName(neuralNet.getLabel());
+        // TODO add listener for explorer updating
     }
 
+    public NeuralNetwork<?> getNeuralNet() {
+        return neuralNet;
+    }
 
     @Override
     public Image getIcon(int type) {
@@ -57,11 +59,11 @@ public class ExplorerNeuralNetworkNode extends AbstractNode  {
         Sheet.Set set = Sheet.createPropertiesSet();
 
         try {
-            Property type = new PropertySupport.Reflection(this.neuralNet, Class.class, "getClass", null);
-            PropertySupport.Reflection learningRule = new PropertySupport.Reflection(this.neuralNet, LearningRule.class, "getLearningRule", null);
-            PropertySupport.Reflection layers = new PropertySupport.Reflection(this.neuralNet, LearningRule.class, "getLearningRule", null);
-            PropertySupport.Reflection input = new PropertySupport.Reflection(this.neuralNet, LearningRule.class, "getLearningRule", null);
-            PropertySupport.Reflection output = new PropertySupport.Reflection(this.neuralNet, LearningRule.class, "getLearningRule", null);
+            Property<?> type = new PropertySupport.Reflection<>(this.neuralNet, Class.class, "getClass", null);
+            PropertySupport.Reflection<LearningRule> learningRule = new PropertySupport.Reflection<>(this.neuralNet, LearningRule.class, "getLearningRule", null);
+            PropertySupport.Reflection<LearningRule> layers = new PropertySupport.Reflection<>(this.neuralNet, LearningRule.class, "getLearningRule", null);
+            PropertySupport.Reflection<LearningRule> input = new PropertySupport.Reflection<>(this.neuralNet, LearningRule.class, "getLearningRule", null);
+            PropertySupport.Reflection<LearningRule> output = new PropertySupport.Reflection<>(this.neuralNet, LearningRule.class, "getLearningRule", null);
 
             type.setShortDescription("Neural Network Type");
             learningRule.setPropertyEditorClass(LearningRuleEditor.class);
@@ -74,7 +76,6 @@ public class ExplorerNeuralNetworkNode extends AbstractNode  {
             layers.setName("Layers");
             input.setName("Input Neurons");
             output.setName("Output Neurons");
-
 
             set.put(type);
             set.put(learningRule);
@@ -92,5 +93,4 @@ public class ExplorerNeuralNetworkNode extends AbstractNode  {
         sheet.put(set);
         return sheet;
     }
-    
 }

@@ -7,10 +7,9 @@ import java.awt.Point;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
+import org.netbeans.api.visual.model.ObjectScene;
 import org.netbeans.api.visual.widget.LabelWidget;
-import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.visual.widgets.actions.NeuralNetworkWidgetAcceptProvider;
@@ -23,7 +22,7 @@ import org.neuroph.netbeans.visual.widgets.actions.NeuralNetworkWidgetAcceptProv
 // use IconNodeWidget to add Label Widget...
 public class NeuralNetworkWidget extends /*IconNodeWidget*/ Widget {
 
-    private NeuralNetwork neuralNetwork;
+    private NeuralNetwork<?> neuralNetwork;
     // do we need lookup here?
     // we could put neuralNetwork in lookup instead in field, like in NeuralLayerWidget
 
@@ -33,21 +32,21 @@ public class NeuralNetworkWidget extends /*IconNodeWidget*/ Widget {
      * @param scene parent scene of a widget
      * @param neuralNetwork neural network that this widget represents
      */
-    public NeuralNetworkWidget(Scene scene, NeuralNetwork neuralNetwork) {
+    public NeuralNetworkWidget(ObjectScene scene, NeuralNetwork<?> neuralNetwork) {
         super(scene);
         this.neuralNetwork = neuralNetwork;
         this.setMinimumSize(new Dimension(300, 400));
         setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 50)); // vertical flow layout for all layers
         setBorder(BorderFactory.createRoundedBorder(5, 5, 30, 30, Color.white, Color.black));       // border to outline neural network widget
         getActions().addAction(ActionFactory.createAcceptAction(new NeuralNetworkWidgetAcceptProvider(this)));  // accept provider to handle drag n drop
+        getActions().addAction(scene.createSelectAction());
     }
-
 
     /**
      * Returns neural network from this widget
      * @return neural network from this widget
      */
-    public NeuralNetwork getNeuralNetwork() {
+    public NeuralNetwork<?> getNeuralNetwork() {
         return neuralNetwork;
     }
     

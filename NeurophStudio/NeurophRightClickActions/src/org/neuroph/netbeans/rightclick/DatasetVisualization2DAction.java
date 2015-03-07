@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
 import org.neuroph.netbeans.charts.VisualizeDataset2DTopComponent;
-import org.neuroph.netbeans.files.dset.DataSetDataObject;
+import org.neuroph.netbeans.files.tset.DataSetDataObject;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;

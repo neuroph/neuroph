@@ -1,17 +1,20 @@
 package org.neuroph.netbeans.explorer;
 
+import java.awt.BorderLayout;
 import java.beans.PropertyVetoException;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.logging.Logger;
+import java.util.Set;
+import javax.swing.tree.TreeSelectionModel;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.netbeans.api.visual.model.ObjectScene;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.learning.LearningRule;
-import org.neuroph.netbeans.visual.widgets.NeuralLayerWidget;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.explorer.view.BeanTreeView;
@@ -19,16 +22,15 @@ import org.openide.loaders.DataFolder;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
-import org.openide.util.Lookup.Result;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
-import org.openide.util.NbBundle;
-import org.openide.util.Utilities;
 import org.openide.windows.TopComponent;
+import org.openide.util.NbBundle.Messages;
+import org.openide.util.Utilities;
 import org.openide.windows.WindowManager;
 
 /**
- * Explorer Top component which displays neural network nodees. See
+ * Explorer top component which displays neural network nodes.
  * http://platform.netbeans.org/tutorials/nbm-selection-1.html
  * http://platform.netbeans.org/tutorials/nbm-selection-2.html
  * http://platform.netbeans.org/tutorials/nbm-nodesapi3.html
@@ -37,25 +39,80 @@ import org.openide.windows.WindowManager;
  *
  * http://netbeans-org.1045718.n5.nabble.com/TopComponent-associateLookup-is-incompatible-with-setActivatedNodes-is-it-a-bug-td3261230.html
  */
-@ConvertAsProperties(dtd = "-//org.neuroph.netbeans.ide.navigator//Explorer//EN",
-        autostore = false)
-public final class ExplorerTopComponent extends TopComponent implements LookupListener, ExplorerManager.Provider {
+@ConvertAsProperties(
+        dtd = "-//org.neuroph.netbeans.explorer//Explorer//EN",
+        autostore = false
+)
+@TopComponent.Description(
+        preferredID = "ExplorerTopComponent",
+        //iconBase="SET/PATH/TO/ICON/HERE", 
+        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+)
+@TopComponent.Registration(mode = "navigator", openAtStartup = false)
+@ActionID(category = "Window", id = "org.neuroph.netbeans.explorer.ExplorerTopComponent")
+@ActionReference(path = "Menu/Window" /*, position = 333 */)
+@TopComponent.OpenActionRegistration(
+        displayName = "#CTL_ExplorerAction",
+        preferredID = "ExplorerTopComponent"
+)
+@Messages({
+    "CTL_ExplorerAction=Explorer",
+    "CTL_ExplorerTopComponent=Explorer Window",
+    "HINT_ExplorerTopComponent=Explore neural networks and training sets"
+})
+public final class ExplorerTopComponent extends TopComponent implements ExplorerManager.Provider, LookupListener {
 
-    private static ExplorerTopComponent instance;
-    private static final String PREFERRED_ID = "ExplorerTopComponent";
     private final ExplorerManager explorerManager = new ExplorerManager();
-    
-    private HashMap<Object, Node> objectsToNodes = new HashMap<Object, Node>(); // mapping of object to corresponding node
+    private final BeanTreeView explorerTree;
 
+    /**
+     * The current object scene. Used for recognising if corresponding
+     * TopComponent is open.
+     */
+    private ObjectScene currentObjectScene;
 
+    Lookup.Result<NeuralNetwork> resultNN;
+    Lookup.Result<DataSet> resultDS;
+    Lookup.Result<DataFolder> resultDF;
+    Lookup.Result<Neuron> resultNW;
+    Lookup.Result<Layer> resultLW;
+    Lookup.Result<Connection> resultCon;
+    Lookup.Result<LearningRule> resultLR;
+
+//    private static ExplorerTopComponent instance;
+//    private HashMap<Object, Node> objectsToNodes = new HashMap<Object, Node>(); // mapping of object to corresponding node
     public ExplorerTopComponent() {
         initComponents();
-        setName(NbBundle.getMessage(ExplorerTopComponent.class, "CTL_ExplorerTopComponent"));
-        setToolTipText(NbBundle.getMessage(ExplorerTopComponent.class, "HINT_ExplorerTopComponent"));
+        setName(Bundle.CTL_ExplorerTopComponent());
+        setToolTipText(Bundle.HINT_ExplorerTopComponent());
 
-        // associate explorer manager lookup as lookup of this top componnet
-        associateLookup(ExplorerUtils.createLookup(explorerManager, getActionMap()));          
-        ((BeanTreeView) jScrollPane1).setRootVisible(false);
+        explorerTree = new BeanTreeView();
+        explorerTree.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        add(explorerTree, BorderLayout.CENTER);
+
+        // associate explorer manager lookup as lookup of this top component
+//        getActionMap().put("delete", ExplorerUtils.actionDelete(explorerManager, true));
+        associateLookup(ExplorerUtils.createLookup(explorerManager, getActionMap()));
+
+        explorerTree.setRootVisible(false);
+    }
+
+    @Override
+    public ExplorerManager getExplorerManager() {
+        return explorerManager;
+    }
+
+    /**
+     * Sets the current object scene which corresponds to root diagram. Used
+     * when activating VisualEditorTopComponent, as neural network does not
+     * change from NeuralNetworkDataObject to VisualEditorTopComponent, they are
+     * the same, so the lookup event does not fire and currentObjectScene
+     * remains null.
+     *
+     * @param currentObjectScene
+     */
+    public void setCurrentObjectScene(ObjectScene currentObjectScene) {
+        this.currentObjectScene = currentObjectScene;
     }
 
     /**
@@ -66,105 +123,85 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = jScrollPane1 = new BeanTreeView();
-
-        // Code of sub-components and layout - not shown here
-
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-        );
+        setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
-    /**
-     * Gets default instance. Do not use directly: reserved for *.settings files
-     * only, i.e. deserialization routines; otherwise you could get a
-     * non-deserialized instance. To obtain the singleton instance, use
-     * {@link #findInstance}.
-     */
-    public static synchronized ExplorerTopComponent getDefault() {
-        if (instance == null) {
-            instance = new ExplorerTopComponent();
-        }
-        return instance;
-    }
-
-    /**
-     * Obtain the NavigatorClassTopComponent instance. Never call
-     * {@link #getDefault} directly!
-     */
-    public static synchronized ExplorerTopComponent findInstance() {
-        TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
-        if (win == null) {
-            Logger.getLogger(ExplorerTopComponent.class.getName()).warning(
-                    "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
-            return getDefault();
-        }
-        if (win instanceof ExplorerTopComponent) {
-            return (ExplorerTopComponent) win;
-        }
-        Logger.getLogger(ExplorerTopComponent.class.getName()).warning(
-                "There seem to be multiple components with the '" + PREFERRED_ID
-                + "' ID. That is a potential source of errors and unexpected behavior.");
-
-        return getDefault();
-    }
-
-    @Override
-    public int getPersistenceType() {
-        return TopComponent.PERSISTENCE_ALWAYS;
-
-    }
-
     @Override
     public void componentOpened() {
         // listen for neural network selection in global lookup
         resultNN = Utilities.actionsGlobalContext().lookupResult(NeuralNetwork.class);
-        resultNN.addLookupListener(this);
-        resultChanged(new LookupEvent(resultNN));
-
         // listen for data set selection in global lookup
         resultDS = Utilities.actionsGlobalContext().lookupResult(DataSet.class);
-        resultDS.addLookupListener(this);
-        resultChanged(new LookupEvent(resultDS));
-
         // listen for folder selection in global lookup (when user clicks nn, trainingor test set folder
         resultDF = Utilities.actionsGlobalContext().lookupResult(DataFolder.class);
-        resultDF.addLookupListener(this);
-        resultChanged(new LookupEvent(resultDF));
-
         // listen for neuron widget selection in global lookup
         resultNW = Utilities.actionsGlobalContext().lookupResult(Neuron.class);
-        resultNW.addLookupListener(this);
-        resultChanged(new LookupEvent(resultNW));
-
         // listen for neural layer widget selection in global lookup
         resultLW = Utilities.actionsGlobalContext().lookupResult(Layer.class);
-        resultLW.addLookupListener(this);
-        resultChanged(new LookupEvent(resultLW));
-
         resultCon = Utilities.actionsGlobalContext().lookupResult(Connection.class);
-        resultCon.addLookupListener(this);
-        resultChanged(new LookupEvent(resultCon));
-               
-        resultLearningRule = Utilities.actionsGlobalContext().lookupResult(LearningRule.class);
-        resultLearningRule.addLookupListener(this);
-        resultChanged(new LookupEvent(resultLearningRule));                
+        resultLR = Utilities.actionsGlobalContext().lookupResult(LearningRule.class);
+        addLookupListeners();
     }
 
     @Override
-    public void componentClosed() {
+    protected void componentClosed() {
+        removeLookupListeners();
+    }
+
+    @Override
+    protected void componentDeactivated() {
+        super.componentDeactivated();
+        updateWhenEmpty();
+    }
+
+    private void updateWhenEmpty() {
+        // When deactivating ExplorerTopComponent, deselect all nodes, except when we are accessing linked TCs
+        Node root = getExplorerManager().getRootContext();
+        if (root != null && root instanceof ExplorerNeuralNetworkNode) {
+            if (!isActivatedLinkedNNetTC()) {
+                emptyTree();
+            } else if (isDeselectAllNNetSituation()) {
+                deselectAllNodes();
+            }
+        } else if (root != null && root instanceof ExplorerDataSetNode) {
+            if (!isActivatedLinkedDSetTC()) {
+                emptyTree();
+            } else if (isDeselectAllDSetSituation()) {
+                deselectAllNodes();
+            }
+        }
+    }
+
+    private void addLookupListeners() {
+        resultNN.addLookupListener(this);
+        resultDS.addLookupListener(this);
+        resultDF.addLookupListener(this);
+        resultNW.addLookupListener(this);
+        resultLW.addLookupListener(this);
+        resultCon.addLookupListener(this);
+        resultLR.addLookupListener(this);
+        //fireLookupEvents();
+    }
+
+//    private void fireLookupEvents() {
+//        resultChanged(new LookupEvent(resultNN));
+//        resultChanged(new LookupEvent(resultDS));
+//        resultChanged(new LookupEvent(resultDF));
+//        resultChanged(new LookupEvent(resultNW));
+//        resultChanged(new LookupEvent(resultLW));
+//        resultChanged(new LookupEvent(resultCon));
+//        resultChanged(new LookupEvent(resultLR));
+//    }
+    private void removeLookupListeners() {
+        resultNN.removeLookupListener(this);
+        resultDS.removeLookupListener(this);
+        resultDF.removeLookupListener(this);
+        resultNW.removeLookupListener(this);
+        resultLW.removeLookupListener(this);
+        resultCon.removeLookupListener(this);
+        resultLR.removeLookupListener(this);
     }
 
     void writeProperties(java.util.Properties p) {
@@ -174,111 +211,402 @@ public final class ExplorerTopComponent extends TopComponent implements LookupLi
         // TODO store your settings
     }
 
-    Object readProperties(java.util.Properties p) {
-        if (instance == null) {
-            instance = this;
-        }
-        instance.readPropertiesImpl(p);
-        return instance;
-    }
-
-    private void readPropertiesImpl(java.util.Properties p) {
+    void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
     }
 
-    @Override
-    protected String preferredID() {
-        return PREFERRED_ID;
-    }
-    Result<NeuralNetwork> resultNN;
-    Result<DataSet> resultDS;
-    Result<DataFolder> resultDF;
-    Result<Neuron> resultNW;
-    Result<Layer> resultLW;
-    Result<Connection> resultCon;
-    Result<LearningRule> resultLearningRule;
-    private boolean recursiveCall = false;
-
+//    /**
+//     * Gets default instance. Do not use directly: reserved for *.settings files
+//     * only, i.e. deserialization routines; otherwise you could get a
+//     * non-deserialized instance. To obtain the singleton instance, use
+//     * {@link #findInstance}.
+//     */
+//    public static synchronized ExplorerTopComponent getDefault() {
+//        if (instance == null) {
+//            instance = new ExplorerTopComponent();
+//        }
+//        return instance;
+//    }
+//    /**
+//     * Obtain the NavigatorClassTopComponent instance. Never call
+//     * {@link #getDefault} directly!
+//     */
+//    public static synchronized ExplorerTopComponent findInstance() {
+//        TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
+//        if (win == null) {
+//            Logger.getLogger(ExplorerTopComponent.class.getName()).warning(
+//                    "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
+//            return getDefault();
+//        }
+//        if (win instanceof ExplorerTopComponent) {
+//            return (ExplorerTopComponent) win;
+//        }
+//        Logger.getLogger(ExplorerTopComponent.class.getName()).warning(
+//                "There seem to be multiple components with the '" + PREFERRED_ID
+//                + "' ID. That is a potential source of errors and unexpected behavior.");
+//
+//        return getDefault();
+//    }
+//    void writeProperties(java.util.Properties p) {
+//        // better to version settings since initial version as advocated at
+//        // http://wiki.apidesign.org/wiki/PropertyFiles
+//        p.setProperty("version", "1.0");
+//        // TODO store your settings
+//    }
+//
+//    Object readProperties(java.util.Properties p) {
+//        if (instance == null) {
+//            instance = this;
+//        }
+//        instance.readPropertiesImpl(p);
+//        return instance;
+//    }
+//
+//    private void readPropertiesImpl(java.util.Properties p) {
+//        String version = p.getProperty("version");
+//        // TODO read your settings according to their version
+//    }
     @Override
     public void resultChanged(LookupEvent le) {
-        Lookup.Result localResult = (Result) le.getSource();
-        Collection<Object> coll = localResult.allInstances();
-        if (!coll.isEmpty()) {
-            for (Object selectedItem : coll) {
+        Lookup.Result source = (Lookup.Result) le.getSource();
+        Collection<Object> instances = source.allInstances();
+        if (!instances.isEmpty()) {
+            for (Object selectedItem : instances) {
                 if (selectedItem instanceof NeuralNetwork) {    // if neural network is selected
                     NeuralNetwork selectedNNet = (NeuralNetwork) selectedItem;
+                    initializeOrSelectNNetRoot((NeuralNetwork) selectedItem);
                     this.setName(selectedNNet.getLabel() + " -  Explorer");
-                    ((BeanTreeView) jScrollPane1).setRootVisible(true);
-                    ExplorerNeuralNetworkNode nnNode = new ExplorerNeuralNetworkNode(selectedNNet);
 
-                    recursiveCall = true;
-                    explorerManager.setRootContext(nnNode); //this one calls resultChanged recursivly, since global lookup is changed
-
-                    for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
-                        if (node instanceof LearningRuleNode) {
-                            objectsToNodes.put(((LearningRuleNode) node).learningRule, node);
-                        }
-                        if (node instanceof LayerNode) {
-                            objectsToNodes.put(((LayerNode) node).getLayer(), node);
-                            for (Node nodeNeuron : node.getChildren().getNodes()) {
-                                objectsToNodes.put(((NeuronNode) nodeNeuron).getNeuron(), nodeNeuron);
-                                for (Node nodeConnection : nodeNeuron.getChildren().getNodes()) {
-                                    objectsToNodes.put(((ConnectionNode) nodeConnection).connection, nodeConnection);
-                                }
-                            }
-                        }
-                    }
-                    try {
-                        explorerManager.setExploredContextAndSelection(nnNode, new Node[]{nnNode});
-                    } catch (PropertyVetoException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
+                    // TODO make objectsToNodes map for quick access to Nodes. Update it on node added
+//                    for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
+//                        if (node instanceof LearningRuleNode) {
+//                            objectsToNodes.put(((LearningRuleNode) node).learningRule, node);
+//                        }
+//                        if (node instanceof LayerNode) {
+//                            objectsToNodes.put(((LayerNode) node).getLayer(), node);
+//                            for (Node nodeNeuron : node.getChildren().getNodes()) {
+//                                objectsToNodes.put(((NeuronNode) nodeNeuron).getNeuron(), nodeNeuron);
+//                                for (Node nodeConnection : nodeNeuron.getChildren().getNodes()) {
+//                                    objectsToNodes.put(((ConnectionNode) nodeConnection).connection, nodeConnection);
+//                                }
+//                            }
+//                        }
+//                    }
                 } else if (selectedItem instanceof DataSet) { // if data set is selected
                     DataSet selectedDataSet = (DataSet) selectedItem;
-                    ExplorerDataSetNode dataSetNode = new ExplorerDataSetNode(selectedDataSet);
-
-                    ((BeanTreeView) jScrollPane1).setRootVisible(true);
-                    recursiveCall = true;
-                    explorerManager.setRootContext(dataSetNode); //this one calls resultChanged recursivly, since global lookup is changed
-                    try {
-                        explorerManager.setExploredContextAndSelection(dataSetNode, new Node[]{dataSetNode});
-                    } catch (PropertyVetoException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
+                    initializeOrSelectDSetRoot(selectedDataSet);
+                    this.setName(selectedDataSet.getLabel() + " -  Explorer");
                 } else if (selectedItem instanceof DataFolder) {
-                    explorerManager.setRootContext(Node.EMPTY);
-                    BeanTreeView btw = (BeanTreeView) jScrollPane1;
-                    btw.setRootVisible(false);
+                    emptyTree();
                     this.setName("Explorer");
-                } else if (selectedItem instanceof Neuron || selectedItem instanceof Layer || selectedItem instanceof Connection || selectedItem instanceof LearningRule) {
-                    Node[] nodes = new Node[1];
-                    nodes[0] = objectsToNodes.get(selectedItem);
-                    if (nodes[0] != null) { // quick fix if objectsToNodes is empty...
-                        try {
-                            recursiveCall = true;
-                            explorerManager.setSelectedNodes(nodes);
-                        } catch (PropertyVetoException ex) {
-                            Exceptions.printStackTrace(ex);
+                } else if (selectedItem instanceof LearningRule) {
+                    selectLearningRuleNode((LearningRule) selectedItem);
+                } else if (selectedItem instanceof Layer) {
+                    selectLayerNode((Layer) selectedItem);
+                } else if (selectedItem instanceof Neuron) {
+                    selectNeuronNode((Neuron) selectedItem);
+                } else if (selectedItem instanceof Connection) {
+                    selectConnectionNode((Connection) selectedItem);
+                }
+            }
+        } else {
+            updateWhenEmpty();
+        }
+    }
+
+    public void initializeOrSelectNNetRoot(NeuralNetwork selectedNNet) {
+        if (!isValidNNetInRoot(selectedNNet)) {
+            createRootNNetNode(selectedNNet);
+            if (!isDeselectAllNNetSituation()) {
+                selectNode(explorerManager.getRootContext());
+            }
+        } else {
+            selectNode(explorerManager.getRootContext());
+        }
+    }
+
+    public void initializeOrSelectDSetRoot(DataSet selectedDSet) {
+        if (!isValidDSetInRoot(selectedDSet)) {
+            createRootDSetNode(selectedDSet);
+            if (!isDeselectAllDSetSituation()) {
+                selectNode(explorerManager.getRootContext());
+            }
+        } else {
+            selectNode(explorerManager.getRootContext());
+        }
+    }
+
+    private boolean isActivatedLinkedNNetTC() {
+        TopComponent activatedTC = WindowManager.getDefault().getRegistry().getActivated();
+
+        TopComponent projectsLogicalTC = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
+        NeuralNetwork projectsSelectedNeuralNetwork = projectsLogicalTC.getLookup().lookup(NeuralNetwork.class);
+        TopComponent propertiesTC = WindowManager.getDefault().findTopComponent("properties");
+        TopComponent paletteTC = WindowManager.getDefault().findTopComponent("CommonPalette");
+        TopComponent navigatorTC = WindowManager.getDefault().findTopComponent("navigatorTC");
+
+        if (activatedTC == this && isCurrentNNetTopComponentOpen()
+                || activatedTC == this && isValidNNetInRoot(projectsSelectedNeuralNetwork)
+                || activatedTC == projectsLogicalTC && isValidNNetInRoot(projectsSelectedNeuralNetwork)
+                || activatedTC == paletteTC && isCurrentNNetTopComponentOpen()
+                || activatedTC == propertiesTC
+                || activatedTC == navigatorTC
+                || isNNetTopComponent(activatedTC) && isRootCorrespondingToNNetTC(activatedTC)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isActivatedLinkedDSetTC() {
+        TopComponent activatedTC = WindowManager.getDefault().getRegistry().getActivated();
+
+        TopComponent projectsLogicalTC = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
+        DataSet projectsSelectedDataSet = projectsLogicalTC.getLookup().lookup(DataSet.class);
+        TopComponent propertiesTC = WindowManager.getDefault().findTopComponent("properties");
+        TopComponent paletteTC = WindowManager.getDefault().findTopComponent("CommonPalette");
+        TopComponent navigatorTC = WindowManager.getDefault().findTopComponent("navigatorTC");
+
+        if (activatedTC == this && isCurrentDSetTopComponentOpen()
+                || activatedTC == this && isValidDSetInRoot(projectsSelectedDataSet)
+                || activatedTC == projectsLogicalTC && isValidDSetInRoot(projectsSelectedDataSet)
+                || activatedTC == paletteTC && isCurrentDSetTopComponentOpen()
+                || activatedTC == propertiesTC
+                || activatedTC == navigatorTC
+                || isDSetTopComponent(activatedTC) && isRootCorrespondingToDSetTC(activatedTC)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isDeselectAllNNetSituation() {
+        TopComponent activatedTC = WindowManager.getDefault().getRegistry().getActivated();
+        TopComponent paletteTC = WindowManager.getDefault().findTopComponent("CommonPalette");
+        TopComponent projectsLogicalTC = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
+        if (activatedTC == paletteTC && isCurrentNNetTopComponentOpen() // palete active and VisualTC valid
+                || activatedTC == projectsLogicalTC // project tab active
+                || isNNetTopComponent(activatedTC)) {                           // VisualTC active
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isDeselectAllDSetSituation() {
+        TopComponent activatedTC = WindowManager.getDefault().getRegistry().getActivated();
+        TopComponent paletteTC = WindowManager.getDefault().findTopComponent("CommonPalette");
+        TopComponent projectsLogicalTC = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
+        if (activatedTC == paletteTC && isCurrentDSetTopComponentOpen()
+                || activatedTC == projectsLogicalTC) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+//            // When a user closes all scenes, instances are empty
+//            // Or when a user deselects UMLTopComponent
+//
+//            // Check if the current scene shown in Explorer is opened
+//            boolean currentSceneOpen = false;
+//            Set<TopComponent> tcs = WindowManager.getDefault().getRegistry().getOpened();
+//            for (TopComponent tc : tcs) {
+//                if (tc.getClass().getSimpleName().equals("VisualEditorTopComponent") && explorerManager.getRootContext() instanceof ExplorerNeuralNetworkNode
+//                        || tc.getClass().getSimpleName().equals("DataSetTopComponent") && explorerManager.getRootContext() instanceof ExplorerDataSetNode) { // Class name is hardcoded, because we cannot access UMLTopComponent from here because of cyclic dependency
+//                    if (tc.getName().equals(explorerManager.getRootContext().getDisplayName())) {
+//                        currentSceneOpen = true;
+//                        break;
+//                    }
+//                }
+//            }
+    private boolean isCurrentNNetTopComponentOpen() {
+        Set<TopComponent> tcs = WindowManager.getDefault().getRegistry().getOpened();
+        for (TopComponent tc : tcs) {
+            if (isNNetTopComponent(tc)) {
+                ObjectScene os = tc.getLookup().lookup(ObjectScene.class);
+                if (os.equals(currentObjectScene))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isCurrentDSetTopComponentOpen() {
+        Set<TopComponent> tcs = WindowManager.getDefault().getRegistry().getOpened();
+        for (TopComponent tc : tcs) {
+            if (isDSetTopComponent(tc)) {
+                DataSet ds = tc.getLookup().lookup(DataSet.class);
+                return isValidDSetInRoot(ds);
+            }
+        }
+        return false;
+    }
+
+    public boolean isValidNNetInRoot(NeuralNetwork nnet) {
+        Node rootNode = explorerManager.getRootContext();
+        if (rootNode instanceof ExplorerNeuralNetworkNode) { // on opening of file, root is AbstractNode, that's why we need this check
+            ExplorerNeuralNetworkNode root = (ExplorerNeuralNetworkNode) rootNode;
+            if (root.getNeuralNet() == nnet) {
+                return true;
+            }
+        }
+        deselectAllNodes();
+        return false;
+    }
+
+    public boolean isValidDSetInRoot(DataSet dset) {
+        Node rootNode = explorerManager.getRootContext();
+        if (rootNode instanceof ExplorerDataSetNode) { // on opening of file, root is AbstractNode, that's why we need this check
+            ExplorerDataSetNode root = (ExplorerDataSetNode) getExplorerManager().getRootContext();
+            if (root.getDataSet() == dset) {
+                return true;
+            }
+        }
+        deselectAllNodes();
+        return false;
+    }
+
+    private boolean isNNetTopComponent(TopComponent tc) {
+        if (tc.getClass().getSimpleName().equals("VisualEditorTopComponent")) return true;
+        else return false;
+    }
+
+    private boolean isDSetTopComponent(TopComponent tc) {
+        if (tc.getClass().getSimpleName().equals("DataSetTopComponent")) return true;
+        else return false;
+    }
+
+    private boolean isRootCorrespondingToNNetTC(TopComponent tc) {
+        Node rootNode = explorerManager.getRootContext();
+        if (rootNode instanceof ExplorerNeuralNetworkNode) { // on opening of file, root is AbstractNode, that's why we need this check
+            ObjectScene tcObjectScene = tc.getLookup().lookup(ObjectScene.class);
+            if (currentObjectScene != null && currentObjectScene.equals(tcObjectScene)) return true;
+        }
+        return false;
+    }
+
+    private boolean isRootCorrespondingToDSetTC(TopComponent tc) {
+        Node rootNode = explorerManager.getRootContext();
+        if (rootNode instanceof ExplorerDataSetNode) { // on opening of file, root is AbstractNode, that's why we need this check
+            DataSet dataSet = tc.getLookup().lookup(DataSet.class);
+            ExplorerDataSetNode exRNode = (ExplorerDataSetNode) rootNode;
+            if (exRNode.getDataSet().equals(dataSet)) return true;
+        }
+        return false;
+    }
+
+    public void emptyTree() {
+        removeLookupListeners();
+        explorerTree.setRootVisible(false);
+        explorerManager.setRootContext(Node.EMPTY);
+        addLookupListeners();
+    }
+
+    private Node createRootNNetNode(NeuralNetwork nnet) {
+        ExplorerNeuralNetworkNode node = new ExplorerNeuralNetworkNode(nnet);
+        explorerManager.setRootContext(node);
+        explorerTree.setRootVisible(true);
+        return node;
+    }
+
+    private Node createRootDSetNode(DataSet dataSet) {
+        ExplorerDataSetNode node = new ExplorerDataSetNode(dataSet);
+        explorerManager.setRootContext(node);
+        explorerTree.setRootVisible(true);
+        return node;
+    }
+
+    private void selectLayerNode(Layer layer) {
+        if (!isValidNNetInRoot(layer.getParentNetwork())) {
+            createRootNNetNode(layer.getParentNetwork());
+        }
+        for (Node node : getExplorerManager().getRootContext().getChildren().getNodes()) {
+            if (node instanceof LayerNode) {
+                LayerNode layerNode = (LayerNode) node;
+                if (layerNode.getLayer() == layer) {
+                    selectNode(layerNode);
+                    return;
+                }
+            }
+        }
+    }
+
+    private void selectLearningRuleNode(LearningRule learningRule) {
+        if (!isValidNNetInRoot(learningRule.getNeuralNetwork())) {
+            createRootNNetNode(learningRule.getNeuralNetwork());
+        }
+        for (Node node : getExplorerManager().getRootContext().getChildren().getNodes()) {
+            if (node instanceof LearningRuleNode) {
+                LearningRuleNode learningRuleNode = (LearningRuleNode) node;
+                if (learningRuleNode.getLearningRule() == learningRule) {
+                    selectNode(learningRuleNode);
+                    return;
+                }
+            }
+        }
+    }
+
+    private void selectNeuronNode(Neuron neuron) {
+        if (!isValidNNetInRoot(neuron.getParentLayer().getParentNetwork())) {
+            createRootNNetNode(neuron.getParentLayer().getParentNetwork());
+        }
+        for (Node node : getExplorerManager().getRootContext().getChildren().getNodes()) {
+            if (node instanceof LayerNode) {
+                for (Node childNode : node.getChildren().getNodes()) {
+                    if (childNode instanceof NeuronNode) {
+                        NeuronNode neuronNode = (NeuronNode) childNode;
+                        if (neuronNode.getNeuron() == neuron) {
+                            selectNode(neuronNode);
+                            return;
                         }
                     }
                 }
             }
-        } else { // if nothing is selected...
-//            if (!recursiveCall) {
-//                explorerManager.setRootContext(Node.EMPTY);
-//                BeanTreeView btw = (BeanTreeView) jScrollPane1;
-//                btw.setRootVisible(false);
-//                this.setName("Explorer");
-//
-//            } else {
-//                recursiveCall = false;
-//            }
         }
     }
 
-    @Override
-    public ExplorerManager getExplorerManager() {
-        return explorerManager;
+    private void selectConnectionNode(Connection connection) {
+        if (!isValidNNetInRoot(connection.getToNeuron().getParentLayer().getParentNetwork())) {
+            createRootNNetNode(connection.getToNeuron().getParentLayer().getParentNetwork());
+        }
+        for (Node node : getExplorerManager().getRootContext().getChildren().getNodes()) {
+            if (node instanceof LayerNode) {
+                for (Node childNode : node.getChildren().getNodes()) {
+                    if (childNode instanceof NeuronNode) {
+                        for (Node grandChildNode : childNode.getChildren().getNodes()) {
+                            if (grandChildNode instanceof ConnectionNode) {
+                                ConnectionNode connectionNode = (ConnectionNode) grandChildNode;
+                                if (connectionNode.getConnection() == connection) {
+                                    selectNode(connectionNode);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Select node in the tree. If null is passed, selection is cleared.
+     *
+     * @param node
+     */
+    private void selectNode(Node node) {
+        removeLookupListeners();
+        try {
+            if (node != null) getExplorerManager().setSelectedNodes(new Node[]{node});
+            else getExplorerManager().setSelectedNodes(new Node[]{});
+        } catch (PropertyVetoException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        addLookupListeners();
+    }
+
+    private void deselectAllNodes() {
+        selectNode(null);
     }
 }
