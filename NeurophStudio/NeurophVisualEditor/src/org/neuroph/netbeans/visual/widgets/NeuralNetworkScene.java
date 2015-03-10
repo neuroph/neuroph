@@ -120,7 +120,7 @@ public class NeuralNetworkScene extends ObjectScene implements LookupListener {
         this.neuralNetwork = neuralNet;
         this.neuralNetworkWidget = new NeuralNetworkWidget(this, neuralNetwork);
         addObject(neuralNetwork, neuralNetworkWidget);
-//        content.add(neuralNetwork);
+        content.add(neuralNetwork);
         this.topComponent = nnetTopComponent;
 
         this.networkEditor = new NeuralNetworkEditor(neuralNetwork);
