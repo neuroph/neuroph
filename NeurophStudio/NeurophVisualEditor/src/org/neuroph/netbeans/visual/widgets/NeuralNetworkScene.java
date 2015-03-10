@@ -52,6 +52,7 @@ import org.neuroph.netbeans.visual.widgets.actions.KeyboardDeleteAction;
 import org.openide.explorer.ExplorerManager;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
+import org.openide.nodes.NodeTransfer;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
@@ -172,8 +173,7 @@ public class NeuralNetworkScene extends ObjectScene implements LookupListener {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-//                        DataFlavor flavor = t.getTransferDataFlavors()[3];
-//                Class droppedClass = flavor.getRepresentationClass();
+
                         Image dragImage = getImageFromTransferable(t);
                         JComponent view = widget.getScene().getView();
 
@@ -199,27 +199,23 @@ public class NeuralNetworkScene extends ObjectScene implements LookupListener {
                 });
 
                 DataFlavor dataSetflavor = t.getTransferDataFlavors()[1];
-                try {
-                    DataObject dsdo = (DataObject) t.getTransferData(dataSetflavor);
-                    DataSet ds = dsdo.getLookup().lookup(DataSet.class);
-
+               
+                    Node node = NodeTransfer.node(t, NodeTransfer.DND_COPY_OR_MOVE);
+                    DataSet ds = node.getLookup().lookup(DataSet.class);
+ 
                     if (ds != null) {
                         return ConnectorState.ACCEPT;
                     }
 
-                } catch (UnsupportedFlavorException | IOException ex) {
-                    //  Exceptions.printStackTrace(ex);
-                }
+
 
                 return ConnectorState.REJECT;
             }
 
             @Override
             public void accept(Widget widget, Point point, Transferable t) {
-                DataFlavor dataSetflavor = t.getTransferDataFlavors()[1];
-                try {
-                    DataObject dsdo = (DataObject) t.getTransferData(dataSetflavor);
-                    DataSet ds = dsdo.getLookup().lookup(DataSet.class);
+                Node node = NodeTransfer.node(t, NodeTransfer.DND_COPY_OR_MOVE);
+                DataSet ds = node.getLookup().lookup(DataSet.class);
 
                     if (ds.getInputSize() != NeuralNetworkScene.this.neuralNetwork.getInputsCount()) {
                         JOptionPane.showMessageDialog(topComponent, "Number of inputs of data set and neural network must be equal!");
@@ -228,9 +224,6 @@ public class NeuralNetworkScene extends ObjectScene implements LookupListener {
                     dataSet = ds;
                     dataSetLabel.setLabel("DataSet: " + ds.getLabel());
                     topComponent.requestActive();
-                } catch (UnsupportedFlavorException | IOException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
             }
         }));
 
