@@ -18,6 +18,7 @@ package org.neuroph.util.data.sample;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.neuroph.core.data.DataSet;
 
@@ -39,6 +40,11 @@ public class SubSampling implements Sampling {
      * Sizes of each subset
      */
     private int[] subSetSizes;
+    
+    /**
+     * True if samples are allowed to repeat in different subsets
+     */
+    private boolean allowRepeat = false;
     
        
     /**
@@ -90,9 +96,20 @@ public class SubSampling implements Sampling {
             // create new sample subset
             DataSet newSubSet = new DataSet(inputSize, outputSize);
             // fill subset with rows
-            for (int i = 0; i < subSetSizes[s]; i++) {                
-                newSubSet.addRow(dataSet.getRowAt(idxCounter));
-                idxCounter++;
+            
+            if (!allowRepeat) {
+                for (int i = 0; i < subSetSizes[s]; i++) {
+                    newSubSet.addRow(dataSet.getRowAt(idxCounter));
+                    idxCounter++;
+                }
+            } else {
+                int randomIdx;
+                Random rand = new Random();
+                for (int i = 0; i < subSetSizes[s]; i++) {
+                    randomIdx = rand.nextInt(dataSet.size());
+                    newSubSet.addRow(dataSet.getRowAt(randomIdx));
+                    idxCounter++;
+                }
             }
             // add subset to th elist of subsets to return
             subSets.add(newSubSet);
@@ -100,5 +117,15 @@ public class SubSampling implements Sampling {
 
         return subSets;
     }
+
+    public boolean getAllowRepeat() {
+        return allowRepeat;
+    }
+
+    public void setAllowRepeat(boolean allowRepeat) {
+        this.allowRepeat = allowRepeat;
+    }
+    
+ 
     
 }

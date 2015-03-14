@@ -473,10 +473,10 @@ public class DataSet implements Serializable /*
 
         try {
             DataSet dataSet = new DataSet(inputsCount, outputsCount);
-            InputStream inputStream = DataSet.class.getResourceAsStream(filePath);
-            dataSet.setFilePath(filePath);
-//            fileReader = new FileReader(new File(filePath));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            dataSet.setFilePath(filePath);            
+           // InputStream inputStream = new FileInputStream(filePath);            
+         //   fileReader = new FileReader(new File(filePath));
+            BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
 
             String line = null;
 
@@ -562,33 +562,36 @@ public class DataSet implements Serializable /*
      * TODO: use subsampling for implementation of this
      */
     public DataSet[] createTrainingAndTestSubsets(int trainSetPercent, int testSetPercent) {
-        DataSet[] trainAndTestSet = new DataSet[2];
-
-        ArrayList<Integer> randoms = new ArrayList<>();
-        for (int i = 0; i < this.size(); i++) {
-            randoms.add(i);
-        }
-
-        Collections.shuffle(randoms);
-
-        // create training set
-        trainAndTestSet[0] = new DataSet(inputSize, outputSize);
-        int trainingElementsCount = this.size() * trainSetPercent / 100;
-        for (int i = 0; i < trainingElementsCount; i++) {
-            int idx = randoms.get(i);
-            trainAndTestSet[0].addRow(this.rows.get(idx));
-        }
-
-
-        // create test set
-        trainAndTestSet[1] = new DataSet(inputSize, outputSize);
-        int testElementsCount = this.size() - trainingElementsCount;
-        for (int i = 0; i < testElementsCount; i++) {
-            int idx = randoms.get(trainingElementsCount + i);
-            trainAndTestSet[1].addRow(this.rows.get(idx));
-        }
-
+        SubSampling sampling = new SubSampling(trainSetPercent, testSetPercent);
+        DataSet[] trainAndTestSet =  new DataSet[2];
+        sampling.sample(this).toArray(trainAndTestSet);
         return trainAndTestSet;
+
+//        ArrayList<Integer> randoms = new ArrayList<>();
+//        for (int i = 0; i < this.size(); i++) {
+//            randoms.add(i);
+//        }
+//
+//        Collections.shuffle(randoms);
+//
+//        // create training set
+//        trainAndTestSet[0] = new DataSet(inputSize, outputSize);
+//        int trainingElementsCount = this.size() * trainSetPercent / 100;
+//        for (int i = 0; i < trainingElementsCount; i++) {
+//            int idx = randoms.get(i);
+//            trainAndTestSet[0].addRow(this.rows.get(idx));
+//        }
+//
+//
+//        // create test set
+//        trainAndTestSet[1] = new DataSet(inputSize, outputSize);
+//        int testElementsCount = this.size() - trainingElementsCount;
+//        for (int i = 0; i < testElementsCount; i++) {
+//            int idx = randoms.get(trainingElementsCount + i);
+//            trainAndTestSet[1].addRow(this.rows.get(idx));
+//        }
+//
+//        return trainAndTestSet;
     }
 
 
