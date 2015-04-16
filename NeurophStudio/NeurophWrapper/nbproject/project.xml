@@ -131,7 +131,7 @@
             </public-packages>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-core-2.9.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-core-2.9.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-core-2.9.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-ocr-2.9.jar</runtime-relative-path>
@@ -143,7 +143,7 @@
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-contrib-2.9.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-contrib-2.9.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-contrib-2.9.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/logback-core-1.1.2.jar</runtime-relative-path>
