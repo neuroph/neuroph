@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.netbeans.neuroph.lpr;
+package org.neuroph.netbeans.lpr.wiz;
 
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
-public class LicencePlateRecognitionWizardPanel1 implements WizardDescriptor.Panel<WizardDescriptor> {
+public class LicencePlateRecognitionWizardPanel4 implements WizardDescriptor.Panel<WizardDescriptor> {
 
     /**
      * The visual component that displays this panel. If you need to access the
      * component from this class, just use getComponent().
      */
-    private LicencePlateRecognitionVisualPanel1 component;
+    private LicencePlateRecognitionVisualPanel4 component;
 
     // Get the visual component for the panel. In this template, the component
     // is kept separate. This can be more efficient: if the wizard is created
     // but never displayed, or not all panels are displayed, it is better to
     // create only those which really need to be visible.
     @Override
-    public LicencePlateRecognitionVisualPanel1 getComponent() {
+    public LicencePlateRecognitionVisualPanel4 getComponent() {
         if (component == null) {
-            component = new LicencePlateRecognitionVisualPanel1();
+            component = new LicencePlateRecognitionVisualPanel4();
         }
         return component;
     }

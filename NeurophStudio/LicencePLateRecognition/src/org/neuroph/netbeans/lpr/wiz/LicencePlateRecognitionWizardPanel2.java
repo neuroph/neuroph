@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.netbeans.neuroph.lpr;
+package org.neuroph.netbeans.lpr.wiz;
 
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
-public class LicencePlateRecognitionWizardPanel2 implements WizardDescriptor.Panel<WizardDescriptor> {
+public class LicencePlateRecognitionWizardPanel2 implements WizardDescriptor.Panel {
 
     /**
      * The visual component that displays this panel. If you need to access the
@@ -29,40 +29,26 @@ public class LicencePlateRecognitionWizardPanel2 implements WizardDescriptor.Pan
         return component;
     }
 
-    @Override
     public HelpCtx getHelp() {
-        // Show no Help button for this panel:
         return HelpCtx.DEFAULT_HELP;
-        // If you have context help:
-        // return new HelpCtx("help.key.here");
     }
 
-    @Override
+    public void readSettings(Object data) {
+    }
+
+    public void storeSettings(Object data) {
+        String imageDir = component.getJunkImageDirPath();
+        ((WizardDescriptor) data).putProperty("junkDir", imageDir);
+
+    }
+
     public boolean isValid() {
-        // If it is always OK to press Next or Finish, then:
         return true;
-        // If it depends on some condition (form filled out...) and
-        // this condition changes (last form field filled in...) then
-        // use ChangeSupport to implement add/removeChangeListener below.
-        // WizardDescriptor.ERROR/WARNING/INFORMATION_MESSAGE will also be useful.
     }
 
-    @Override
-    public void addChangeListener(ChangeListener l) {
+    public void addChangeListener(ChangeListener cl) {
     }
 
-    @Override
-    public void removeChangeListener(ChangeListener l) {
+    public void removeChangeListener(ChangeListener cl) {
     }
-
-    @Override
-    public void readSettings(WizardDescriptor wiz) {
-        // use wiz.getProperty to retrieve previous panel state
-    }
-
-    @Override
-    public void storeSettings(WizardDescriptor wiz) {
-        // use wiz.putProperty to remember current panel state
-    }
-
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.netbeans.neuroph.lpr;
+package org.neuroph.netbeans.lpr.wiz;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

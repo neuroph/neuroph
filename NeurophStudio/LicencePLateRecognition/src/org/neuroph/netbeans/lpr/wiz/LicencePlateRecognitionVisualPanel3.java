@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.netbeans.neuroph.lpr;
+package org.neuroph.netbeans.lpr.wiz;
 
 import javax.swing.JPanel;
 
-public final class LicencePlateRecognitionVisualPanel1 extends JPanel {
+public final class LicencePlateRecognitionVisualPanel3 extends JPanel {
 
     /**
-     * Creates new form LicencePlateRecognitionVisualPanel1
+     * Creates new form LicencePlateRecognitionVisualPanel3
      */
-    public LicencePlateRecognitionVisualPanel1() {
+    public LicencePlateRecognitionVisualPanel3() {
         initComponents();
     }
 
     @Override
     public String getName() {
-        return "Step #1";
+        return "Step #3";
     }
 
     /**
