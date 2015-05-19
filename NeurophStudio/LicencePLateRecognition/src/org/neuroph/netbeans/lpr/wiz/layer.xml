@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>    
+    <folder name="Templates">
+        <folder name="Neuroph">      
+            <file name="iMR">
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.lpr.wiz.Bundle#Templates/Neuroph/LPR"/>
+                <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.lpr.wiz.LicencePlateRecognitionWizardAction"/>
+                <attr name="position" intvalue="225"/>
+                <attr name="template" boolvalue="true"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/lpr/wiz/LicencePlateRecognition.html"/>
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/lpr/wiz/char_0.png"/>
+            </file>
+        </folder>
+    </folder>        
+ 
+</filesystem>
