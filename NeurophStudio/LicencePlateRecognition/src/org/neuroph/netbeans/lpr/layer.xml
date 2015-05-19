@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+
+<folder name="Actions">
+   <folder name="Build">
+      <file name="org-neuroph-netbeans-lpr-LicencePlateRecognitionWizardAction.instance">
+          <attr name="instanceClass" stringvalue="org.neuroph.netbeans.lpr.LicencePlateRecognitionWizardAction"/>
+       </file>
+    </folder>
+</folder>
+
+<folder name="Menu">
+    <folder name="Window">
+       <file name="org-neuroph-netbeans-lpr.LicencePlateRecognitionWizardAction.shadow">
+          <attr name="originalFile" stringvalue="Actions/Build/org-neuroph-netbeans-lpr-LicencePlateRecognitionWizardAction.instance"/>
+        </file>
+    </folder>
+</folder>
+<filesystem/>
