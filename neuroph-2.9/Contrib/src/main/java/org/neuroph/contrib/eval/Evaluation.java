@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import org.neuroph.contrib.eval.classification.ClassificationMeasure;
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 
@@ -26,10 +25,6 @@ public class Evaluation {
           addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
     }
 
-    
-    
-    
-
     /**
      * Runs evaluation procedure for given neural network and data set through all evaluatoors
      * Evaluation results are stored in evaluators
@@ -37,7 +32,12 @@ public class Evaluation {
      * @param neuralNetwork trained neural network
      * @param dataSet       test data set used for evaluation
      */
-    public void evaluateDataSet(NeuralNetwork neuralNetwork, DataSet dataSet) {
+    public EvaluationResult evaluateDataSet(NeuralNetwork neuralNetwork, DataSet dataSet) {
+        // first reset all evaluators
+        for (Evaluator evaluator : evaluators.values()) { // for now we have only classification metrics and mse
+                evaluator.reset();
+        }        
+        
         for (DataSetRow dataRow : dataSet.getRows()) {      // iterate all dataset rows
              neuralNetwork.setInput(dataRow.getInput());    // apply input to neural network
              neuralNetwork.calculate();                     // and calculate neural network    
@@ -47,6 +47,19 @@ public class Evaluation {
                 evaluator.processNetworkResult(neuralNetwork.getOutput(), dataRow.getDesiredOutput());
             }
         }
+        
+        // we should iterate all evaluators and getresults here- its hardcoded for now
+        ConfusionMatrix confusionMatrix = getEvaluator(ClassificationEvaluator.MultiClass.class).getResult();
+        double meanSquaredError = getEvaluator(ErrorEvaluator.class).getResult();
+                   
+        EvaluationResult result = new EvaluationResult();
+        result.setDataSet(dataSet);
+        result.setConfusionMatrix(confusionMatrix);
+        result.setMeanSquareError(meanSquaredError);
+        
+         // add neural network here too and maybe dataset too?
+
+        return result;                
     }
 
     /**
@@ -65,7 +78,6 @@ public class Evaluation {
     public <T extends Evaluator> T getEvaluator(Class<T> type) {
         return type.cast(evaluators.get(type));
     }
-
     
     /**
      * Return all evaluators used for evaluation 
@@ -97,14 +109,14 @@ public class Evaluation {
         LOGGER.info("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult());
         LOGGER.info("##############################################################################");
         ClassificationEvaluator classificationEvaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);
-        ConfusionMatrix confusionMatrix = classificationEvaluator.getConfusionMatrix();        
+        ConfusionMatrix confusionMatrix = classificationEvaluator.getResult();        
         
         LOGGER.info("Confusion Matrix: \r\n"+confusionMatrix.toString());
               
         
         LOGGER.info("##############################################################################");
         LOGGER.info("Classification metrics: ");        
-        ClassificationMetrics[] metrics = classificationEvaluator.getResult();      
+        ClassificationMetrics[] metrics = ClassificationMetrics.createFromMatrix(confusionMatrix);      
         for(ClassificationMetrics cm : metrics)
             LOGGER.info(cm.toString());
 

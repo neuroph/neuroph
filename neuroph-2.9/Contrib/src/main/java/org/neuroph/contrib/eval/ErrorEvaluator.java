@@ -22,5 +22,10 @@ public class ErrorEvaluator implements Evaluator<Double> {
     public Double getResult() {
         return errorFunction.getTotalError();
     }
+
+    @Override
+    public void reset() {
+        errorFunction.reset();
+    }
 }
 

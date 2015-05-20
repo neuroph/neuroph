@@ -5,25 +5,22 @@ import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.classification.Utils;
 import org.neuroph.core.data.DataSet;
 
-public abstract class ClassificationEvaluator implements Evaluator<ClassificationMetrics[]> {
+public abstract class ClassificationEvaluator implements Evaluator<ConfusionMatrix> {
 
     ConfusionMatrix confusionMatrix;
-    private double threshold;
-    
-    
-
+    private double threshold; // not used at the moment
+    private String[] labels;
+       
     private ClassificationEvaluator(String[] labels) {
+        this.labels = labels;
         confusionMatrix = new ConfusionMatrix(labels, labels.length);
     }
 
     @Override
-    public ClassificationMetrics[] getResult() {
-        return  ClassificationMetrics.createFromMatrix(confusionMatrix);
-    }
-
-    public ConfusionMatrix getConfusionMatrix() {
+    public ConfusionMatrix getResult() {
         return confusionMatrix;
     }
+
 
     public double getThreshold() {
         return threshold;
@@ -33,7 +30,9 @@ public abstract class ClassificationEvaluator implements Evaluator<Classificatio
         this.threshold = threshold;
     }
     
-    
+    public void reset() {
+        confusionMatrix = new ConfusionMatrix(labels, labels.length);
+    }
     
     
 
