@@ -21,4 +21,8 @@ public interface Evaluator<T> {
      */
     public T getResult();
 
+    
+    
+    public void reset();
+
 }

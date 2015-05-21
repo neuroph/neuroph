@@ -1,7 +1,7 @@
 package org.neuroph.contrib.model.modelselection;
 
 import org.neuroph.contrib.model.errorestimation.Bootstrapping;
-import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
+import org.neuroph.contrib.model.errorestimation.CrossValidation;
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.neuroph.contrib.eval.ClassificationEvaluator;
-import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
+import org.neuroph.contrib.model.errorestimation.CrossValidation;
 
 /**
  * @param <T> Type which defined which LearningRule will be used during model optimization
@@ -43,7 +43,7 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
     /**
      * Method used for classifier error estimation (KFold, Bootstrap)
      */
-    private KFoldCrossValidation errorEstimationMethod;
+    private CrossValidation errorEstimationMethod;
     /**
      * Learning rule used during classifier learning stage
      */
@@ -82,7 +82,7 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
     }
 
 
-    public MultilayerPerceptronOptimazer withErrorEstimationMethod(KFoldCrossValidation errorEstimationMethod) {
+    public MultilayerPerceptronOptimazer withErrorEstimationMethod(CrossValidation errorEstimationMethod) {
         this.errorEstimationMethod = errorEstimationMethod;
         return this;
     }
@@ -117,10 +117,10 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
             learningRule.addListener(listener);
             network.setLearningRule(learningRule);
             
-            errorEstimationMethod = new KFoldCrossValidation(network, dataSet, 10);
+            errorEstimationMethod = new CrossValidation(network, dataSet, 10);
             errorEstimationMethod.run();
             // FIX
-            ClassificationMetrics[] result = errorEstimationMethod.getEvaluator( ClassificationEvaluator.MultiClass.class).getResult();
+            ClassificationMetrics[] result = ClassificationMetrics.createFromMatrix( errorEstimationMethod.getEvaluator( ClassificationEvaluator.MultiClass.class).getResult());
 
             // nadji onaj sa najmanjim f measure
             if (optimalResult == null || optimalResult.getFMeasure()< result[0].getFMeasure()) {

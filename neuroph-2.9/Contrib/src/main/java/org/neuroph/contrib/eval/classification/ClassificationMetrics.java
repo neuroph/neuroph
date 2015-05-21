@@ -2,10 +2,19 @@ package org.neuroph.contrib.eval.classification;
 
 
 import static java.lang.Math.sqrt;
+import java.util.ArrayList;
 import java.util.List;
+import org.neuroph.contrib.eval.EvaluationResult;
 
 /**
- * Container class for all metrics which use confusion matrix for their computation
+ * Container class for all metrics which use confusion matrix for their computation 
+ *
+ * Based on:
+ * http://java-ml.sourceforge.net/api/0.1.7/net/sf/javaml/classification/evaluation/PerformanceMeasure.html
+ * http://sourceforge.net/p/java-ml/java-ml-code/ci/a25ddde7c3677da44e47a643f88e32e2c8bbc32f/tree/net/sf/javaml/classification/evaluation/PerformanceMeasure.java
+ * 
+ * http://en.wikipedia.org/wiki/Matthews_correlation_coefficient
+ * 
  */
 public class ClassificationMetrics {
 
@@ -18,7 +27,7 @@ public class ClassificationMetrics {
     String classLabel;
     
     
-       /**
+   /**
     * Constructs a new measure using arguments
     * TODO: add class to which measure corresponds?
     * 
@@ -42,8 +51,7 @@ public class ClassificationMetrics {
     public void setClassLabel(String classLabel) {
         this.classLabel = classLabel;
     }
-    
-    
+        
     /**
      * Calculate and return classification accuracy measure
      * @return 
@@ -104,7 +112,7 @@ public class ClassificationMetrics {
                 (sqrt((truePositive + falsePositive) * (truePositive + falseNegative) * (trueNegative + falsePositive) * (trueNegative + falseNegative)));
     }
     
-   
+    
     
    /**
      * Calculates F-score for beta equal to 1.
@@ -175,73 +183,26 @@ public class ClassificationMetrics {
         sb.append("False discovery rate (FDR): ").append(getFalseDiscoveryRate()).append("\n");
         sb.append("Matthews correlation Coefficient (MCC): ").append(getMatthewsCorrelationCoefficient()).append("\n");
         return sb.toString();
-
     }    
     
-//    private double accuracy;
-//
-//    private double error;
-//
-//    private double precision;
-//
-//    private double recall;
-//
-//    private double fScore;
 
-//    public double getAccuracy() {
-//        return accuracy;
-//    }
-//
-//    public double getError() {
-//        return error;
-//    }
-//
-//    public double getPrecision() {
-//        return precision;
-//    }
-//
-//    public double getRecall() {
-//        return recall;
-//    }
-//
-//    public double getFScore() {
-//        return fScore;
-//    }
+    
+    
+    public static class Stats {
+        public double accuracy=0;
+        public double precision=0;
+        public double recall=0;
+        public double fScore=0;        
+        public double mserror=0;    
 
-//    @Override
-//    public String toString() {
-//        return "MetricResult{" +
-//                "accuracy=" + accuracy +
-//                ", error=" + error +
-//                ", precision=" + precision +
-//                ", recall=" + recall +
-//                ", fScore=" + fScore +
-//                '}';
-//    }
-
-    /**
-     * @param confusionMatrix confusion matrix computed on test set
-     * @return result numeric scores calculated  using confusion matrix
-     */
-//    public static ClassificationMetrics createClassificationMeasure(ConfusionMatrix confusionMatrix) {
-//        ClassificationMetrics metricsEvaluationResult = new ClassificationMetrics();
-//
-//        double[][] matrix = confusionMatrix.getValues();
-//       
-//        int totalElements = getDataSetSize(matrix);
-//        int totalCorrect = getCorrect(matrix);
-//        double[] precisions = createPrecisionForEachClass(confusionMatrix);
-//        double[] recalls = createRecallForEachClass(confusionMatrix);
-//        double[] fScores = createFScoresForEachClass(precisions, recalls);
-//
-//        metricsEvaluationResult.accuracy = (double) totalCorrect / totalElements;
-//        metricsEvaluationResult.error = 1.0 - metricsEvaluationResult.accuracy;
-//        metricsEvaluationResult.precision = Utils.average(precisions);
-//        metricsEvaluationResult.recall = Utils.average(recalls);
-//        metricsEvaluationResult.fScore = Utils.average(fScores);
-//
-//        return metricsEvaluationResult;
-//    }
+        @Override
+        public String toString() {
+            return "Stats{" + "accuracy=" + accuracy + ", precision=" + precision + ", recall=" + recall + ", fScore=" + fScore + ", mserror=" + mserror + '}';
+        }
+        
+        
+    }
+    
 
     public static ClassificationMetrics[] createFromMatrix(ConfusionMatrix confusionMatrix) {
         // Create Classification measure for each class 
@@ -262,36 +223,38 @@ public class ClassificationMetrics {
         return measures;
     }
     
+    
+    
     /**
      *
      * @param results list of different metric results computed on different sets of data
      * @return average metrics computed different MetricResults
      */
-//    public static ClassificationMetrics averageFromMultipleRuns(List<ClassificationMetrics> results) {
-//        double averageAccuracy = 0;
-//        double averageError = 0;
-//        double averagePrecision = 0;
-//        double averageRecall = 0;
-//        double averageFScore = 0;
-//
-//        for (ClassificationMetrics metricResult : results) {
-//            averageAccuracy += metricResult.getAccuracy();
-//            //averageError += metricResult.getError();
-//            averagePrecision += metricResult.getPrecision();
-//            averageRecall += metricResult.getRecall();
-//            averageFScore += metricResult.getFMeasure();
-//        }
-//
-//        ClassificationMetrics averageMetricsResult = new ClassificationMetrics();
-//
-//        averageMetricsResult.accuracy = averageAccuracy / results.size();
-//        averageMetricsResult.error = averageError / results.size();
-//        averageMetricsResult.precision = averagePrecision / results.size();
-//        averageMetricsResult.recall = averageRecall / results.size();
-//        averageMetricsResult.fScore = averageFScore / results.size();
-//
-//        return averageMetricsResult;
-//    }
+    public static ClassificationMetrics.Stats average(ClassificationMetrics[] results) {
+        List<String> classLabels = new ArrayList<>();
+         ClassificationMetrics.Stats average = new ClassificationMetrics.Stats();
+          double count = 0;
+            for (ClassificationMetrics cm : results) {
+                average.accuracy += cm.getAccuracy();
+                average.precision += cm.getPrecision();
+                average.recall += cm.getRecall();
+                average.fScore += cm.getFMeasure();
+//                average.mserror += er.getMeanSquareError();
+                
+                if(!classLabels.contains(cm.getClassLabel()))
+                    classLabels.add(cm.getClassLabel());
+            }
+            count++;
+        
+        count = count * classLabels.size(); // * classes count
+        average.accuracy = average.accuracy / count;
+        average.precision = average.precision / count;
+        average.recall = average.recall / count;
+        average.fScore = average.fScore / count;
+        average.mserror = average.mserror / count;
+        
+        return average;
+    }
 
     /**
      *

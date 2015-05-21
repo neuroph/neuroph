@@ -1,5 +1,7 @@
 package org.neuroph.contrib.model.errorestimation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.ClassificationEvaluator;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import org.neuroph.contrib.eval.ErrorEvaluator;
+import org.neuroph.contrib.eval.EvaluationResult;
 import org.neuroph.contrib.eval.Evaluator;
 import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 import org.neuroph.util.data.sample.SubSampling;
@@ -21,9 +24,6 @@ import org.neuroph.util.data.sample.SubSampling;
  * algorithms
  *
  *
- * Generate folds using some data sampling method iterate all folds: train with
- * one and test with othersing parameters
- *
  * print and summarize results
  *
  * mke it easy to be used with existing training procedure: providing neural
@@ -31,9 +31,9 @@ import org.neuroph.util.data.sample.SubSampling;
  *
  *
  */
-public class KFoldCrossValidation {
+public class CrossValidation {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(KFoldCrossValidation.class.getName());
+    private static Logger LOGGER = LoggerFactory.getLogger(CrossValidation.class.getName());
     
     /**
      * Neural network to train
@@ -55,19 +55,35 @@ public class KFoldCrossValidation {
      * Evaluation procedure. Holds a collection of evaluators which can be automaticaly added
      */
     private Evaluation evaluation = new Evaluation();
+    
+    
+    private CrossValidationResult results;
 
 
     /**
      * Default constructor for creating KFold error estimation
      *
-     * @param foldCount defines number of folds used in sampling algorithm
+     * @param subsetCount defines number of folds used in sampling algorithm
      */
-    public KFoldCrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int foldCount) { // number of folds
+    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int subSetCount) { // number of folds
         this.neuralNetwork = neuralNetwork;
         this.dataSet = dataSet;    
-        this.sampling = new SubSampling(foldCount); // new RandomSamplingWithoutRepetition(numberOfSamples                      
+        this.sampling = new SubSampling(subSetCount); // new RandomSamplingWithoutRepetition(numberOfSamples                      
+    }
+    
+    
+    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int ... subSetSizes) { // number of folds
+        this.neuralNetwork = neuralNetwork;
+        this.dataSet = dataSet;    
+        this.sampling = new SubSampling(subSetSizes);                    
+    }    
+
+    public Sampling getSampling() {
+        return sampling;
     }
 
+    
+    
     public void setSampling(Sampling sampling) {
         this.sampling = sampling;
     }
@@ -84,10 +100,12 @@ public class KFoldCrossValidation {
         
         // create subsets of the entire datasets that will be used for k-folding
         List<DataSet> dataSets = sampling.sample(dataSet);
+        results = new CrossValidationResult();
 
         //TODO Good place for parallelization. // But in order to make this possible NeuralNetwork must be cloneable or immutable
         for (int i = 0; i < dataSets.size(); i++) {
             neuralNetwork.randomizeWeights();       // we shouldnt do this - we should clone the original network
+            dataSets.get(i).setLabel(dataSet.getLabel() + "-subset-"+i);
             neuralNetwork.learn(dataSets.get(i));   // train neural network with i-th data set fold
 
             for (int j = 0; j < dataSets.size(); j++) { // next do the testing with all other dataset folds
@@ -96,11 +114,20 @@ public class KFoldCrossValidation {
                 }
 
               // testNetwork(neuralNetwork, dataSets.get(j));
-               evaluation.evaluateDataSet(neuralNetwork,  dataSets.get(j));
+                EvaluationResult evaluationResult =  evaluation.evaluateDataSet(neuralNetwork,  dataSets.get(j)); // this method should return all evaluation results
+                results.addEvaluationResult(evaluationResult);
+       //       results.add(result);
+               // get all the results from the single evaluation - for each evaluator Classifiaction and Error
+               // store it somewhere with neural network
+               
+               // save evaluation results from multiple runs  and then calculateaverages
+               
                // we should also save all these trained network along w ith their evaluation results or at least store them intor array...
-                
-            }
-        }
+               // ne need to store evaluation results and neural network for each run 
+            }                        
+        }        
+        results.calculateStatistics();
+        
     }
     
     public void addEvaluator(Evaluator eval) {
@@ -110,6 +137,12 @@ public class KFoldCrossValidation {
     public <T extends Evaluator> T getEvaluator(Class<T> type) { 
         return evaluation.getEvaluator(type);
     }
+
+    public CrossValidationResult getResult() {
+        return results;
+    }
+    
+    
 
     // TODO: dont sysout - store somewhere these results so they can be displayed
     // 
@@ -123,23 +156,19 @@ public class KFoldCrossValidation {
         System.out.println("##############################################################################");
       
         // TODO: deal with BinaryClassifiers too here
-        ClassificationEvaluator evaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);
-        
-        
-        ConfusionMatrix confusionMatrix = evaluator.getConfusionMatrix();        
+        ClassificationEvaluator evaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);          
+        ConfusionMatrix confusionMatrix = evaluator.getResult();        
         
         System.out.println("Confusion Matrix: \r\n"+confusionMatrix.toString());
                       
         System.out.println("##############################################################################");
         System.out.println("Classification metrics: ");        
-        ClassificationMetrics[] metrics = evaluator.getResult();     // add all of these to result 
+        ClassificationMetrics[] metrics = ClassificationMetrics.createFromMatrix(confusionMatrix);     // add all of these to result 
      
         for(ClassificationMetrics cm : metrics)
             System.out.println(cm.toString());
 
         System.out.println("##############################################################################");        
     }
-
-
 
 }
