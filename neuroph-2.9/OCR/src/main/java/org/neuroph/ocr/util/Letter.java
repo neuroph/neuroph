@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.ocr.properties;
+package org.neuroph.ocr.util;
 
 import java.util.List;
 
@@ -88,7 +88,7 @@ public class Letter {
 
     /**
      * Used for finding rows in text. Smaller value is probably dot or coma
-     * which is not recognized as row. Size is actually height
+     * which is not recognized as row. Size is actually height of letter
      *
      * @return predicted smallest size of letter.
      */

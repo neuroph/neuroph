@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.ocr.util;
+package org.neuroph.ocr.filter;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -15,7 +15,7 @@ import org.neuroph.imgrec.filter.ImageFilter;
  *
  * @author Mihailo Stupar
  */
-public class OCRCropImage {
+public class OCRCropLetter implements ImageFilter{
 
     private BufferedImage originalImage;
     private BufferedImage filteredImage;
@@ -33,18 +33,32 @@ public class OCRCropImage {
      * @param cropWidth new width of the image
      * @param cropHeight new height of the image
      */
-    public OCRCropImage(BufferedImage image, int cropWidth, int cropHeight) {
+    public OCRCropLetter(BufferedImage image, int cropWidth, int cropHeight) {
         this.originalImage = image;
         this.newWidth = cropWidth;
         this.newHeight = cropHeight;
-        width = image.getWidth();
-        height = image.getHeight();
+        prepareParameters();
     }
+
+    /**
+     * YOU <b>MUST<b/> sett newHeight and newWidth parameters
+     */
+    public OCRCropLetter() {
+    }
+    
+    
+    
+    private void prepareParameters() {
+        width = originalImage.getWidth();
+        height = originalImage.getHeight();
+    }
+    
 
     /**
      * Crop the image
      * @return new image with smaller dimension
      */
+    
     public BufferedImage processImage() {
 
         filteredImage = new BufferedImage(newWidth, newHeight, originalImage.getType());
@@ -177,6 +191,38 @@ public class OCRCropImage {
 
         } catch (IndexOutOfBoundsException e) {
         }
+    }
+
+    /**
+     * Height of the cropped image. On this image should stay only letter. <br/>
+     * This height should be greater then letter height.<br/>
+     * This height is unique for all letters in the document 
+     * @param newHeight 
+     */
+    public void setNewHeight(int newHeight) {
+        this.newHeight = newHeight;
+    }
+
+    /**
+     * Width of the cropped image. On this image should stay only letter. <br/>
+     * This width should be greater then letter width.<br/>
+     * This width is unique for all letters in the document 
+     * @param newHeight 
+     */
+    public void setNewWidth(int newWidth) {
+        this.newWidth = newWidth;
+    }
+    
+    
+    /**
+     * You <b>MUST<b/> set newHeight and newWidth before calling this method
+     * @param image image with single letter on it
+     * @return image with centered letter
+     */
+    public BufferedImage processImage(BufferedImage image) {
+        this.originalImage = image;
+        prepareParameters();
+        return processImage();
     }
 
 }

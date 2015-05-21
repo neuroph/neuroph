@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.ocr.properties;
+package org.neuroph.ocr;
 
+import org.neuroph.ocr.util.Letter;
+import org.neuroph.ocr.util.Text;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -13,7 +15,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import org.neuroph.ocr.util.OCRCropImage;
+import org.neuroph.ocr.filter.OCRCropLetter;
+import org.neuroph.ocr.filter.OCRExtractLetter;
+import org.neuroph.ocr.properties.Properties;
 import org.neuroph.ocr.util.OCRUtilities;
 
 /**
@@ -157,6 +161,10 @@ public class OCRTraining extends Properties {
         int cropHeight = letterInformation.getCropHeight();
         int tmpWidth = 3 * cropWidth;
         int tmpHeight = 3 * cropHeight;
+        int trashSize = letterInformation.getTrashSize();
+        
+        OCRExtractLetter extractionLetter = new OCRExtractLetter(tmpWidth, tmpHeight, trashSize);
+        
         int letterSize = letterInformation.getLetterSize();
         int imageHeight = image.getHeight();
         int imageWidth = image.getWidth();
@@ -189,9 +197,9 @@ public class OCRTraining extends Properties {
                     if (color.equals(white)) {
                         visited[i][j] = true;
                     } else if (visited[i][j] == false) {
-                        BufferedImage letter = OCRUtilities.extraxtCharacterImage(image, visited, i, j, tmpWidth, tmpHeight, letterInformation.getTrashSize());
+                        BufferedImage letter = extractionLetter.extraxtLetter(image, visited, i, j); // OCRUtilities.extraxtCharacterImage(image, visited, i, j, tmpWidth, tmpHeight, letterInformation.getTrashSize());
                         if (letter != null) {
-                            OCRCropImage crop = new OCRCropImage(letter, cropWidth, cropHeight);
+                            OCRCropLetter crop = new OCRCropLetter(letter, cropWidth, cropHeight);
                             BufferedImage croped = crop.processImage();
                             String character = trainingText.charAt(seqNum) + "";
                             String name = character + "_" + seqNum;

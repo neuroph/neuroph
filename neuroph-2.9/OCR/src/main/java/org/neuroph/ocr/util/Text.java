@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.neuroph.ocr.properties;
+package org.neuroph.ocr.util;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;

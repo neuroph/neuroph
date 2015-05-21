@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.ocr.properties;
+package org.neuroph.ocr;
 
+import org.neuroph.ocr.util.Letter;
+import org.neuroph.ocr.util.Text;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
@@ -15,15 +17,17 @@ import java.util.List;
 import java.util.Map;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.imgrec.ImageRecognitionPlugin;
-import org.neuroph.ocr.util.OCRCropImage;
+import org.neuroph.ocr.filter.OCRCropLetter;
 import org.neuroph.ocr.util.OCRUtilities;
 import org.neuroph.ocr.util.WordPosition;
+import org.neuroph.ocr.filter.OCRExtractLetter;
+import org.neuroph.ocr.properties.Properties;
 
 /**
  *
  * @author Mihailo Stupar
  */
-public class TextRecognition extends Properties {
+public class OCRTextRecognition extends Properties {
 
     private String recognizedTextPath;
     private NeuralNetwork nnet;
@@ -32,7 +36,7 @@ public class TextRecognition extends Properties {
 
     private boolean[][] visited;  //sluzi samo za procesiranje slike, za BFS
 
-    public TextRecognition(Letter letterInformation, Text textInformation) {
+    public OCRTextRecognition(Letter letterInformation, Text textInformation) {
         super(letterInformation, textInformation);
     }
 
@@ -103,8 +107,13 @@ public class TextRecognition extends Properties {
     private String recognizeWord(WordPosition word, int rowPixel) {
         String wordText = "";
 
+        
         int tmpWidth = 3 * letterInformation.getCropWidth();
         int tmpHeight = 3 * letterInformation.getCropHeight();
+        int trashsize = letterInformation.getTrashSize();
+        
+        OCRExtractLetter extractionLetter = new OCRExtractLetter(tmpWidth, tmpHeight, trashsize);
+        
         int letterSize = letterInformation.getLetterSize();
 
         int start = word.getStartPixel();
@@ -133,9 +142,9 @@ public class TextRecognition extends Properties {
                 if (color.equals(white)) {
                     visited[i][j] = true;
                 } else if (visited[i][j] == false) {
-                    BufferedImage letter = OCRUtilities.extraxtCharacterImage(image, visited, i, j, tmpWidth, tmpHeight, letterInformation.getTrashSize());
+                    BufferedImage letter = extractionLetter.extraxtLetter(image, visited, i, j);  //OCRUtilities.extraxtCharacterImage(image, visited, i, j, tmpWidth, tmpHeight, letterInformation.getTrashSize());
                     if (letter != null) {
-                        OCRCropImage crop = new OCRCropImage(letter, letterInformation.getCropWidth(), letterInformation.getCropHeight());
+                        OCRCropLetter crop = new OCRCropLetter(letter, letterInformation.getCropWidth(), letterInformation.getCropHeight());
                         BufferedImage croped = crop.processImage();
                         wordText += recognizeLetter(croped);
                     }

@@ -5,6 +5,8 @@
  */
 package org.neuroph.ocr.properties;
 
+import org.neuroph.ocr.util.Letter;
+import org.neuroph.ocr.util.Text;
 import java.awt.image.BufferedImage;
 
 /**
