@@ -52,6 +52,8 @@ public class OCRTraining extends Properties {
         }
     }
 
+    
+    
     /**
      * Path to the folder where the images (each with the single letter) will be
      * stored

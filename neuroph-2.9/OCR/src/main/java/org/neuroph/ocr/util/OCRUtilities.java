@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import javax.imageio.ImageIO;
+import org.neuroph.ocr.util.histogram.Histogram;
+import org.neuroph.ocr.util.histogram.OCRHistogram;
 
 /**
  *
@@ -46,15 +48,14 @@ public class OCRUtilities {
      * Find the center of each row measured in pixels.
      *
      * @param image input image, should be black-white image;
-     * @param ignoreSize the height of the sign (dots or trash) that should not
+     * @param heightThresh the height of the sign (dots or trash) that should not
      * be recognized as letter
      * @return list with pixel position of each row
      */
-    public static List<Integer> rowPositions(BufferedImage image, int ignoreSize) {
-        HistogramUtilities histUtil = new HistogramUtilities();
-        int[] histogram = histUtil.colorHistogramHeight(image);
-        int[] gradient = histUtil.gradient(histogram);
-        return histUtil.linePositions(gradient, ignoreSize);
+    public static List<Integer> rowPositions(BufferedImage image, int heightThresh) {
+        int[] histogram = Histogram.heightHistogram(image);
+        int[] gradient = Histogram.gradient(histogram);
+        return linePositions(gradient, heightThresh);
     }
 
     /**
@@ -63,21 +64,20 @@ public class OCRUtilities {
      *
      * @param image input image, should be black-white
      * @param row given row
-     * @param letterSize predicted letter size
+     * @param letterHeight predicted letter size
      * @param spaceGap predicted space size, spaces smaller that spaceGap are
      * not spaces between word, they are spaces between letter. Ignore spaces
      * between letters.
      * @return
      */
-    public static List<WordPosition> wordsPositions(BufferedImage image, int row, int letterSize, int spaceGap) {
+    public static List<WordPosition> wordsPositions(BufferedImage image, int row, int letterHeight, int spaceGap) {
         List<WordPosition> words = new ArrayList<WordPosition>();
-        HistogramUtilities histUtil = new HistogramUtilities();
-        int[] histogram = histUtil.horizontalHistogram(image, row, letterSize);
-        int[] histogramIMS = histUtil.histogramIgnoreMiniSpaces(histogram, spaceGap);
+        int[] histogram = OCRHistogram.widthRowHistogram(image, row, letterHeight);
+        int[] histogramWLS = OCRHistogram.histogramWithoutLetterSpaces(histogram, spaceGap);
 
         int count = 0;
-        for (int i = 0; i < histogramIMS.length; i++) {
-            if (histogramIMS[i] != 0) {
+        for (int i = 0; i < histogramWLS.length; i++) {
+            if (histogramWLS[i] != 0) {
                 count++;
             } else { //(histogram[i] == 0) drugim recima vece je od nule
                 if (count > 0) {
@@ -88,7 +88,6 @@ public class OCRUtilities {
                 }
                 count = 0;
             }
-
         }
         return words;
     }
@@ -117,7 +116,41 @@ public class OCRUtilities {
         return character+"_"+number;
     }
     
+     /**
+     * @param gradient gradient array calculated with method gradient(int [])
+     * @param ignoredSize - noise - what is the minimum size of letter to be
+     * recognized <br/>
+     * With lower value you will probably find trash as separate line <br/>
+     * With higher value you will probably miss the letter <br/>
+     * Ideal value is less that the letter size
+     * @return List of integers where each element represent center of line.
+     * First element corresponds to the first line etc.
+     */
+    public static List<Integer> linePositions(int[] gradient, int ignoredSize) {
+        ArrayList<Integer> lines = new ArrayList<Integer>();
+        int sum = 0;
+        int count = 0;
+        for (int row = 0; row < gradient.length; row++) {
+            sum += gradient[row];
+            if (sum != 0) {
+                count++;
+                continue;
+            }
+            if (sum == 0) {
+                if (count < ignoredSize) {
+                    count = 0;
+                } else { //count >= lineHeightThresh // found line!
+                    int startLetter = row - count;
+                    int endLetter = row;
+                    int line = (startLetter + endLetter) / 2;
+                    lines.add(line);
+                    count = 0;
+                }
+            }
+        }
+        return lines;
 
+    }
 
 
 }
