@@ -3,16 +3,16 @@
 <filesystem>
 <folder name="Actions">
    <folder name="Build">
-      <file name="org-neuroph-netbeans-lpr-LicencePlateRecognitionWizardAction.instance">
-          <attr name="instanceClass" stringvalue="org.neuroph.netbeans.lpr.LicencePlateRecognitionWizardAction"/>
+      <file name="org-neuroph-netbeans-lpr-wiz-LicencePlateRecognitionWizardAction.instance">
+          <attr name="instanceClass" stringvalue="org.neuroph.netbeans.lpr.wiz.LicencePlateRecognitionWizardAction"/>
        </file>
     </folder>
 </folder>
 
 <folder name="Menu">
     <folder name="Window">
-       <file name="org-neuroph-netbeans-lpr.LicencePlateRecognitionWizardAction.shadow">
-          <attr name="originalFile" stringvalue="Actions/Build/org-neuroph-netbeans-lpr-LicencePlateRecognitionWizardAction.instance"/>
+       <file name="org-neuroph-netbeans-lpr-wiz.LicencePlateRecognitionWizardAction.shadow">
+          <attr name="originalFile" stringvalue="Actions/Build/org-neuroph-netbeans-lpr-wiz-LicencePlateRecognitionWizardAction.instance"/>
         </file>
     </folder>
 </folder>
@@ -20,21 +20,21 @@
  <folder name="Templates">
         <folder name="Neuroph">      
             <file name="Licence Plate Recognition">
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.lpr.Bundle#Templates/Neuroph/iMR"/>
-                <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.lpr.LicencePlateRecognitionWizardAction"/>
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.lpr.wiz.Bundle#Templates/Neuroph/lPr"/>
+                <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.lpr.wiz.LicencePlateRecognitionWizardAction"/>
                 <attr name="position" intvalue="225"/>
                 <attr name="template" boolvalue="true"/>  
-                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/lpr/ikonica-crop.png"/>              
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/lpr/wiz/ikonica-crop.png"/>              
             </file>
         </folder>
     </folder>   
      <folder name="Windows2">
         <folder name="Components">
-            <file name="ImgRecTestTopComponent.settings" url="ImgRecTestTopComponentSettings.xml"/>
+            <file name="ImgRecTestTopComponent.settings" url="org/neuroph/netbeans/lpr/ImgRecTestTopComponentSettings.xml"/>
         </folder>
         <folder name="Modes">
             <folder name="editor">
-                <file name="ImgRecTestTopComponent.wstcref" url="ImgRecTestTopComponentWstcref.xml"/>
+                <file name="ImgRecTestTopComponent.wstcref" url="org/neuroph/netbeans/lpr/ImgRecTestTopComponentWstcref.xml"/>
             </folder>
         </folder>
     </folder> 

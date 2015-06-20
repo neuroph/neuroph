@@ -171,7 +171,10 @@
                     </run-dependency>
                 </dependency>
             </module-dependencies>
-            <public-packages/>
+            <public-packages>
+                <package>org.neuroph.netbeans.lpr</package>
+                <package>org.neuroph.netbeans.lpr.wiz</package>
+            </public-packages>
         </data>
     </configuration>
 </project>
