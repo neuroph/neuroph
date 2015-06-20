@@ -1,4 +1,4 @@
-package org.neuroph.netbeans.lpr;
+package org.neuroph.netbeans.lpr.wiz;
 
 import java.awt.Component;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.event.ChangeListener;
 import org.neuroph.imgrec.ColorMode;
-import org.neuroph.netbeans.lpr.LicencePlateRecognitionVisualPanel1;
+import org.neuroph.netbeans.lpr.wiz.LicencePlateRecognitionVisualPanel1;
 import org.openide.WizardDescriptor;
 import org.openide.util.Exceptions;
 import org.openide.util.HelpCtx;

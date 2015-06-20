@@ -1,4 +1,4 @@
-package org.neuroph.netbeans.lpr;
+package org.neuroph.netbeans.lpr.wiz;
 
 import java.awt.Component;
 import java.io.IOException;

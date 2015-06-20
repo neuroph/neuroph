@@ -1,4 +1,4 @@
-package org.neuroph.netbeans.lpr;
+package org.neuroph.netbeans.lpr.wiz;
 
 import java.awt.Component;
 import java.io.File;
@@ -19,6 +19,8 @@ import org.neuroph.imgrec.FractionHSLData;
 import org.neuroph.imgrec.FractionRgbData;
 import org.neuroph.imgrec.ImageRecognitionHelper;
 import org.neuroph.imgrec.image.Dimension;
+import org.neuroph.netbeans.imr.utils.UtilWizardPanel1;
+import org.neuroph.netbeans.imr.utils.UtilWizardPanel2;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.util.TransferFunctionType;
 import org.neuroph.util.VectorParser;
@@ -42,8 +44,8 @@ public final class LicencePlateRecognitionWizardAction implements WizardDescript
                 //new IMRWizardPanel1(),
                 new LicencePlateRecognitionWizardPanel1(),
                 new LicencePlateRecognitionWizardPanel2(),
-                new LicencePlateRecognitionWizardPanel3(),
-                new LicencePlateRecognitionWizardPanel4()
+                new UtilWizardPanel1(),
+                new UtilWizardPanel2()
             };
             String[] steps = createSteps();
             for (int i = 0; i < panels.length; i++) {

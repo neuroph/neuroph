@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.netbeans.lpr;
+package org.neuroph.netbeans.lpr.wiz;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -116,7 +116,7 @@ public final class LicencePlateRecognitionVisualPanel2 extends javax.swing.JPane
 
     @Override
     public String getName() {
-        return "Step #2";
+        return "Select images not to recognize";
     }
 
     /**

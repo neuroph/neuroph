@@ -19,12 +19,23 @@
 
  <folder name="Templates">
         <folder name="Neuroph">      
-            <file name="Lpr">
+            <file name="Licence Plate Recognition">
                 <attr name="displayName" bundlevalue="org.neuroph.netbeans.lpr.Bundle#Templates/Neuroph/iMR"/>
                 <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.lpr.LicencePlateRecognitionWizardAction"/>
                 <attr name="position" intvalue="225"/>
-                <attr name="template" boolvalue="true"/>                
+                <attr name="template" boolvalue="true"/>  
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/lpr/ikonica-crop.png"/>              
             </file>
         </folder>
-    </folder>    
+    </folder>   
+     <folder name="Windows2">
+        <folder name="Components">
+            <file name="ImgRecTestTopComponent.settings" url="ImgRecTestTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="ImgRecTestTopComponent.wstcref" url="ImgRecTestTopComponentWstcref.xml"/>
+            </folder>
+        </folder>
+    </folder> 
 </filesystem>
