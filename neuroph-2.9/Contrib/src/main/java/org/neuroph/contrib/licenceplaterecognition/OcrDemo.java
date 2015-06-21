@@ -33,6 +33,8 @@ import org.neuroph.ocr.OcrPlugin;
  */
 public class OcrDemo {
 
+   
+    
     /**
      * Image file with text to recognize
      */
@@ -53,7 +55,36 @@ public class OcrDemo {
      * Location for storing extracted character images
      */
     private String charOutputFile = "data";
+    /**
+     * Trained neural network
+     */
+    
+    private NeuralNetwork nnet; 
+    
+    /**
+     * Image with licence plate to recognize
+     */
+    private BufferedImage image;
+    
+    /**
+     * String to store recognized characters;
+     */
+    private String recognizedCharacters="";
 
+    
+     public OcrDemo() {
+    }
+
+    public OcrDemo(BufferedImage licencePlateImage,NeuralNetwork neuralNetwork ) {
+        image=licencePlateImage;
+        nnet=neuralNetwork;
+        
+    }
+
+    public String getRecognizedCharacters() {
+        return recognizedCharacters;
+    }
+    
     /**
      * Crop the part of an image with a white rectangle
      *
@@ -99,8 +130,9 @@ public class OcrDemo {
         try {
 
             // load image with text to recognize
-            BufferedImage image = ImageIO.read(new File(textImageFile));
-            
+            if (image==null){
+             image = ImageIO.read(new File(textImageFile));
+            }
             //binarize the input image
             image = BinaryOps.binary(textImageFile);
    
@@ -131,17 +163,19 @@ public class OcrDemo {
             }
            
             // load neural network from file
+           if (nnet==null){
             NeuralNetwork nnet = NeuralNetwork.createFromFile(neuralNetworkFile);
-
+           }
             // get ocr plugin from neural network
             nnet.addPlugin(new OcrPlugin(new Dimension(10, 10), ColorMode.BLACK_AND_WHITE));
             OcrPlugin ocrPlugin = (OcrPlugin) nnet.getPlugin(OcrPlugin.class);
            
             // and recognize current character - ( have to use ImageJ2SE here to wrap BufferedImage)
             for (int i = 0; i < lista.size(); i++) {
+                recognizedCharacters+=ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ";
                 System.out.print(ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ");
             }
-
+            recognizedCharacters.trim();
         } catch (IOException e) {
             //Let us know what happened  
             System.out.println("Error reading dir: " + e.getMessage());
