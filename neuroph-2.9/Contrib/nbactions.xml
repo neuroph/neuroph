@@ -52,6 +52,7 @@
         </action>
         <action>
             <actionName>run</actionName>
+            <preAction>build-with-dependencies</preAction>
             <packagings>
                 <packaging>jar</packaging>
             </packagings>
