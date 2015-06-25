@@ -7,6 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.event.ChangeListener;
 import org.neuroph.imgrec.ColorMode;
+import org.neuroph.netbeans.lpr.wiz.LicencePlateRecognitionVisualPanel1;
 import org.openide.WizardDescriptor;
 import org.openide.util.Exceptions;
 import org.openide.util.HelpCtx;
@@ -15,7 +16,7 @@ import org.openide.util.HelpCtx;
  *
  * @author Djordje
  */
-public class LicencePlateRecognitionWizardPanel1  implements WizardDescriptor.Panel  {
+public class LicencePlateRecognitionWizardPanel1 implements WizardDescriptor.Panel {
 
     private LicencePlateRecognitionVisualPanel1 component;
     private boolean isValid = true;
@@ -56,13 +57,13 @@ public class LicencePlateRecognitionWizardPanel1  implements WizardDescriptor.Pa
     }
 
     private ColorMode getColorMode() {
-        ColorMode colorMode;         
-        
-        ButtonGroup group  = component.getColorModeButtonGroup();
-        for (Enumeration e=group.getElements(); e.hasMoreElements(); ) {
-            JRadioButton b = (JRadioButton)e.nextElement();
+        ColorMode colorMode;
+
+        ButtonGroup group = component.getColorModeButtonGroup();
+        for (Enumeration e = group.getElements(); e.hasMoreElements();) {
+            JRadioButton b = (JRadioButton) e.nextElement();
             if (b.getModel() == group.getSelection()) {
-               String selectedColorMode = b.getText() ;
+                String selectedColorMode = b.getText();
                 if (selectedColorMode != null && selectedColorMode.equalsIgnoreCase("Color RGB")) {
                     return ColorMode.COLOR_RGB;
                 } else if (selectedColorMode != null && selectedColorMode.equalsIgnoreCase("Color HSV")) {
@@ -71,10 +72,10 @@ public class LicencePlateRecognitionWizardPanel1  implements WizardDescriptor.Pa
                     return ColorMode.BLACK_AND_WHITE;
                 } else {
                     return null;
-                }               
+                }
             }
-    }
-        
+        }
+
 //        String selectedColorMode = component.getColorModeButtonGroup().getSelection().getActionCommand();
 //        if (selectedColorMode != null && selectedColorMode.equalsIgnoreCase("Color")) {
 //            colorMode = ColorMode.FULL_COLOR;
@@ -87,18 +88,18 @@ public class LicencePlateRecognitionWizardPanel1  implements WizardDescriptor.Pa
 
     }
 
-/*    public void validate() throws WizardValidationException {
-        File file = new File((CurrentProject.getInstance().getCurrentProject().getProjectDirectory()).getPath() + "/Images/ImagesDir");
-        File[] files = file.listFiles();
+    /*    public void validate() throws WizardValidationException {
+     File file = new File((CurrentProject.getInstance().getCurrentProject().getProjectDirectory()).getPath() + "/Images/ImagesDir");
+     File[] files = file.listFiles();
         
         
-        if (!file.exists() || file == null || files.length==0) {
-            isValid = false;
-            throw new WizardValidationException(null, "You must add some images in order to train neuro network!", null);
-        }
+     if (!file.exists() || file == null || files.length==0) {
+     isValid = false;
+     throw new WizardValidationException(null, "You must add some images in order to train neuro network!", null);
+     }
         
-        if(file.exists() && file != null && files.length!=0) {
-            isValid = true;
-        }
-    } */
+     if(file.exists() && file != null && files.length!=0) {
+     isValid = true;
+     }
+     } */
 }

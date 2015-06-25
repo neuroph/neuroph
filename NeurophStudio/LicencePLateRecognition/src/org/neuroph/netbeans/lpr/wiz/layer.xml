@@ -1,33 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
-<filesystem>    
-    <folder name="Actions">
-        <folder name="Window">
-            <file name="org-neuroph-netbeans-lpr-wiz-LicencePlateRecognitionWizardAction.instance">
-                <attr name="component" methodvalue="org.neuroph.netbeans.imr.LicencePlateRecognitionWizardAction.findInstance"/>
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.lpr.wiz.Bundle#CTL_LPRAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
-            </file>
-        </folder>
+<filesystem>
+<folder name="Actions">
+   <folder name="Build">
+      <file name="org-neuroph-netbeans-lpr-wiz-LicencePlateRecognitionWizardAction.instance">
+          <attr name="instanceClass" stringvalue="org.neuroph.netbeans.lpr.wiz.LicencePlateRecognitionWizardAction"/>
+       </file>
     </folder>
-    <folder name="Menu">
-        <folder name="Window">
-            <file name="LPRAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/org-neuroph-netbeans-lpr-LicencePlateRecognitionWizardAction.instance"/>
-            </file>
-        </folder>
+</folder>
+
+<folder name="Menu">
+    <folder name="Window">
+       <file name="org-neuroph-netbeans-lpr-wiz.LicencePlateRecognitionWizardAction.shadow">
+          <attr name="originalFile" stringvalue="Actions/Build/org-neuroph-netbeans-lpr-wiz-LicencePlateRecognitionWizardAction.instance"/>
+        </file>
     </folder>
-    <folder name="Templates">
+</folder>
+
+ <folder name="Templates">
         <folder name="Neuroph">      
-            <file name="LPR">
-                <attr name="displayName" bundlevalue="org.neuroph.netbeans.lpr.wiz.Bundle#Templates/Neuroph/LPR"/>
+            <file name="Licence Plate Recognition">
+                <attr name="displayName" bundlevalue="org.neuroph.netbeans.lpr.wiz.Bundle#Templates/Neuroph/lPr"/>
                 <attr name="instantiatingIterator" newvalue="org.neuroph.netbeans.lpr.wiz.LicencePlateRecognitionWizardAction"/>
                 <attr name="position" intvalue="225"/>
-                <attr name="template" boolvalue="true"/>
-                <attr name="templateWizardURL" urlvalue="nbresloc:/org/neuroph/netbeans/lpr/wiz/LicencePlateRecognition.html"/>
-                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/lpr/wiz/char_0.png"/>
+                <attr name="template" boolvalue="true"/>  
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/lpr/wiz/ikonica-crop.png"/>              
             </file>
         </folder>
-    </folder>        
- 
+    </folder>   
+     <folder name="Windows2">
+        <folder name="Components">
+            <file name="ImgRecTestTopComponent.settings" url="org/neuroph/netbeans/lpr/ImgRecTestTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="ImgRecTestTopComponent.wstcref" url="org/neuroph/netbeans/lpr/ImgRecTestTopComponentWstcref.xml"/>
+            </folder>
+        </folder>
+    </folder> 
 </filesystem>
