@@ -6,11 +6,13 @@
 package org.neuroph.netbeans.lpr;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.neuroph.contrib.licenceplaterecognition.OcrDemo;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
@@ -19,9 +21,13 @@ import org.neuroph.imgrec.image.ImageFactory;
 import org.neuroph.imgrec.image.ImageJ2SE;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.IOProvider;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
@@ -47,12 +53,14 @@ import org.openide.windows.IOProvider;
     "CTL_LprTopComponent=Lpr Window",
     "HINT_LprTopComponent=This is a Lpr window"
 })
-public final class LprTopComponent extends TopComponent {
-
-    private static LprTopComponent instance;  
+public final class LprTopComponent extends TopComponent implements LookupListener{
+  private static LprTopComponent instance;
     private JFileChooser testImageFileChooser;
     private NeuralNetwork selectedNeuralNetwork;
     private DataSet selectedTrainingSet;
+
+    Lookup.Result<NeuralNetwork> neuralNetResultSets;
+    Lookup.Result<DataSet> trainingSetNetResultSets;
     public LprTopComponent() {
         initComponents();
         setName(Bundle.CTL_LprTopComponent());
@@ -176,14 +184,18 @@ public final class LprTopComponent extends TopComponent {
     private javax.swing.JTextField testingNetworkField;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
-    @Override
+     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+         neuralNetResultSets = WindowManager.getDefault().findTopComponent("projectTabLogical_tc").getLookup().lookupResult(NeuralNetwork.class);
+        neuralNetResultSets.addLookupListener(this);
+
+        trainingSetNetResultSets = WindowManager.getDefault().findTopComponent("projectTabLogical_tc").getLookup().lookupResult(DataSet.class);
+        trainingSetNetResultSets.addLookupListener(this);
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+       neuralNetResultSets.removeLookupListener(this);
     }
 
     void writeProperties(java.util.Properties p) {
@@ -193,12 +205,13 @@ public final class LprTopComponent extends TopComponent {
         // TODO store your settings
     }
 
+    
+    
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
     }
-    
-    
+
     public void testWholeDataSet() {
         Iterator<DataSetRow> iterator = selectedTrainingSet.iterator();
         StringBuilder sb = new StringBuilder();
@@ -248,19 +261,22 @@ public final class LprTopComponent extends TopComponent {
             Image img = ImageFactory.getImage(imgFile);
 //                scale image here
             testImageLabel.setIcon(new ImageIcon(((ImageJ2SE) img).getBufferedImage()));
+           
             try {
-//                OcrDemo ocrD = new OcrDemo(((ImageJ2SE) img).getBufferedImage(), selectedNeuralNetwork);
-//                ocrD.run();
-//                String outputString = ocrD.getRecognizedCharacters();
-//
-//                //testResultsTextArea.setText(outputString);
-//                IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(outputString);
+               
+                OcrDemo ocrD = new OcrDemo(((ImageJ2SE) img).getBufferedImage(), selectedNeuralNetwork);
+                //ocrD.run();
+                String outputString = ocrD.getRecognizedCharacters();
+
+                //testResultsTextArea.setText(outputString);
+                IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(outputString);
             } catch (Exception ex) {
                 IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(ex.getStackTrace());
             }
         }
     }
-      private String arrayToString(double[] a) {
+
+    private String arrayToString(double[] a) {
         StringBuilder result = new StringBuilder();
         if (a.length > 0) {
             result.append(a[0]);
@@ -269,5 +285,24 @@ public final class LprTopComponent extends TopComponent {
             }
         }
         return result.toString();
+    }
+
+    @Override
+    public void resultChanged(LookupEvent le) {
+        Lookup.Result r = (Lookup.Result) le.getSource();
+        Collection c = r.allInstances();
+        if (!c.isEmpty()) {
+            Object item = c.iterator().next();
+
+            if (item instanceof NeuralNetwork) {
+                selectedNeuralNetwork = (NeuralNetwork) item;
+                testingNetworkField.setText(selectedNeuralNetwork.getLabel());
+                selectImageButton.setEnabled(true);
+            } else if (item instanceof DataSet) {
+                selectedTrainingSet = (DataSet) item;
+                testDataField.setText(selectedTrainingSet.getLabel());
+                testAllButton.setEnabled(true);
+            }
+        }
     }
 }
