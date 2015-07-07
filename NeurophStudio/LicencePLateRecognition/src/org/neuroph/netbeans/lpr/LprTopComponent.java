@@ -6,16 +6,20 @@
 package org.neuroph.netbeans.lpr;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.neuroph.contrib.licenceplaterecognition.OcrDemo;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import org.neuroph.imgrec.ImageRecognitionPlugin;
 import org.neuroph.imgrec.image.Image;
 import org.neuroph.imgrec.image.ImageFactory;
 import org.neuroph.imgrec.image.ImageJ2SE;
@@ -33,16 +37,16 @@ import org.openide.windows.WindowManager;
  * Top component which displays something.
  */
 @ConvertAsProperties(
-        dtd = "-//org.neuroph.netbeans.lpr//Lpr//EN",
+        dtd = "-//org.neuroph.netbeans.lpr.wiz//Lpr//EN",
         autostore = false
 )
 @TopComponent.Description(
         preferredID = "LprTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE", 
+        iconBase = "org/neuroph/netbeans/lpr/wiz/ikonica-crop.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
-@ActionID(category = "Window", id = "org.neuroph.netbeans.lpr.LprTopComponent")
+@ActionID(category = "Window", id = "org.neuroph.netbeans.lpr.wiz.LprTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_LprAction",
@@ -53,14 +57,16 @@ import org.openide.windows.WindowManager;
     "CTL_LprTopComponent=Lpr Window",
     "HINT_LprTopComponent=This is a Lpr window"
 })
-public final class LprTopComponent extends TopComponent implements LookupListener{
-  private static LprTopComponent instance;
+public final class LprTopComponent extends TopComponent implements LookupListener {
+
+    private static LprTopComponent instance;
+
     private JFileChooser testImageFileChooser;
     private NeuralNetwork selectedNeuralNetwork;
     private DataSet selectedTrainingSet;
-
     Lookup.Result<NeuralNetwork> neuralNetResultSets;
     Lookup.Result<DataSet> trainingSetNetResultSets;
+
     public LprTopComponent() {
         initComponents();
         setName(Bundle.CTL_LprTopComponent());
@@ -87,8 +93,6 @@ public final class LprTopComponent extends TopComponent implements LookupListene
         buttonPanel = new javax.swing.JPanel();
         selectImageButton = new javax.swing.JButton();
         testAllButton = new javax.swing.JButton();
-
-        setLayout(new java.awt.BorderLayout());
 
         topPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -132,16 +136,12 @@ public final class LprTopComponent extends TopComponent implements LookupListene
         gridBagConstraints.insets = new java.awt.Insets(14, 0, 3, 0);
         topPanel.add(jLabel1, gridBagConstraints);
 
-        add(topPanel, java.awt.BorderLayout.PAGE_START);
-
         centerPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         centerPanel.setAutoscrolls(true);
 
         testImageLabel.setBackground(new java.awt.Color(255, 255, 255));
         testImageLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         centerPanel.add(testImageLabel);
-
-        add(centerPanel, java.awt.BorderLayout.CENTER);
 
         org.openide.awt.Mnemonics.setLocalizedText(selectImageButton, org.openide.util.NbBundle.getMessage(LprTopComponent.class, "LprTopComponent.selectImageButton.text")); // NOI18N
         selectImageButton.setEnabled(false);
@@ -161,7 +161,33 @@ public final class LprTopComponent extends TopComponent implements LookupListene
         });
         buttonPanel.add(testAllButton);
 
-        add(buttonPanel, java.awt.BorderLayout.PAGE_END);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 771, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(centerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 350, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)
+                    .addComponent(centerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)
+                    .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void selectImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectImageButtonActionPerformed
@@ -184,9 +210,53 @@ public final class LprTopComponent extends TopComponent implements LookupListene
     private javax.swing.JTextField testingNetworkField;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
-     @Override
+ public static synchronized LprTopComponent getDefault() {
+        if (instance == null) {
+            instance = new LprTopComponent();
+        }
+        return instance;
+    }
+
+    /**
+     * Obtain the IMRTopComponent instance. Never call {@link #getDefault} directly!
+     */
+    public static synchronized LprTopComponent findInstance() {
+        TopComponent win = WindowManager.getDefault().findTopComponent("LprTopComponent");
+        if (win == null) {
+            Logger.getLogger(LprTopComponent.class.getName()).warning(
+                    "Cannot find " + "LprTopComponent" + " component. It will not be located properly in the window system.");
+            return getDefault();
+        }
+        if (win instanceof LprTopComponent) {
+            return (LprTopComponent) win;
+        }
+        Logger.getLogger(LprTopComponent.class.getName()).warning(
+                "There seem to be multiple components with the '" + "LprTopComponent"
+                + "' ID. That is a potential source of errors and unexpected behavior.");
+        return getDefault();
+    }
+    @Override
+    public void resultChanged(LookupEvent le) {
+        Lookup.Result r = (Lookup.Result) le.getSource();
+        Collection c = r.allInstances();
+        if (!c.isEmpty()) {
+            Object item = c.iterator().next();
+
+            if (item instanceof NeuralNetwork) {
+                selectedNeuralNetwork = (NeuralNetwork) item;
+                testingNetworkField.setText(selectedNeuralNetwork.getLabel());
+                selectImageButton.setEnabled(true);
+            } else if (item instanceof DataSet) {
+                selectedTrainingSet = (DataSet) item;
+                testDataField.setText(selectedTrainingSet.getLabel());
+                testAllButton.setEnabled(true);
+            }
+        }
+    }
+
+    @Override
     public void componentOpened() {
-         neuralNetResultSets = WindowManager.getDefault().findTopComponent("projectTabLogical_tc").getLookup().lookupResult(NeuralNetwork.class);
+        neuralNetResultSets = WindowManager.getDefault().findTopComponent("projectTabLogical_tc").getLookup().lookupResult(NeuralNetwork.class);
         neuralNetResultSets.addLookupListener(this);
 
         trainingSetNetResultSets = WindowManager.getDefault().findTopComponent("projectTabLogical_tc").getLookup().lookupResult(DataSet.class);
@@ -195,7 +265,7 @@ public final class LprTopComponent extends TopComponent implements LookupListene
 
     @Override
     public void componentClosed() {
-       neuralNetResultSets.removeLookupListener(this);
+        neuralNetResultSets.removeLookupListener(this);
     }
 
     void writeProperties(java.util.Properties p) {
@@ -205,8 +275,6 @@ public final class LprTopComponent extends TopComponent implements LookupListene
         // TODO store your settings
     }
 
-    
-    
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
@@ -261,12 +329,21 @@ public final class LprTopComponent extends TopComponent implements LookupListene
             Image img = ImageFactory.getImage(imgFile);
 //                scale image here
             testImageLabel.setIcon(new ImageIcon(((ImageJ2SE) img).getBufferedImage()));
-           
+
+            ImageRecognitionPlugin imageRecognition = (ImageRecognitionPlugin) selectedNeuralNetwork.getPlugin(ImageRecognitionPlugin.class);
+
             try {
-               
-                OcrDemo ocrD = new OcrDemo(((ImageJ2SE) img).getBufferedImage(), selectedNeuralNetwork);
-                //ocrD.run();
-                String outputString = ocrD.getRecognizedCharacters();
+
+                HashMap<String, Double> output = imageRecognition.recognizeImage(img);
+
+                String outputString = "";
+                NumberFormat numberFormat = DecimalFormat.getNumberInstance();
+                numberFormat.setMaximumFractionDigits(4);
+                Iterator keys = output.keySet().iterator();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    outputString += key + " : " + numberFormat.format(output.get(key)) + "\n";
+                }
 
                 //testResultsTextArea.setText(outputString);
                 IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(outputString);
@@ -276,6 +353,9 @@ public final class LprTopComponent extends TopComponent implements LookupListene
         }
     }
 
+//    public void clearTestArea() {
+//        testResultsTextArea.setText("");
+//    }
     private String arrayToString(double[] a) {
         StringBuilder result = new StringBuilder();
         if (a.length > 0) {
@@ -285,24 +365,5 @@ public final class LprTopComponent extends TopComponent implements LookupListene
             }
         }
         return result.toString();
-    }
-
-    @Override
-    public void resultChanged(LookupEvent le) {
-        Lookup.Result r = (Lookup.Result) le.getSource();
-        Collection c = r.allInstances();
-        if (!c.isEmpty()) {
-            Object item = c.iterator().next();
-
-            if (item instanceof NeuralNetwork) {
-                selectedNeuralNetwork = (NeuralNetwork) item;
-                testingNetworkField.setText(selectedNeuralNetwork.getLabel());
-                selectImageButton.setEnabled(true);
-            } else if (item instanceof DataSet) {
-                selectedTrainingSet = (DataSet) item;
-                testDataField.setText(selectedTrainingSet.getLabel());
-                testAllButton.setEnabled(true);
-            }
-        }
     }
 }
