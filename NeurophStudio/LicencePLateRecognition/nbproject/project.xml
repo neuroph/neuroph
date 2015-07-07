@@ -43,7 +43,7 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>org.neuroph.netbeans</code-name-base>
+                    <code-name-base>org.neuroph.contrib</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
@@ -51,7 +51,7 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>org.neuroph.netbeans.contrib</code-name-base>
+                    <code-name-base>org.neuroph.netbeans</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
