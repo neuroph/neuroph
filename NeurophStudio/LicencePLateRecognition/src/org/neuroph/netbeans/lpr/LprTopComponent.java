@@ -5,24 +5,32 @@
  */
 package org.neuroph.netbeans.lpr;
 
+import static java.awt.Color.WHITE;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import net.sourceforge.javaocr.ocrPlugins.CharacterExtractor;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.imgrec.ImageRecognitionPlugin;
+import org.neuroph.imgrec.ColorMode;
+import org.neuroph.imgrec.image.Dimension;
 import org.neuroph.imgrec.image.Image;
 import org.neuroph.imgrec.image.ImageFactory;
 import org.neuroph.imgrec.image.ImageJ2SE;
+import org.neuroph.ocr.OcrPlugin;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Lookup;
@@ -66,6 +74,9 @@ public final class LprTopComponent extends TopComponent implements LookupListene
     private DataSet selectedTrainingSet;
     Lookup.Result<NeuralNetwork> neuralNetResultSets;
     Lookup.Result<DataSet> trainingSetNetResultSets;
+    private String charOutputFile = "data";
+    private String recognizedCharacters;
+    private BufferedImage image;
 
     public LprTopComponent() {
         initComponents();
@@ -93,6 +104,8 @@ public final class LprTopComponent extends TopComponent implements LookupListene
         buttonPanel = new javax.swing.JPanel();
         selectImageButton = new javax.swing.JButton();
         testAllButton = new javax.swing.JButton();
+
+        setLayout(new java.awt.BorderLayout());
 
         topPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -136,12 +149,16 @@ public final class LprTopComponent extends TopComponent implements LookupListene
         gridBagConstraints.insets = new java.awt.Insets(14, 0, 3, 0);
         topPanel.add(jLabel1, gridBagConstraints);
 
+        add(topPanel, java.awt.BorderLayout.PAGE_START);
+
         centerPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         centerPanel.setAutoscrolls(true);
 
         testImageLabel.setBackground(new java.awt.Color(255, 255, 255));
         testImageLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         centerPanel.add(testImageLabel);
+
+        add(centerPanel, java.awt.BorderLayout.CENTER);
 
         org.openide.awt.Mnemonics.setLocalizedText(selectImageButton, org.openide.util.NbBundle.getMessage(LprTopComponent.class, "LprTopComponent.selectImageButton.text")); // NOI18N
         selectImageButton.setEnabled(false);
@@ -161,33 +178,7 @@ public final class LprTopComponent extends TopComponent implements LookupListene
         });
         buttonPanel.add(testAllButton);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 771, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(centerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 350, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
-                    .addComponent(centerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
-                    .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        add(buttonPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void selectImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectImageButtonActionPerformed
@@ -218,7 +209,8 @@ public final class LprTopComponent extends TopComponent implements LookupListene
     }
 
     /**
-     * Obtain the IMRTopComponent instance. Never call {@link #getDefault} directly!
+     * Obtain the IMRTopComponent instance. Never call {@link #getDefault}
+     * directly!
      */
     public static synchronized LprTopComponent findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent("LprTopComponent");
@@ -235,6 +227,7 @@ public final class LprTopComponent extends TopComponent implements LookupListene
                 + "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();
     }
+
     @Override
     public void resultChanged(LookupEvent le) {
         Lookup.Result r = (Lookup.Result) le.getSource();
@@ -330,25 +323,57 @@ public final class LprTopComponent extends TopComponent implements LookupListene
 //                scale image here
             testImageLabel.setIcon(new ImageIcon(((ImageJ2SE) img).getBufferedImage()));
 
-            ImageRecognitionPlugin imageRecognition = (ImageRecognitionPlugin) selectedNeuralNetwork.getPlugin(ImageRecognitionPlugin.class);
-
             try {
 
-                HashMap<String, Double> output = imageRecognition.recognizeImage(img);
+                //binarize the input image
+                image = BinaryOps.binary(((ImageJ2SE) img).getBufferedImage());
 
-                String outputString = "";
-                NumberFormat numberFormat = DecimalFormat.getNumberInstance();
-                numberFormat.setMaximumFractionDigits(4);
-                Iterator keys = output.keySet().iterator();
-                while (keys.hasNext()) {
-                    String key = (String) keys.next();
-                    outputString += key + " : " + numberFormat.format(output.get(key)) + "\n";
+                //dataset creation 
+                /**
+                 * CharacterExtractor ce1 = new CharacterExtractor(); File
+                 * inputImage1 = new File(datasetImageFile); File
+                 * outputDirectory1 = new File (datasetOutputFile);
+                 * ce1.slice(inputImage1, outputDirectory1, 60, 60);
+                 */
+                // crop the white rectange from the image
+                File cropFile = crop(image);
+
+                // extract individual characters from text image
+                CharacterExtractor ce = new CharacterExtractor();
+
+                //make the output file
+                File outputDirectory = new File(charOutputFile);
+                //slice the cropped file to individual character with the width and height of 60px
+                ce.slice(cropFile, outputDirectory, 60, 60);
+
+                //make a list of character images and add the images form char files
+                List<BufferedImage> lista = new ArrayList<BufferedImage>();
+                for (int i = 0; i <= 7; i++) {
+                    File f = new File("data/char_" + i + ".png");
+                    BufferedImage bi = ImageIO.read(f);
+                    lista.add(bi);
                 }
 
+                // load neural network from file
+                // get ocr plugin from neural network
+                selectedNeuralNetwork.addPlugin(new OcrPlugin(new Dimension(10, 10), ColorMode.BLACK_AND_WHITE));
+                OcrPlugin ocrPlugin = (OcrPlugin) selectedNeuralNetwork.getPlugin(OcrPlugin.class);
+
+                // and recognize current character - ( have to use ImageJ2SE here to wrap BufferedImage)
+                for (int i = 0; i < lista.size(); i++) {
+                    if (ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i)))!=null){
+                    recognizedCharacters += ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ";
+                    }
+                    System.out.print(ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ");
+                }
+                    recognizedCharacters.trim();
+                
+                JOptionPane.showMessageDialog(this, recognizedCharacters);
+
                 //testResultsTextArea.setText(outputString);
-                IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(outputString);
+                IOProvider.getDefault().getIO("Licence Plate Recognition Results", false).getOut().println(recognizedCharacters);
             } catch (Exception ex) {
-                IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(ex.getStackTrace());
+                IOProvider.getDefault().getIO("Licence Recognition Results", false).getOut().println(ex.getStackTrace());
             }
         }
     }
@@ -365,5 +390,41 @@ public final class LprTopComponent extends TopComponent implements LookupListene
             }
         }
         return result.toString();
+    }
+
+    public File crop(BufferedImage image) {
+        // this will be coordinates of the upper left white pixel
+        int upperLeftCornerx = Integer.MAX_VALUE;
+        int upperLeftCornery = Integer.MAX_VALUE;
+        //this will be coordinates of the lower right white pixel
+        int lowerRightCornerx = Integer.MIN_VALUE;
+        int lowerRightCornery = Integer.MIN_VALUE;
+        //find the minimum and maximum white pixel coordinates
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
+                if (image.getRGB(i, j) == WHITE.getRGB() && (i < upperLeftCornerx && j < upperLeftCornery)
+                        || (i <= upperLeftCornerx && j < upperLeftCornery)
+                        || (i < upperLeftCornerx && j <= upperLeftCornery)) {
+                    upperLeftCornerx = i;
+                    upperLeftCornery = j;
+                }
+                if (image.getRGB(i, j) == WHITE.getRGB() && ((i > lowerRightCornerx && j >= lowerRightCornery)
+                        || (i >= lowerRightCornerx && j > lowerRightCornery)
+                        || (i > lowerRightCornerx && j >= lowerRightCornery))) {
+                    lowerRightCornerx = i;
+                    lowerRightCornery = j;
+                }
+            }
+        }
+        //crop the image to the white rectangle size
+        BufferedImage croppedImage = image.getSubimage(upperLeftCornerx, upperLeftCornery, lowerRightCornerx - upperLeftCornerx, lowerRightCornery - upperLeftCornery);
+        //make a file from that cropped image
+        File cropFile = new File("croppedimage.png");
+        try {
+            ImageIO.write(croppedImage, "png", cropFile);
+        } catch (IOException ex) {
+            Logger.getLogger(LprTopComponent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cropFile;
     }
 }
