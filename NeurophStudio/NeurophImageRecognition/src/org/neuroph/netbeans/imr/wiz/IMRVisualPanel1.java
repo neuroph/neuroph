@@ -1,6 +1,5 @@
 package org.neuroph.netbeans.imr.wiz;
 
-import java.io.FileFilter;
 import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;

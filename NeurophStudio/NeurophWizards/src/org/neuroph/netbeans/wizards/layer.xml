@@ -175,6 +175,7 @@
                         <attr name="template" boolvalue="true"/>
                         <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/neuroph/netbeans/wizards/project/templates/neurophProjectIcon.gif"/>
                     </file>
+                    
                 </folder>
             </folder>
         </folder>        

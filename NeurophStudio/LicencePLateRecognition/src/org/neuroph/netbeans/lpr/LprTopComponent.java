@@ -75,7 +75,7 @@ public final class LprTopComponent extends TopComponent implements LookupListene
     Lookup.Result<NeuralNetwork> neuralNetResultSets;
     Lookup.Result<DataSet> trainingSetNetResultSets;
     private String charOutputFile = "data";
-    private String recognizedCharacters;
+    private String recognizedCharacters="";
     private BufferedImage image;
 
     public LprTopComponent() {
@@ -364,16 +364,16 @@ public final class LprTopComponent extends TopComponent implements LookupListene
                     if (ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i)))!=null){
                     recognizedCharacters += ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ";
                     }
-                    System.out.print(ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ");
+                   // System.out.print(ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ");
                 }
                     recognizedCharacters.trim();
                 
                 JOptionPane.showMessageDialog(this, recognizedCharacters);
 
                 //testResultsTextArea.setText(outputString);
-                IOProvider.getDefault().getIO("Licence Plate Recognition Results", false).getOut().println(recognizedCharacters);
+                IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(recognizedCharacters);
             } catch (Exception ex) {
-                IOProvider.getDefault().getIO("Licence Recognition Results", false).getOut().println(ex.getStackTrace());
+                IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(ex.getStackTrace());
             }
         }
     }

@@ -6,8 +6,6 @@ package org.neuroph.netbeans.wizards.project.templates;
 
 
 import org.openide.WizardDescriptor;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 
 
 
