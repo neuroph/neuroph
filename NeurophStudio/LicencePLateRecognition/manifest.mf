@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-AutoUpdate-Show-In-Client: true
-OpenIDE-Module: org.neuroph.netbeans.lpr
-OpenIDE-Module-Layer: org/neuroph/netbeans/lpr/wiz/layer.xml
-OpenIDE-Module-Localizing-Bundle: org/neuroph/netbeans/lpr/wiz/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-
