@@ -86,7 +86,7 @@ public final class LicencePlateRecognitionWizardAction implements WizardDescript
         String neurons = (String) wizard.getProperty("neurons");
         String transferFunction = (String) wizard.getProperty("transferFunction");
         createNeuralNetwork(neuralNetworkName, transferFunction, samplingResollution, neurons, imageLabels, colorMode);
-        TopComponent tc = WindowManager.getDefault().findTopComponent("LprTopComponent");
+        TopComponent tc = WindowManager.getDefault().findTopComponent("ImgRecTestTopComponent");
         tc.open();
         return Collections.EMPTY_SET;
     }
