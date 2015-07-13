@@ -25,17 +25,12 @@ import org.netbeans.api.project.ProjectManager;
 import org.netbeans.api.templates.TemplateRegistration;
 import org.netbeans.spi.project.ui.support.ProjectChooser;
 import org.netbeans.spi.project.ui.templates.support.Templates;
-import org.neuroph.netbeans.main.ViewManager;
-import org.neuroph.netbeans.project.CurrentProject;
-import org.neuroph.netbeans.project.NeurophProject;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.util.NbBundle.Messages;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 import org.openide.xml.XMLUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -93,12 +88,7 @@ public class LprWizardIterator implements WizardDescriptor./*Progress*/Instantia
         if (parent != null && parent.exists()) {
             ProjectChooser.setProjectsFolder(parent);
         }
-//getting neurophproject class from project manager
-        NeurophProject np = (NeurophProject) ProjectManager.getDefault().findProject(dir);
-        CurrentProject.getInstance().setCurrentProject(np);
-       // ViewManager.getInstance().licencePlateRecognitionSample();
-         TopComponent tc = WindowManager.getDefault().findTopComponent("LprTopComponent");
-        tc.open();
+
         return resultSet;
     }
 
