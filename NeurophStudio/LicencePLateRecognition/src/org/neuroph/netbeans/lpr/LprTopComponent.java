@@ -9,6 +9,7 @@ import static java.awt.Color.WHITE;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -62,8 +63,8 @@ import org.openide.windows.WindowManager;
 )
 @Messages({
     "CTL_LprAction=Lpr",
-    "CTL_LprTopComponent=Lpr Window",
-    "HINT_LprTopComponent=This is a Lpr window"
+    "CTL_LprTopComponent=Licence Plate Recognition",
+    "HINT_LprTopComponent=This is a licence plate recognition window"
 })
 public final class LprTopComponent extends TopComponent implements LookupListener {
 
@@ -75,7 +76,7 @@ public final class LprTopComponent extends TopComponent implements LookupListene
     Lookup.Result<NeuralNetwork> neuralNetResultSets;
     Lookup.Result<DataSet> trainingSetNetResultSets;
     private String charOutputFile = "data";
-    private String recognizedCharacters;
+    private String recognizedCharacters = "";
     private BufferedImage image;
 
     public LprTopComponent() {
@@ -361,19 +362,25 @@ public final class LprTopComponent extends TopComponent implements LookupListene
 
                 // and recognize current character - ( have to use ImageJ2SE here to wrap BufferedImage)
                 for (int i = 0; i < lista.size(); i++) {
-                    if (ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i)))!=null){
-                    recognizedCharacters += ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ";
+                    if (ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) != null) {
+                        recognizedCharacters += ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ";
                     }
                     System.out.print(ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + " ");
                 }
-                    recognizedCharacters.trim();
-                
-                JOptionPane.showMessageDialog(this, recognizedCharacters);
+                recognizedCharacters.trim();
 
-                //testResultsTextArea.setText(outputString);
-                IOProvider.getDefault().getIO("Licence Plate Recognition Results", false).getOut().println(recognizedCharacters);
+                JOptionPane.showMessageDialog(this, recognizedCharacters);
+                //testResultsTextArea.setText(outputString);                
+                IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(recognizedCharacters);
+               
+                TopComponent tc2 = WindowManager.getDefault().findTopComponent("GeneratedCodeTopComponent");
+                tc2.open();
+                ((GeneratedCodeTopComponent) tc2).writeCode(selectedNeuralNetwork);
+                
+               
+
             } catch (Exception ex) {
-                IOProvider.getDefault().getIO("Licence Recognition Results", false).getOut().println(ex.getStackTrace());
+                IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(ex.getStackTrace());
             }
         }
     }
@@ -422,8 +429,10 @@ public final class LprTopComponent extends TopComponent implements LookupListene
         File cropFile = new File("croppedimage.png");
         try {
             ImageIO.write(croppedImage, "png", cropFile);
+
         } catch (IOException ex) {
-            Logger.getLogger(LprTopComponent.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LprTopComponent.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return cropFile;
     }
