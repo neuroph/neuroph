@@ -321,7 +321,7 @@ public final class LprTopComponent extends TopComponent implements LookupListene
             File imgFile = testImageFileChooser.getSelectedFile();
 
             Image img = ImageFactory.getImage(imgFile);
-//                scale image here
+            //scale image here
             testImageLabel.setIcon(new ImageIcon(((ImageJ2SE) img).getBufferedImage()));
 
             try {
@@ -329,13 +329,6 @@ public final class LprTopComponent extends TopComponent implements LookupListene
                 //binarize the input image
                 image = BinaryOps.binary(((ImageJ2SE) img).getBufferedImage());
 
-                //dataset creation 
-                /**
-                 * CharacterExtractor ce1 = new CharacterExtractor(); File
-                 * inputImage1 = new File(datasetImageFile); File
-                 * outputDirectory1 = new File (datasetOutputFile);
-                 * ce1.slice(inputImage1, outputDirectory1, 60, 60);
-                 */
                 // crop the white rectange from the image
                 File cropFile = crop(image);
 
@@ -372,12 +365,10 @@ public final class LprTopComponent extends TopComponent implements LookupListene
                 JOptionPane.showMessageDialog(this, recognizedCharacters);
                 //testResultsTextArea.setText(outputString);                
                 IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(recognizedCharacters);
-               
+
                 TopComponent tc2 = WindowManager.getDefault().findTopComponent("GeneratedCodeTopComponent");
                 tc2.open();
                 ((GeneratedCodeTopComponent) tc2).writeCode(selectedNeuralNetwork);
-                
-               
 
             } catch (Exception ex) {
                 IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(ex.getStackTrace());
