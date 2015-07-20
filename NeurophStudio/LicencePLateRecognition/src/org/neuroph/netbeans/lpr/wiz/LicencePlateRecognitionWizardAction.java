@@ -35,8 +35,8 @@ public final class LicencePlateRecognitionWizardAction implements WizardDescript
     private WizardDescriptor.Panel[] panels;
 
     /**
-     * Initialize panels representing individual wizard's steps and sets various
-     * properties for them influencing wizard appearance.
+     * Initialize panels representing individual wizard's steps and sets
+     * various properties for them influencing wizard appearance.
      */
     private WizardDescriptor.Panel[] getPanels() {
         if (panels == null) {
@@ -86,9 +86,8 @@ public final class LicencePlateRecognitionWizardAction implements WizardDescript
         String neurons = (String) wizard.getProperty("neurons");
         String transferFunction = (String) wizard.getProperty("transferFunction");
         createNeuralNetwork(neuralNetworkName, transferFunction, samplingResollution, neurons, imageLabels, colorMode);
-        TopComponent tc = WindowManager.getDefault().findTopComponent("LprTopComponent");
+        TopComponent tc = WindowManager.getDefault().findTopComponent("ImgRecTestTopComponent");
         tc.open();
-       
         return Collections.EMPTY_SET;
     }
 
@@ -141,27 +140,27 @@ public final class LicencePlateRecognitionWizardAction implements WizardDescript
     // the number of panels changes in response to user input, then uncomment
     // the following and call when needed: fireChangeEvent();
     /*
-     private Set<ChangeListener> listeners = new HashSet<ChangeListener>(1); // or can use ChangeSupport in NB 6.0
-     public final void addChangeListener(ChangeListener l) {
-     synchronized (listeners) {
-     listeners.add(l);
-     }
-     }
-     public final void removeChangeListener(ChangeListener l) {
-     synchronized (listeners) {
-     listeners.remove(l);
-     }
-     }
-     protected final void fireChangeEvent() {
-     Iterator<ChangeListener> it;
-     synchronized (listeners) {
-     it = new HashSet<ChangeListener>(listeners).iterator();
-     }
-     ChangeEvent ev = new ChangeEvent(this);
-     while (it.hasNext()) {
-     it.next().stateChanged(ev);
-     }
-     }
+    private Set<ChangeListener> listeners = new HashSet<ChangeListener>(1); // or can use ChangeSupport in NB 6.0
+    public final void addChangeListener(ChangeListener l) {
+    synchronized (listeners) {
+    listeners.add(l);
+    }
+    }
+    public final void removeChangeListener(ChangeListener l) {
+    synchronized (listeners) {
+    listeners.remove(l);
+    }
+    }
+    protected final void fireChangeEvent() {
+    Iterator<ChangeListener> it;
+    synchronized (listeners) {
+    it = new HashSet<ChangeListener>(listeners).iterator();
+    }
+    ChangeEvent ev = new ChangeEvent(this);
+    while (it.hasNext()) {
+    it.next().stateChanged(ev);
+    }
+    }
      */
     // You could safely ignore this method. Is is here to keep steps which were
     // there before this wizard was instantiated. It should be better handled
@@ -191,21 +190,21 @@ public final class LicencePlateRecognitionWizardAction implements WizardDescript
 
     private List<String> createDataSet(String imageDir, String junkDir, Dimension samplingResolution, ColorMode colorMode, String trainigSetName) {
         DataSet dataSet = null;
-
+        
         HashMap<String, FractionRgbData> rgbDataMap = new HashMap<String, FractionRgbData>();
         HashMap<String, FractionHSLData> hslDataMap = new HashMap<String, FractionHSLData>();
-
+        
         List imageLabels = new ArrayList<String>();
 
         // load color infor for images to recognize
         try {
             // get labels for all images
             File labeledImagesDir = new File(imageDir);
-            if (colorMode == ColorMode.COLOR_HSL) {
+            if (colorMode == ColorMode.COLOR_HSL)  {
                 hslDataMap.putAll(ImageRecognitionHelper.getFractionHSLDataForDirectory(labeledImagesDir, samplingResolution));
-            } else {
+            } else
                 rgbDataMap.putAll(ImageRecognitionHelper.getFractionRgbDataForDirectory(labeledImagesDir, samplingResolution)); // pre je koristio ImageLoader
-            }
+
             for (String imgName : rgbDataMap.keySet()) {
                 StringTokenizer st = new StringTokenizer(imgName, "._");
                 String imageLabel = st.nextToken();
@@ -213,7 +212,7 @@ public final class LicencePlateRecognitionWizardAction implements WizardDescript
                     imageLabels.add(imageLabel);
                 }
             }
-            Collections.sort(imageLabels);
+            Collections.sort(imageLabels);                        
         } catch (IOException ioe) {
             System.err.println("Unable to load images from labeled images dir: '" + imageDir + "'");
             System.err.println(ioe.toString());
@@ -223,13 +222,13 @@ public final class LicencePlateRecognitionWizardAction implements WizardDescript
         if ((junkDir != null) && (!junkDir.equals(""))) {
             try {
                 File junkImagesDir = new File(junkDir);
-
-                if (colorMode == ColorMode.COLOR_HSL) {
-                    hslDataMap.putAll(ImageRecognitionHelper.getFractionHSLDataForDirectory(junkImagesDir, samplingResolution));
-                } else {
-                    rgbDataMap.putAll(ImageRecognitionHelper.getFractionRgbDataForDirectory(junkImagesDir, samplingResolution)); // pre je koristio ImageLoader
-                }
-
+                
+            if (colorMode == ColorMode.COLOR_HSL)  {
+                hslDataMap.putAll(ImageRecognitionHelper.getFractionHSLDataForDirectory(junkImagesDir, samplingResolution));
+            } else
+                rgbDataMap.putAll(ImageRecognitionHelper.getFractionRgbDataForDirectory(junkImagesDir, samplingResolution)); // pre je koristio ImageLoader
+                
+                
             } catch (IOException ioe) {
                 System.err.println("Unable to load images from junk images dir: '" + junkDir + "'");
                 System.err.println(ioe.toString());
@@ -239,15 +238,15 @@ public final class LicencePlateRecognitionWizardAction implements WizardDescript
         // create data set
         if (colorMode == ColorMode.COLOR_RGB) {
             dataSet = ImageRecognitionHelper.createRGBTrainingSet(imageLabels, rgbDataMap);
-        } else if (colorMode == ColorMode.COLOR_HSL) {
-            dataSet = ImageRecognitionHelper.createHSLTrainingSet(imageLabels, hslDataMap);
+        } else if (colorMode == ColorMode.COLOR_HSL) {                                    
+            dataSet = ImageRecognitionHelper.createHSLTrainingSet(imageLabels, hslDataMap); 
         } else {
             dataSet = ImageRecognitionHelper.createBlackAndWhiteTrainingSet(imageLabels, rgbDataMap);
         }
 
         dataSet.setLabel(trainigSetName);
         NeurophProjectFilesFactory.getDefault().createTrainingSetFile(dataSet);
-
+        
         return imageLabels;
     }
 
