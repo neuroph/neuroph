@@ -43,7 +43,7 @@ public class ConvolutionalUtils {
                     toLayer.connectMaps(fromMap, toMap);
                 }
             }
-        } else if (toLayer instanceof PoolingLayer) {
+        } else if (toLayer instanceof PoolingLayer) { // ???? CHECK: da li je ovo dobro
             for (int i = 0; i < toLayer.getNumberOfMaps(); i++) {
                 Layer2D fromMap = fromLayer.getFeatureMap(i);
                 Layer2D toMap = toLayer.getFeatureMap(i);
