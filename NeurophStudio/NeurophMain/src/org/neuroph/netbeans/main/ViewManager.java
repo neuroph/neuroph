@@ -20,6 +20,8 @@ import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.nnet.Kohonen;
 import org.neuroph.nnet.NeuroFuzzyPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  *
@@ -63,13 +65,12 @@ public class ViewManager implements
 //            networkTopComponent.requestActive();
 //        }
 //    }
-
     public void onNetworkClose(NeuralNetwork nnet) {
-       // openedNetworks.remove(nnet);
+        // openedNetworks.remove(nnet);
     }
 
     public void onTrainingSetClose(DataSet tset) {
-       // openedTrainingSets.remove(tset);
+        // openedTrainingSets.remove(tset);
     }
 
     /**
@@ -105,7 +106,6 @@ public class ViewManager implements
 //        neuronPropertiesFrame.open();
 //        neuronPropertiesFrame.requestActive();
 //    }
-
     /**
      * Opens TrainingEditFrameTopComponent - opened by TrainingSet Wizard
      *
@@ -183,18 +183,25 @@ public class ViewManager implements
         kohonenVisualizer.requestActive();
     }
 
+    public void licencePlateRecognitionSample() {
+       TopComponent tc = WindowManager.getDefault().findTopComponent("LprTopComponent");
+        tc.open();
+           
+       
+    }
+
     /**
      * Opens NFRSample
      */
     public void nfrSample() {
         double[][] pointsSets = {{0, 0, 20, 22}, // bad
-            {20, 22, 40, 42}, // good
-            {40, 42, 80, 82}, // very good
-            {80, 82, 100, 100}}; // excellent
+        {20, 22, 40, 42}, // good
+        {40, 42, 80, 82}, // very good
+        {80, 82, 100, 100}}; // excellent
 
         double[][] timeSets = {{15, 15, 20, 25}, // fast
-            {20, 25, 35, 40}, // moderate
-            {35, 40, 1000, 1000}}; // slow
+        {20, 25, 35, 40}, // moderate
+        {35, 40, 1000, 1000}}; // slow
 
         NeuralNetwork nnet = new NeuroFuzzyPerceptron(pointsSets, timeSets);
         DataSet tSet = new DataSet(2, 4);
@@ -285,7 +292,6 @@ public class ViewManager implements
         nnet.setLabel("NFR sample");
         tSet.setLabel("NFR tset");
 
-
         NeuralNetAndDataSet controller = new NeuralNetAndDataSet(nnet, tSet);
 
         NeurophProjectFilesFactory.getDefault().createNeuralNetworkFile(nnet);
@@ -315,9 +321,9 @@ public class ViewManager implements
 //        sample.requestActive();
 //
 //    }
-
-    /** // now moved to NeurophProjectTemplateWizardIteratorRecomender instantiate method
-     * Opens RecommenderSample
+    /**
+     * // now moved to NeurophProjectTemplateWizardIteratorRecomender
+     * instantiate method Opens RecommenderSample
      */
 //    public void recommenderSample() {
 //        NeuralNetwork nnet = new org.neuroph.contrib.RecommenderNetwork();
@@ -331,7 +337,6 @@ public class ViewManager implements
 //        NeurophProjectFilesFactory.getDefault().createNeuralNetworkFile(nnet);
 ////        NeurophProjectFilesFactory.getDefault().createTrainingSetFile(tSet);
 //    }
-
     /**
      * Opens PerceptronSample
      */
