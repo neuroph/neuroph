@@ -17,6 +17,7 @@
 package org.neuroph.nnet.comp;
 
 import java.io.Serializable;
+import org.neuroph.core.Weight;
 
 /**
  * Kernel used in convolution networks. Kernel is (width x height) window
@@ -39,6 +40,9 @@ public class Kernel implements Serializable {
          * Kernel height
          */
 	private int height;
+        
+        
+        private Weight[][] weights;
 
         /**
          * Creates new kernel with specified width and height
@@ -91,4 +95,13 @@ public class Kernel implements Serializable {
 		return width * height;
 	}
 
+    public Weight[][] getWeights() {
+        return weights;
+    }
+
+    public void setWeights(Weight[][] weights) {
+        this.weights = weights;
+    }
+
+        
 }
