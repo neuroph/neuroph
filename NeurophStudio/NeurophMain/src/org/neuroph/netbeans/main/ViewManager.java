@@ -3,6 +3,8 @@ package org.neuroph.netbeans.main;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
@@ -375,7 +377,7 @@ public class ViewManager implements
             }
         };
 
-        org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet pst = new PerceptronSampleTrainingSet();
+        final org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet pst = new PerceptronSampleTrainingSet();
         pst.addObserver(trainingSet);
         pst.addObserver(markovNeuralNet);
 
@@ -385,13 +387,21 @@ public class ViewManager implements
         DataSet ts = trainingSet.getTrainingSet();
 
         //            org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample backpropagationVisualizer = new org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample(pst);
-        org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent backpropagationVisualizer = new org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent();
-        backpropagationVisualizer.setTrainingSetForMultiLayerPerceptronSample(pst);
 
-        backpropagationVisualizer.setVisible(true);
-        backpropagationVisualizer.open();
-        backpropagationVisualizer.requestActive();
+        SwingUtilities.invokeLater(new Runnable() {
 
+            public void run() {
+                org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent backpropagationVisualizer = new org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent();
+                backpropagationVisualizer.setTrainingSetForMultiLayerPerceptronSample(pst);
+
+                backpropagationVisualizer.setVisible(true);
+                backpropagationVisualizer.open();
+
+                backpropagationVisualizer.requestActive();
+            }
+        }
+        );
+        
         showMessage("Started Multi Layer Perceptron with Backpropagation Sample");
 
     }

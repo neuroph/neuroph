@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.classificationsample;
 
+import java.awt.BorderLayout;
 import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -39,7 +36,10 @@ public final class SettingsTopComponent extends TopComponent {
         setName(Bundle.CTL_SettingsTopComponent());
         setToolTipText(Bundle.HINT_SettingsTopComponent());
         putClientProperty(TopComponent.PROP_KEEP_PREFERRED_SIZE_WHEN_SLIDED_IN, Boolean.TRUE);
-
+        
+        sampleControlsPanel = new MultiLayerPerceptronClassificationSamplePanel();
+        add(sampleControlsPanel);        
+        
     }
 
     /**
@@ -50,21 +50,12 @@ public final class SettingsTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 270, Short.MAX_VALUE)
-        );
+        setLayout(new java.awt.GridLayout());
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    private MultiLayerPerceptronClassificationSamplePanel controllsPanel;
+    private MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel;
     
     private static SettingsTopComponent instance;
     private static final String PREFERRED_ID = "SettingsTopComponent";
@@ -100,18 +91,18 @@ public final class SettingsTopComponent extends TopComponent {
         return getDefault();
     }
     
-    public MultiLayerPerceptronClassificationSamplePanel getControllsPanel() {
-        return controllsPanel;
+    public MultiLayerPerceptronClassificationSamplePanel getSampleControlsPanel() {
+        return sampleControlsPanel;
     }
 
-    public void setControllsPanel(MultiLayerPerceptronClassificationSamplePanel controllsPanel) {
-        this.controllsPanel = controllsPanel;
+    public void setSampleControlsPanel(MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel) {
+        this.sampleControlsPanel = sampleControlsPanel;
     }
     
     public void initializePanel(MultiLayerPerceptronClassificationSampleTopComponent mlp){
-        controllsPanel = new MultiLayerPerceptronClassificationSamplePanel(mlp);
-        controllsPanel.setSize(getMaximumSize());//415, 454
-        add(controllsPanel);
+       // sampleControlsPanel = new MultiLayerPerceptronClassificationSamplePanel(mlp);
+      //  controllsPanel.setSize(getMaximumSize());//415, 454
+      //  add(sampleControlsPanel);
     }
     @Override
     public void componentOpened() {

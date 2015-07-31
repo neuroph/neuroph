@@ -27,7 +27,6 @@ import org.netbeans.spi.project.ui.support.ProjectChooser;
 import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.netbeans.lpr.GeneratedCodeTopComponent;
-import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.project.CurrentProject;
 import org.neuroph.netbeans.project.NeurophProject;
 import org.openide.WizardDescriptor;

@@ -23,6 +23,8 @@ import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.nnet.learning.LMS;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.openide.loaders.DataObject;
+import org.openide.nodes.Node;
+import org.openide.nodes.NodeTransfer;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
@@ -291,8 +293,9 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
         trainingSet = new DataSet(2, 1);
         this.pst = ps;
         stc = SettingsTopComponent.findInstance();
-        stc.initializePanel(this);
-        controllsPanel = stc.getControllsPanel();
+    //    stc.initializePanel(this);
+        controllsPanel = stc.getSampleControlsPanel();
+        controllsPanel.setMlpSampleTc(this);
         stc.open();
         initializePanel(false);
         this.dtListener = new DTListener();
@@ -416,7 +419,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
             }
         }
         initializePanel(positive);//panel initialization
-        stc.getControllsPanel().setCheckPoints(positive);//updating Swing components 
+        stc.getSampleControlsPanel().setCheckPoints(positive);//updating Swing components 
     }
 
     /*
@@ -424,7 +427,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      */
     public void neuralNetworkAndDataSetInformationCheck(NeuralNetwork neuralNetvork, DataSet dataSet) {
 
-        MultiLayerPerceptronClassificationSamplePanel mlp = stc.getControllsPanel();
+        MultiLayerPerceptronClassificationSamplePanel mlp = stc.getSampleControlsPanel();
         if (dataSet != null) {
             if (dataSet.getLabel() != null) {
                 mlp.setDataSetInformation(dataSet.getLabel());
@@ -537,9 +540,16 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
             Transferable t = e.getTransferable();
             DataFlavor dataSetflavor = t.getTransferDataFlavors()[1];
             try {
-                DataObject dataObject = (DataObject) t.getTransferData(dataSetflavor);
-                DataSet dataSet = dataObject.getLookup().lookup(DataSet.class);//gets the objects from lookup listener
-                NeuralNetwork neuralNet = dataObject.getLookup().lookup(NeuralNetwork.class);
+                
+                    Node node = NodeTransfer.node(t, NodeTransfer.DND_COPY_OR_MOVE);
+     //               DataSet ds = node.getLookup().lookup(DataSet.class);
+                    
+                DataSet dataSet = node.getLookup().lookup(DataSet.class);//gets the objects from lookup listener
+                NeuralNetwork neuralNet = node.getLookup().lookup(NeuralNetwork.class);                    
+                    
+//                DataObject dataObject = (DataObject) t.getTransferData(dataSetflavor);
+//                DataSet dataSet = dataObject.getLookup().lookup(DataSet.class);//gets the objects from lookup listener
+//                NeuralNetwork neuralNet = dataObject.getLookup().lookup(NeuralNetwork.class);
                 if (dataSet != null) {
                     clear();
                     setPointDrawed(false);
@@ -564,7 +574,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
                     neuralNetworkAndDataSetInformationCheck(getNeuralNetwork(), trainingSet);
                     MultiLayerPerceptronClassificationSampleTopComponent.this.requestActive();
                 }
-            } catch (UnsupportedFlavorException | IOException ex) {
+            } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);
             }
             e.dropComplete(true);

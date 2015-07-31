@@ -35,6 +35,25 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     public static int VISUALIZATION_OPTION;
     public static boolean SHOW_POINTS;
 
+    public MultiLayerPerceptronClassificationSamplePanel() {
+        initComponents();
+        setSize(new Dimension(415, 454));
+        initializeNeuralNetworkComponents();
+        initShapes(0, 0);
+    }    
+
+    public static MultiLayerPerceptronClassificationSampleTopComponent getMlpSampleTc() {
+        return mlpSampleTc;
+    }
+
+    public static void setMlpSampleTc(MultiLayerPerceptronClassificationSampleTopComponent mlpSampleTc) {
+        MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc = mlpSampleTc;
+    }
+    
+    
+    
+    
+    // why do I have to see bs from here?
     public MultiLayerPerceptronClassificationSamplePanel(MultiLayerPerceptronClassificationSampleTopComponent bs) {
         initComponents();
         setSize(new Dimension(415, 454));
@@ -197,186 +216,68 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPopupMenu1 = new javax.swing.JPopupMenu();
         buttonGroup2 = new javax.swing.ButtonGroup();
-        jPanel2 = new javax.swing.JPanel();
+        dataSetPanel = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        comboShapes = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        slideNumberOfPoints = new javax.swing.JSlider();
+        createDataSetButton = new javax.swing.JButton();
+        neuralNetworkPanel = new javax.swing.JPanel();
         jlTransferFunction = new javax.swing.JLabel();
         comboTransferFunction = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         comboNetworkStructure = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        radioAnswer = new javax.swing.JRadioButton();
-        radioAreas = new javax.swing.JRadioButton();
-        radioLines = new javax.swing.JRadioButton();
-        checkPoints = new javax.swing.JCheckBox();
-        jSeparator1 = new javax.swing.JSeparator();
-        checkPositiveInputs = new javax.swing.JCheckBox();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        comboShapes = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        slideNumberOfPoints = new javax.swing.JSlider();
-        labNumberOfPoints = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        informationPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         labNeuralNetwork = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         labDataSet = new javax.swing.JLabel();
-        jbClear = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        visualizationPanel = new javax.swing.JPanel();
+        radioAnswer = new javax.swing.JRadioButton();
+        radioAreas = new javax.swing.JRadioButton();
+        radioLines = new javax.swing.JRadioButton();
+        checkPoints = new javax.swing.JCheckBox();
+        checkPositiveInputs = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(415, 454));
+        setLayout(new java.awt.GridLayout(4, 1, 0, 6));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Create Neural Network:"));
+        dataSetPanel.setBackground(new java.awt.Color(255, 255, 255));
+        dataSetPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 1: Create Data Set", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11))); // NOI18N
+        dataSetPanel.setLayout(new java.awt.GridBagLayout());
 
-        jlTransferFunction.setText("Transfer function:");
+        jLabel2.setText("Shape:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 8, 3, 0);
+        dataSetPanel.add(jLabel2, gridBagConstraints);
 
-        comboTransferFunction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboTransferFunctionActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Network structure:");
-
-        comboNetworkStructure.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2:1:2", "2:2:2", "2:3:2", "2:4:2", "2:5:2", "2:6:2", "2:7:2", "2:8:2", "2:9:2", "2:10:2", "2:11:2", "2:13:2", "2:14:2", "2:15:2", "2:20:2", "2:25:2", "2:50:2", "2:100:2", "2:2:2:2", "2:3:3:2", "2:4:4:2", "2:5:5:2", "2:10:10:2", "2:3:4:2", "2:4:3:2", "2:3:5:2", "2:5:3:2", "2:4:5:2", "2:5:4:2", "2:3:10:2", "2:10:3:2", "2:4:10:2", "2:10:4:2", "2:5:10:2", "2:2:2:2:2", "2:3:3:3:2", "2:3:4:3:2", "2:4:3:4:2", "2:4:4:4:2", "2:3:4:5:2", "2:5:4:3:2", "2:4:5:4:2", "2:5:4:5:2", "2:5:5:5:2" }));
-        comboNetworkStructure.setSelectedIndex(9);
-
-        jButton1.setText("Create");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jlTransferFunction, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboTransferFunction, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboNetworkStructure, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(comboNetworkStructure, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlTransferFunction)
-                    .addComponent(comboTransferFunction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
-        );
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Visualization Settings:"));
-
-        radioAnswer.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(radioAnswer);
-        radioAnswer.setSelected(true);
-        radioAnswer.setText("Network Answer");
-        radioAnswer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioAnswerActionPerformed(evt);
-            }
-        });
-
-        radioAreas.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(radioAreas);
-        radioAreas.setText("Areas");
-        radioAreas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioAreasActionPerformed(evt);
-            }
-        });
-
-        radioLines.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(radioLines);
-        radioLines.setText("Lines");
-        radioLines.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioLinesActionPerformed(evt);
-            }
-        });
-
-        checkPoints.setBackground(new java.awt.Color(255, 255, 255));
-        checkPoints.setSelected(true);
-        checkPoints.setText("Show points");
-        checkPoints.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkPointsActionPerformed(evt);
-            }
-        });
-
-        checkPositiveInputs.setBackground(new java.awt.Color(255, 255, 255));
-        checkPositiveInputs.setText("Range [0,1]");
-        checkPositiveInputs.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkPositiveInputsActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkPositiveInputs)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jSeparator1)
-                        .addComponent(radioAreas)
-                        .addComponent(radioLines)
-                        .addComponent(checkPoints)
-                        .addComponent(radioAnswer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(checkPoints)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkPositiveInputs)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radioAnswer)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radioAreas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radioLines)
-                .addGap(11, 11, 11))
-        );
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Create Data Set:"));
-
-        jLabel2.setText("Choose shape:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 89;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 1, 0, 0);
+        dataSetPanel.add(comboShapes, gridBagConstraints);
 
         jLabel1.setText("Number of points:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(31, 18, 0, 5);
+        dataSetPanel.add(jLabel1, gridBagConstraints);
 
         slideNumberOfPoints.setBackground(new java.awt.Color(255, 255, 255));
         slideNumberOfPoints.setMaximum(2000);
@@ -387,172 +288,222 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
                 slideNumberOfPointsStateChanged(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+        dataSetPanel.add(slideNumberOfPoints, gridBagConstraints);
 
-        labNumberOfPoints.setText("1000");
-
-        jButton2.setText("Create");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        createDataSetButton.setText("Create Data Set");
+        createDataSetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                createDataSetButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(13, 9, 11, 18);
+        dataSetPanel.add(createDataSetButton, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(slideNumberOfPoints, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labNumberOfPoints, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(24, 24, 24)
-                        .addComponent(comboShapes, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(comboShapes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(slideNumberOfPoints, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel1))))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(labNumberOfPoints)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        add(dataSetPanel);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Information:"));
+        neuralNetworkPanel.setBackground(new java.awt.Color(255, 255, 255));
+        neuralNetworkPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 2: Create Neural Network", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11))); // NOI18N
+        neuralNetworkPanel.setLayout(new java.awt.GridBagLayout());
 
-        jLabel3.setText("Network:");
+        jlTransferFunction.setText("Transfer function:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        neuralNetworkPanel.add(jlTransferFunction, gridBagConstraints);
+
+        comboTransferFunction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTransferFunctionActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        neuralNetworkPanel.add(comboTransferFunction, gridBagConstraints);
+
+        jLabel4.setText("Network structure:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 0);
+        neuralNetworkPanel.add(jLabel4, gridBagConstraints);
+
+        comboNetworkStructure.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2:2:1", "2:3:1", "2:4:1", "2:5:1", "2:6:1", "2:7:1", "2:8:1", "2:9:1", "2:10:1", "2:11:1", "2:13:1", "2:14:1", "2:15:1", "2:20:1", "2:25:1", "2:50:1", "2:100:1", "2:2:2:1", "2:3:3:1", "2:4:4:1", "2:5:5:1", "2:10:10:1", "2:3:4:1", "2:4:3:1", "2:3:5:1", "2:5:3:1", "2:4:5:1", "2:5:4:1", "2:3:10:1", "2:10:3:1", "2:4:10:1", "2:10:4:1", "2:5:10:1", "2:2:2:2:1", "2:3:3:3:1", "2:3:4:3:1", "2:4:3:4:1", "2:4:4:4:1", "2:3:4:5:1", "2:5:4:3:1", "2:4:5:4:1", "2:5:4:5:1", "2:5:5:5:1" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 45);
+        neuralNetworkPanel.add(comboNetworkStructure, gridBagConstraints);
+
+        jButton1.setText("Create Neural Network");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 18);
+        neuralNetworkPanel.add(jButton1, gridBagConstraints);
+
+        add(neuralNetworkPanel);
+
+        informationPanel.setBackground(new java.awt.Color(255, 255, 255));
+        informationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 3: Train Network", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11))); // NOI18N
+        informationPanel.setLayout(new java.awt.GridBagLayout());
+
+        jLabel3.setText("Neural Network:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 1, 1);
+        informationPanel.add(jLabel3, gridBagConstraints);
 
         labNeuralNetwork.setText("Not selected");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 6, 5, 5);
+        informationPanel.add(labNeuralNetwork, gridBagConstraints);
 
         jLabel5.setText("Data Set:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 5, 0);
+        informationPanel.add(jLabel5, gridBagConstraints);
 
         labDataSet.setText("Not selected");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 6, 5, 5);
+        informationPanel.add(labDataSet, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labDataSet)
-                    .addComponent(labNeuralNetwork))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(labNeuralNetwork))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(labDataSet))
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
+        add(informationPanel);
 
-        jbClear.setBackground(new java.awt.Color(255, 255, 255));
-        jbClear.setText("Clear");
-        jbClear.addActionListener(new java.awt.event.ActionListener() {
+        jPanel5.setLayout(new java.awt.GridLayout(1, 3));
+
+        visualizationPanel.setBackground(new java.awt.Color(255, 255, 255));
+        visualizationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualization Settings:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11))); // NOI18N
+        visualizationPanel.setLayout(new java.awt.GridBagLayout());
+
+        radioAnswer.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(radioAnswer);
+        radioAnswer.setSelected(true);
+        radioAnswer.setText("Network Answer");
+        radioAnswer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbClearActionPerformed(evt);
+                radioAnswerActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 18, 5, 5);
+        visualizationPanel.add(radioAnswer, gridBagConstraints);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jbClear, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbClear)))
-                .addGap(7, 7, 7)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        radioAreas.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(radioAreas);
+        radioAreas.setText("Areas");
+        radioAreas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioAreasActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 18, 5, 0);
+        visualizationPanel.add(radioAreas, gridBagConstraints);
+
+        radioLines.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(radioLines);
+        radioLines.setText("Lines");
+        radioLines.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioLinesActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 18, 17, 0);
+        visualizationPanel.add(radioLines, gridBagConstraints);
+
+        checkPoints.setBackground(new java.awt.Color(255, 255, 255));
+        checkPoints.setSelected(true);
+        checkPoints.setText("Show points");
+        checkPoints.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPointsActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.ipadx = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 17, 5, 5);
+        visualizationPanel.add(checkPoints, gridBagConstraints);
+
+        checkPositiveInputs.setBackground(new java.awt.Color(255, 255, 255));
+        checkPositiveInputs.setText("Range [0,1]");
+        checkPositiveInputs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPositiveInputsActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 18, 0, 5);
+        visualizationPanel.add(checkPositiveInputs, gridBagConstraints);
+
+        jPanel5.add(visualizationPanel);
+
+        add(jPanel5);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbClearActionPerformed
-        labDataSet.setText("Not selected");
-        labNeuralNetwork.setText("Not selected");
-        if (mlpSampleTc.getNeuralNetwork() != null) {
-            mlpSampleTc.stop();
-        }
-        clear();
-        mlpSampleTc.getInputSpacePanel().setDrawingLocked(false);
-        mlpSampleTc.setPointDrawed(false);
-        mlpSampleTc.removeNetworkAndDataSetFromContent();
-    }//GEN-LAST:event_jbClearActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        neuralNetwork = createNeuralNetwork();
-        createNeuralNetworkFile(neuralNetwork);
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Neural network created.");
-        comboNetworkStructure.setSelectedIndex(9);
-        comboTransferFunction.setSelectedIndex(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void slideNumberOfPointsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slideNumberOfPointsStateChanged
-        labNumberOfPoints.setText(String.valueOf(slideNumberOfPoints.getValue()));
+   //     labNumberOfPoints.setText(String.valueOf(slideNumberOfPoints.getValue()));
     }//GEN-LAST:event_slideNumberOfPointsStateChanged
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void createDataSetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDataSetButtonActionPerformed
         if (mlpSampleTc.getInputSpacePanel().isPointDrawed()) {
             mlpSampleTc.customDataSetCheck();
             mlpSampleTc.sampleTrainingSetFileCheck();
@@ -575,8 +526,8 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Sample data set created.");
         initShapes(0, 0);
         slideNumberOfPoints.setValue(1000);
-        labNumberOfPoints.setText("1000");
-    }//GEN-LAST:event_jButton2ActionPerformed
+     //   labNumberOfPoints.setText("1000");
+    }//GEN-LAST:event_createDataSetButtonActionPerformed
 
     private void checkPositiveInputsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPositiveInputsActionPerformed
         labDataSet.setText("Not selected");
@@ -614,6 +565,15 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     private void comboTransferFunctionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTransferFunctionActionPerformed
         setTransferFunctionCode();
     }//GEN-LAST:event_comboTransferFunctionActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        neuralNetwork = createNeuralNetwork();
+        createNeuralNetworkFile(neuralNetwork);
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Neural network created.");
+        comboNetworkStructure.setSelectedIndex(9);
+        comboTransferFunction.setSelectedIndex(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -622,27 +582,25 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     private javax.swing.JComboBox comboNetworkStructure;
     private javax.swing.JComboBox comboShapes;
     private javax.swing.JComboBox comboTransferFunction;
+    private javax.swing.JButton createDataSetButton;
+    private javax.swing.JPanel dataSetPanel;
+    private javax.swing.JPanel informationPanel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JButton jbClear;
     private javax.swing.JLabel jlTransferFunction;
     private javax.swing.JLabel labDataSet;
     private javax.swing.JLabel labNeuralNetwork;
-    private javax.swing.JLabel labNumberOfPoints;
+    private javax.swing.JPanel neuralNetworkPanel;
     private javax.swing.JRadioButton radioAnswer;
     private javax.swing.JRadioButton radioAreas;
     private javax.swing.JRadioButton radioLines;
     private javax.swing.JSlider slideNumberOfPoints;
+    private javax.swing.JPanel visualizationPanel;
     // End of variables declaration//GEN-END:variables
 }
