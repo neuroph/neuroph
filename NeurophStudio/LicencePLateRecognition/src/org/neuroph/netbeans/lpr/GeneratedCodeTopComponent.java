@@ -45,7 +45,6 @@ public final class GeneratedCodeTopComponent extends TopComponent {
         initComponents();
         setName(Bundle.CTL_GeneratedCodeTopComponent());
         setToolTipText(Bundle.HINT_GeneratedCodeTopComponent());
-
     }
 
     /**
@@ -146,6 +145,5 @@ public final class GeneratedCodeTopComponent extends TopComponent {
                 + "for (int i = 0; i < lista.size(); i++) {\n"
                 + "recognizedCharacters+=ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + \" \";\n"
                 + "System.out.print(ocrPlugin.recognizeCharacter(new ImageJ2SE(lista.get(i))) + \" \");");
-
     }
 }
