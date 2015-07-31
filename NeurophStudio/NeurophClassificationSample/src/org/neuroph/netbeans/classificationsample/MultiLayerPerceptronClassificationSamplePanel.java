@@ -238,6 +238,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         labNeuralNetwork = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         labDataSet = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         visualizationPanel = new javax.swing.JPanel();
         radioAnswer = new javax.swing.JRadioButton();
@@ -248,7 +249,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(415, 454));
-        setLayout(new java.awt.GridLayout(4, 1, 0, 6));
+        setLayout(new java.awt.GridLayout(4, 1, 0, 3));
 
         dataSetPanel.setBackground(new java.awt.Color(255, 255, 255));
         dataSetPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 1: Create Data Set", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11))); // NOI18N
@@ -259,7 +260,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 8, 3, 0);
+        gridBagConstraints.insets = new java.awt.Insets(15, 8, 3, 0);
         dataSetPanel.add(jLabel2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -276,7 +277,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(31, 18, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(31, 8, 0, 5);
         dataSetPanel.add(jLabel1, gridBagConstraints);
 
         slideNumberOfPoints.setBackground(new java.awt.Color(255, 255, 255));
@@ -408,6 +409,16 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 6, 5, 5);
         informationPanel.add(labDataSet, gridBagConstraints);
+
+        jLabel6.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        jLabel6.setForeground(java.awt.Color.lightGray);
+        jLabel6.setText("<html>Dran n' drop data set and neural network<br/> to visualization window and click train button<br/> in toolbar to start training</html>");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(6, 0, 6, 0);
+        informationPanel.add(jLabel6, gridBagConstraints);
 
         add(informationPanel);
 
@@ -591,6 +602,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JLabel jlTransferFunction;
