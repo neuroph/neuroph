@@ -2,14 +2,12 @@ package org.neuroph.netbeans.classificationsample;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -22,7 +20,6 @@ import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.nnet.learning.LMS;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
-import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
 import org.openide.nodes.NodeTransfer;
 import org.openide.util.Exceptions;
@@ -37,12 +34,12 @@ import org.openide.windows.WindowManager;
 /**
  * Top component which displays something.
  */
-@ConvertAsProperties(dtd = "-//org.neuroph.netbeans.classificationsample.mlperceptron//MultiLayerPerceptronSample//EN",
+@ConvertAsProperties(dtd = "-//org.neuroph.netbeans.classificationsample.mlperceptron//MultiLayerPerceptronVisualizationTopComponent//EN",
         autostore = false)
-public final class MultiLayerPerceptronClassificationSampleTopComponent extends TopComponent implements LearningEventListener {
+public final class MultiLayerPerceptronVisualizationTopComponent extends TopComponent implements LearningEventListener {
 
-    private static MultiLayerPerceptronClassificationSampleTopComponent instance;
-    private static final String PREFERRED_ID = "MultiLayerPerceptronSampleTopComponent";
+    private static MultiLayerPerceptronVisualizationTopComponent instance;
+    private static final String PREFERRED_ID = "MultiLayerPerceptronVisualizationTopComponent";
     private Visualization2DPanel visualizationPanel;
     private MultiLayerPerceptronClassificationSamplePanel controllsPanel;
     private SettingsTopComponent stc;
@@ -63,10 +60,10 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
     private ArrayList<Double> setValues;
     private ArrayList<Double[]> neuralNetworkInputs;
 
-    public MultiLayerPerceptronClassificationSampleTopComponent() {
+    public MultiLayerPerceptronVisualizationTopComponent() {
         initComponents();
-        setName(NbBundle.getMessage(MultiLayerPerceptronClassificationSampleTopComponent.class, "CTL_MultiLayerPerceptronSampleTopComponent"));
-        setToolTipText(NbBundle.getMessage(MultiLayerPerceptronClassificationSampleTopComponent.class, "HINT_MultiLayerPerceptronSampleTopComponent"));
+        setName(NbBundle.getMessage(MultiLayerPerceptronVisualizationTopComponent.class, "CTL_MultiLayerPerceptronSampleTopComponent"));
+        setToolTipText(NbBundle.getMessage(MultiLayerPerceptronVisualizationTopComponent.class, "HINT_MultiLayerPerceptronSampleTopComponent"));
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         content = new InstanceContent();
@@ -92,9 +89,9 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      * non-deserialized instance. To obtain the singleton instance, use
      * {@link #findInstance}.
      */
-    public static synchronized MultiLayerPerceptronClassificationSampleTopComponent getDefault() {
+    public static synchronized MultiLayerPerceptronVisualizationTopComponent getDefault() {
         if (instance == null) {
-            instance = new MultiLayerPerceptronClassificationSampleTopComponent();
+            instance = new MultiLayerPerceptronVisualizationTopComponent();
         }
         return instance;
     }
@@ -103,17 +100,17 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      * Obtain the MultiLayerPerceptronClassificationSampleTopComponent instance.
      * Never call {@link #getDefault} directly!
      */
-    public static synchronized MultiLayerPerceptronClassificationSampleTopComponent findInstance() {
+    public static synchronized MultiLayerPerceptronVisualizationTopComponent findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
         if (win == null) {
-            Logger.getLogger(MultiLayerPerceptronClassificationSampleTopComponent.class.getName()).warning(
+            Logger.getLogger(MultiLayerPerceptronVisualizationTopComponent.class.getName()).warning(
                     "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
             return getDefault();
         }
-        if (win instanceof MultiLayerPerceptronClassificationSampleTopComponent) {
-            return (MultiLayerPerceptronClassificationSampleTopComponent) win;
+        if (win instanceof MultiLayerPerceptronVisualizationTopComponent) {
+            return (MultiLayerPerceptronVisualizationTopComponent) win;
         }
-        Logger.getLogger(MultiLayerPerceptronClassificationSampleTopComponent.class.getName()).warning(
+        Logger.getLogger(MultiLayerPerceptronVisualizationTopComponent.class.getName()).warning(
                 "There seem to be multiple components with the '" + PREFERRED_ID
                 + "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();
@@ -391,7 +388,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
             content.remove(trainingController);
         } catch (Exception ex) {
         }
-        MultiLayerPerceptronClassificationSampleTopComponent.this.requestActive();
+        MultiLayerPerceptronVisualizationTopComponent.this.requestActive();
     }
 
     /*
@@ -572,7 +569,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
                     content.add(neuralNetAndDataSet);
                     content.add(trainingController);
                     neuralNetworkAndDataSetInformationCheck(getNeuralNetwork(), trainingSet);
-                    MultiLayerPerceptronClassificationSampleTopComponent.this.requestActive();
+                    MultiLayerPerceptronVisualizationTopComponent.this.requestActive();
                 }
             } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);

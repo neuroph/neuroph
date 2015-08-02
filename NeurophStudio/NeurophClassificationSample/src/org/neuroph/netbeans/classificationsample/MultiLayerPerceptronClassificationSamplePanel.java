@@ -31,7 +31,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     private TransferFunctionType transferFunctionType;
     private DataSetGenerator[] shapes;
     
-    public static MultiLayerPerceptronClassificationSampleTopComponent mlpSampleTc;
+    public static MultiLayerPerceptronVisualizationTopComponent mlpSampleTc;
     public static int VISUALIZATION_OPTION;
     public static boolean SHOW_POINTS;
 
@@ -42,11 +42,11 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         initShapes(0, 0);
     }    
 
-    public static MultiLayerPerceptronClassificationSampleTopComponent getMlpSampleTc() {
+    public static MultiLayerPerceptronVisualizationTopComponent getMlpSampleTc() {
         return mlpSampleTc;
     }
 
-    public static void setMlpSampleTc(MultiLayerPerceptronClassificationSampleTopComponent mlpSampleTc) {
+    public static void setMlpSampleTc(MultiLayerPerceptronVisualizationTopComponent mlpSampleTc) {
         MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc = mlpSampleTc;
     }
     
@@ -54,7 +54,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     
     
     // why do I have to see bs from here?
-    public MultiLayerPerceptronClassificationSamplePanel(MultiLayerPerceptronClassificationSampleTopComponent bs) {
+    public MultiLayerPerceptronClassificationSamplePanel(MultiLayerPerceptronVisualizationTopComponent bs) {
         initComponents();
         setSize(new Dimension(415, 454));
         initializeNeuralNetworkComponents();

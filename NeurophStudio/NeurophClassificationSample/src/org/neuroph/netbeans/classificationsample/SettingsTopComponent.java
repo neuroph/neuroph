@@ -99,7 +99,7 @@ public final class SettingsTopComponent extends TopComponent {
         this.sampleControlsPanel = sampleControlsPanel;
     }
     
-    public void initializePanel(MultiLayerPerceptronClassificationSampleTopComponent mlp){
+    public void initializePanel(MultiLayerPerceptronVisualizationTopComponent mlp){
        // sampleControlsPanel = new MultiLayerPerceptronClassificationSamplePanel(mlp);
       //  controllsPanel.setSize(getMaximumSize());//415, 454
       //  add(sampleControlsPanel);
