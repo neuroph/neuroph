@@ -12,7 +12,7 @@ import org.neuroph.netbeans.main.easyneurons.dialog.BackpropagationTrainingDialo
 import org.neuroph.netbeans.main.easyneurons.dialog.HebbianTrainingDialog;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingDialog;
 import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSamplePanel;
-import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent;
+import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronVisualizationTopComponent;
 import org.neuroph.netbeans.classificationsample.Combinatorics;
 import org.neuroph.netbeans.main.easyneurons.dialog.NewSupervisedTrainingDialog;
 import org.neuroph.nnet.Adaline;
@@ -54,7 +54,7 @@ public final class TrainToolbarAction implements ActionListener {
     }
 
     public void classificationSampleModuleCheck() {
-        MultiLayerPerceptronClassificationSampleTopComponent mlpSample =  MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc;
+        MultiLayerPerceptronVisualizationTopComponent mlpSample =  MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc;
         if (mlpSample != null) {
             if (mlpSample.isTrainSignal()) {
                 mlpSample.visualizationPreprocessing();
