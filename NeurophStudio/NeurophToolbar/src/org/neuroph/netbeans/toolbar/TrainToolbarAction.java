@@ -53,25 +53,29 @@ public final class TrainToolbarAction implements ActionListener {
         train();
     }
 
-    public void ClassificationSampleModuleCheck() {
-        MultiLayerPerceptronClassificationSampleTopComponent mlp = MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc;
-        if (mlp != null) {
-            if (mlp.isTrainSignal()) {
-                mlp.visualizationPreprocessing();
-                mlp.setVisualizationStarted(true);
-                mlp.setDrawingLocked(true);
+    public void classificationSampleModuleCheck() {
+        MultiLayerPerceptronClassificationSampleTopComponent mlpSample =  MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc;
+        if (mlpSample != null) {
+            if (mlpSample.isTrainSignal()) {
+                mlpSample.visualizationPreprocessing();
+                mlpSample.setVisualizationStarted(true);
+                mlpSample.setDrawingLocked(true);
+               
                 int[] storedInputs = InputSettngsDialog.getInstance().getStoredInputs();
-                if (mlp.getInputSpacePanel().positiveInputsOnly()) {
-                    mlp.generateSetValues(57, 0.0357142857142857/2.0);
+                if (mlpSample.getVisualizationPanel().positiveInputsOnly()) {
+                    mlpSample.generateSetValues(80, 0.025316456/2.0); //this was 57
                 } else {
-                    mlp.generateSetValues(57, 0.0357142857142857);
+                    //mlpSample.generateSetValues(57, 0.0357142857142857); //this 
+                    mlpSample.generateSetValues(80, 0.025316456); //this                                                                                                
                 }
-                mlp.setInputs(Combinatorics.Variations.generateVariations(mlp.getSetValues(), neuralNetAndDataSet.getNetwork().getInputsCount(), true));
-                mlp.setStoredInputs(storedInputs);
-                if (MultiLayerPerceptronClassificationSamplePanel.SHOW_POINTS && mlp.isAllPointsRemoved()
-                        || mlp.isPointDrawed()) {
+                
+                mlpSample.setInputs(Combinatorics.Variations.generateVariations(mlpSample.getSetValues(), neuralNetAndDataSet.getNetwork().getInputsCount(), true));
+                mlpSample.setStoredInputs(storedInputs);
+                
+                if (MultiLayerPerceptronClassificationSamplePanel.SHOW_POINTS && mlpSample.isAllPointsRemoved()
+                        || mlpSample.isPointDrawed()) {
                     try {
-                        mlp.drawPointsFromTrainingSet(neuralNetAndDataSet.getDataSet(), storedInputs);
+                        mlpSample.drawPointsFromTrainingSet(neuralNetAndDataSet.getDataSet(), storedInputs);
                     } catch (Exception e) {
                     }
                 }
@@ -92,7 +96,7 @@ public final class TrainToolbarAction implements ActionListener {
                 showLmsTrainingDialog();
             } else if (neuralNetClass.equals(MultiLayerPerceptron.class)) {
                 showMLPTrainingDialog();
-                ClassificationSampleModuleCheck();
+                classificationSampleModuleCheck();
             } else if (neuralNetClass.equals(SupervisedHebbianNetwork.class)) {
                 showHebbianTrainingDialog();
             } else if (neuralNetClass.equals(NoPropNet.class)) {
