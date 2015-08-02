@@ -17,6 +17,8 @@ import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.util.NeuralNetworkFactory;
 import org.neuroph.util.TransferFunctionType;
 import org.openide.windows.IOProvider;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  *
@@ -29,7 +31,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     private String neuronsCount;
     private NeuralNetwork neuralNetwork;
     private TransferFunctionType transferFunctionType;
-    private DataSetGenerator[] shapes;
+    private DataSetGenerator[] shapeGenerators;
     
     public static MultiLayerPerceptronVisualizationTopComponent mlpSampleTc;
     public static int VISUALIZATION_OPTION;
@@ -49,10 +51,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     public static void setMlpSampleTc(MultiLayerPerceptronVisualizationTopComponent mlpSampleTc) {
         MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc = mlpSampleTc;
     }
-    
-    
-    
-    
+               
     // why do I have to see bs from here?
     public MultiLayerPerceptronClassificationSamplePanel(MultiLayerPerceptronVisualizationTopComponent bs) {
         initComponents();
@@ -71,16 +70,16 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     }
 
     private void initShapes(int shapeIndex, int numberOfPoints) {
-        shapes = new DataSetGenerator[8];
-        shapes[0] = new ElipseGenerator(numberOfPoints, 0, 0, 1, 0.5);
-        shapes[1] = new CircleGenerator(numberOfPoints, 0, 0, 0.5);
-        shapes[2] = new RingGenerator(numberOfPoints, 0, 0, 0.125, 0.5);
-        shapes[3] = new MoonGenerator(numberOfPoints, 0, 0, 0.5);
-        shapes[4] = new SquareGenerator(numberOfPoints, 1.25);
-        shapes[5] = new DiamondGenerator(numberOfPoints, 1);
-        shapes[6] = new XORGenerator(numberOfPoints);
-        shapes[7] = new RandomPolynomialGenerator(numberOfPoints);
-        comboShapes.setModel(new DefaultComboBoxModel(shapes));
+        shapeGenerators = new DataSetGenerator[8];
+        shapeGenerators[0] = new ElipseGenerator(numberOfPoints, 0, 0, 1, 0.5);
+        shapeGenerators[1] = new CircleGenerator(numberOfPoints, 0, 0, 0.5);
+        shapeGenerators[2] = new RingGenerator(numberOfPoints, 0, 0, 0.125, 0.5);
+        shapeGenerators[3] = new MoonGenerator(numberOfPoints, 0, 0, 0.5);
+        shapeGenerators[4] = new SquareGenerator(numberOfPoints, 1.25);
+        shapeGenerators[5] = new DiamondGenerator(numberOfPoints, 1);
+        shapeGenerators[6] = new XORGenerator(numberOfPoints);
+        shapeGenerators[7] = new RandomPolynomialGenerator(numberOfPoints);
+        comboShapes.setModel(new DefaultComboBoxModel(shapeGenerators));
         comboShapes.setSelectedIndex(shapeIndex);
     }
 
@@ -96,9 +95,9 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         checkPositiveInputs.setSelected(flag);
     }
 
-    public DataSetGenerator getSelectedShape() {
+    public DataSetGenerator getSelectedShapeGenerator() {
         initShapes(comboShapes.getSelectedIndex(), slideNumberOfPoints.getValue());
-        return shapes[comboShapes.getSelectedIndex()];
+        return shapeGenerators[comboShapes.getSelectedIndex()];
     }
 
     public double getLearningRate() {
@@ -522,7 +521,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
             isd.storeInputs(new int[]{0, 1});
             labDataSet.setText(mlpSampleTc.getTrainingSet().getLabel());
         } else {
-            DataSet dataSet = getSelectedShape().generate();
+            DataSet dataSet = getSelectedShapeGenerator().generate();
             NeurophProjectFilesFactory.getDefault().createTrainingSetFile(dataSet);
             mlpSampleTc.setTrainingSet(dataSet);
             mlpSampleTc.neuralNetworkAndDataSetInformationCheck(null, dataSet);
@@ -537,7 +536,12 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Sample data set created.");
         initShapes(0, 0);
         slideNumberOfPoints.setValue(1000);
-     //   labNumberOfPoints.setText("1000");
+        
+        // open dataset node here  - how - best way by makeing programatical selection
+        TopComponent projectsLogicalTC = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
+        // get expolorer or beantreeview from tc lookup?
+        
+        
     }//GEN-LAST:event_createDataSetButtonActionPerformed
 
     private void checkPositiveInputsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPositiveInputsActionPerformed
