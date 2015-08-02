@@ -79,8 +79,6 @@ public final class ExplorerTopComponent extends TopComponent implements Explorer
     Lookup.Result<Connection> resultCon;
     Lookup.Result<LearningRule> resultLR;
 
-//    private static ExplorerTopComponent instance;
-//    private HashMap<Object, Node> objectsToNodes = new HashMap<Object, Node>(); // mapping of object to corresponding node
     public ExplorerTopComponent() {
         initComponents();
         setName(Bundle.CTL_ExplorerTopComponent());
@@ -91,7 +89,6 @@ public final class ExplorerTopComponent extends TopComponent implements Explorer
         add(explorerTree, BorderLayout.CENTER);
 
         // associate explorer manager lookup as lookup of this top component
-//        getActionMap().put("delete", ExplorerUtils.actionDelete(explorerManager, true));
         associateLookup(ExplorerUtils.createLookup(explorerManager, getActionMap()));
 
         explorerTree.setRootVisible(false);
@@ -182,18 +179,8 @@ public final class ExplorerTopComponent extends TopComponent implements Explorer
         resultLW.addLookupListener(this);
         resultCon.addLookupListener(this);
         resultLR.addLookupListener(this);
-        //fireLookupEvents();
     }
 
-//    private void fireLookupEvents() {
-//        resultChanged(new LookupEvent(resultNN));
-//        resultChanged(new LookupEvent(resultDS));
-//        resultChanged(new LookupEvent(resultDF));
-//        resultChanged(new LookupEvent(resultNW));
-//        resultChanged(new LookupEvent(resultLW));
-//        resultChanged(new LookupEvent(resultCon));
-//        resultChanged(new LookupEvent(resultLR));
-//    }
     private void removeLookupListeners() {
         resultNN.removeLookupListener(this);
         resultDS.removeLookupListener(this);
@@ -277,22 +264,6 @@ public final class ExplorerTopComponent extends TopComponent implements Explorer
                     NeuralNetwork selectedNNet = (NeuralNetwork) selectedItem;
                     initializeOrSelectNNetRoot((NeuralNetwork) selectedItem);
                     this.setName(selectedNNet.getLabel() + " -  Explorer");
-
-                    // TODO make objectsToNodes map for quick access to Nodes. Update it on node added
-//                    for (Node node : explorerManager.getRootContext().getChildren().getNodes()) {
-//                        if (node instanceof LearningRuleNode) {
-//                            objectsToNodes.put(((LearningRuleNode) node).learningRule, node);
-//                        }
-//                        if (node instanceof LayerNode) {
-//                            objectsToNodes.put(((LayerNode) node).getLayer(), node);
-//                            for (Node nodeNeuron : node.getChildren().getNodes()) {
-//                                objectsToNodes.put(((NeuronNode) nodeNeuron).getNeuron(), nodeNeuron);
-//                                for (Node nodeConnection : nodeNeuron.getChildren().getNodes()) {
-//                                    objectsToNodes.put(((ConnectionNode) nodeConnection).connection, nodeConnection);
-//                                }
-//                            }
-//                        }
-//                    }
                 } else if (selectedItem instanceof DataSet) { // if data set is selected
                     DataSet selectedDataSet = (DataSet) selectedItem;
                     initializeOrSelectDSetRoot(selectedDataSet);
@@ -406,21 +377,6 @@ public final class ExplorerTopComponent extends TopComponent implements Explorer
         }
     }
 
-//            // When a user closes all scenes, instances are empty
-//            // Or when a user deselects UMLTopComponent
-//
-//            // Check if the current scene shown in Explorer is opened
-//            boolean currentSceneOpen = false;
-//            Set<TopComponent> tcs = WindowManager.getDefault().getRegistry().getOpened();
-//            for (TopComponent tc : tcs) {
-//                if (tc.getClass().getSimpleName().equals("VisualEditorTopComponent") && explorerManager.getRootContext() instanceof ExplorerNeuralNetworkNode
-//                        || tc.getClass().getSimpleName().equals("DataSetTopComponent") && explorerManager.getRootContext() instanceof ExplorerDataSetNode) { // Class name is hardcoded, because we cannot access UMLTopComponent from here because of cyclic dependency
-//                    if (tc.getName().equals(explorerManager.getRootContext().getDisplayName())) {
-//                        currentSceneOpen = true;
-//                        break;
-//                    }
-//                }
-//            }
     private boolean isCurrentNNetTopComponentOpen() {
         Set<TopComponent> tcs = WindowManager.getDefault().getRegistry().getOpened();
         for (TopComponent tc : tcs) {
