@@ -200,7 +200,7 @@ public class NeurophProjectTemplatePanelVisual extends JPanel implements Documen
 
         String projectName = (String) settings.getProperty("name");
         if (projectName == null) {
-            projectName = "Neuroph project";
+            projectName = "NeurophProject";
         }
         this.projectNameTextField.setText(projectName);
         this.projectNameTextField.selectAll();
