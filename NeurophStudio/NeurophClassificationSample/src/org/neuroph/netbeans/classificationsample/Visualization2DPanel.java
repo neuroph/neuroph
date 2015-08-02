@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Random;
@@ -23,28 +24,37 @@ public class Visualization2DPanel extends javax.swing.JPanel {
     private NeuralNetwork neuralNetwork;
     private Graphics graphicsBuffer;
     private Image imageBuffer;
-    private double gridPoints[][];//points for network test during drawing
-    private Vector points;//input points entered by user
+    private double gridPoints[][];//points used to visualiza network output(answer) during training (defines the grid) 
+    private ArrayList points;//input points from training set
     private DataSet trainingSet;
     private int value; //indicator for mouse click button registration
+ 
     private int helpX = -1000;//coordinates that show current mouse position on panel
     private int helpY = -1000;
+        
+    
     private boolean visualizationStarted = true;
     private boolean positiveInputsOnly = false;
     private int visualizationOption;
     private boolean drawingLocked = false;
     private boolean pointDrawed = false;
+    
     public static Color[] neuronColor;
     public static Color[] neuronColorInverted;
 
+    // size of the visualization panel, same height
+    // it should also be changed in MultiLayerPerceptronClassificationSampleTopComponent.initializePanel
+    public int panelWidth = 800;
+    
     /**
      * Creates new form Visualization2DPanel
      */
     public Visualization2DPanel() {
-        resolution = 570; // was 570
+
+        resolution = panelWidth; // was panelWidth
         setSize(resolution, resolution);
-        setInitialGridPoints();
-        points = new Vector();
+        initGridPoints();
+        points = new ArrayList();
         value = 1;
         trainingSet = new DataSet(2, 1);
         initComponents();
@@ -129,39 +139,40 @@ public class Visualization2DPanel extends javax.swing.JPanel {
             neuronColorInverted[i] = new Color(1 - r, 1 - g, 1 - b);
         }
     }
-
+    
     /*
-     * Sets values for network drawing
+     * Creates an initializes all grid points to default value -1000
      */
-    public void setGridPoints(int x1, int x2, double v) {
-        int x = x1;
-        int y = x2;
-        int size = 57;     
-        if (v != -1000) {
-            if (1.0 < v) {
-                v = 1.0;
-            }
-            if (0 > v) {
-                v = 0.0;
-            }
-        }
-        gridPoints[x][y] = v;
-        if (x == size - 1 && y == size - 1) {
-            repaint();
-        }
-    }
-
-    /*
-     * Initializes grid points to default value, -1000
-     */
-    private void setInitialGridPoints() {
-        int size = 57;       
-        gridPoints = new double[size][size];
+    private void initGridPoints() {
+        // width and height of points grid - depends on the size of visualization area - in practice one ponit on 10 pixels
+        int size = 80; // 57       
+        // create the array
+        gridPoints = new double[size][size];    
+        // init all points to -1000
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 gridPoints[i][j] = -1000;
             }
         }
+    }
+    
+    
+    
+    /*
+     * Sets the value for the specified grid point
+     */
+    public void setGridPoints(int x, int y, double val) {
+       
+        if (val != -1000) { // -1000 is initial value for all grid points
+            if (val > 1.0) {
+                val = 1.0;
+            }
+            if (val < 0) {
+                val = 0.0;
+            }
+        }
+        
+        gridPoints[x][y] = val;        
     }
 
     /*
@@ -170,17 +181,17 @@ public class Visualization2DPanel extends javax.swing.JPanel {
     public void clearPoints() {
         visualizationStarted = false;//visualization signal is false
         setAllPointsRemoved(true);//indicates that all points are removed
-        points.removeAllElements();//erases all points from Vector
+        points.clear();//erases all points from Vector
         trainingSet.clear();//erases training set rows
-        setInitialGridPoints();
+        initGridPoints();
         repaint();
     }
 
     /*
-     * Initializes grid points
+     * Initializes grid points and repaints the panel
      */
-    public void initializeGridPoints() {
-        setInitialGridPoints();
+    public void resetAndRepaintGridPoints() {
+        initGridPoints();
         repaint();
     }
 
@@ -191,41 +202,45 @@ public class Visualization2DPanel extends javax.swing.JPanel {
     /*
      * Calculates scaled y value, needed for drawing lines on panel
      */
-    public double calculateY(double scalingCoefficient, int x, double w0, double w1, double w2) {
+    private double calculateY(double scalingCoefficient, int x, double w0, double w1, double w2) {
         return scalingCoefficient - scalingCoefficient * (-w1 * x / scalingCoefficient - w0) / w2;
     }
 
     /*
      * Calculates line coefficients, k and n
      */
-    public Double[] calculateCoefficients(Integer[] coords) {
-        //0-x1,  1-y1,  2-x2,  3-y2
-        double k = (coords[3] - coords[1]) / (coords[2] - coords[0]);
-        double n = -coords[0] * k + coords[1];
-        return new Double[]{k, n};
-    }
+//    public Double[] calculateCoefficients(Integer[] coords) {
+//        //0-x1,  1-y1,  2-x2,  3-y2
+//        double k = (coords[3] - coords[1]) / (coords[2] - coords[0]);
+//        double n = -coords[0] * k + coords[1];
+//        return new Double[]{k, n};
+//    }
 
     /*
      * Calculates coordinates for drawing a single line on panel
      */
-    public Integer[] calculateLineCoordinates(double w0, double w1, double w2) {
+    private int[] calculateLineCoordinates(double w0, double w1, double w2) {
         int x1, x2, y1, y2;
         if (positiveInputsOnly()) {
             x1 = 0;
-            y1 = (int) calculateY(570, x1, w0, w1, w2);
-            x2 = 570;
-            y2 = (int) calculateY(570, x2, w0, w1, w2);
+            y1 = (int) calculateY(panelWidth, x1, w0, w1, w2);
+            x2 = panelWidth;
+            y2 = (int) calculateY(panelWidth, x2, w0, w1, w2);
         } else {
-            x1 = -570 / 2;
-            y1 = (int) calculateY(570 / 2, x1, w0, w1, w2) - 570 / 2;
+            x1 = -panelWidth / 2;
+            y1 = (int) calculateY(panelWidth / 2, x1, w0, w1, w2) - panelWidth / 2;
 
-            x2 = 570 / 2;
-            y2 = (int) calculateY(570 / 2, x2, w0, w1, w2) - 570 / 2;
+            x2 = panelWidth / 2;
+            y2 = (int) calculateY(panelWidth / 2, x2, w0, w1, w2) - panelWidth / 2;
         }
-        return new Integer[]{x1, y1, x2, y2};
+        return new int[]{x1, y1, x2, y2};
     }
 
-    public void visualizeLines2D() {
+    
+    /**
+     * Draws lines dividing input space
+     */
+    private void visualizeLines2D() {
         graphicsBuffer.setColor(Color.black);//sets line color       
         if (neuralNetwork != null) {//if neural network exists
             Neuron[] neurons = neuralNetwork.getLayerAt(1).getNeurons();//second layer neurons 
@@ -238,7 +253,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
                 double w1 = conn[selectedInputs[0]].getWeight().getValue();//weight value from first selected input neuron
                 double w2 = conn[selectedInputs[1]].getWeight().getValue();//weight value from second selected input neuron
                 double w3 = conn[neuralNetwork.getLayerAt(0).getNeuronsCount() - 1].getWeight().getValue();//weight value from bias neuron
-                Integer[] coordinates = calculateLineCoordinates(w3, w1, w2);//calculating coordinates for drawing the line
+                int[] coordinates = calculateLineCoordinates(w3, w1, w2);//calculating coordinates for drawing the line
                 graphicsBuffer.drawLine(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);//drawing the line
             }
         }
@@ -249,18 +264,18 @@ public class Visualization2DPanel extends javax.swing.JPanel {
      * where every neuron is represented as a linear function,
      * that separates 2D space with 2 colors.
      */
-    public void visualizeColoredAreas2D() {
+    private void visualizeColoredAreas2D() {
         if (neuralNetwork != null) {
             Neuron[] neurons = neuralNetwork.getLayerAt(1).getNeurons();//second layer neurons
-            int x, y, size = 570, startIndex, offset, scalingCoefficient;
+            int x, y, size = panelWidth, startIndex, offset, scalingCoefficient;
             if (positiveInputsOnly()) {             
                 startIndex = 0;
                 offset = 0;
                 scalingCoefficient = size;
             } else {               
                 startIndex = -size / 2;
-                offset = 570 / 2;
-                scalingCoefficient = 570 / 2;
+                offset = panelWidth / 2;
+                scalingCoefficient = panelWidth / 2;
             }
             int[] selectedInputs = InputSettngsDialog.getInstance().getStoredInputs();//contains indexes of 2 selected inputs
             for (int m = startIndex; m < size; m++) { 
@@ -299,9 +314,10 @@ public class Visualization2DPanel extends javax.swing.JPanel {
     /*
      * This method enables visualization of neural network output
      */
-    public void visualizeNetworkAnswer2D() {
+    private void visualizeNetworkAnswer2D() {
         int x, y;
-        int size = 57;      
+        int size = 80; //bilo je 57  grid size 570x570 - on 10       
+        
         //draws grid 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -310,21 +326,27 @@ public class Visualization2DPanel extends javax.swing.JPanel {
                 if (gridPoints[i][j] != -1000) {//for particular (i,j) pair, there is one output, gridPoints[i][j]
                     float r = (float) gridPoints[i][j];//assigning color for particular output value
                     float b = 1 - r;//making a complement color
+                 
                     graphicsBuffer.setColor(new Color(r, 0, b));//creating new color that combines previous two
+                 
+                    //1. sta je ovo
                     if (positiveInputsOnly()) {
                         graphicsBuffer.fillRect(x, y, 10, 10);
                     } else {
-                        graphicsBuffer.fillRect(x - 570 / 2, y - 570 / 2, 10, 10);
+                        graphicsBuffer.fillRect(x - panelWidth / 2, y - panelWidth / 2, 10, 10); // 10, 10
                     }
+                    
                     if (gridPoints[i][j] > 0.5) {//this is a treshold function, that separates one output from another
                         graphicsBuffer.setColor(Color.RED);
                     } else {
                         graphicsBuffer.setColor(Color.BLUE);
                     }
+                                        
+                    // 2sta j eovo
                     if (positiveInputsOnly()) {
                         graphicsBuffer.fillRect(x + 3, y + 3, 3, 3);
                     } else {
-                        graphicsBuffer.fillRect(x - 570 / 2 + 3, y - 570 / 2 + 3, 3, 3);
+                        graphicsBuffer.fillRect(x - panelWidth / 2 + 3, y - panelWidth / 2 + 3, 3, 3); // 3, 3, 3, 3
                     }
                 }
             }
@@ -334,21 +356,21 @@ public class Visualization2DPanel extends javax.swing.JPanel {
     /*
      * Draws current mouse coordinates on the panel 
      */
-    public void drawHelpLine(int X, int Y, Graphics g) {
+    private void drawHelpLine(int X, int Y, Graphics g) {
         DecimalFormat df = new DecimalFormat("#.####");//formats coordinates to maximum 4 decimal places
         double xVal = Double.parseDouble(df.format(transformFromPanelToDecartX(X)));
         double yVal = Double.parseDouble(df.format(transformFromPanelToDecartY(Y)));
         g.setColor(Color.lightGray);
         if (positiveInputsOnly) {
             g.drawLine(X, Y, 0, Y);
-            g.drawLine(X, Y, X, 570);
+            g.drawLine(X, Y, X, panelWidth);
             g.setColor(Color.BLACK);
             g.drawString("(" + xVal + " , " + yVal + ")", X - 10, Y - 10);
         } else {
-            g.drawLine(X - 570 / 2, Y - 570 / 2, 0, Y - 570 / 2);
-            g.drawLine(X - 570 / 2, Y - 570 / 2, X - 570 / 2, 500);
+            g.drawLine(X - panelWidth / 2, Y - panelWidth / 2, 0, Y - panelWidth / 2);
+            g.drawLine(X - panelWidth / 2, Y - panelWidth / 2, X - panelWidth / 2, 500);
             g.setColor(Color.BLACK);
-            g.drawString("(" + xVal + " , " + yVal + ")", X - 570 / 2 - 10, Y - 570 / 2 - 10);
+            g.drawString("(" + xVal + " , " + yVal + ")", X - panelWidth / 2 - 10, Y - panelWidth / 2 - 10);
         }
     }
 
@@ -378,51 +400,59 @@ public class Visualization2DPanel extends javax.swing.JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
+      
+        // initialize drawing buffer if needed
         if (imageBuffer == null) {
-            imageBuffer = createImage(this.getWidth(), this.getHeight());
+            imageBuffer = createImage(panelWidth, panelWidth);
             graphicsBuffer = imageBuffer.getGraphics();
             if (!positiveInputsOnly) {
-                graphicsBuffer.translate(570 / 2, 570 / 2);//translates panel coordinates to -570/2, in order to enable both positive and negative inputs
+                graphicsBuffer.translate(panelWidth / 2, panelWidth / 2);//translates panel coordinates to -570/2, in order to enable both positive and negative inputs
             }
         }
+        
+        // clear drawing buffer
         graphicsBuffer.setColor(Color.WHITE);//drawing white rectangles for visualization
         if (positiveInputsOnly) {
-            graphicsBuffer.fillRect(0, 0, 570, 570);
+            graphicsBuffer.fillRect(0, 0, panelWidth, panelWidth);
         } else {
-            graphicsBuffer.fillRect(-570 / 2, -570 / 2, 570, 570);
+            graphicsBuffer.fillRect(-panelWidth / 2, -panelWidth / 2, panelWidth, panelWidth);
         }
-        if (visualizationStarted) {//if visualization is started, by clicking the train button on the taskbar, switching function decides which visualization is going to be invoked
+        
+        // redraw whats needed
+        if (visualizationStarted) { //if visualization is started, by clicking the train button on the taskbar, switching function decides which visualization is going to be invoked
             switch (getVisualizationOption()) {
                 case 1:
                     visualizeNetworkAnswer2D();
-                    repaint();
+                  //  repaint(); // why repaint here again ?????
                     break;
                 case 2:
-                    visualizeColoredAreas2D();
-                    repaint();
+                    visualizeColoredAreas2D();  // why repaint here again ?????
+                    //repaint();
                     break;
                 case 3:
-                    visualizeLines2D();
-                    repaint();
+                    visualizeLines2D();  // why repaint here again ?????
+                    //repaint();
                     break;
             }
         }
         if (positiveInputsOnly) {
             //draws coordinate axis lines and labels
             graphicsBuffer.setColor(Color.BLACK);
-            graphicsBuffer.drawLine(0, 569, 569, 569);
-            graphicsBuffer.drawLine(0, 0, 0, 569);
+            graphicsBuffer.drawLine(0, panelWidth-1, panelWidth-1, panelWidth-1);
+            graphicsBuffer.drawLine(0, 0, 0, panelWidth-1);
             graphicsBuffer.drawString("1", 5, 10);
-            graphicsBuffer.drawString("1", 560, 565);
-            graphicsBuffer.drawString("0", 5, 565);
+            graphicsBuffer.drawString("1", panelWidth-10, panelWidth-5);
+            graphicsBuffer.drawString("0", 5, panelWidth-5);
+            
             //draws input points
-            Enumeration e = points.elements();
-            while (e.hasMoreElements()) {
-                int[] point = (int[]) e.nextElement();
+            Iterator e = points.iterator();
+            while (e.hasNext()) {
+                int[] point = (int[]) e.next();
                 drawPoint(point[0], point[1], point[2], graphicsBuffer);
             }
+            
             //draws help line
-            if (helpX != -1000 && 0 <= helpX && helpX <= 570 && helpY != -1000 && 0 <= helpY && helpX <= 570) {
+            if (helpX != -1000 && 0 <= helpX && helpX <= panelWidth && helpY != -1000 && 0 <= helpY && helpX <= panelWidth) {
                 drawHelpLine(helpX, helpY, graphicsBuffer);
             }
             g.drawImage(imageBuffer, 0, 0, this);
@@ -430,21 +460,23 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         } else {
             //draws coordinate axis lines and labels
             graphicsBuffer.setColor(Color.BLACK);
-            graphicsBuffer.drawLine(-570 / 2, 0, 570 / 2, 0);
-            graphicsBuffer.drawLine(0, -570 / 2, 0, 570 / 2);
-            graphicsBuffer.drawString("1", 5, -570 / 2 + 10);
-            graphicsBuffer.drawString("-1", 5, 570 / 2 - 5);
-            graphicsBuffer.drawString("1", 570 / 2 - 10, 15);
-            graphicsBuffer.drawString("-1", -570 / 2 + 5, 15);
+            graphicsBuffer.drawLine(-panelWidth / 2, 0, panelWidth / 2, 0);
+            graphicsBuffer.drawLine(0, -panelWidth / 2, 0, panelWidth / 2);
+            graphicsBuffer.drawString("1", 5, -panelWidth / 2 + 10);
+            graphicsBuffer.drawString("-1", 5, panelWidth / 2 - 5);
+            graphicsBuffer.drawString("1", panelWidth / 2 - 10, 15);
+            graphicsBuffer.drawString("-1", -panelWidth / 2 + 5, 15);
             graphicsBuffer.drawString("0", -10, 15);
+            
             //draws input points
-            Enumeration e = points.elements();
-            while (e.hasMoreElements()) {
-                int[] point = (int[]) e.nextElement();
-                drawPoint(point[0], point[1] - 570 / 2, point[2] - 570 / 2, graphicsBuffer);
+            Iterator e = points.iterator();
+            while (e.hasNext()) {
+                int[] point = (int[]) e.next();
+                drawPoint(point[0], point[1] - panelWidth / 2, point[2] - panelWidth / 2, graphicsBuffer);
             }
+            
             //draws help line
-            if (helpX != -1000 && -570 / 2 <= helpX && helpX <= 570 && helpY != -1000 && -570 / 2 <= helpY && helpY <= 570) {
+            if (helpX != -1000 && -panelWidth / 2 <= helpX && helpX <= panelWidth && helpY != -1000 && -panelWidth / 2 <= helpY && helpY <= panelWidth) {
                 drawHelpLine(helpX, helpY, graphicsBuffer);
             }
             g.drawImage(imageBuffer, 0, 0, this);
@@ -458,7 +490,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         double xx;
         if (positiveInputsOnly) {
             double X = (double) x;
-            xx = (double) X / 570.0;
+            xx = (double) X / (double)panelWidth;
             if (xx > 1) {
                 xx = 1;
             }
@@ -467,7 +499,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
             }
         } else {
             double X = (double) x;
-            xx = X / (570 / 2) - 1;
+            xx = X / (panelWidth / 2) - 1;
             if (xx > 1) {
                 xx = 1;
             }
@@ -485,7 +517,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         double yy;
         if (positiveInputsOnly) {
             double Y = (double) y;
-            yy = 1 - Y / 570.0;
+            yy = 1 - Y / (double)panelWidth;
             if (yy > 1) {
                 yy = 1;
             }
@@ -494,7 +526,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
             }
         } else {
             double Y = (double) y;
-            yy = 1 - Y / (570 / 2);
+            yy = 1 - Y / (panelWidth / 2);
             if (yy > 1) {
                 yy = 1;
             }
@@ -510,10 +542,10 @@ public class Visualization2DPanel extends javax.swing.JPanel {
      */
     public int transformFromDecartToPanelX(double x) {
         if (positiveInputsOnly) {
-            double valueX = x * 570.0;
+            double valueX = x * (double)panelWidth;
             return (int) valueX;
         } else {
-            return (int) ((1 + x) * 570 / 2);
+            return (int) ((1 + x) * panelWidth / 2);
         }
     }
 
@@ -522,10 +554,10 @@ public class Visualization2DPanel extends javax.swing.JPanel {
      */
     public int transformFromDecartToPanelY(double y) {
         if (positiveInputsOnly) {
-            double valueY = (1.0 - y) * 570.0;
+            double valueY = (1.0 - y) * (double)panelWidth;
             return (int) valueY;
         } else {
-            return (int) ((1 - y) * 570 / 2);
+            return (int) ((1 - y) * panelWidth / 2);
         }
     }
 
@@ -581,7 +613,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         int X = evt.getX();
         int Y = evt.getY();
         if (positiveInputsOnly) {
-            if (0 <= X && X <= 570 && 0 <= Y && Y <= 570) {
+            if (0 <= X && X <= panelWidth && 0 <= Y && Y <= panelWidth) {
                 helpX = X;
                 helpY = Y;
             } else {
@@ -589,7 +621,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
                 helpY = -1000;
             }
         } else {
-            if (-570 / 2 <= X && X <= 570 && -570 / 2 <= Y && Y <= 570) {
+            if (-panelWidth / 2 <= X && X <= panelWidth && -panelWidth / 2 <= Y && Y <= panelWidth) {
                 helpX = X;
                 helpY = Y;
             } else {

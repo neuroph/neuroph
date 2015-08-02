@@ -48,7 +48,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Step 1: Create Data Set">
-              <Font PropertyName="font" name="Dialog" size="11" style="0"/>
+              <Font PropertyName="font" name="Dialog" size="11" style="1"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -129,7 +129,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Step 2: Create Neural Network">
-              <Font PropertyName="font" name="Dialog" size="11" style="0"/>
+              <Font PropertyName="font" name="Dialog" size="11" style="1"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -251,7 +251,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Step 3: Train Network">
-              <Font PropertyName="font" name="Dialog" size="11" style="0"/>
+              <Font PropertyName="font" name="Dialog" size="11" style="1"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -332,7 +332,7 @@
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                 <TitledBorder title="Visualization Settings:">
-                  <Font PropertyName="font" name="Dialog" size="11" style="0"/>
+                  <Font PropertyName="font" name="Dialog" size="11" style="1"/>
                 </TitledBorder>
               </Border>
             </Property>

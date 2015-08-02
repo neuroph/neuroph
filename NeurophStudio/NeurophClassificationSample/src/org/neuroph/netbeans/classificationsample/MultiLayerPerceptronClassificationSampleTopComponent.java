@@ -43,7 +43,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
 
     private static MultiLayerPerceptronClassificationSampleTopComponent instance;
     private static final String PREFERRED_ID = "MultiLayerPerceptronSampleTopComponent";
-    private Visualization2DPanel inputSpacePanel;
+    private Visualization2DPanel visualizationPanel;
     private MultiLayerPerceptronClassificationSamplePanel controllsPanel;
     private SettingsTopComponent stc;
     private PerceptronSampleTrainingSet pst;
@@ -53,7 +53,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
     private NeuralNetAndDataSet neuralNetAndDataSet;
     private TrainingController trainingController;
     private Thread firstCalculation = null;
-    private int iterationCounter = 0;
+    private int learningIterationCounter = 0;
     private InstanceContent content;
     private AbstractLookup aLookup;
     private DropTargetListener dtListener;
@@ -81,7 +81,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setLayout(new java.awt.GridLayout());
+        setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -185,12 +185,12 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
         return trainSignal;
     }
 
-    public Visualization2DPanel getInputSpacePanel() {
-        return inputSpacePanel;
+    public Visualization2DPanel getVisualizationPanel() {
+        return visualizationPanel;
     }
 
-    public void setInputSpacePanel(Visualization2DPanel inputSpacePanel) {
-        this.inputSpacePanel = inputSpacePanel;
+    public void setVisualizationPanel(Visualization2DPanel inputSpacePanel) {
+        this.visualizationPanel = inputSpacePanel;
     }
 
     public void setTrainSignal(boolean trainSignal) {
@@ -204,26 +204,26 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
     public void setInputs(ArrayList<Double[]> inputs) {
         this.neuralNetworkInputs = inputs;
     }
-    private int[] storedInputs;//2 chosen inputs for visualization
+    private int[] storedInputs; // 2 inputs chosen for visualization
 
     public void setStoredInputs(int[] storedInputs) {
         this.storedInputs = storedInputs;
     }
 
     public boolean isAllPointsRemoved() {
-        return inputSpacePanel.isAllPointsRemoved();
+        return visualizationPanel.isAllPointsRemoved();
     }
 
     public boolean isPointDrawed() {
-        return inputSpacePanel.isPointDrawed();
+        return visualizationPanel.isPointDrawed();
     }
 
     public boolean isDrawingLocked() {
-        return inputSpacePanel.isDrawingLocked();
+        return visualizationPanel.isDrawingLocked();
     }
 
     public void setDrawingLocked(boolean flag) {
-        inputSpacePanel.setDrawingLocked(flag);
+        visualizationPanel.setDrawingLocked(flag);
     }
 
     public void visualizationPreprocessing() {
@@ -231,14 +231,14 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
     }
 
     public void setVisualizationStarted(boolean flag) {
-        inputSpacePanel.setVisualizationStarted(flag);
+        visualizationPanel.setVisualizationStarted(flag);
     }
 
     /*
      * If point is drawed on panel, this method registers that event
      */
     public void setPointDrawed(boolean drawed) {
-        inputSpacePanel.setPointDrawed(drawed);
+        visualizationPanel.setPointDrawed(drawed);
     }
 
     public ArrayList<Double> getSetValues() {
@@ -254,8 +254,8 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      */
     public void drawPointsFromTrainingSet(DataSet dataSet, int[] inputs) {
         try {
-            inputSpacePanel.setAllPointsRemoved(false);
-            inputSpacePanel.drawPointsFromTrainingSet(dataSet, inputs);
+            visualizationPanel.setAllPointsRemoved(false);
+            visualizationPanel.drawPointsFromTrainingSet(dataSet, inputs);
         } catch (Exception e) {
         }
     }
@@ -265,26 +265,26 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      * 
      */
     public void initializePanel(boolean positiveCoordinates) {
-        if (inputSpacePanel != null) {
-            this.remove(inputSpacePanel);
+        if (visualizationPanel != null) {
+            this.remove(visualizationPanel);
         }
-        inputSpacePanel = new Visualization2DPanel();
-        inputSpacePanel.setPositiveInputsOnly(positiveCoordinates);
-        inputSpacePanel.setSize(570, 570);
-        add(inputSpacePanel);
-        inputSpacePanel.setLocation(0, 0);
+        visualizationPanel = new Visualization2DPanel();
+        visualizationPanel.setPositiveInputsOnly(positiveCoordinates);
+        visualizationPanel.setSize(800, 800); // size of th evisualization panel - should adapt to prent window size - border layout
+        add(visualizationPanel);
+        visualizationPanel.setLocation(0, 0);
         repaint();
     }
 
     /**
      * Creates new form BackpropagationSample
+     * used in ViewManager probably not needed anymore
      */
     public void setTrainingSetForMultiLayerPerceptronSample(PerceptronSampleTrainingSet ps) {
         setSize(770, 600);
         trainingSet = new DataSet(2, 1);
         this.pst = ps;
         stc = SettingsTopComponent.findInstance();
-    //    stc.initializePanel(this);
         controllsPanel = stc.getSampleControlsPanel();
         controllsPanel.setMlpSampleTc(this);
         stc.open();
@@ -308,8 +308,8 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      * If custom (manual) dataset is specified, training set and training set name is created
      */
     public void customDataSetCheck() {
-        if (inputSpacePanel.isPointDrawed()) {
-            trainingSet = inputSpacePanel.getTrainingSet();
+        if (visualizationPanel.isPointDrawed()) {
+            trainingSet = visualizationPanel.getTrainingSet();
             tsCount++;
             trainingSet.setLabel("MlpSampleTrainingSet" + tsCount);
         }
@@ -319,9 +319,9 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      * If custom (manual) dataset is specified, training set file is created
      */
     public void sampleTrainingSetFileCheck() {
-        if (inputSpacePanel.isPointDrawed()) {
+        if (visualizationPanel.isPointDrawed()) {
             NeurophProjectFilesFactory.getDefault().createTrainingSetFile(trainingSet);
-            inputSpacePanel.setPointDrawed(false);
+            visualizationPanel.setPointDrawed(false);
         }
     }
 
@@ -329,9 +329,9 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      * During training mode, if Show Points check box is selected, redrawing of dataset is required
      */
     public void showPointsOptionCheck() {
-        if (MultiLayerPerceptronClassificationSamplePanel.SHOW_POINTS && inputSpacePanel.isAllPointsRemoved()) {
+        if (MultiLayerPerceptronClassificationSamplePanel.SHOW_POINTS && visualizationPanel.isAllPointsRemoved()) {
             try {
-                inputSpacePanel.setAllPointsRemoved(false);
+                visualizationPanel.setAllPointsRemoved(false);
                 drawPointsFromTrainingSet(trainingSet, InputSettngsDialog.getInstance().getStoredInputs());
             } catch (Exception e) {
             }
@@ -351,7 +351,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
         if (learningRule instanceof MomentumBackpropagation) {
             ((MomentumBackpropagation) learningRule).setMomentum(controllsPanel.getMomentum());
         }
-        getInputSpacePanel().setNeuronColors(neuralNetwork);
+        getVisualizationPanel().setNeuronColors(neuralNetwork);
     }
 
     /*
@@ -365,7 +365,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      * Clears all points from panel
      */
     public void clear() {
-        inputSpacePanel.clearPoints();
+        visualizationPanel.clearPoints();
     }
 
     /*
@@ -448,22 +448,25 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
      * current outputs, and specific training result is shown on panel.
      * This process repeats itself once the training is completed.
      */
-    public void calculateNeuralNetworkAnswer(NeuralNetwork nn) {
+    public void visualizeNeuralNetworkAnswer(NeuralNetwork nn) {
         if (nn != null) {
-            inputSpacePanel.setNeuralNetwork(nn);
+            visualizationPanel.setNeuralNetwork(nn);
             double initialCoordinate;
-            double coefficient = 0.0357142857142857;//1/57=0.0357142857142857
-            int size = 56;
+         //   double coefficient = 0.0357142857142857;//1/57=0.0357142857142857 // zapravo 2/size-1
+            double coefficient = 0.025316456;
+            int size = 79; // 56
             /*
              * Sets parameters either only for positive inputs or positive and negative inputs
              */
-            if (inputSpacePanel.positiveInputsOnly()) {
+            if (visualizationPanel.positiveInputsOnly()) {
                 initialCoordinate = 0.0;
             } else {
                 initialCoordinate = 1.0;
             }
+            
             for (int i = 0; i < neuralNetworkInputs.size(); i++) {
                 /*
+                 * TODO: Remove this unboxing
                  * Cannot use Double type as neural network input,
                  * so conversion from Double to double type is required
                  */
@@ -472,6 +475,7 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
                 for (int j = 0; j < input.length; j++) {
                     input[j] = incompatibleInput[j];
                 }
+                
                 nn.setInput(input);
                 nn.calculate();
                 double output = nn.getLayerAt(nn.getLayersCount() - 1).getNeuronAt(0).getOutput();
@@ -479,28 +483,35 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
                 double yInput = input[storedInputs[1]] + initialCoordinate;
                 int x;
                 int y;
+                
                 /*
                  * Transformation from Descartes' coordintes to panel coordinates
                  */
-                if (inputSpacePanel.positiveInputsOnly()) {
+                if (visualizationPanel.positiveInputsOnly()) {
                     x = (int) Math.abs(xInput * size);
                     y = size - (int) Math.abs(yInput * size);
                 } else {
                     x = (int) Math.abs((xInput) / coefficient);
                     y = size - (int) Math.abs((yInput) / coefficient);
                 }
-                inputSpacePanel.setGridPoints(x, y, output);
+                
+                visualizationPanel.setGridPoints(x, y, output);                
             }
+            visualizationPanel.repaint();
         }
     }
 
+    /**
+     * Actual drawing is trigered from here after each 10th learning  teration
+     */
     @Override
     public void handleLearningEvent(LearningEvent le) {
-        iterationCounter++;
-        if (iterationCounter % 10 == 0) {
+        learningIterationCounter++;
+        
+        if (learningIterationCounter % 10 == 0) { // redraw after 10 learning iterations
             NeuralNetwork nnet = neuralNetAndDataSet.getNetwork();
             nnet.pauseLearning();//pause
-            calculateNeuralNetworkAnswer(nnet);//calculating network response and drawing output
+            visualizeNeuralNetworkAnswer(nnet);//calculating network response and draw it
             nnet.resumeLearning();//resume
         }
     }
@@ -532,31 +543,29 @@ public final class MultiLayerPerceptronClassificationSampleTopComponent extends 
             DataFlavor dataSetflavor = t.getTransferDataFlavors()[1];
             try {
                 
-                    Node node = NodeTransfer.node(t, NodeTransfer.DND_COPY_OR_MOVE);
-     //               DataSet ds = node.getLookup().lookup(DataSet.class);
-                    
+                Node node = NodeTransfer.node(t, NodeTransfer.DND_COPY_OR_MOVE);
+
                 DataSet dataSet = node.getLookup().lookup(DataSet.class);//gets the objects from lookup listener
                 NeuralNetwork neuralNet = node.getLookup().lookup(NeuralNetwork.class);                    
                     
-//                DataObject dataObject = (DataObject) t.getTransferData(dataSetflavor);
-//                DataSet dataSet = dataObject.getLookup().lookup(DataSet.class);//gets the objects from lookup listener
-//                NeuralNetwork neuralNet = dataObject.getLookup().lookup(NeuralNetwork.class);
                 if (dataSet != null) {
                     clear();
                     setPointDrawed(false);
-                    getInputSpacePanel().setDrawingLocked(true);
+                    getVisualizationPanel().setDrawingLocked(true);
                     trainingSet = dataSet;
                     InputSettngsDialog isd = InputSettngsDialog.getInstance();
                     isd.initializeInformation(trainingSet);
                     isd.setVisible(true);
                     neuralNetworkAndDataSetInformationCheck(getNeuralNetwork(), trainingSet);
                     coordinateSystemDomainCheck();
-                    getInputSpacePanel().drawPointsFromTrainingSet(trainingSet, isd.getStoredInputs());
+                    getVisualizationPanel().drawPointsFromTrainingSet(trainingSet, isd.getStoredInputs());
                 }
+                
                 if (neuralNet != null) {
                     setNeuralNetwork(neuralNet);
                     neuralNetworkAndDataSetInformationCheck(getNeuralNetwork(), trainingSet);
                 }
+                
                 if ((trainingSet != null) && (getNeuralNetwork() != null)) {
                     removeNetworkAndDataSetFromContent();
                     trainingPreprocessing();

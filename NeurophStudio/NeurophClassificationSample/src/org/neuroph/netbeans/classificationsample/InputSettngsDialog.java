@@ -59,7 +59,7 @@ public class InputSettngsDialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         comboFirstInput = new javax.swing.JComboBox();
         comboSecondInput = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(InputSettngsDialog.class, "InputSettngsDialog.title")); // NOI18N
@@ -72,10 +72,10 @@ public class InputSettngsDialog extends javax.swing.JDialog {
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(InputSettngsDialog.class, "InputSettngsDialog.jLabel2.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(InputSettngsDialog.class, "InputSettngsDialog.jButton1.text")); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(InputSettngsDialog.class, "InputSettngsDialog.okButton.text")); // NOI18N
+        okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                okButtonActionPerformed(evt);
             }
         });
 
@@ -97,7 +97,7 @@ public class InputSettngsDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -112,7 +112,7 @@ public class InputSettngsDialog extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(comboSecondInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(okButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -130,7 +130,7 @@ public class InputSettngsDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         
         int x = comboFirstInput.getSelectedIndex();
         int y = comboSecondInput.getSelectedIndex();
@@ -138,7 +138,7 @@ public class InputSettngsDialog extends javax.swing.JDialog {
         if (x == y) {
             JOptionPane.showMessageDialog(this, "Please select different inputs.");
             comboFirstInput.setSelectedIndex(0);
-            comboSecondInput.setSelectedIndex(0);
+            comboSecondInput.setSelectedIndex(1);
         } else {
             storeInputs(new int[]{x, y});
             dispose();
@@ -146,7 +146,7 @@ public class InputSettngsDialog extends javax.swing.JDialog {
         
         
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_okButtonActionPerformed
     
     
     public void initializeInformation(DataSet dataSet) {
@@ -209,9 +209,9 @@ public class InputSettngsDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox comboFirstInput;
     private javax.swing.JComboBox comboSecondInput;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 }

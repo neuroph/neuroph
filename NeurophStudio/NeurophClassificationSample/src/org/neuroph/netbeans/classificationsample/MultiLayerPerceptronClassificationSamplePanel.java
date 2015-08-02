@@ -167,11 +167,11 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
 
     public void checkVisualizationOption() {
         if (radioAnswer.isSelected()) {
-            mlpSampleTc.getInputSpacePanel().setVisualizationOption(1);
+            mlpSampleTc.getVisualizationPanel().setVisualizationOption(1);
         } else if (radioAreas.isSelected()) {
-            mlpSampleTc.getInputSpacePanel().setVisualizationOption(2);
+            mlpSampleTc.getVisualizationPanel().setVisualizationOption(2);
         } else if (radioLines.isSelected()) {
-            mlpSampleTc.getInputSpacePanel().setVisualizationOption(3);
+            mlpSampleTc.getVisualizationPanel().setVisualizationOption(3);
         }
     }
 
@@ -179,7 +179,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         checkVisualizationOption();
         if (checkPoints.isSelected()) {
             SHOW_POINTS = true;
-            mlpSampleTc.getInputSpacePanel().initializeGridPoints();
+            mlpSampleTc.getVisualizationPanel().resetAndRepaintGridPoints();
         } else {
             SHOW_POINTS = false;
             clear();
@@ -187,7 +187,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     }
 
     public void checkForPositiveInputs() {
-        if (mlpSampleTc.getInputSpacePanel().positiveInputsOnly()) {
+        if (mlpSampleTc.getVisualizationPanel().positiveInputsOnly()) {
             checkPositiveInputs.setSelected(true);
             comboShapes.setEnabled(true);
             slideNumberOfPoints.setEnabled(true);
@@ -200,11 +200,11 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
 
     public void visualizationOptionCheck() {
         if (radioAnswer.isSelected()) {
-            mlpSampleTc.getInputSpacePanel().setVisualizationOption(1);
+            mlpSampleTc.getVisualizationPanel().setVisualizationOption(1);
         } else if (radioAreas.isSelected()) {
-            mlpSampleTc.getInputSpacePanel().setVisualizationOption(2);
+            mlpSampleTc.getVisualizationPanel().setVisualizationOption(2);
         } else if (radioLines.isSelected()) {
-            mlpSampleTc.getInputSpacePanel().setVisualizationOption(3);
+            mlpSampleTc.getVisualizationPanel().setVisualizationOption(3);
         }
     }
 
@@ -252,7 +252,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         setLayout(new java.awt.GridLayout(4, 1, 0, 3));
 
         dataSetPanel.setBackground(new java.awt.Color(255, 255, 255));
-        dataSetPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 1: Create Data Set", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11))); // NOI18N
+        dataSetPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 1: Create Data Set", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 11))); // NOI18N
         dataSetPanel.setLayout(new java.awt.GridBagLayout());
 
         jLabel2.setText("Shape:");
@@ -317,7 +317,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         add(dataSetPanel);
 
         neuralNetworkPanel.setBackground(new java.awt.Color(255, 255, 255));
-        neuralNetworkPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 2: Create Neural Network", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11))); // NOI18N
+        neuralNetworkPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 2: Create Neural Network", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 11))); // NOI18N
         neuralNetworkPanel.setLayout(new java.awt.GridBagLayout());
 
         jlTransferFunction.setText("Transfer function:");
@@ -375,7 +375,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         add(neuralNetworkPanel);
 
         informationPanel.setBackground(new java.awt.Color(255, 255, 255));
-        informationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 3: Train Network", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11))); // NOI18N
+        informationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Step 3: Train Network", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 11))); // NOI18N
         informationPanel.setLayout(new java.awt.GridBagLayout());
 
         jLabel3.setText("Neural Network:");
@@ -425,7 +425,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         jPanel5.setLayout(new java.awt.GridLayout(1, 3));
 
         visualizationPanel.setBackground(new java.awt.Color(255, 255, 255));
-        visualizationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualization Settings:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11))); // NOI18N
+        visualizationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualization Settings:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 11))); // NOI18N
         visualizationPanel.setLayout(new java.awt.GridBagLayout());
 
         radioAnswer.setBackground(new java.awt.Color(255, 255, 255));
@@ -515,7 +515,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     }//GEN-LAST:event_slideNumberOfPointsStateChanged
 
     private void createDataSetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDataSetButtonActionPerformed
-        if (mlpSampleTc.getInputSpacePanel().isPointDrawed()) {
+        if (mlpSampleTc.getVisualizationPanel().isPointDrawed()) {
             mlpSampleTc.customDataSetCheck();
             mlpSampleTc.sampleTrainingSetFileCheck();
             InputSettngsDialog isd = InputSettngsDialog.getInstance();
@@ -531,7 +531,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
             InputSettngsDialog isd = InputSettngsDialog.getInstance();
             isd.storeInputs(new int[]{0, 1});
             mlpSampleTc.coordinateSystemDomainCheck();
-            mlpSampleTc.getInputSpacePanel().drawPointsFromTrainingSet(dataSet, isd.getStoredInputs());
+            mlpSampleTc.getVisualizationPanel().drawPointsFromTrainingSet(dataSet, isd.getStoredInputs());
             mlpSampleTc.repaint();
         }
         IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Sample data set created.");
@@ -547,7 +547,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
             mlpSampleTc.stop();
         }
         clear();
-        mlpSampleTc.getInputSpacePanel().setDrawingLocked(false);
+        mlpSampleTc.getVisualizationPanel().setDrawingLocked(false);
         mlpSampleTc.setPointDrawed(false);
         mlpSampleTc.removeNetworkAndDataSetFromContent();
         if (checkPositiveInputs.isSelected()) {
@@ -555,7 +555,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         } else {
             mlpSampleTc.initializePanel(false);
         }
-        mlpSampleTc.getInputSpacePanel().repaint();
+        mlpSampleTc.getVisualizationPanel().repaint();
     }//GEN-LAST:event_checkPositiveInputsActionPerformed
 
     private void radioAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioAnswerActionPerformed
