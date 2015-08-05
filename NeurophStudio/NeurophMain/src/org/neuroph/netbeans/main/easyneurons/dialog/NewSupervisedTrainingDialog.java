@@ -79,6 +79,7 @@ public class NewSupervisedTrainingDialog extends javax.swing.JDialog {
         allowRepetitionCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.title")); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(NewSupervisedTrainingDialog.class, "NewSupervisedTrainingDialog.jPanel1.border.title"))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());

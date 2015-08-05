@@ -391,7 +391,7 @@ public class ViewManager implements
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
-                org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent backpropagationVisualizer = new org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSampleTopComponent();
+                org.neuroph.netbeans.classificationsample.MultiLayerPerceptronVisualizationTopComponent backpropagationVisualizer = new org.neuroph.netbeans.classificationsample.MultiLayerPerceptronVisualizationTopComponent();
                 backpropagationVisualizer.setTrainingSetForMultiLayerPerceptronSample(pst);
 
                 backpropagationVisualizer.setVisible(true);
