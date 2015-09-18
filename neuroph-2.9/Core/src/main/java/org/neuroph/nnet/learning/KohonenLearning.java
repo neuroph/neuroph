@@ -26,8 +26,6 @@ import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.core.events.LearningEventType;
-import org.neuroph.nnet.Kohonen;
 
 /**
  * Learning algorithm for Kohonen network.
@@ -66,7 +64,7 @@ public class KohonenLearning extends LearningRule {
 				} // while
 				currentIteration = k;
 				//this.notifyChange();	
-                                fireLearningEvent(new LearningEvent(this, LearningEventType.EPOCH_ENDED));
+                                fireLearningEvent(new LearningEvent(this, LearningEvent.Type.EPOCH_ENDED));
 				if (isStopped()) return;
 			} // for k
 			learningRate = learningRate * 0.5;
@@ -115,14 +113,11 @@ public class KohonenLearning extends LearningRule {
 	}
 
 	private void adjustCellWeights(Neuron cell, int r) {
-		//Iterator<Connection> i = cell.getInputsIterator();
-//		while (i.hasNext()) {
-//			Connection conn = i.next();
                 for(Connection conn : cell.getInputConnections()) {
 			double dWeight = (learningRate / (r + 1))   
 					* (conn.getInput() - conn.getWeight().getValue());
 			conn.getWeight().inc(dWeight);
-		}// while
+		}
 	}
 
 	private boolean isNeighbor(int i, int j, int n) {

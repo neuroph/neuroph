@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.neuroph.core.events.LearningEvent;
-import org.neuroph.core.events.LearningEventType;
 import org.neuroph.core.learning.stop.MaxIterationsStop;
 import org.neuroph.core.learning.stop.StopCondition;
 
@@ -193,7 +192,7 @@ abstract public class IterativeLearning extends LearningRule implements
             }
 
             // notify listeners that epoch has ended
-            fireLearningEvent(new LearningEvent(this, LearningEventType.EPOCH_ENDED));
+            fireLearningEvent(new LearningEvent(this, LearningEvent.Type.EPOCH_ENDED));
 
             // Thread safe pause when learning is paused
             if (this.pausedLearning) {
@@ -209,7 +208,7 @@ abstract public class IterativeLearning extends LearningRule implements
 
         }
         onStop();
-        fireLearningEvent(new LearningEvent(this, LearningEventType.LEARNING_STOPPED));
+        fireLearningEvent(new LearningEvent(this, LearningEvent.Type.LEARNING_STOPPED));
     }
 
     protected boolean hasReachedStopCondition() {
@@ -245,7 +244,7 @@ abstract public class IterativeLearning extends LearningRule implements
         beforeEpoch();
         doLearningEpoch(trainingSet);
         afterEpoch();
-        fireLearningEvent(new LearningEvent(this, LearningEventType.LEARNING_STOPPED));; // notify listeners        
+        fireLearningEvent(new LearningEvent(this, LearningEvent.Type.LEARNING_STOPPED));; // notify listeners        
     }
 
     /**

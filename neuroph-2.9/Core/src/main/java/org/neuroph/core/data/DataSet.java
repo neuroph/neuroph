@@ -537,6 +537,21 @@ public class DataSet implements Serializable /*
     }
 
     /**
+     * Creates and returns data set from specified csv file
+     *
+     * @param filePath        path to csv dataset file to import
+     * @param inputsCount     number of inputs
+     * @param outputsCount    number of outputs
+     * @param delimiter       delimiter of values
+     * @return instance of dataset with values from specified file
+     */    
+    public static DataSet createFromFile(String filePath, int inputsCount, int outputsCount, String delimiter) {    
+        return createFromFile(filePath, inputsCount, outputsCount, delimiter, false);
+    }
+    
+    
+    
+    /**
      * Returns output vector size of training elements in this training set This
      * method is implementation of EngineIndexableSet interface, and it is added
      * to provide compatibility with Encog data sets and FlatNetwork

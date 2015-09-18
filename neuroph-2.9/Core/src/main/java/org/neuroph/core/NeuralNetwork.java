@@ -24,7 +24,6 @@ import org.neuroph.core.events.NeuralNetworkEventListener;
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.core.events.NeuralNetworkEventType;
 import org.neuroph.core.learning.IterativeLearning;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.util.NeuralNetworkType;
@@ -134,7 +133,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
         layer.setParentNetwork(this);
 
         // notify listeners that layer has been added
-        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_ADDED));
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEvent.Type.LAYER_ADDED));
     }
 
     /**
@@ -167,7 +166,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
         layer.setParentNetwork(this);
 
         // notify listeners that layer has been added
-        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_ADDED));
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEvent.Type.LAYER_ADDED));
     }
 
     /**
@@ -185,7 +184,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
         }
 
         // notify listeners that layer has been removed
-        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_REMOVED));
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEvent.Type.LAYER_REMOVED));
     }
 
     /**
@@ -211,7 +210,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 
 
         // notify listeners that layer has been removed
-        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEventType.LAYER_REMOVED));
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEvent.Type.LAYER_REMOVED));
     }
 
     /**
@@ -302,7 +301,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
         }
 
 //        List<Future<Long>> results = mainPool.invokeAll(Arrays.asList(layers.asArray()));
-        fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.CALCULATED));
+        fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.CALCULATED));
     }
 
     /**

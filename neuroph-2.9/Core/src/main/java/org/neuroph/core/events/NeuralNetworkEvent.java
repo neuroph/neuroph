@@ -25,22 +25,34 @@ import org.neuroph.core.NeuralNetwork;
  */
 public class NeuralNetworkEvent extends java.util.EventObject {
     
-    NeuralNetworkEventType eventType;
+    Type eventType;
     
-    public NeuralNetworkEvent(NeuralNetwork source, NeuralNetworkEventType eventType) {
+    public NeuralNetworkEvent(NeuralNetwork source, Type eventType) {
         super(source);
         this.eventType = eventType;
     }
     
-    public NeuralNetworkEvent(Layer source, NeuralNetworkEventType eventType) {
+    public NeuralNetworkEvent(Layer source, Type eventType) {
         super(source);
         this.eventType = eventType;
     }    
 
-    public NeuralNetworkEventType getEventType() {
+    public NeuralNetworkEvent.Type getEventType() {
         return eventType;
     }
     
-    
+    /**
+     * Types of neural network events
+     */
+    public static enum Type {
+        CALCULATED, 
+        LAYER_ADDED,
+        LAYER_REMOVED,
+        NEURON_ADDED,
+        NEURON_REMOVED,
+        CONNECTION_ADDED,
+        CONNECTION_REMOVED;
+    }    
+
         
 }

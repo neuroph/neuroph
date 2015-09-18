@@ -16,11 +16,9 @@
 package org.neuroph.core;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 
 import org.neuroph.core.events.NeuralNetworkEvent;
-import org.neuroph.core.events.NeuralNetworkEventType;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.NeurophArrayList;
@@ -135,7 +133,7 @@ public class Layer implements Serializable {
         
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_ADDED));                
     }
 
     /**
@@ -161,7 +159,7 @@ public class Layer implements Serializable {
         
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_ADDED));                        
     }
 
     /**
@@ -184,7 +182,7 @@ public class Layer implements Serializable {
         
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_ADDED));                        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_ADDED));                        
         
     }
 
@@ -211,7 +209,7 @@ public class Layer implements Serializable {
         
         // notify listeners that neuron has been removed
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_REMOVED));                        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_REMOVED));                        
     }
 
     public final void removeAllNeurons() {
@@ -219,7 +217,7 @@ public class Layer implements Serializable {
         
         // notify listeners that neurons has been removed
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEventType.NEURON_REMOVED));                                
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_REMOVED));                                
     }
 
     /**

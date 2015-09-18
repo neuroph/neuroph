@@ -141,7 +141,7 @@ public class Neuron implements Serializable, Callable<Void> {
      * Calculates neuron's output
      */
     public void calculate() {
-        if ((this.inputConnections.size() > 0)) {
+        if ((this.inputConnections.size() > 0)) { // umesto ovoga treba koristiti input neuron
             this.netInput = this.inputFunction.getOutput(this.inputConnections.asArray());
         }
 

@@ -25,15 +25,21 @@ import org.neuroph.core.learning.LearningRule;
 
 public class LearningEvent extends java.util.EventObject {
     
-    LearningEventType eventType;
+    LearningEvent.Type eventType;
     
-    public LearningEvent(LearningRule source, LearningEventType eventType) {
+    public LearningEvent(LearningRule source, LearningEvent.Type eventType) {
         super(source);
         this.eventType = eventType;
     }
 
-    public LearningEventType getEventType() {
+    public LearningEvent.Type getEventType() {
         return eventType;
     }
+    
+    
+    public static enum Type {
+        EPOCH_ENDED, LEARNING_STOPPED;
+    }
+    
                 
 }

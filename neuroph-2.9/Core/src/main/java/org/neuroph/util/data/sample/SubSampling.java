@@ -44,7 +44,7 @@ public class SubSampling implements Sampling {
     /**
      * True if samples are allowed to repeat in different subsets
      */
-    private boolean allowRepeat = false;
+    private boolean allowRepetition = false;
     
        
     /**
@@ -70,13 +70,10 @@ public class SubSampling implements Sampling {
          this.subSetCount = subSetSizes.length;
     }       
     
-    // how many folds and fold sizes
-    // int[] percent , int ...    
-    // int folds    
 
     @Override
     public List<DataSet> sample(DataSet dataSet) {
-        if (subSetSizes == null) {
+        if (subSetSizes == null) { // if number of subSetSizes is null calculate it based on subSetSount
             int  singleSubSetSize = dataSet.size() / subSetCount;
             subSetSizes = new int[subSetCount];
             for(int i=0; i< subSetCount; i++)
@@ -97,7 +94,7 @@ public class SubSampling implements Sampling {
             DataSet newSubSet = new DataSet(inputSize, outputSize);
             // fill subset with rows
             
-            if (!allowRepeat) {
+            if (!allowRepetition) {
                 for (int i = 0; i < subSetSizes[s]; i++) {
                     newSubSet.addRow(dataSet.getRowAt(idxCounter));
                     idxCounter++;
@@ -118,12 +115,20 @@ public class SubSampling implements Sampling {
         return subSets;
     }
 
-    public boolean getAllowRepeat() {
-        return allowRepeat;
+    /**
+     * Get flag which indicates if sample repetition is allowed in subsets
+     * @return 
+     */
+    public boolean getAllowRepetition() {
+        return allowRepetition;
     }
 
-    public void setAllowRepeat(boolean allowRepeat) {
-        this.allowRepeat = allowRepeat;
+    /**
+     * Set flag to allow repetition of samples in subsets
+     * @param allowRepetition 
+     */
+    public void setAllowRepetition(boolean allowRepetition) {
+        this.allowRepetition = allowRepetition;
     }
     
  
