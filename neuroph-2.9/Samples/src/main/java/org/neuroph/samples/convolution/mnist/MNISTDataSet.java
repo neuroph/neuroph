@@ -18,15 +18,14 @@ import org.neuroph.core.data.DataSetRow;
  */
 public class MNISTDataSet {
 
-    public static final String TRAIN_LABEL_NAME = "train-labels.idx1-ubyte";
-    public static final String TRAIN_IMAGE_NAME = "train-images.idx3-ubyte";
-    public static final String TEST_LABEL_NAME = "t10k-labels.idx1-ubyte";
-    public static final String TEST_IMAGE_NAME = "t10k-images.idx3-ubyte";
+    public static final String TRAIN_LABEL_NAME = "data_sets/train-labels.idx1-ubyte";
+    public static final String TRAIN_IMAGE_NAME = "data_sets/train-images.idx3-ubyte";
+    public static final String TEST_LABEL_NAME = "data_sets/t10k-labels.idx1-ubyte";
+    public static final String TEST_IMAGE_NAME = "data_sets/t10k-images.idx3-ubyte";
 
 
     public static DataSet createFromFile(String labelPath, String imagePath, int sampleCount) throws IOException {
-        MNISTImageLoader mnistLoader = new MNISTImageLoader("/" + labelPath, "/" + imagePath);
-        List<MNISTImage> mnistImages = mnistLoader.loadDigitImages();
+        List<MNISTImage> mnistImages = MNISTImage.loadDigitImages(labelPath, imagePath);
         DataSet dataSet = createDataSet(mnistImages, sampleCount);
         return dataSet;
     }
@@ -64,6 +63,17 @@ public class MNISTDataSet {
             DataSetRow row = new DataSetRow(input, output);
             dataSet.addRow(row);
         }
+        dataSet.setColumnName(1024, "0");
+        dataSet.setColumnName(1025, "1");
+        dataSet.setColumnName(1026, "2");
+        dataSet.setColumnName(1027, "3");
+        dataSet.setColumnName(1028, "4");
+        dataSet.setColumnName(1029, "5");
+        dataSet.setColumnName(1030, "6");
+        dataSet.setColumnName(1031, "7");
+        dataSet.setColumnName(1032, "8");
+        dataSet.setColumnName(1033, "9");
+        
         return dataSet;
     }
 }

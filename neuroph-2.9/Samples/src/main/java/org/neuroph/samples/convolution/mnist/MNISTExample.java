@@ -1,10 +1,6 @@
-package org.neuroph.samples.convolution;
+package org.neuroph.samples.convolution.mnist;
 
-import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
-import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
-import org.neuroph.contrib.eval.Evaluation;
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
-import org.neuroph.core.NeuralNetwork;
+import org.neuroph.contrib.model.errorestimation.CrossValidation;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
@@ -14,7 +10,6 @@ import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
-import org.neuroph.samples.convolution.mnist.MNISTDataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,32 +56,6 @@ public class MNISTExample {
 
     private static Logger LOG = LoggerFactory.getLogger(MNISTExample.class);
 
-
-    static class LearningListener implements LearningEventListener {
-
-        private final NeuralNetwork neuralNetwork;
-        private DataSet testSet;
-
-        public LearningListener(NeuralNetwork neuralNetwork, DataSet testSet) {
-            this.testSet = testSet;
-            this.neuralNetwork = neuralNetwork;
-        }
-
-
-        long start = System.currentTimeMillis();
-
-        public void handleLearningEvent(LearningEvent event) {
-            BackPropagation bp = (BackPropagation) event.getSource();
-            LOG.error("Current iteration: " + bp.getCurrentIteration());
-            LOG.error("Error: " + bp.getTotalNetworkError());
-            LOG.error("" + (System.currentTimeMillis() - start) / 1000.0);
-            neuralNetwork.save(bp.getCurrentIteration() + "CNN_MNIST" + bp.getCurrentIteration() + ".nnet");
-            start = System.currentTimeMillis();
-//            NeuralNetworkEvaluationService.completeEvaluation(neuralNetwork, testSet);
-        }
-
-    }
-
     public static void main(String[] args) {
         try {
 
@@ -97,7 +66,7 @@ public class MNISTExample {
             Kernel convolutionKernel = new Kernel(5, 5);
             Kernel poolingKernel = new Kernel(2, 2);
 
-            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputDimension, 1)
+            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder(inputDimension, 1)
                     .withConvolutionLayer(convolutionKernel, 10)
                     .withPoolingLayer(poolingKernel)
                     .withConvolutionLayer(convolutionKernel, 1)
@@ -109,17 +78,24 @@ public class MNISTExample {
             BackPropagation backPropagation = new MomentumBackpropagation();
             backPropagation.setLearningRate(0.0001);
             backPropagation.setMaxError(0.00001);
-            backPropagation.setMaxIterations(50);
-            backPropagation.addListener(new LearningListener(convolutionNetwork, testSet));
+            backPropagation.setMaxIterations(500);
+            backPropagation.addListener(new LearningListener());
             backPropagation.setErrorFunction(new MeanSquaredError());
 
             convolutionNetwork.setLearningRule(backPropagation);
-            KFoldCrossValidation crossValidation = new KFoldCrossValidation(convolutionNetwork, testSet, 6);
-            
-            
-           // ClassificationMetrics validationResult = crossValidation.computeErrorEstimate(convolutionNetwork, trainSet);
+            backPropagation.addListener(new LearningListener());
 
-            Evaluation.runFullEvaluation(convolutionNetwork, testSet);
+            convolutionNetwork.learn(testSet);
+            
+            
+            System.out.println("Done training - finally!");
+      
+            CrossValidation crossValidation = new CrossValidation(convolutionNetwork, testSet, 6);
+            crossValidation.run();
+            
+//           ClassificationMetrics validationResult = crossValidation.computeErrorEstimate(convolutionNetwork, trainSet);
+           // Evaluation.runFullEvaluation(convolutionNetwork, testSet);
+            
             convolutionNetwork.save("/mnist.nnet");
 
 
@@ -127,6 +103,24 @@ public class MNISTExample {
             e.printStackTrace();
         }
     }
+    
+    static class LearningListener implements LearningEventListener {
+
+
+        long start = System.currentTimeMillis();
+
+        @Override
+        public void handleLearningEvent(LearningEvent event) {
+            BackPropagation bp = (BackPropagation) event.getSource();
+            LOG.error("Current iteration: " + bp.getCurrentIteration());
+            LOG.error("Error: " + bp.getTotalNetworkError());
+            LOG.error("" + (System.currentTimeMillis() - start) / 1000.0);
+         //   neuralNetwork.save(bp.getCurrentIteration() + "CNN_MNIST" + bp.getCurrentIteration() + ".nnet");
+            start = System.currentTimeMillis();
+//            NeuralNetworkEvaluationService.completeEvaluation(neuralNetwork, testSet);
+        }
+
+    }    
 
 
 }

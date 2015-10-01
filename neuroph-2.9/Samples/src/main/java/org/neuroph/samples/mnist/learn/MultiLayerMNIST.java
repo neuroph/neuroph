@@ -1,8 +1,8 @@
 package org.neuroph.samples.mnist.learn;
 
 
-import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
-import org.neuroph.contrib.model.errorestimation.KFoldCrossValidation;
+import org.neuroph.contrib.model.errorestimation.CrossValidation;
+import org.neuroph.contrib.model.errorestimation.CrossValidation;
 import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.contrib.model.modelselection.MultilayerPerceptronOptimazer;
 import org.neuroph.core.NeuralNetwork;
@@ -35,9 +35,9 @@ public class MultiLayerMNIST {
      */
     public static void main(String[] args) throws IOException {
 
-        int maxIter = Integer.parseInt(args[0]);
-        double maxError = Double.parseDouble(args[1]);
-        double learningRate = Double.parseDouble(args[2]);
+        int maxIter = 10000; //Integer.parseInt(args[0]);
+        double maxError = 0.01; // Double.parseDouble(args[1]);
+        double learningRate = 0.2 ; // Double.parseDouble(args[2]);
 
         int validationFolds = Integer.parseInt(args[3]);
 

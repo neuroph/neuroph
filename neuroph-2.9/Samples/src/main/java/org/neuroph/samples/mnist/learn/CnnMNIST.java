@@ -38,9 +38,9 @@ public class CnnMNIST {
         try {
 
 
-            int maxIter = Integer.parseInt(args[0]);
-            double maxError = Double.parseDouble(args[1]);
-            double learningRate = Double.parseDouble(args[2]);
+            int maxIter = 10000; // Integer.parseInt(args[0]);
+            double maxError = 0.01; //Double.parseDouble(args[1]);
+            double learningRate = 0.2; //  Double.parseDouble(args[2]);
 
             int layer1 = Integer.parseInt(args[3]);
             int layer2 = Integer.parseInt(args[4]);
@@ -56,7 +56,7 @@ public class CnnMNIST {
             Kernel convolutionKernel = new Kernel(5, 5);
             Kernel poolingKernel = new Kernel(2, 2);
 
-            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputDimension, 1)
+            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder(inputDimension, 1)
                     .withConvolutionLayer(convolutionKernel, layer1)
                     .withPoolingLayer(poolingKernel)
                     .withConvolutionLayer(convolutionKernel, layer2)
@@ -101,11 +101,11 @@ public class CnnMNIST {
             BackPropagation bp = (BackPropagation) event.getSource();
             LOG.info("Epoch no#: [{}]. Error [{}]", bp.getCurrentIteration(), bp.getTotalNetworkError());
             LOG.info("Epoch execution time: {} sec", (System.currentTimeMillis() - start) / 1000.0);
-            neuralNetwork.save(bp.getCurrentIteration() + "_MNIST_CNN-MIC.nnet");
+           // neuralNetwork.save(bp.getCurrentIteration() + "_MNIST_CNN-MIC.nnet");
 
             start = System.currentTimeMillis();
-            if (bp.getCurrentIteration() % 5 == 0)
-                Evaluation.runFullEvaluation(neuralNetwork, testSet);
+          //  if (bp.getCurrentIteration() % 5 == 0)
+          //      Evaluation.runFullEvaluation(neuralNetwork, testSet);
         }
 
     }

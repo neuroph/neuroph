@@ -54,20 +54,22 @@ public class IrisClassificationSample {
      */
     public static void main(String[] args) {    
         // get the path to file with data
-        String inputFileName = "/iris_data.txt";
+        String inputFileName = "data_sets/iris_data_normalised.txt";
         
         // create MultiLayerPerceptron neural network
-        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 3, 3);
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 16, 3);
         // create training set from file
         DataSet irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
         // train the network with training set
 
         neuralNet.getLearningRule().addListener(new LearningListener());
-        neuralNet.getLearningRule().setLearningRate(0.002);
-        neuralNet.getLearningRule().setMaxIterations(300);
+        neuralNet.getLearningRule().setLearningRate(0.01);
+      //  neuralNet.getLearningRule().setMaxIterations(300);
 
         neuralNet.learn(irisDataSet);
 
+        neuralNet.save("irisNet.nnet");
+        
         System.out.println("Done training.");
         System.out.println("Testing network...");
     }
