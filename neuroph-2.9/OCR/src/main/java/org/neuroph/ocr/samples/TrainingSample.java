@@ -21,6 +21,7 @@ import org.neuroph.imgrec.filter.ImageFilterChain;
 import org.neuroph.imgrec.filter.impl.GrayscaleFilter;
 import org.neuroph.imgrec.filter.impl.OtsuBinarizeFilter;
 import org.neuroph.imgrec.image.Dimension;
+import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.ocr.util.Letter;
 import org.neuroph.ocr.util.Text;
@@ -37,10 +38,10 @@ public class TrainingSample {
 
         //     User input parameteres       
 //*******************************************************************************************************************************       
-        String imagePath = "C:/Users/Mihailo/Desktop/OCR/training.png"; //path to the image with letters                        *
-        String folderPath = "C:/Users/Mihailo/Desktop/OCR/letters/"; // loaction folder for storing segmented letters           *
-        String textPath = "C:/Users/Mihailo/Desktop/OCR/training.txt"; // path to the .txt file with text on the image          *
-        String networkPath = "C:/Users/Mihailo/Desktop/OCR/nnet/network.nnet"; // location where the network will be stored     *
+        String imagePath = "C:/Users/Mihailo/Desktop/korisnicko-uputstvo/slova.png"; //path to the image with letters                        *
+        String folderPath = "C:/Users/Mihailo/Desktop/korisnicko-uputstvo/ImagesDir/"; // loaction folder for storing segmented letters           *
+        String textPath = "C:/Users/Mihailo/Desktop/korisnicko-uputstvo/slova-trening.txt"; // path to the .txt file with text on the image          *
+        String networkPath = "C:/Users/Mihailo/Desktop/korisnicko-uputstvo/network.nnet"; // location where the network will be stored     *
         int fontSize = 12; // fontSize, predicted by height of the letters, minimum font size is 12 pt                          *
         int scanQuality = 300; // scan quality, minimum quality is 300 dpi                                                      *
 //*******************************************************************************************************************************
@@ -51,29 +52,44 @@ public class TrainingSample {
         chain.addFilter(new OtsuBinarizeFilter());
         BufferedImage binarizedImage = chain.processImage(image);
 
+        
+        
+        
+        
         Letter letterInfo = new Letter(scanQuality, fontSize);
 //        letterInfo.recognizeDots(); // call this method only if you want to recognize dots and other litle characters, TODO
 
         Text texTInfo = new Text(binarizedImage, letterInfo);
 
-        OCRTraining properties = new OCRTraining(letterInfo, texTInfo);
-        properties.setFolderPath(folderPath);
-        properties.setTrainingTextPath(textPath);
-        properties.prepareTrainingSet();
-
-        List<String> characterLabels = properties.getCharacterLabels();
+        OCRTraining ocrTraining = new OCRTraining(letterInfo, texTInfo);
+        ocrTraining.setFolderPath(folderPath);
+        ocrTraining.setTrainingTextPath(textPath);
+        ocrTraining.prepareTrainingSet();
+        
+  
+        
+        List<String> characterLabels = ocrTraining.getCharacterLabels();
 
         Map<String, FractionRgbData> map = ImageRecognitionHelper.getFractionRgbDataForDirectory(new File(folderPath), new Dimension(20, 20));
         DataSet dataSet = ImageRecognitionHelper.createBlackAndWhiteTrainingSet(characterLabels, map);
-
+        
+        
+        dataSet.setFilePath("C:/Users/Mihailo/Desktop/korisnicko-uputstvo/DataSet1.tset");
+        dataSet.save();
+        
+        
         List<Integer> hiddenLayers = new ArrayList<Integer>();
-//        hiddenLayers.add(12);
+        hiddenLayers.add(12);
 
         NeuralNetwork nnet = ImageRecognitionHelper.createNewNeuralNetwork("someNetworkName", new Dimension(20, 20), ColorMode.BLACK_AND_WHITE, characterLabels, hiddenLayers, TransferFunctionType.SIGMOID);
         BackPropagation bp = (BackPropagation) nnet.getLearningRule();
         bp.setLearningRate(0.3);
-        bp.setMaxError(0.0001);
+        bp.setMaxError(0.1);
 
+        
+//        MultiLayerPerceptron mlp = new MultiLayerPerceptron(12,13);
+//        mlp.setOutputNeurons(null);
+        
         System.out.println("Start learning...");
         nnet.learn(dataSet);
         System.out.println("NNet learned");

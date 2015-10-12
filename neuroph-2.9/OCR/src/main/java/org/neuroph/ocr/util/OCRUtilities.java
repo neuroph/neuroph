@@ -5,12 +5,10 @@
  */
 package org.neuroph.ocr.util;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -131,6 +129,7 @@ public class OCRUtilities {
         int sum = 0;
         int count = 0;
         for (int row = 0; row < gradient.length; row++) {
+            
             sum += gradient[row];
             if (sum != 0) {
                 count++;

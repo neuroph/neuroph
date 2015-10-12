@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.neuroph.ocr.filter.OCRCropLetter;
 import org.neuroph.ocr.filter.OCRExtractLetter;
-import org.neuroph.ocr.properties.Properties;
+import org.neuroph.ocr.properties.OCRProperties;
 import org.neuroph.ocr.util.OCRUtilities;
 
 /**
  *
  * @author Mihailo Stupar
  */
-public class OCRTraining extends Properties {
+public class OCRTraining extends OCRProperties {
 
     private String folderPath;
     private String trainingText;
