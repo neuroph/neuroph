@@ -5,33 +5,52 @@
  */
 package org.neuroph.netbeans.tcr.top.settings;
 
-import java.awt.BorderLayout;
-import java.awt.Image;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import java.awt.Button;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
+import javax.imageio.ImageIO;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JPopupMenu;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.modules.image.ImageDataObject;
+import org.neuroph.core.NeuralNetwork;
 import org.neuroph.imgrec.filter.ImageFilter;
-import org.neuroph.imgrec.filter.impl.AdaptiveThresholdBinarizeFilter;
-import org.neuroph.imgrec.filter.impl.GrayscaleFilter;
+import org.neuroph.imgrec.filter.ImageFilterChain;
+import org.neuroph.imgrec.filter.impl.MeanFilter;
 import org.neuroph.imgrec.filter.impl.MedianFilter;
-import org.neuroph.imgrec.filter.impl.OtsuBinarizeFilter;
-import org.neuroph.netbeans.tcr.top.settings.panels.PnlFilterParam;
-import org.neuroph.netbeans.tcr.top.settings.panels.PnlMedianFilterParam;
+import org.neuroph.ocr.OCRTraining;
+import org.neuroph.ocr.util.Letter;
+import org.neuroph.ocr.util.Text;
+
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.filesystems.FileObject;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -39,6 +58,8 @@ import org.openide.util.LookupListener;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.Utilities;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 
 /**
  * Top component which displays something.
@@ -54,37 +75,58 @@ import org.openide.util.Utilities;
 )
 @TopComponent.Registration(mode = "properties", openAtStartup = true)
 @ActionID(category = "Window", id = "org.neuroph.netbeans.tcr.top.properties.PropertiesTopComponent")
-@ActionReference(path = "Menu/Window" /*, position = 333 */)
+@ActionReference(path = "Menu/Window" , position = 789)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_PropertiesAction",
         preferredID = "SettingsTopComponent"
 )
 @Messages({
-    "CTL_PropertiesAction=Settings",
-    "CTL_PropertiesTopComponent=Settings Window",
-    "HINT_PropertiesTopComponent=This is a Settings window"
+    "CTL_PropertiesAction=OCR - Preparation",
+    "CTL_PropertiesTopComponent=OCR - Preparation",
+    "HINT_PropertiesTopComponent=Prepare images(characters) for training"
 })
-public final class SettingsTopComponent extends TopComponent implements LookupListener{
+public final class SettingsTopComponent extends TopComponent implements LookupListener {
 
-    private DefaultListModel dlm1;
-    private DefaultListModel dlm2;
+    private DefaultListModel selectedFiltersListModel;
+    private List<ImageFilter> selectedFilters;
+    private ImageFilterChain chain;
     
-    private String text;
-    private String folderPath;
-    
+    private Stack<BufferedImage> stack;
+    private FilterTableModel filterTableModel;
+
     private Lookup.Result<ImageDataObject> result = null;
+
+
+    private String[] trainingTextFiles;
+    private List<String> imagesPaths;
+    private String imageFolderPath;
     
+    private String imagesDirPath;
+    private String documentsPath;
+    
+    
+    private List<String> imageList;
+    private TextTableModel textTableModel;
+
     public SettingsTopComponent() {
         initComponents();
         setName(Bundle.CTL_PropertiesTopComponent());
         setToolTipText(Bundle.HINT_PropertiesTopComponent());
 
+        arrangeTableFilters();
+        arangeTableText();
+        arangeList();
+        selectedFilters = new ArrayList<ImageFilter>();
+
         
+        imagesPaths = new ArrayList<String>();
+        imageList = new ArrayList<String>();
+        chain = new ImageFilterChain();
         
-        text = "";
-        folderPath = "";
-        
-        
+        //LOOKUP
+        associateLookup(new AbstractLookup(content));
+        btnPreviewFilterActionPerformed(null);
+        addRightClickListener();
     }
 
     /**
@@ -98,175 +140,37 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
         jButton1 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        btnFindFolder = new javax.swing.JButton();
-        lblFolderPath = new javax.swing.JLabel();
-        btnCreateDataset = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        btnFindText = new javax.swing.JButton();
         lblDocumentName = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtArea = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblText = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        cmbFontSize = new javax.swing.JComboBox();
         cmbScanQ = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblFilters = new javax.swing.JTable();
+        btnPreviewFilter = new javax.swing.JButton();
+        btnUndoPreview = new javax.swing.JButton();
+        btnAddFilter = new javax.swing.JButton();
+        btnRemove = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstSelectedFilters = new javax.swing.JList();
+        btnCreateImages = new javax.swing.JButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jButton1.text")); // NOI18N
 
-        setMinimumSize(new java.awt.Dimension(400, 0));
+        setEnabled(false);
+        setMinimumSize(new java.awt.Dimension(420, 0));
+        setPreferredSize(new java.awt.Dimension(390, 718));
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jPanel4.border.title"))); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jLabel4.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(btnFindFolder, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.btnFindFolder.text")); // NOI18N
-        btnFindFolder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFindFolderActionPerformed(evt);
-            }
-        });
-
-        org.openide.awt.Mnemonics.setLocalizedText(lblFolderPath, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.lblFolderPath.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(btnCreateDataset, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.btnCreateDataset.text")); // NOI18N
-        btnCreateDataset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateDatasetActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(btnFindFolder)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblFolderPath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCreateDataset, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFindFolder)
-                    .addComponent(lblFolderPath))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(btnCreateDataset)
-                .addContainerGap())
-        );
+        jPanel5.setPreferredSize(new java.awt.Dimension(390, 500));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jPanel3.border.title"))); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jLabel3.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(btnFindText, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.btnFindText.text")); // NOI18N
-        btnFindText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFindTextActionPerformed(evt);
-            }
-        });
-
         org.openide.awt.Mnemonics.setLocalizedText(lblDocumentName, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.lblDocumentName.text")); // NOI18N
 
-        txtArea.setColumns(20);
-        txtArea.setRows(5);
-        txtArea.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtAreaKeyReleased(evt);
-            }
-        });
-        jScrollPane3.setViewportView(txtArea);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3)
-                        .addContainerGap())
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnFindText, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDocumentName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(btnFindText)
-                    .addComponent(lblDocumentName))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jPanel2.border.title"))); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jLabel1.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jLabel2.text")); // NOI18N
-
-        cmbFontSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt", "22 pt", "24 pt", "26 pt", "28 pt", "36 pt", "48 pt", "72 pt" }));
-
-        cmbScanQ.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "300 dpi", "600 dpi", "1200 dpi" }));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(33, 33, 33)
-                        .addComponent(cmbFontSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbScanQ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cmbFontSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cmbScanQ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 16, Short.MAX_VALUE))
-        );
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblText.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -277,20 +181,139 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane5.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblText);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDocumentName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(lblDocumentName)
+                        .addGap(0, 128, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jPanel2.border.title"))); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jLabel2.text")); // NOI18N
+
+        cmbScanQ.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "300 dpi", "600 dpi", "1200 dpi" }));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(cmbScanQ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cmbScanQ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        tblFilters.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(tblFilters);
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnPreviewFilter, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.btnPreviewFilter.text")); // NOI18N
+        btnPreviewFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviewFilterActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnUndoPreview, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.btnUndoPreview.text")); // NOI18N
+        btnUndoPreview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUndoPreviewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(btnUndoPreview)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnPreviewFilter)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPreviewFilter)
+                    .addComponent(btnUndoPreview))
+                .addGap(0, 13, Short.MAX_VALUE))
         );
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnAddFilter, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.btnAddFilter.text")); // NOI18N
+        btnAddFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddFilterActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnRemove, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.btnRemove.text")); // NOI18N
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
+
+        lstSelectedFilters.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(lstSelectedFilters);
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnCreateImages, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.btnCreateImages.text")); // NOI18N
+        btnCreateImages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateImagesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -298,25 +321,46 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(529, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnRemove)
+                            .addComponent(btnAddFilter))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 26, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCreateImages, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGap(65, 65, 65)
+                            .addComponent(btnAddFilter)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnRemove))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(btnCreateImages)
+                .addGap(0, 213, Short.MAX_VALUE))
         );
 
         jScrollPane4.setViewportView(jPanel5);
@@ -325,84 +369,104 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 896, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFindTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindTextActionPerformed
-        
-        JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Documents", "txt");
-        chooser.setFileFilter(filter);
-        int result = chooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = chooser.getSelectedFile();
-            String pathString = selectedFile.getAbsolutePath();
-            try {
-                Path path = FileSystems.getDefault().getPath(pathString);
-                text = new String(Files.readAllBytes(path));
-                txtArea.setText(text);
-                
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Only text files can be loaded.", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
+    //LOOKUP
+    private final InstanceContent content = new InstanceContent();
+
+    private void btnPreviewFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewFilterActionPerformed
+
+        if (stack == null) {
+            return;
         }
-        
-    }//GEN-LAST:event_btnFindTextActionPerformed
+        int row = tblFilters.getSelectedRow();
+        if (row == -1) {
+            return;
+        }
 
-    private void txtAreaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAreaKeyReleased
-        
-        text = txtArea.getText();
-        
-    }//GEN-LAST:event_txtAreaKeyReleased
+        ImageFilter filter = filterTableModel.getImageFilter(row);
 
-    private void btnFindFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindFolderActionPerformed
-        
-        folderPath = getFolderPathChooser();
-        lblFolderPath.setText(folderPath);
-        
-    }//GEN-LAST:event_btnFindFolderActionPerformed
+        BufferedImage filtered = filter.processImage(stack.peek());
+        putIntoLookup(filtered);
 
-    private void btnCreateDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateDatasetActionPerformed
+
+    }//GEN-LAST:event_btnPreviewFilterActionPerformed
+
+    private void btnUndoPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndoPreviewActionPerformed
+        if (stack == null || stack.isEmpty()) {
+            return;
+        }
+        putIntoLookup(stack.peek());
+    }//GEN-LAST:event_btnUndoPreviewActionPerformed
+
+    private void btnAddFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFilterActionPerformed
+        int row = tblFilters.getSelectedRow();
+        ImageFilter filter = filterTableModel.getImageFilter(row);
+        addIntoSelected(filter);
+    }//GEN-LAST:event_btnAddFilterActionPerformed
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        removeFromSelected();
+    }//GEN-LAST:event_btnRemoveActionPerformed
+
+    private void btnCreateImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateImagesActionPerformed
+        
        
         
         
-    }//GEN-LAST:event_btnCreateDatasetActionPerformed
+        
+        boolean exist = false;
+        for (String textPath : trainingTextFiles) {
+            if (textPath != null)
+                exist = true;
+        }
+        if (!exist) {
+            JOptionPane.showMessageDialog(null, "You have to specify at least one training text.");
+            return;
+        }
+        
+        
+        populateFilterChain();
+        makeDirectorires();
+        createDataSet();
+        
+        
+        
+        
+    }//GEN-LAST:event_btnCreateImagesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCreateDataset;
-    private javax.swing.JButton btnFindFolder;
-    private javax.swing.JButton btnFindText;
-    private javax.swing.JComboBox cmbFontSize;
+    private javax.swing.JButton btnAddFilter;
+    private javax.swing.JButton btnCreateImages;
+    private javax.swing.JButton btnPreviewFilter;
+    private javax.swing.JButton btnRemove;
+    private javax.swing.JButton btnUndoPreview;
     private javax.swing.JComboBox cmbScanQ;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblDocumentName;
-    private javax.swing.JLabel lblFolderPath;
-    private javax.swing.JTextArea txtArea;
+    private javax.swing.JList lstSelectedFilters;
+    private javax.swing.JTable tblFilters;
+    private javax.swing.JTable tblText;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
-        
+
         result = Utilities.actionsGlobalContext().lookupResult(ImageDataObject.class);
         result.addLookupListener(this);
         resultChanged(null);
@@ -426,53 +490,304 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
         // TODO read your settings according to their version
     }
 
-   
+    public void addIntoSelected(ImageFilter imageFilter) {
+        if (stack == null || stack.isEmpty()) {
+            return;
+        }
 
-    public void putIntoSelected(ImageFilter imageFilter) {
-        dlm2.add(dlm2.size()-1, imageFilter);
+        BufferedImage filtrered = imageFilter.processImage(stack.peek());
+        putIntoLookup(filtrered);
+        stack.push(filtrered);
+
+        selectedFilters.add(imageFilter);
+        if (imageFilter instanceof MedianFilter) {
+            MedianFilter mf = (MedianFilter) imageFilter;
+            selectedFiltersListModel.addElement(mf.toString() + " (" + mf.getRadius() + ")");
+            revalidate();
+            return;
+        }
+        if (imageFilter instanceof MeanFilter) {
+            MeanFilter mf = (MeanFilter) imageFilter;
+            selectedFiltersListModel.addElement(mf.toString() + " (" + mf.getRadius() + ")");
+            revalidate();
+            return;
+        }
+        selectedFiltersListModel.addElement(imageFilter.toString());
         revalidate();
     }
 
-    public void removeFromSelected(ImageFilter imageFilter) {
-        dlm2.removeElement(imageFilter);
+    public void removeFromSelected() {
+        if (selectedFilters.isEmpty() || stack == null || stack.isEmpty()) {
+            return;
+        }
+        selectedFilters.remove(selectedFilters.size() - 1);
+        selectedFiltersListModel.removeElement(selectedFiltersListModel.elementAt(selectedFiltersListModel.size() - 1));
+        stack.pop();
+        putIntoLookup(stack.peek());
         revalidate();
     }
-    
-   
-    
-    private String getFolderPathChooser() {
+
+    private String getFilePathChooser() {
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Choose folder:");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setDialogTitle("Choose file:");
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         chooser.setAcceptAllFileFilterUsed(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             return chooser.getSelectedFile().getAbsolutePath();
         } else {
-            return "";
+            return null;
         }
     }
 
     public void resultChanged(LookupEvent le) {
         Collection<? extends ImageDataObject> allImages = result.allInstances();
-        System.out.println("OKINUTO resultChanged");
         if (!allImages.isEmpty()) {
             ImageDataObject imageDO = allImages.iterator().next();
-           
             try {
-                Image image = imageDO.getImage();
-                System.out.println(image);
+               
+                
+                
+                stack = new Stack<BufferedImage>();
+                BufferedImage image = (BufferedImage) imageDO.getImage();
+                stack.push(image);
+                for (ImageFilter filter : selectedFilters) {
+                    BufferedImage filtered = filter.processImage(stack.peek());
+                    stack.push(filtered);
+                }
+                
+                
+                
+                putIntoLookup(stack.peek());
+                requestActive();
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
             }
-            
+
+//            DEO KODA ZA PRONALAZENJE FOLDERA
             Set<org.openide.filesystems.FileObject> files = imageDO.files();
-            System.out.println(files);
+            FileObject file = files.iterator().next();
+            FileObject imagesFolder = file.getParent();
+            imageFolderPath = imagesFolder.getPath();
+           
+            
+            FileObject[] imageFiles = imagesFolder.getChildren();
+            
+            
+            if (imageList.isEmpty()) {
+                for (FileObject imageFile : imageFiles) {
+                    if (!imageFile.isFolder()) {
+                        imageList.add(imageFile.getName());
+                        imagesPaths.add(imageFile.getPath());
+                    }
+                }
+                trainingTextFiles = new String[imageList.size()];
+                textTableModel.setImageList(imageList);
+            }
+            
+            
+
+            //
+            //Verovatno bespotrebna linija koda
+//            FileObject[] subFolders = root.getChildren();
+//            for (FileObject subFolder : subFolders) {
+//                String probna = subFolder.getPath();
+//                if (probna.equals(neuralNetworkFolder)) {
+//                    neuralNetworks= new ArrayList<NeuralNetwork>();
+//                    FileObject [] nnetsFO = subFolder.getChildren();
+//                    for (FileObject nnetFO : nnetsFO) {
+//                        String nnetPath = nnetFO.getPath();
+//                        
+//                        File nnetFile = new File(nnetPath);
+//                        NeuralNetwork nnet = NeuralNetwork.createFromFile(nnetFile);
+//                        neuralNetworks.add(nnet);
+//                    }
+//                    break;
+//                }
+//            }
             
             
             
             
+            //============================================================
+//            System.out.println("ROOT " + root);
+//
+//            System.out.println("");
+//            System.out.println("");
+//            FileObject[] children = root.getChildren();
+//            for (FileObject child : children) {
+//                System.out.println("CHILD " + child);
+//                FileObject[] unuci = child.getChildren();
+//                for (FileObject unuk : unuci) {
+//                    System.out.println("    UNUK " + unuk);
+//                }
+//                System.out.println("");
+//            }
+
+
         }
     }
-    
+
+    private void arrangeTableFilters() {
+        filterTableModel = new FilterTableModel();
+        tblFilters.setModel(filterTableModel);
+
+        TableColumnModel tcm = tblFilters.getColumnModel();
+        TableColumn tc_0 = tcm.getColumn(0);
+        tc_0.setPreferredWidth(200);
+
+        TableColumn tc_1 = tcm.getColumn(1);
+        tc_1.setPreferredWidth(75);
+        Integer[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        tc_1.setCellEditor(new DefaultCellEditor(new JComboBox(values)));
+
+    }
+
+    private void putIntoLookup(BufferedImage image) {
+        content.set(Collections.singleton(image), null);
+    }
+
+    private void arangeList() {
+        selectedFiltersListModel = new DefaultListModel();
+        selectedFiltersListModel.removeAllElements();
+        lstSelectedFilters.setSelectionModel(new DisabledListSelectionModel());
+        lstSelectedFilters.setModel(selectedFiltersListModel);
+    }
+
+    private void arangeTableText() {
+        textTableModel = new TextTableModel();
+        tblText.setModel(textTableModel);
+
+    }
+
+    private void addRightClickListener() {
+        tblText.addMouseListener(new RightClickMouseAdapter());
+
+    }
+
+    private void makeDirectorires() {
+        File imagesDir =new File(imageFolderPath+File.separator+"ImagesDir");
+        imagesDir.mkdir();
+        imagesDirPath = imagesDir.getAbsolutePath();
+        
+        File documents = new File(imageFolderPath+File.separator+"Documents");
+        documents.mkdir();
+        documentsPath = documents.getAbsolutePath();
+        
+    }
+
+    private void createDataSet() {
+        try {
+            
+            for (int i = 0; i < trainingTextFiles.length; i++) {
+                String imagePath = imagesPaths.get(i);
+                
+                BufferedImage image = ImageIO.read(new File(imagePath));
+                new File(imagePath).delete();
+                
+                String textPath = trainingTextFiles[i];
+                if (textPath == null) {
+                    continue;
+                }
+                
+                BufferedImage binarizedImage = chain.processImage(image);
+                String scanQualityStr = (String)cmbScanQ.getSelectedItem();
+                int scanQuality = Integer.parseInt(scanQualityStr.split(" ")[0]);
+                Letter letterInfo = new Letter(scanQuality, 12);
+                
+                Text textInfo = new Text(binarizedImage, letterInfo);
+                OCRTraining ocrTraining = new OCRTraining(letterInfo, textInfo);
+                ocrTraining.setFolderPath(imagesDirPath+File.separator);
+                ocrTraining.setTrainingTextPath(textPath);
+                ocrTraining.prepareTrainingSet();
+                String [] parts = imagePath.split("/");
+                String imageName = parts[parts.length-1];
+                File outputfile = new File(documentsPath+File.separator+imageName);
+                ImageIO.write(image, "png", outputfile);
+                
+            }
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+   
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+
+    private void populateFilterChain() {
+        chain = new ImageFilterChain();
+        for (ImageFilter filter : selectedFilters) {
+            chain.addFilter(filter);
+        }
+        
+        
+    }
+
+    class RightClickMouseAdapter extends MouseAdapter {
+
+        
+        @Override
+        public void  mouseReleased(MouseEvent e) {
+            int r = tblText.rowAtPoint(e.getPoint());
+            if (r >= 0 && r < tblText.getRowCount()) {
+                tblText.setRowSelectionInterval(r, r);
+            } else {
+                tblText.clearSelection();
+            }
+
+            int c = tblText.columnAtPoint(e.getPoint());
+            if (c != 1)
+                return;
+            
+            int rowindex = tblText.getSelectedRow();
+            if (rowindex < 0) {
+                return;
+            }
+            if (e.isPopupTrigger() && e.getComponent() instanceof JTable) {
+                JPopupMenu popup = createYourPopUp(rowindex);
+                popup.show(e.getComponent(), e.getX(), e.getY());
+                popup.setVisible(true);
+            }
+        }
+
+        private JPopupMenu createYourPopUp(final int row) {
+            JPopupMenu popup = new JPopupMenu();
+            JMenuItem chooseFile = new JMenuItem("Choose file");
+            chooseFile.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    String absPath = getFilePathChooser();
+                    if (absPath == null) {
+                        return;
+                    }
+                    int index = absPath.lastIndexOf("\\")+1;
+//                    if (index <= 0) {   
+//                        return;
+//                    }
+                    String name = absPath.substring(index);
+                    trainingTextFiles[row] = absPath;
+                    textTableModel.setTextFile(name, row);
+                }
+            });
+            popup.add(chooseFile);
+            JMenuItem disardFile = new JMenuItem("Discard file");
+            disardFile.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    trainingTextFiles[row] = null;
+                    textTableModel.setTextFile(null, row);
+                }
+            });
+            popup.add(disardFile);
+            return popup;
+        }
+    }
+
 }

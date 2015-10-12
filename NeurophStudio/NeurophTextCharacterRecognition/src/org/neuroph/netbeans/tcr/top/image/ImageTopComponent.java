@@ -5,13 +5,23 @@
  */
 package org.neuroph.netbeans.tcr.top.image;
 
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.ScrollPane;
 import java.awt.image.BufferedImage;
+import java.util.Collection;
+import javafx.scene.control.ScrollBar;
 import javax.swing.Icon;
+import javax.swing.JScrollPane;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.util.Utilities;
 
 /**
  * Top component which displays something.
@@ -37,13 +47,26 @@ import org.openide.util.NbBundle.Messages;
     "CTL_ImageTopComponent=Image Window",
     "HINT_ImageTopComponent=This is a Image window"
 })
-public final class ImageTopComponent extends TopComponent {
+public final class ImageTopComponent extends TopComponent implements LookupListener {
 
+    
+//    private PnlImage pnlImage;
+    private ImageArea imageArea ;
+    
     public ImageTopComponent() {
         initComponents();
         setName(Bundle.CTL_ImageTopComponent());
         setToolTipText(Bundle.HINT_ImageTopComponent());
-
+//        pnlImage = new PnlImage();
+        
+        imageArea = new ImageArea();
+        JScrollPane scrollPane = new JScrollPane(imageArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        pnlCenter.add(scrollPane,BorderLayout.CENTER);
+//        scrollPane.add(pnlImage);
+//        scrollPane.setViewportView(pnlImage);
+//        pnlWrapper.add(pnlImage,BorderLayout.CENTER);
     }
 
     /**
@@ -54,71 +77,27 @@ public final class ImageTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jSlider1 = new javax.swing.JSlider();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        pnlCenter = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(100, 50));
-        jPanel1.setPreferredSize(new java.awt.Dimension(720, 60));
-
-        jSlider1.setMajorTickSpacing(100);
-        jSlider1.setMaximum(500);
-        jSlider1.setMinimum(100);
-        jSlider1.setPaintLabels(true);
-        jSlider1.setPaintTicks(true);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(ImageTopComponent.class, "ImageTopComponent.jLabel1.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(ImageTopComponent.class, "ImageTopComponent.jLabel2.text")); // NOI18N
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addContainerGap(272, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        add(jPanel1, java.awt.BorderLayout.PAGE_START);
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        pnlCenter.setLayout(new java.awt.BorderLayout());
+        add(pnlCenter, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSlider jSlider1;
+    private javax.swing.JPanel pnlCenter;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+        result = Utilities.actionsGlobalContext().lookupResult(BufferedImage.class);
+        result.addLookupListener(this);
+        resultChanged(null);
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        result.removeLookupListener(this);
     }
 
     void writeProperties(java.util.Properties p) {
@@ -132,7 +111,24 @@ public final class ImageTopComponent extends TopComponent {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
     }
+
+    // LOOKUP PART
+    private Lookup.Result<BufferedImage> result;
+
+    public void resultChanged(LookupEvent le) {
+        Collection<? extends BufferedImage> allImages = result.allInstances();
+        if (!allImages.isEmpty()) {
+            BufferedImage image = allImages.iterator().next();
+//            pnlImage.setImage(image);
+            imageArea.setImage(image);
+            revalidate();
+            repaint();
+        }
+    }
+
     
-  
+    
+    
+    
     
 }

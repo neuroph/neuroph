@@ -27,7 +27,6 @@ public class FilterTableModel extends AbstractTableModel{
     private List<ImageFilter> filters;
 
     public FilterTableModel() {
-        
         filters = new ArrayList<ImageFilter>();
         filters.add(new GrayscaleFilter());
         filters.add(new MedianFilter());
@@ -37,11 +36,12 @@ public class FilterTableModel extends AbstractTableModel{
         filters.add(new ZhangSuenThinFilter());
         filters.add(new NormalizationFilter());
         filters.add(new AdaptiveThresholdBinarizeFilter());
-        
     }
-
     
-
+    
+    
+    
+    
     public int getRowCount() {
         return filters.size();
     }
@@ -51,15 +51,61 @@ public class FilterTableModel extends AbstractTableModel{
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ImageFilter filter = filters.get(rowIndex);
         if (columnIndex == 0)
-            return filter.toString();
-        if (columnIndex == 1 && rowIndex == 1) {
-            MedianFilter medianFilter = (MedianFilter) filters.get(1);
-//            return medianFilter.getRadius();
-            
+            return filters.get(rowIndex).toString();
+        if (columnIndex == 1) {
+            if (rowIndex == 1) {
+                MedianFilter mf = (MedianFilter)filters.get(rowIndex);
+                return mf.getRadius();
+            }
+            if (rowIndex == 2) {
+                MeanFilter mf = (MeanFilter)filters.get(rowIndex);
+                return mf.getRadius();
+            }
         }
         return null;
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if (columnIndex == 1) {
+            if (rowIndex == 1)
+                return true;
+            if (rowIndex == 2)
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        if (columnIndex == 1) {
+            System.out.println(aValue);
+            if (rowIndex == 1) {
+                MedianFilter mf = (MedianFilter) filters.get(rowIndex);
+                Integer radius = (Integer) aValue;
+                mf.setRadius(radius);
+            }
+            if (rowIndex == 2) {
+                MeanFilter mf = (MeanFilter) filters.get(rowIndex);
+                Integer radius = (Integer) aValue;
+                mf.setRadius(radius);
+            }
+        }
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        if (column == 0)
+            return "Filter";
+        if (column == 1)
+            return "Radius";
+        return null;
+    }
+
+  
+    public ImageFilter getImageFilter(int index) {
+        return filters.get(index);
     }
     
     
