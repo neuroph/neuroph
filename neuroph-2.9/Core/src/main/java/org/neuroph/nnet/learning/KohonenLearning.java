@@ -42,7 +42,7 @@ public class KohonenLearning extends LearningRule {
 	
 	double learningRate = 0.9d;
 	int[] iterations = { 100, 0 };
-	double decStep[] = new double[2];
+	double[] decStep = new double[2];
 	int mapSize = 0;
 	int[] nR = { 1, 1 }; // neighborhood radius
 	int currentIteration;
@@ -63,7 +63,6 @@ public class KohonenLearning extends LearningRule {
 					learnPattern(trainingSetRow, nR[phase]);				
 				} // while
 				currentIteration = k;
-				//this.notifyChange();	
                                 fireLearningEvent(new LearningEvent(this, LearningEvent.Type.EPOCH_ENDED));
 				if (isStopped()) return;
 			} // for k
@@ -74,7 +73,7 @@ public class KohonenLearning extends LearningRule {
 	private void learnPattern(DataSetRow dataSetRow, int neighborhood) {
 		neuralNetwork.setInput(dataSetRow.getInput());
 		neuralNetwork.calculate();
-		Neuron winner = getClosest();
+		Neuron winner = getClosestNeuron();
 		if (winner.getOutput() == 0)
 			return; // ako je vec istrenirana jedna celija, izadji
 
@@ -95,14 +94,10 @@ public class KohonenLearning extends LearningRule {
 	}
 
 	// get unit with closetst weight vector
-	private Neuron getClosest() {
-//		Iterator<Neuron> i = this.neuralNetwork.getLayerAt(1)
-//				.getNeuronsIterator();
+	private Neuron getClosestNeuron() {
 		Neuron winner = new Neuron();
 		double minOutput = 100;
                 for(Neuron n : this.neuralNetwork.getLayerAt(1).getNeurons() ) {
-//		while (i.hasNext()) {
-//			Neuron n = i.next();
 			double out = n.getOutput();
 			if (out < minOutput) {
 				minOutput = out;
@@ -139,18 +134,18 @@ public class KohonenLearning extends LearningRule {
 
 		for (int g = -rt; g <= rb; g++) {
 			int rl = n; // broj celija u levu stranu
-			int rl_mod = (i - rl) % d;
+			int rlMod = (i - rl) % d;
 			int i_mod = i % d;
-			while (rl_mod > i_mod) {
+			while (rlMod > i_mod) {
 				rl--;
-				rl_mod = (i - rl) % d;
+				rlMod = (i - rl) % d;
 			}
 
 			int rd = n; // broj celija u desnu stranu
-			int rd_mod = (i + rd) % d;
-			while (rd_mod < i_mod) {
+			int rdMod = (i + rd) % d;
+			while (rdMod < i_mod) {
 				rd--;
-				rd_mod = (i + rd) % d;
+				rdMod = (i + rd) % d;
 			}
 
 			if ((j >= (i + g * d - rl)) && (j <= (i + g * d + rd)))

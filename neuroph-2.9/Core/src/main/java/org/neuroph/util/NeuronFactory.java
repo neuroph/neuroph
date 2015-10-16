@@ -19,6 +19,7 @@ package org.neuroph.util;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import org.neuroph.core.Neuron;
+import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.transfer.TransferFunction;
 import org.neuroph.nnet.comp.neuron.InputOutputNeuron;
@@ -56,31 +57,26 @@ public class NeuronFactory {
                         Class[] paramTypes = {InputFunction.class, TransferFunction.class};
                         Constructor con = neuronClass.getConstructor(paramTypes);
 
-                        Object paramList[] = new Object[2];
+                        Object[] paramList = new Object[2];
                         paramList[0] = inputFunction;
                         paramList[1] = transferFunction;
                         
                         neuron = (Neuron) con.newInstance(paramList);
 
                     }  catch (NoSuchMethodException e) {
-                        //System.err.println("getConstructor() couldn't find the constructor while creating Neuron!");
-                        // e.printStackTrace();
+                    //    throw new NeurophException("NoSuchMethod while creating Neuron!", e);
                     } catch (InstantiationException e) {
-                        System.err.println("InstantiationException while creating Neuron!");
-                        e.printStackTrace();
+                         throw new NeurophException("InstantiationException while creating Neuron!", e);
                     } catch (IllegalAccessException e) {
-                        System.err.println("No permission to invoke method while creating Neuron!");
-                        e.printStackTrace();
+                        throw new NeurophException("IllegalAccessException while creating Neuron!", e);
                     } catch (InvocationTargetException e) {
-                        System.err.println("Method threw an: " + e.getTargetException() + " while creating Neuron!");
-                        e.printStackTrace();
+                        throw new NeurophException("InvocationTargetException while creating Neuron!", e);
                     }
 
                     if (neuron == null) {
                         // use constructor without params to create neuron
                         try {
                             neuron = (Neuron) neuronClass.newInstance();
-                            //System.err.println("Using no arg constructor ");
                         } catch(IllegalAccessException e) {
                             System.err.println("InstantiationException while creating Neuron!");
                             e.printStackTrace();

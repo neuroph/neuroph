@@ -62,7 +62,7 @@ public class SubSampling implements Sampling {
     /**
      * Sampling will produce subsets of specified sizes (in percents)
      * 
-     * @param subSetSizes 
+     * @param subSetSizes size of subsets in percents
      */
     public SubSampling(int ... subSetSizes) { // without repetition
         // sum of these must be 100%???
@@ -102,7 +102,7 @@ public class SubSampling implements Sampling {
             } else {
                 int randomIdx;
                 Random rand = new Random();
-                for (int i = 0; i < subSetSizes[s]; i++) {
+                for (int i = 0; i < subSetSizes[s] /100 * dataSet.size(); i++) {
                     randomIdx = rand.nextInt(dataSet.size());
                     newSubSet.addRow(dataSet.getRowAt(randomIdx));
                     idxCounter++;

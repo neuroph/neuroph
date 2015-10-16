@@ -16,14 +16,12 @@
 package org.neuroph.nnet.comp.layer;
 
 import org.neuroph.core.transfer.RectifiedLinear;
-import org.neuroph.core.transfer.Tanh;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
-import org.neuroph.util.TransferFunctionType;
 
 /**
  * Convolutional layer is a special type of layer, used in convolutional neural

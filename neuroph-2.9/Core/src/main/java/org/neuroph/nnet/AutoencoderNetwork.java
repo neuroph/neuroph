@@ -1,19 +1,12 @@
 package org.neuroph.nnet;
 
-import org.neuroph.core.NeuralNetwork;
-import org.neuroph.nnet.learning.BackPropagation;
-
 /**
- *
- * @author zoran
+ * Auto Encoder Neural Network
  */
-public class AutoencoderNetwork extends NeuralNetwork<BackPropagation>  {
+public class AutoencoderNetwork extends MultiLayerPerceptron {
 
-    public AutoencoderNetwork(int ... neuronsInLayers) {
-        // neurons in first layer == neurns in last layer 
-       
-        
-        // everything else like MLP
+    public AutoencoderNetwork(int inputsCount, int hiddenCount) {      
+        super(inputsCount, hiddenCount, inputsCount);
     }
     
 }

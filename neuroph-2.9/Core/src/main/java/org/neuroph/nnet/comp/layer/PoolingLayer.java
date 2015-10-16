@@ -15,17 +15,13 @@
  */
 package org.neuroph.nnet.comp.layer;
 
-import org.neuroph.core.transfer.RectifiedLinear;
-import org.neuroph.core.transfer.Sigmoid;
 import org.neuroph.core.transfer.Tanh;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
 import org.neuroph.core.input.Max;
-import org.neuroph.core.transfer.Linear;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
-import org.neuroph.util.TransferFunctionType;
 
 /**
  * Pooling layer is a special type of feature maps layer (FeatureMapsLayer)

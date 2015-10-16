@@ -61,7 +61,7 @@ public class FeatureMapsLayer extends Layer {
     }
 
     /**
-     * Array of feature maps (instances of Layer2D)
+     * Collection of feature maps
      */
     //private Layer2D[] featureMaps; //
     private List<Layer2D> featureMaps;

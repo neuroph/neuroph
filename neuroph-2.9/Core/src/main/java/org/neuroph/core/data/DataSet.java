@@ -34,9 +34,7 @@ import org.neuroph.util.data.sample.SubSampling;
  * @see DataSetRow
  * http://openforecast.sourceforge.net/docs/net/sourceforge/openforecast/DataSet.html
  */
-public class DataSet implements Serializable /*
- * , EngineIndexableSet
- */ {
+public class DataSet implements Serializable {
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
@@ -358,9 +356,8 @@ public class DataSet implements Serializable /*
             out.writeObject(this);
             out.flush();
 
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
+        } catch (IOException ioe) {
+            throw new NeurophException(ioe);
         } finally {
             if (out != null) {
                 try {
@@ -474,8 +471,6 @@ public class DataSet implements Serializable /*
         try {
             DataSet dataSet = new DataSet(inputsCount, outputsCount);
             dataSet.setFilePath(filePath);            
-           // InputStream inputStream = new FileInputStream(filePath);            
-         //   fileReader = new FileReader(new File(filePath));
             BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
 
             String line = null;
@@ -551,62 +546,19 @@ public class DataSet implements Serializable /*
     
     
     
-    /**
-     * Returns output vector size of training elements in this training set This
-     * method is implementation of EngineIndexableSet interface, and it is added
-     * to provide compatibility with Encog data sets and FlatNetwork
-     */
-//    @Override
-//    public int getIdealSize() {
-//        return this.outputVectorSize;
-//    }
-//    public void setInputSize(int inputVectorSize) {
-//        this.inputSize = inputVectorSize;
-//    }
-//
-//    public void setOutputSize(int outputVectorSize) {
-//        this.outputSize = outputVectorSize;
-//    }
-
     // http://java.about.com/od/javautil/a/uniquerandomnum.htm
 
     /**
+     * Returns training and test subsets in the specified percent ratio
      * @param trainSetPercent
      * @param testSetPercent
      * @return
-     * TODO: use subsampling for implementation of this
      */
     public DataSet[] createTrainingAndTestSubsets(int trainSetPercent, int testSetPercent) {
         SubSampling sampling = new SubSampling(trainSetPercent, testSetPercent);
         DataSet[] trainAndTestSet =  new DataSet[2];
         sampling.sample(this).toArray(trainAndTestSet);
         return trainAndTestSet;
-
-//        ArrayList<Integer> randoms = new ArrayList<>();
-//        for (int i = 0; i < this.size(); i++) {
-//            randoms.add(i);
-//        }
-//
-//        Collections.shuffle(randoms);
-//
-//        // create training set
-//        trainAndTestSet[0] = new DataSet(inputSize, outputSize);
-//        int trainingElementsCount = this.size() * trainSetPercent / 100;
-//        for (int i = 0; i < trainingElementsCount; i++) {
-//            int idx = randoms.get(i);
-//            trainAndTestSet[0].addRow(this.rows.get(idx));
-//        }
-//
-//
-//        // create test set
-//        trainAndTestSet[1] = new DataSet(inputSize, outputSize);
-//        int testElementsCount = this.size() - trainingElementsCount;
-//        for (int i = 0; i < testElementsCount; i++) {
-//            int idx = randoms.get(trainingElementsCount + i);
-//            trainAndTestSet[1].addRow(this.rows.get(idx));
-//        }
-//
-//        return trainAndTestSet;
     }
 
 
