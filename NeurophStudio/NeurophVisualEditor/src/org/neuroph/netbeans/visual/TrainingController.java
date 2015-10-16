@@ -10,7 +10,7 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
-import org.neuroph.core.events.LearningEventType;
+import org.neuroph.core.events.LearningEvent.Type;
 import org.neuroph.netbeans.*;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.nnet.learning.BinaryDeltaRule;
@@ -115,7 +115,7 @@ public class TrainingController implements Thread.UncaughtExceptionHandler {
             }
             
             if (allowSamplesRepetition)
-                ((SubSampling)crossval.getSampling()).setAllowRepeat(true);
+                ((SubSampling)crossval.getSampling()).setAllowRepetition(true);
             
             String[] classNames = new String[neuralNet.getOutputsCount()]; 
             int i = 0;
@@ -132,7 +132,7 @@ public class TrainingController implements Thread.UncaughtExceptionHandler {
 
                 @Override
                 public void handleLearningEvent(LearningEvent le) {
-                    if (le.getEventType() == LearningEventType.LEARNING_STOPPED) {
+                    if (le.getEventType() == LearningEvent.Type.LEARNING_STOPPED) {
                         // save network here
                         if (saveNetworks) {
                             neuralNet.setLabel("crosValNet-"+crossValNNCounter);

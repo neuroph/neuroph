@@ -16,6 +16,7 @@ import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronVisualizati
 import org.neuroph.netbeans.classificationsample.Combinatorics;
 import org.neuroph.netbeans.main.easyneurons.dialog.NewSupervisedTrainingDialog;
 import org.neuroph.nnet.Adaline;
+import org.neuroph.nnet.ConvolutionalNetwork;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.NeuroFuzzyPerceptron;
 import org.neuroph.nnet.Perceptron;
@@ -94,7 +95,8 @@ public final class TrainToolbarAction implements ActionListener {
                     || neuralNetClass.equals(RBFNetwork.class)
                     || neuralNetClass.equals(NeuroFuzzyPerceptron.class)) {
                 showLmsTrainingDialog();
-            } else if (neuralNetClass.equals(MultiLayerPerceptron.class)) {
+            } else if (neuralNetClass.equals(MultiLayerPerceptron.class) ||
+                       neuralNetClass.equals(ConvolutionalNetwork.class)) {
                 showMLPTrainingDialog();
                 classificationSampleModuleCheck();
             } else if (neuralNetClass.equals(SupervisedHebbianNetwork.class)) {

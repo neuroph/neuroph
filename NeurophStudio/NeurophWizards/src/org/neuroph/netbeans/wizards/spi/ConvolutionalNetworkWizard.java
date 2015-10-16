@@ -12,6 +12,7 @@ import org.neuroph.netbeans.wizards.PoolingLayerPanel;
 import org.neuroph.nnet.ConvolutionalNetwork;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 
@@ -33,7 +34,7 @@ public class ConvolutionalNetworkWizard implements NetworkWizard {
         Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(Integer.parseInt(inputWidth), Integer.parseInt(inputHeight));
         ConvolutionalNetwork convolutionNetwork;
 
-        ConvolutionalNetwork.ConvolutionalNetworkBuilder cnnBuilder = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputDimension, 1);
+        ConvolutionalNetwork.Builder cnnBuilder = new ConvolutionalNetwork.Builder(inputDimension, 1);
 
         for (JPanel panel : panelList) {
             if (panel.getToolTipText().equals("clp")) {
@@ -53,6 +54,7 @@ public class ConvolutionalNetworkWizard implements NetworkWizard {
         cnnBuilder = cnnBuilder.withFullConnectedLayer(outputNeouron);
         convolutionNetwork = cnnBuilder.createNetwork();
         convolutionNetwork.setLabel(neuralNetworkName);
+        convolutionNetwork.setLearningRule(new MomentumBackpropagation()); // quick fix for demo should be removed from here
         ConvolutionalNetworkVisualPanel2.getInstance().clearForm();
         return convolutionNetwork;
     }
