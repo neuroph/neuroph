@@ -135,11 +135,11 @@ public class NeuronFactory {
 
                             // use constructor with one parameter of Properties type
                             if ((paramTypes.length == 1) && (paramTypes[0] == Properties.class)) {
-                                Class argTypes[] = new Class[1];
+                                Class[] argTypes = new Class[1];
                                 argTypes[0] = Properties.class;
                                 Constructor ct = tfClass.getConstructor(argTypes);
 
-                                Object argList[] = new Object[1];
+                                Object[] argList = new Object[1];
                                 argList[0] = tfProperties;
                                 transferFunction = (TransferFunction) ct.newInstance(argList);
                                 break;

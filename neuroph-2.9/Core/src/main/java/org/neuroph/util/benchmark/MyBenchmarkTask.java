@@ -49,11 +49,11 @@ public class MyBenchmarkTask extends BenchmarkTask {
         this.trainingSet = new DataSet(inputSize, outputSize);
         
         for (int i = 0; i < trainingSetSize; i++) {
-            double input[] = new double[inputSize];
+            double[] input = new double[inputSize];
             for( int j=0; j<inputSize; j++)
                 input[j] = Math.random();
 
-            double output[] = new double[outputSize];
+            double[] output = new double[outputSize];
             for( int j=0; j<outputSize; j++)
                 output[j] = Math.random();            
             

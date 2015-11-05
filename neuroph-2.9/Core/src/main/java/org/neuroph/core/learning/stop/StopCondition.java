@@ -22,7 +22,7 @@ package org.neuroph.core.learning.stop;
  * return true if learning rule should stop
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
-public interface StopCondition {    
+public interface StopCondition {
     /**
      * Returns true if learning rule should stop, false otherwise
      * @return true if learning rule should stop, false otherwise

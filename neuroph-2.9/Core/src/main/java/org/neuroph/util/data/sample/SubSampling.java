@@ -95,7 +95,8 @@ public class SubSampling implements Sampling {
             // fill subset with rows
             
             if (!allowRepetition) {
-                for (int i = 0; i < subSetSizes[s]; i++) {
+                int itemCount =  (int)((double)subSetSizes[s] / 100 * dataSet.size());
+                for (int i = 0; i < itemCount; i++) {
                     newSubSet.addRow(dataSet.getRowAt(idxCounter));
                     idxCounter++;
                 }

@@ -258,6 +258,7 @@ public class Layer implements Serializable {
         for (Neuron neuron : this.neurons.asArray()) { // use directly underlying array since its faster
             neuron.calculate();
         }
+//          neurons.parallelStream().forEach( n -> n.calculate());
 
 //        mainPool.invokeAll(Arrays.asList(neurons.asArray()));
     }

@@ -44,7 +44,7 @@ public class RBFLearning extends LMS {
         int i=0;
         for(Neuron neuron : rbfLayer.getNeurons()) {
             KVector centroid = clusters[i].getCentroid();
-            double weightValues[] = centroid.getValues();
+            double[] weightValues = centroid.getValues();
             int c=0;
             for(Connection conn : neuron.getInputConnections()) {
                 conn.getWeight().setValue(weightValues[c]);

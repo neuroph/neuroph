@@ -56,8 +56,9 @@ public class MaxNormalizer implements Normalizer {
         int outputSize = dataSet.getOutputSize();
         
         maxIn = new double[inputSize];    
-        for(int i=0; i<inputSize; i++)
+        for(int i=0; i<inputSize; i++) {
             maxIn[i] = Double.MIN_VALUE;
+        }
         
         maxOut = new double[outputSize];
         for(int i=0; i<outputSize; i++)
