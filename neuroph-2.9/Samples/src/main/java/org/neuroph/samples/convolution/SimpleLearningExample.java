@@ -11,7 +11,6 @@ import org.neuroph.samples.convolution.util.WeightVisualiser;
 
 /**
  * This is simple sample to show that learning procedure works
- * @author zoran
  */
 public class SimpleLearningExample {
 

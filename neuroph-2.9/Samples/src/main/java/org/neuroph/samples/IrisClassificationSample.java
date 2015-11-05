@@ -64,7 +64,7 @@ public class IrisClassificationSample {
 
         neuralNet.getLearningRule().addListener(new LearningListener());
         neuralNet.getLearningRule().setLearningRate(0.01);
-      //  neuralNet.getLearningRule().setMaxIterations(300);
+        neuralNet.getLearningRule().setMaxIterations(30000);
 
         neuralNet.learn(irisDataSet);
 

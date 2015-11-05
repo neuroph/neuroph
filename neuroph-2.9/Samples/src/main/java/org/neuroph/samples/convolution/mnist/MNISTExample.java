@@ -85,10 +85,11 @@ public class MNISTExample {
             convolutionNetwork.setLearningRule(backPropagation);
             backPropagation.addListener(new LearningListener());
 
+            System.out.println("Started training...");
+            
             convolutionNetwork.learn(testSet);
-            
-            
-            System.out.println("Done training - finally!");
+                        
+            System.out.println("Done training!");
       
             CrossValidation crossValidation = new CrossValidation(convolutionNetwork, testSet, 6);
             crossValidation.run();
@@ -114,7 +115,7 @@ public class MNISTExample {
             BackPropagation bp = (BackPropagation) event.getSource();
             LOG.error("Current iteration: " + bp.getCurrentIteration());
             LOG.error("Error: " + bp.getTotalNetworkError());
-            LOG.error("" + (System.currentTimeMillis() - start) / 1000.0);
+            LOG.error("Calculation time: " + (System.currentTimeMillis() - start) / 1000.0);
          //   neuralNetwork.save(bp.getCurrentIteration() + "CNN_MNIST" + bp.getCurrentIteration() + ".nnet");
             start = System.currentTimeMillis();
 //            NeuralNetworkEvaluationService.completeEvaluation(neuralNetwork, testSet);

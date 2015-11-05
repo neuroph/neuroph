@@ -36,8 +36,6 @@ public class CnnMNIST {
      */
     public static void main(String[] args) {
         try {
-
-
             int maxIter = 10000; // Integer.parseInt(args[0]);
             double maxError = 0.01; //Double.parseDouble(args[1]);
             double learningRate = 0.2; //  Double.parseDouble(args[2]);
@@ -47,7 +45,6 @@ public class CnnMNIST {
             int layer3 = Integer.parseInt(args[5]);
 
             LOG.info("{}-{}-{}", layer1, layer2, layer3);
-
 
             DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 100);
             DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);

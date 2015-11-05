@@ -73,7 +73,7 @@ public class XorMultiLayerPerceptronSample implements LearningEventListener {
         myMlPerceptron.save("myMlPerceptron.nnet");
 
         // load saved neural network
-        NeuralNetwork loadedMlPerceptron = NeuralNetwork.load("myMlPerceptron.nnet");
+        NeuralNetwork loadedMlPerceptron = NeuralNetwork.createFromFile("myMlPerceptron.nnet");
 
         // test loaded neural network
         System.out.println("Testing loaded neural network");
