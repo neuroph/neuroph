@@ -37,7 +37,7 @@ public class ImageFactory {
     static {
         
         try {
-            if (System.getProperty("java.vendor").indexOf("android") != -1) {
+            if (System.getProperty("java.vendor").toLowerCase().indexOf("android") != -1) {
                 imageClass = Class.forName(IMAGE_ANDROID_CLASS_NAME); 
             } else {
                 imageClass = Class.forName(IMAGE_J2SE_CLASS_NAME);
