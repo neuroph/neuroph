@@ -32,7 +32,7 @@ import org.neuroph.imgrec.ImageRecognitionPlugin;
 public class ImageRecognitionSample {  
 
     public static void main(String[] args) {
-          // load trained neural network saved with easyNeurons (specify existing neural network file here)
+          // load trained neural network saved with NeurophStudio (specify existing neural network file here)
           NeuralNetwork nnet = NeuralNetwork.createFromFile("MyImageRecognition.nnet");
           // get the image recognition plugin from neural network
           ImageRecognitionPlugin imageRecognition = (ImageRecognitionPlugin)nnet.getPlugin(ImageRecognitionPlugin.class);

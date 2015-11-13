@@ -63,7 +63,7 @@ public class MeanFilter implements ImageFilter,Serializable{
         for (int i = x-radius; i <= x+radius; i++) {
             for (int j = y-radius; j <= y+radius; j++) {              
                 if (i>0 && i<originalImage.getWidth() && j>0 && j<originalImage.getHeight()) {                
-                    int color = new Color(originalImage.getRGB(i, j)).getRed();
+                    int color = new Color(originalImage.getRGB(i, j)).getRed(); // why we use only red component here?
                     sum = sum + color;
                     n++;
                 }   

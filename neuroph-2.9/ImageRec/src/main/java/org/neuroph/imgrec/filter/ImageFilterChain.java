@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ImageFilterChain implements ImageFilter, Serializable {
 
-    private List<ImageFilter> filters = new ArrayList<ImageFilter>();
+    private List<ImageFilter> filters = new ArrayList<>();
     private String chainName;
     /**
      * Add filter to chain
