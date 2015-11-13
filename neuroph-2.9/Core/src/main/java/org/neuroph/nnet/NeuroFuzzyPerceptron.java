@@ -16,7 +16,10 @@
 
 package org.neuroph.nnet;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -47,9 +50,9 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 	private static final long serialVersionUID = 1L;
 
 	public NeuroFuzzyPerceptron(double[][] pointsSets, double[][] timeSets) {
-		Vector<Integer> inputSets = new Vector<Integer>();
-		inputSets.addElement(new Integer(4));
-		inputSets.addElement(new Integer(3));
+		List<Integer> inputSets = new ArrayList<>();
+		inputSets.add(Integer.valueOf(4));
+		inputSets.add(Integer.valueOf(3));
 
 		this.createStudentNFR(2, inputSets, 4, pointsSets, timeSets);
 	}
@@ -59,7 +62,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 	}
 
 	// build example network for student classification
-	private void createStudentNFR(int inputNum, Vector<Integer> inputSets, int outNum,
+	private void createStudentNFR(int inputNum, List<Integer> inputSets, int outNum,
 			double[][] pointsSets, double[][] timeSets) {
 
 		// set network type
@@ -67,17 +70,16 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 
 		// createLayer input layer
 		NeuronProperties neuronProperties = new NeuronProperties();
-		Layer inLayer = LayerFactory.createLayer(new Integer(inputNum),
-				neuronProperties);
+		Layer inLayer = LayerFactory.createLayer(inputNum, neuronProperties);
 		this.addLayer(inLayer);
 
 		// createLayer fuzzy set layer
 		neuronProperties.setProperty("transferFunction",
 				TransferFunctionType.TRAPEZOID);
-		Enumeration<Integer> e = inputSets.elements();
+		Iterator<Integer> e = inputSets.iterator();
 		int fuzzySetsNum = 0;
-		while (e.hasMoreElements()) {
-			Integer i = e.nextElement();
+		while (e.hasNext()) {
+			Integer i = e.next();
 			fuzzySetsNum = fuzzySetsNum + i.intValue();
 		}
 		Layer setLayer = LayerFactory.createLayer(fuzzySetsNum,
@@ -88,7 +90,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 		// nizove sa trning elementima iznesi van klase i prosledjuj ih kao
 		// parametre
 //		Iterator<Neuron> ii = setLayer.getNeuronsIterator();
-		Enumeration<Integer> en;// =setLayer.neurons();
+		Iterator<Integer> en;// =setLayer.neurons();
 		int c = 0;
                 for(Neuron cell : setLayer.getNeurons()) {
 //		while (ii.hasNext()) {
@@ -113,7 +115,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 		int s = 0; // brojac celija sloja skupova (fazifikacije)
 		for (int i = 0; i < inputNum; i++) { // brojac ulaznih celija
 			Neuron from = inLayer.getNeuronAt(i);
-			int jmax = inputSets.elementAt(i).intValue();
+			int jmax = inputSets.get(i).intValue();
 			for (int j = 0; j < jmax; j++) {
 				Neuron to = setLayer.getNeuronAt(s);
 				ConnectionFactory.createConnection(from, to, 1);
@@ -128,10 +130,10 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
                         Neuron.class,
                         WeightedSum.class,
                         Linear.class);
-		en = inputSets.elements();
+		en = inputSets.iterator();
 		int fuzzyAntNum = 1;
-		while (en.hasMoreElements()) {
-			Integer i = en.nextElement();
+		while (en.hasNext()) {
+			Integer i = en.next();
 			fuzzyAntNum = fuzzyAntNum * i.intValue();
 		}
 		Layer ruleLayer = LayerFactory.createLayer(fuzzyAntNum,
@@ -142,7 +144,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 
 		for (int i = 0; i < inputNum; i++) { // brojac ulaza (grupa fuzzy
 												// skupova)
-			int setsNum = inputSets.elementAt(i).intValue();
+			int setsNum = inputSets.get(i).intValue();
 
 			for (int si = 0; si < setsNum; si++) { // brojac celija fuzzy
 													// skupova
@@ -154,8 +156,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 					for (int k = 0; k < connPerCell; k++) { // brojac celija
 															// hipoteza
 						Neuron to = ruleLayer.getNeuronAt(si * connPerCell + k);
-						ConnectionFactory.createConnection(from, to,
-								new Double(1));
+						ConnectionFactory.createConnection(from, to, 1);
 					} // for
 				} // if
 				else {
@@ -167,8 +168,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 															// hipoteza
 						int toIdx = si + k * setsNum;
 						Neuron to = ruleLayer.getNeuronAt(toIdx);
-						ConnectionFactory.createConnection(from, to,
-								new Double(1));
+						ConnectionFactory.createConnection(from, to, 1);
 					} // for k
 				} // else
 			} // for si
@@ -178,8 +178,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 		neuronProperties = new NeuronProperties();
 		neuronProperties.setProperty("transferFunction",
 				TransferFunctionType.STEP);
-		Layer outLayer = LayerFactory.createLayer(new Integer(outNum),
-				neuronProperties);
+		Layer outLayer = LayerFactory.createLayer(outNum, neuronProperties);
 		this.addLayer(outLayer);
 
 		ConnectionFactory.fullConnect(ruleLayer, outLayer);
@@ -207,8 +206,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 
 		// CREATE INPUT LAYER
 		NeuronProperties neuronProperties = new NeuronProperties();
-		Layer inLayer = LayerFactory.createLayer(new Integer(inputNum),
-				neuronProperties);
+		Layer inLayer = LayerFactory.createLayer(inputNum, neuronProperties);
 		this.addLayer(inLayer);
 
 		// CREATE FUZZY SET LAYER
@@ -220,8 +218,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 			Integer i = e.nextElement();
 			fuzzySetsNum = fuzzySetsNum + i.intValue();
 		}
-		Layer setLayer = LayerFactory.createLayer(new Integer(fuzzySetsNum),
-				neuronProperties);
+		Layer setLayer = LayerFactory.createLayer(fuzzySetsNum, neuronProperties);
 		this.addLayer(setLayer);
 
 		// TODO: postavi parametre funkcija pripadnosti
@@ -250,7 +247,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 			int jmax = inputSets.elementAt(i).intValue();
 			for (int j = 0; j < jmax; j++) {
 				Neuron to = setLayer.getNeuronAt(s);
-				ConnectionFactory.createConnection(from, to, new Double(1));
+				ConnectionFactory.createConnection(from, to, 1);
 				s++;
 			}
 		}
@@ -267,8 +264,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 			Integer i = en.nextElement();
 			fuzzyAntNum = fuzzyAntNum * i.intValue();
 		}
-		Layer ruleLayer = LayerFactory.createLayer(new Integer(fuzzyAntNum),
-				neuronProperties);
+		Layer ruleLayer = LayerFactory.createLayer(fuzzyAntNum, neuronProperties);
 		this.addLayer(ruleLayer);
 
 		// povezi set i rule layer
@@ -289,8 +285,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 					for (int k = 0; k < connPerCell; k++) { // brojac celija
 															// hipoteza
 						Neuron to = ruleLayer.getNeuronAt(si * connPerCell + k);
-						ConnectionFactory.createConnection(from, to,
-								new Double(1));
+						ConnectionFactory.createConnection(from, to, 1);
 					} // for
 				} // if
 				else {
@@ -302,8 +297,7 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 															// hipoteza
 						int toIdx = si + k * setsNum;
 						Neuron to = ruleLayer.getNeuronAt(toIdx);
-						ConnectionFactory.createConnection(from, to,
-								new Double(1));
+						ConnectionFactory.createConnection(from, to, 1);
 					} // for k
 				} // else
 			} // for si
@@ -311,10 +305,8 @@ public class NeuroFuzzyPerceptron extends NeuralNetwork {
 
 		// set input and output cells for this network
 		neuronProperties = new NeuronProperties();
-		neuronProperties.setProperty("transferFunction",
-				TransferFunctionType.STEP);
-		Layer outLayer = LayerFactory.createLayer(new Integer(outNum),
-				neuronProperties);
+		neuronProperties.setProperty("transferFunction", TransferFunctionType.STEP);
+		Layer outLayer = LayerFactory.createLayer(outNum, neuronProperties);
 		this.addLayer(outLayer);
 
 		ConnectionFactory.fullConnect(ruleLayer, outLayer);

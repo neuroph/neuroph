@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of InputAdapter interface for reading neural network inputs from database.
@@ -28,18 +30,17 @@ import java.sql.Statement;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class JDBCInputAdapter implements InputAdapter {
-    Connection connection;
     ResultSet resultSet;
     int inputSize;
 
-    public JDBCInputAdapter(Connection connection, String sql) {
-        this.connection = connection;        
+    public JDBCInputAdapter(Connection connection, String sql) {   
         try {
             Statement stmt = connection.createStatement(); // Get a statement from the connection
             resultSet = stmt.executeQuery(sql);  // Execute the query  
             ResultSetMetaData rsmd = resultSet.getMetaData();
             inputSize = rsmd.getColumnCount();
         } catch (SQLException ex) {
+            Logger.getLogger(JDBCInputAdapter.class.getName()).log(Level.SEVERE, null, ex);
             throw new NeurophInputException("Error executing query at JdbcInputAdapter", ex);
         }
     }

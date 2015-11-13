@@ -110,8 +110,8 @@ public class Step extends TransferFunction implements Serializable {
 	 */
 	public Properties getProperties() {
 		Properties properties = new Properties();
-		properties.setProperty("transferFunction.yHigh", new Double(yHigh).toString());
-		properties.setProperty("transferFunction.yLow", new Double(yLow).toString());
+		properties.setProperty("transferFunction.yHigh", String.valueOf(yHigh));
+		properties.setProperty("transferFunction.yLow", String.valueOf(yLow));
 		return properties;
 	}
 

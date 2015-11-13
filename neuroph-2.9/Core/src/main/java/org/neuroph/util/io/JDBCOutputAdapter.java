@@ -17,6 +17,7 @@
 package org.neuroph.util.io;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -50,22 +51,35 @@ public class JDBCOutputAdapter implements OutputAdapter {
         try {
             String sql = "INSERT " + tableName + " VALUES(";
             for (int i = 0; i < output.length; i++) {
-                sql += output[i];
-                if (i < (output.length - 1)) {
+                sql += "?";
+                if (i < (output.length - 1)) {  // add coma if not last
                     sql = ", ";
                 }
             }
-            sql += ")";
+            sql += ")";            
+            
+//            for (int i = 0; i < output.length; i++) {
+//                sql += output[i];
+//                if (i < (output.length - 1)) {
+//                    sql = ", ";
+//                }
+//            }
 
-            Statement stmt = connection.createStatement();
+
+//            Statement stmt = connection.createStatement();
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            for (int i = 0; i < output.length; i++) {
+                stmt.setDouble(i, output[i]);
+            }
+
             stmt.executeUpdate(sql);
             stmt.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(JDBCOutputAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NeurophInputException("Error executing query at JDBCOutputAdapter", ex);
         }
-
-
 
     }
 

@@ -51,13 +51,13 @@ public class OutputStreamAdapter implements OutputAdapter {
     @Override
     public void writeOutput(double[] output) {
         try {
-            String outputLine = "";
+            StringBuilder outputLine = new StringBuilder();
             for (int i = 0; i < output.length; i++) {
-                outputLine += output[i] + " ";
+                outputLine.append(output[i]).append(' ').append(outputLine);
             }
-            outputLine += "\r\n";
+            outputLine.append(System.lineSeparator());
             
-            bufferedWriter.write(outputLine);
+            bufferedWriter.write(outputLine.toString());
         } catch (IOException ex) {
             throw new NeurophOutputException("Error writing output to stream!", ex);
         }

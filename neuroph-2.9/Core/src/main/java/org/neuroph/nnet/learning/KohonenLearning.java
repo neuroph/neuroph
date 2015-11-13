@@ -125,12 +125,14 @@ public class KohonenLearning extends LearningRule {
 		// if (j<(i-n*d-n)||(j>(i+n*d+n))) return false;
 
 		int rt = n; // broj celija ka gore
-		while ((i - rt * d) < 0)
+		while ((i - rt * d) < 0) {
 			rt--;
+                }
 
 		int rb = n; // broj celija ka dole
-		while ((i + rb * d) > (d * d - 1))
+		while ((i + rb * d) > (d * d - 1)) {
 			rb--;
+                }
 
 		for (int g = -rt; g <= rb; g++) {
 			int rl = n; // broj celija u levu stranu
@@ -168,8 +170,8 @@ public class KohonenLearning extends LearningRule {
 		this.iterations[1] = IIphase;
 	}
 
-	public Integer getIteration() {
-		return new Integer(currentIteration);
+	public int getIteration() {
+		return currentIteration;
 	}
 
 	public int getMapSize() {

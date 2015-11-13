@@ -589,8 +589,9 @@ public class NeurophArrayList<E> extends AbstractList<E>
 
         // Let gc do its work
         int newSize = size - (toIndex-fromIndex);
-        while (size != newSize)
+        while (size != newSize) {
             elementData[--size] = null;
+        }
     }
 
     /**

@@ -78,7 +78,7 @@ public class GaussianTest {
     @Test
     public void testGetDerivative() {
         double expResult = 0.0;
-        double out = instance.getOutput(input);
+      //  double out = instance.getOutput(input);
         double result = instance.getDerivative(input);
         assertEquals(expected_derivative, result, 0.0001);
     }

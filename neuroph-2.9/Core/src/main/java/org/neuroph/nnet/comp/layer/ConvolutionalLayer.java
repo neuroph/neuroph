@@ -123,7 +123,7 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
     @Override
     public void connectMaps(Layer2D fromMap, Layer2D toMap) {
 
-        int numberOfSharedWeights = kernel.getArea();
+      //  int numberOfSharedWeights = kernel.getArea();
         Weight[][] weights = new Weight[kernel.getHeight()][kernel.getWidth()];
         //double coefficient = getWeightCoeficient(toMap);
         // initialize kernel with random weights

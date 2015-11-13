@@ -161,7 +161,7 @@ public class NeuralNetworkFactory {
 	 * @return instance of Kohonen network
 	 */
 	public static Kohonen createKohonen(int inputNeuronsCount, int outputNeuronsCount) {
-		Kohonen nnet = new Kohonen(new Integer(inputNeuronsCount), new Integer(outputNeuronsCount));
+		Kohonen nnet = new Kohonen(inputNeuronsCount, outputNeuronsCount);
 		return nnet;
 	}
 

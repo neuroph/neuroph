@@ -148,7 +148,7 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
 
 //			double[] patternError = this.calculateOutputError(desiredOutput, output);
             double[] patternError = null;
-            this.updateTotalNetworkError(patternError);
+    //        this.updateTotalNetworkError(patternError);
 
             double sqrErrorSum = 0;
             for (double error : patternError) {
@@ -209,15 +209,15 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
     /**
      * Update the total error.
      */
-    protected void updateTotalNetworkError(double[] patternError) {
-        double sqrErrorSum = 0;
-        for (double error : patternError) {
-            sqrErrorSum += (error * error);
-        }
-
-        //TODO WHAT IS THIS?????
-//		this.totalNetworkError += sqrErrorSum / (2 * patternError.length);
-    }
+//    protected void updateTotalNetworkError(double[] patternError) {
+//        double sqrErrorSum = 0;
+//        for (double error : patternError) {
+//            sqrErrorSum += (error * error);
+//        }
+//
+//        //TODO WHAT IS THIS?????
+////		this.totalNetworkError += sqrErrorSum / (2 * patternError.length);
+//    }
 
     /**
      * Not used.

@@ -71,7 +71,6 @@ public class SigmoidTest {
      */
     @Test
     public void testGetDerivative() {
-        double output = instance.getOutput(input);
         double result = instance.getDerivative(input);
         assertEquals(expected_derivative, result, 0.00001);
     }

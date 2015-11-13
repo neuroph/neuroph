@@ -25,6 +25,8 @@ import java.io.Serializable;
  */
 public class MeanSquaredError implements ErrorFunction, Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     private transient double totalError;
     /**
      * Number of patterns - n 

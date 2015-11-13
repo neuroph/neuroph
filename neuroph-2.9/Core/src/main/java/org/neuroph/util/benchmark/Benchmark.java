@@ -69,7 +69,6 @@ public class Benchmark {
             timer.stop();
             
             results.addElapsedTime(timer.getElapsedTime());
-            System.gc();
         }   
         
         results.calculateStatistics(); 

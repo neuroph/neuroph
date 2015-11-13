@@ -460,7 +460,7 @@ public class DataSet implements Serializable {
      * @return instance of dataset with values from specified file
      */
     public static DataSet createFromFile(String filePath, int inputsCount, int outputsCount, String delimiter, boolean loadColumnNames) {
-        FileReader fileReader = null;
+        BufferedReader reader = null;
 
         if (filePath == null) throw new IllegalArgumentException("File name cannot be null!");
         if (inputsCount <= 0) throw new IllegalArgumentException("Number of inputs cannot be <= 0");
@@ -471,7 +471,7 @@ public class DataSet implements Serializable {
         try {
             DataSet dataSet = new DataSet(inputsCount, outputsCount);
             dataSet.setFilePath(filePath);            
-            BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
+            reader = new BufferedReader(new FileReader(new File(filePath)));
 
             String line = null;
 
@@ -506,22 +506,24 @@ public class DataSet implements Serializable {
                 }
             }
 
+            reader.close();
+            
             return dataSet;
 
         } catch (FileNotFoundException ex) {
             throw new NeurophException("Could not find data set file!", ex);
         } catch (IOException ex) {
-            if (fileReader != null) {
+            if (reader != null) {
                 try {
-                    fileReader.close();
+                    reader.close();
                 } catch (IOException ex1) {
                 }
             }
             throw new NeurophException("Error reading data set file!", ex);
         } catch (NumberFormatException ex) {
-            if (fileReader != null) {
+            if (reader != null) {
                 try {
-                    fileReader.close();
+                    reader.close();
                 } catch (IOException ex1) {
                 }
             }

@@ -39,7 +39,7 @@ public class VectorParser {
 		StringTokenizer tok = new StringTokenizer(str);
 		ArrayList<Integer> ret = new ArrayList<>();
 		while (tok.hasMoreTokens()) {
-			Integer d = new Integer(tok.nextToken());
+			Integer d = Integer.valueOf(tok.nextToken());
 			ret.add(d);
 		}
 		return ret;

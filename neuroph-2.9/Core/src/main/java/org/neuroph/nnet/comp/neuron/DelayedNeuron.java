@@ -16,6 +16,7 @@
 
 package org.neuroph.nnet.comp.neuron;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.neuroph.core.Neuron;
@@ -68,5 +69,12 @@ public class DelayedNeuron extends Neuron {
 	public double getOutput(int delay) {
 		return outputHistory.get(delay).doubleValue();
 	}
+        
+        
+        private void readObject(java.io.ObjectInputStream in)
+            throws IOException, ClassNotFoundException {
+            in.defaultReadObject();
+            outputHistory = new ArrayList<>(5);
+        }        
 
 }

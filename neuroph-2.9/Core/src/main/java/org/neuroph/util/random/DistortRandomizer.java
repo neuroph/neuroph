@@ -18,7 +18,6 @@ package org.neuroph.util.random;
 
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
-import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 
 /**

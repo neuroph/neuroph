@@ -74,7 +74,7 @@ public class MultiLayerPerceptron extends NeuralNetwork<BackPropagation> {
 
         List<Integer> neuronsInLayersVector = new ArrayList<>();
         for (int i = 0; i < neuronsInLayers.length; i++) {
-            neuronsInLayersVector.add(new Integer(neuronsInLayers[i]));
+            neuronsInLayersVector.add(Integer.valueOf(neuronsInLayers[i]));
         }
 
         this.createNetwork(neuronsInLayersVector, neuronProperties);
@@ -90,7 +90,7 @@ public class MultiLayerPerceptron extends NeuralNetwork<BackPropagation> {
 
         List<Integer> neuronsInLayersVector = new ArrayList<>();
         for (int i = 0; i < neuronsInLayers.length; i++) {
-            neuronsInLayersVector.add(new Integer(neuronsInLayers[i]));
+            neuronsInLayersVector.add(Integer.valueOf(neuronsInLayers[i]));
         }
 
         this.createNetwork(neuronsInLayersVector, neuronProperties);

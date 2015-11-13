@@ -15,10 +15,10 @@
  */
 package org.neuroph.core.learning;
 
-import org.neuroph.core.data.DataSet;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.learning.stop.MaxIterationsStop;
 import org.neuroph.core.learning.stop.StopCondition;
@@ -121,8 +121,8 @@ abstract public class IterativeLearning extends LearningRule implements
      *
      * @return current iteration of this learning algorithm
      */
-    public Integer getCurrentIteration() {
-        return new Integer(this.currentIteration); // why boxed integer here?
+    public int getCurrentIteration() {
+        return this.currentIteration; // why boxed integer here?
     }
 
     /**
@@ -244,7 +244,8 @@ abstract public class IterativeLearning extends LearningRule implements
         beforeEpoch();
         doLearningEpoch(trainingSet);
         afterEpoch();
-        fireLearningEvent(new LearningEvent(this, LearningEvent.Type.LEARNING_STOPPED));; // notify listeners        
+        // notify listeners        
+        fireLearningEvent(new LearningEvent(this, LearningEvent.Type.LEARNING_STOPPED)); 
     }
 
     /**

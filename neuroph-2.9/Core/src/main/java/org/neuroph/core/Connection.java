@@ -16,7 +16,6 @@
 package org.neuroph.core;
 
 import java.io.Serializable;
-import org.neuroph.core.exceptions.NeurophException;
 
 /**
  * Weighted connection to another neuron.

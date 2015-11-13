@@ -105,7 +105,7 @@ public class MomentumBackpropagation extends BackPropagation {
         this.momentum = momentum;
     }
 
-    public class MomentumWeightTrainingData {
+    public static class MomentumWeightTrainingData {
 
         public double previousValue;
     }

@@ -20,7 +20,6 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(value = Parameterized.class)
 public class LinearTest {
 
-    double net;
     Linear instance;
     double input;
     double expected;
@@ -56,7 +55,6 @@ public class LinearTest {
 
     @Before
     public void setUp() {
-        net = 5.0;
         instance = new Linear();
     }
 
