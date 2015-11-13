@@ -207,7 +207,7 @@ public class ClassificationMetrics {
     public static ClassificationMetrics[] createFromMatrix(ConfusionMatrix confusionMatrix) {
         // Create Classification measure for each class 
         ClassificationMetrics[] measures = new ClassificationMetrics[confusionMatrix.getClassCount()];
-        String[] classLabels = confusionMatrix.getLabels();
+        String[] classLabels = confusionMatrix.getClassLabels();
                 
         for(int clsIdx=0; clsIdx<confusionMatrix.getClassCount(); clsIdx++) { // for each class
             // ove metode mozda ubaciti u matricu Confusion matrix - najbolje tako

@@ -13,7 +13,7 @@ import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 
 /**
- * Evaluation service used to run different evaluators on trained model
+ * Evaluation service used to run different evaluators on trained neural network
  */
 public class Evaluation {
 
@@ -49,7 +49,7 @@ public class Evaluation {
         }
         
         // we should iterate all evaluators and getresults here- its hardcoded for now
-        ConfusionMatrix confusionMatrix = getEvaluator(ClassificationEvaluator.MultiClass.class).getResult();
+        ConfusionMatrix confusionMatrix = getEvaluator(ClassifierEvaluator.MultiClass.class).getResult();
         double meanSquaredError = getEvaluator(ErrorEvaluator.class).getResult();
                    
         EvaluationResult result = new EvaluationResult();
@@ -99,7 +99,7 @@ public class Evaluation {
 
         Evaluation evaluation = new Evaluation();
         // take onlu output column names here
-        evaluation.addEvaluator(new ClassificationEvaluator.MultiClass(dataSet.getColumnNames())); // these two should be added by default
+        evaluation.addEvaluator(new ClassifierEvaluator.MultiClass(dataSet.getColumnNames())); // these two should be added by default
 
         evaluation.evaluateDataSet(neuralNet, dataSet);
        // use logger here  - see how to make it print out
@@ -108,7 +108,7 @@ public class Evaluation {
 //        LOGGER.info("Errors: ");
         LOGGER.info("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult());
         LOGGER.info("##############################################################################");
-        ClassificationEvaluator classificationEvaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);
+        ClassifierEvaluator classificationEvaluator = evaluation.getEvaluator(ClassifierEvaluator.MultiClass.class);
         ConfusionMatrix confusionMatrix = classificationEvaluator.getResult();        
         
         LOGGER.info("Confusion Matrix: \r\n"+confusionMatrix.toString());

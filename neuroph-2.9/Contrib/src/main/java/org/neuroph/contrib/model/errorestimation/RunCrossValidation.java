@@ -1,6 +1,6 @@
 package org.neuroph.contrib.model.errorestimation;
 
-import org.neuroph.contrib.eval.ClassificationEvaluator;
+import org.neuroph.contrib.eval.ClassifierEvaluator;
 import org.neuroph.contrib.eval.ErrorEvaluator;
 import org.neuroph.contrib.eval.Evaluator;
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
@@ -34,7 +34,7 @@ public class RunCrossValidation {
         
         
         CrossValidation crossval = new CrossValidation(nnet, dataSet, 5);
-        crossval.addEvaluator(new ClassificationEvaluator.MultiClass(classNames)); // add multi class here manualy to make it independent from data set
+        crossval.addEvaluator(new ClassifierEvaluator.MultiClass(classNames)); // add multi class here manualy to make it independent from data set
                                                                                    // data set should hav ecolumn names when loading/creating , not hardcocd
         //   crossval.setSampling(null);
         

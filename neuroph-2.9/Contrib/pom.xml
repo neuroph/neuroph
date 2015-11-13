@@ -49,8 +49,8 @@
             <version>0.18</version>
         </dependency>
         <dependency>
-            <groupId>net.sourceforge.javaocr</groupId>
-            <artifactId>JavaOCR</artifactId>
+            <groupId>net.sourceforge</groupId>
+            <artifactId>javaocr</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

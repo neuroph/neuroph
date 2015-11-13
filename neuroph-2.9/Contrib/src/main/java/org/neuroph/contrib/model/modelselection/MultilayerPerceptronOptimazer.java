@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.neuroph.contrib.eval.ClassificationEvaluator;
+import org.neuroph.contrib.eval.ClassifierEvaluator;
 import org.neuroph.contrib.model.errorestimation.CrossValidation;
 
 /**
@@ -120,7 +120,7 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
             errorEstimationMethod = new CrossValidation(network, dataSet, 10);
             errorEstimationMethod.run();
             // FIX
-            ClassificationMetrics[] result = ClassificationMetrics.createFromMatrix( errorEstimationMethod.getEvaluator( ClassificationEvaluator.MultiClass.class).getResult());
+            ClassificationMetrics[] result = ClassificationMetrics.createFromMatrix(errorEstimationMethod.getEvaluator(ClassifierEvaluator.MultiClass.class).getResult());
 
             // nadji onaj sa najmanjim f measure
             if (optimalResult == null || optimalResult.getFMeasure()< result[0].getFMeasure()) {

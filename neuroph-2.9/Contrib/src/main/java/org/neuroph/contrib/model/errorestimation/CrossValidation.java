@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
-import org.neuroph.contrib.eval.ClassificationEvaluator;
+import org.neuroph.contrib.eval.ClassifierEvaluator;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.learning.BackPropagation;
@@ -156,7 +156,7 @@ public class CrossValidation {
         System.out.println("##############################################################################");
       
         // TODO: deal with BinaryClassifiers too here
-        ClassificationEvaluator evaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);          
+        ClassifierEvaluator evaluator = evaluation.getEvaluator(ClassifierEvaluator.MultiClass.class);          
         ConfusionMatrix confusionMatrix = evaluator.getResult();        
         
         System.out.println("Confusion Matrix: \r\n"+confusionMatrix.toString());

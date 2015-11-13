@@ -8,7 +8,7 @@ public class ConfusionMatrix {
     /**
      * Class labels
      */
-    private String[] labels;
+    private String[] classLabels;
     
     /**
      * Values of confusion matrix
@@ -29,13 +29,13 @@ public class ConfusionMatrix {
     private  static final int STRING_DEFAULT_WIDTH = 7;    
     
     /**
-     * Creates new confusion matrix with specified labels and number of classes
+     * Creates new confusion matrix with specified class labels and number of classes
      * @param labels
      * @param classCount 
      */
-    public ConfusionMatrix(String[] labels, int classCount) {
-        this.labels = labels;     
-        this.classCount = classCount;
+    public ConfusionMatrix(String[] classLabels) {
+        this.classLabels = classLabels;     
+        this.classCount = classLabels.length;
         this.values = new double[classCount][classCount];
     }
 
@@ -76,16 +76,16 @@ public class ConfusionMatrix {
         StringBuilder builder = new StringBuilder();
 
         int maxColumnLenght = STRING_DEFAULT_WIDTH;
-        for (String label : labels)
+        for (String label : classLabels)
             maxColumnLenght = Math.max(maxColumnLenght, label.length());
 
         builder.append(String.format("%1$" + maxColumnLenght + "s", ""));
-        for (String label : labels)
+        for (String label : classLabels)
             builder.append(String.format("%1$" + maxColumnLenght + "s", label));
         builder.append("\n");
 
         for (int i = 0; i < values.length; i++) {
-            builder.append(String.format("%1$" + maxColumnLenght + "s", labels[i]));
+            builder.append(String.format("%1$" + maxColumnLenght + "s", classLabels[i]));
             for (int j = 0; j < values[0].length; j++) {
                 builder.append(String.format("%1$" + maxColumnLenght + "s", values[i][j]));
             }
@@ -135,8 +135,8 @@ public class ConfusionMatrix {
         return falseNegative;
     }
 
-    public String[] getLabels() {
-        return labels;
+    public String[] getClassLabels() {
+        return classLabels;
     }
 
     public int getTotal() {

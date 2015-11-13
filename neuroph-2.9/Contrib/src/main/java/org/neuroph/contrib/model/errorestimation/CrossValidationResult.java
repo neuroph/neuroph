@@ -24,10 +24,8 @@ public class CrossValidationResult {
     // add statistics here? 
     
     // calculate avg, max, min, variation, std,  for 
-
      
-    // should we also calculate stats for each class???
-            
+    // should we also calculate stats for each class???           
          
     /**
      * Calculate average over all classes and datasets

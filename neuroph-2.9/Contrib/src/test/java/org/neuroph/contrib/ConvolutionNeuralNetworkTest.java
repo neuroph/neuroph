@@ -24,7 +24,7 @@ public class ConvolutionNeuralNetworkTest {
     public void setUp() {
         inputDimension = new Layer2D.Dimensions(1, 1);
 
-        network = new ConvolutionalNetwork.ConvolutionalNetworkBuilder(inputDimension, 1).createNetwork();
+        network = new ConvolutionalNetwork.Builder(inputDimension, 1).createNetwork();
         kernel = new Kernel(1, 1);
         inputLayer = new InputMapsLayer(inputDimension, 1);
     }

@@ -1,19 +1,18 @@
 package org.neuroph.contrib.eval;
 
 import org.neuroph.contrib.eval.classification.ConfusionMatrix;
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.classification.Utils;
-import org.neuroph.core.data.DataSet;
 
-public abstract class ClassificationEvaluator implements Evaluator<ConfusionMatrix> {
+public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> {
 
+    private String[] classLabels;
     ConfusionMatrix confusionMatrix;
     private double threshold; // not used at the moment
-    private String[] labels;
+
        
-    private ClassificationEvaluator(String[] labels) {
-        this.labels = labels;
-        confusionMatrix = new ConfusionMatrix(labels, labels.length);
+    private ClassifierEvaluator(String[] labels) {
+        this.classLabels = labels;
+        confusionMatrix = new ConfusionMatrix(labels);
     }
 
     @Override
@@ -31,7 +30,7 @@ public abstract class ClassificationEvaluator implements Evaluator<ConfusionMatr
     }
     
     public void reset() {
-        confusionMatrix = new ConfusionMatrix(labels, labels.length);
+        confusionMatrix = new ConfusionMatrix(classLabels);
     }
     
     
@@ -49,7 +48,7 @@ public abstract class ClassificationEvaluator implements Evaluator<ConfusionMatr
     /**
      * Binary evaluator used for computation of metrics in case when data has only one output result (one output neuron)
      */
-    public static class Binary extends ClassificationEvaluator {
+    public static class Binary extends ClassifierEvaluator {
 
         public static final String[] BINARY_CLASS_LABELS = new String[]{"False", "True"};
         public static final int TRUE = 1;
@@ -85,7 +84,7 @@ public abstract class ClassificationEvaluator implements Evaluator<ConfusionMatr
      * Evaluator used for computation of metrics in case when data has
      * multiple classes - one vs many classification
      */
-    public static class MultiClass extends ClassificationEvaluator {
+    public static class MultiClass extends ClassifierEvaluator {
 
         // TODO: use column labels here
         public MultiClass(String[] classLabels) {            
