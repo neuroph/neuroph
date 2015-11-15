@@ -103,11 +103,9 @@ public class NeuronFactory {
             try {
                 inputFunction = (InputFunction) inputFunctionClass.newInstance();
             } catch (InstantiationException e) {
-                System.err.println("InstantiationException while creating InputFunction!");
-                e.printStackTrace();
+                throw new NeurophException("InstantiationException while creating InputFunction!", e);                
             } catch (IllegalAccessException e) {
-                System.err.println("No permission to invoke method");
-                e.printStackTrace();
+                throw new NeurophException("IllegalAccessException while creating InputFunction!", e);     
             }
 
             return inputFunction;

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.neuroph</groupId>
     <artifactId>Neuroph</artifactId>
-    <version>2.9</version>
+    <version>2.92</version>
     <packaging>pom</packaging>
     <name>Neuroph</name>
     <modules>
@@ -15,4 +15,8 @@
         <module>Contrib</module>
         <module>Adapters</module>
     </modules>
+    <properties>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+    </properties>
 </project>

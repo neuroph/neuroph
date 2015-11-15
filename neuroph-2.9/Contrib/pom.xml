@@ -3,11 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.neuroph</groupId>
-    <version>2.9</version>
+    <artifactId>neuroph-contrib</artifactId>    
+    <version>2.92</version>
     <packaging>jar</packaging>
 
     <name>Contrib</name>
-    <url>http://maven.apache.org</url>
+    <url>http://neuroph.sourceforge.net</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,7 +55,7 @@
             <version>1.0</version>
         </dependency>
     </dependencies>
-    <artifactId>neuroph-contrib</artifactId>
+
     <build>
         <plugins>
             <plugin>

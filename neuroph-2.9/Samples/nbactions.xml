@@ -8,5 +8,9 @@
             <goals>
                 <goal>install</goal>
             </goals>
+            <properties>
+                <e></e>
+                
+            </properties>
         </action>
     </actions>
