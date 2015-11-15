@@ -451,7 +451,7 @@ public final class KohonenSampleTopComponent extends TopComponent implements Lea
     public void handleLearningEvent(LearningEvent le) {
         KohonenLearning kl = (KohonenLearning) (neuralNetworkAndDataSet.getNetwork()
                 .getLearningRule());
-        this.currentIterationField.setText(kl.getIteration().toString()); // ovo isto prebaciti u negede thread
+        this.currentIterationField.setText(String.valueOf( kl.getIteration() )); // ovo isto prebaciti u negede thread
 
         // get all network weights
         List<Point> weights = getWeightPoints();

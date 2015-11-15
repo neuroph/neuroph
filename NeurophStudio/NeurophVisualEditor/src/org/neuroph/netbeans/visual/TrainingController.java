@@ -1,17 +1,13 @@
 package org.neuroph.netbeans.visual;
 
 import java.io.PrintWriter;
-import org.neuroph.contrib.eval.ClassificationEvaluator;
-import org.neuroph.contrib.eval.ErrorEvaluator;
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
+import org.neuroph.contrib.eval.ClassifierEvaluator;
+
 import org.neuroph.contrib.model.errorestimation.CrossValidation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
-import org.neuroph.core.events.LearningEvent.Type;
-import org.neuroph.netbeans.*;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.nnet.learning.BinaryDeltaRule;
 import org.neuroph.nnet.learning.KohonenLearning;
@@ -124,7 +120,7 @@ public class TrainingController implements Thread.UncaughtExceptionHandler {
                 i++;
             }
             
-            crossval.addEvaluator(new ClassificationEvaluator.MultiClass(classNames)); // add multi class here manualy to make it independent from data set
+            crossval.addEvaluator(new ClassifierEvaluator.MultiClass(classNames)); // add multi class here manualy to make it independent from data set
 
             out.println("Running crossvalidation");
 
