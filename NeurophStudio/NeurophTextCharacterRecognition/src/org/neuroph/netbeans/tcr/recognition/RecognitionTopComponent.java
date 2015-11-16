@@ -418,7 +418,7 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
         }
         BufferedImage image = stack.peek();
         int scanQ = Integer.parseInt(((String)cmbScanQ.getSelectedItem()).split(" ")[0]);
-        Letter letterInfo = new Letter(scanQ, 12);
+        Letter letterInfo = new Letter(scanQ, image);
         Text textInfo = new Text(image, letterInfo);
         OCRTextRecognition recognition = new OCRTextRecognition(letterInfo, textInfo);
         recognition.setNeuralNetwork(neuralNetwork);
