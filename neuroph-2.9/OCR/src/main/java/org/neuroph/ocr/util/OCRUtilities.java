@@ -152,4 +152,27 @@ public class OCRUtilities {
     }
 
 
+    public static List<Integer> rowHeights(int [] gradient, int ignoredSize) {
+         ArrayList<Integer> heights = new ArrayList<Integer>();
+        int sum = 0;
+        int count = 0;
+        for (int row = 0; row < gradient.length; row++) {
+            
+            sum += gradient[row];
+            if (sum != 0) {
+                count++;
+                continue;
+            }
+            if (sum == 0) {
+                if (count < ignoredSize) {
+                    count = 0;
+                } else { //count >= lineHeightThresh // found line!
+                    heights.add(count);
+                    count=0;
+                }
+            }
+        }
+        return heights;
+    }
+    
 }

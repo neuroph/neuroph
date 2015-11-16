@@ -28,7 +28,7 @@ public class RecognitionSample {
 //*******************************************************************************************************************************************       
         String imagePath = "C:/Users/Mihailo/Desktop/OCR/tekst.png"; //path to the image with letters (document) for recognition   
         String textPath = "C:/Users/Mihailo/Desktop/OCR/tekst.txt"; // path to the .txt file where the recognized text will be stored          
-        String networkPath = "C:/Users/Mihailo/Desktop/OCR/Mreza6.nnet"; // locatoin of the trained network                        
+        String networkPath = "C:/Users/Mihailo/Desktop/OCR/network.nnet"; // locatoin of the trained network                        
         int fontSize = 12; // fontSize, predicted by height of the letters, minimum font size is 12 pt                                      
         int scanQuality = 300; // scan quality, minimum quality is 300 dpi                                                                  
 //*******************************************************************************************************************************************
@@ -40,7 +40,7 @@ public class RecognitionSample {
         BufferedImage binarizedImage = chain.processImage(image);
 
         // Information about letters and text
-        Letter letterInfo = new Letter(scanQuality, fontSize);
+        Letter letterInfo = new Letter(scanQuality, binarizedImage);
 //        letterInfo.recognizeDots(); // call this method only if you want to recognize dots and other litle characters, TODO
         Text textInfo = new Text(binarizedImage, letterInfo);
 

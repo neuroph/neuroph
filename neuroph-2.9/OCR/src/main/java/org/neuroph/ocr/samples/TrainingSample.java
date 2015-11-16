@@ -38,10 +38,10 @@ public class TrainingSample {
 
         //     User input parameteres       
 //*******************************************************************************************************************************       
-        String imagePath = "C:/Users/Mihailo/Desktop/korisnicko-uputstvo/slova.png"; //path to the image with letters                        *
-        String folderPath = "C:/Users/Mihailo/Desktop/korisnicko-uputstvo/ImagesDir/"; // loaction folder for storing segmented letters           *
-        String textPath = "C:/Users/Mihailo/Desktop/korisnicko-uputstvo/slova-trening.txt"; // path to the .txt file with text on the image          *
-        String networkPath = "C:/Users/Mihailo/Desktop/korisnicko-uputstvo/network.nnet"; // location where the network will be stored     *
+        String imagePath = "C:/Users/Mihailo/Desktop/OCR/slova.png"; //path to the image with letters                        *
+        String folderPath = "C:/Users/Mihailo/Desktop/OCR/ImagesDir/"; // loaction folder for storing segmented letters           *
+        String textPath = "C:/Users/Mihailo/Desktop/OCR/slova.txt"; // path to the .txt file with text on the image          *
+        String networkPath = "C:/Users/Mihailo/Desktop/OCR/network.nnet"; // location where the network will be stored     *
         int fontSize = 12; // fontSize, predicted by height of the letters, minimum font size is 12 pt                          *
         int scanQuality = 300; // scan quality, minimum quality is 300 dpi                                                      *
 //*******************************************************************************************************************************
@@ -56,7 +56,7 @@ public class TrainingSample {
         
         
         
-        Letter letterInfo = new Letter(scanQuality, fontSize);
+        Letter letterInfo = new Letter(scanQuality, binarizedImage);
 //        letterInfo.recognizeDots(); // call this method only if you want to recognize dots and other litle characters, TODO
 
         Text texTInfo = new Text(binarizedImage, letterInfo);
@@ -74,7 +74,7 @@ public class TrainingSample {
         DataSet dataSet = ImageRecognitionHelper.createBlackAndWhiteTrainingSet(characterLabels, map);
         
         
-        dataSet.setFilePath("C:/Users/Mihailo/Desktop/korisnicko-uputstvo/DataSet1.tset");
+        dataSet.setFilePath("C:/Users/Mihailo/Desktop/OCR/DataSet1.tset");
         dataSet.save();
         
         
