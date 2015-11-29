@@ -42,8 +42,14 @@ import org.netbeans.modules.image.ImageDataObject;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.imgrec.filter.ImageFilter;
 import org.neuroph.imgrec.filter.ImageFilterChain;
+import org.neuroph.imgrec.filter.impl.AdaptiveThresholdBinarizeFilter;
+import org.neuroph.imgrec.filter.impl.Dilation;
+import org.neuroph.imgrec.filter.impl.GrayscaleFilter;
 import org.neuroph.imgrec.filter.impl.MeanFilter;
 import org.neuroph.imgrec.filter.impl.MedianFilter;
+import org.neuroph.imgrec.filter.impl.NormalizationFilter;
+import org.neuroph.imgrec.filter.impl.OtsuBinarizeFilter;
+import org.neuroph.imgrec.filter.impl.ZhangSuenThinFilter;
 import org.neuroph.ocr.OCRTraining;
 import org.neuroph.ocr.util.Letter;
 import org.neuroph.ocr.util.Text;
@@ -150,6 +156,8 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
         lstSelectedFilters = new javax.swing.JList();
         btnCreateImages = new javax.swing.JButton();
         btnUndoPreview = new javax.swing.JButton();
+        pnlDescription = new javax.swing.JPanel();
+        lbldescription = new javax.swing.JLabel();
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.jButton1.text")); // NOI18N
 
@@ -200,6 +208,11 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblFilters.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblFiltersMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tblFilters);
 
         org.openide.awt.Mnemonics.setLocalizedText(btnPreviewFilter, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.btnPreviewFilter.text")); // NOI18N
@@ -266,6 +279,25 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(lbldescription, org.openide.util.NbBundle.getMessage(SettingsTopComponent.class, "SettingsTopComponent.lbldescription.text")); // NOI18N
+
+        javax.swing.GroupLayout pnlDescriptionLayout = new javax.swing.GroupLayout(pnlDescription);
+        pnlDescription.setLayout(pnlDescriptionLayout);
+        pnlDescriptionLayout.setHorizontalGroup(
+            pnlDescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDescriptionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbldescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlDescriptionLayout.setVerticalGroup(
+            pnlDescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDescriptionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbldescription, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -273,20 +305,24 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnRemove)
-                            .addComponent(btnAddFilter))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnUndoPreview)))
-                    .addComponent(btnCreateImages, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnRemove)
+                                    .addComponent(btnAddFilter))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnUndoPreview)))
+                            .addComponent(btnCreateImages, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 2, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,7 +344,9 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
                         .addComponent(btnUndoPreview)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCreateImages)
-                .addGap(0, 413, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 212, Short.MAX_VALUE))
         );
 
         jScrollPane4.setViewportView(jPanel5);
@@ -321,7 +359,7 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -373,6 +411,51 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
 
     }//GEN-LAST:event_btnCreateImagesActionPerformed
 
+    private void tblFiltersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFiltersMouseClicked
+        
+        
+        int row = tblFilters.getSelectedRow();
+        if (row == -1)
+            return;
+        String description = "";
+        ImageFilter filter = filterTableModel.getImageFilter(row);
+        if (filter instanceof GrayscaleFilter)
+            description = "<html><b>Gray Scale Filter</b> converts RGB images to grayscaled. "
+                    + "This filter should be first filter in the filter chain.</html>";
+        else if (filter instanceof OtsuBinarizeFilter)
+            description = "<html>This is binarization filter. <b>Otsu method</b> is used as binarization algorithm. "
+                    + "Light pixels will be replaced with white ones, and dark with black ones.<br/>"
+                    + "Threshold for this purpose is calculated using all pixels on the image. "
+                    + "Image should be grayscaled before.</html>";
+        else if (filter instanceof MedianFilter)
+            description = "<html>Algorithm for the <b>Median Filter</b> is the following:<br/>"
+                    + "Every pixel in the image is replaced with the median of surrounding pixels. Number of surrounding pixels "
+                    + "is determined with the <b>radius</b> parameter. For example, if the radius is 4, "
+                    + "then there is 16 pixels (4x4). Image should be grayscaled before.</html>";
+        else if (filter instanceof  MeanFilter)
+            description = "<html>Algorithm for the <b>Mean Filter</b> is the following:<br/>"
+                    + "Every pixel in the image is replaced with the mean of surrounding pixels. Number of surrounding pixels "
+                    + "is determined with the <b>radius</b> parameter. For example, if the radius is 4, "
+                    + "then there is 16 pixels (4x4). Image should be grayscaled before.</html>";
+        else if (filter instanceof AdaptiveThresholdBinarizeFilter)
+            description = "<html>This is binarization filter. Light pixels will be replaced with white ones, "
+                    + "and dark with black ones. Threshold for this replacment is calulated locally.</html>";
+        else if (filter instanceof ZhangSuenThinFilter)
+            description = "<html><b>Thinning Filter</b> is used if you font make characters thinner. Thickness of the characters "
+                    + "in the resulting image is one pixel. Image should be binarized before this filter.</html>";
+        else if (filter instanceof Dilation)
+            description = "<html><b>Dilation</b> makes character thicker. Every pixel on the original image will be replaced with 9 "
+                    + "pixels (3x3). Image should be binarized before.</html>";
+        else if (filter instanceof NormalizationFilter)
+            description = "<html><b>Normalization Filter</b> is good for handwriten characters. If a presure of a pencile is weaker,"
+                    + "this filter should fix this, and this lighter pixel will be replaced with black one. Resul is binarized image,"
+                    + "and original image should be binarized first.</html>";
+        else
+            description="";
+        
+        lbldescription.setText(description);
+    }//GEN-LAST:event_tblFiltersMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddFilter;
     private javax.swing.JButton btnCreateImages;
@@ -388,7 +471,9 @@ public final class SettingsTopComponent extends TopComponent implements LookupLi
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel lbldescription;
     private javax.swing.JList lstSelectedFilters;
+    private javax.swing.JPanel pnlDescription;
     private javax.swing.JTable tblFilters;
     // End of variables declaration//GEN-END:variables
     @Override

@@ -85,6 +85,7 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
     private final InstanceContent content = new InstanceContent();
     private NeuralNetwork neuralNetwork;
     private String rootFolder;
+    private File resultFile;
 
 //    private String[] trainingTextFiles;
 //    private List<String> imagesPaths;
@@ -141,6 +142,9 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
         btnRecognize = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         txtNnet = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        txtResult = new javax.swing.JTextField();
+        btnSearchText = new javax.swing.JButton();
 
         tblFilters.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -305,15 +309,48 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
                 .addComponent(txtNnet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(RecognitionTopComponent.class, "RecognitionTopComponent.jPanel4.border.title"))); // NOI18N
+
+        txtResult.setText(org.openide.util.NbBundle.getMessage(RecognitionTopComponent.class, "RecognitionTopComponent.txtResult.text")); // NOI18N
+        txtResult.setEnabled(false);
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnSearchText, org.openide.util.NbBundle.getMessage(RecognitionTopComponent.class, "RecognitionTopComponent.btnSearchText.text")); // NOI18N
+        btnSearchText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchTextActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearchText))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -326,9 +363,7 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRecognize, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(btnRecognize, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -349,9 +384,11 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnRecognize)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -399,11 +436,11 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
             JOptionPane.showMessageDialog(null, "Image can not be loaded");
             return;
         }
-        
+
         stack = new Stack<BufferedImage>();
         stack.push(image);
         putIntoLookup(image);
-        
+
 
     }//GEN-LAST:event_btnFindImageActionPerformed
 
@@ -416,29 +453,52 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
             JOptionPane.showMessageDialog(null, "You have to find image for recognition.");
             return;
         }
+        
+        if ( resultFile == null) {
+            JOptionPane.showMessageDialog(null, "You have to select destination folder where the result text will be stored.");
+            return;
+        }
         BufferedImage image = stack.peek();
-        int scanQ = Integer.parseInt(((String)cmbScanQ.getSelectedItem()).split(" ")[0]);
+        int scanQ = Integer.parseInt(((String) cmbScanQ.getSelectedItem()).split(" ")[0]);
         Letter letterInfo = new Letter(scanQ, image);
         Text textInfo = new Text(image, letterInfo);
         OCRTextRecognition recognition = new OCRTextRecognition(letterInfo, textInfo);
         recognition.setNeuralNetwork(neuralNetwork);
         recognition.recognize();
+
         
-        File results = new File(rootFolder+"/Results");
-        results.mkdir();
-        
-        String name = "text_"+(new Date()).toString()+".txt";
+
+        String name = "text_" + (new Date()).toString() + ".txt";
         name = name.replace(" ", "-");
         name = name.replace(":", "-");
-        String resultPath = results.getAbsolutePath()+File.separator+name;
+        String resultPath = resultFile.getPath() + File.separator + name;
         System.out.println(resultPath);
         recognition.setRecognizedTextPath(resultPath);
         recognition.saveText();
-        
-        JOptionPane.showMessageDialog(null, name+" is succesfully created.");
-        
-        
+
+        JOptionPane.showMessageDialog(null, name + " is succesfully created.");
+
+
     }//GEN-LAST:event_btnRecognizeActionPerformed
+
+    private void btnSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchTextActionPerformed
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Choose directory:");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            resultFile = chooser.getSelectedFile();
+            txtResult.setText(resultFile.getPath());
+        }
+        else {
+            resultFile = null;
+        }
+
+
+    }//GEN-LAST:event_btnSearchTextActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddFilter;
@@ -446,12 +506,14 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
     private javax.swing.JButton btnPreviewFilter;
     private javax.swing.JButton btnRecognize;
     private javax.swing.JButton btnRemove;
+    private javax.swing.JButton btnSearchText;
     private javax.swing.JButton btnUndoPreview;
     private javax.swing.JComboBox cmbScanQ;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane5;
@@ -459,6 +521,7 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
     private javax.swing.JTable tblFilters;
     private javax.swing.JTextField txtImage;
     private javax.swing.JTextField txtNnet;
+    private javax.swing.JTextField txtResult;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
@@ -566,29 +629,26 @@ public final class RecognitionTopComponent extends TopComponent implements Looku
         Collection<? extends NeuralNetworkDataObject> allNetworks = result.allInstances();
         if (!allNetworks.isEmpty()) {
             NeuralNetworkDataObject nnetDO = allNetworks.iterator().next();
-            
+
             neuralNetwork = nnetDO.getNeuralNetwork();
             txtNnet.setText(neuralNetwork.getLabel());
-            
-            
+
             Set<FileObject> files = nnetDO.files();
             FileObject file = files.iterator().next();
             FileObject rootFO = file.getParent().getParent();
             rootFolder = rootFO.getPath();
-            
+
             /*
              Set<org.openide.filesystems.FileObject> files = imageDO.files();
-            FileObject file = files.iterator().next();
-            FileObject imagesFolder = file.getParent();
-            imageFolderPath = imagesFolder.getPath();
+             FileObject file = files.iterator().next();
+             FileObject imagesFolder = file.getParent();
+             imageFolderPath = imagesFolder.getPath();
            
             
             
             
-            */
-            
+             */
         }
-        
-        
+
     }
 }
