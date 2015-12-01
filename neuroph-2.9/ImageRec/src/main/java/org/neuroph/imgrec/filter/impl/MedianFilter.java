@@ -114,6 +114,12 @@ public class MedianFilter implements ImageFilter, Serializable{
         this.radius = radius;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+    
+    
+
     @Override
     public String toString() {
         return "Median Filter";

@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Mihailo Stupar
  */
-public abstract class Properties {
+public abstract class OCRProperties {
 
     protected BufferedImage image;
     protected int scanQuality;
@@ -23,7 +23,7 @@ public abstract class Properties {
     protected Text textInformation;
    
     
-    public Properties(Letter letterInformation, Text textInformation) {
+    public OCRProperties(Letter letterInformation, Text textInformation) {
         this.letterInformation = letterInformation;
         this.textInformation = textInformation;
         this.image = textInformation.getImage();

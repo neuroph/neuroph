@@ -41,7 +41,7 @@ public class OCRCropLetter implements ImageFilter{
     }
 
     /**
-     * YOU <b>MUST<b/> sett newHeight and newWidth parameters
+     * You <b>must</b> set newHeight and newWidth parameters
      */
     public OCRCropLetter() {
     }
@@ -215,7 +215,7 @@ public class OCRCropLetter implements ImageFilter{
     
     
     /**
-     * You <b>MUST<b/> set newHeight and newWidth before calling this method
+     * You <b>must</b> set newHeight and newWidth before calling this method
      * @param image image with single letter on it
      * @return image with centered letter
      */
