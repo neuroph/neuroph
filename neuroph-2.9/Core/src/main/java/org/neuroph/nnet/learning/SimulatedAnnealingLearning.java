@@ -144,12 +144,8 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
             double[] output = this.neuralNetwork.getOutput();
             double[] desiredOutput = trainingSetRow
                     .getDesiredOutput();
-            //TODO WHAT IS THIS????
 
-//			double[] patternError = this.calculateOutputError(desiredOutput, output);
-            double[] patternError = null;
-    //        this.updateTotalNetworkError(patternError);
-
+			double[] patternError = getErrorFunction().calculatePatternError(desiredOutput, output);
             double sqrErrorSum = 0;
             for (double error : patternError) {
                 sqrErrorSum += (error * error);
@@ -195,9 +191,8 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
             this.temperature *= ratio;
         }
 
+        // the following line is probably wrong (when is reset() called?), but the result might not be used for anything
         this.previousEpochError = getErrorFunction().getTotalError();
-        //TODO WHAT IS THIS????
-//		this.totalNetworkError = bestError;
 
         // moved stopping condition to separate method hasReachedStopCondition()
         // so it can be overriden / customized in subclasses
@@ -206,18 +201,6 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
         }
     }
 
-    /**
-     * Update the total error.
-     */
-//    protected void updateTotalNetworkError(double[] patternError) {
-//        double sqrErrorSum = 0;
-//        for (double error : patternError) {
-//            sqrErrorSum += (error * error);
-//        }
-//
-//        //TODO WHAT IS THIS?????
-////		this.totalNetworkError += sqrErrorSum / (2 * patternError.length);
-//    }
 
     /**
      * Not used.
