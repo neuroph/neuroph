@@ -1,75 +1,10 @@
-/NeurophStudio/build/
-/NeurophStudio/Neuroph3rdPartyLibs/build/
-/NeurophStudio/jfreechart/build/
-/NeurophStudio/NeurophWrapper/build/
-/NeurophStudio/NeurophDatasetGenerator/build/
-/NeurophStudio/NeurophProject/build/
-/NeurophStudio/NeurophProperties/build/
-/NeurophStudio/NeurophVisualEditor/build/
-/NeurophStudio/NeurophExplorer/build/
-/NeurophStudio/NeurophClassificationSample/build/
-/NeurophStudio/Graph2DAPI/build/
-/NeurophStudio/Graph2D/build/
-/NeurophStudio/NeurophMain/build/
-/NeurophStudio/NeurophProjectFiles/build/
-/NeurophStudio/Upgrader/build/
-/NeurophStudio/SDK Core/build/
-/NeurophStudio/ImagePreprocessing/build/
-/NeurophStudio/NeurophTreinerWizard/build/
-/NeurophStudio/NeurophToolbar/build/
-/NeurophStudio/MindWave/build/
-/NeurophStudio/NeuroSkyMindWaveDemo/build/
-/NeurophStudio/NeurophTimeSeriesPrediction/build/
-/NeurophStudio/NeurophCharts/build/
-/NeurophStudio/JMEVisualization/build/
-/NeurophStudio/NeurophRightClickActions/build/
-/NeurophStudio/FXVisualization/build/
-/NeurophStudio/NeurophToolbar/nbproject/private/
-/NeurophStudio/NeurophTreinerWizard/nbproject/private/
-/NeurophStudio/NeurophUpdates/nbproject/private/
-/NeurophStudio/NeuroSkyMindWaveDemo/nbproject/private/
-/NeurophStudio/SDK Core/nbproject/private/
-/NeurophStudio/SDK Engine/nbproject/private/
-/NeurophStudio/SDK Libraries/nbproject/private/
-/NeurophStudio/Update Centers/nbproject/private/
-/NeurophStudio/Upgrader/nbproject/private/
-/NeurophStudio/FXVisualization/nbproject/private/
-/NeurophStudio/GoodOldAiWrapper/nbproject/private/
-/NeurophStudio/Graph2D/nbproject/private/
-/NeurophStudio/Graph2DAPI/nbproject/private/
-/NeurophStudio/Graph3D/nbproject/private/
-/NeurophStudio/Graph3DAPI/nbproject/private/
-/NeurophStudio/JamaWrapper/nbproject/private/
-/NeurophStudio/JMEVisualization/nbproject/private/
-/NeurophStudio/Jzy3dWrapper/nbproject/private/
-/NeurophStudio/NeurophCharts/nbproject/private/
-/NeurophStudio/NeurophClassificationSample/nbproject/private/
-/NeurophStudio/NeurophDatasetGenerator/nbproject/private/
-/NeurophStudio/ImagePreprocessing/nbproject/private/
-/NeurophStudio/MindWave/nbproject/private/
-/NeurophStudio/SDK Engine/build/
-NeurophStudio/NeurophImageRecognition/build/
-NeurophStudio/NeurophImageRecognitionUtilities/build/
-NeurophStudio/NeurophImageExplorer/build/
-NeurophStudio/NeurophTextCharacterRecognition/build/
-NeurophStudio/NeurophHelp/build/
-NeurophStudio/NeurophWizards/build/
-NeurophStudio/NeurophHandwrittenCharacterRecognition/build/
-NeurophStudio/NeurophImageEditor/build/
-NeurophStudio/Jzy3dWrapper/build/
-NeurophStudio/NeurophUpdates/build/
-NeurophStudio/Graph3DAPI/build/
-NeurophStudio/GoodOldAiWrapper/build/
-NeurophStudio/Graph3D/build/
-NeurophStudio/JamaWrapper/build/
-NeurophStudio/Update Centers/build/
-NeurophStudio/SDK Libraries/build/
-NeurophStudio/NeurophWrapper/nbproject/private/
-NeurophStudio/jfreechart/nbproject/private/
-NeurophStudio/Neuroph3rdPartyLibs/nbproject/private/
-NeurophStudio/NeurophVisualEditor/nbproject/private/
-/NeurophStudio/ClassifierEvaluation/build/
-NeurophStudio/NeurophProjectFiles/nbproject/private/
-NeurophStudio/NeurophMain/nbproject/private/
-NeurophStudio/nbproject/private/
-NeurophStudio/NeurophExplorer/nbproject/private/
+target
+build
+**/nbproject/private
+
+.idea
+*.iml
+.classpath
+.project
+.settings
+
