@@ -217,7 +217,7 @@ public class Neuron implements Serializable, Callable<Void> {
      * @param connection input connection to add
      */
     public void addInputConnection(Connection connection) {
-        // check whaeather connection is  null
+        // check whether connection is  null
         if (connection == null) {
             throw new IllegalArgumentException("Attempt to add null connection to neuron!");
         }
@@ -227,13 +227,10 @@ public class Neuron implements Serializable, Callable<Void> {
             throw new IllegalArgumentException("Cannot add input connection - bad toNeuron specified!");
         }
 
-        // if it allready has connection from same neuron do nothing
+        // if it already has connection from same neuron do nothing
         if (this.hasInputConnectionFrom(connection.getFromNeuron())) {
             return;
         }
-
-//            this.inputConnections =  Arrays.copyOf(inputConnections, inputConnections.length+1);     // grow existing connections  array to make space for new connection
-//            this.inputConnections[inputConnections.length - 1] = connection;     
 
         this.inputConnections.add(connection);
 
@@ -269,7 +266,7 @@ public class Neuron implements Serializable, Callable<Void> {
      */
     protected void addOutputConnection(Connection connection) {
         // First do some checks
-        // check whaeather connection is  null
+        // check whether connection is  null
         if (connection == null) {
             throw new IllegalArgumentException("Attempt to add null connection to neuron!");
         }
@@ -279,19 +276,13 @@ public class Neuron implements Serializable, Callable<Void> {
             throw new IllegalArgumentException("Cannot add output connection - bad fromNeuron specified!");
         }
 
-        // if this neuron is allready connected to neuron specified in connection do nothing
+        // if this neuron is already connected to neuron specified in connection do nothing
         if (this.hasOutputConnectionTo(connection.getToNeuron())) {
             return;
         }
 
         // Now we can safely add new connection
         this.outConnections.add(connection);
-
-//            // grow existing connections  array to make space for new connection
-//            this.outConnections =  Arrays.copyOf(outConnections, outConnections.length+1);     
-//           
-//            // add new connection to the end of array    
-//            this.outConnections[outConnections.length - 1] = connection;  
     }
 
     /**
@@ -314,38 +305,10 @@ public class Neuron implements Serializable, Callable<Void> {
 
     protected void removeInputConnection(Connection conn) {
         inputConnections.remove(conn);
-//            for (int i = 0; i < inputConnections.length; i++) {
-//                if (inputConnections[i] == conn) {
-//                    for (int j = i; j < inputConnections.length - 1; j++) {
-//                        inputConnections[j] = inputConnections[j + 1];
-//                    }
-//                    
-//                    inputConnections[inputConnections.length-1] = null;
-//                    
-//                    if (inputConnections.length > 0) {
-//                        this.inputConnections = Arrays.copyOf(inputConnections, inputConnections.length-1); 
-//                    }                                        
-//                    break;                    
-//                }                                
-//            }
     }
 
     protected void removeOutputConnection(Connection conn) {
         outConnections.remove(conn);
-//            for (int i = 0; i < outConnections.length; i++) {
-//                if (outConnections[i] == conn) {
-//                    for (int j = i; j < outConnections.length - 1; j++) {
-//                        outConnections[j] = outConnections[j + 1];
-//                    }
-//                    
-//                    outConnections[outConnections.length-1] = null;
-//                    
-//                    if (outConnections.length > 0) {
-//                        this.outConnections = Arrays.copyOf(outConnections, outConnections.length-1); 
-//                    }                                        
-//                    break;                    
-//                }                                
-//            }            
     }
 
     /**
@@ -354,83 +317,35 @@ public class Neuron implements Serializable, Callable<Void> {
      * @param fromNeuron neuron which is connected as input
      */
     public void removeInputConnectionFrom(Neuron fromNeuron) {
-
         // run through all input connections
-        for (int i = 0; i < inputConnections.size(); i++) {
+        for (Connection c : inputConnections.asArray()) {
             // and look for specified fromNeuron
-            if (inputConnections.get(i).getFromNeuron() == fromNeuron) {
-                fromNeuron.removeOutputConnection(inputConnections.get(i));
-                this.removeInputConnection(inputConnections.get(i));
-                break;
+            if (c.getFromNeuron() == fromNeuron) {
+                fromNeuron.removeOutputConnection(c);
+                this.removeInputConnection(c);
+                break; // assumes that a pair of neurons can only be connected once
             }
         }
-        // when you find it shift all neurons after it to the left
-//            				for(int j = i; j<inputConnections.length-1; j++) {
-//                                    inputConnections[j] = inputConnections[j+1];
-//                                }
-//                                // then set last position in array to null
-//                                inputConnections[inputConnections.length-1] = null;
-//                                
-//                                
-//                                fromNeuron.removeOutputConnection(conn);
-//                                
-//                                break;
-
-//            
-//            // resize array in order to remove last element
-//            if (inputConnections.length > 0) {
-//                this.inputConnections = Arrays.copyOf(inputConnections, inputConnections.length-1); 
-//            }
-
-        // also delete reference to connection from the other side, since both neurons are
-        // pointing to the same connection instance
-        // fromNeuron.removeOutputConnectionTo(this);
-
     }
 
     public void removeOutputConnectionTo(Neuron toNeuron) {
-        for (int i = 0; i < outConnections.size(); i++) {
-            // and look for specified fromNeuron
-            if (outConnections.get(i).getToNeuron() == toNeuron) {
-                toNeuron.removeInputConnection(outConnections.get(i));
-                this.removeOutputConnection(outConnections.get(i));
-                break;
+        // run through all output connections
+        for (Connection c : outConnections.asArray()) {
+            // and look for specified toNeuron
+            if (c.getToNeuron() == toNeuron) {
+                toNeuron.removeInputConnection(c);
+                this.removeOutputConnection(c);
+                break; // assumes that a pair of neurons can only be connected once
             }
         }
-
-//            for(int i = 0; i < outConnections.length; i++) {
-//			if (outConnections[i].getToNeuron() == toNeuron) {
-//				for(int j = i; j<outConnections.length-1; j++) {
-//                                    outConnections[j] = outConnections[j+1];
-//                                }
-//                                outConnections[outConnections.length-1] = null;
-//                                break;
-//			}
-//            }
-//            
-//                if (outConnections.length > 0) {
-//                     this.outConnections = Arrays.copyOf(outConnections, outConnections.length-1);
-//                }
     }
 
     public void removeAllInputConnections() {
         inputConnections.clear();
-//            // run through all input connections
-//            for(int i = 0; i < inputConnections.length; i++) {
-//                inputConnections[i].getFromNeuron().removeOutputConnection(inputConnections[i]);    
-//                inputConnections[i] = null;                                   
-//            }
-//            
-//            this.inputConnections = new Connection[0];
     }
 
     public void removeAllOutputConnections() {
         outConnections.clear();
-//            for(int i=0; i<outConnections.length; i++) {
-//                outConnections[i].getToNeuron().removeInputConnection(outConnections[i]);
-//                outConnections[i] = null;
-//            }            
-//            this.outConnections = new Connection[0];                   
     }
 
     public void removeAllConnections() {
