@@ -36,11 +36,6 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The neural network that is to be trained.
-     */
-    protected NeuralNetwork network;
-
-    /**
      * The starting temperature.
      */
     private double startTemperature;
@@ -80,7 +75,7 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
      */
     public SimulatedAnnealingLearning(final NeuralNetwork network,
                                       final double startTemp, final double stopTemp, final int cycles) {
-        this.network = network;
+        setNeuralNetwork( network );
         this.temperature = startTemp;
         this.startTemperature = startTemp;
         this.stopTemperature = stopTemp;
@@ -105,7 +100,7 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
      * @return The best network.
      */
     public NeuralNetwork getNetwork() {
-        return this.network;
+        return getNeuralNetwork();
     }
 
     /**
@@ -113,17 +108,20 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
      * of the class. Each call to this class will randomize the data according
      * to the current temperature. The higher the temperature the more
      * randomness.
+     * @param randomChance 
      */
-    public void randomize() {
+    public void randomize(double randomChance ) {
 
-        for (int i = 0; i < this.weights.length; i++) {
+        for (int i = 0; i < this.weights.length; i++)
+          if (Math.random() < randomChance)
+          {
             double add = 0.5 - (Math.random());
             add /= this.startTemperature;
             add *= this.temperature;
             this.weights[i] = this.weights[i] + add;
-        }
+          }
 
-        NeuralNetworkCODEC.array2network(this.weights, this.network);
+        NeuralNetworkCODEC.array2network(this.weights, getNetwork());
     }
 
     /**
@@ -139,17 +137,13 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
         while (iterator.hasNext() && !isStopped()) {
             DataSetRow trainingSetRow = iterator.next();
             double[] input = trainingSetRow.getInput();
-            this.neuralNetwork.setInput(input);
-            this.neuralNetwork.calculate();
-            double[] output = this.neuralNetwork.getOutput();
+            getNetwork().setInput(input);
+            getNetwork().calculate();
+            double[] output = getNetwork().getOutput();
             double[] desiredOutput = trainingSetRow
                     .getDesiredOutput();
-            //TODO WHAT IS THIS????
 
-//			double[] patternError = this.calculateOutputError(desiredOutput, output);
-            double[] patternError = null;
-    //        this.updateTotalNetworkError(patternError);
-
+            double[] patternError = getErrorFunction().calculatePatternError(desiredOutput, output);
             double sqrErrorSum = 0;
             for (double error : patternError) {
                 sqrErrorSum += (error * error);
@@ -165,8 +159,13 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
      * Perform one simulated annealing epoch.
      */
     @Override
-    public void doLearningEpoch(DataSet trainingSet) {
+    public void doLearningEpoch(DataSet trainingSet)
+    {
+      doLearningEpoch( trainingSet, 0.5 );
+    }
 
+    public void doLearningEpoch(DataSet trainingSet, double randomChance)
+    {
         System.arraycopy(this.weights, 0, this.bestWeights, 0,
                 this.weights.length);
 
@@ -176,7 +175,7 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
 
         for (int i = 0; i < this.cycles; i++) {
 
-            randomize();
+            randomize( randomChance );
             double currentError = determineError(trainingSet);
 
             if (currentError < bestError) {
@@ -187,7 +186,7 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
                 System.arraycopy(this.bestWeights, 0, this.weights, 0,
                         this.weights.length);
 
-            NeuralNetworkCODEC.array2network(this.bestWeights, network);
+            NeuralNetworkCODEC.array2network(this.bestWeights, getNetwork());
 
             final double ratio = Math.exp(Math.log(this.stopTemperature
                     / this.startTemperature)
@@ -195,9 +194,8 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
             this.temperature *= ratio;
         }
 
+        // the following line is probably wrong (when is reset() called?), but the result might not be used for anything
         this.previousEpochError = getErrorFunction().getTotalError();
-        //TODO WHAT IS THIS????
-//		this.totalNetworkError = bestError;
 
         // moved stopping condition to separate method hasReachedStopCondition()
         // so it can be overriden / customized in subclasses
@@ -206,18 +204,6 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
         }
     }
 
-    /**
-     * Update the total error.
-     */
-//    protected void updateTotalNetworkError(double[] patternError) {
-//        double sqrErrorSum = 0;
-//        for (double error : patternError) {
-//            sqrErrorSum += (error * error);
-//        }
-//
-//        //TODO WHAT IS THIS?????
-////		this.totalNetworkError += sqrErrorSum / (2 * patternError.length);
-//    }
 
     /**
      * Not used.
