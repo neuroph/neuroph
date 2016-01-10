@@ -317,27 +317,25 @@ public class Neuron implements Serializable, Callable<Void> {
      * @param fromNeuron neuron which is connected as input
      */
     public void removeInputConnectionFrom(Neuron fromNeuron) {
-
         // run through all input connections
         for (Connection c : inputConnections.asArray()) {
             // and look for specified fromNeuron
             if (c.getFromNeuron() == fromNeuron) {
                 fromNeuron.removeOutputConnection(c);
                 this.removeInputConnection(c);
-                break;
+                break; // assumes that a pair of neurons can only be connected once
             }
         }
     }
 
     public void removeOutputConnectionTo(Neuron toNeuron) {
-
         // run through all output connections
         for (Connection c : outConnections.asArray()) {
             // and look for specified toNeuron
             if (c.getToNeuron() == toNeuron) {
                 toNeuron.removeInputConnection(c);
                 this.removeOutputConnection(c);
-                break;
+                break; // assumes that a pair of neurons can only be connected once
             }
         }
     }
