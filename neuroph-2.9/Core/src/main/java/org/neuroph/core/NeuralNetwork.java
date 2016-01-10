@@ -94,7 +94,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     /**
      * Learning rule for this network
      */
-    private L learningRule; // learning algorithme
+    private L learningRule; // learning algorithm
     /**
      * Separate thread for learning rule
      */
@@ -129,11 +129,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @param layer layer to add
      */
     public void addLayer(Layer layer) {
-//        // grow existing layers array to make space for new layer
-//        this.layers = Arrays.copyOf(layers, layers.length + 1);    
-//        // add new layer at the end of array
-//        this.layers[layers.length - 1] = layer;                    
-
         // in case of null value throw exception to prevent adding null layers
         if (layer == null) {
             throw new IllegalArgumentException("Layer cant be null!");
@@ -156,17 +151,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @param layer layer to add
      */
     public void addLayer(int index, Layer layer) {
-//        // first grow layers array to make space for new layer
-//        this.layers = Arrays.copyOf(layers, layers.length + 1); 
-//
-//        // then shift all layers to the right to make room at specified index position     
-//        for (int i = layers.length - 1; i > index; i--) { 
-//            this.layers[i] = this.layers[i - 1];
-//        }
-//        
-//        // add new layer to array at specified index
-//        this.layers[index] = layer;
-
         // in case of null value throw exception to prevent adding null layers
         if (layer == null) {
             throw new IllegalArgumentException("Layer cant be null!");
@@ -189,9 +173,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @throws Exception
      */
     public void removeLayer(Layer layer) {
-//        int index = indexOf(layer);
-//        removeLayerAt(index);
-
         if (!layers.remove(layer)) {
             throw new RuntimeException("Layer not in Neural n/w");
         }
@@ -206,21 +187,9 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @param index int value represents index postion of layer which should be
      *              removed
      */
-    public void removeLayerAt(int index) throws ArrayIndexOutOfBoundsException {
-//        layers[index].removeAllNeurons();
-//        
-//        for (int i = index; i < layers.length - 1; i++) {
-//            layers[i] = layers[i + 1];
-//        }
-//        layers[layers.length - 1] = null;
-//        if (layers.length > 0) {
-//            layers = Arrays.copyOf(layers, layers.length - 1);
-//        }
-
+    public void removeLayerAt(int index) throws ArrayIndexOutOfBoundsException { // This exception should probably be moved down to NeurophArrayList; It can probably be safely removed as well
         Layer layer = layers.get(index);
-
         layers.remove(index);
-
 
         // notify listeners that layer has been removed
         fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEvent.Type.LAYER_REMOVED));
@@ -253,13 +222,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      */
     public int indexOf(Layer layer) {
         return layers.indexOf(layer);
-//        for (int i = 0; i < this.layers.length; i++) {
-//            if (layers[i] == layer) {
-//                return i;
-//            }
-//        }
-//
-//        return -1;
     }
 
     /**
@@ -281,9 +243,10 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
             throw new VectorSizeMismatchException("Input vector size does not match network input dimension!");
         }
 
+        // TODO: Change this
         int i = 0;
         for (Neuron neuron : this.inputNeurons) {
-            neuron.setInput(inputVector[i]); // set input to the coresponding neuron
+            neuron.setInput(inputVector[i]); // set input to the corresponding neuron
             i++;
         }
     }
@@ -296,7 +259,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @return network output vector
      */
     public double[] getOutput() {
-        // double[] outputVector = new double[outputNeurons.length];// use attribute to avoid creating to arrays and avoid GC work
+        // TODO: Change to for(Connection c : outputNeurons) {...}
         for (int i = 0; i < outputNeurons.size(); i++) {
             output[i] = outputNeurons.get(i).getOutput();
         }
@@ -308,12 +271,10 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * Performs calculation on whole network
      */
     public void calculate() {
-
         for (Layer layer : this.layers.asArray()) {
             layer.calculate();
         }
 
-//        List<Future<Long>> results = mainPool.invokeAll(Arrays.asList(layers.asArray()));
         fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.CALCULATED));
     }
 
@@ -761,8 +722,8 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @param pluginClass class of the plugin to get
      * @return instance of specified plugin class
      */
-    public <P extends PluginBase> P getPlugin(Class<P>  type) {
-        return type.cast(plugins.get(type));
+    public <P extends PluginBase> P getPlugin(Class<P>  pluginClass) {
+        return pluginClass.cast(plugins.get(type));
     }
 
     /**
