@@ -243,7 +243,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
             throw new VectorSizeMismatchException("Input vector size does not match network input dimension!");
         }
 
-        // TODO: Change this
+        // TODO: Make this more elegant
         int i = 0;
         for (Neuron neuron : this.inputNeurons) {
             neuron.setInput(inputVector[i]); // set input to the corresponding neuron
@@ -259,9 +259,11 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @return network output vector
      */
     public double[] getOutput() {
-        // TODO: Change to for(Connection c : outputNeurons) {...}
-        for (int i = 0; i < outputNeurons.size(); i++) {
-            output[i] = outputNeurons.get(i).getOutput();
+        // TODO: Make this more elegant
+        int i = 0;
+        for (Neuron c : outputNeurons) {
+            output[i] = c.getOutput();
+            i++;
         }
 
         return output;
