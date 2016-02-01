@@ -1,4 +1,4 @@
-Neuroph - Java Neural Network Framework Neuroph
+Neuroph - Java Neural Network Platform Neuroph
 ======
 
 Neuroph is lightweight Java neural network framework to develop common neural network architectures. 
