@@ -16,6 +16,7 @@
 package org.neuroph.core.input;
 
 import java.io.Serializable;
+import java.util.List;
 import org.neuroph.core.Connection;
 
 /**
@@ -32,8 +33,8 @@ public class Product extends InputFunction implements Serializable {
     private static final long serialVersionUID = 2L;
 
     @Override
-    public double getOutput(Connection[] inputConnections) {
-        if (inputConnections.length == 0) {
+    public double getOutput(List<Connection> inputConnections) {
+        if (inputConnections.size() == 0) {
             return 0d;
         }
 

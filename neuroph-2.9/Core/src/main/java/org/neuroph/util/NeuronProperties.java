@@ -30,6 +30,9 @@ import org.neuroph.core.transfer.TransferFunction;
 public class NeuronProperties extends Properties {
 
     private static final long serialVersionUID = 2L;
+    
+   // public static final DEFAULT = new NeuronProperties();
+    
 
     public NeuronProperties() {
         initKeys();

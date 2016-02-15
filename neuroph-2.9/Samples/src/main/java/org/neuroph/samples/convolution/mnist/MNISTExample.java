@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 
 /**
  * Konvolucioni parametri
@@ -59,8 +60,8 @@ public class MNISTExample {
     public static void main(String[] args) {
         try {
 
-            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60000);
-            DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
+            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60);
+            DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10);
 
             Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(32, 32);
             Kernel convolutionKernel = new Kernel(5, 5);
@@ -69,16 +70,16 @@ public class MNISTExample {
             ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder(inputDimension, 1)
                     .withConvolutionLayer(convolutionKernel, 10)
                     .withPoolingLayer(poolingKernel)
-                    .withConvolutionLayer(convolutionKernel, 1)
+                    .withConvolutionLayer(convolutionKernel, 3)
                     .withPoolingLayer(poolingKernel)
-                    .withConvolutionLayer(convolutionKernel, 1)
+                    .withConvolutionLayer(convolutionKernel, 3)
                     .withFullConnectedLayer(10)
                     .createNetwork();
 
-            BackPropagation backPropagation = new MomentumBackpropagation();
+            BackPropagation backPropagation = new ConvolutionalBackpropagation();
             backPropagation.setLearningRate(0.0001);
-            backPropagation.setMaxError(0.00001);
-            backPropagation.setMaxIterations(500);
+            backPropagation.setMaxError(0.01);
+            //backPropagation.setMaxIterations(1000);
             backPropagation.addListener(new LearningListener());
             backPropagation.setErrorFunction(new MeanSquaredError());
 
@@ -91,8 +92,8 @@ public class MNISTExample {
                         
             System.out.println("Done training!");
       
-            CrossValidation crossValidation = new CrossValidation(convolutionNetwork, testSet, 6);
-            crossValidation.run();
+//            CrossValidation crossValidation = new CrossValidation(convolutionNetwork, testSet, 6);
+//            crossValidation.run();
             
 //           ClassificationMetrics validationResult = crossValidation.computeErrorEstimate(convolutionNetwork, trainSet);
            // Evaluation.runFullEvaluation(convolutionNetwork, testSet);
@@ -113,9 +114,9 @@ public class MNISTExample {
         @Override
         public void handleLearningEvent(LearningEvent event) {
             BackPropagation bp = (BackPropagation) event.getSource();
-            LOG.error("Current iteration: " + bp.getCurrentIteration());
-            LOG.error("Error: " + bp.getTotalNetworkError());
-            LOG.error("Calculation time: " + (System.currentTimeMillis() - start) / 1000.0);
+            LOG.info("Current iteration: " + bp.getCurrentIteration());
+            LOG.info("Error: " + bp.getTotalNetworkError());
+            LOG.info("Calculation time: " + (System.currentTimeMillis() - start) / 1000.0);
          //   neuralNetwork.save(bp.getCurrentIteration() + "CNN_MNIST" + bp.getCurrentIteration() + ".nnet");
             start = System.currentTimeMillis();
 //            NeuralNetworkEvaluationService.completeEvaluation(neuralNetwork, testSet);

@@ -42,7 +42,7 @@ public class PoolingLayerTest {
         // then
         Neuron fromNeuron = inputLayer.getNeuronAt(0, 0, 0);
         Neuron toNeuron = hiddenLayer.getNeuronAt(0, 0, 0);
-        Assert.assertEquals(fromNeuron.getOutConnections()[0], toNeuron.getInputConnections()[0]);
+        Assert.assertEquals(fromNeuron.getOutConnections().get(0), toNeuron.getInputConnections().get(0));
     }
 
     @Test
@@ -59,14 +59,14 @@ public class PoolingLayerTest {
         ConvolutionalUtils.connectFeatureMaps(inputLayer, hiddenLayer, 0, 0);
 
         //then
-        Neuron pooledNeuron = hiddenLayer.getNeurons()[0];
+        Neuron pooledNeuron = hiddenLayer.getNeurons().get(0);
         Set<Weight> weights = new HashSet<Weight>();
         for (Connection connection : pooledNeuron.getInputConnections())
             weights.add(connection.getWeight());
 
-        for (int i = 0; i < inputLayer.getNeurons().length; i++) {
-            Neuron fromNeuron = inputLayer.getNeurons()[i];
-            Assert.assertEquals(fromNeuron, pooledNeuron.getInputConnections()[i].getFromNeuron());
+        for (int i = 0; i < inputLayer.getNeurons().size(); i++) {
+            Neuron fromNeuron = inputLayer.getNeurons().get(i);
+            Assert.assertEquals(fromNeuron, pooledNeuron.getInputConnections().get(i).getFromNeuron());
         }
         Assert.assertEquals(1, weights.size());
     }
@@ -93,11 +93,11 @@ public class PoolingLayerTest {
         for (int x = 0; x < hiddenLayer.getMapDimensions().getWidth(); x++) {
             for (int y = 0; y < hiddenLayer.getMapDimensions().getHeight(); y++) {
                 Neuron toNeuron = toMap.getNeuronAt(x, y);
-                for (int i = 0; i < toNeuron.getInputConnections().length; i++) {
+                for (int i = 0; i < toNeuron.getInputConnections().size(); i++) {
                     int tempX = i % kernelWidth;
                     int tempY = i / kernelHeight;
                     Neuron fromNeuron = fromMap.getNeuronAt(tempX + (kernelWidth * x), tempY + (kernelHeight * y));
-                    Assert.assertEquals(toNeuron.getInputConnections()[i].getFromNeuron(), fromNeuron);
+                    Assert.assertEquals(toNeuron.getInputConnections().get(i).getFromNeuron(), fromNeuron);
                 }
             }
         }

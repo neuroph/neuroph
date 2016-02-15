@@ -52,7 +52,7 @@ public class ConvolutionLayerTest {
 		int yCord = 0;
 		Neuron fromNeuron = inputLayer.getNeuronAt(xCord, yCord, inputMapIndex);
 		Neuron toNeuron = hiddenLayer.getNeuronAt(xCord, yCord, hiddenMapIndex);
-		Assert.assertEquals(fromNeuron.getOutConnections()[0], toNeuron.getInputConnections()[0]);
+		Assert.assertEquals(fromNeuron.getOutConnections().get(0), toNeuron.getInputConnections().get(0));
 	}
 
 	@Test

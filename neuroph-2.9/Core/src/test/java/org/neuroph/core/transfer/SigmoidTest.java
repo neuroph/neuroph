@@ -7,6 +7,7 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -16,11 +17,11 @@ import org.junit.runners.Parameterized.Parameters;
 public class SigmoidTest {
 
     Sigmoid instance;
-    double input, expected, expected_derivative;
+    double input, expected, expectedDerivative;
 
-    public SigmoidTest(double input, double expected, double expected_derivative) {
+    public SigmoidTest(double input, double expected, double expectedDerivative) {
         this.expected = expected;
-        this.expected_derivative = expected_derivative;
+        this.expectedDerivative = expectedDerivative;
         this.input = input;
     }
 
@@ -71,7 +72,8 @@ public class SigmoidTest {
      */
     @Test
     public void testGetDerivative() {
+        double out = instance.getOutput(input);
         double result = instance.getDerivative(input);
-        assertEquals(expected_derivative, result, 0.00001);
+        assertEquals(expectedDerivative, result, 0.00001);
     }
 }

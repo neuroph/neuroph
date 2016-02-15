@@ -116,7 +116,7 @@ public class FeatureMapsLayer extends Layer {
         }
 
         featureMaps.add(featureMap);
-        neurons.addAll(Arrays.asList(featureMap.getNeurons()));
+        neurons.addAll((featureMap.getNeurons()));
 
     }
 

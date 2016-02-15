@@ -1,5 +1,6 @@
 package org.neuroph.nnet.learning;
 
+import java.util.Arrays;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.neuroph.core.Connection;
@@ -44,7 +45,7 @@ public class LMSTest extends TestCase {
 
     public void testUpdateNetworkWeight() {
         NeuralNetwork<LMS> neuralNetwork = new NeuralNetwork<>();
-        neuralNetwork.setOutputNeurons(new Neuron[]{neuron});
+        neuralNetwork.setOutputNeurons(Arrays.asList(new Neuron[]{neuron}));
         lms.setNeuralNetwork(neuralNetwork);
         lms.updateNetworkWeights(new double[]{1D});
         assertEquals(expectedWeightChange, weight.weightChange);

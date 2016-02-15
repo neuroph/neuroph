@@ -57,11 +57,8 @@ public class ThresholdNeuron extends Neuron {
 	 */
 	@Override
 	public void calculate() {
-		if (this.hasInputConnections()) {
-			this.netInput = this.inputFunction.getOutput(this.inputConnections.asArray());
-		}
-
-                this.output = this.transferFunction.getOutput(this.netInput-this.thresh);
+		this.totalInput = this.inputFunction.getOutput(this.inputConnections);
+                this.output = this.transferFunction.getOutput(this.totalInput-this.thresh);
 	}
 
 	/**

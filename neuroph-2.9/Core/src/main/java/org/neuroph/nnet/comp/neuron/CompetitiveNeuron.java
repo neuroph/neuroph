@@ -16,7 +16,9 @@
 
 package org.neuroph.nnet.comp.neuron;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.neuroph.core.Connection;
 import org.neuroph.core.input.InputFunction;
@@ -44,13 +46,13 @@ public class CompetitiveNeuron extends DelayedNeuron {
 	/**
 	 * Collection of conections from neurons in other layers
 	 */
-	private Connection[] connectionsFromOtherLayers;
+	private List<Connection> connectionsFromOtherLayers;
 	
 	/**
 	 * Collection of connections from neurons in the same layer as this neuron
 	 * (lateral connections used for competition)
 	 */
-	private Connection[] connectionsFromThisLayer;
+	private List<Connection> connectionsFromThisLayer;
 
 	/**
 	 * Creates an instance of CompetitiveNeuron with specified input and transfer functions
@@ -59,8 +61,8 @@ public class CompetitiveNeuron extends DelayedNeuron {
 	 */
 	public CompetitiveNeuron(InputFunction inputFunction, TransferFunction transferFunction) {
 		super(inputFunction, transferFunction);
-		connectionsFromOtherLayers = new Connection[0];
-		connectionsFromThisLayer = new Connection[0];
+		connectionsFromOtherLayers = new ArrayList<>();
+		connectionsFromThisLayer = new ArrayList<>();
 		addInputConnection(this, 1);
 	}
 
@@ -68,16 +70,16 @@ public class CompetitiveNeuron extends DelayedNeuron {
 	public void calculate() {
 		if (this.isCompeting) {
 			// get input only from neurons in this layer
-			this.netInput = this.inputFunction
+			this.totalInput = this.inputFunction
 					.getOutput(this.connectionsFromThisLayer);
 		} else {
 			// get input from other layers
-			this.netInput = this.inputFunction
+			this.totalInput = this.inputFunction
 					.getOutput(this.connectionsFromOtherLayers);
 			this.isCompeting = true;
 		}
 
-		this.output = this.transferFunction.getOutput(this.netInput);
+		this.output = this.transferFunction.getOutput(this.totalInput);
 		outputHistory.add(0, new Double(this.output));
 	}
 
@@ -90,13 +92,13 @@ public class CompetitiveNeuron extends DelayedNeuron {
 		super.addInputConnection(connection);
 		if (connection.getFromNeuron().getParentLayer() == this
 				.getParentLayer()) {
-                    this.connectionsFromThisLayer =  Arrays.copyOf(connectionsFromThisLayer, connectionsFromThisLayer.length+1);     // grow existing connections  array to make space for new connection
-                    this.connectionsFromThisLayer[connectionsFromThisLayer.length - 1] = connection;                    
-		//	connectionsFromThisLayer.add(connection);
+//                    this.connectionsFromThisLayer =  Arrays.copyOf(connectionsFromThisLayer, connectionsFromThisLayer.length+1);     // grow existing connections  array to make space for new connection
+//                    this.connectionsFromThisLayer[connectionsFromThisLayer.length - 1] = connection;                    
+			connectionsFromThisLayer.add(connection);
 		} else {
-                    this.connectionsFromOtherLayers =  Arrays.copyOf(connectionsFromOtherLayers, connectionsFromOtherLayers.length+1);     // grow existing connections  array to make space for new connection
-                    this.connectionsFromOtherLayers[connectionsFromOtherLayers.length - 1] = connection;                          
-		//	connectionsFromOtherLayers.add(connection);
+//                    this.connectionsFromOtherLayers =  Arrays.copyOf(connectionsFromOtherLayers, connectionsFromOtherLayers.length+1);     // grow existing connections  array to make space for new connection
+//                    this.connectionsFromOtherLayers[connectionsFromOtherLayers.length - 1] = connection;                          
+			connectionsFromOtherLayers.add(connection);
 		}
 	}
 
@@ -104,7 +106,7 @@ public class CompetitiveNeuron extends DelayedNeuron {
 	 * Returns collection of connections from other layers
 	 * @return collection of connections from other layers
 	 */
-	public Connection[] getConnectionsFromOtherLayers() {
+	public List<Connection> getConnectionsFromOtherLayers() {
 		return connectionsFromOtherLayers;
 	}
 

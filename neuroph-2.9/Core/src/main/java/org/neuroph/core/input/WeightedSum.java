@@ -15,6 +15,7 @@
  */
 package org.neuroph.core.input;
 
+import java.util.List;
 import org.neuroph.core.Connection;
 
 /**
@@ -27,7 +28,7 @@ public class WeightedSum extends InputFunction {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public double getOutput(Connection[] inputConnections) {
+    public double getOutput(List<Connection> inputConnections) {
         double output = 0d;
 
         for (Connection connection : inputConnections) {

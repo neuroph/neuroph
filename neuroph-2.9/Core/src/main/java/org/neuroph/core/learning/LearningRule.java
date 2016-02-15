@@ -44,7 +44,7 @@ abstract public class LearningRule implements Serializable {
     /**
      * Neural network to train
      */
-    protected NeuralNetwork neuralNetwork;
+    protected NeuralNetwork<?> neuralNetwork;
     
     /**
      * Training data set

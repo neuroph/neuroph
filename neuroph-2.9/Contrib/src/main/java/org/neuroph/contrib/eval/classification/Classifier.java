@@ -18,7 +18,7 @@ public class Classifier extends PluginBase {
     double threshold = 0.5;
     
     public String classify(double[] pattern) {
-        NeuralNetwork nnet = getParentNetwork();
+        NeuralNetwork<?> nnet = getParentNetwork();
         nnet.setInput(pattern);
         nnet.calculate();
         

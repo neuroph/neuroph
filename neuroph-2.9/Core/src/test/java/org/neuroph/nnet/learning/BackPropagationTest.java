@@ -1,5 +1,6 @@
 package org.neuroph.nnet.learning;
 
+import java.util.Arrays;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.neuroph.core.Connection;
@@ -27,7 +28,7 @@ public class BackPropagationTest extends TestCase {
         transfer = new Linear();
         transfer.setSlope(0.5D);
         neuralNetwork = new NeuralNetwork<>();
-        neuralNetwork.setOutputNeurons(new Neuron[]{neuron});
+        neuralNetwork.setOutputNeurons(Arrays.asList(new Neuron[]{neuron}));
         backPropagation = spy(new BackPropagation());
         backPropagation.setNeuralNetwork(neuralNetwork);
     }

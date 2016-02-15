@@ -154,7 +154,7 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
     }
 
     private double getWeightCoeficient(Layer2D toMap) {
-        int numberOfInputConnections = toMap.getNeuronAt(0, 0).getInputConnections().length;
+        int numberOfInputConnections = toMap.getNeuronAt(0, 0).getInputConnections().size();
         double coefficient = 1d / Math.sqrt(numberOfInputConnections);
         coefficient = !Double.isInfinite(coefficient) || !Double.isNaN(coefficient) || coefficient == 0 ? 1 : coefficient;
         return coefficient;

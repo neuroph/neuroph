@@ -16,6 +16,7 @@
 package org.neuroph.nnet.learning;
 
 import java.io.Serializable;
+import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
@@ -58,7 +59,8 @@ public class LMS extends SupervisedLearning implements Serializable {
     protected void updateNetworkWeights(double[] outputError) {
         int i = 0;
         // for each neuron in output layer
-        for (Neuron neuron : neuralNetwork.getOutputNeurons()) {
+        List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
+        for (Neuron neuron : outputNeurons) {
             neuron.setError(outputError[i]); // set the neuron error, as difference between desired and actual output 
             this.updateNeuronWeights(neuron); // and update neuron weights
             i++;

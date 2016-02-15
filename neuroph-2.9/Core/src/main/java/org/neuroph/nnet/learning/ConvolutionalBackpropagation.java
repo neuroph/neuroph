@@ -1,5 +1,6 @@
 package org.neuroph.nnet.learning;
 
+import java.util.List;
 import org.neuroph.nnet.comp.layer.ConvolutionalLayer;
 import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.core.Layer;
@@ -11,12 +12,12 @@ public class ConvolutionalBackpropagation extends MomentumBackpropagation {
 
         @Override
 	protected void calculateErrorAndUpdateHiddenNeurons() {
-		Layer[] layers = neuralNetwork.getLayers();
-		for (int layerIdx = layers.length - 2; layerIdx > 0; layerIdx--) {
-			for (Neuron neuron : layers[layerIdx].getNeurons()) {
+		List<Layer> layers = neuralNetwork.getLayers();
+		for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
+			for (Neuron neuron : layers.get(layerIdx).getNeurons()) {
 				double neuronError = this.calculateHiddenNeuronError(neuron);
 				neuron.setError(neuronError);
-				if (layers[layerIdx] instanceof ConvolutionalLayer) { // if it is convolutional layer c=adapt weughts, dont touch pooling. Pooling just propagate the error
+				if (layers.get(layerIdx) instanceof ConvolutionalLayer) { // if it is convolutional layer c=adapt weughts, dont touch pooling. Pooling just propagate the error
 					this.updateNeuronWeights(neuron);
 				}
 			} // for

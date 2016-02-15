@@ -21,7 +21,7 @@ public class RunCrossValidation {
     public static void main(String[] args) {
         // test subsampling here too with some small dataset
         
-        NeuralNetwork nnet = NeuralNetwork.createFromFile("MIcrNet1.nnet");
+        NeuralNetwork<?> nnet = NeuralNetwork.createFromFile("MIcrNet1.nnet");
         DataSet dataSet =  DataSet.load("MICRData.tset");
 
         // get class labels from output neurons

@@ -152,10 +152,10 @@ public class ConvolutionNeuralNetworkTest {
         // This line of code is meaningless
         network.setInputNeurons(inputLayer.getNeurons());
 
-        Assert.assertEquals(1.0, network.getInputNeurons()[0].getOutput(), 0.001);
-        Assert.assertEquals(2.0, network.getInputNeurons()[1].getOutput(), 0.001);
-        Assert.assertEquals(3.0, network.getInputNeurons()[2].getOutput(), 0.001);
-        Assert.assertEquals(4.0, network.getInputNeurons()[3].getOutput(), 0.001);
+        Assert.assertEquals(1.0, network.getInputNeurons().get(0).getOutput(), 0.001);
+        Assert.assertEquals(2.0, network.getInputNeurons().get(1).getOutput(), 0.001);
+        Assert.assertEquals(3.0, network.getInputNeurons().get(2).getOutput(), 0.001);
+        Assert.assertEquals(4.0, network.getInputNeurons().get(3).getOutput(), 0.001);
     }
 
     @Test
@@ -170,10 +170,10 @@ public class ConvolutionNeuralNetworkTest {
 //		ConvolutionUtils.addFeatureMap(hiddenLayer2);
 //		ConvolutionUtils.addFeatureMap(outputLayer);
 
-        Assert.assertEquals(100, inputLayer.getNeurons().length);
-        Assert.assertEquals(36, hiddenLayer1.getNeurons().length);
-        Assert.assertEquals(9, hiddenLayer2.getNeurons().length);
-        Assert.assertEquals(1, outputLayer.getNeurons().length);
+        Assert.assertEquals(100, inputLayer.getNeurons().size());
+        Assert.assertEquals(36, hiddenLayer1.getNeurons().size());
+        Assert.assertEquals(9, hiddenLayer2.getNeurons().size());
+        Assert.assertEquals(1, outputLayer.getNeurons().size());
     }
 
     @Test
@@ -188,10 +188,10 @@ public class ConvolutionNeuralNetworkTest {
 //		ConvolutionUtils.addFeatureMaps(hiddenLayer2, 3);
 //		ConvolutionUtils.addFeatureMaps(outputLayer, 3);
 
-        Assert.assertEquals(100, inputLayer.getNeurons().length);
-        Assert.assertEquals(36, hiddenLayer1.getNeurons().length);
-        Assert.assertEquals(9, hiddenLayer2.getNeurons().length);
-        Assert.assertEquals(1, outputLayer.getNeurons().length);
+        Assert.assertEquals(100, inputLayer.getNeurons().size());
+        Assert.assertEquals(36, hiddenLayer1.getNeurons().size());
+        Assert.assertEquals(9, hiddenLayer2.getNeurons().size());
+        Assert.assertEquals(1, outputLayer.getNeurons().size());
     }
 
 }

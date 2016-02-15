@@ -30,7 +30,7 @@ public class RandomizationSample {
         printWeights(neuralNet);
     }
 
-    public static void printWeights(NeuralNetwork neuralNet) {
+    public static void printWeights(NeuralNetwork<?> neuralNet) {
         for (Layer layer : neuralNet.getLayers()) {
             for (Neuron neuron : layer.getNeurons()) {
                 for (Connection connection : neuron.getInputConnections()) {

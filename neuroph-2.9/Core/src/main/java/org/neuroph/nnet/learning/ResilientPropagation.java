@@ -1,5 +1,6 @@
 package org.neuroph.nnet.learning;
 
+import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
@@ -77,10 +78,10 @@ public class ResilientPropagation extends BackPropagation {
     @Override
     protected void doBatchWeightsUpdate() {
         // iterate layers from output to input
-        Layer[] layers = neuralNetwork.getLayers();
+        List<Layer> layers = neuralNetwork.getLayers();
         for (int i = neuralNetwork.getLayersCount() - 1; i > 0; i--) {            
             // iterate neurons at each layer
-            for (Neuron neuron : layers[i].getNeurons()) {
+            for (Neuron neuron : layers.get(i).getNeurons()) {
                 // iterate connections/weights for each neuron
                 for (Connection connection : neuron.getInputConnections()) {
                     // for each connection weight apply following changes

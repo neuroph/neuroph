@@ -1,21 +1,14 @@
 package org.neuroph.core;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.After;
@@ -46,118 +39,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 /**
  *
@@ -174,7 +55,7 @@ public class NeuralNetworkTest {
 //	@Rule public TemporaryFolder folder= new TemporaryFolder();
 
     @SuppressWarnings("rawtypes")
-    private NeuralNetwork neuralNetwork;
+    private NeuralNetwork<LearningRule> neuralNetwork;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -188,7 +69,7 @@ public class NeuralNetworkTest {
     public void setUp() {
 
         MockitoAnnotations.initMocks(this);
-        neuralNetwork = new NeuralNetwork<LMS>();
+        neuralNetwork = new NeuralNetwork<>();
         Layer layer1 = mock(Layer.class);
         Layer layer2 = mock(Layer.class);
         Layer layer3 = mock(Layer.class);
@@ -197,16 +78,18 @@ public class NeuralNetworkTest {
         neuralNetwork.addLayer(layer2);
         neuralNetwork.addLayer(layer3);
 
-        Neuron[] neurons = new Neuron[2];
+        List<Neuron> neurons = new ArrayList<>(2);
         for (int i = 0; i < 2; i++) {
-            neurons[i] = mock(Neuron.class);
+            neurons.add( mock(Neuron.class) );
         }
         neuralNetwork.setInputNeurons(neurons);
 
+        
+        List<Neuron> outputNeurons = new ArrayList<>(2);        
         for (int i = 0; i < 2; i++) {
-            neurons[i] = mock(Neuron.class);
+            outputNeurons.add( mock(Neuron.class) );
         }
-        neuralNetwork.setOutputNeurons(neurons);
+        neuralNetwork.setOutputNeurons(outputNeurons);
 
     }
 
@@ -216,19 +99,19 @@ public class NeuralNetworkTest {
 
     @Test
     public void testPrelims() {
-        assertEquals(3, neuralNetwork.getLayers().length);
+        assertEquals(3, neuralNetwork.getLayers().size());
     }
 
     @Test
     public void testInputNeurons() {
-        assertEquals(2, neuralNetwork.getInputNeurons().length);
-        assertThat(3, not(neuralNetwork.getInputNeurons().length));
+        assertEquals(2, neuralNetwork.getInputNeurons().size());
+        assertThat(3, not(neuralNetwork.getInputNeurons().size()));
     }
 
     @Test
     public void testOutputNeuros() {
-        assertEquals(2, neuralNetwork.getOutputNeurons().length);
-        assertThat(3, not(neuralNetwork.getOutputNeurons().length));
+        assertEquals(2, neuralNetwork.getOutputNeurons().size());
+        assertThat(3, not(neuralNetwork.getOutputNeurons().size()));
     }
 
     @Test
@@ -364,12 +247,12 @@ public class NeuralNetworkTest {
         verify(nnlist, times(1)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
     }
 
-    @Test//(expected=ArrayIndexOutOfBoundsException.class)
+    @Test(expected=IndexOutOfBoundsException.class)
     public void testRemoveLayerAtMax() {
         int count = neuralNetwork.getLayersCount();
         NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
         neuralNetwork.addListener(nnlist);
-        exception.expect(ArrayIndexOutOfBoundsException.class);
+        exception.expect(IndexOutOfBoundsException.class);
         neuralNetwork.removeLayerAt(count);
         verify(nnlist, times(0)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
     }
@@ -390,8 +273,8 @@ public class NeuralNetworkTest {
     public void testSetInput() {
         double[] input = {1.0, 2.0};
         neuralNetwork.setInput(input);
-        for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
-            verify(neuralNetwork.getInputNeurons()[i], times(1)).setInput(input[i]);
+        for (int i = 0; i < neuralNetwork.getInputNeurons().size(); i++) {
+            verify(neuralNetwork.getInputNeurons().get(i), times(1)).setInput(input[i]);
         }
 
         double[] input1 = {1.0, 2.0, 3.0};
@@ -411,7 +294,7 @@ public class NeuralNetworkTest {
 
     @Test
     public void testCalculate() {
-        Layer[] layers = neuralNetwork.getLayers();
+        List<Layer>  layers = neuralNetwork.getLayers();
         for (Layer layer : layers) {
             Mockito.doNothing().when(layer).calculate();
         }
@@ -423,7 +306,7 @@ public class NeuralNetworkTest {
 
     @Test
     public void testReset() {
-        Layer[] layers = neuralNetwork.getLayers();
+         List<Layer>  layers = neuralNetwork.getLayers();
         for (Layer layer : layers) {
             Mockito.doNothing().when(layer).reset();
         }
@@ -500,7 +383,7 @@ public class NeuralNetworkTest {
 
     @Test
     public void testGetWeights() {
-        NeuralNetwork neuralNetwork = new NeuralNetwork<>();
+        NeuralNetwork<?> neuralNetwork = new NeuralNetwork<>();
         Layer layer0 = new Layer();
         Layer layer1 = new Layer();
         neuralNetwork.addLayer(layer0);
@@ -526,7 +409,7 @@ public class NeuralNetworkTest {
 
     @Test
     public void testSetWeights() {
-        NeuralNetwork neuralNetwork = new NeuralNetwork<>();
+        NeuralNetwork<?> neuralNetwork = new NeuralNetwork<>();
         Layer layer0 = new Layer();
         Layer layer1 = new Layer();
         neuralNetwork.addLayer(layer0);
@@ -570,10 +453,10 @@ public class NeuralNetworkTest {
         layer1.addNeuron(new Neuron());
         layer1.addNeuron(new Neuron());
 
-        neuralNetwork.createConnection(layer0.getNeurons()[0], layer1.getNeurons()[0], 2);
-        Connection[] conn = layer1.getNeurons()[0].getInputConnections();
-        assertNotNull(conn);
-        assertThat(conn.length, is(1));
+        neuralNetwork.createConnection(layer0.getNeuronAt(0), layer1.getNeuronAt(0), 2);
+        List<Connection> conns = layer1.getNeuronAt(0).getInputConnections();
+        assertNotNull(conns);
+        assertThat(conns.size(), is(1));
     }
 
     @Test
@@ -627,17 +510,17 @@ public class NeuralNetworkTest {
 
     @Test
     public void testSetOutputLabels() {
-        NeuralNetwork neuralNetwork = new NeuralNetwork<>();
-        Neuron[] neurons = new Neuron[2];
+        NeuralNetwork<?> neuralNetwork = new NeuralNetwork<>();
+        List<Neuron> neurons = new ArrayList<>(2);
         for (int i = 0; i < 2; i++) {
-            neurons[i] = new Neuron();
+            neurons.add(new Neuron());
         }
         neuralNetwork.setOutputNeurons(neurons);
 
         String[] labels = {"hello", "good", "day"};
         neuralNetwork.setOutputLabels(labels);
-        for (int i = 0; i < neuralNetwork.getOutputNeurons().length; i++) {
-            assertThat(neuralNetwork.getOutputNeurons()[i].getLabel(),
+        for (int i = 0; i < neuralNetwork.getOutputNeurons().size(); i++) {
+            assertThat(neuralNetwork.getOutputNeurons().get(i).getLabel(),
                     is(labels[i]));
         }
     }
@@ -647,7 +530,7 @@ public class NeuralNetworkTest {
         assertThat(neuralNetwork.getOutputsCount(),
                 is(2));
     }
-
+ 
     @Test
     public void testGetInputsCount() {
         assertThat(neuralNetwork.getInputsCount(),

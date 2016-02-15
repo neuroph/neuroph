@@ -16,6 +16,7 @@
 
 package org.neuroph.util.random;
 
+import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -37,7 +38,7 @@ public class NguyenWidrowRandomizer extends RangeRandomizer {
     public void randomize(NeuralNetwork neuralNetwork) {
         super.randomize(neuralNetwork);
 
-        int inputNeuronsCount = neuralNetwork.getInputNeurons().length;
+        int inputNeuronsCount = neuralNetwork.getInputNeurons().size();
         int hiddenNeuronsCount = 0;
 
         for (int i = 1; i < neuralNetwork.getLayersCount() - 1; i++) {
@@ -46,8 +47,8 @@ public class NguyenWidrowRandomizer extends RangeRandomizer {
 
         double beta = 0.7 * Math.pow(hiddenNeuronsCount, 1.0 / inputNeuronsCount); // should we use the total number of hidden neurons or different norm for each layer
 
-
-        for (Layer layer : neuralNetwork.getLayers()) {
+        List<Layer> layers = neuralNetwork.getLayers();
+        for (Layer layer : layers) {
             // Calculate the Euclidean Norm for the weights: norm += value * value - suma vadrata tezina u layeru
             double norm = 0.0;
             for (Neuron neuron : layer.getNeurons()) {

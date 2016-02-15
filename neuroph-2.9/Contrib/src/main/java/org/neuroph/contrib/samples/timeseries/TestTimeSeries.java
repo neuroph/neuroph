@@ -16,7 +16,7 @@ import org.neuroph.util.TransferFunctionType;
  * @author zoran
  */
 public class TestTimeSeries implements LearningEventListener {
-    NeuralNetwork neuralNet;
+    NeuralNetwork<?> neuralNet;
     DataSet trainingSet;
     
   public static void main(String[] args) {                

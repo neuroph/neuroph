@@ -69,7 +69,7 @@ public class InputOutputNeuron extends Neuron {
 	 */
 	@Override
 	public void setInput(double input) {
-		this.netInput = input;
+		this.totalInput = input;
 		this.externalInputSet = true;
 	}
 
@@ -98,16 +98,16 @@ public class InputOutputNeuron extends Neuron {
 		if (!externalInputSet) { // ako ulaz nije setovan spolja
 			if (this.hasInputConnections()) // bias neuroni ne racunaju ulaz iz mreze jer
 									// nemaju ulaze
-				netInput = inputFunction.getOutput(this.inputConnections.asArray());
+				totalInput = inputFunction.getOutput(this.inputConnections);
 		}
 
 		// calculqate cell output
-		this.output = transferFunction.getOutput(this.netInput + bias); // izracunaj
+		this.output = transferFunction.getOutput(this.totalInput + bias); // izracunaj
 																		// izlaz
 
 		if (externalInputSet) { // ulaz setovan 'spolja' vazi samo za jedno izracunavanje
 			externalInputSet = false;
-			netInput = 0;
+			totalInput = 0;
 		}
 	}
 

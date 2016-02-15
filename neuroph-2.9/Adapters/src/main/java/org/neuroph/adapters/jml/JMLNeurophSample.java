@@ -140,9 +140,9 @@ public class JMLNeurophSample {
         MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 16, 3);
         
         // set labels for output neurons
-        neuralNet.getOutputNeurons()[0].setLabel("Setosa");
-        neuralNet.getOutputNeurons()[1].setLabel("Versicolor");
-        neuralNet.getOutputNeurons()[2].setLabel("Virginica");
+        neuralNet.getOutputNeurons().get(0).setLabel("Setosa");
+        neuralNet.getOutputNeurons().get(1).setLabel("Versicolor");
+        neuralNet.getOutputNeurons().get(2).setLabel("Virginica");
 
         // initialize NeurophJMLClassifier
         JMLNeurophClassifier jmlnClassifier = new JMLNeurophClassifier(neuralNet);

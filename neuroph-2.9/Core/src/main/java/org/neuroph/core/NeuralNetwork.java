@@ -15,7 +15,6 @@
  */
 package org.neuroph.core;
 
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -40,10 +39,11 @@ import org.neuroph.core.data.DataSet;
 import org.neuroph.core.learning.IterativeLearning;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.util.NeuralNetworkType;
-import org.neuroph.util.NeurophArrayList;
 import org.neuroph.util.plugins.PluginBase;
 import org.neuroph.util.random.RangeRandomizer;
 import org.neuroph.util.random.WeightsRandomizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <pre>
@@ -64,47 +64,47 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * The class fingerprint that is set to indicate serialization compatibility
      * with a previous version of the class.
      */
-    private static final long serialVersionUID = 6L;
+    private static final long serialVersionUID = 7L;
+    
     /**
-     * Network type id (see neuroph.util.NeuralNetworkType)
+     * Network type id (see neuroph.util.NeuralNetworkType).
      */
     private NeuralNetworkType type;
 
     /**
      * Neural network layers
      */
-    // private Layer[] layers;
-    private NeurophArrayList<Layer> layers;
-
-    /**
-     * Neural network output buffer
-     */
-    protected double[] output;
-
-    /**
-     * Reference to network input neurons
-     */
-    private NeurophArrayList<Neuron> inputNeurons;
-
-    /**
-     * Reference to network output neurons
-     */
-    private NeurophArrayList<Neuron> outputNeurons;
+    private List<Layer> layers;
 
     /**
      * Learning rule for this network
      */
-    private L learningRule; // learning algorithme
+    private L learningRule;     
+    
     /**
-     * Separate thread for learning rule
+     * Neural network output buffer
      */
-    private transient Thread learningThread; // thread for learning rule
+    protected double[] outputBuffer;
+
+    /**
+     * List of network input neurons.
+     * These neurons are used to set external input to network.
+     */
+    private List<Neuron> inputNeurons;
+
+    /**
+     * List of network output neurons.
+     * These neurons are used to read network's output.
+     */
+    private List<Neuron> outputNeurons;
+    
     /**
      * Plugins collection
      */
     private Map<Class, PluginBase> plugins;
+    
     /**
-     * Label for this network
+     * Network label
      */
     private String label = "";
 
@@ -112,14 +112,19 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * List of neural network listeners
      */
     private transient List<NeuralNetworkEventListener> listeners = new ArrayList();
+    
+    /**
+     * Neural network logger
+     */    
+    private final Logger LOGGER = LoggerFactory.getLogger(NeuralNetwork.class);        
 
     /**
      * Creates an instance of empty neural network.
      */
     public NeuralNetwork() {
-        this.layers = new NeurophArrayList<>(Layer.class);
-        this.inputNeurons = new NeurophArrayList<>(Neuron.class);
-        this.outputNeurons = new NeurophArrayList<>(Neuron.class);
+        this.layers = new ArrayList<>();
+        this.inputNeurons = new ArrayList<>();
+        this.outputNeurons = new ArrayList<>();
         this.plugins = new HashMap<>();
     }
 
@@ -128,22 +133,18 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      *
      * @param layer layer to add
      */
-    public void addLayer(Layer layer) {
-//        // grow existing layers array to make space for new layer
-//        this.layers = Arrays.copyOf(layers, layers.length + 1);    
-//        // add new layer at the end of array
-//        this.layers[layers.length - 1] = layer;                    
+    public void addLayer(Layer layer) {              
 
-        // in case of null value throw exception to prevent adding null layers
+        // In case of null throw exception to prevent adding null layers
         if (layer == null) {
             throw new IllegalArgumentException("Layer cant be null!");
         }
 
+        // set parent network for added layer
+        layer.setParentNetwork(this);        
+        
         // add layer to layers collection
         layers.add(layer);
-
-        // set parent network for added layer
-        layer.setParentNetwork(this);
 
         // notify listeners that layer has been added
         fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEvent.Type.LAYER_ADDED));
@@ -156,27 +157,22 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @param layer layer to add
      */
     public void addLayer(int index, Layer layer) {
-//        // first grow layers array to make space for new layer
-//        this.layers = Arrays.copyOf(layers, layers.length + 1); 
-//
-//        // then shift all layers to the right to make room at specified index position     
-//        for (int i = layers.length - 1; i > index; i--) { 
-//            this.layers[i] = this.layers[i - 1];
-//        }
-//        
-//        // add new layer to array at specified index
-//        this.layers[index] = layer;
 
         // in case of null value throw exception to prevent adding null layers
         if (layer == null) {
             throw new IllegalArgumentException("Layer cant be null!");
         }
 
-        // add layer to layers collection at specified position        
-        layers.add(index, layer);
+        // if layer position is negative also throw exception
+        if (index < 0) {
+            throw new IllegalArgumentException("Layer index cannot be negative: "+index);
+        }
 
         // set parent network for added layer
-        layer.setParentNetwork(this);
+        layer.setParentNetwork(this);        
+        
+        // add layer to layers collection at specified position        
+        layers.add(index, layer);
 
         // notify listeners that layer has been added
         fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEvent.Type.LAYER_ADDED));
@@ -189,8 +185,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @throws Exception
      */
     public void removeLayer(Layer layer) {
-//        int index = indexOf(layer);
-//        removeLayerAt(index);
 
         if (!layers.remove(layer)) {
             throw new RuntimeException("Layer not in Neural n/w");
@@ -206,24 +200,9 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @param index int value represents index postion of layer which should be
      *              removed
      */
-    public void removeLayerAt(int index) throws ArrayIndexOutOfBoundsException {
-//        layers[index].removeAllNeurons();
-//        
-//        for (int i = index; i < layers.length - 1; i++) {
-//            layers[i] = layers[i + 1];
-//        }
-//        layers[layers.length - 1] = null;
-//        if (layers.length > 0) {
-//            layers = Arrays.copyOf(layers, layers.length - 1);
-//        }
-
+    public void removeLayerAt(int index)  {
         Layer layer = layers.get(index);
-
-        layers.remove(index);
-
-
-        // notify listeners that layer has been removed
-        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEvent.Type.LAYER_REMOVED));
+        removeLayer(layer);
     }
 
     /**
@@ -231,10 +210,10 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      *
      * @return array of layers
      */
-    public final Layer[] getLayers() {
-        return layers.asArray();
+    public List<Layer> getLayers() {
+        return this.layers;
     }
-
+    
     /**
      * Returns layer at specified index
      *
@@ -253,13 +232,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      */
     public int indexOf(Layer layer) {
         return layers.indexOf(layer);
-//        for (int i = 0; i < this.layers.length; i++) {
-//            if (layers[i] == layer) {
-//                return i;
-//            }
-//        }
-//
-//        return -1;
     }
 
     /**
@@ -296,22 +268,49 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @return network output vector
      */
     public double[] getOutput() {
-        // double[] outputVector = new double[outputNeurons.length];// use attribute to avoid creating to arrays and avoid GC work
         for (int i = 0; i < outputNeurons.size(); i++) {
-            output[i] = outputNeurons.get(i).getOutput();
+            outputBuffer[i] = outputNeurons.get(i).getOutput();
         }
 
-        return output;
+        return outputBuffer;
     }
 
+//    This can be used to provid difefrent ways for leyer calculation
+//    public static interface Calculator {
+//        // default calculator
+//        public void calculate();
+//    }
+//    
+//    // default calculator is sequential using foreach loop
+//    transient Calculator calculator = new Calculator() {
+//        @Override
+//        public void calculate() {
+//            for (Layer layer : getLayers()) {
+//                layer.calculate();
+//            }
+//        }
+//    };
+//
+//    public Calculator getCalculator() {
+//        return calculator;
+//    }
+//
+//    public void setCalculator(Calculator calculator) {
+//        this.calculator = calculator;
+//    }
+    
+    
+    
     /**
      * Performs calculation on whole network
      */
     public void calculate() {
-
-        for (Layer layer : this.layers.asArray()) {
+        //calculator.calculate();
+        
+        for (Layer layer : this.layers) {
             layer.calculate();
         }
+        
 
 //        List<Future<Long>> results = mainPool.invokeAll(Arrays.asList(layers.asArray()));
         fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.CALCULATED));
@@ -350,35 +349,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
         learningRule.learn(trainingSet);
     }
 
-    /**
-     * Starts learning in a new thread to learn the specified training set, and
-     * immediately returns from method to the current thread execution
-     *
-     * @param trainingSet set of training elements to learn
-     */
-    public void learnInNewThread(final DataSet trainingSet) {
-        learningThread = new Thread() {
-            @Override
-            public void run() {
-                learningRule.learn(trainingSet);
-            }
-        };
-        learningThread.setName("NeurophLearningThread");
-        learningThread.start();
-    }
-
-    /**
-     * Starts learning with specified learning rule in new thread to learn the
-     * specified training set, and immediately returns from method to the
-     * current thread execution
-     *
-     * @param trainingSet  set of training elements to learn
-     * @param learningRule learning algorithm
-     */
-    public void learnInNewThread(DataSet trainingSet, L learningRule) {
-        setLearningRule(learningRule);
-        learnInNewThread(trainingSet);
-    }
 
     /**
      * Stops learning
@@ -462,8 +432,8 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      *
      * @return input neurons
      */
-    public Neuron[] getInputNeurons() {
-        return this.inputNeurons.asArray();
+    public List<Neuron> getInputNeurons() {
+        return this.inputNeurons;
     }
 
     /**
@@ -480,7 +450,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      *
      * @param inputNeurons array of input neurons
      */
-    public void setInputNeurons(Neuron[] inputNeurons) {
+    public void setInputNeurons(List<Neuron> inputNeurons) {
         for (Neuron neuron : inputNeurons) {
             this.inputNeurons.add(neuron);
         }
@@ -489,10 +459,10 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
     /**
      * Returns output neurons
      *
-     * @return array of output neurons
+     * @return list of output neurons
      */
-    public Neuron[] getOutputNeurons() {
-        return this.outputNeurons.asArray();
+    public List<Neuron> getOutputNeurons() {
+        return this.outputNeurons;
     }
 
     public int getOutputsCount() {
@@ -504,11 +474,11 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      *
      * @param outputNeurons output neurons collection
      */
-    public void setOutputNeurons(Neuron[] outputNeurons) {
+    public void setOutputNeurons(List<Neuron> outputNeurons) {
         for (Neuron neuron : outputNeurons) {
             this.outputNeurons.add(neuron);
         }
-        this.output = new double[outputNeurons.length];
+        this.outputBuffer = new double[outputNeurons.size()];
     }
 
     /**
@@ -545,13 +515,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
         this.learningRule = learningRule;
     }
 
-    /**
-     * Returns the current learning thread (if it is learning in the new thread
-     * Check what happens if it learns in the same thread)
-     */
-    public Thread getLearningThread() {
-        return learningThread;
-    }
 
     /**
      * Returns all network weights as an double array
@@ -726,10 +689,8 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
 
         } catch (IOException ioe) {
             throw new NeurophException("Could not read neural network file!", ioe);
-            //ioe.printStackTrace();
         } catch (ClassNotFoundException cnfe) {
             throw new NeurophException("Class not found while trying to read neural network from file!", cnfe);
-            // cnfe.printStackTrace();
         } finally {
             if (oistream != null) {
                 try {

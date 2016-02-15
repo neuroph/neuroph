@@ -17,6 +17,7 @@
 package org.neuroph.core.input;
 
 import java.io.Serializable;
+import java.util.List;
 import org.neuroph.core.Connection;
 
 /**
@@ -35,9 +36,9 @@ public class And extends InputFunction implements Serializable {
 	/**
 	 * @param inputVector Input values >= 0.5d are considered true, otherwise false.
 	 */
-	public double getOutput(Connection[] inputConnections) {
+	public double getOutput(List<Connection> inputConnections) {
 
-                if (inputConnections.length == 0) return 0d;
+                if (inputConnections.size() == 0) return 0d;
 
 		boolean output = true;
 		
