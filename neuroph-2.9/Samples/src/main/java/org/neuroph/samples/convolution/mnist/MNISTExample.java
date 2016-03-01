@@ -71,8 +71,8 @@ public class MNISTExample {
                     .withConvolutionLayer(convolutionKernel, 10)
                     .withPoolingLayer(poolingKernel)
                     .withConvolutionLayer(convolutionKernel, 3)
-                    .withPoolingLayer(poolingKernel)
-                    .withConvolutionLayer(convolutionKernel, 3)
+//                    .withPoolingLayer(poolingKernel)
+//                    .withConvolutionLayer(convolutionKernel, 3)
                     .withFullConnectedLayer(10)
                     .createNetwork();
 
@@ -98,7 +98,7 @@ public class MNISTExample {
 //           ClassificationMetrics validationResult = crossValidation.computeErrorEstimate(convolutionNetwork, trainSet);
            // Evaluation.runFullEvaluation(convolutionNetwork, testSet);
             
-            convolutionNetwork.save("/mnist.nnet");
+            convolutionNetwork.save("mnist.nnet");
 
 
         } catch (IOException e) {
