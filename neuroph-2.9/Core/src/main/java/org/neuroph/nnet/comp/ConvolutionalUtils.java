@@ -40,7 +40,7 @@ public class ConvolutionalUtils {
                 for (int j = 0; j < toLayer.getNumberOfMaps(); j++) {
                     Layer2D fromMap = fromLayer.getFeatureMap(i);
                     Layer2D toMap = toLayer.getFeatureMap(j);
-                    toLayer.connectMaps(fromMap, toMap);
+                    toLayer.connectMaps(fromMap, toMap);                // da li treba svaka sa svakom ???
                 }
             }
         } else if (toLayer instanceof PoolingLayer) { // ???? CHECK: da li je ovo dobro
@@ -54,7 +54,7 @@ public class ConvolutionalUtils {
 
 
     /**
-     * Creates connections between two feature maps
+     * Creates connections between two feature maps - not used???
      *
      * @param fromLayer           parent layer for from feature map
      * @param toLayer             parent layer for to feature map

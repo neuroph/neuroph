@@ -39,7 +39,7 @@ import org.neuroph.util.NeuronProperties;
  * @see PoolingLayer
  * @see org.neuroph.nnet.ConvolutionalNetwork
  */
-public class FeatureMapsLayer extends Layer {
+public abstract class FeatureMapsLayer extends Layer {
 
     static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
 
@@ -183,7 +183,7 @@ public class FeatureMapsLayer extends Layer {
      */
     @Override
     public void calculate() {
-        mainPool.invokeAll(featureMaps);
+        mainPool.invokeAll(featureMaps);   // << Obican calcualte n efork join???? kako radi sinhronizacija?
     }
 
     /**
@@ -208,13 +208,12 @@ public class FeatureMapsLayer extends Layer {
     /**
      * Creates connections between two feature maps. It does nothing here,
      * connectivity patterns are defined by subclasses...
-     * Maybe it should be even removed from here...
+     * Maybe it should be even removed from here or made abstract......
      *
      * @param fromMap
      * @param toMap
      */
-    public void connectMaps(Layer2D fromMap, Layer2D toMap) {
-    }
+    public abstract void connectMaps(Layer2D fromMap, Layer2D toMap);
 
 
 }

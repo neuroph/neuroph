@@ -20,6 +20,8 @@ import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
 import org.neuroph.core.input.Max;
+import org.neuroph.core.transfer.Linear;
+import org.neuroph.core.transfer.Ramp;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
 
@@ -45,7 +47,8 @@ public class PoolingLayer extends FeatureMapsLayer {
 
     static {
         DEFAULT_NEURON_PROP.setProperty("useBias", true);
-        DEFAULT_NEURON_PROP.setProperty("transferFunction", Tanh.class);
+    //    DEFAULT_NEURON_PROP.setProperty("transferFunction", Tanh.class);
+        DEFAULT_NEURON_PROP.setProperty("transferFunction", Ramp.class);
         DEFAULT_NEURON_PROP.setProperty("inputFunction", Max.class);
     }
 
@@ -107,7 +110,7 @@ public class PoolingLayer extends FeatureMapsLayer {
         int kernelHeight = kernel.getHeight();
         Weight weight = new Weight();
         weight.setValue(1);
-        for (int x = 0; x < fromMap.getWidth() - kernelWidth + 1; x += kernelWidth) {
+        for (int x = 0; x < fromMap.getWidth() - kernelWidth + 1; x += kernelWidth) { // < da li step treba da je kernel
             for (int y = 0; y < fromMap.getHeight() - kernelHeight + 1; y += kernelHeight) {
 
                 Neuron toNeuron = toMap.getNeuronAt(x / kernelWidth, y / kernelHeight);

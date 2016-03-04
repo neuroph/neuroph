@@ -48,6 +48,11 @@ public class InputMapsLayer extends FeatureMapsLayer {
     public InputMapsLayer( Layer2D.Dimensions mapDimensions, int mapCount) {
         super(null, mapDimensions, mapCount, InputMapsLayer.DEFAULT_NEURON_PROP );
     }
+
+    @Override
+    public void connectMaps(Layer2D fromMap, Layer2D toMap) {
+       // does nothing
+    }
     
     
 }

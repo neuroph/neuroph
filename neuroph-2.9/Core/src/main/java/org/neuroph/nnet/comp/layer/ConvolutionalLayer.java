@@ -45,7 +45,7 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
 
     static {
         DEFAULT_NEURON_PROP.setProperty("useBias", true);
-        DEFAULT_NEURON_PROP.setProperty("transferFunction", RectifiedLinear.class);
+        DEFAULT_NEURON_PROP.setProperty("transferFunction", RectifiedLinear.class); // <<< -------------------  Sigmoid, Tanh?
         DEFAULT_NEURON_PROP.setProperty("inputFunction", WeightedSum.class);
     }
 
@@ -131,13 +131,19 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
         for (int i = 0; i < kernel.getHeight(); i++) {
             for (int j = 0; j < kernel.getWidth(); j++) {
                 Weight weight = new Weight();
-                weight.randomize(-0.15, 0.15);
+                weight.randomize(-0.15, 0.15); // zasto ove vrednosti?
                 weights[i][j] = weight;
             }
         }
         kernel.setWeights(weights);
+        
+        
+        // ovo se koristi samo za povezivanje dva konvoluciona sloja !!! 
+        // erovatno bi i ovde trebalo zameniti redosled x i y for petlje
+        // dodati step za from - ne mora da bude samo 1
+        // ostaje pitanje kako se primenjuje na ivici - trebalo bi od centra - dodati onaj okvir sa strane!!!!
         for (int x = 0; x < toMap.getWidth(); x++) { // iterate all neurons by width in toMap
-            for (int y = 0; y < toMap.getHeight(); y++) { // iterate all neurons by height in toMap
+            for (int y = 0; y < toMap.getHeight(); y++) { // iterate all neurons by height in toMap  -- verovatno bi i ovde trebalo zameniti redosled x i y!!!
                 Neuron toNeuron = toMap.getNeuronAt(x, y); // get neuron at specified position in toMap
                 for (int ky = 0; ky < kernel.getHeight(); ky++) { // iterate kernel positions by y
                     for (int kx = 0; kx < kernel.getWidth(); kx++) { // iterate kernel positions by x
@@ -146,13 +152,15 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
                         //int currentWeightIndex = kx + ky * kernel.getHeight(); // find the idx of the shared weight
                         Weight[][] concreteKernel = kernel.getWeights();
                         Neuron fromNeuron = fromMap.getNeuronAt(fromX, fromY);
-                        ConnectionFactory.createConnection(fromNeuron, toNeuron, concreteKernel[kx][ky]);
+                        ConnectionFactory.createConnection(fromNeuron, toNeuron, concreteKernel[kx][ky]);  // - da li je ovo dobro ???
                     }
                 }
             }
         }
     }
 
+    // ova metoda se izgleda koristila ranije za odredjivanje koeficijenta tezina u kernelu u zavisnosti od broja konekcija
+    // koriscena je u gornjoj metodi connectMaps
     private double getWeightCoeficient(Layer2D toMap) {
         int numberOfInputConnections = toMap.getNeuronAt(0, 0).getInputConnections().size();
         double coefficient = 1d / Math.sqrt(numberOfInputConnections);
