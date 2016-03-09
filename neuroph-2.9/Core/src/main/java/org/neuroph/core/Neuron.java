@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import org.apache.commons.lang3.NotImplementedException;
 
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.input.WeightedSum;
@@ -41,7 +42,7 @@ import org.neuroph.core.transfer.TransferFunction;
  * @see TransferFunction
  */
 
-public class Neuron implements Serializable /*, Callable<Void>*/ {
+public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
 
 //    @Override
 //    public Void call() throws Exception {
@@ -484,6 +485,14 @@ public class Neuron implements Serializable /*, Callable<Void>*/ {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+       throw new UnsupportedOperationException("Not yer implemented");
+       // return super.clone(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 
 
 }

@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import org.neuroph.core.transfer.Sigmoid;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 
 /**
@@ -74,9 +75,9 @@ public class MNISTExample {
 //                    .withPoolingLayer(poolingKernel)
 //                    .withConvolutionLayer(convolutionKernel, 3)
                     .withFullConnectedLayer(10)
-                    .createNetwork();
+                    .build();
 
-            BackPropagation backPropagation = new ConvolutionalBackpropagation();
+            ConvolutionalBackpropagation backPropagation = new ConvolutionalBackpropagation();
             backPropagation.setLearningRate(0.0001);
             backPropagation.setMaxError(0.01);
             //backPropagation.setMaxIterations(1000);

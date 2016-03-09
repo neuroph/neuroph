@@ -181,10 +181,10 @@ public abstract class FeatureMapsLayer extends Layer {
     /**
      * Calculates this layer (all feature maps)
      */
-    @Override
-    public void calculate() {
-        mainPool.invokeAll(featureMaps);   // << Obican calcualte n efork join???? kako radi sinhronizacija?
-    }
+//    @Override
+//    public void calculate() {
+//        mainPool.invokeAll(featureMaps);   // << Obican calcualte n efork join???? kako radi sinhronizacija?
+//    }
 
     /**
      * Returns kernel used by all feature maps in this layer

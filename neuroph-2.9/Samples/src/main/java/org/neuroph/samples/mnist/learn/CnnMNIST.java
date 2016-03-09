@@ -12,6 +12,7 @@ import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
 import org.slf4j.Logger;
@@ -60,9 +61,9 @@ public class CnnMNIST {
                     .withPoolingLayer(poolingKernel)
                     .withConvolutionLayer(convolutionKernel, layer3)
                     .withFullConnectedLayer(10)
-                    .createNetwork();
+                    .build();
 
-            BackPropagation backPropagation = new MomentumBackpropagation();
+            ConvolutionalBackpropagation backPropagation = new ConvolutionalBackpropagation();
             backPropagation.setLearningRate(learningRate);
             backPropagation.setMaxError(maxError);
             backPropagation.setMaxIterations(maxIter);

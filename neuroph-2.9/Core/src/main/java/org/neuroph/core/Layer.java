@@ -62,7 +62,7 @@ public class Layer implements Serializable {
      * Creates an instance of empty Layer
      */
     public Layer() {
-        neurons = new ArrayList<Neuron>();
+        neurons = new ArrayList<>();
     }
     
     /**
@@ -70,7 +70,7 @@ public class Layer implements Serializable {
      * @param neuronsCount number of neurons in this layer
      */
     public Layer(int neuronsCount) {
-       neurons = new ArrayList<Neuron>(neuronsCount);
+       neurons = new ArrayList<>(neuronsCount);
     }    
 
     /**

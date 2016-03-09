@@ -18,7 +18,6 @@ package org.neuroph.nnet.comp.layer;
 
 import java.io.Serializable;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ForkJoinPool;
 
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
@@ -132,7 +131,6 @@ public class Layer2D extends Layer implements Callable<Void> {
          * @param height total number of rows
          */
         public Dimensions(int width, int height) {
-            super();
             this.width = width;
             this.height = height;
         }

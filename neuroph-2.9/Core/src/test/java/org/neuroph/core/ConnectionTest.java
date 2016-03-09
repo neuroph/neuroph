@@ -417,22 +417,22 @@ public class ConnectionTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of setFromNeuron method, of class Connection.
-     */
-    @Test
-    public void testSetFromNeuron() {
-        System.out.println("setFromNeuron");
-        Connection instance = new Connection(new Neuron(), toNeuron);
-        instance.setFromNeuron(fromNeuron);
-        assertEquals(fromNeuron, instance.getFromNeuron());
-    }
-    @Test(expected = IllegalArgumentException.class)
-    public void throwExceptionOnNullSetFromNeuron() {
-        System.out.println("setFromNeuron");
-        Connection instance = new Connection(new Neuron(), toNeuron);
-        instance.setFromNeuron(null);
-    }
+//    /**
+//     * Test of setFromNeuron method, of class Connection.
+//     */
+//    @Test
+//    public void testSetFromNeuron() {
+//        System.out.println("setFromNeuron");
+//        Connection instance = new Connection(new Neuron(), toNeuron);
+//        instance.setFromNeuron(fromNeuron);
+//        assertEquals(fromNeuron, instance.getFromNeuron());
+//    }
+//    @Test(expected = IllegalArgumentException.class)
+//    public void throwExceptionOnNullSetFromNeuron() {
+//        System.out.println("setFromNeuron");
+//        Connection instance = new Connection(new Neuron(), toNeuron);
+//        instance.setFromNeuron(null);
+//    }
 
     /**
      * Test of getToNeuron method, of class Connection.
@@ -446,21 +446,21 @@ public class ConnectionTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of setToNeuron method, of class Connection.
-     */
-    @Test
-    public void testSetToNeuron() {
-        System.out.println("setToNeuron");
-        Connection instance = new Connection(fromNeuron, new Neuron());
-        instance.setToNeuron(toNeuron);
-        assertEquals(toNeuron, instance.getToNeuron());
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void throwExceptionOnNullSetToNeuron() {
-        System.out.println("setToNeuron");
-        Connection instance = new Connection(fromNeuron, new Neuron());
-        instance.setToNeuron(null);
-    }
+//    /**
+//     * Test of setToNeuron method, of class Connection.
+//     */
+//    @Test
+//    public void testSetToNeuron() {
+//        System.out.println("setToNeuron");
+//        Connection instance = new Connection(fromNeuron, new Neuron());
+//        instance.setToNeuron(toNeuron);
+//        assertEquals(toNeuron, instance.getToNeuron());
+//    }
+//    
+//    @Test (expected = IllegalArgumentException.class)
+//    public void throwExceptionOnNullSetToNeuron() {
+//        System.out.println("setToNeuron");
+//        Connection instance = new Connection(fromNeuron, new Neuron());
+//        instance.setToNeuron(null);
+//    }
 }

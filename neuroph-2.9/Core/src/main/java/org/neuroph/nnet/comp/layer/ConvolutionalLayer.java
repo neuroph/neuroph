@@ -20,6 +20,7 @@ import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
 import org.neuroph.core.input.WeightedSum;
+import org.neuroph.core.transfer.TransferFunction;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
 
@@ -44,9 +45,9 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
     public static final NeuronProperties DEFAULT_NEURON_PROP = new NeuronProperties();
 
     static {
-        DEFAULT_NEURON_PROP.setProperty("useBias", true);
-        DEFAULT_NEURON_PROP.setProperty("transferFunction", RectifiedLinear.class); // <<< -------------------  Sigmoid, Tanh?
         DEFAULT_NEURON_PROP.setProperty("inputFunction", WeightedSum.class);
+        DEFAULT_NEURON_PROP.setProperty("transferFunction", RectifiedLinear.class); // <<<--- use Sigmoid, Tanh?       
+        DEFAULT_NEURON_PROP.setProperty("useBias", true);
     }
 
     /**
@@ -87,6 +88,30 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
 
         createFeatureMaps(numberOfMaps, this.mapDimensions, ConvolutionalLayer.DEFAULT_NEURON_PROP);
     }
+    
+     /**
+     * Creates convolutional layer with specified kernel, appropriate map
+     * dimensions in regard to previous layer (fromLayer param) and specified
+     * number of feature maps with default neuron settings for convolutional
+     * layer.
+     *
+     * @param fromLayer previous layer, which will be connected to this layer
+     * @param kernel kernel for all feature maps
+     * @param numberOfMaps number of feature maps to create in this layer
+     * @param transferFunction neuron's transfer function to use
+     */
+    public ConvolutionalLayer(FeatureMapsLayer fromLayer, Kernel kernel, int numberOfMaps, Class <? extends TransferFunction> transferFunction) {
+        super(kernel);
+        Layer2D.Dimensions fromDimension = fromLayer.getMapDimensions();
+
+        int mapWidth = fromDimension.getWidth() - (kernel.getWidth() - 1);
+        int mapHeight = fromDimension.getHeight() - (kernel.getHeight() - 1);
+        this.mapDimensions = new Layer2D.Dimensions(mapWidth, mapHeight);
+        
+        NeuronProperties neuronProp = new NeuronProperties(Neuron.class, transferFunction);
+
+        createFeatureMaps(numberOfMaps, this.mapDimensions, neuronProp);
+    }    
 
     /**
      * Creates convolutional layer with specified kernel, appropriate map
@@ -142,8 +167,8 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
         // erovatno bi i ovde trebalo zameniti redosled x i y for petlje
         // dodati step za from - ne mora da bude samo 1
         // ostaje pitanje kako se primenjuje na ivici - trebalo bi od centra - dodati onaj okvir sa strane!!!!
-        for (int x = 0; x < toMap.getWidth(); x++) { // iterate all neurons by width in toMap
-            for (int y = 0; y < toMap.getHeight(); y++) { // iterate all neurons by height in toMap  -- verovatno bi i ovde trebalo zameniti redosled x i y!!!
+        for (int y = 0; y < toMap.getHeight(); y++) { // iterate all neurons by height in toMap  -- verovatno bi i ovde trebalo zameniti redosled x i y!!!
+            for (int x = 0; x < toMap.getWidth(); x++) { // iterate all neurons by width in toMap
                 Neuron toNeuron = toMap.getNeuronAt(x, y); // get neuron at specified position in toMap
                 for (int ky = 0; ky < kernel.getHeight(); ky++) { // iterate kernel positions by y
                     for (int kx = 0; kx < kernel.getWidth(); kx++) { // iterate kernel positions by x
@@ -153,6 +178,7 @@ public class ConvolutionalLayer extends FeatureMapsLayer {
                         Weight[][] concreteKernel = kernel.getWeights();
                         Neuron fromNeuron = fromMap.getNeuronAt(fromX, fromY);
                         ConnectionFactory.createConnection(fromNeuron, toNeuron, concreteKernel[kx][ky]);  // - da li je ovo dobro ???
+                        // also create connection from bias
                     }
                 }
             }

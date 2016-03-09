@@ -22,10 +22,8 @@ public class SimpleLearningExample {
         ConvolutionalNetwork convolutionNet = new ConvolutionalNetwork.Builder(inputDimension, 1)
                 .withConvolutionLayer(convolutionKernel, 2)
                 .withFullConnectedLayer(2)
-                .createNetwork();
+                .build();
         
-        convolutionNet.setLearningRule(new MomentumBackpropagation());
-
 
         // CREATE DATA SET
 
