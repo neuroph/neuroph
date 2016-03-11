@@ -16,38 +16,61 @@
 
 package org.neuroph.nnet.comp.layer;
 
-import java.io.Serializable;
 import java.util.concurrent.Callable;
 
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
+import org.neuroph.nnet.comp.Dimension2D;
+import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
 
 /**
- * 2D Layer provides 2D layout of the neurons in layer. All the neurons
+ * FeatureMapLayer Layer provides 2D layout of the neurons in layer. All the neurons
  * are actually stored in one dimensional array in superclass.
  * This type of layer is used as feature map for convolutional networks
  *
  * @author Boris Fulurija
  * @author Zoran Sevarac
  */
-public class Layer2D extends Layer implements Callable<Void> {
+public class FeatureMapLayer extends Layer /*implements Callable<Void>*/ {
 
     private static final long serialVersionUID = 2498669699995172395L;
 
     /**
      * Dimensions of this layer (width and height)
      */
-    private Dimensions dimensions;
-
+    private Dimension2D dimensions;
+    
+    /**
+     * Kernel of this feature map
+     */
+    private Kernel kernel;
+    
+    
     /**
      * Creates an empty 2D layer with specified dimensions
      *
      * @param dimensions layer dimensions (width and weight)
-     */
-    public Layer2D(Dimensions dimensions) {
+     */    
+    public FeatureMapLayer(Dimension2D dimensions, NeuronProperties neuronProperties) {
         this.dimensions = dimensions;
+        
+        for (int i = 0; i < dimensions.getHeight() * dimensions.getWidth(); i++) {
+            Neuron neuron = NeuronFactory.createNeuron(neuronProperties);
+            addNeuron(neuron);
+        }        
+    }    
+    
+
+    /**
+     * Creates an empty 2D layer with specified dimensions and kernel
+     *
+     * @param dimensions layer dimensions (width and weight)
+     */
+    public FeatureMapLayer(Dimension2D dimensions, Dimension2D kernelDimension) {
+        this.dimensions = dimensions;
+        this.kernel = new Kernel(kernelDimension);
     }
 
     /**
@@ -57,8 +80,8 @@ public class Layer2D extends Layer implements Callable<Void> {
      * @param dimensions       layer dimensions
      * @param neuronProperties neuron properties
      */
-    public Layer2D(Dimensions dimensions, NeuronProperties neuronProperties) {
-        this(dimensions);
+    public FeatureMapLayer(Dimension2D dimensions, NeuronProperties neuronProperties, Dimension2D kernelDimension) {
+        this(dimensions, kernelDimension);
 
         for (int i = 0; i < dimensions.getHeight() * dimensions.getWidth(); i++) {
             Neuron neuron = NeuronFactory.createNeuron(neuronProperties);
@@ -90,7 +113,7 @@ public class Layer2D extends Layer implements Callable<Void> {
      *
      * @return dimensions of this layer
      */
-    public Dimensions getDimensions() {
+    public Dimension2D getDimensions() {
         return dimensions;
     }
 
@@ -106,57 +129,19 @@ public class Layer2D extends Layer implements Callable<Void> {
         return getNeuronAt(x + y * (dimensions.getWidth()));
     }
 
-
-    @Override
-    public Void call() throws Exception {
-        calculate();
-        return null;
+    public Kernel getKernel() {
+        return kernel;
     }
 
+ 
+//    @Override
+//    public Void call() throws Exception {
+//        calculate();
+//        return null;
+//    }
 
-    /**
-     * Dimensions (width and height) of the Layer2D
-     */
-    public static class Dimensions implements Serializable {
 
-        private static final long serialVersionUID = -4491706467345191108L;
-
-        private int width;
-        private int height;
-
-        /**
-         * Creates new dimensions with specified width and height
-         *
-         * @param width  total number  of columns
-         * @param height total number of rows
-         */
-        public Dimensions(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        @Override
-        public String toString() {
-            String dimensions = "Width = " + width + "; Height = " + height;
-            return dimensions;
-        }
-    }
+  
 
 
 }

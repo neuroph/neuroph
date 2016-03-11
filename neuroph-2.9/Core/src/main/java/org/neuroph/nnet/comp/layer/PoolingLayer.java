@@ -15,13 +15,12 @@
  */
 package org.neuroph.nnet.comp.layer;
 
-import org.neuroph.core.transfer.Tanh;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
 import org.neuroph.core.input.Max;
-import org.neuroph.core.transfer.Linear;
 import org.neuroph.core.transfer.Ramp;
+import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
 
@@ -38,7 +37,9 @@ import org.neuroph.util.NeuronProperties;
  */
 public class PoolingLayer extends FeatureMapsLayer {
 
-    private static final long serialVersionUID = -6771501759374920877L;
+    private static final long serialVersionUID = -6771501759374920878L;
+    
+    private Kernel kernel;
 
     /**
      * Default neuron properties for pooling layer
@@ -62,16 +63,16 @@ public class PoolingLayer extends FeatureMapsLayer {
      * @param fromLayer previous layer, which will be connected to this layer
      * @param kernel    kernel for all feature maps
      */
-    public PoolingLayer(FeatureMapsLayer fromLayer, Kernel kernel) {
-        super(kernel);
+    public PoolingLayer(FeatureMapsLayer fromLayer, Dimension2D kernelDim) {
+        this.kernel = new Kernel(kernelDim);
         int numberOfMaps = fromLayer.getNumberOfMaps();
-        Layer2D.Dimensions fromDimension = fromLayer.getMapDimensions();
+        Dimension2D fromDimension = fromLayer.getMapDimensions();
 
         int mapWidth = fromDimension.getWidth() / kernel.getWidth();
         int mapHeight = fromDimension.getHeight() / kernel.getHeight();
-        this.mapDimensions = new Layer2D.Dimensions(mapWidth, mapHeight);
+        this.mapDimensions = new Dimension2D(mapWidth, mapHeight);
 
-        createFeatureMaps(numberOfMaps, mapDimensions, DEFAULT_NEURON_PROP);
+        createFeatureMaps(numberOfMaps, mapDimensions, kernelDim, DEFAULT_NEURON_PROP);
     }
 
     /**
@@ -84,15 +85,15 @@ public class PoolingLayer extends FeatureMapsLayer {
      * @param numberOfMaps number of feature maps to create in this layer
      * @param neuronProp   settings for neurons in feature maps
      */
-    public PoolingLayer(FeatureMapsLayer fromLayer, Kernel kernel, int numberOfMaps, NeuronProperties neuronProp) {
-        super(kernel);
-        Layer2D.Dimensions fromDimension = fromLayer.getMapDimensions();
+    public PoolingLayer(FeatureMapsLayer fromLayer, Dimension2D kernelDim, int numberOfMaps, NeuronProperties neuronProp) {
+        this.kernel = kernel;
+        Dimension2D fromDimension = fromLayer.getMapDimensions();
 
         int mapWidth = fromDimension.getWidth() / kernel.getWidth();
         int mapHeight = fromDimension.getHeight() / kernel.getHeight();
-        this.mapDimensions = new Layer2D.Dimensions(mapWidth, mapHeight);
+        this.mapDimensions = new Dimension2D(mapWidth, mapHeight);
 
-        createFeatureMaps(numberOfMaps, mapDimensions, neuronProp);
+        createFeatureMaps(numberOfMaps, mapDimensions, kernelDim, neuronProp);
     }
 
     /**
@@ -105,11 +106,10 @@ public class PoolingLayer extends FeatureMapsLayer {
      * @param toMap   destination feature map
      */
     @Override
-    public void connectMaps(Layer2D fromMap, Layer2D toMap) {
+    public void connectMaps(FeatureMapLayer fromMap, FeatureMapLayer toMap) {
         int kernelWidth = kernel.getWidth();
         int kernelHeight = kernel.getHeight();
-        Weight weight = new Weight();
-        weight.setValue(1);
+        Weight weight = new Weight(1);
         for (int x = 0; x < fromMap.getWidth() - kernelWidth + 1; x += kernelWidth) { // < da li step treba da je kernel
             for (int y = 0; y < fromMap.getHeight() - kernelHeight + 1; y += kernelHeight) {
 

@@ -16,7 +16,7 @@
 
 package org.neuroph.nnet.comp;
 
-import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 import org.neuroph.nnet.comp.layer.PoolingLayer;
 import org.neuroph.nnet.comp.layer.ConvolutionalLayer;
 import org.neuroph.nnet.comp.layer.FeatureMapsLayer;
@@ -38,15 +38,15 @@ public class ConvolutionalUtils {
         if (toLayer instanceof ConvolutionalLayer) {
             for (int i = 0; i < fromLayer.getNumberOfMaps(); i++) {
                 for (int j = 0; j < toLayer.getNumberOfMaps(); j++) {
-                    Layer2D fromMap = fromLayer.getFeatureMap(i);
-                    Layer2D toMap = toLayer.getFeatureMap(j);
+                    FeatureMapLayer fromMap = fromLayer.getFeatureMap(i);
+                    FeatureMapLayer toMap = toLayer.getFeatureMap(j);
                     toLayer.connectMaps(fromMap, toMap);                // da li treba svaka sa svakom ???
                 }
             }
         } else if (toLayer instanceof PoolingLayer) { // ???? CHECK: da li je ovo dobro
             for (int i = 0; i < toLayer.getNumberOfMaps(); i++) {
-                Layer2D fromMap = fromLayer.getFeatureMap(i);
-                Layer2D toMap = toLayer.getFeatureMap(i);
+                FeatureMapLayer fromMap = fromLayer.getFeatureMap(i);
+                FeatureMapLayer toMap = toLayer.getFeatureMap(i);
                 toLayer.connectMaps(fromMap, toMap);
             }
         }
@@ -63,8 +63,8 @@ public class ConvolutionalUtils {
      */
     public static void connectFeatureMaps(FeatureMapsLayer fromLayer, FeatureMapsLayer toLayer,
                                           int fromFeatureMapIndex, int toFeatureMapIndex) {
-        Layer2D fromMap = fromLayer.getFeatureMap(fromFeatureMapIndex);
-        Layer2D toMap = toLayer.getFeatureMap(toFeatureMapIndex);
+        FeatureMapLayer fromMap = fromLayer.getFeatureMap(fromFeatureMapIndex);
+        FeatureMapLayer toMap = toLayer.getFeatureMap(toFeatureMapIndex);
         toLayer.connectMaps(fromMap, toMap);
     }
 

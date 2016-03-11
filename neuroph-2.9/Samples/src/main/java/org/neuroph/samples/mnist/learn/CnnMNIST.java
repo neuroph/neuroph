@@ -7,10 +7,11 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;
 import org.neuroph.nnet.comp.Kernel;
-import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
+import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
@@ -50,9 +51,9 @@ public class CnnMNIST {
             DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 100);
             DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
 
-            Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(32, 32);
-            Kernel convolutionKernel = new Kernel(5, 5);
-            Kernel poolingKernel = new Kernel(2, 2);
+            Dimension2D inputDimension = new Dimension2D(32, 32);
+            Dimension2D convolutionKernel = new Dimension2D(5, 5);
+            Dimension2D poolingKernel = new Dimension2D(2, 2);
 
             ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder(inputDimension, 1)
                     .withConvolutionLayer(convolutionKernel, layer1)

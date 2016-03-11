@@ -26,6 +26,7 @@ import java.util.concurrent.ForkJoinPool;
 
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
+import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.util.NeuronProperties;
 
 /**
@@ -49,30 +50,29 @@ public abstract class FeatureMapsLayer extends Layer {
     /**
      * Kernel used for all 2D layers (feature maps)
      */
-    protected Kernel kernel;
+ //   protected Kernel kernel;
 
     /**
      * Dimensions for all 2D layers (feature maps)
      */
-    protected Layer2D.Dimensions mapDimensions;
+    protected Dimension2D mapDimensions;
 
-    public List<Layer2D> getFeatureMaps() {
+    public List<FeatureMapLayer> getFeatureMaps() {
         return featureMaps;
     }
 
     /**
      * Collection of feature maps
      */
-    //private Layer2D[] featureMaps; //
-    private List<Layer2D> featureMaps;
+    private List<FeatureMapLayer> featureMaps;
 
     /**
      * Creates a new empty feature maps layer with specified kernel
      *
      * @param kernel kernel to use for all feature maps
      */
-    public FeatureMapsLayer(Kernel kernel) {
-        this.kernel = kernel;
+    public FeatureMapsLayer(/*Kernel kernel*/) {
+   //     this.kernel = kernel;
         this.featureMaps = new ArrayList<>();
     }
 
@@ -83,8 +83,8 @@ public abstract class FeatureMapsLayer extends Layer {
      * @param kernel        kernel used for all feature maps in this layer
      * @param mapDimensions mapDimensions of feature maps in this layer
      */
-    public FeatureMapsLayer(Kernel kernel, Layer2D.Dimensions mapDimensions) {
-        this.kernel = kernel;
+    public FeatureMapsLayer(/*Kernel kernel,*/ Dimension2D mapDimensions) {
+   //     this.kernel = kernel;
         this.mapDimensions = mapDimensions;
         this.featureMaps = new ArrayList<>();
     }
@@ -98,19 +98,27 @@ public abstract class FeatureMapsLayer extends Layer {
      * @param mapCount      number of feature maps
      * @param neuronProp    properties for neurons in feature maps
      */
-    public FeatureMapsLayer(Kernel kernel, Layer2D.Dimensions mapDimensions, int mapCount, NeuronProperties neuronProp) {
-        this.kernel = kernel;
+    public FeatureMapsLayer(Dimension2D kernelDimension, Dimension2D mapDimensions, int mapCount, NeuronProperties neuronProp) {
+       // this.kernel = kernel;
         this.mapDimensions = mapDimensions;
         this.featureMaps = new ArrayList<>();
-        createFeatureMaps(mapCount, this.mapDimensions, neuronProp);
+        createFeatureMaps(mapCount, mapDimensions, kernelDimension, neuronProp);
     }
+    
+    
+    
+    public FeatureMapsLayer(Dimension2D mapDimensions, int mapCount, NeuronProperties neuronProp) {
+        this.mapDimensions = mapDimensions;
+        this.featureMaps = new ArrayList<>();
+        createFeatureMaps(mapCount, mapDimensions, neuronProp);
+    }    
 
 
     /**
      * Adds a feature map (2d layer) to this feature map layer
      * @param featureMap feature map to add
      */
-    public void addFeatureMap(Layer2D featureMap) {
+    public void addFeatureMap(FeatureMapLayer featureMap) {
         if (featureMap == null) {
             throw new IllegalArgumentException("FeatureMap cant be null!");
         }
@@ -127,11 +135,19 @@ public abstract class FeatureMapsLayer extends Layer {
      * @param dimensions       feature map dimensions
      * @param neuronProperties properties of neurons in feature maps
      */
-    protected final void createFeatureMaps(int mapCount, Layer2D.Dimensions dimensions, NeuronProperties neuronProperties) {
+    protected final void createFeatureMaps(int mapCount, Dimension2D mapDimensions, Dimension2D kernelDimension,  NeuronProperties neuronProperties) {
         for (int i = 0; i < mapCount; i++) {
-            addFeatureMap(new Layer2D(dimensions, neuronProperties));
+            addFeatureMap(new FeatureMapLayer(mapDimensions, neuronProperties, kernelDimension));
         }
     }
+    
+    
+    private final void createFeatureMaps(int mapCount, Dimension2D mapDimensions, NeuronProperties neuronProperties) {
+        for (int i = 0; i < mapCount; i++) {
+            addFeatureMap(new FeatureMapLayer(mapDimensions, neuronProperties));
+        }
+    }
+    
 
     /**
      * Returns feature map (Layer2D) at specified index
@@ -139,7 +155,7 @@ public abstract class FeatureMapsLayer extends Layer {
      * @param index index of feature map
      * @return feature map (Layer2D instance) at specified index
      */
-    public Layer2D getFeatureMap(int index) {
+    public FeatureMapLayer getFeatureMap(int index) {
         return featureMaps.get(index);
     }
 
@@ -161,7 +177,7 @@ public abstract class FeatureMapsLayer extends Layer {
      * @return neuron at specified (x, y, map) position
      */
     public Neuron getNeuronAt(int x, int y, int mapIndex) {
-        Layer2D map = featureMaps.get(mapIndex);
+        FeatureMapLayer map = featureMaps.get(mapIndex);
         return map.getNeuronAt(x, y);
     }
 
@@ -173,7 +189,7 @@ public abstract class FeatureMapsLayer extends Layer {
     @Override
     public int getNeuronsCount() {
         int neuronCount = 0;
-        for (Layer2D map : featureMaps)
+        for (FeatureMapLayer map : featureMaps)
             neuronCount += map.getNeuronsCount();
         return neuronCount;
     }
@@ -191,16 +207,16 @@ public abstract class FeatureMapsLayer extends Layer {
      *
      * @return kernel used by all feature maps in this layer
      */
-    public Kernel getKernel() {
-        return kernel;
-    }
+//    public Kernel getKernel() {
+//        return kernel;
+//    }
 
     /**
      * Returns dimensions of feature maps in this layer
      *
      * @return dimensions of feature maps in this layer
      */
-    public Layer2D.Dimensions getMapDimensions() {
+    public Dimension2D getMapDimensions() {
         return mapDimensions;
     }
 
@@ -213,7 +229,7 @@ public abstract class FeatureMapsLayer extends Layer {
      * @param fromMap
      * @param toMap
      */
-    public abstract void connectMaps(Layer2D fromMap, Layer2D toMap);
+    public abstract void connectMaps(FeatureMapLayer fromMap, FeatureMapLayer toMap);
 
 
 }

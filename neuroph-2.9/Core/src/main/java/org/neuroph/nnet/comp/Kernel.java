@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.neuroph.nnet.comp;
 
 import java.io.Serializable;
@@ -21,79 +20,95 @@ import org.neuroph.core.Weight;
 
 /**
  * Kernel used in convolution networks. Kernel is (width x height) window
- * sliding over 2D input space. Each window position provides (width x height) 
+ * sliding over 2D input space. Each window position provides (width x height)
  * inputs for the neurons in next layer.
- * 
+ *
  * @author Boris Fulurija
  * @author Zoran Sevarac
  */
 public class Kernel implements Serializable {
-	
-	private static final long serialVersionUID = -3948374914759253222L;
-        
-        /**
-         * Kernel width
-         */
-	private int width;
-        
-        /**
-         * Kernel height
-         */
-	private int height;
-        
-        
-        private Weight[][] weights;
 
-        /**
-         * Creates new kernel with specified width and height
-         * @param width kernel width
-         * @param height kernel height
-         */
-	public Kernel(int width, int height) {
-		super();
-		this.width = width;
-		this.height = height;
-	}
+    private static final long serialVersionUID = -3948374914759253222L;
 
-        /**
-         * Returns width of this kernel
-         * @return width of this kernel
-         */
-	public int getWidth() {
-		return width;
-	}
+    /**
+     * Kernel width
+     */
+    private int width;
 
-        /**
-         * Sets width of this kernel
-         * @param width kernel width 
-         */
-	public void setWidth(int width) {
-		this.width = width;
-	}
+    /**
+     * Kernel height
+     */
+    private int height;
 
-        /**
-         * Returns height of this kernel
-         * @return height of this kernel
-         */
-	public int getHeight() {
-		return height;
-	}
+    private Weight[][] weights;
 
-        /**
-         * Sets height of this kernel
-         * @param height kernel height
-         */
-	public void setHeight(int height) {
-		this.height = height;
-	}
+    
+    /**
+     * Creates new kernel with specified width and height
+     *
+     * @param width kernel width
+     * @param height kernel height
+     */
+    public Kernel(Dimension2D dimension) {
+        this.width = dimension.getWidth();
+        this.height = dimension.getHeight();
+    }    
+    
+    /**
+     * Creates new kernel with specified width and height
+     *
+     * @param width kernel width
+     * @param height kernel height
+     */
+    public Kernel(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 
-        /**
-         * Returns area of this kernel (width*height)
-         * @return area of this kernel
-         */
-	public int getArea() {
-		return width * height;
-	}
+    /**
+     * Returns width of this kernel
+     *
+     * @return width of this kernel
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * Sets width of this kernel
+     *
+     * @param width kernel width
+     */
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    /**
+     * Returns height of this kernel
+     *
+     * @return height of this kernel
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * Sets height of this kernel
+     *
+     * @param height kernel height
+     */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    /**
+     * Returns area of this kernel (width*height)
+     *
+     * @return area of this kernel
+     */
+    public int getArea() {
+        return width * height;
+    }
 
     public Weight[][] getWeights() {
         return weights;
@@ -102,6 +117,17 @@ public class Kernel implements Serializable {
     public void setWeights(Weight[][] weights) {
         this.weights = weights;
     }
+    
+    public void initWeights(double min, double max) {
+        weights = new Weight[height][width];
 
-        
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                Weight weight = new Weight();
+                weight.randomize(min, max);
+                weights[i][j] = weight;
+            }
+        }        
+    }
+
 }

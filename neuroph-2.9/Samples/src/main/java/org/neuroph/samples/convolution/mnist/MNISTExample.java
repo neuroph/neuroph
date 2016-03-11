@@ -1,20 +1,16 @@
 package org.neuroph.samples.convolution.mnist;
 
-import org.neuroph.contrib.model.errorestimation.CrossValidation;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;
-import org.neuroph.nnet.comp.Kernel;
-import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.nnet.learning.BackPropagation;
-import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import org.neuroph.core.transfer.Sigmoid;
+import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 
 /**
@@ -64,15 +60,15 @@ public class MNISTExample {
             DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60);
             DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10);
 
-            Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(32, 32);
-            Kernel convolutionKernel = new Kernel(5, 5);
-            Kernel poolingKernel = new Kernel(2, 2);
+            Dimension2D inputDimension = new Dimension2D(32, 32);
+            Dimension2D convolutionKernelDim = new Dimension2D(5, 5);
+            Dimension2D poolingKernelDim = new Dimension2D(2, 2);
 
             ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder(inputDimension, 1)
-                    .withConvolutionLayer(convolutionKernel, 10)
-                    .withPoolingLayer(poolingKernel)
-                    .withConvolutionLayer(convolutionKernel, 3)
-//                    .withPoolingLayer(poolingKernel)
+                    .withConvolutionLayer(convolutionKernelDim, 10)
+                    .withPoolingLayer(poolingKernelDim)
+                    .withConvolutionLayer(convolutionKernelDim, 3)
+//                    .withPoolingLayer(poolingKernelDim)
 //                    .withConvolutionLayer(convolutionKernel, 3)
                     .withFullConnectedLayer(10)
                     .build();

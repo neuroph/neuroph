@@ -3,7 +3,7 @@ package org.neuroph.nnet.learning;
 import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.nnet.comp.layer.ConvolutionalLayer;
-import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.transfer.TransferFunction;

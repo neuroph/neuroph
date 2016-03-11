@@ -21,12 +21,12 @@ import org.neuroph.core.input.WeightedSum;
 import org.neuroph.nnet.comp.ConvolutionalUtils;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.nnet.comp.layer.*;
-import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.nnet.comp.neuron.BiasNeuron;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
@@ -62,7 +62,7 @@ public class ConvolutionalNetwork extends NeuralNetwork<ConvolutionalBackpropaga
         FeatureMapsLayer inputLayer = (FeatureMapsLayer) getLayerAt(0);
         int currentNeuron = 0;
         for (int i = 0; i < inputLayer.getNumberOfMaps(); i++) {
-            Layer2D map = inputLayer.getFeatureMap(i);
+            FeatureMapLayer map = inputLayer.getFeatureMap(i);
             for (Neuron neuron : map.getNeurons()) {
                 if (!(neuron instanceof BiasNeuron))
                     neuron.setInput(inputVector[currentNeuron++]);
@@ -81,7 +81,7 @@ public class ConvolutionalNetwork extends NeuralNetwork<ConvolutionalBackpropaga
             DEFAULT_FULL_CONNECTED_NEURON_PROPERTIES.setProperty("inputFunction", WeightedSum.class);
         }
 
-        public Builder(Layer2D.Dimensions mapSize, int numberOfMaps) {
+        public Builder(Dimension2D mapSize, int numberOfMaps) {
             network = new ConvolutionalNetwork();
             InputMapsLayer inputLayer = new InputMapsLayer(mapSize, numberOfMaps);
             inputLayer.setLabel("Input Layer");
@@ -89,9 +89,9 @@ public class ConvolutionalNetwork extends NeuralNetwork<ConvolutionalBackpropaga
 
         }
 
-        public Builder withConvolutionLayer(final Kernel convolutionKernel, int numberOfMaps) {
+        public Builder withConvolutionLayer(final Dimension2D kernelDimension, int numberOfMaps) {
             FeatureMapsLayer prevLayer = getLastFeatureMapLayer();
-            ConvolutionalLayer convolutionLayer = new ConvolutionalLayer(prevLayer, convolutionKernel, numberOfMaps);
+            ConvolutionalLayer convolutionLayer = new ConvolutionalLayer(prevLayer, kernelDimension, numberOfMaps);
 
             network.addLayer(convolutionLayer);
             ConvolutionalUtils.fullConnectMapLayers(prevLayer, convolutionLayer);
@@ -99,9 +99,9 @@ public class ConvolutionalNetwork extends NeuralNetwork<ConvolutionalBackpropaga
             return this;
         }
         
-        public Builder withConvolutionLayer(final Kernel convolutionKernel, int numberOfMaps, Class<? extends TransferFunction> transferFunction) {
+        public Builder withConvolutionLayer(final Dimension2D kernelDimension, int numberOfMaps, Class<? extends TransferFunction> transferFunction) {
             FeatureMapsLayer prevLayer = getLastFeatureMapLayer();
-            ConvolutionalLayer convolutionLayer = new ConvolutionalLayer(prevLayer, convolutionKernel, numberOfMaps, transferFunction);
+            ConvolutionalLayer convolutionLayer = new ConvolutionalLayer(prevLayer, kernelDimension, numberOfMaps, transferFunction);
 
             network.addLayer(convolutionLayer);
             ConvolutionalUtils.fullConnectMapLayers(prevLayer, convolutionLayer);
@@ -109,9 +109,9 @@ public class ConvolutionalNetwork extends NeuralNetwork<ConvolutionalBackpropaga
             return this;
         }        
 
-        public Builder withPoolingLayer(final Kernel poolingKernel) {
+        public Builder withPoolingLayer(final Dimension2D poolingKernelDim) {
             FeatureMapsLayer lastLayer = getLastFeatureMapLayer();
-            PoolingLayer poolingLayer = new PoolingLayer(lastLayer, poolingKernel);
+            PoolingLayer poolingLayer = new PoolingLayer(lastLayer, poolingKernelDim);
 
             network.addLayer(poolingLayer);
             ConvolutionalUtils.fullConnectMapLayers(lastLayer, poolingLayer);
