@@ -57,7 +57,7 @@ public class MNISTExample {
     public static void main(String[] args) {
         try {
 
-            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60);
+            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 200);
             DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10);
 
             Dimension2D inputDimension = new Dimension2D(32, 32);
@@ -85,7 +85,7 @@ public class MNISTExample {
 
             System.out.println("Started training...");
             
-            convolutionNetwork.learn(testSet);
+            convolutionNetwork.learn(trainSet);
                         
             System.out.println("Done training!");
       
