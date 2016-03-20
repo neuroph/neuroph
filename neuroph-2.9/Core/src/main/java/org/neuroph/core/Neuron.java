@@ -304,7 +304,7 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     }
 
     protected void removeOutputConnection(Connection conn) {
-        outConnections.remove(conn);       
+        outConnections.remove(conn);
     }
 
     /**
