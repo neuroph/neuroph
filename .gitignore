@@ -77,3 +77,12 @@ NeurophStudio/NeurophExplorer/nbproject/private/
 /NeurophStudio/LicencePLateRecognition/build/
 /NeurophStudio/dist/
 /neuroph-2.9/Core/nbproject/
+target
+build
+**/nbproject/private
+
+.idea
+*.iml
+.classpath
+.project
+.settings
