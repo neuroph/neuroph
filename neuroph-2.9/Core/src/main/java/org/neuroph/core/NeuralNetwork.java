@@ -253,9 +253,10 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
             throw new VectorSizeMismatchException("Input vector size does not match network input dimension!");
         }
 
+        // TODO: Make this more elegant
         int i = 0;
         for (Neuron neuron : this.inputNeurons) {
-            neuron.setInput(inputVector[i]); // set input to the coresponding neuron
+            neuron.setInput(inputVector[i]); // set input to the corresponding neuron
             i++;
         }
     }
@@ -312,7 +313,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
         }
         
 
-//        List<Future<Long>> results = mainPool.invokeAll(Arrays.asList(layers.asArray()));
         fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.CALCULATED));
     }
 
@@ -722,8 +722,8 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @param pluginClass class of the plugin to get
      * @return instance of specified plugin class
      */
-    public <P extends PluginBase> P getPlugin(Class<P>  type) {
-        return type.cast(plugins.get(type));
+    public <P extends PluginBase> P getPlugin(Class<P>  pluginClass) {
+        return pluginClass.cast(plugins.get(type));
     }
 
     /**

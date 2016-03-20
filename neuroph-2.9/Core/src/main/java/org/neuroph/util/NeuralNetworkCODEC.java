@@ -69,7 +69,7 @@ public class NeuralNetworkCODEC {
                 for (Layer layer : layers) {
 			for (Neuron neuron : layer.getNeurons()) {
 				for (Connection connection : neuron.getOutConnections()) {
-					connection.getWeight().setValue(array[index]);
+					connection.getWeight().setValue(array[index++]);
 					//connection.getWeight().setPreviousValue(array[index++]);
 				}
 			}

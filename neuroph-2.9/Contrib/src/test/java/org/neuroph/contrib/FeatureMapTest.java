@@ -2,15 +2,17 @@ package org.neuroph.contrib;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.comp.Dimension2D;
+import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 import org.neuroph.nnet.comp.neuron.InputNeuron;
+import org.neuroph.util.NeuronProperties;
 
 public class FeatureMapTest {
 
 	@Test
 	public void testEmptyFeatureMap() {
-		Layer2D.Dimensions dimension = new Layer2D.Dimensions(0, 0);
-		Layer2D featureMap = new Layer2D(dimension);
+		Dimension2D dimension = new Dimension2D(0, 0);
+		FeatureMapLayer featureMap = new FeatureMapLayer(dimension, new NeuronProperties());
 		Assert.assertEquals(0, featureMap.getNeuronsCount());
 		Assert.assertEquals(0, featureMap.getHeight());
 		Assert.assertEquals(0, featureMap.getWidth());
@@ -18,8 +20,8 @@ public class FeatureMapTest {
 
 	@Test
 	public void testFeatureMapWithOneNeuron() {
-		Layer2D.Dimensions dimension = new Layer2D.Dimensions(4, 3);
-		Layer2D featureMap = new Layer2D(dimension);
+		Dimension2D dimension = new Dimension2D(4, 3);
+		FeatureMapLayer featureMap = new FeatureMapLayer(dimension, new NeuronProperties());
 		InputNeuron inputNeuron = new InputNeuron();
 		inputNeuron.setInput(1);
 		featureMap.addNeuron(inputNeuron);
@@ -31,8 +33,8 @@ public class FeatureMapTest {
 
 	@Test
 	public void testFeatureMapWithManyNeurons() {
-		Layer2D.Dimensions dimension = new Layer2D.Dimensions(4, 3);
-		Layer2D featureMap = new Layer2D(dimension);
+		Dimension2D dimension = new Dimension2D(4, 3);
+		FeatureMapLayer featureMap = new FeatureMapLayer(dimension, new NeuronProperties());
 		InputNeuron inputNeuron1 = new InputNeuron();
 		inputNeuron1.setInput(1);
 		InputNeuron inputNeuron2 = new InputNeuron();

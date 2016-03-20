@@ -21,13 +21,13 @@ import org.neuroph.ocr.filter.OCRCropLetter;
 import org.neuroph.ocr.util.OCRUtilities;
 import org.neuroph.ocr.util.WordPosition;
 import org.neuroph.ocr.filter.OCRExtractLetter;
-import org.neuroph.ocr.properties.Properties;
+import org.neuroph.ocr.properties.OCRProperties;
 
 /**
  *
  * @author Mihailo Stupar
  */
-public class OCRTextRecognition extends Properties {
+public class OCRTextRecognition extends OCRProperties {
 
     private String recognizedTextPath;
     private NeuralNetwork nnet;

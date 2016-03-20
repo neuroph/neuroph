@@ -48,6 +48,7 @@ public class FeatureMapLayer extends Layer /*implements Callable<Void>*/ {
     private Kernel kernel;
     
     
+   
     /**
      * Creates an empty 2D layer with specified dimensions
      *
