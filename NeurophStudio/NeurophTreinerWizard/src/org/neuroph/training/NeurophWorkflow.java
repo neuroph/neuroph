@@ -39,7 +39,7 @@ import java.util.List;
  * http://stackoverflow.com/questions/9392182/creating-a-simple-dependency-injection-container-in-java-dynamically-creating-o
  * 
  */
-public class Process {
+public class NeurophWorkflow { // rename to NeurophWorkflow - ili NeurophPipeline : provides predefined customizable workflows
     ArrayList<Task> tasks;
     int currentTaskIndex;
     Task currentTask;
@@ -50,19 +50,21 @@ public class Process {
     
     private List<ProcessEventListener> listeners = new ArrayList<>();
 
-    public Process() {
+    public NeurophWorkflow() {
         tasks = new ArrayList<>();
         vars = new HashMap<>();
     }
     
-    public void addTask(Task task) {
+    public NeurophWorkflow addTask(Task task) {
         task.setParentProcess(this);
         tasks.add(task);
+        return this;
     }
     
-    public void addTask(int idx, Task task) {
+    public NeurophWorkflow addTask(int idx, Task task) {
         task.setParentProcess(this);
         tasks.add(idx, task);
+        return this;
     }    
 
     public ArrayList<Task> getTasks() {
@@ -88,7 +90,7 @@ public class Process {
     }    
     
     public void execute() {
-        processLog = new StringBuilder();
+        processLog = new StringBuilder(); // use logger instead!
         currentTaskIndex = 0;
         while(currentTaskIndex < tasks.size()) {
             currentTask = tasks.get(currentTaskIndex);                       

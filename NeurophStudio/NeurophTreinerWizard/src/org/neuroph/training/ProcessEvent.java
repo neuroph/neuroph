@@ -13,11 +13,11 @@ import java.awt.Event;
 public class ProcessEvent extends java.util.EventObject {
 
    private String message;
-   private Process source;
+   private NeurophWorkflow source;
     
    // we could also add Task related Events  as Task arg as a source
    
-    public ProcessEvent(Process source, String message) {        
+    public ProcessEvent(NeurophWorkflow source, String message) {        
         super(source);        
         this.source = source;
         this.message = message;                

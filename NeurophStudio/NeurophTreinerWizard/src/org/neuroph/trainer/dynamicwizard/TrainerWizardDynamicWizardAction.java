@@ -75,7 +75,7 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                     @Override
                     public void run() {
 
-                        org.neuroph.training.Process trainingProcess = new org.neuroph.training.Process();
+                        org.neuroph.training.NeurophWorkflow trainingProcess = new org.neuroph.training.NeurophWorkflow();
                         trainingProcess.addListener( TrainingProcessManager.getDefault() );
                         
                         //---------------------------------------------------------------------         

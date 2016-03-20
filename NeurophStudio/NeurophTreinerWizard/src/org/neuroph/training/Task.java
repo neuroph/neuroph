@@ -5,7 +5,7 @@ package org.neuroph.training;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 abstract public class Task {
-    Process parentProcess;
+    NeurophWorkflow parentProcess;
     String name;
 
     public Task(String name) {
@@ -16,11 +16,11 @@ abstract public class Task {
         return name;
     }
             
-    public Process getParentProcess() {
+    public NeurophWorkflow getParentProcess() {
         return parentProcess;
     }
 
-    public void setParentProcess(Process parentProcess) {
+    public void setParentProcess(NeurophWorkflow parentProcess) {
         this.parentProcess = parentProcess;
     }  
    

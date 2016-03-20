@@ -15,10 +15,20 @@ import org.neuroph.util.data.norm.MaxNormalizer;
  */
 public class SampleTraining {
     
+    // ovde nedostaje krosvalidacija, sampling je resen u krosvalidaciji
+    // podesavanja za normalizaciju?
+    
+    
+    // raditi sa MLP, imati u planu konvolucionu, a u buducnosti za bilo koju, ali to nije fokus za inicijalni razvoj
+    // izvestaj : broj iteracija
+    // rezultat sa test setom
+    
     
     public static void main(String[] args) {
         
-        Process trainingProcess = new Process();
+        
+        
+        NeurophWorkflow trainingProcess = new NeurophWorkflow();
 
 //---------------------------------------------------------------------         
 
@@ -35,7 +45,9 @@ public class SampleTraining {
         // Setting process properties for a single training iteration, by poping one from stack
         // Expects input process var: trainingPropertiesStack
         // Creates process var: trainingProperties
-        trainingProcess.addTask(new SetTrainingPropertiesTask("setProperties", "trainingPropertiesStack", "trainingProperties"));
+        trainingProcess.addTask(new SetTrainingPropertiesTask("setProperties", 
+                                                              "trainingPropertiesStack", 
+                                                              "trainingProperties"));
         
 //---------------------------------------------------------------------
         
@@ -43,7 +55,9 @@ public class SampleTraining {
         // Loads data set from file into the process (if its not allready loaded)
         // Expects input process var:  dataSetProperties
         // Creates process var: dataSet
-        DataSetLoaderTask dataLoaderTask = new DataSetLoaderTask("dataSetLoader", "dataSetProperties", "dataSet");
+        DataSetLoaderTask dataLoaderTask = new DataSetLoaderTask("dataSetLoader", 
+                                                                 "dataSetProperties",
+                                                                 "dataSet");
         trainingProcess.addTask(dataLoaderTask);
         
 //---------------------------------------------------------------------
@@ -60,7 +74,9 @@ public class SampleTraining {
         // Ceates neural network and adds it to the process
         // Expects process var: neuralNetworkProperties
         // Creates process var: neuralNetwork
-        trainingProcess.addTask(new MultiLayerPerceptronFactoryTask("neuralNetFactory", "neuralNetworkProperties", "neuralNetwork"));
+        trainingProcess.addTask(new MultiLayerPerceptronFactoryTask("neuralNetFactory",
+                                                                    "neuralNetworkProperties",
+                                                                    "neuralNetwork"));
         
 //---------------------------------------------------------------------
         
@@ -79,7 +95,9 @@ public class SampleTraining {
         // DONE!
         // Trains neural network using and data set within this process
         // Expects process vars: neuralNetwork, trainingSet
-        TrainingTask trainingTask = new TrainingTask("training", "neuralNetwork", "trainingSet"); 
+        TrainingTask trainingTask = new TrainingTask("training", 
+                                                     "neuralNetwork",
+                                                     "trainingSet"); 
         trainingProcess.addTask(trainingTask);
                                 
 //---------------------------------------------------------------------                
