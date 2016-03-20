@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /NeurophStudio/build/
 /NeurophStudio/Neuroph3rdPartyLibs/build/
 /NeurophStudio/jfreechart/build/
@@ -88,7 +88,6 @@ build
 .project
 .settings
 =======
->>>>>>> origin/master
 target
 build
 **/nbproject/private
@@ -98,4 +97,3 @@ build
 .classpath
 .project
 .settings
-
