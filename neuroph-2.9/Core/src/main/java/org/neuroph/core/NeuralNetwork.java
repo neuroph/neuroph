@@ -202,7 +202,10 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      */
     public void removeLayerAt(int index)  {
         Layer layer = layers.get(index);
-        removeLayer(layer);
+        layers.remove(index);
+
+        // notify listeners that layer has been removed
+        fireNetworkEvent(new NeuralNetworkEvent(layer, NeuralNetworkEvent.Type.LAYER_REMOVED));
     }
 
     /**
@@ -269,8 +272,11 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @return network output vector
      */
     public double[] getOutput() {
-        for (int i = 0; i < outputNeurons.size(); i++) {
-            outputBuffer[i] = outputNeurons.get(i).getOutput();
+        // TODO: Make this more elegant
+        int i = 0;
+        for (Neuron c : outputNeurons) {
+            outputBuffer[i] = c.getOutput();
+            i++;
         }
 
         return outputBuffer;
@@ -306,8 +312,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * Performs calculation on whole network
      */
     public void calculate() {
-        //calculator.calculate();
-        
         for (Layer layer : this.layers) {
             layer.calculate();
         }
