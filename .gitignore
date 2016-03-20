@@ -86,3 +86,13 @@ build
 .classpath
 .project
 .settings
+target
+build
+**/nbproject/private
+
+.idea
+*.iml
+.classpath
+.project
+.settings
+
