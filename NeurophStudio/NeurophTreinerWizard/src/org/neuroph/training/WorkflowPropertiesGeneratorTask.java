@@ -8,10 +8,13 @@ import org.neuroph.util.Properties;
 /**
  * Generates and sets properties for the whole process note: load all settings
  * from the xml file
- *
+ *  
+ * Varira parametre treninga i generise stek sa razlicitim podesavanjima
+ * 
+ * 
  * @author zoran
  */
-public class TrainingPropertiesGeneratorTask extends Task {
+public class WorkflowPropertiesGeneratorTask extends Task {
 
     // neural network settings
     double[] learningRates = new double[]{0.2, 0.3};
@@ -23,13 +26,14 @@ public class TrainingPropertiesGeneratorTask extends Task {
     int maxIterations=0;
     double maxError;
     // generated properties
-    Stack<Properties> properties;
+    Stack<Properties> properties; // moze i red queue
+    
     String outputVarName = "trainingPropertiesStack";
 
     // max iterations max error
     // da imamo varijantu da mogu da se navod ekonkretne vrednosti
     // ali da se pretrazuje ceo prostor: min max vrednost i step
-    public TrainingPropertiesGeneratorTask(String taskName, String outputVarName) {
+    public WorkflowPropertiesGeneratorTask(String taskName, String outputVarName) {
         super(taskName);
         properties = new Stack<Properties>();
 

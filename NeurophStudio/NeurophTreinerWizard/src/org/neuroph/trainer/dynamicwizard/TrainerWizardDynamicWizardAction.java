@@ -21,7 +21,7 @@ import org.neuroph.training.SetTrainingPropertiesTask;
 import org.neuroph.training.StatsTask;
 import org.neuroph.training.StoreTrainingResultTask;
 import org.neuroph.training.TestTask;
-import org.neuroph.training.TrainingPropertiesGeneratorTask;
+import org.neuroph.training.WorkflowPropertiesGeneratorTask;
 import org.neuroph.training.TrainingTask;
 import org.neuroph.util.data.norm.MaxNormalizer;
 import org.openide.DialogDisplayer;
@@ -83,7 +83,7 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         // it would be great to load all these settings from XML file
                         // Creates process var: processPropertiesStack
                         // izgenerise sva podesavanja i stavi na stek. i onda se proces izvrsava za jedno po jedno podesavanje sa steka
-                        TrainingPropertiesGeneratorTask trainingPropertiesGeneratorTask = new TrainingPropertiesGeneratorTask("trainingPropertiesGenerator", "trainingPropertiesStack");
+                        WorkflowPropertiesGeneratorTask trainingPropertiesGeneratorTask = new WorkflowPropertiesGeneratorTask("trainingPropertiesGenerator", "trainingPropertiesStack");
                         //set parameters for training process 
                         trainingPropertiesGeneratorTask.setLearningRates((double[]) wiz.getProperty("learningRates"));
                         trainingPropertiesGeneratorTask.setHiddenNeurons((int[]) wiz.getProperty("hiddenNeurons"));
