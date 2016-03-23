@@ -57,7 +57,7 @@ public class MNISTExample {
     public static void main(String[] args) {
         try {
 
-            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 200);
+            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60);
             DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10);
 
             Dimension2D inputDimension = new Dimension2D(32, 32);
@@ -67,9 +67,10 @@ public class MNISTExample {
             ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder(inputDimension, 1)
                     .withConvolutionLayer(convolutionKernelDim, 10)
                     .withPoolingLayer(poolingKernelDim)
-                    .withConvolutionLayer(convolutionKernelDim, 3)
+//                    .withConvolutionLayer(convolutionKernelDim, 3)
 //                    .withPoolingLayer(poolingKernelDim)
 //                    .withConvolutionLayer(convolutionKernel, 3)
+                    .withFullConnectedLayer(100)
                     .withFullConnectedLayer(10)
                     .build();
 
