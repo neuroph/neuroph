@@ -13,7 +13,7 @@ public class OutputNeuronsEditor extends PropertyEditorSupport {
     if (d == null) {
         return "No Learning rule Set";
     }
-    return String.valueOf(d.getNeuralNetwork().getOutputNeurons().length);
+    return String.valueOf(d.getNeuralNetwork().getOutputNeurons().size());
 }
 
     @Override

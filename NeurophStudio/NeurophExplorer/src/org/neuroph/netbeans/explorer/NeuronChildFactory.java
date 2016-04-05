@@ -28,7 +28,7 @@ public class NeuronChildFactory extends ChildFactory<Connection> {
 
     @Override
     protected boolean createKeys(List<Connection> toPopulate) {
-        toPopulate.addAll(Arrays.asList(neuron.getInputConnections()));
+        toPopulate.addAll(neuron.getInputConnections());
         return true;
     }
 }

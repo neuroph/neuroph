@@ -119,7 +119,7 @@ public class NeuronNode extends AbstractNode {
 
         @Override
         public Children call() throws Exception {
-            if (key.getInputConnections().length == 0) {
+            if (key.getInputConnections().size() == 0) {
                 return Children.LEAF;
             } else {
                 // synchronous so that selection of members doesn't miss (if everything was not yet generated)

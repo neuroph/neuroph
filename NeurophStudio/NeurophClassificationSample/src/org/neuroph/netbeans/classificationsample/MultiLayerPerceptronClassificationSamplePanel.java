@@ -517,17 +517,17 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         if (mlpSampleTc.getVisualizationPanel().isPointDrawed()) {
             mlpSampleTc.customDataSetCheck();
             mlpSampleTc.sampleTrainingSetFileCheck();
-            InputSettngsDialog isd = InputSettngsDialog.getInstance();
+            InputSettingsDialog isd = InputSettingsDialog.getInstance();
             isd.storeInputs(new int[]{0, 1});
             labDataSet.setText(mlpSampleTc.getTrainingSet().getLabel());
         } else {
             DataSet dataSet = getSelectedShapeGenerator().generate();
             NeurophProjectFilesFactory.getDefault().createTrainingSetFile(dataSet);
             mlpSampleTc.setTrainingSet(dataSet);
-            mlpSampleTc.neuralNetworkAndDataSetInformationCheck(null, dataSet);
+            mlpSampleTc.updateNeuralNetAndDataSetInfo(null, dataSet);
             mlpSampleTc.clear();
             mlpSampleTc.repaint();
-            InputSettngsDialog isd = InputSettngsDialog.getInstance();
+            InputSettingsDialog isd = InputSettingsDialog.getInstance();
             isd.storeInputs(new int[]{0, 1});
             mlpSampleTc.coordinateSystemDomainCheck();
             mlpSampleTc.getVisualizationPanel().drawPointsFromTrainingSet(dataSet, isd.getStoredInputs());

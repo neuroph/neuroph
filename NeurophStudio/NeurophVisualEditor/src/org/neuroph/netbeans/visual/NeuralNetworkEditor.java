@@ -1,5 +1,6 @@
 package org.neuroph.netbeans.visual;
 
+import java.util.List;
 import org.netbeans.api.visual.widget.Widget;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -158,98 +159,36 @@ public class NeuralNetworkEditor {
         }
 
         for (int i = 0; i < number; i++) {
-            Neuron fromNeuron = fromLayer.getNeurons()[i];
-            Neuron toNeuron = toLayer.getNeurons()[i];
+            Neuron fromNeuron = fromLayer.getNeurons().get(i);
+            Neuron toNeuron = toLayer.getNeurons().get(i);
             ConnectionFactory.createConnection(fromNeuron, toNeuron);
         }
     }
 
     public void setAsInputNeuron(Neuron neuron) {
-
-       
-        Neuron[] inputNeurons = neuralNet.getInputNeurons();
-        if (inputNeurons == null) {
-            inputNeurons = new Neuron[0];
-        }
-
-        Neuron[] newInputNeurons = new Neuron[inputNeurons.length + 1];
-
-        for (int i = 0; i < inputNeurons.length; i++) {
-            newInputNeurons[i] = inputNeurons[i];
-
-        }
-        newInputNeurons[newInputNeurons.length - 1] = neuron;
-        neuralNet.setInputNeurons(newInputNeurons);
+        List<Neuron>inputNeurons = neuralNet.getInputNeurons();
+        inputNeurons.add(neuron);
     }
 
     public void setAsOutputNeuron(Neuron neuron) {
-
-       
-
-        Neuron[] outputNeurons = neuralNet.getOutputNeurons();
-        if (outputNeurons == null) {
-            outputNeurons = new Neuron[0];
-        }
-        Neuron[] newOutputNeurons = new Neuron[outputNeurons.length + 1];
-
-        for (int i = 0; i < outputNeurons.length; i++) {
-            newOutputNeurons[i] = outputNeurons[i];
-        }
-        newOutputNeurons[newOutputNeurons.length - 1] = neuron;
-        neuralNet.setOutputNeurons(newOutputNeurons);
-
+        List<Neuron> outputNeurons = neuralNet.getOutputNeurons();
+        outputNeurons.add(neuron);
     }
 
     public boolean isInputNeuron(Neuron neuron) {
-        if (neuralNet.getInputNeurons() == null) {
-            return false;
-        }
-
-        for (Neuron inputNeuron : neuralNet.getInputNeurons()) {
-            if (inputNeuron == neuron) {
-                return true;
-            }
-        }
-        return false;
+        return neuralNet.getInputNeurons().contains(neuron);
     }
 
     public boolean isOutputNeuron(Neuron neuron) {
-        if (neuralNet.getOutputNeurons() == null) {
-            return false;
-        }
-
-        for (Neuron outputNeuron : neuralNet.getOutputNeurons()) {
-            if (outputNeuron == neuron) {
-                return true;
-            }
-        }
-        return false;
+        return neuralNet.getOutputNeurons().contains(neuron);
     }
 
     public void removeFromOutputNeurons(Neuron neuron) {
-        Neuron[] outputNeurons = neuralNet.getOutputNeurons();
-        Neuron[] newOutputNeurons = new Neuron[neuralNet.getOutputNeurons().length - 1];
-        int j = 0;
-        for (int i = 0; i < outputNeurons.length; i++) {
-            if (outputNeurons[i] != neuron) {
-                newOutputNeurons[j] = outputNeurons[i];
-                j++;
-            }
-        }
-        neuralNet.setOutputNeurons(newOutputNeurons);
+        neuralNet.getOutputNeurons().remove(neuron);
     }
 
     public void removeFromInputNeurons(Neuron neuron) {
-        Neuron[] inputNeurons = neuralNet.getInputNeurons();
-        Neuron[] newInputNeurons = new Neuron[neuralNet.getInputNeurons().length - 1];
-        int j = 0;
-        for (int i = 0; i < inputNeurons.length; i++) {
-            if (inputNeurons[i] != neuron) {
-                newInputNeurons[j] = inputNeurons[i];
-                j++;
-            }
-        }
-        neuralNet.setInputNeurons(newInputNeurons);
+        neuralNet.getInputNeurons().remove(neuron);
     }
 
     public void setAsInputLayer(Layer layer) {

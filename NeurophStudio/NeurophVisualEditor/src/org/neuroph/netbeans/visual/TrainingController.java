@@ -24,7 +24,7 @@ import org.openide.windows.InputOutput;
 public class TrainingController implements Thread.UncaughtExceptionHandler {
 
     private NeuralNetAndDataSet neuralNetAndDataSet;
-    private NeuralNetwork neuralNet;
+    private NeuralNetwork<?> neuralNet;
     private boolean isPaused; // we should be able to get this from neuralnetwork/learning rule
     private boolean useCrossvalidation;
     private int numberOfCrossvalSubsets;
@@ -100,8 +100,14 @@ public class TrainingController implements Thread.UncaughtExceptionHandler {
         isPaused = false;
 
         if (useCrossvalidation == false) {
-            neuralNet.learnInNewThread(neuralNetAndDataSet.getDataSet());
-            neuralNet.getLearningThread().setUncaughtExceptionHandler(this);
+            Thread t = new Thread( new Runnable () {
+                
+                public void run() {
+                    neuralNet.learn(neuralNetAndDataSet.getDataSet());
+                }
+            });
+            t.setUncaughtExceptionHandler(this);
+            t.start();
         } else {
 
             if (subsetDistribution != null) {

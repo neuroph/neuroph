@@ -127,7 +127,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
 
     public void setNeuronColors(NeuralNetwork neuralNetwork) {
         int numberOfColors;
-        numberOfColors = neuralNetwork.getLayerAt(1).getNeurons().length - 1;//gets number of neurons at second layer
+        numberOfColors = neuralNetwork.getLayerAt(1).getNeurons().size() - 1;//gets number of neurons at second layer
         Visualization2DPanel.neuronColor = new Color[numberOfColors];
         Visualization2DPanel.neuronColorInverted = new Color[numberOfColors];
         Random random = new Random();
@@ -243,10 +243,10 @@ public class Visualization2DPanel extends javax.swing.JPanel {
     private void visualizeLines2D() {
         graphicsBuffer.setColor(Color.black);//sets line color       
         if (neuralNetwork != null) {//if neural network exists
-            Neuron[] neurons = neuralNetwork.getLayerAt(1).getNeurons();//second layer neurons 
-            int[] selectedInputs = InputSettngsDialog.getInstance().getStoredInputs();//contains indexes of 2 selected inputs
+            Neuron[] neurons = neuralNetwork.getLayerAt(1).getNeurons().toArray(new Neuron[0]) ;//second layer neurons 
+            int[] selectedInputs = InputSettingsDialog.getInstance().getStoredInputs();//contains indexes of 2 selected inputs
             for (int i = 0; i < neurons.length - 1; i++) {//iterates through second layer neurons
-                Connection[] conn = neurons[i].getInputConnections();//for each neuron, fetch input connections 
+                Connection[] conn = neurons[i].getInputConnections().toArray(new Connection[0]);//for each neuron, fetch input connections 
                 /*
                  * for each connection, fetch weight value
                  */
@@ -266,7 +266,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
      */
     private void visualizeColoredAreas2D() {
         if (neuralNetwork != null) {
-            Neuron[] neurons = neuralNetwork.getLayerAt(1).getNeurons();//second layer neurons
+            Neuron[] neurons = neuralNetwork.getLayerAt(1).getNeurons().toArray(new Neuron[0]);//second layer neurons
             int x, y, size = panelWidth, startIndex, offset, scalingCoefficient;
             if (positiveInputsOnly()) {             
                 startIndex = 0;
@@ -277,7 +277,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
                 offset = panelWidth / 2;
                 scalingCoefficient = panelWidth / 2;
             }
-            int[] selectedInputs = InputSettngsDialog.getInstance().getStoredInputs();//contains indexes of 2 selected inputs
+            int[] selectedInputs = InputSettingsDialog.getInstance().getStoredInputs();//contains indexes of 2 selected inputs
             for (int m = startIndex; m < size; m++) { 
                 for (int n = startIndex; n < size; n++) {
                     x = m;//x coordinate
@@ -287,7 +287,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
                     int rgbCounter = 0;//number of rgb counted neurons
                     int irgbCounter = 0;//number of irgb counted neurons
                     for (int i = 0; i < neurons.length - 1; i++) {//iterates through layer neurons
-                        Connection[] conn = neurons[i].getInputConnections();//for each neuron, fetch input connections
+                        Connection[] conn = neurons[i].getInputConnections().toArray(new Connection[0]);//for each neuron, fetch input connections
                         /*
                          * for each connection, fetch weight value
                          */

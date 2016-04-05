@@ -1,8 +1,9 @@
 package org.neuroph.netbeans.main.easyneurons.samples.perceptron;
 
-import org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet;
+import org.neuroph.netbeans.classificationsample.ObservableTrainingSet;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
@@ -157,7 +158,7 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
     TrainingController trainingController;
     
     DataSet trainingSet = new DataSet(2, 1);
-    PerceptronSampleTrainingSet perceptronSampleTrainingSet = new PerceptronSampleTrainingSet();
+    ObservableTrainingSet perceptronSampleTrainingSet = new ObservableTrainingSet();
     private ConcurrentLinkedQueue<Vector> displayDataBuffer;
     private Thread drawingThread = null;
     private boolean isDrawing = false;
@@ -314,9 +315,9 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
     }
     
     private void redraw() {
-       Layer l = neuralNetwork.getLayerAt(1);
-        Neuron[] v = l.getNeurons();
-        Weight[] w = v[0].getWeights();
+       Layer layer = neuralNetwork.getLayerAt(1);
+        List<Neuron> neurons = layer.getNeurons();
+        Weight[] w = neurons.get(0).getWeights();
 
         double ll = ((ThresholdNeuron) neuralNetwork.getLayerAt(1).getNeuronAt(0)).getThresh();
         double w1 = w[0].getValue();

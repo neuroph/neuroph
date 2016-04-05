@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.util.FileUtils;
+//import org.neuroph.util.FileUtils;
 import org.neuroph.util.NeuralNetworkType;
 
 import com.thoughtworks.xstream.XStream;
@@ -49,13 +49,8 @@ public class NeuralNetworkXmlFile implements FileInterface<NeuralNetwork> {
             throw new IllegalArgumentException("File cannot be null");
         }
 
-        try {
-            XStream xstream = getXStream();
-            String xml = xstream.toXML(neuralNetwork);
-            FileUtils.writeStringToFile(new File(filePath), xml);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        XStream xstream = getXStream();
+        String xml = xstream.toXML(neuralNetwork);
     }
 
     @Override
@@ -64,15 +59,11 @@ public class NeuralNetworkXmlFile implements FileInterface<NeuralNetwork> {
             throw new IllegalArgumentException("File cannot be null");
         }
 
-        try {
-            XStream xstream = getXStream();
-            String xml = FileUtils.readStringFromFile(new File(filePath));
-            NeuralNetwork neuralNetwork = (NeuralNetwork) xstream.fromXML(xml);
-            return neuralNetwork;
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
+//        XStream xstream = getXStream();
+//        String xml = FileUtils.readStringFromFile(new File(filePath));
+//        NeuralNetwork neuralNetwork = (NeuralNetwork) xstream.fromXML(xml);
+//        return neuralNetwork;
+        return null;
     }
 
     private XStream getXStream() {

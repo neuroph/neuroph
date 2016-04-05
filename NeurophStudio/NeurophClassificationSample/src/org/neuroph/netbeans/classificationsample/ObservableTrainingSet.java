@@ -9,7 +9,7 @@ import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
  *
  * @author Marko
  */
-public class PerceptronSampleTrainingSet extends Observable {
+public class ObservableTrainingSet extends Observable {
 
     DataSet dataSet = new DataSet(2, 1);
     NeuralNetwork neuralNetwork = null;

@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.util.FileUtils;
+//import org.neuroph.util.FileUtils;
 
 /**
  * Handles Training Set Xml Serialization
@@ -47,13 +47,9 @@ public class TrainingSetXmlFile implements FileInterface<DataSet> {
 			throw new IllegalArgumentException("File cannot be null");
 		}
 
-		try {
-			XStream xstream = getXStream();
-			String xml = xstream.toXML(trainingSet);
-			FileUtils.writeStringToFile(new File(filePath), xml);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
+//                XStream xstream = getXStream();
+//                String xml = xstream.toXML(trainingSet);
+//                FileUtils.writeStringToFile(new File(filePath), xml);
 	}
 
 	@Override
@@ -62,15 +58,11 @@ public class TrainingSetXmlFile implements FileInterface<DataSet> {
 			throw new IllegalArgumentException("File cannot be null");
 		}
 
-		try {
-			XStream xstream = getXStream();
-			String xml = FileUtils.readStringFromFile(new File(filePath));
-			DataSet trainingSet = (DataSet) xstream.fromXML(xml);
-			return trainingSet;
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			return null;
-		}
+//                XStream xstream = getXStream();
+//                String xml = FileUtils.readStringFromFile(new File(filePath));
+//                DataSet trainingSet = (DataSet) xstream.fromXML(xml);
+//                return trainingSet;
+                return null;
 	}
 
 	private XStream getXStream() {

@@ -27,7 +27,7 @@ public class JNeuralNetwork extends JPanel {
 	private static final long serialVersionUID = 1L;
         private int maxNeurons = 100;
 	
-	NeuralNetwork neuralNet;
+	NeuralNetwork<?> neuralNet;
 	NetworkLayout netLayout;	
 	
     /** Creates new form JNeuralNetwork */

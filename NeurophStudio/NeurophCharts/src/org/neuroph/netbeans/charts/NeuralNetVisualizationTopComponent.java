@@ -305,7 +305,7 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
         // TODO read your settings according to their version
     }
 
-    public void orderForm(NeuralNetwork nnet) {
+    public void orderForm(NeuralNetwork<?> nnet) {
         drawButton.setEnabled(false);
         openInLauncherButton.setEnabled(false);
         this.nnet = nnet;
@@ -314,8 +314,7 @@ public final class NeuralNetVisualizationTopComponent extends TopComponent imple
         datasetTextField.setEditable(false);
         nnetField.setEditable(false);
         nnetField.setText(nnet.getLabel());
-        Layer[] layers = nnet.getLayers();
-        for (int i = layers.length; i > 0; i--) {
+        for (int i = nnet.getLayers().size(); i > 0; i--) {
             layerCombo.addItem(i);
         }
     }

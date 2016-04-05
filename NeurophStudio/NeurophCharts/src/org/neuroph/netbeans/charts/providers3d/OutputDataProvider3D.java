@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.charts.providers3d;
 
 import org.nugs.graph3d.api.DataProvider3D;
@@ -44,9 +40,9 @@ public class OutputDataProvider3D implements DataProvider3D<Point3D> {
         for (int i = 0; i < rows.size(); i++) {
             nnet.setInput(rows.get(i).getInput());
             nnet.calculate();
-            Neuron[] neurons = nnet.getLayerAt(attr[0].getIndex()).getNeurons();
-            for (int j = 0; j < neurons.length; j++) {
-                double out = neurons[j].getOutput();
+            List<Neuron> neurons = nnet.getLayerAt(attr[0].getIndex()).getNeurons();
+            for (int j = 0; j < neurons.size(); j++) {
+                double out = neurons.get(j).getOutput();
                 output[counter] = new Point3D(i + 1, j + 1, out);
                 counter++;
             }

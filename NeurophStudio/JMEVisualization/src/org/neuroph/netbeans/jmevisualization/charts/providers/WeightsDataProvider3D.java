@@ -6,6 +6,7 @@
 
 package org.neuroph.netbeans.jmevisualization.charts.providers;
 
+import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -36,11 +37,11 @@ public class WeightsDataProvider3D implements DataProvider3D<Point3D.Float>{
         
         Point3D.Float[] weights = new Point3D.Float[NeurophChartUtilities.getConnectionCount(nnet) + 1];
         int totalConnectionCount = 1;
-        for (int i = 1; i < nnet.getLayers().length; i++) {
+        for (int i = 1; i < nnet.getLayers().size(); i++) {
             Layer l = nnet.getLayerAt(i);
             int layerConnectionCount = 1;
             for (Neuron neuron : l.getNeurons()) {
-                Connection[] connections = neuron.getInputConnections();
+                List<Connection> connections = neuron.getInputConnections();
                 for (Connection connection : connections) {
                     weights[totalConnectionCount] = new Point3D.Float(i, layerConnectionCount, (float) connection.getWeight().getValue());
                     layerConnectionCount++;

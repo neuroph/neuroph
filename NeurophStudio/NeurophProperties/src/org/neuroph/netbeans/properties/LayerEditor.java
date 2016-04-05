@@ -13,7 +13,7 @@ public class LayerEditor extends PropertyEditorSupport {
     if (d == null) {
         return "No Learning rule Set";
     }
-    return String.valueOf(d.getNeuralNetwork().getLayers().length);
+    return String.valueOf(d.getNeuralNetwork().getLayers().size());
 }
 
 public void setAsText(String s) {

@@ -28,7 +28,7 @@ public class LayerChildFactory extends ChildFactory<Neuron> {
 
     @Override
     protected boolean createKeys(List<Neuron> toPopulate) {
-        toPopulate.addAll(Arrays.asList(layer.getNeurons()));
+        toPopulate.addAll(layer.getNeurons());
         return true;
     }
 }

@@ -9,7 +9,6 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.events.LearningEvent;
@@ -38,12 +37,11 @@ import org.openide.windows.WindowManager;
         autostore = false)
 public final class MultiLayerPerceptronVisualizationTopComponent extends TopComponent implements LearningEventListener {
 
-    private static MultiLayerPerceptronVisualizationTopComponent instance;
+    //private static MultiLayerPerceptronVisualizationTopComponent instance;
     private static final String PREFERRED_ID = "MultiLayerPerceptronVisualizationTopComponent";
     private Visualization2DPanel visualizationPanel;
     private MultiLayerPerceptronClassificationSamplePanel controllsPanel;
     private SettingsTopComponent stc;
-    private PerceptronSampleTrainingSet pst;
     private DataSet trainingSet;
     private int tsCount = 0;
     private NeuralNetwork neuralNetwork;
@@ -89,32 +87,32 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
      * non-deserialized instance. To obtain the singleton instance, use
      * {@link #findInstance}.
      */
-    public static synchronized MultiLayerPerceptronVisualizationTopComponent getDefault() {
-        if (instance == null) {
-            instance = new MultiLayerPerceptronVisualizationTopComponent();
-        }
-        return instance;
-    }
+//    public static synchronized MultiLayerPerceptronVisualizationTopComponent getDefault() {
+//        if (instance == null) {
+//            instance = new MultiLayerPerceptronVisualizationTopComponent();
+//        }
+//        return instance;
+//    }
 
     /**
      * Obtain the MultiLayerPerceptronClassificationSampleTopComponent instance.
      * Never call {@link #getDefault} directly!
      */
-    public static synchronized MultiLayerPerceptronVisualizationTopComponent findInstance() {
-        TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
-        if (win == null) {
-            Logger.getLogger(MultiLayerPerceptronVisualizationTopComponent.class.getName()).warning(
-                    "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
-            return getDefault();
-        }
-        if (win instanceof MultiLayerPerceptronVisualizationTopComponent) {
-            return (MultiLayerPerceptronVisualizationTopComponent) win;
-        }
-        Logger.getLogger(MultiLayerPerceptronVisualizationTopComponent.class.getName()).warning(
-                "There seem to be multiple components with the '" + PREFERRED_ID
-                + "' ID. That is a potential source of errors and unexpected behavior.");
-        return getDefault();
-    }
+//    public static synchronized MultiLayerPerceptronVisualizationTopComponent findInstance() {
+//        TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
+//        if (win == null) {
+//            Logger.getLogger(MultiLayerPerceptronVisualizationTopComponent.class.getName()).warning(
+//                    "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
+//            return getDefault();
+//        }
+//        if (win instanceof MultiLayerPerceptronVisualizationTopComponent) {
+//            return (MultiLayerPerceptronVisualizationTopComponent) win;
+//        }
+//        Logger.getLogger(MultiLayerPerceptronVisualizationTopComponent.class.getName()).warning(
+//                "There seem to be multiple components with the '" + PREFERRED_ID
+//                + "' ID. That is a potential source of errors and unexpected behavior.");
+//        return getDefault();
+//    }
 
     @Override
     public int getPersistenceType() {
@@ -146,11 +144,11 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     }
 
     Object readProperties(java.util.Properties p) {
-        if (instance == null) {
-            instance = this;
-        }
-        instance.readPropertiesImpl(p);
-        return instance;
+//        if (instance == null) {
+//            instance = this;
+//        }
+        readPropertiesImpl(p);
+        return this;
     }
 
     private void readPropertiesImpl(java.util.Properties p) {
@@ -250,11 +248,11 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
      * Draws points from dataset, with 2 specified inputs
      */
     public void drawPointsFromTrainingSet(DataSet dataSet, int[] inputs) {
-        try {
+ //       try {
             visualizationPanel.setAllPointsRemoved(false);
             visualizationPanel.drawPointsFromTrainingSet(dataSet, inputs);
-        } catch (Exception e) {
-        }
+//        } catch (Exception e) {
+//        }
     }
 
     /*
@@ -277,10 +275,10 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
      * Creates new form BackpropagationSample
      * used in ViewManager probably not needed anymore
      */
-    public void setTrainingSetForMultiLayerPerceptronSample(PerceptronSampleTrainingSet ps) {
+    public void setTrainingSetForMultiLayerPerceptronSample(ObservableTrainingSet ps) {
         setSize(770, 600);
         trainingSet = new DataSet(2, 1);
-        this.pst = ps;
+     //   this.pst = ps;
         stc = SettingsTopComponent.findInstance();
         controllsPanel = stc.getSampleControlsPanel();
         controllsPanel.setMlpSampleTc(this);
@@ -329,7 +327,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         if (MultiLayerPerceptronClassificationSamplePanel.SHOW_POINTS && visualizationPanel.isAllPointsRemoved()) {
             try {
                 visualizationPanel.setAllPointsRemoved(false);
-                drawPointsFromTrainingSet(trainingSet, InputSettngsDialog.getInstance().getStoredInputs());
+                drawPointsFromTrainingSet(trainingSet, InputSettingsDialog.getInstance().getStoredInputs());
             } catch (Exception e) {
             }
         }
@@ -413,7 +411,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     /*
      * This method shows the information, eg. current name of dataset and neural network that are used for training
      */
-    public void neuralNetworkAndDataSetInformationCheck(NeuralNetwork neuralNetvork, DataSet dataSet) {
+    public void updateNeuralNetAndDataSetInfo(NeuralNetwork neuralNetvork, DataSet dataSet) {
 
         MultiLayerPerceptronClassificationSamplePanel mlp = stc.getSampleControlsPanel();
         if (dataSet != null) {
@@ -536,44 +534,39 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
 
         @Override
         public void drop(DropTargetDropEvent e) {
-            Transferable t = e.getTransferable();
-            DataFlavor dataSetflavor = t.getTransferDataFlavors()[1];
-            try {
-                
-                Node node = NodeTransfer.node(t, NodeTransfer.DND_COPY_OR_MOVE);
+            Transferable transferable = e.getTransferable();
+            Node node = NodeTransfer.node(transferable, NodeTransfer.DND_COPY_OR_MOVE);
 
-                DataSet dataSet = node.getLookup().lookup(DataSet.class);//gets the objects from lookup listener
-                NeuralNetwork neuralNet = node.getLookup().lookup(NeuralNetwork.class);                    
-                    
-                if (dataSet != null) {
-                    clear();
-                    setPointDrawed(false);
-                    getVisualizationPanel().setDrawingLocked(true);
-                    trainingSet = dataSet;
-                    InputSettngsDialog isd = InputSettngsDialog.getInstance();
-                    isd.initializeInformation(trainingSet);
-                    isd.setVisible(true);
-                    neuralNetworkAndDataSetInformationCheck(getNeuralNetwork(), trainingSet);
-                    coordinateSystemDomainCheck();
-                    getVisualizationPanel().drawPointsFromTrainingSet(trainingSet, isd.getStoredInputs());
-                }
-                
-                if (neuralNet != null) {
-                    setNeuralNetwork(neuralNet);
-                    neuralNetworkAndDataSetInformationCheck(getNeuralNetwork(), trainingSet);
-                }
-                
-                if ((trainingSet != null) && (getNeuralNetwork() != null)) {
-                    removeNetworkAndDataSetFromContent();
-                    trainingPreprocessing();
-                    content.add(neuralNetAndDataSet);
-                    content.add(trainingController);
-                    neuralNetworkAndDataSetInformationCheck(getNeuralNetwork(), trainingSet);
-                    MultiLayerPerceptronVisualizationTopComponent.this.requestActive();
-                }
-            } catch (Exception ex) {
-                Exceptions.printStackTrace(ex);
+            DataSet dataSet = node.getLookup().lookup(DataSet.class);               // get the DataSet objects from node lookup
+            NeuralNetwork neuralNet = node.getLookup().lookup(NeuralNetwork.class); // get the NeuralNetwrok object from node lookup
+
+            if (dataSet != null) {
+                clear();
+                setPointDrawed(false);
+                getVisualizationPanel().setDrawingLocked(true);
+                trainingSet = dataSet;
+                InputSettingsDialog isd = InputSettingsDialog.getInstance();
+                isd.initDataSetInfo(trainingSet);
+                isd.setVisible(true);
+                updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);
+                coordinateSystemDomainCheck();
+                getVisualizationPanel().drawPointsFromTrainingSet(trainingSet, isd.getStoredInputs());
             }
+
+            if (neuralNet != null) {
+                setNeuralNetwork(neuralNet);
+                updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);
+            }
+
+            if ((trainingSet != null) && (getNeuralNetwork() != null)) {
+                removeNetworkAndDataSetFromContent();
+                trainingPreprocessing();
+                content.add(neuralNetAndDataSet);
+                content.add(trainingController);
+                updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);
+                requestActive();
+            }
+
             e.dropComplete(true);
         }
     }

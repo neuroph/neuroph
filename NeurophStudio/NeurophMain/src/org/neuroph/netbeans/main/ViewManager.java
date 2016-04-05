@@ -4,20 +4,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.transfer.Trapezoid;
+import org.neuroph.netbeans.classificationsample.MultiLayerPerceptronVisualizationTopComponent;
+import org.neuroph.netbeans.classificationsample.NeuralNetObserver;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.DataSetTopComponent;
 import org.neuroph.netbeans.main.easyneurons.dialog.SupervisedTrainingMonitorTopComponent;
 import org.neuroph.netbeans.main.easyneurons.errorgraph.GraphFrameTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.KohonenSampleTopComponent;
 import org.neuroph.netbeans.main.easyneurons.samples.NFRSampleTopComponent;
-import org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet;
+import org.neuroph.netbeans.classificationsample.ObservableTrainingSet;
+import org.neuroph.netbeans.main.easyneurons.samples.perceptron.TrainingSetObserver;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.nnet.Kohonen;
 import org.neuroph.nnet.NeuroFuzzyPerceptron;
@@ -350,49 +352,41 @@ public class ViewManager implements
     }
 
     public void showMultiLayerPerceptronSample() {
-        org.neuroph.netbeans.classificationsample.NeuralNetObserver markovNeuralNet = new org.neuroph.netbeans.classificationsample.NeuralNetObserver() {
+        NeuralNetObserver neuralNetObserver = new NeuralNetObserver() {
             @Override
             public void update(Observable o, Object arg) {
                 NeuralNetwork net = getNnet();
 
                 super.update(o, arg);
                 net = getNnet();
-
             }
         };
 
-        org.neuroph.netbeans.main.easyneurons.samples.perceptron.TrainingSetObserver trainingSet = new org.neuroph.netbeans.main.easyneurons.samples.perceptron.TrainingSetObserver() {
+        TrainingSetObserver trainingSetObserver = new TrainingSetObserver() {
             @Override
             public void update(Observable o, Object arg) {
-                DataSet t = getTrainingSet();
-                //                           easyNeuronsProject.removeTrainingSet(ts);
+                //DataSet t = getTrainingSet();
                 super.update(o, arg);
-                t = getTrainingSet();
-                //                           if(ts.isEmpty()){updateProjectTree();}
-                //                           else{
-                //                           ts.setLabel("Backpropagation Sample Training Set");
-                //                           easyNeuronsProject.addTrainingSet(ts);
-                //                           updateProjectTree();
-                //                           }
+               // t = getTrainingSet();
             }
         };
 
-        final org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet pst = new PerceptronSampleTrainingSet();
-        pst.addObserver(trainingSet);
-        pst.addObserver(markovNeuralNet);
+        final ObservableTrainingSet observableTrainingSet = new ObservableTrainingSet();
+        observableTrainingSet.addObserver(trainingSetObserver);
+        observableTrainingSet.addObserver(neuralNetObserver);
 
-        NeuralNetwork nnet = markovNeuralNet.getNnet();
-        nnet.setLearningRule(new BackPropagation());       //ovo je moralo da se stavi...
+        NeuralNetwork nnet = neuralNetObserver.getNnet();
+        nnet.setLearningRule(new BackPropagation());       //ovo je moralo da se stavi... zasto - treba izbaciti i staviti momentum
 
-        DataSet ts = trainingSet.getTrainingSet();
+      //  DataSet ts = trainingSetObserver.getTrainingSet();
 
         //            org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample backpropagationVisualizer = new org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample(pst);
 
         SwingUtilities.invokeLater(new Runnable() {
-
+            // pozovi ovo iz wizarda
             public void run() {
-                org.neuroph.netbeans.classificationsample.MultiLayerPerceptronVisualizationTopComponent backpropagationVisualizer = new org.neuroph.netbeans.classificationsample.MultiLayerPerceptronVisualizationTopComponent();
-                backpropagationVisualizer.setTrainingSetForMultiLayerPerceptronSample(pst);
+                MultiLayerPerceptronVisualizationTopComponent backpropagationVisualizer = new MultiLayerPerceptronVisualizationTopComponent();
+                backpropagationVisualizer.setTrainingSetForMultiLayerPerceptronSample(observableTrainingSet);
 
                 backpropagationVisualizer.setVisible(true);
                 backpropagationVisualizer.open();

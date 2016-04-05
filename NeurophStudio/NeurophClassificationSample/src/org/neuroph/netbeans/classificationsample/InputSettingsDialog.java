@@ -12,22 +12,22 @@ import org.neuroph.core.data.DataSet;
  *
  * @author Milos Randjic
  */
-public class InputSettngsDialog extends javax.swing.JDialog {
+public class InputSettingsDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form InputSettngsDialog
      */
-    private InputSettngsDialog(java.awt.Frame parent, boolean modal) {
+    private InputSettingsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
     }
     
-    private static InputSettngsDialog instance;
+    private static InputSettingsDialog instance;
     
-    public static InputSettngsDialog getInstance(){
+    public static InputSettingsDialog getInstance(){
         if(instance==null){
-            return new InputSettngsDialog(null, true);
+            return new InputSettingsDialog(null, true);
         }
         else
             return instance;
@@ -36,11 +36,11 @@ public class InputSettngsDialog extends javax.swing.JDialog {
     private static int[] inputs;
     
     public void storeInputs(int[] inputs){
-        InputSettngsDialog.inputs = inputs;
+        InputSettingsDialog.inputs = inputs;
     }
     
     public int[] getStoredInputs(){
-        return InputSettngsDialog.inputs;
+        return InputSettingsDialog.inputs;
     }
     
     
@@ -62,17 +62,17 @@ public class InputSettngsDialog extends javax.swing.JDialog {
         okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(InputSettngsDialog.class, "InputSettngsDialog.title")); // NOI18N
+        setTitle(org.openide.util.NbBundle.getMessage(InputSettingsDialog.class, "InputSettingsDialog.title")); // NOI18N
         setModal(true);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(InputSettngsDialog.class, "InputSettngsDialog.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(InputSettingsDialog.class, "InputSettingsDialog.jLabel1.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(InputSettngsDialog.class, "InputSettngsDialog.jLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(InputSettingsDialog.class, "InputSettingsDialog.jLabel2.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(InputSettngsDialog.class, "InputSettngsDialog.okButton.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(InputSettingsDialog.class, "InputSettingsDialog.okButton.text")); // NOI18N
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
@@ -149,8 +149,9 @@ public class InputSettngsDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_okButtonActionPerformed
     
     
-    public void initializeInformation(DataSet dataSet) {
+    public void initDataSetInfo(DataSet dataSet) {
         
+        // we should take column names from data set here
         String[] inputNames = new String[dataSet.getInputSize()];
         
         for (int i = 0; i < inputNames.length; i++) {
@@ -182,20 +183,21 @@ public class InputSettngsDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InputSettngsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InputSettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InputSettngsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InputSettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InputSettngsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InputSettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InputSettngsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InputSettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                InputSettngsDialog dialog = new InputSettngsDialog(new javax.swing.JFrame(), true);
+                InputSettingsDialog dialog = new InputSettingsDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

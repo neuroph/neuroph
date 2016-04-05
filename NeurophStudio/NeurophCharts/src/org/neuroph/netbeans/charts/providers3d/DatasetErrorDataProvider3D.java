@@ -27,16 +27,16 @@ public class DatasetErrorDataProvider3D implements DataProvider3D {
     @Override
     public Point3D[] getData(Attribute ...attr) {
         int dataSetRowCount = dataSet.getRows().size();
-        int neuronsCount = nnet.getOutputNeurons().length;
+        int neuronsCount = nnet.getOutputNeurons().size();
         Point3D[] error = new Point3D[(dataSetRowCount * neuronsCount) + 1];
         int counter = 1;
         List<DataSetRow> rows = dataSet.getRows();
         for (int i = 0; i < rows.size(); i++) {
             nnet.setInput(rows.get(i).getInput());
             nnet.calculate();
-            Neuron[] outputNeurons = nnet.getOutputNeurons();
-            for (int j = 0; j < outputNeurons.length; j++) {
-                double err = rows.get(i).getDesiredOutput()[j] - outputNeurons[j].getOutput();
+            List<Neuron>outputNeurons = nnet.getOutputNeurons();
+            for (int j = 0; j < outputNeurons.size(); j++) {
+                double err = rows.get(i).getDesiredOutput()[j] - outputNeurons.get(j).getOutput();
                 double colVal = rows.get(i).getInput()[attr[0].getIndex() - 1];
                 error[counter] = new Point3D(colVal, j + 1, err);
                 counter++;

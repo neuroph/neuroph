@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.neuroph.dev.noprop.NoPropNet;
 
-import org.neuroph.netbeans.classificationsample.InputSettngsDialog;
+import org.neuroph.netbeans.classificationsample.InputSettingsDialog;
 import org.neuroph.netbeans.visual.TrainingController;
 import org.neuroph.netbeans.main.ViewManager;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
@@ -62,7 +62,7 @@ public final class TrainToolbarAction implements ActionListener {
                 mlpSample.setVisualizationStarted(true);
                 mlpSample.setDrawingLocked(true);
                
-                int[] storedInputs = InputSettngsDialog.getInstance().getStoredInputs();
+                int[] storedInputs = InputSettingsDialog.getInstance().getStoredInputs();
                 if (mlpSample.getVisualizationPanel().positiveInputsOnly()) {
                     mlpSample.generateSetValues(80, 0.025316456/2.0); //this was 57
                 } else {

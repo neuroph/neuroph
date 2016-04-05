@@ -42,7 +42,7 @@ public final class ClassifierTestAction implements ActionListener {
         
        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Evaluating classifier neural network "/*+trainingController.getNetwork().getLabel() +" for data set "/*+trainingController.getDataSet().getLabel()*/);        
 
-       NeuralNetwork neuralNet = trainingController.getNetwork();
+       NeuralNetwork<?> neuralNet = trainingController.getNetwork();
        DataSet dataSet = trainingController.getDataSet();
        
    

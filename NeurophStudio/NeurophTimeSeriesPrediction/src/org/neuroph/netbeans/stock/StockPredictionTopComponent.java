@@ -282,8 +282,8 @@ public final class StockPredictionTopComponent extends TopComponent implements L
             activeNeuralNetwork = (NeuralNetwork) c.iterator().next();
             txtNN.setText(activeNeuralNetwork.toString());
         }
-        inputNeuronsCount = activeNeuralNetwork.getInputNeurons().length;
-        outputNeuronsCount = activeNeuralNetwork.getOutputNeurons().length;
+        inputNeuronsCount = activeNeuralNetwork.getInputNeurons().size();
+        outputNeuronsCount = activeNeuralNetwork.getOutputNeurons().size();
     }
     // Creates dataset for chart - needs a bit more work
     private static XYSeriesCollection createDataset(double[] inputArr, double[] outputArr) {

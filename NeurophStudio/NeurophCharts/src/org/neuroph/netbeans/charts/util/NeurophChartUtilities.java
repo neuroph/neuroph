@@ -21,11 +21,11 @@ public class NeurophChartUtilities {
      */
     public static int getMaxConnectionCount(NeuralNetwork nnet) {
         int max = 0;
-        for (int i = 1; i < nnet.getLayers().length; i++) {
+        for (int i = 1; i < nnet.getLayers().size(); i++) {
             Layer layer = nnet.getLayerAt(i);
             int totalLayerConnections = 0;
             for (Neuron neuron : layer.getNeurons()) {
-                totalLayerConnections = totalLayerConnections + neuron.getInputConnections().length;
+                totalLayerConnections = totalLayerConnections + neuron.getInputConnections().size();
                 if (totalLayerConnections > max) {
                     max = totalLayerConnections;
                 }
@@ -42,10 +42,10 @@ public class NeurophChartUtilities {
      */
     public static int getConnectionCount(NeuralNetwork nnet) {
         int totalLayerConnections = 0;
-        for (int i = 1; i < nnet.getLayers().length; i++) {
+        for (int i = 1; i < nnet.getLayers().size(); i++) {
             Layer layer = nnet.getLayerAt(i);
             for (Neuron neuron : layer.getNeurons()) {
-                totalLayerConnections = totalLayerConnections + neuron.getInputConnections().length;
+                totalLayerConnections = totalLayerConnections + neuron.getInputConnections().size();
             }
         }
         return totalLayerConnections;
@@ -130,10 +130,10 @@ public class NeurophChartUtilities {
 
 
         int totalLayerConnections = 0;
-        int last = nnet.getLayers().length - 1;
+        int last = nnet.getLayers().size() - 1;
         Layer layer = nnet.getLayerAt(last);
         for (Neuron neuron : layer.getNeurons()) {
-            totalLayerConnections = totalLayerConnections + neuron.getInputConnections().length;
+            totalLayerConnections = totalLayerConnections + neuron.getInputConnections().size();
         }
 
         return totalLayerConnections;

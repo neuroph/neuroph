@@ -1,5 +1,6 @@
 package org.neuroph.netbeans.charts.providers3d;
 
+import java.util.List;
 import org.nugs.graph3d.api.DataProvider3D;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
@@ -50,14 +51,14 @@ public class WeightsDataProvider3D implements DataProvider3D<Point3D> {
         int totalConnectionCounter = 1;
         
         // iterate all layers, neurons and connections and create an array filled with weight values
-        for (int layerIdx = 1; layerIdx < neuralNetwork.getLayers().length; layerIdx++) {
+        for (int layerIdx = 1; layerIdx < neuralNetwork.getLayers().size(); layerIdx++) {
             Layer currentLayer = neuralNetwork.getLayerAt(layerIdx);
             int layerConnectionCounter = 1; // connection counter for current layer
             for (Neuron neuron : currentLayer.getNeurons()) {
-                Connection[] connections = neuron.getInputConnections();
-                for (int j = 0; j < connections.length; j++) {
+                List<Connection>connections = neuron.getInputConnections();
+                for (int j = 0; j < connections.size(); j++) {
                     // create and add 3D Point to weight points array easy 3D point. Each point is represented with: layerIdx, connIdx in corresponding layer, and weight value
-                    weights[totalConnectionCounter] = new Point3D(layerIdx, layerConnectionCounter, connections[j].getWeight().getValue());
+                    weights[totalConnectionCounter] = new Point3D(layerIdx, layerConnectionCounter, connections.get(j).getWeight().getValue());
                     layerConnectionCounter++;
                     totalConnectionCounter++;
                 }
@@ -77,7 +78,7 @@ public class WeightsDataProvider3D implements DataProvider3D<Point3D> {
         int counter = NeurophChartUtilities.getConnectionCount(neuralNetwork) + 1; // used for indexing additional weights that will be added
         
         for (int i = 1; i < weights.length; i++) { // FIX: do we have to iterate everything from start here? 
-            if (weights[i].getX() == neuralNetwork.getLayers().length - 1) { // if we've reached the last layer
+            if (weights[i].getX() == neuralNetwork.getLayers().size() - 1) { // if we've reached the last layer
                 newWeights[counter] = new Point3D(weights[i].getX() + 1, weights[i].getY(), weights[i].getZ()); // copy it again once more
                 counter++;
             }
