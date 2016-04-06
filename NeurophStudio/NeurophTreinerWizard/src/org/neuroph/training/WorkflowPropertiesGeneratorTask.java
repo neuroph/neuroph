@@ -28,7 +28,7 @@ public class WorkflowPropertiesGeneratorTask extends Task {
     // generated properties
     Stack<Properties> properties; // moze i red queue
     
-    String outputVarName = "trainingPropertiesStack";
+    String outputVarName = "workflowParametars";
 
     // max iterations max error
     // da imamo varijantu da mogu da se navod ekonkretne vrednosti
@@ -86,7 +86,7 @@ public class WorkflowPropertiesGeneratorTask extends Task {
             }
         }
 
-        parentProcess.setVar(outputVarName, properties);
+        setVariable(outputVarName, properties);
 
     }
 

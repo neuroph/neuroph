@@ -17,7 +17,7 @@ import org.neuroph.training.NormalizationTask;
 import org.neuroph.training.ReportTask;
 import org.neuroph.training.SamplingTask;
 import org.neuroph.training.SaveNeuralNetworkTask;
-import org.neuroph.training.SetTrainingPropertiesTask;
+import org.neuroph.training.SetWorkflowParametarsTask;
 import org.neuroph.training.StatsTask;
 import org.neuroph.training.StoreTrainingResultTask;
 import org.neuroph.training.TestTask;
@@ -93,7 +93,7 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         trainingPropertiesGeneratorTask.setDataSet((DataSet) wiz.getProperty("dataSet"));
                         trainingProcess.addTask(trainingPropertiesGeneratorTask);
 
-                        trainingProcess.addTask(new SetTrainingPropertiesTask("setProperties", "trainingPropertiesStack", "trainingProperties"));
+                        trainingProcess.addTask(new SetWorkflowParametarsTask("setProperties", "trainingPropertiesStack", "trainingProperties"));
 
                         DataSetLoaderTask dataLoaderTask = new DataSetLoaderTask("dataSetLoader", "dataSetProperties", "dataSet");
                         trainingProcess.addTask(dataLoaderTask);

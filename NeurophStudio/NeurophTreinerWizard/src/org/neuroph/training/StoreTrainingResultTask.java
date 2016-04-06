@@ -21,10 +21,10 @@ public class StoreTrainingResultTask extends Task {
     public void execute() {
         if (trainingResults == null) {
                 trainingResults = new ArrayList<>();
-                getParentProcess().setVar("trainingResults", trainingResults);    
+                setVariable("trainingResults", trainingResults);    
         }
         
-        TrainingResult trainingResult = (TrainingResult) getParentProcess().getVar("trainingResult");
+        TrainingResult trainingResult = getVariable("trainingResult", TrainingResult.class);
         trainingResults.add(trainingResult);  
     }
 

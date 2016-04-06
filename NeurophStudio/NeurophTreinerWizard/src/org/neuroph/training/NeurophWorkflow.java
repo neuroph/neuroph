@@ -41,18 +41,20 @@ import java.util.List;
  */
 public class NeurophWorkflow { // rename to NeurophWorkflow - ili NeurophPipeline : provides predefined customizable workflows
     ArrayList<Task> tasks;
+  
+    
     int currentTaskIndex;
     Task currentTask;
     Object taskInputOutput;
     StringBuilder processLog;
     
-    HashMap<String, Object> vars;
+    HashMap<String, Variable> variables;
     
     private List<ProcessEventListener> listeners = new ArrayList<>();
 
     public NeurophWorkflow() {
         tasks = new ArrayList<>();
-        vars = new HashMap<>();
+        variables = new HashMap<>();
     }
     
     public NeurophWorkflow addTask(Task task) {
@@ -102,15 +104,15 @@ public class NeurophWorkflow { // rename to NeurophWorkflow - ili NeurophPipelin
         }        
     }
        
-    public void setVar(String name, Object value) {
-        vars.put(name, value);
+    public void setVariable(Variable<?> var) {
+        variables.put(var.getName(), var);
         //processLog.append("Setting process var: "+name +"\n");
     }
     
-    public Object getVar(String name) {
-        if (!vars.containsKey(name))
+    public Variable getVariable(String name) {
+        if (!variables.containsKey(name))
             throw new RuntimeException("Process does not contain var "+name);
-        return vars.get(name);
+        return variables.get(name);
     }
     
     protected void logMessage(String msg) {

@@ -29,7 +29,7 @@ public class DataSetLoaderTask extends Task {
 
     public void execute() {
 
-        Properties trainingProperties = (Properties) getProcessVar("trainingProperties");
+        Properties trainingProperties = (Properties) getVariable("trainingProperties");
         Properties dataSetProps = (Properties) trainingProperties.get(inputVarName);
 
         String oldFilename = this.fileName;
@@ -46,7 +46,7 @@ public class DataSetLoaderTask extends Task {
                 logMessage("Using data set " + fileName);
             }
 
-            setProcessVar(outputVarName, dataSet);
+            setVariable(outputVarName, dataSet);
         }
 
     }

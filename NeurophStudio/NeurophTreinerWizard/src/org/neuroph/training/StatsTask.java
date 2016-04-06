@@ -21,7 +21,7 @@ public class StatsTask extends Task {
 
     @Override
     public void execute() {
-        ArrayList<TrainingResult> trainingResults = (ArrayList<TrainingResult>)getParentProcess().getVar("trainingResults");
+        ArrayList<TrainingResult> trainingResults = getVariable("trainingResults", ArrayList.class);
  
         resultCount = trainingResults.size();        
         iterationStats.count = resultCount;
@@ -78,8 +78,8 @@ public class StatsTask extends Task {
         iterationStats.standardDeviation = Math.sqrt(iterationStats.variance);
         totalErrorStats.standardDeviation = Math.sqrt(totalErrorStats.variance);
                 
-        getParentProcess().setVar("iterationStats", iterationStats);
-        getParentProcess().setVar("totalErrorStats", totalErrorStats);                
+        getParentProcess().setVariable(new Variable<Stats>( "iterationStats", iterationStats));
+        getParentProcess().setVariable(new Variable<Stats>("totalErrorStats", totalErrorStats));                
     }
         
 }

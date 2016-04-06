@@ -25,7 +25,7 @@ public class SaveNeuralNetworkTask extends Task {
     @Override
     public void execute() {
         logMessage("Training neural network \n");
-        this.neuralNetwork = (NeuralNetwork)parentProcess.getVar(neuralNetworkVarName); 
+        this.neuralNetwork = (NeuralNetwork)getVariable(neuralNetworkVarName, NeuralNetwork.class); 
       //  this.neuralNetwork.save(neuralNetworkVarName + count +".nnet");
         
         NeurophProject np = CurrentProject.getInstance().getCurrentProject();

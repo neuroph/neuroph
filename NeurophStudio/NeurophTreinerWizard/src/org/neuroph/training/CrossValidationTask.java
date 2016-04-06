@@ -53,10 +53,10 @@ public class CrossValidationTask extends Task {
     @Override
     public void execute() {
         if (iteration == 0) { // on first execution create subsets and set training and test set
-            Properties trainingProperties = (Properties) getProcessVar("trainingProperties");
+            Properties trainingProperties = (Properties) getVariable("trainingProperties");
             Properties crossValProps = (Properties) trainingProperties.get("crossValidationProperties");
 
-            dataSet = (DataSet) getProcessVar("dataSet");
+            dataSet = (DataSet) getVariable("dataSet");
             folds = 2; // (Integer)crossValProps.get("folds") ;        
             int trainingSetPercent = 50;
                 
@@ -72,10 +72,10 @@ public class CrossValidationTask extends Task {
             // da li se preklapaju
             // koji procenat
 
-            parentProcess.setVar("testSet", dataSetSamples.get(0));
-            parentProcess.setVar("trainingSet", dataSetSamples.get(1));            
+            setVariable("testSet", dataSetSamples.get(0));
+            setVariable("trainingSet", dataSetSamples.get(1));            
         } else if (iteration+1 <= folds) { // on next execution only set next training sets
-            parentProcess.setVar("trainingSet", dataSetSamples.get(iteration+1));            
+            setVariable("trainingSet", dataSetSamples.get(iteration+1));            
         } else { // when you finish with all training sets reset and startall over on next execution
           iteration = 0;  
         }

@@ -26,10 +26,10 @@ public class SamplingTask extends Task {
     
      // how to choose sampling method
     public void execute() {        
-        Properties trainingProperties = (Properties)getProcessVar("trainingProperties");      
+        Properties trainingProperties = (Properties)getVariable("trainingProperties");      
         Properties crossValProps = (Properties)trainingProperties.get("crossValidationProperties");          
                 
-        dataSet = (DataSet)getProcessVar("dataSet");
+        dataSet = (DataSet)getVariable("dataSet");
         int trainingSetPercent =  (Integer)crossValProps.get("trainingSetPercent") ;        
             
         logMessage("Sampling data set to create training and test sets: "+trainingSetPercent+" % / "+(100-trainingSetPercent) +"%");
@@ -37,8 +37,8 @@ public class SamplingTask extends Task {
         this.sampling = new SubSampling(trainingSetPercent);        
         dataSetSample = dataSet.sample(sampling);
         
-        parentProcess.setVar("trainingSet", dataSetSample.get(0));
-        parentProcess.setVar("testSet", dataSetSample.get(1));
+        parentProcess.setVariable(new Variable<DataSet>("trainingSet", dataSetSample.get(0)));
+        parentProcess.setVariable(new Variable<DataSet>("testSet", dataSetSample.get(1)));
     }
 
     

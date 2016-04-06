@@ -1,7 +1,5 @@
 package org.neuroph.training;
 
-import org.neuroph.util.data.norm.MaxNormalizer;
-
 
 
 /**
@@ -36,7 +34,7 @@ public class SampleTraining {
         // it would be great to load all these settings from XML file
         // Creates process var: processPropertiesStack                
         // izgenerise sva podesavanja i stavi na stek. i onda se proces izvrsava za jedno po jedno podesavanje sa steka        
-        workflow.addTask(new WorkflowPropertiesGeneratorTask("trainingPropertiesGenerator", "trainingPropertiesStack"));
+        workflow.addTask(new WorkflowPropertiesGeneratorTask("trainingPropertiesGenerator", "parmetarsStack"));
         // add  max iterations and max error
         
 //---------------------------------------------------------------------        
@@ -45,9 +43,9 @@ public class SampleTraining {
         // Setting process properties for a single training iteration, by poping one from stack
         // Expects input process var: trainingPropertiesStack
         // Creates process var: trainingProperties
-        workflow.addTask(new SetTrainingPropertiesTask("setProperties", 
-                                                       "trainingPropertiesStack", 
-                                                       "trainingProperties"));
+        workflow.addTask(new SetWorkflowParametarsTask("setParametars", 
+                                                       "parmetarsStack", 
+                                                       "workflowParametars"));
         
 //---------------------------------------------------------------------
         

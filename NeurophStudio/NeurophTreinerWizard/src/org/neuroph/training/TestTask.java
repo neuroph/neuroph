@@ -24,8 +24,8 @@ public class TestTask extends Task {
     public void execute() {
         // calculate mse, itd.
         
-        this.neuralNetwork = (NeuralNetwork)parentProcess.getVar(neuralNetworkVarName); 
-        this.testSet =  (DataSet)parentProcess.getVar(testSetVarName);        
+        this.neuralNetwork = getVariable(neuralNetworkVarName, NeuralNetwork.class); 
+        this.testSet =  getVariable(testSetVarName, DataSet.class);        
         
         
         for(DataSetRow row : testSet.getRows()) {

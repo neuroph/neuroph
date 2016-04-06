@@ -29,12 +29,15 @@ public class MultiLayerPerceptronFactoryTask extends Task {
         // get neural network settings from the process and use MultiLayerPerceptronFactoryTask
         logMessage("Creating neural network");
         
-        Properties processProperties = (Properties)getProcessVar("trainingProperties");      
+        Properties processProperties = (Properties)getVariable("trainingProperties", Properties.class);      
         Properties  neuralNetworkProperties = (Properties)processProperties.get(inputVarName);        
         
-        int inputs = (Integer)neuralNetworkProperties.get("inputNeurons");
-        int outputs = (Integer)neuralNetworkProperties.get("outputNeurons");
-        int hidden = (Integer)neuralNetworkProperties.get("hiddenNeurons");
+       // int inputs = (Integer)neuralNetworkProperties.get("inputNeurons");
+        int inputs = getVariable("inputNeurons", Integer.TYPE);       
+//        int outputs = (Integer)neuralNetworkProperties.get("outputNeurons");
+        int outputs = getVariable("outputNeurons", Integer.TYPE);        
+        //int hidden = (Integer)neuralNetworkProperties.get("hiddenNeurons");
+        int hidden = getVariable("hiddenNeurons", Integer.TYPE);
         double learningRate = (Double)neuralNetworkProperties.get("learningRate");        
         int maxIterations = (Integer)neuralNetworkProperties.get("maxIterations");
         double maxError = (Double)neuralNetworkProperties.get("maxError");
@@ -45,7 +48,7 @@ public class MultiLayerPerceptronFactoryTask extends Task {
         neuralNetwork.getLearningRule().setMaxError(maxError);
 //        neuralNetwork.setLabel(name);
         
-        setProcessVar(outputVarName, neuralNetwork);
+        setVariable(outputVarName, neuralNetwork);
         
         logMessage("Using "+inputs +" input, " + hidden + " hidden and "+outputs+" output neurons; learning rate: "+learningRate );
 

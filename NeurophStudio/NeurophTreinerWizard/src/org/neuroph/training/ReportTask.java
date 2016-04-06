@@ -20,8 +20,8 @@ public class ReportTask extends Task {
           logMessage("==============================");
           
           // get training statistics
-          Stats iterationsStats = (Stats)getParentProcess().getVar("iterationStats");
-          Stats totalErrorStats = (Stats)getParentProcess().getVar("totalErrorStats");
+          Stats iterationsStats = (Stats)getParentProcess().getVariable("iterationStats").getValue();
+          Stats totalErrorStats = (Stats)getParentProcess().getVariable("totalErrorStats").getValue();
           
           logMessage(iterationsStats.toString());
           logMessage(totalErrorStats.toString());

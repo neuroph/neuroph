@@ -27,7 +27,7 @@ public class NormalizationTask extends Task {
     public void execute() {
         logMessage("Normalizing data set using " + getName());
                  
-        dataSet = (DataSet) getProcessVar(dataSetVarName); // get dataSet
+        dataSet = (DataSet) getVariable(dataSetVarName); // get dataSet
         normalizer.normalize(dataSet); // izgleda da baca exception ako je ts prazan...
     }
 }

@@ -7,17 +7,17 @@ import org.neuroph.util.Properties;
  * Setting process properties for single iteration, by poping one by one from stack
  * @author Zoran Sevarac
  */
-public class SetTrainingPropertiesTask extends Task {
-    Stack<Properties>  processPropertiesStack;
+public class SetWorkflowParametarsTask extends Task {
+    Stack<Variable>  processParametarStack;
     
-    String inputVarName  = "trainingPropertiesStack", // name of the var that holds DataSetProperties
-           outputVarName = "trainingProperties";    
+    String inputVarName  = "parmetarsStack", // name of the var that holds DataSetProperties
+           outputVarName = "workflowParametars";    
 
 //    public SetTrainingPropertiesTask(String name) {
 //        super(name);
 //    }
 
-    public SetTrainingPropertiesTask(String name, String inputVarName, String outputVarName) {
+    public SetWorkflowParametarsTask(String name, String inputVarName, String outputVarName) {
         super(name);                
         this.inputVarName = inputVarName;
         this.outputVarName = outputVarName;        
@@ -26,9 +26,9 @@ public class SetTrainingPropertiesTask extends Task {
     @Override
     public void execute() {
         // pop from process properties stack
-        processPropertiesStack = (Stack<Properties> )getProcessVar(inputVarName);
-        Properties processProperties = processPropertiesStack.pop();
+        processParametarStack = (Stack<Variable> )getVariable(inputVarName);
+        Variable processProperties = processParametarStack.pop();
         // and set processProperties var for this iteration
-        setProcessVar(outputVarName, processProperties);        
+        setVariable(outputVarName, processProperties);        
     }            
 }

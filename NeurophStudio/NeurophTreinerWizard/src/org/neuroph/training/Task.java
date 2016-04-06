@@ -28,14 +28,19 @@ abstract public class Task {
         parentProcess.logMessage(message);
     }
     
-    public Object getProcessVar(String name) {
-        return parentProcess.getVar(name);
+    public <T>T getVariable(String name, Class<T> type) {
+        return   (T) ((Variable<T>)parentProcess.getVariable(name).getValue());
+    }
+    // todo izbaciti
+    public Object getVariable(String name) {
+        return parentProcess.getVariable(name);
     }
     
-    public void setProcessVar(String name, Object value) {
-        parentProcess.setVar(name, value);
+    public void setVariable(String name, Object value) {
+        parentProcess.setVariable(new Variable(name, value) );
     }    
-       
+    
+
     public abstract void execute();    
     
 }
