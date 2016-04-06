@@ -155,7 +155,7 @@
             </public-packages>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-imgrec-2.92.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-imgrec-2.92.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-imgrec-2.92.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/logback-core-1.1.2.jar</runtime-relative-path>
@@ -163,11 +163,11 @@
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-contrib-2.92.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-contrib-2.92.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-contrib-2.92.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-core-2.92.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-core-2.92.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-core-2.92.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/NoProp.jar</runtime-relative-path>
@@ -175,11 +175,11 @@
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-adapters-2.92.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-adapters-2.92.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-adapters-2.92.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-samples-2.92.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-samples-2.92.jar</binary-origin>
+                <binary-origin>release/modules/ext/neuroph-samples-2.92.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/slf4j-api-1.7.5.jar</runtime-relative-path>
@@ -190,12 +190,12 @@
                 <binary-origin>release/modules/ext/logback-classic-1.1.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/neuroph-ocr-2.92.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/NeurophWrapper/release/modules/ext/neuroph-ocr-2.92.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
                 <runtime-relative-path>ext/commons-lang3-3.3.2.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/commons-lang3-3.3.2.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/neuroph-ocr-2.92.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/neuroph-ocr-2.92.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>
