@@ -1,5 +1,6 @@
 package org.neuroph.netbeans.classificationsample;
 
+import java.awt.BorderLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -76,10 +77,32 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setLayout(new java.awt.BorderLayout());
+        jPanel1 = new javax.swing.JPanel();
+        clearButton = new javax.swing.JButton();
+
+        setLayout(new java.awt.BorderLayout(0, 5));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(clearButton, org.openide.util.NbBundle.getMessage(MultiLayerPerceptronVisualizationTopComponent.class, "MultiLayerPerceptronVisualizationTopComponent.clearButton.text")); // NOI18N
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(clearButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, -1));
+
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        clear();
+    }//GEN-LAST:event_clearButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton clearButton;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files
@@ -265,9 +288,9 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         }
         visualizationPanel = new Visualization2DPanel();
         visualizationPanel.setPositiveInputsOnly(positiveCoordinates);
-        visualizationPanel.setSize(800, 800); // size of th evisualization panel - should adapt to prent window size - border layout
-        add(visualizationPanel);
-        visualizationPanel.setLocation(0, 0);
+
+        add(visualizationPanel, BorderLayout.CENTER);
+
         repaint();
     }
 

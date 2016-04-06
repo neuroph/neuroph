@@ -20,7 +20,7 @@ import org.neuroph.core.data.DataSetRow;
  */
 public class Visualization2DPanel extends javax.swing.JPanel {
 
-    private int resolution;
+  //  private int resolution;
     private NeuralNetwork neuralNetwork;
     private Graphics graphicsBuffer;
     private Image imageBuffer;
@@ -44,29 +44,31 @@ public class Visualization2DPanel extends javax.swing.JPanel {
 
     // size of the visualization panel, same height
     // it should also be changed in MultiLayerPerceptronClassificationSampleTopComponent.initializePanel
-    public int panelWidth = 800;
+    public int panelSize;// = 800;
     
     /**
      * Creates new form Visualization2DPanel
      */
     public Visualization2DPanel() {
 
-        resolution = panelWidth; // was panelWidth
-        setSize(resolution, resolution);
+
+//        setSize(resolution, resolution);
         initGridPoints();
         points = new ArrayList();
         value = 1;
         trainingSet = new DataSet(2, 1);
         initComponents();
+   //     panelSize = getHeight();
+   //     resolution = panelWidth; // was panelWidth
     }
 
-    public int getResolution() {
-        return resolution;
-    }
-
-    public void setResolution(int resolution) {
-        this.resolution = resolution;
-    }
+//    public int getResolution() {
+//        return resolution;
+//    }
+//
+//    public void setResolution(int resolution) {
+//        this.resolution = resolution;
+//    }
 
     public boolean isDrawingLocked() {
         return drawingLocked;
@@ -201,6 +203,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
 
     /*
      * Calculates scaled y value, needed for drawing lines on panel
+     * @param x 
      */
     private double calculateY(double scalingCoefficient, int x, double w0, double w1, double w2) {
         return scalingCoefficient - scalingCoefficient * (-w1 * x / scalingCoefficient - w0) / w2;
@@ -223,15 +226,15 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         int x1, x2, y1, y2;
         if (positiveInputsOnly()) {
             x1 = 0;
-            y1 = (int) calculateY(panelWidth, x1, w0, w1, w2);
-            x2 = panelWidth;
-            y2 = (int) calculateY(panelWidth, x2, w0, w1, w2);
+            y1 = (int) calculateY(panelSize, x1, w0, w1, w2);
+            x2 = panelSize;
+            y2 = (int) calculateY(panelSize, x2, w0, w1, w2);
         } else {
-            x1 = -panelWidth / 2;
-            y1 = (int) calculateY(panelWidth / 2, x1, w0, w1, w2) - panelWidth / 2;
+            x1 = -panelSize / 2;
+            y1 = (int) calculateY(panelSize / 2, x1, w0, w1, w2) - panelSize / 2;
 
-            x2 = panelWidth / 2;
-            y2 = (int) calculateY(panelWidth / 2, x2, w0, w1, w2) - panelWidth / 2;
+            x2 = panelSize / 2;
+            y2 = (int) calculateY(panelSize / 2, x2, w0, w1, w2) - panelSize / 2;
         }
         return new int[]{x1, y1, x2, y2};
     }
@@ -267,15 +270,15 @@ public class Visualization2DPanel extends javax.swing.JPanel {
     private void visualizeColoredAreas2D() {
         if (neuralNetwork != null) {
             Neuron[] neurons = neuralNetwork.getLayerAt(1).getNeurons().toArray(new Neuron[0]);//second layer neurons
-            int x, y, size = panelWidth, startIndex, offset, scalingCoefficient;
+            int x, y, size = panelSize, startIndex, offset, scalingCoefficient;
             if (positiveInputsOnly()) {             
                 startIndex = 0;
                 offset = 0;
                 scalingCoefficient = size;
             } else {               
                 startIndex = -size / 2;
-                offset = panelWidth / 2;
-                scalingCoefficient = panelWidth / 2;
+                offset = panelSize / 2;
+                scalingCoefficient = panelSize / 2;
             }
             int[] selectedInputs = InputSettingsDialog.getInstance().getStoredInputs();//contains indexes of 2 selected inputs
             for (int m = startIndex; m < size; m++) { 
@@ -333,7 +336,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
                     if (positiveInputsOnly()) {
                         graphicsBuffer.fillRect(x, y, 10, 10);
                     } else {
-                        graphicsBuffer.fillRect(x - panelWidth / 2, y - panelWidth / 2, 10, 10); // 10, 10
+                        graphicsBuffer.fillRect(x - panelSize / 2, y - panelSize / 2, 10, 10); // 10, 10
                     }
                     
                     if (gridPoints[i][j] > 0.5) {//this is a treshold function, that separates one output from another
@@ -346,7 +349,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
                     if (positiveInputsOnly()) {
                         graphicsBuffer.fillRect(x + 3, y + 3, 3, 3);
                     } else {
-                        graphicsBuffer.fillRect(x - panelWidth / 2 + 3, y - panelWidth / 2 + 3, 3, 3); // 3, 3, 3, 3
+                        graphicsBuffer.fillRect(x - panelSize / 2 + 3, y - panelSize / 2 + 3, 3, 3); // 3, 3, 3, 3
                     }
                 }
             }
@@ -363,14 +366,14 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         g.setColor(Color.lightGray);
         if (positiveInputsOnly) {
             g.drawLine(X, Y, 0, Y);
-            g.drawLine(X, Y, X, panelWidth);
+            g.drawLine(X, Y, X, panelSize);
             g.setColor(Color.BLACK);
             g.drawString("(" + xVal + " , " + yVal + ")", X - 10, Y - 10);
         } else {
-            g.drawLine(X - panelWidth / 2, Y - panelWidth / 2, 0, Y - panelWidth / 2);
-            g.drawLine(X - panelWidth / 2, Y - panelWidth / 2, X - panelWidth / 2, 500);
+            g.drawLine(X - panelSize / 2, Y - panelSize / 2, 0, Y - panelSize / 2);
+            g.drawLine(X - panelSize / 2, Y - panelSize / 2, X - panelSize / 2, 500);
             g.setColor(Color.BLACK);
-            g.drawString("(" + xVal + " , " + yVal + ")", X - panelWidth / 2 - 10, Y - panelWidth / 2 - 10);
+            g.drawString("(" + xVal + " , " + yVal + ")", X - panelSize / 2 - 10, Y - panelSize / 2 - 10);
         }
     }
 
@@ -400,22 +403,24 @@ public class Visualization2DPanel extends javax.swing.JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-      
+      panelSize = getHeight();
+        
+        
         // initialize drawing buffer if needed
         if (imageBuffer == null) {
-            imageBuffer = createImage(panelWidth, panelWidth);
+            imageBuffer = createImage(panelSize, panelSize);
             graphicsBuffer = imageBuffer.getGraphics();
             if (!positiveInputsOnly) {
-                graphicsBuffer.translate(panelWidth / 2, panelWidth / 2);//translates panel coordinates to -570/2, in order to enable both positive and negative inputs
+                graphicsBuffer.translate(panelSize / 2, panelSize / 2);//translates panel coordinates to -570/2, in order to enable both positive and negative inputs
             }
         }
         
         // clear drawing buffer
         graphicsBuffer.setColor(Color.WHITE);//drawing white rectangles for visualization
         if (positiveInputsOnly) {
-            graphicsBuffer.fillRect(0, 0, panelWidth, panelWidth);
+            graphicsBuffer.fillRect(0, 0, panelSize, panelSize);
         } else {
-            graphicsBuffer.fillRect(-panelWidth / 2, -panelWidth / 2, panelWidth, panelWidth);
+            graphicsBuffer.fillRect(-panelSize / 2, -panelSize / 2, panelSize, panelSize);
         }
         
         // redraw whats needed
@@ -438,11 +443,11 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         if (positiveInputsOnly) {
             //draws coordinate axis lines and labels
             graphicsBuffer.setColor(Color.BLACK);
-            graphicsBuffer.drawLine(0, panelWidth-1, panelWidth-1, panelWidth-1);
-            graphicsBuffer.drawLine(0, 0, 0, panelWidth-1);
+            graphicsBuffer.drawLine(0, panelSize-1, panelSize-1, panelSize-1);
+            graphicsBuffer.drawLine(0, 0, 0, panelSize-1);
             graphicsBuffer.drawString("1", 5, 10);
-            graphicsBuffer.drawString("1", panelWidth-10, panelWidth-5);
-            graphicsBuffer.drawString("0", 5, panelWidth-5);
+            graphicsBuffer.drawString("1", panelSize-10, panelSize-5);
+            graphicsBuffer.drawString("0", 5, panelSize-5);
             
             //draws input points
             Iterator e = points.iterator();
@@ -452,7 +457,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
             }
             
             //draws help line
-            if (helpX != -1000 && 0 <= helpX && helpX <= panelWidth && helpY != -1000 && 0 <= helpY && helpX <= panelWidth) {
+            if (helpX != -1000 && 0 <= helpX && helpX <= panelSize && helpY != -1000 && 0 <= helpY && helpX <= panelSize) {
                 drawHelpLine(helpX, helpY, graphicsBuffer);
             }
             g.drawImage(imageBuffer, 0, 0, this);
@@ -460,27 +465,28 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         } else {
             //draws coordinate axis lines and labels
             graphicsBuffer.setColor(Color.BLACK);
-            graphicsBuffer.drawLine(-panelWidth / 2, 0, panelWidth / 2, 0);
-            graphicsBuffer.drawLine(0, -panelWidth / 2, 0, panelWidth / 2);
-            graphicsBuffer.drawString("1", 5, -panelWidth / 2 + 10);
-            graphicsBuffer.drawString("-1", 5, panelWidth / 2 - 5);
-            graphicsBuffer.drawString("1", panelWidth / 2 - 10, 15);
-            graphicsBuffer.drawString("-1", -panelWidth / 2 + 5, 15);
+            graphicsBuffer.drawLine(-panelSize / 2, 0, panelSize / 2, 0);
+            graphicsBuffer.drawLine(0, -panelSize / 2, 0, panelSize / 2);
+            graphicsBuffer.drawString("1", 5, -panelSize / 2 + 10);
+            graphicsBuffer.drawString("-1", 5, panelSize / 2 - 5);
+            graphicsBuffer.drawString("1", panelSize / 2 - 10, 15);
+            graphicsBuffer.drawString("-1", -panelSize / 2 + 5, 15);
             graphicsBuffer.drawString("0", -10, 15);
             
             //draws input points
             Iterator e = points.iterator();
             while (e.hasNext()) {
                 int[] point = (int[]) e.next();
-                drawPoint(point[0], point[1] - panelWidth / 2, point[2] - panelWidth / 2, graphicsBuffer);
+                drawPoint(point[0], point[1] - panelSize / 2, point[2] - panelSize / 2, graphicsBuffer);
             }
             
             //draws help line
-            if (helpX != -1000 && -panelWidth / 2 <= helpX && helpX <= panelWidth && helpY != -1000 && -panelWidth / 2 <= helpY && helpY <= panelWidth) {
+            if (helpX != -1000 && -panelSize / 2 <= helpX && helpX <= panelSize && helpY != -1000 && -panelSize / 2 <= helpY && helpY <= panelSize) {
                 drawHelpLine(helpX, helpY, graphicsBuffer);
             }
             g.drawImage(imageBuffer, 0, 0, this);
         }
+        getParent().validate();
     }
 
     /*
@@ -490,7 +496,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         double xx;
         if (positiveInputsOnly) {
             double X = (double) x;
-            xx = (double) X / (double)panelWidth;
+            xx = (double) X / (double)panelSize;
             if (xx > 1) {
                 xx = 1;
             }
@@ -499,7 +505,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
             }
         } else {
             double X = (double) x;
-            xx = X / (panelWidth / 2) - 1;
+            xx = X / (panelSize / 2) - 1;
             if (xx > 1) {
                 xx = 1;
             }
@@ -513,11 +519,11 @@ public class Visualization2DPanel extends javax.swing.JPanel {
     /*
      * Transforms panel's value to Decartes' y value
      */
-    double transformFromPanelToDecartY(int y) {
+    double transformFromPanelToDecartY(int panelY) {
         double yy;
         if (positiveInputsOnly) {
-            double Y = (double) y;
-            yy = 1 - Y / (double)panelWidth;
+            double Y = (double) panelY;
+            yy = 1 - Y / (double)panelSize;
             if (yy > 1) {
                 yy = 1;
             }
@@ -525,8 +531,8 @@ public class Visualization2DPanel extends javax.swing.JPanel {
                 yy = 0;
             }
         } else {
-            double Y = (double) y;
-            yy = 1 - Y / (panelWidth / 2);
+            double Y = (double) panelY;
+            yy = 1 - Y / (panelSize / 2);
             if (yy > 1) {
                 yy = 1;
             }
@@ -542,10 +548,10 @@ public class Visualization2DPanel extends javax.swing.JPanel {
      */
     public int transformFromDecartToPanelX(double x) {
         if (positiveInputsOnly) {
-            double valueX = x * (double)panelWidth;
+            double valueX = x * (double)panelSize;
             return (int) valueX;
         } else {
-            return (int) ((1 + x) * panelWidth / 2);
+            return (int) ((1 + x) * panelSize / 2);
         }
     }
 
@@ -554,10 +560,10 @@ public class Visualization2DPanel extends javax.swing.JPanel {
      */
     public int transformFromDecartToPanelY(double y) {
         if (positiveInputsOnly) {
-            double valueY = (1.0 - y) * (double)panelWidth;
+            double valueY = (1.0 - y) * (double)panelSize;
             return (int) valueY;
         } else {
-            return (int) ((1 - y) * panelWidth / 2);
+            return (int) ((1 - y) * panelSize / 2);
         }
     }
 
@@ -613,7 +619,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         int X = evt.getX();
         int Y = evt.getY();
         if (positiveInputsOnly) {
-            if (0 <= X && X <= panelWidth && 0 <= Y && Y <= panelWidth) {
+            if (0 <= X && X <= panelSize && 0 <= Y && Y <= panelSize) {
                 helpX = X;
                 helpY = Y;
             } else {
@@ -621,7 +627,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
                 helpY = -1000;
             }
         } else {
-            if (-panelWidth / 2 <= X && X <= panelWidth && -panelWidth / 2 <= Y && Y <= panelWidth) {
+            if (-panelSize / 2 <= X && X <= panelSize && -panelSize / 2 <= Y && Y <= panelSize) {
                 helpX = X;
                 helpY = Y;
             } else {
