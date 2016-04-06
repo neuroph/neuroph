@@ -486,7 +486,6 @@ public class Visualization2DPanel extends javax.swing.JPanel {
             }
             g.drawImage(imageBuffer, 0, 0, this);
         }
-        getParent().validate();
     }
 
     /*
