@@ -60,7 +60,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     private boolean trainSignal = false;
     private ArrayList<Double> setValues;
     private ArrayList<Double[]> neuralNetworkInputs;
-
+    
     public MultiLayerPerceptronVisualizationTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(MultiLayerPerceptronVisualizationTopComponent.class, "CTL_MultiLayerPerceptronSampleTopComponent"));
@@ -79,15 +79,16 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         clearButton = new javax.swing.JButton();
         visualizationPanel = new org.neuroph.netbeans.classificationsample.Visualization2DPanel();
 
-        setLayout(new java.awt.BorderLayout(0, 5));
+        setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(clearButton, org.openide.util.NbBundle.getMessage(MultiLayerPerceptronVisualizationTopComponent.class, "MultiLayerPerceptronVisualizationTopComponent.clearButton.text")); // NOI18N
         clearButton.addActionListener(new java.awt.event.ActionListener() {
@@ -95,7 +96,13 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
                 clearButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(clearButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 41;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(4, 3, 4, 713);
+        jPanel1.add(clearButton, gridBagConstraints);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -103,11 +110,11 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         visualizationPanel.setLayout(visualizationPanelLayout);
         visualizationPanelLayout.setHorizontalGroup(
             visualizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 809, Short.MAX_VALUE)
+            .addGap(0, 810, Short.MAX_VALUE)
         );
         visualizationPanelLayout.setVerticalGroup(
             visualizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 740, Short.MAX_VALUE)
+            .addGap(0, 725, Short.MAX_VALUE)
         );
 
         add(visualizationPanel, java.awt.BorderLayout.CENTER);
@@ -558,21 +565,22 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     public void componentResized(ComponentEvent e) {
         visualizationPanel.revalidate();
         visualizationPanel.repaint();
+        revalidate();
     }
 
     @Override
     public void componentMoved(ComponentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void componentShown(ComponentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void componentHidden(ComponentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     class DTListener implements DropTargetListener {

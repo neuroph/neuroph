@@ -39,7 +39,10 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     private boolean positiveInputsOnly = false;
     private int visualizationOption;
     private boolean drawingLocked = false;
-    private boolean pointDrawed = false;
+    private boolean pointDrawed = false; // if manually created dataset - change this
+    
+    private static int padding = 10;
+
     
     public static Color[] neuronColor;
     public static Color[] neuronColorInverted;
@@ -380,11 +383,12 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         }
     }
 
-    public void drawPointsFromTrainingSet(DataSet inputTrainingSet, int[] inputs) {
+    public void drawPointsFromTrainingSet(DataSet trainingSet, int[] inputs) {
         points.clear();//initially, all points are erased
         repaint();//repainting the component
-        for (Iterator<DataSetRow> it = inputTrainingSet.iterator(); it.hasNext();) {
-            DataSetRow dataSetRow = it.next();
+        Graphics g = getGraphics();
+        
+        for (DataSetRow dataSetRow : trainingSet.getRows()) {
             double decartX = dataSetRow.getInput()[inputs[0]];//first selected input value
             double decartY = dataSetRow.getInput()[inputs[1]];//second selected input value
             double output = dataSetRow.getDesiredOutput()[0];//output value
@@ -399,24 +403,31 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
             point[1] = panelX;
             point[2] = panelY;
             points.add(point);
-            Graphics g = getGraphics();
-            drawPoint(createdOutput, panelX, panelY, g);//drawing point with specified arguments
+                      
+            drawPoint(createdOutput, panelX, panelY, g);//drawing point with specified arguments - schedule drawing in another thread
         }
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-      super.paintComponent(g);
-      
-      panelSize = getHeight();      
-        
-        // initialize drawing buffer if needed
-        if (imageBuffer == null) {
+    
+    private void initImageBuffer() {
             imageBuffer = createImage(panelSize, panelSize);
             graphicsBuffer = imageBuffer.getGraphics();
             if (!positiveInputsOnly) {
                 graphicsBuffer.translate(panelSize / 2, panelSize / 2);//translates panel coordinates to -570/2, in order to enable both positive and negative inputs
-            }
+            }        
+        
+    }
+    
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+      super.paintComponent(g);
+      
+      panelSize = getHeight()-20;      
+        
+        // initialize drawing buffer if needed - ovo treba reinicijalizovati prilikom resize-a
+        if (imageBuffer == null) {
+            initImageBuffer();
         }
         
         // clear drawing buffer
@@ -432,15 +443,12 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
             switch (getVisualizationOption()) {
                 case 1:
                     visualizeNetworkAnswer2D();
-                  //  repaint(); // why repaint here again ?????
                     break;
                 case 2:
                     visualizeColoredAreas2D();  // why repaint here again ?????
-                    //repaint();
                     break;
                 case 3:
                     visualizeLines2D();  // why repaint here again ?????
-                    //repaint();
                     break;
             }
         }
@@ -469,13 +477,15 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         } else {
             //draws coordinate axis lines and labels
             graphicsBuffer.setColor(Color.BLACK);
-            graphicsBuffer.drawLine(-panelSize / 2, 0, panelSize / 2, 0);
-            graphicsBuffer.drawLine(0, -panelSize / 2, 0, panelSize / 2);
-            graphicsBuffer.drawString("1", 5, -panelSize / 2 + 10);
-            graphicsBuffer.drawString("-1", 5, panelSize / 2 - 5);
-            graphicsBuffer.drawString("1", panelSize / 2 - 10, 15);
-            graphicsBuffer.drawString("-1", -panelSize / 2 + 5, 15);
-            graphicsBuffer.drawString("0", -10, 15);
+
+            graphicsBuffer.drawLine(-panelSize / 2 + padding, 0, panelSize / 2 - padding, 0); // x-axis
+            graphicsBuffer.drawLine(0, -panelSize / 2 +padding, 0, panelSize / 2 - padding); // y-axis
+             
+            graphicsBuffer.drawString("1", 5, - panelSize / 2 + 15 + padding); // y = 1
+            graphicsBuffer.drawString("-1", 15, panelSize / 2 - 5 - padding); // y = -1
+            graphicsBuffer.drawString("1", panelSize / 2 - 15 - padding, 15); // x = 1
+            graphicsBuffer.drawString("-1", -panelSize / 2 + 15 + padding, 15); // x = -1
+            graphicsBuffer.drawString("0", -10, 15); // 0, 0
             
             //draws input points
             Iterator e = points.iterator();
@@ -593,6 +603,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setBackground(java.awt.Color.white);
         setName("Form"); // NOI18N
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -667,22 +678,24 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
 
     @Override
     public void componentResized(ComponentEvent e) {
-        this.repaint();
+        
+        repaint();
+        initImageBuffer();
     }
 
     @Override
     public void componentMoved(ComponentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void componentShown(ComponentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void componentHidden(ComponentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
