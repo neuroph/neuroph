@@ -28,7 +28,9 @@ import org.neuroph.util.random.RangeRandomizer;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle.Messages;
+import org.openide.util.Utilities;
 
 @ActionID(
         category = "Neuroph",
@@ -55,7 +57,11 @@ public final class TrainToolbarAction implements ActionListener {
     }
 
     public void classificationSampleModuleCheck() {
-        MultiLayerPerceptronVisualizationTopComponent mlpSample =  MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc;
+        
+        //MultiLayerPerceptronVisualizationTopComponent mlpSample =  MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc;
+    
+        MultiLayerPerceptronVisualizationTopComponent mlpSample =  Utilities.actionsGlobalContext().lookup(MultiLayerPerceptronVisualizationTopComponent.class);
+        
         if (mlpSample != null) {
             if (mlpSample.isTrainSignal()) {
                 mlpSample.visualizationPreprocessing();
