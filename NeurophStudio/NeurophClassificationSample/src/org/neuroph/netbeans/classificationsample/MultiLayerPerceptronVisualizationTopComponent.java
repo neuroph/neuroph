@@ -38,13 +38,13 @@ import org.openide.windows.WindowManager;
  */
 @ConvertAsProperties(dtd = "-//org.neuroph.netbeans.classificationsample.mlperceptron//MultiLayerPerceptronVisualizationTopComponent//EN",
         autostore = false)
-public final class MultiLayerPerceptronVisualizationTopComponent extends TopComponent implements LearningEventListener,  ComponentListener {
+public final class MultiLayerPerceptronVisualizationTopComponent extends TopComponent implements LearningEventListener {
 
     //private static MultiLayerPerceptronVisualizationTopComponent instance;
     private static final String PREFERRED_ID = "MultiLayerPerceptronVisualizationTopComponent";
  //   private Visualization2DPanel visualizationPanel;
     private MultiLayerPerceptronClassificationSamplePanel controllsPanel;
-    private SettingsTopComponent stc;
+    private MlpClassificationSampleControlsTopComponent stc;
     private DataSet trainingSet;
     private int tsCount = 0;
     private NeuralNetwork neuralNetwork;
@@ -69,7 +69,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         content = new InstanceContent();
         aLookup = new AbstractLookup(content);
-        addComponentListener(this);
+      //  addComponentListener(this);
     }
 
     /**
@@ -326,7 +326,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     public void setTrainingSetForMultiLayerPerceptronSample(ObservableTrainingSet ps) {
         trainingSet = new DataSet(2, 1);
         
-        stc = SettingsTopComponent.findInstance();
+        stc = MlpClassificationSampleControlsTopComponent.findInstance();
         controllsPanel = stc.getSampleControlsPanel();
         controllsPanel.setMlpSampleTc(this);
         stc.open();
@@ -559,28 +559,6 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
             visualizeNeuralNetworkAnswer(nnet);//calculating network response and draw it
             nnet.resumeLearning();//resume
         }
-    }
-
-    @Override
-    public void componentResized(ComponentEvent e) {
-        visualizationPanel.revalidate();
-        visualizationPanel.repaint();
-        revalidate();
-    }
-
-    @Override
-    public void componentMoved(ComponentEvent e) {
-    //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void componentShown(ComponentEvent e) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void componentHidden(ComponentEvent e) {
-     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     class DTListener implements DropTargetListener {

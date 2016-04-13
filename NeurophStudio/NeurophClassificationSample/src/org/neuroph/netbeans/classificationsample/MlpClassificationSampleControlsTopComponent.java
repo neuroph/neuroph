@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.WindowManager;
@@ -12,34 +13,29 @@ import org.openide.windows.WindowManager;
  * Top component which displays something.
  */
 @ConvertAsProperties(
-        dtd = "-//org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.panels//Settings//EN",
+        dtd = "-//org.neuroph.netbeans.classificationsample//Settings//EN",
         autostore = false)
 @TopComponent.Description(
-        preferredID = "SettingsTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE", 
+        preferredID = "MlpClassificationSampleControlsTopComponent",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 @TopComponent.Registration(mode = "properties", openAtStartup = false)
-@ActionID(category = "Window", id = "org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.panels.SettingsTopComponent")
-//@ActionReference(path = "Menu/Window" /*, position = 333 */)
+@ActionID(category = "Window", id = "org.neuroph.netbeans.classificationsample.MlpClassificationSampleControlsTopComponent")
+@ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_SettingsAction",
-        preferredID = "SettingsTopComponent")
+        preferredID = "MlpClassificationSampleControlsTopComponent")
 @Messages({
-    "CTL_SettingsAction=Settings",
-    "CTL_SettingsTopComponent=Multi Layer Perceptron Classification Sample Settings",
-    "HINT_SettingsTopComponent=This is a Multi Layer Perceptron Classification Sample Settings"
+    "CTL_SettingsAction=Classification Sample Controls",
+    "CTL_SettingsTopComponent=Classification Sample Controls",
+    "HINT_SettingsTopComponent=Multi Layer Perceptron Classification Sample Controls"
 })
-public final class SettingsTopComponent extends TopComponent {
+public final class MlpClassificationSampleControlsTopComponent extends TopComponent {
 
-    private SettingsTopComponent() {
+    private MlpClassificationSampleControlsTopComponent() {
         initComponents();
         setName(Bundle.CTL_SettingsTopComponent());
         setToolTipText(Bundle.HINT_SettingsTopComponent());
-        putClientProperty(TopComponent.PROP_KEEP_PREFERRED_SIZE_WHEN_SLIDED_IN, Boolean.TRUE);
-        
-//        sampleControlsPanel = new MultiLayerPerceptronClassificationSamplePanel();
-//        add(sampleControlsPanel);        
-        
+        putClientProperty(TopComponent.PROP_KEEP_PREFERRED_SIZE_WHEN_SLIDED_IN, Boolean.TRUE);                
     }
 
     /**
@@ -61,17 +57,17 @@ public final class SettingsTopComponent extends TopComponent {
     // End of variables declaration//GEN-END:variables
   //  private MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel;
     
-    private static SettingsTopComponent instance;
-    private static final String PREFERRED_ID = "SettingsTopComponent";
+    private static MlpClassificationSampleControlsTopComponent instance;
+    private static final String PREFERRED_ID = "MlpClassificationSampleControlsTopComponent";
     
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,
      * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
      * To obtain the singleton instance, use {@link #findInstance}.
      */
-    private static synchronized SettingsTopComponent getDefault() {
+    private static synchronized MlpClassificationSampleControlsTopComponent getDefault() {
         if (instance == null) {
-            instance = new SettingsTopComponent();
+            instance = new MlpClassificationSampleControlsTopComponent();
         }
         return instance;
     }
@@ -79,17 +75,17 @@ public final class SettingsTopComponent extends TopComponent {
     /**
      * Obtain the MultiLayerPerceptronClassificationSampleTopComponent instance. Never call {@link #getDefault} directly!
      */
-    public static synchronized SettingsTopComponent findInstance() {
+    public static synchronized MlpClassificationSampleControlsTopComponent findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
         if (win == null) {
-            Logger.getLogger(SettingsTopComponent.class.getName()).warning(
+            Logger.getLogger(MlpClassificationSampleControlsTopComponent.class.getName()).warning(
                     "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
             return getDefault();
         }
-        if (win instanceof SettingsTopComponent) {
-            return (SettingsTopComponent) win;
+        if (win instanceof MlpClassificationSampleControlsTopComponent) {
+            return (MlpClassificationSampleControlsTopComponent) win;
         }
-        Logger.getLogger(SettingsTopComponent.class.getName()).warning(
+        Logger.getLogger(MlpClassificationSampleControlsTopComponent.class.getName()).warning(
                 "There seem to be multiple components with the '" + PREFERRED_ID
                 + "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();

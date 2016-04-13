@@ -7,10 +7,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Vector;
 import org.neuroph.core.*;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
@@ -55,26 +53,13 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
      * Creates new form Visualization2DPanel
      */
     public Visualization2DPanel() {
-
-
-//        setSize(resolution, resolution);
         initGridPoints();
         points = new ArrayList();
         value = 1;
-        trainingSet = new DataSet(2, 1);
+        trainingSet = new DataSet(2, 1); // dont create it here - rather listen to lookup or dnd
         initComponents();
-   //     panelSize = getHeight();
-   //     resolution = panelWidth; // was panelWidth
         addComponentListener(this);
     }
-
-//    public int getResolution() {
-//        return resolution;
-//    }
-//
-//    public void setResolution(int resolution) {
-//        this.resolution = resolution;
-//    }
 
     public boolean isDrawingLocked() {
         return drawingLocked;
@@ -135,9 +120,9 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
 
     public void setNeuronColors(NeuralNetwork neuralNetwork) {
         int numberOfColors;
-        numberOfColors = neuralNetwork.getLayerAt(1).getNeurons().size() - 1;//gets number of neurons at second layer
-        Visualization2DPanel.neuronColor = new Color[numberOfColors];
-        Visualization2DPanel.neuronColorInverted = new Color[numberOfColors];
+        numberOfColors = neuralNetwork.getLayerAt(1).getNeurons().size() - 1; //gets number of neurons in second layer
+        neuronColor = new Color[numberOfColors];
+        neuronColorInverted = new Color[numberOfColors];
         Random random = new Random();
         for (int i = 0; i < numberOfColors; i++) {//for each neuron, assign two colors
             float r = random.nextFloat();
@@ -326,6 +311,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     private void visualizeNetworkAnswer2D() {
         int x, y;
         int size = 80; //bilo je 57  grid size 570x570 - on 10       
+     //  int size = panelSize / 10;
         
         //draws grid 
         for (int i = 0; i < size; i++) {
@@ -427,7 +413,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         
         // initialize drawing buffer if needed - ovo treba reinicijalizovati prilikom resize-a
         if (imageBuffer == null) {
-            initImageBuffer();
+            initImageBuffer(); // init offscreen drawing bufferfor for the first time
         }
         
         // clear drawing buffer
@@ -677,10 +663,9 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     }//GEN-LAST:event_formMousePressed
 
     @Override
-    public void componentResized(ComponentEvent e) {
-        
+    public void componentResized(ComponentEvent e) {        
         repaint();
-        initImageBuffer();
+        initImageBuffer(); // resize the drawing buffer too
     }
 
     @Override
