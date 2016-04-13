@@ -33,32 +33,30 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     private TransferFunctionType transferFunctionType;
     private DataSetGenerator[] shapeGenerators;
     
-    public static MultiLayerPerceptronVisualizationTopComponent mlpSampleTc;
+    public MultiLayerPerceptronVisualizationTopComponent mlpSampleTc;
     public static int VISUALIZATION_OPTION;
     public static boolean SHOW_POINTS;
 
     public MultiLayerPerceptronClassificationSamplePanel() {
         initComponents();
-        setSize(new Dimension(415, 454));
         initializeNeuralNetworkComponents();
         initShapes(0, 0);
     }    
 
-    public static MultiLayerPerceptronVisualizationTopComponent getMlpSampleTc() {
+    public MultiLayerPerceptronVisualizationTopComponent getMlpSampleTc() {
         return mlpSampleTc;
     }
 
-    public static void setMlpSampleTc(MultiLayerPerceptronVisualizationTopComponent mlpSampleTc) {
-        MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc = mlpSampleTc;
+    public void setMlpSampleTc(MultiLayerPerceptronVisualizationTopComponent mlpSampleTc) {
+        this.mlpSampleTc = mlpSampleTc;
     }
                
     // why do I have to see bs from here?
     public MultiLayerPerceptronClassificationSamplePanel(MultiLayerPerceptronVisualizationTopComponent bs) {
         initComponents();
-        setSize(new Dimension(415, 454));
         initializeNeuralNetworkComponents();
         initShapes(0, 0);
-        MultiLayerPerceptronClassificationSamplePanel.mlpSampleTc = bs;
+        this.mlpSampleTc = bs;
     }
 
     private void initializeNeuralNetworkComponents() {
@@ -514,19 +512,21 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     }//GEN-LAST:event_slideNumberOfPointsStateChanged
 
     private void createDataSetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDataSetButtonActionPerformed
+        // ako su tacke ntane rucnoacr
         if (mlpSampleTc.getVisualizationPanel().isPointDrawed()) {
             mlpSampleTc.customDataSetCheck();
             mlpSampleTc.sampleTrainingSetFileCheck();
             InputSettingsDialog isd = InputSettingsDialog.getInstance();
             isd.storeInputs(new int[]{0, 1});
             labDataSet.setText(mlpSampleTc.getTrainingSet().getLabel());
-        } else {
+        } else { // ako se generisu pomocu generatora data seta
             DataSet dataSet = getSelectedShapeGenerator().generate();
             NeurophProjectFilesFactory.getDefault().createTrainingSetFile(dataSet);
             mlpSampleTc.setTrainingSet(dataSet);
             mlpSampleTc.updateNeuralNetAndDataSetInfo(null, dataSet);
-            mlpSampleTc.clear();
-            mlpSampleTc.repaint();
+         //   mlpSampleTc.clear();
+           // mlpSampleTc.repaint();
+           
             InputSettingsDialog isd = InputSettingsDialog.getInstance();
             isd.storeInputs(new int[]{0, 1});
             mlpSampleTc.coordinateSystemDomainCheck();
@@ -554,11 +554,11 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         mlpSampleTc.getVisualizationPanel().setDrawingLocked(false);
         mlpSampleTc.setPointDrawed(false);
         mlpSampleTc.removeNetworkAndDataSetFromContent();
-        if (checkPositiveInputs.isSelected()) {
-            mlpSampleTc.initializePanel(true);
-        } else {
-            mlpSampleTc.initializePanel(false);
-        }
+//        if (checkPositiveInputs.isSelected()) {
+//            mlpSampleTc.initializePanel(true);
+//        } else {
+//            mlpSampleTc.initializePanel(false);
+//        }
         mlpSampleTc.getVisualizationPanel().repaint();
     }//GEN-LAST:event_checkPositiveInputsActionPerformed
 

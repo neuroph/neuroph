@@ -37,8 +37,8 @@ public final class SettingsTopComponent extends TopComponent {
         setToolTipText(Bundle.HINT_SettingsTopComponent());
         putClientProperty(TopComponent.PROP_KEEP_PREFERRED_SIZE_WHEN_SLIDED_IN, Boolean.TRUE);
         
-        sampleControlsPanel = new MultiLayerPerceptronClassificationSamplePanel();
-        add(sampleControlsPanel);        
+//        sampleControlsPanel = new MultiLayerPerceptronClassificationSamplePanel();
+//        add(sampleControlsPanel);        
         
     }
 
@@ -50,12 +50,16 @@ public final class SettingsTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setLayout(new java.awt.GridLayout());
+        sampleControlsPanel = new org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSamplePanel();
+
+        setLayout(new java.awt.GridLayout(1, 0));
+        add(sampleControlsPanel);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel;
     // End of variables declaration//GEN-END:variables
-    private MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel;
+  //  private MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel;
     
     private static SettingsTopComponent instance;
     private static final String PREFERRED_ID = "SettingsTopComponent";

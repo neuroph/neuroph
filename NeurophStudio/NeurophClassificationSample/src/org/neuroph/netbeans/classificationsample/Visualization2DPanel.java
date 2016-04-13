@@ -3,6 +3,8 @@ package org.neuroph.netbeans.classificationsample;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,7 +20,7 @@ import org.neuroph.core.data.DataSetRow;
  * @author Marko 
  * @author Milos Randjic
  */
-public class Visualization2DPanel extends javax.swing.JPanel {
+public class Visualization2DPanel extends javax.swing.JPanel implements ComponentListener {
 
   //  private int resolution;
     private NeuralNetwork neuralNetwork;
@@ -60,6 +62,7 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         initComponents();
    //     panelSize = getHeight();
    //     resolution = panelWidth; // was panelWidth
+        addComponentListener(this);
     }
 
 //    public int getResolution() {
@@ -403,8 +406,9 @@ public class Visualization2DPanel extends javax.swing.JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-      panelSize = getHeight();
-        
+      super.paintComponent(g);
+      
+      panelSize = getHeight();      
         
         // initialize drawing buffer if needed
         if (imageBuffer == null) {
@@ -605,11 +609,11 @@ public class Visualization2DPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 777, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 501, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -660,6 +664,26 @@ public class Visualization2DPanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_formMousePressed
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+        this.repaint();
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

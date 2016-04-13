@@ -9,6 +9,8 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
@@ -36,11 +38,11 @@ import org.openide.windows.WindowManager;
  */
 @ConvertAsProperties(dtd = "-//org.neuroph.netbeans.classificationsample.mlperceptron//MultiLayerPerceptronVisualizationTopComponent//EN",
         autostore = false)
-public final class MultiLayerPerceptronVisualizationTopComponent extends TopComponent implements LearningEventListener {
+public final class MultiLayerPerceptronVisualizationTopComponent extends TopComponent implements LearningEventListener,  ComponentListener {
 
     //private static MultiLayerPerceptronVisualizationTopComponent instance;
     private static final String PREFERRED_ID = "MultiLayerPerceptronVisualizationTopComponent";
-    private Visualization2DPanel visualizationPanel;
+ //   private Visualization2DPanel visualizationPanel;
     private MultiLayerPerceptronClassificationSamplePanel controllsPanel;
     private SettingsTopComponent stc;
     private DataSet trainingSet;
@@ -67,6 +69,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         content = new InstanceContent();
         aLookup = new AbstractLookup(content);
+        addComponentListener(this);
     }
 
     /**
@@ -79,6 +82,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
 
         jPanel1 = new javax.swing.JPanel();
         clearButton = new javax.swing.JButton();
+        visualizationPanel = new org.neuroph.netbeans.classificationsample.Visualization2DPanel();
 
         setLayout(new java.awt.BorderLayout(0, 5));
 
@@ -94,6 +98,19 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         jPanel1.add(clearButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, -1));
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        javax.swing.GroupLayout visualizationPanelLayout = new javax.swing.GroupLayout(visualizationPanel);
+        visualizationPanel.setLayout(visualizationPanelLayout);
+        visualizationPanelLayout.setHorizontalGroup(
+            visualizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 809, Short.MAX_VALUE)
+        );
+        visualizationPanelLayout.setVerticalGroup(
+            visualizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 740, Short.MAX_VALUE)
+        );
+
+        add(visualizationPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -103,6 +120,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton clearButton;
     private javax.swing.JPanel jPanel1;
+    private org.neuroph.netbeans.classificationsample.Visualization2DPanel visualizationPanel;
     // End of variables declaration//GEN-END:variables
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files
@@ -282,31 +300,33 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
      * Initializes panel regarding coordinate system domain (positive, or positive and negative inputs).
      * 
      */
-    public void initializePanel(boolean positiveCoordinates) {
-        if (visualizationPanel != null) {
-            this.remove(visualizationPanel);
-        }
-        visualizationPanel = new Visualization2DPanel();
-        visualizationPanel.setPositiveInputsOnly(positiveCoordinates);
-
-        add(visualizationPanel, BorderLayout.CENTER);
-
-        repaint();
-    }
+//    public void initializePanel(boolean positiveCoordinates) {
+//        if (visualizationPanel != null) {
+//            this.remove(visualizationPanel);
+//        }
+//        visualizationPanel = new Visualization2DPanel();
+//        visualizationPanel.setPositiveInputsOnly(positiveCoordinates);
+//
+//        add(visualizationPanel, BorderLayout.CENTER);
+//
+//        repaint();
+//    }
 
     /**
      * Creates new form BackpropagationSample
      * used in ViewManager probably not needed anymore
      */
     public void setTrainingSetForMultiLayerPerceptronSample(ObservableTrainingSet ps) {
-        setSize(770, 600);
         trainingSet = new DataSet(2, 1);
-     //   this.pst = ps;
+        
         stc = SettingsTopComponent.findInstance();
         controllsPanel = stc.getSampleControlsPanel();
         controllsPanel.setMlpSampleTc(this);
         stc.open();
-        initializePanel(false);
+
+   //     initializePanel(false);
+      
+        
         this.dtListener = new DTListener();
         this.dropTarget = new DropTarget(
                 this,
@@ -427,7 +447,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
                 }
             }
         }
-        initializePanel(positive);//panel initialization
+  //      initializePanel(positive);//panel initialization
         stc.getSampleControlsPanel().setCheckPoints(positive);//updating Swing components 
     }
 
@@ -532,6 +552,27 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
             visualizeNeuralNetworkAnswer(nnet);//calculating network response and draw it
             nnet.resumeLearning();//resume
         }
+    }
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+        visualizationPanel.revalidate();
+        visualizationPanel.repaint();
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     class DTListener implements DropTargetListener {
