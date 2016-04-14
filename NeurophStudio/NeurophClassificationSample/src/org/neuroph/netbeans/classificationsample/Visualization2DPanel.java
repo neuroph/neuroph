@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -369,22 +370,31 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         }
     }
 
-    public void drawPointsFromTrainingSet(DataSet trainingSet, int[] inputs) {
+    /**
+     * Draws data set points on visualization panel
+     * @param dataSet data set to draw
+     * @param selectedInputs inputs selected to be visualized
+     */
+    public void drawPointsFromDataSet(DataSet dataSet, int[] selectedInputs) {
         points.clear();//initially, all points are erased
         repaint();//repainting the component
+        
         Graphics g = getGraphics();
         
-        for (DataSetRow dataSetRow : trainingSet.getRows()) {
-            double decartX = dataSetRow.getInput()[inputs[0]];//first selected input value
-            double decartY = dataSetRow.getInput()[inputs[1]];//second selected input value
-            double output = dataSetRow.getDesiredOutput()[0];//output value
+        for (DataSetRow dataSetRow : dataSet.getRows()) {
+            double decartX = dataSetRow.getInput()[selectedInputs[0]];//first selected input value
+            double decartY = dataSetRow.getInput()[selectedInputs[1]];//second selected input value
+         
+            double output = dataSetRow.getDesiredOutput()[0]; //output value - TODO: what if there is mor then one outputs?
             int createdOutput = 0;
             if (output > 0.5) {
                 createdOutput = 1;
             }
-            int panelX = transformFromDecartToPanelX(decartX);//transforming Descartes' value to panel value
-            int panelY = transformFromDecartToPanelY(decartY);
-            int[] point = new int[3];
+            
+            int panelX = decartToPanelX(decartX);//transforming Descartes' value to panel value
+            int panelY = decartToPanelY(decartY);
+            
+            int[] point = new int[3]; // use some class insted of this array
             point[0] = createdOutput;
             point[1] = panelX;
             point[2] = panelY;
@@ -467,17 +477,27 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
             graphicsBuffer.drawLine(-panelSize / 2 + padding, 0, panelSize / 2 - padding, 0); // x-axis
             graphicsBuffer.drawLine(0, -panelSize / 2 +padding, 0, panelSize / 2 - padding); // y-axis
              
-            graphicsBuffer.drawString("1", 5, - panelSize / 2 + 15 + padding); // y = 1
-            graphicsBuffer.drawString("-1", 15, panelSize / 2 - 5 - padding); // y = -1
-            graphicsBuffer.drawString("1", panelSize / 2 - 15 - padding, 15); // x = 1
-            graphicsBuffer.drawString("-1", -panelSize / 2 + 15 + padding, 15); // x = -1
-            graphicsBuffer.drawString("0", -10, 15); // 0, 0
+            graphicsBuffer.drawString("1", 15, - panelSize / 2 + 25 + padding); // y = 1
+            graphicsBuffer.drawString("-1", 15, panelSize / 2 - 25 - padding); // y = -1
+            graphicsBuffer.drawString("1", panelSize / 2 - 25 - padding, 15); // x = 1
+            graphicsBuffer.drawString("-1", -panelSize / 2 + padding + 25, 15); // x = -1
+            graphicsBuffer.drawString("0", -15, 15); // 0, 0
             
+            // arrows
+            graphicsBuffer.fillPolygon(new int[] {0, 7, -7, 0 }, // top
+                                        new int[] {-panelSize / 2 + padding, -panelSize / 2 + padding+15, -panelSize / 2 +padding+15, -panelSize / 2 +padding }, 4);
+            graphicsBuffer.fillPolygon(new int[] {0, 7, -7, 0 }, // bottom
+                                        new int[] {panelSize / 2 - padding, panelSize / 2 - padding-15, panelSize / 2 - padding - 15, panelSize / 2 - padding }, 4);
+            graphicsBuffer.fillPolygon(new int[] {-panelSize / 2 + padding, -panelSize / 2 + padding +15, -panelSize / 2 + padding+15, -panelSize / 2 + padding }, 
+                                        new int[] {0, -7, 7, 0 }, 4); // left
+            graphicsBuffer.fillPolygon(new int[] {panelSize / 2 - padding, panelSize / 2 - padding -15, panelSize / 2 - padding-15, panelSize / 2 - padding }, 
+                                        new int[] {0, -7, 7, 0 }, 4);  // right          
+                       
             //draws input points
             Iterator e = points.iterator();
             while (e.hasNext()) {
                 int[] point = (int[]) e.next();
-                drawPoint(point[0], point[1] - panelSize / 2, point[2] - panelSize / 2, graphicsBuffer);
+                drawPoint(point[0], point[1] - (panelSize / 2-padding), point[2] - (panelSize / 2-padding), graphicsBuffer);
             }
             
             //draws help line
@@ -495,7 +515,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         double xx;
         if (positiveInputsOnly) {
             double X = (double) x;
-            xx = (double) X / (double)panelSize;
+            xx = (double) X / (double)(panelSize - padding);
             if (xx > 1) {
                 xx = 1;
             }
@@ -504,7 +524,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
             }
         } else {
             double X = (double) x;
-            xx = X / (panelSize / 2) - 1;
+            xx = X / (panelSize / 2 -padding) - 1;
             if (xx > 1) {
                 xx = 1;
             }
@@ -522,7 +542,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         double yy;
         if (positiveInputsOnly) {
             double Y = (double) panelY;
-            yy = 1 - Y / (double)panelSize;
+            yy = 1 - Y / (double)(panelSize-padding);
             if (yy > 1) {
                 yy = 1;
             }
@@ -531,7 +551,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
             }
         } else {
             double Y = (double) panelY;
-            yy = 1 - Y / (panelSize / 2);
+            yy = 1 - Y / (panelSize / 2 - padding);
             if (yy > 1) {
                 yy = 1;
             }
@@ -545,39 +565,41 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     /*
      * Transforms Decartes' x value to panel's value
      */
-    public int transformFromDecartToPanelX(double x) {
+    public int decartToPanelX(double x) {
         if (positiveInputsOnly) {
-            double valueX = x * (double)panelSize;
+            double valueX = x * (double)(panelSize-padding);
             return (int) valueX;
         } else {
-            return (int) ((1 + x) * panelSize / 2);
+            return (int) ((1 + x) * (panelSize / 2 - padding));
+         //   return (int) ( x/((panelSize / 2 - padding)/1000));
         }
     }
 
     /*
      * Transforms Decartes' y value to panel's value
      */
-    public int transformFromDecartToPanelY(double y) {
+    public int decartToPanelY(double y) {
         if (positiveInputsOnly) {
-            double valueY = (1.0 - y) * (double)panelSize;
+            double valueY = (1.0 - y) * (double)(panelSize - padding);
             return (int) valueY;
         } else {
-            return (int) ((1 - y) * panelSize / 2);
+            return (int) ((1 - y) * (panelSize / 2 - padding));
         }
     }
 
     /*
      * Draws input points, added by clicking on the panel
      */
-    public void drawPoint(int v, int x, int y, Graphics g) {
-        if (v == 1) {
+    public void drawPoint(int value, int x, int y, Graphics g) {
+        if (value == 1) { // what if we have more classes ? TODO: fix this case:create an array of colours to be used along with legend
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.BLUE);
         }
+        
         g.fillArc(x - 3, y - 3, 7, 7, 0, 360);
-        g.setColor(new Color(0.5f, 0.5f, 0.5f));
-        g.drawArc(x - 3, y - 3, 7, 7, 0, 360);
+      //  g.setColor(new Color(0.5f, 0.5f, 0.5f));
+      //  g.drawArc(x - 3, y - 3, 7, 7, 0, 360);
     }
 
     /**
@@ -619,7 +641,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         int X = evt.getX();
         int Y = evt.getY();
         if (positiveInputsOnly) {
-            if (0 <= X && X <= panelSize && 0 <= Y && Y <= panelSize) {
+            if (0 <= X && X <= (panelSize -padding) && 0 <= Y && Y <= (panelSize -padding )) {
                 helpX = X;
                 helpY = Y;
             } else {
@@ -627,7 +649,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
                 helpY = -1000;
             }
         } else {
-            if (-panelSize / 2 <= X && X <= panelSize && -panelSize / 2 <= Y && Y <= panelSize) {
+            if ((-panelSize / 2 -padding)<= X && X <= (panelSize-padding)&& (-panelSize / 2 -padding)<= Y && Y <= (panelSize-padding)) {
                 helpX = X;
                 helpY = Y;
             } else {
@@ -669,19 +691,13 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     }
 
     @Override
-    public void componentMoved(ComponentEvent e) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void componentMoved(ComponentEvent e) {    }
 
     @Override
-    public void componentShown(ComponentEvent e) {
-     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void componentShown(ComponentEvent e) {    }
 
     @Override
-    public void componentHidden(ComponentEvent e) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void componentHidden(ComponentEvent e) {   }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

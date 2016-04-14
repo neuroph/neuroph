@@ -1,6 +1,5 @@
 package org.neuroph.netbeans.classificationsample;
 
-import java.awt.BorderLayout;
 import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -29,6 +28,7 @@ import org.openide.windows.WindowManager;
     "CTL_SettingsTopComponent=Classification Sample Controls",
     "HINT_SettingsTopComponent=Multi Layer Perceptron Classification Sample Controls"
 })
+// TODO: da slusa listenerom visualization tc na koji je povezan
 public final class MlpClassificationSampleControlsTopComponent extends TopComponent {
 
     private MlpClassificationSampleControlsTopComponent() {
@@ -99,11 +99,6 @@ public final class MlpClassificationSampleControlsTopComponent extends TopCompon
         this.sampleControlsPanel = sampleControlsPanel;
     }
     
-    public void initializePanel(MultiLayerPerceptronVisualizationTopComponent mlp){
-       // sampleControlsPanel = new MultiLayerPerceptronClassificationSamplePanel(mlp);
-      //  controllsPanel.setSize(getMaximumSize());//415, 454
-      //  add(sampleControlsPanel);
-    }
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening

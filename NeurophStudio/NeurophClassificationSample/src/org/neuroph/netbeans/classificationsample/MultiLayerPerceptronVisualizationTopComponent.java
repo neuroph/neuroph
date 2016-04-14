@@ -114,7 +114,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         );
         visualizationPanelLayout.setVerticalGroup(
             visualizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 725, Short.MAX_VALUE)
+            .addGap(0, 554, Short.MAX_VALUE)
         );
 
         add(visualizationPanel, java.awt.BorderLayout.CENTER);
@@ -298,7 +298,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     public void drawPointsFromTrainingSet(DataSet dataSet, int[] inputs) {
  //       try {
             visualizationPanel.setAllPointsRemoved(false);
-            visualizationPanel.drawPointsFromTrainingSet(dataSet, inputs);
+            visualizationPanel.drawPointsFromDataSet(dataSet, inputs);
 //        } catch (Exception e) {
 //        }
     }
@@ -600,7 +600,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
                 isd.setVisible(true);
                 updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);
                 coordinateSystemDomainCheck();
-                getVisualizationPanel().drawPointsFromTrainingSet(trainingSet, isd.getStoredInputs());
+                getVisualizationPanel().drawPointsFromDataSet(trainingSet, isd.getStoredInputs());
             }
 
             if (neuralNet != null) {

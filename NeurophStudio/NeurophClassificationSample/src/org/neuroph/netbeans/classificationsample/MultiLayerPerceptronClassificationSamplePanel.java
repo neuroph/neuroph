@@ -530,7 +530,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
             InputSettingsDialog isd = InputSettingsDialog.getInstance();
             isd.storeInputs(new int[]{0, 1});
             mlpSampleTc.coordinateSystemDomainCheck();
-            mlpSampleTc.getVisualizationPanel().drawPointsFromTrainingSet(dataSet, isd.getStoredInputs());
+            mlpSampleTc.getVisualizationPanel().drawPointsFromDataSet(dataSet, isd.getStoredInputs());
             mlpSampleTc.repaint();
         }
         IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Sample data set created.");
