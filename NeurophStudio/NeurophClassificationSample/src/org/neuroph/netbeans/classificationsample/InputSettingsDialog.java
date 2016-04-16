@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.classificationsample;
 
 import javax.swing.DefaultComboBoxModel;
@@ -9,7 +5,7 @@ import javax.swing.JOptionPane;
 import org.neuroph.core.data.DataSet;
 
 /**
- *
+ * Make this class non singleton
  * @author Milos Randjic
  */
 public class InputSettingsDialog extends javax.swing.JDialog {

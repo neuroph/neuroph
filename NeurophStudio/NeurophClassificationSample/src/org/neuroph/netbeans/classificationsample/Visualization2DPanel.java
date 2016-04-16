@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,19 +14,23 @@ import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 
 /**
- *
+ * Panel to draw data set and neural network response during learning
+ * 
  * @author Marko 
  * @author Milos Randjic
+ * @author Zoran Sevarac
  */
 public class Visualization2DPanel extends javax.swing.JPanel implements ComponentListener {
 
-  //  private int resolution;
     private NeuralNetwork neuralNetwork;
+    private DataSet dataSet;
+    
     private Graphics graphicsBuffer;
     private Image imageBuffer;
+  
     private double gridPoints[][];//points used to visualiza network output(answer) during training (defines the grid) 
     private ArrayList points;//input points from training set
-    private DataSet trainingSet;
+    
     private int value; //indicator for mouse click button registration
  
     private int helpX = -1000;//coordinates that show current mouse position on panel
@@ -47,8 +50,9 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     public static Color[] neuronColorInverted;
 
     // size of the visualization panel, same height
-    // it should also be changed in MultiLayerPerceptronClassificationSampleTopComponent.initializePanel
+        
     public int panelSize;// = 800;
+    private int[] selectedInputs; // which inputs from dataset should be visualized
     
     /**
      * Creates new form Visualization2DPanel
@@ -57,7 +61,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         initGridPoints();
         points = new ArrayList();
         value = 1;
-        trainingSet = new DataSet(2, 1); // dont create it here - rather listen to lookup or dnd
+//        dataSet = new DataSet(2, 1); // dont create it here - rather listen to lookup or dnd
         initComponents();
         addComponentListener(this);
     }
@@ -176,7 +180,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         visualizationStarted = false;//visualization signal is false
         setAllPointsRemoved(true);//indicates that all points are removed
         points.clear();//erases all points from Vector
-        trainingSet.clear();//erases training set rows
+        if (dataSet != null) dataSet.clear();//erases training set rows
         initGridPoints();
         repaint();
     }
@@ -190,7 +194,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     }
 
     public DataSet getTrainingSet() {
-        return trainingSet;
+        return dataSet;
     }
 
     /*
@@ -376,6 +380,8 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
      * @param selectedInputs inputs selected to be visualized
      */
     public void drawPointsFromDataSet(DataSet dataSet, int[] selectedInputs) {
+        this.dataSet = dataSet;
+        this.selectedInputs = selectedInputs;
         points.clear();//initially, all points are erased
         repaint();//repainting the component
         
@@ -402,6 +408,33 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
                       
             drawPoint(createdOutput, panelX, panelY, g);//drawing point with specified arguments - schedule drawing in another thread
         }
+    }
+    
+    private void reGeneratePoints() {
+        if (dataSet == null) return; // do nothing if there is no dataset
+        
+        points.clear();
+        for (DataSetRow dataSetRow : dataSet.getRows()) {
+            double decartX = dataSetRow.getInput()[selectedInputs[0]];//first selected input value
+            double decartY = dataSetRow.getInput()[selectedInputs[1]];//second selected input value
+         
+            double output = dataSetRow.getDesiredOutput()[0]; //output value - TODO: what if there is mor then one outputs?
+            int createdOutput = 0;
+            if (output > 0.5) {
+                createdOutput = 1;
+            }
+            
+            int panelX = decartToPanelX(decartX);//transforming Descartes' value to panel value
+            int panelY = decartToPanelY(decartY);
+            
+            int[] point = new int[3]; // use some class insted of this array
+            point[0] = createdOutput;
+            point[1] = panelX;
+            point[2] = panelY;
+            points.add(point);
+        }        
+        
+        repaint();
     }
 
     
@@ -493,7 +526,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
             graphicsBuffer.fillPolygon(new int[] {panelSize / 2 - padding, panelSize / 2 - padding -15, panelSize / 2 - padding-15, panelSize / 2 - padding }, 
                                         new int[] {0, -7, 7, 0 }, 4);  // right          
                        
-            //draws input points
+            //draws input points -- ov etacke su vec transformisana - na resize treba ih ponovo izracunati!!!
             Iterator e = points.iterator();
             while (e.hasNext()) {
                 int[] point = (int[]) e.next();
@@ -590,8 +623,8 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     /*
      * Draws input points, added by clicking on the panel
      */
-    public void drawPoint(int value, int x, int y, Graphics g) {
-        if (value == 1) { // what if we have more classes ? TODO: fix this case:create an array of colours to be used along with legend
+    public void drawPoint(int pointValue, int x, int y, Graphics g) {
+        if (pointValue == 1) { // what if we have more classes ? TODO: fix this case:create an array of colours to be used along with legend
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.BLUE);
@@ -677,7 +710,8 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
                 point[1] = X;
                 point[2] = Y;
                 points.add(point);
-                trainingSet.addRow(new DataSetRow(new double[]{transformFromPanelToDecartX(X), transformFromPanelToDecartY(Y)}, new double[]{button_value}));
+                if (dataSet == null)  dataSet = new DataSet(2, 1);// if its first drawn point
+                dataSet.addRow(new DataSetRow(new double[]{transformFromPanelToDecartX(X), transformFromPanelToDecartY(Y)}, new double[]{button_value}));
                 Graphics g = getGraphics();
                 drawPoint(button_value, X, Y, g);
             }
@@ -686,6 +720,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
 
     @Override
     public void componentResized(ComponentEvent e) {        
+        reGeneratePoints();
         repaint();
         initImageBuffer(); // resize the drawing buffer too
     }
