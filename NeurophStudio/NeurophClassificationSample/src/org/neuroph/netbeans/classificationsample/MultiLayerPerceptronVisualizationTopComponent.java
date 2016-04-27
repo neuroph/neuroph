@@ -519,6 +519,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         learningIterationCounter++;
         
         if (learningIterationCounter % 10 == 0) { // redraw after 10 learning iterations
+//            if (neuralNetworkInputs == null) reGenerateNeuralNetworkInputs(neuralNetAndDataSet.getDataSet());
             NeuralNetwork nnet = neuralNetAndDataSet.getNetwork();
             nnet.pauseLearning();//pause
             visualizeNeuralNetworkAnswer(nnet);//calculating network response and draw it
