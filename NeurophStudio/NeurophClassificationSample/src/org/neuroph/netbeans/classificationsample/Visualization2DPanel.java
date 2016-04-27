@@ -29,7 +29,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     private Image imageBuffer;
   
     private double gridPoints[][];//points used to visualiza network output(answer) during training (defines the grid) 
-    private ArrayList points;//input points from training set
+    private ArrayList<Point> points;//input points from training set
     
     private int value; //indicator for mouse click button registration
  
@@ -400,13 +400,16 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
             int panelX = decartToPanelX(decartX);//transforming Descartes' value to panel value
             int panelY = decartToPanelY(decartY);
             
-            int[] point = new int[3]; // use some class insted of this array
-            point[0] = createdOutput;
-            point[1] = panelX;
-            point[2] = panelY;
+//            int[] point = new int[3]; // use some class insted of this array
+//            point[0] = createdOutput;
+//            point[1] = panelX;
+//            point[2] = panelY;
+            
+            Point point = new  Point(panelX, panelY, createdOutput);
+            
             points.add(point);
                       
-            drawPoint(createdOutput, panelX, panelY, g);//drawing point with specified arguments - schedule drawing in another thread
+            drawPoint(point, g);//drawing point with specified arguments - schedule drawing in another thread
         }
     }
     
@@ -427,10 +430,13 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
             int panelX = decartToPanelX(decartX);//transforming Descartes' value to panel value
             int panelY = decartToPanelY(decartY);
             
-            int[] point = new int[3]; // use some class insted of this array
-            point[0] = createdOutput;
-            point[1] = panelX;
-            point[2] = panelY;
+//            int[] point = new int[3]; // use some class insted of this array
+//            point[0] = createdOutput;
+//            point[1] = panelX;
+//            point[2] = panelY;
+            
+            Point point = new  Point(panelX, panelY, createdOutput);
+            
             points.add(point);
         }        
         
@@ -439,11 +445,13 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
 
     
     private void initImageBuffer() {
+        if (panelSize > 0) {
             imageBuffer = createImage(panelSize, panelSize);
             graphicsBuffer = imageBuffer.getGraphics();
             if (!positiveInputsOnly) {
                 graphicsBuffer.translate(panelSize / 2, panelSize / 2);//translates panel coordinates to -570/2, in order to enable both positive and negative inputs
             }        
+        }
         
     }
     
@@ -491,12 +499,17 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
             graphicsBuffer.drawString("0", 5, panelSize-5);
             
             //draws input points
-            Iterator e = points.iterator();
-            while (e.hasNext()) {
-                int[] point = (int[]) e.next();
-                drawPoint(point[0], point[1], point[2], graphicsBuffer);
-            }
+//            Iterator e = points.iterator();
+//            while (e.hasNext()) {
+//                int[] point = (int[]) e.next();
+//                drawPoint(point[0], point[1], point[2], graphicsBuffer);
+//            }
             
+            for(Point point: points) {
+                drawPoint(point, graphicsBuffer);
+            }
+
+
             //draws help line
             if (helpX != -1000 && 0 <= helpX && helpX <= panelSize && helpY != -1000 && 0 <= helpY && helpX <= panelSize) {
                 drawHelpLine(helpX, helpY, graphicsBuffer);
@@ -527,10 +540,19 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
                                         new int[] {0, -7, 7, 0 }, 4);  // right          
                        
             //draws input points -- ov etacke su vec transformisana - na resize treba ih ponovo izracunati!!!
-            Iterator e = points.iterator();
-            while (e.hasNext()) {
-                int[] point = (int[]) e.next();
-                drawPoint(point[0], point[1] - (panelSize / 2-padding), point[2] - (panelSize / 2-padding), graphicsBuffer);
+//            Iterator e = points.iterator();
+//            while (e.hasNext()) {
+//                int[] point = (int[]) e.next();
+//                drawPoint(point[0], point[1] - (panelSize / 2-padding), point[2] - (panelSize / 2-padding), graphicsBuffer);
+//            }            
+            
+            for(Point point: points) {
+                Point tempPoint = new Point();
+                tempPoint.x = point.x - (panelSize / 2-padding);
+                tempPoint.y = point.y - (panelSize / 2-padding);
+                tempPoint.output = point.output;
+                
+                drawPoint(tempPoint, graphicsBuffer); 
             }
             
             //draws help line
@@ -623,16 +645,14 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     /*
      * Draws input points, added by clicking on the panel
      */
-    public void drawPoint(int pointValue, int x, int y, Graphics g) {
-        if (pointValue == 1) { // what if we have more classes ? TODO: fix this case:create an array of colours to be used along with legend
+    public void drawPoint(/*int pointValue, int x, int y*/ Point point, Graphics g) {
+        if (point.output == 1) { // what if we have more classes ? TODO: fix this case:create an array of colours to be used along with legend
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.BLUE);
         }
         
-        g.fillArc(x - 3, y - 3, 7, 7, 0, 360);
-      //  g.setColor(new Color(0.5f, 0.5f, 0.5f));
-      //  g.drawArc(x - 3, y - 3, 7, 7, 0, 360);
+        g.fillArc(point.x - 3, point.y - 3, 7, 7, 0, 360);
     }
 
     /**
@@ -705,15 +725,18 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
                 }
                 int X = evt.getX();
                 int Y = evt.getY();
-                int[] point = new int[3];
-                point[0] = button_value;
-                point[1] = X;
-                point[2] = Y;
+//                int[] point = new int[3];
+//                point[0] = button_value;
+//                point[1] = X;
+//                point[2] = Y;
+                
+                Point point = new Point(X, Y, button_value);
+                
                 points.add(point);
                 if (dataSet == null)  dataSet = new DataSet(2, 1);// if its first drawn point
                 dataSet.addRow(new DataSetRow(new double[]{transformFromPanelToDecartX(X), transformFromPanelToDecartY(Y)}, new double[]{button_value}));
                 Graphics g = getGraphics();
-                drawPoint(button_value, X, Y, g);
+                drawPoint(point, g);
             }
         }
     }//GEN-LAST:event_formMousePressed
@@ -733,6 +756,22 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
 
     @Override
     public void componentHidden(ComponentEvent e) {   }
+    
+    
+    
+    private class Point {
+        public int x, y, output;
+        
+        public Point() { }
+        
+        public Point(int x, int y, int output) {
+            this.x=x;
+            this.y=y;
+            this.output = output;
+        }
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
