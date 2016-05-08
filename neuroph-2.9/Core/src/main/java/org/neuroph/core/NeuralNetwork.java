@@ -726,8 +726,8 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @param pluginClass class of the plugin to get
      * @return instance of specified plugin class
      */
-    public <P extends PluginBase> P getPlugin(Class<P>  pluginClass) {
-        return pluginClass.cast(plugins.get(type));
+    public <T extends PluginBase> T getPlugin(Class<T>  pluginClass) {
+        return pluginClass.cast(plugins.get(pluginClass));
     }
 
     /**
