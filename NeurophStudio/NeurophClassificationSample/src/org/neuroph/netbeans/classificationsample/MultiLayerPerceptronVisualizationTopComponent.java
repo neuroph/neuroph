@@ -463,24 +463,24 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
      */
     public void updateNeuralNetAndDataSetInfo(NeuralNetwork neuralNetvork, DataSet dataSet) {
 
-        MultiLayerPerceptronClassificationSamplePanel mlp = stc.getSampleControlsPanel();
+        MultiLayerPerceptronClassificationSamplePanel mlp = stc.getSampleControlsPanel();// gets sampleControlsPanel
         if (dataSet != null) {
             if (dataSet.getLabel() != null) {
-                mlp.setDataSetInformation(dataSet.getLabel());
+                mlp.setDataSetInformation(dataSet.getLabel());//if dataSet and dataSet label are not null, sets dataSetInformation to that label
             } else {
-                mlp.setDataSetInformation("Not selected");
+                mlp.setDataSetInformation("Not selected");//else if just the dataSet label is not null, it sets the information to "Not selected"
             }
         } else {
-            mlp.setDataSetInformation("Not selected");
+            mlp.setDataSetInformation("Not selected");//else it sets the information to "Not selected"
         }
         if (neuralNetvork != null) {
             if (neuralNetvork.getLabel() != null) {
-                mlp.setNeuralNetworkInformation(neuralNetvork.getLabel());
+                mlp.setNeuralNetworkInformation(neuralNetvork.getLabel());//if nauralNetwork and neuralNetwork label are not null, sets neuralNetworkInformation to that label
             } else {
-                mlp.setNeuralNetworkInformation("Not selected");
+                mlp.setNeuralNetworkInformation("Not selected");//else if just the neuralNetwork label is not null, it sets the information to "Not selected"
             }
         } else {
-            mlp.setNeuralNetworkInformation("Not selected");
+            mlp.setNeuralNetworkInformation("Not selected");//else it sets the information to "Not selected"
         }
     }
 
@@ -532,17 +532,17 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
                 /*
                  * Transformation from Descartes' coordintes to panel coordinates
                  */
-                if (visualizationPanel.positiveInputsOnly()) {
+                if (visualizationPanel.positiveInputsOnly()) {//output for positive input only
                     x = (int) Math.abs(xInput * size);
                     y = size - (int) Math.abs(yInput * size);
-                } else {
+                } else {//output for both positive and negative input
                     x = (int) Math.abs((xInput) / coefficient);
                     y = size - (int) Math.abs((yInput) / coefficient);
                 }
                 
-                visualizationPanel.setGridPoints(x, y, output);                
+                visualizationPanel.setGridPoints(x, y, output);//sets the grid points according to the output                
             }
-            visualizationPanel.repaint();
+            visualizationPanel.repaint();//repaints visualizationPanel commponent
         }
     }
 
@@ -551,7 +551,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
      */
     @Override
     public void handleLearningEvent(LearningEvent le) {
-        learningIterationCounter++;
+        learningIterationCounter++;//iteration counter
         
         if (learningIterationCounter % 10 == 0) { // redraw after 10 learning iterations
             NeuralNetwork nnet = neuralNetAndDataSet.getNetwork();
@@ -563,6 +563,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
 
     class DTListener implements DropTargetListener {
 
+        //accepts the drag using the operation, returned by the getDropAction method, as the parameter
         @Override
         public void dragEnter(DropTargetDragEvent dtde) {
             dtde.acceptDrag(dtde.getDropAction());
@@ -572,11 +573,13 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         public void dragExit(DropTargetEvent dte) {
         }
 
+        //accepts the drag using the operation, returned by the getDropAction method, as the parameter
         @Override
         public void dragOver(DropTargetDragEvent dtde) {
             dtde.acceptDrag(dtde.getDropAction());
         }
 
+        //accepts the drag using the operation, returned by the getDropAction method, as the parameter
         @Override
         public void dropActionChanged(DropTargetDragEvent dtde) {
             dtde.acceptDrag(dtde.getDropAction());
@@ -584,40 +587,40 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
 
         @Override
         public void drop(DropTargetDropEvent e) {
-            Transferable transferable = e.getTransferable();
+            Transferable transferable = e.getTransferable();//returns the Transferable object associated with the drop
             Node node = NodeTransfer.node(transferable, NodeTransfer.DND_COPY_OR_MOVE);
 
             DataSet dataSet = node.getLookup().lookup(DataSet.class);               // get the DataSet objects from node lookup
             NeuralNetwork neuralNet = node.getLookup().lookup(NeuralNetwork.class); // get the NeuralNetwrok object from node lookup
 
-            if (dataSet != null) {
-                clear();
-                setPointDrawed(false);
-                getVisualizationPanel().setDrawingLocked(true);
-                trainingSet = dataSet;
-                InputSettingsDialog isd = InputSettingsDialog.getInstance();
-                isd.initDataSetInfo(trainingSet);
-                isd.setVisible(true);
-                updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);
-                coordinateSystemDomainCheck();
-                getVisualizationPanel().drawPointsFromDataSet(trainingSet, isd.getStoredInputs());
+            if (dataSet != null) {//if dataSet is not null
+                clear();//clear the points on the visualizationPanel
+                setPointDrawed(false);//setPointDrawed to false
+                getVisualizationPanel().setDrawingLocked(true);//locks the drawing on the visualizationPanel
+                trainingSet = dataSet;//assings the value of dataSet to trainingSet
+                InputSettingsDialog isd = InputSettingsDialog.getInstance();//returns the instance of InputSettingsDialog(Singleton patern)
+                isd.initDataSetInfo(trainingSet);//sets the dataSetInfo in combo boxes, first and second input(InputSettings Dialog class)
+                isd.setVisible(true);//sets input isd(InputSettingsDialog) to be visible
+                updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);//updates neuralNet and dataSet information
+                coordinateSystemDomainCheck();//checks input(only positive or both positive and negative)
+                getVisualizationPanel().drawPointsFromDataSet(trainingSet, isd.getStoredInputs());//draws points from trainingSet
             }
 
-            if (neuralNet != null) {
-                setNeuralNetwork(neuralNet);
-                updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);
+            if (neuralNet != null) {//if neuralNet is not null
+                setNeuralNetwork(neuralNet);//sets the neuralNetwork
+                updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);//updates neuralNet and dataSet information
             }
 
-            if ((trainingSet != null) && (getNeuralNetwork() != null)) {
-                removeNetworkAndDataSetFromContent();
-                trainingPreprocessing();
-                content.add(neuralNetAndDataSet);
-                content.add(trainingController);
-                updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);
+            if ((trainingSet != null) && (getNeuralNetwork() != null)) {//if both trainingSet and neuralNet are not null
+                removeNetworkAndDataSetFromContent();//removes neuralNetAndDataSet from content
+                trainingPreprocessing();//Collects all the information needed for training neural network
+                content.add(neuralNetAndDataSet);//adds neuralNetAndDataSet to content
+                content.add(trainingController);//adds trainingController to content
+                updateNeuralNetAndDataSetInfo(getNeuralNetwork(), trainingSet);////updates neuralNet and dataSet information
                 requestActive();
             }
 
-            e.dropComplete(true);
+            e.dropComplete(true);//notifies the DragSource that the drop transfer(s) are completed
         }
     }
 }
