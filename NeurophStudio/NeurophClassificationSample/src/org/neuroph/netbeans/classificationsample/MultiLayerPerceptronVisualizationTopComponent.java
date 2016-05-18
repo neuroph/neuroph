@@ -1,7 +1,5 @@
 package org.neuroph.netbeans.classificationsample;
 
-import java.awt.BorderLayout;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -9,8 +7,6 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.neuroph.core.NeuralNetwork;
@@ -24,17 +20,15 @@ import org.neuroph.nnet.learning.LMS;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.openide.nodes.Node;
 import org.openide.nodes.NodeTransfer;
-import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ProxyLookup;
 import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 
 /**
- * Top component which displays something.
+ * Top component which displays visualization of data set na multi layer perceptron classification.
  */
 @ConvertAsProperties(dtd = "-//org.neuroph.netbeans.classificationsample.mlperceptron//MultiLayerPerceptronVisualizationTopComponent//EN",
         autostore = false)
@@ -61,15 +55,18 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     private ArrayList<Double> setValues;
     private ArrayList<Double[]> neuralNetworkInputs;
     
+    private static int topComponentCount=0;
+    
     public MultiLayerPerceptronVisualizationTopComponent() {
         initComponents();
-        setName(NbBundle.getMessage(MultiLayerPerceptronVisualizationTopComponent.class, "CTL_MultiLayerPerceptronSampleTopComponent"));
+        topComponentCount++;
+        setName(NbBundle.getMessage(MultiLayerPerceptronVisualizationTopComponent.class, "CTL_MultiLayerPerceptronSampleTopComponent") + " " +topComponentCount);
         setToolTipText(NbBundle.getMessage(MultiLayerPerceptronVisualizationTopComponent.class, "HINT_MultiLayerPerceptronSampleTopComponent"));
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
+        
         content = new InstanceContent();
         aLookup = new AbstractLookup(content);
-      //  addComponentListener(this);
     }
 
     /**
@@ -129,38 +126,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     private javax.swing.JPanel jPanel1;
     private org.neuroph.netbeans.classificationsample.Visualization2DPanel visualizationPanel;
     // End of variables declaration//GEN-END:variables
-    /**
-     * Gets default instance. Do not use directly: reserved for *.settings files
-     * only, i.e. deserialization routines; otherwise you could get a
-     * non-deserialized instance. To obtain the singleton instance, use
-     * {@link #findInstance}.
-     */
-//    public static synchronized MultiLayerPerceptronVisualizationTopComponent getDefault() {
-//        if (instance == null) {
-//            instance = new MultiLayerPerceptronVisualizationTopComponent();
-//        }
-//        return instance;
-//    }
 
-    /**
-     * Obtain the MultiLayerPerceptronClassificationSampleTopComponent instance.
-     * Never call {@link #getDefault} directly!
-     */
-//    public static synchronized MultiLayerPerceptronVisualizationTopComponent findInstance() {
-//        TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
-//        if (win == null) {
-//            Logger.getLogger(MultiLayerPerceptronVisualizationTopComponent.class.getName()).warning(
-//                    "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
-//            return getDefault();
-//        }
-//        if (win instanceof MultiLayerPerceptronVisualizationTopComponent) {
-//            return (MultiLayerPerceptronVisualizationTopComponent) win;
-//        }
-//        Logger.getLogger(MultiLayerPerceptronVisualizationTopComponent.class.getName()).warning(
-//                "There seem to be multiple components with the '" + PREFERRED_ID
-//                + "' ID. That is a potential source of errors and unexpected behavior.");
-//        return getDefault();
-//    }
 
     @Override
     public int getPersistenceType() {
@@ -192,9 +158,6 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     }
 
     Object readProperties(java.util.Properties p) {
-//        if (instance == null) {
-//            instance = this;
-//        }
         readPropertiesImpl(p);
         return this;
     }
@@ -526,7 +489,9 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
                 double output = nn.getLayerAt(nn.getLayersCount() - 1).getNeuronAt(0).getOutput();
                 double xInput = input[storedInputs[0]] + initialCoordinate;
                 double yInput = input[storedInputs[1]] + initialCoordinate;
-                int x;
+               
+                // ovo iscrtati jednom u offscreen slici i onda posle samo iskoristiti, ne ponavljati iscrtavanje
+                int x; 
                 int y;
                 
                 /*
@@ -554,6 +519,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         learningIterationCounter++;//iteration counter
         
         if (learningIterationCounter % 10 == 0) { // redraw after 10 learning iterations
+//            if (neuralNetworkInputs == null) reGenerateNeuralNetworkInputs(neuralNetAndDataSet.getDataSet());
             NeuralNetwork nnet = neuralNetAndDataSet.getNetwork();
             nnet.pauseLearning();//pause
             visualizeNeuralNetworkAnswer(nnet);//calculating network response and draw it

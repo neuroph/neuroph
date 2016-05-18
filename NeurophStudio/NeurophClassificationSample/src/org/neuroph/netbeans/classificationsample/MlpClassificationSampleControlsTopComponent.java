@@ -1,9 +1,11 @@
 package org.neuroph.netbeans.classificationsample;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.*;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.WindowManager;
@@ -29,8 +31,12 @@ import org.openide.windows.WindowManager;
     "HINT_SettingsTopComponent=Multi Layer Perceptron Classification Sample Controls"
 })
 // TODO: da slusa listenerom visualization tc na koji je povezan
-public final class MlpClassificationSampleControlsTopComponent extends TopComponent {
+public final class MlpClassificationSampleControlsTopComponent extends TopComponent implements LookupListener {
 
+    Lookup.Result lookupResult;
+    MultiLayerPerceptronVisualizationTopComponent currentMlpVisualizationTc;
+    
+    
     private MlpClassificationSampleControlsTopComponent() {
         initComponents();
         setName(Bundle.CTL_SettingsTopComponent());
@@ -103,7 +109,8 @@ public final class MlpClassificationSampleControlsTopComponent extends TopCompon
     
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+        lookupResult =  Utilities.actionsGlobalContext().lookupResult(Object.class); // MultiLayerPerceptronVisualizationTopComponent
+        lookupResult.addLookupListener(this);
     }
 
     @Override
@@ -121,6 +128,15 @@ public final class MlpClassificationSampleControlsTopComponent extends TopCompon
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
+    }
+
+    @Override
+    public void resultChanged(LookupEvent le) {
+        // listen for visualization tc in global lookup
+         Collection<? extends Object> mlpTcCollection = ((Lookup.Result)le.getSource()).allInstances();
+    //     currentMlpVisualizationTc = (MultiLayerPerceptronVisualizationTopComponent) mlpTcCollection.iterator().next();        
+    //     sampleControlsPanel.setMlpSampleTc(currentMlpVisualizationTc);
+        System.out.println(mlpTcCollection);
     }
 
   
