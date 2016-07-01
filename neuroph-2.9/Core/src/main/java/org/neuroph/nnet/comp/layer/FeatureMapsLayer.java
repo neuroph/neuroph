@@ -42,7 +42,7 @@ import org.neuroph.util.NeuronProperties;
  */
 public abstract class FeatureMapsLayer extends Layer {
 
-    static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+   // static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
 
 
     private static final long serialVersionUID = -6706741997689639209L;

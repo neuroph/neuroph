@@ -25,7 +25,7 @@ package org.neuroph.core.learning.error;
 public interface ErrorFunction {
 
     /**
-     * Retruns total network error
+     * Return total network error
      * @return total network error
      */
     public double getTotalError();

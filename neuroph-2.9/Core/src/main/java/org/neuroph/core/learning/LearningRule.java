@@ -145,7 +145,9 @@ abstract public class LearningRule implements Serializable {
         if (listener == null)
             throw new IllegalArgumentException("listener is null!");
         
-        listeners.add(listener);
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
     }
 
     // This methods allows classes to unregister for LearningEvents

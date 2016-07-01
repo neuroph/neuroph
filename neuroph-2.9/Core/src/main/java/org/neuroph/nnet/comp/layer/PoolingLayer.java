@@ -20,6 +20,7 @@ import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
 import org.neuroph.core.input.Max;
 import org.neuroph.core.transfer.Ramp;
+import org.neuroph.core.transfer.Tanh;
 import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
@@ -48,8 +49,8 @@ public class PoolingLayer extends FeatureMapsLayer {
 
     static {
         DEFAULT_NEURON_PROP.setProperty("useBias", true);
-    //    DEFAULT_NEURON_PROP.setProperty("transferFunction", Tanh.class);
-        DEFAULT_NEURON_PROP.setProperty("transferFunction", Ramp.class);
+        DEFAULT_NEURON_PROP.setProperty("transferFunction", Tanh.class);
+    //    DEFAULT_NEURON_PROP.setProperty("transferFunction", Ramp.class);
         DEFAULT_NEURON_PROP.setProperty("inputFunction", Max.class);
     }
 
