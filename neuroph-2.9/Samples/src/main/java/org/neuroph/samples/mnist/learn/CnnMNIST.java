@@ -55,12 +55,13 @@ public class CnnMNIST {
             Dimension2D convolutionKernel = new Dimension2D(5, 5);
             Dimension2D poolingKernel = new Dimension2D(2, 2);
 
-            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder(inputDimension, 1)
-                    .withConvolutionLayer(convolutionKernel, layer1)
-                    .withPoolingLayer(poolingKernel)
-                    .withConvolutionLayer(convolutionKernel, layer2)
-                    .withPoolingLayer(poolingKernel)
-                    .withConvolutionLayer(convolutionKernel, layer3)
+            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder()
+                    .withInputLayer(32, 32, 1)
+                    .withConvolutionLayer(5, 5, layer1)
+                    .withPoolingLayer(2, 2)
+                    .withConvolutionLayer(5, 5, layer2)
+                    .withPoolingLayer(2, 2)
+                    .withConvolutionLayer(5, 5, layer3)
                     .withFullConnectedLayer(10)
                     .build();
 

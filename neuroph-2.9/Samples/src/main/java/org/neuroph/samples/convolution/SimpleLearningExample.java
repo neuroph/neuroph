@@ -1,13 +1,10 @@
 package org.neuroph.samples.convolution;
 
 import org.neuroph.nnet.ConvolutionalNetwork;
-import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.nnet.comp.layer.FeatureMapsLayer;
-import org.neuroph.nnet.learning.MomentumBackpropagation;
-import org.neuroph.samples.convolution.util.WeightVisualiser;
 
 
 /**
@@ -20,8 +17,9 @@ public class SimpleLearningExample {
 
         Dimension2D convolutionKernel = new Dimension2D(3, 3);
 
-        ConvolutionalNetwork convolutionNet = new ConvolutionalNetwork.Builder(inputDimension, 1)
-                .withConvolutionLayer(convolutionKernel, 2)
+        ConvolutionalNetwork convolutionNet = new ConvolutionalNetwork.Builder()
+                .withInputLayer(5, 5, 1)
+                .withConvolutionLayer(3, 3, 2)
                 .withFullConnectedLayer(2)
                 .build();
         
