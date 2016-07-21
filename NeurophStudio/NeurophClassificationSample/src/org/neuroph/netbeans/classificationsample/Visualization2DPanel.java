@@ -351,7 +351,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
                         graphicsBuffer.fillRect(x - panelSize / 2, y - panelSize / 2, 10, 10); // 10, 10
                     }
                     
-                    // 2. decide when to draw red or blue rect point depending on the 0.5 threshold  
+                    // 2. decide when to draw red or blue grid point depending on the 0.5 threshold   
                     if (gridPoints[i][j] > 0.5) {// this is a treshold function, that separates one output from another
                         graphicsBuffer.setColor(Color.RED);
                     } else {
@@ -359,7 +359,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
                     }
                                         
                     // draw small rect as a grid point
-                    if (positiveInputsOnly()) {
+                    if (positiveInputsOnly()) { 
                         graphicsBuffer.fillRect(x + 3, y + 3, 3, 3);
                     } else {
                         graphicsBuffer.fillRect(x - panelSize / 2 + 3, y - panelSize / 2 + 3, 3, 3); // 3, 3, 3, 3
