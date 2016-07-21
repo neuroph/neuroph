@@ -56,10 +56,9 @@ public final class VisualEditorTopComponent extends TopComponent implements Expl
     private FileObject fileObject;
     private NeuralNetworkScene neuralNetworkScene;
     private final InstanceContent content = new InstanceContent();
-    private final AbstractLookup aLookup = new AbstractLookup(content);
-
-    NeuralNetAndDataSet neuralNetAndDataSet;
+    private final AbstractLookup aLookup = new AbstractLookup(content);   
     private final ExplorerManager explorerManager = new ExplorerManager();
+    private NeuralNetAndDataSet neuralNetAndDataSet;
 
     // should never be called, except from Window -> VisualEditor
     public VisualEditorTopComponent() {        
@@ -115,7 +114,7 @@ public final class VisualEditorTopComponent extends TopComponent implements Expl
         
         TopComponent tc = WindowManager.getDefault().findTopComponent("ExplorerTopComponent"); // TODO: explorer should listento Lookup of this TC ...
         if (tc != null) {
-            ExplorerTopComponent explorerTC = (ExplorerTopComponent) tc;
+            ExplorerTopComponent explorerTC = (ExplorerTopComponent) tc; 
             explorerTC.initializeOrSelectNNetRoot(neuralNetworkScene.getNeuralNetwork());
             explorerTC.setCurrentObjectScene(neuralNetworkScene);
         }
