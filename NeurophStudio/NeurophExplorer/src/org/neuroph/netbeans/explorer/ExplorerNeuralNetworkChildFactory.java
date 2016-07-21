@@ -38,7 +38,7 @@ public class ExplorerNeuralNetworkChildFactory extends ChildFactory<Object> {
         if (neuralNet.getLearningRule() != null) {
             toPopulate.add(neuralNet.getLearningRule());
         }
-        toPopulate.addAll(Arrays.asList(neuralNet.getLayers()));
+        toPopulate.addAll(neuralNet.getLayers());
         return true;
     }
 

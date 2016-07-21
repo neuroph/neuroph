@@ -125,6 +125,9 @@ public final class ExplorerTopComponent extends TopComponent implements Explorer
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+   
+    
+    // Listen to global lookup when explorer window is opened
     @Override
     public void componentOpened() {
         // listen for neural network selection in global lookup
