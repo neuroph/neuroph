@@ -5,42 +5,45 @@ import javax.swing.JOptionPane;
 import org.neuroph.core.data.DataSet;
 
 /**
- * Make this class non singleton
+ * Sets selected inputs for visualization to underlying instance of MultiLayerPerceptronVisualizationTopComponent
+ * 
+ * TODO: Add output selection also
+ * 
  * @author Milos Randjic
  */
-public class InputSettingsDialog extends javax.swing.JDialog {
+public class SelectInputsDialog extends javax.swing.JDialog {
 
+    private MultiLayerPerceptronVisualizationTopComponent mlpVizTc;
+    
     /**
      * Creates new form InputSettngsDialog
      */
-    private InputSettingsDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+//    public InputSettingsDialog(java.awt.Frame parent, boolean modal) {
+//        super(parent, modal);
+//        initComponents();
+//        setLocationRelativeTo(null);
+//    }
+    
+    public SelectInputsDialog(MultiLayerPerceptronVisualizationTopComponent mlpVizTc ) {
+//        super(null, true);
         initComponents();
-        setLocationRelativeTo(null);
-    }
-    
-    private static InputSettingsDialog instance;
-    
-    public static InputSettingsDialog getInstance(){
-        if(instance==null){
-            return new InputSettingsDialog(null, true);
-        }
-        else
-            return instance;
-    }
-    
-    private static int[] inputs;
-    
-    public void storeInputs(int[] inputs){
-        InputSettingsDialog.inputs = inputs;
-    }
-    
-    public int[] getStoredInputs(){
-        return InputSettingsDialog.inputs;
+        setLocationRelativeTo(null);   
+        this.mlpVizTc = mlpVizTc;
+        initDataSetInfo(mlpVizTc.getTrainingSet());
     }
     
     
-
+    private int[] selectedInputs;
+    
+    public void saveSelectedInputs(int[] selectedInputs){
+        this.selectedInputs = selectedInputs;
+        mlpVizTc.setSelectedInputs(selectedInputs);
+    }
+    
+    public int[] getSelectedInputs(){
+        return selectedInputs;
+    }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,17 +61,17 @@ public class InputSettingsDialog extends javax.swing.JDialog {
         okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(InputSettingsDialog.class, "InputSettingsDialog.title")); // NOI18N
+        setTitle(org.openide.util.NbBundle.getMessage(SelectInputsDialog.class, "SelectInputsDialog.title")); // NOI18N
         setModal(true);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(InputSettingsDialog.class, "InputSettingsDialog.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(SelectInputsDialog.class, "SelectInputsDialog.jLabel1.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(InputSettingsDialog.class, "InputSettingsDialog.jLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SelectInputsDialog.class, "SelectInputsDialog.jLabel2.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(InputSettingsDialog.class, "InputSettingsDialog.okButton.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(SelectInputsDialog.class, "SelectInputsDialog.okButton.text")); // NOI18N
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
@@ -136,7 +139,7 @@ public class InputSettingsDialog extends javax.swing.JDialog {
             comboFirstInput.setSelectedIndex(0);
             comboSecondInput.setSelectedIndex(1);
         } else {
-            storeInputs(new int[]{x, y});
+            saveSelectedInputs(new int[]{x, y});
             dispose();
         }
         
@@ -145,7 +148,7 @@ public class InputSettingsDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_okButtonActionPerformed
     
     
-    public void initDataSetInfo(DataSet dataSet) {
+    private void initDataSetInfo(DataSet dataSet) {
         
         // we should take column names from data set here
         String[] inputNames = new String[dataSet.getInputSize()];
@@ -179,21 +182,23 @@ public class InputSettingsDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InputSettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectInputsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InputSettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectInputsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InputSettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectInputsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InputSettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectInputsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                InputSettingsDialog dialog = new InputSettingsDialog(new javax.swing.JFrame(), true);
+                SelectInputsDialog dialog = new SelectInputsDialog(null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -1,6 +1,7 @@
 package org.neuroph.netbeans.visual;
 
 import java.io.PrintWriter;
+import java.util.ConcurrentModificationException;
 import org.neuroph.contrib.eval.ClassifierEvaluator;
 
 import org.neuroph.contrib.model.errorestimation.CrossValidation;
@@ -29,8 +30,8 @@ public class TrainingController implements Thread.UncaughtExceptionHandler {
     private boolean useCrossvalidation;
     private int numberOfCrossvalSubsets;
     private int[] subsetDistribution;
-    CrossValidation crossval = null;
-    int crossValNNCounter = 0;
+    private CrossValidation crossval = null;
+    private int crossValNNCounter = 0;
     boolean saveNetworks;
     private boolean allowSamplesRepetition;
 
@@ -100,14 +101,18 @@ public class TrainingController implements Thread.UncaughtExceptionHandler {
         isPaused = false;
 
         if (useCrossvalidation == false) {
+            // use thread pool here
             Thread t = new Thread( new Runnable () {
                 
+                @Override
                 public void run() {
                     neuralNet.learn(neuralNetAndDataSet.getDataSet());
                 }
             });
             t.setUncaughtExceptionHandler(this);
+            t.setName("Training thread");
             t.start();
+
         } else {
 
             if (subsetDistribution != null) {
@@ -181,11 +186,15 @@ public class TrainingController implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        InputOutput io = IOProvider.getDefault().getIO("Neuroph", false);
-        io.select();
 
-        PrintWriter out = io.getOut();
-        out.println("Training error: " + e.getMessage());
+        if (!(e instanceof ConcurrentModificationException)) { // Ugly fix, ovo se desava zbog ArrayListe u learning event listenerima, treba je zameniti sa synchronized Collections.synchronize
+            InputOutput io = IOProvider.getDefault().getIO("Neuroph", false);
+            io.select();
+
+            PrintWriter out = io.getOut();
+            out.println("Training exception: " + e.getMessage());
+            e.printStackTrace(out);
+        }
     }
 
     public void setCrossvalSubsetsDistribution(int[] dist) {

@@ -1,6 +1,5 @@
 package org.neuroph.netbeans.classificationsample;
 
-import java.awt.Dimension;
 import javax.swing.DefaultComboBoxModel;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
@@ -14,11 +13,10 @@ import org.neuroph.datasetgen.shapes.RingGenerator;
 import org.neuroph.datasetgen.shapes.SquareGenerator;
 import org.neuroph.datasetgen.shapes.XORGenerator;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
+import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.util.NeuralNetworkFactory;
 import org.neuroph.util.TransferFunctionType;
 import org.openide.windows.IOProvider;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 
 /**
  *
@@ -26,14 +24,16 @@ import org.openide.windows.WindowManager;
  */
 public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.JPanel {
 
-    private int tansferFunctionCode = 1;
+   // private int tansferFunctionCode = 1; // not used?    
     private int neuralNetworkCounter = 0;//number of created networks
     private String neuronsCount;
     private NeuralNetwork neuralNetwork;
     private TransferFunctionType transferFunctionType;
     private DataSetGenerator[] shapeGenerators;
     
-    public MultiLayerPerceptronVisualizationTopComponent mlpSampleTc;
+    // ovo treba da slusa u lookupu a ne d abude hardkodirano...
+    public MultiLayerPerceptronVisualizationTopComponent mlpVisualizationTc;
+    
     public static int VISUALIZATION_OPTION;
     public static boolean SHOW_POINTS;
 
@@ -44,27 +44,26 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     }    
 
     public MultiLayerPerceptronVisualizationTopComponent getMlpSampleTc() {
-        return mlpSampleTc;
+        return mlpVisualizationTc;
     }
 
+    // trebalo bi da setuje ovaj tc iz lookup-a
     public void setMlpSampleTc(MultiLayerPerceptronVisualizationTopComponent mlpSampleTc) {
-        this.mlpSampleTc = mlpSampleTc;
+        this.mlpVisualizationTc = mlpSampleTc;
     }
                
     // why do I have to see bs from here?
-    public MultiLayerPerceptronClassificationSamplePanel(MultiLayerPerceptronVisualizationTopComponent bs) {
-        initComponents();
-        initializeNeuralNetworkComponents();
-        initShapes(0, 0);
-        this.mlpSampleTc = bs;
-    }
+//    public MultiLayerPerceptronClassificationSamplePanel(MultiLayerPerceptronVisualizationTopComponent mlptc) {
+//        initComponents();
+//        initializeNeuralNetworkComponents();
+//        initShapes(0, 0);
+//        this.mlpSampleTc = mlptc;
+//    }
 
     private void initializeNeuralNetworkComponents() {
-        comboTransferFunction.addItem("Tanh");
         comboTransferFunction.addItem("Sigmoid");
-        neuronsCount = "2 1";
+        comboTransferFunction.addItem("Tanh");
         transferFunctionType = TransferFunctionType.SIGMOID;
-        neuralNetwork = NeuralNetworkFactory.createMLPerceptron(neuronsCount, transferFunctionType);
     }
 
     private void initShapes(int shapeIndex, int numberOfPoints) {
@@ -111,44 +110,32 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     }
 
     public int getMaxIteration() {
-        return new Integer(0);
+        return 0;
     }
 
-    //@Action
-    public void enableSetIterations() {
-    }
 
     public void setTransferFunctionCode() {
-        String net = (String) comboTransferFunction.getSelectedItem();
-        if (net.equals("Tanh")) {
-            tansferFunctionCode = 1;
+        String selectedTf = (String) comboTransferFunction.getSelectedItem();
+        if (selectedTf.equals("Tanh")) {
+           transferFunctionType = TransferFunctionType.TANH;
         }
-        if (net.equals("Sigmoid")) {
-            tansferFunctionCode = 2;
+        if (selectedTf.equals("Sigmoid")) {
+            transferFunctionType = TransferFunctionType.SIGMOID;
         }
     }
 
     public void getNeuronsCount() {
         String structure = comboNetworkStructure.getSelectedItem().toString().replace(':', ' ');
         String hiddenNeurons = structure.substring(1, structure.length() - 1);
-        try {
-            neuronsCount = "2 " + hiddenNeurons + " 1";
-        } catch (Exception e) {
-            neuronsCount = "2 1";
-        }
+   
+        neuronsCount = "2 " + hiddenNeurons + " 1";
     }
 
     public NeuralNetwork createNeuralNetwork() {
         getNeuronsCount();
-        switch (tansferFunctionCode) {
-            case 1:
-                transferFunctionType = TransferFunctionType.SIGMOID;
-                break;
-            case 2:
-                transferFunctionType = TransferFunctionType.SIGMOID;
-                break;
-        }
-        neuralNetwork = NeuralNetworkFactory.createMLPerceptron(neuronsCount, transferFunctionType);
+               
+        neuralNetwork = NeuralNetworkFactory.createMLPerceptron(
+                    neuronsCount, transferFunctionType, MomentumBackpropagation.class, true, false);
         neuralNetworkCounter++;
         neuralNetwork.setLabel("MlpSampleNet" + neuralNetworkCounter);
         return neuralNetwork;
@@ -159,24 +146,24 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     }
 
     public void clear() {
-        mlpSampleTc.clear();
+        mlpVisualizationTc.clear();
     }
 
     public void checkVisualizationOption() {
         if (radioAnswer.isSelected()) {
-            mlpSampleTc.getVisualizationPanel().setVisualizationOption(1);
+            mlpVisualizationTc.getVisualizationPanel().setVisualizationOption(1);
         } else if (radioAreas.isSelected()) {
-            mlpSampleTc.getVisualizationPanel().setVisualizationOption(2);
+            mlpVisualizationTc.getVisualizationPanel().setVisualizationOption(2);
         } else if (radioLines.isSelected()) {
-            mlpSampleTc.getVisualizationPanel().setVisualizationOption(3);
+            mlpVisualizationTc.getVisualizationPanel().setVisualizationOption(3);
         }
     }
 
-    public void visualizationPreprocessing() {
+    public void setVisualizationOptions() {
         checkVisualizationOption();
         if (checkPoints.isSelected()) {
             SHOW_POINTS = true;
-            mlpSampleTc.getVisualizationPanel().resetAndRepaintGridPoints();
+            mlpVisualizationTc.getVisualizationPanel().resetAndRepaintGridPoints();
         } else {
             SHOW_POINTS = false;
             clear();
@@ -184,7 +171,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     }
 
     public void checkForPositiveInputs() {
-        if (mlpSampleTc.getVisualizationPanel().positiveInputsOnly()) {
+        if (mlpVisualizationTc.getVisualizationPanel().positiveInputsOnly()) {
             checkPositiveInputs.setSelected(true);
             comboShapes.setEnabled(true);
             slideNumberOfPoints.setEnabled(true);
@@ -197,11 +184,11 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
 
     public void visualizationOptionCheck() {
         if (radioAnswer.isSelected()) {
-            mlpSampleTc.getVisualizationPanel().setVisualizationOption(1);
+            mlpVisualizationTc.getVisualizationPanel().setVisualizationOption(1);
         } else if (radioAreas.isSelected()) {
-            mlpSampleTc.getVisualizationPanel().setVisualizationOption(2);
+            mlpVisualizationTc.getVisualizationPanel().setVisualizationOption(2);
         } else if (radioLines.isSelected()) {
-            mlpSampleTc.getVisualizationPanel().setVisualizationOption(3);
+            mlpVisualizationTc.getVisualizationPanel().setVisualizationOption(3);
         }
     }
 
@@ -224,6 +211,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         jLabel1 = new javax.swing.JLabel();
         slideNumberOfPoints = new javax.swing.JSlider();
         createDataSetButton = new javax.swing.JButton();
+        labNumberOfPoints = new javax.swing.JLabel();
         neuralNetworkPanel = new javax.swing.JPanel();
         jlTransferFunction = new javax.swing.JLabel();
         comboTransferFunction = new javax.swing.JComboBox();
@@ -257,43 +245,45 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 8, 3, 0);
+        gridBagConstraints.insets = new java.awt.Insets(9, 8, 9, 0);
         dataSetPanel.add(jLabel2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 89;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 1, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(6, 1, 3, 0);
         dataSetPanel.add(comboShapes, gridBagConstraints);
 
         jLabel1.setText("Number of points:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(31, 8, 0, 5);
+        gridBagConstraints.ipadx = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 5);
         dataSetPanel.add(jLabel1, gridBagConstraints);
 
         slideNumberOfPoints.setBackground(new java.awt.Color(255, 255, 255));
+        slideNumberOfPoints.setMajorTickSpacing(400);
         slideNumberOfPoints.setMaximum(2000);
-        slideNumberOfPoints.setToolTipText("");
+        slideNumberOfPoints.setPaintLabels(true);
+        slideNumberOfPoints.setPaintTicks(true);
+        slideNumberOfPoints.setToolTipText("Number of points in data set");
         slideNumberOfPoints.setValue(1000);
+        slideNumberOfPoints.setPreferredSize(new java.awt.Dimension(300, 45));
         slideNumberOfPoints.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 slideNumberOfPointsStateChanged(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(21, 0, 9, 2);
         dataSetPanel.add(slideNumberOfPoints, gridBagConstraints);
 
         createDataSetButton.setText("Create Data Set");
@@ -303,13 +293,22 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(13, 9, 11, 18);
+        gridBagConstraints.insets = new java.awt.Insets(9, 9, 9, 18);
         dataSetPanel.add(createDataSetButton, gridBagConstraints);
+
+        labNumberOfPoints.setText("1000");
+        labNumberOfPoints.setMaximumSize(new java.awt.Dimension(40, 14));
+        labNumberOfPoints.setMinimumSize(new java.awt.Dimension(40, 14));
+        labNumberOfPoints.setPreferredSize(new java.awt.Dimension(40, 14));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        dataSetPanel.add(labNumberOfPoints, gridBagConstraints);
 
         add(dataSetPanel);
 
@@ -409,7 +408,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
 
         jLabel6.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         jLabel6.setForeground(java.awt.Color.lightGray);
-        jLabel6.setText("<html>Dran n' drop data set and neural network<br/> to visualization window and click train button<br/> in toolbar to start training</html>");
+        jLabel6.setText("<html>Drag n' drop data set and neural network<br/> to visualization window and click train button<br/> in toolbar to start training</html>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -508,37 +507,33 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     }// </editor-fold>//GEN-END:initComponents
 
     private void slideNumberOfPointsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slideNumberOfPointsStateChanged
-   //     labNumberOfPoints.setText(String.valueOf(slideNumberOfPoints.getValue()));
+        labNumberOfPoints.setText(String.valueOf(slideNumberOfPoints.getValue()));
     }//GEN-LAST:event_slideNumberOfPointsStateChanged
 
     private void createDataSetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDataSetButtonActionPerformed
-        // ako su tacke ntane rucnoacr
-        if (mlpSampleTc.getVisualizationPanel().isPointDrawed()) {
-            mlpSampleTc.customDataSetCheck();
-            mlpSampleTc.sampleTrainingSetFileCheck();
-            InputSettingsDialog isd = InputSettingsDialog.getInstance();
-            isd.storeInputs(new int[]{0, 1});
-            labDataSet.setText(mlpSampleTc.getTrainingSet().getLabel());
+        // ako su tacke nacrtane rucno
+        if (mlpVisualizationTc.getVisualizationPanel().isPointDrawed()) {
+            mlpVisualizationTc.customDataSetCheck();
+            mlpVisualizationTc.sampleTrainingSetFileCheck();
+            mlpVisualizationTc.setSelectedInputs(new int[]{0, 1});
+            labDataSet.setText(mlpVisualizationTc.getTrainingSet().getLabel());
         } else { // ako se generisu pomocu generatora data seta
             DataSet dataSet = getSelectedShapeGenerator().generate();
             NeurophProjectFilesFactory.getDefault().createTrainingSetFile(dataSet);
-            mlpSampleTc.setTrainingSet(dataSet);
-            mlpSampleTc.updateNeuralNetAndDataSetInfo(null, dataSet);
-         //   mlpSampleTc.clear();
-           // mlpSampleTc.repaint();
-           
-            InputSettingsDialog isd = InputSettingsDialog.getInstance();
-            isd.storeInputs(new int[]{0, 1});
-            mlpSampleTc.coordinateSystemDomainCheck();
-            mlpSampleTc.getVisualizationPanel().drawPointsFromDataSet(dataSet, isd.getStoredInputs());
-            mlpSampleTc.repaint();
+            mlpVisualizationTc.setTrainingSet(dataSet);
+            mlpVisualizationTc.updateNeuralNetAndDataSetInfo(null, dataSet);           
+            mlpVisualizationTc.setSelectedInputs(new int[]{0, 1});
+            mlpVisualizationTc.coordinateSystemDomainCheck();
+            mlpVisualizationTc.getVisualizationPanel().drawPointsFromDataSet(dataSet, mlpVisualizationTc.getSelectedInputs());
+            mlpVisualizationTc.repaint();
         }
         IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Sample data set created.");
-        initShapes(0, 0);
-        slideNumberOfPoints.setValue(1000);
+// dont reset selected values in controls window        
+//        initShapes(0, 0);
+//        slideNumberOfPoints.setValue(1000);
         
         // open dataset node here  - how - best way by makeing programatical selection
-        TopComponent projectsLogicalTC = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
+//        TopComponent projectsLogicalTC = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
         // get expolorer or beantreeview from tc lookup?
         
         
@@ -547,19 +542,15 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     private void checkPositiveInputsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPositiveInputsActionPerformed
         labDataSet.setText("Not selected");
         labNeuralNetwork.setText("Not selected");
-        if (mlpSampleTc.getNeuralNetwork() != null) {
-            mlpSampleTc.stop();
+        if (mlpVisualizationTc.getNeuralNetwork() != null) {
+            mlpVisualizationTc.stop();
         }
         clear();
-        mlpSampleTc.getVisualizationPanel().setDrawingLocked(false);
-        mlpSampleTc.setPointDrawed(false);
-        mlpSampleTc.removeNetworkAndDataSetFromContent();
-//        if (checkPositiveInputs.isSelected()) {
-//            mlpSampleTc.initializePanel(true);
-//        } else {
-//            mlpSampleTc.initializePanel(false);
-//        }
-        mlpSampleTc.getVisualizationPanel().repaint();
+        mlpVisualizationTc.getVisualizationPanel().setDrawingPointsDisabled(false);
+        mlpVisualizationTc.setPointDrawed(false);
+        mlpVisualizationTc.removeNetworkAndDataSetFromContent();
+
+        mlpVisualizationTc.getVisualizationPanel().repaint();
     }//GEN-LAST:event_checkPositiveInputsActionPerformed
 
     private void radioAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioAnswerActionPerformed
@@ -585,7 +576,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         neuralNetwork = createNeuralNetwork();
         createNeuralNetworkFile(neuralNetwork);
         IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Neural network created.");
-        comboNetworkStructure.setSelectedIndex(9);
+        comboNetworkStructure.setSelectedIndex(0);
         comboTransferFunction.setSelectedIndex(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -612,6 +603,7 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
     private javax.swing.JLabel jlTransferFunction;
     private javax.swing.JLabel labDataSet;
     private javax.swing.JLabel labNeuralNetwork;
+    private javax.swing.JLabel labNumberOfPoints;
     private javax.swing.JPanel neuralNetworkPanel;
     private javax.swing.JRadioButton radioAnswer;
     private javax.swing.JRadioButton radioAreas;

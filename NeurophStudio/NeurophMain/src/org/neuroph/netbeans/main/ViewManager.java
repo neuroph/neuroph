@@ -36,8 +36,6 @@ public class ViewManager implements
 
     private static final long serialVersionUID = 1L;
     private static ViewManager instance;
-    //private HashMap<NeuralNetwork, NeuralNetworkTopComponent> openedNetworks = new HashMap<NeuralNetwork, NeuralNetworkTopComponent>();
-//    private HashMap<DataSet, DataSetTopComponent> openedTrainingSets = new HashMap<DataSet, DataSetTopComponent>();
 
     public static ViewManager getInstance() {
         if (instance == null) {
@@ -49,26 +47,6 @@ public class ViewManager implements
     private ViewManager() {
     }
 
-    /**
-     * Opens NetworkViewFrameTopComponent
-     *
-     * @param nnet - inputs neural network that will be shown
-     * @param trainingSets - input training sets that will be loaded in training
-     * sets combo box
-     */
-//    public void openNeuralNetworkWindow(NeuralNetwork nnet) {
-//        NeuralNetworkTopComponent networkTopComponent;
-//
-//        if (openedNetworks.containsKey(nnet)) {
-//            networkTopComponent = openedNetworks.get(nnet); // if network is allready opened get the window
-//            networkTopComponent.requestActive();
-//        } else {
-//            networkTopComponent = new NeuralNetworkTopComponent(nnet); // otherwise create new window to open network in
-//            networkTopComponent.open();
-//            openedNetworks.put(nnet, networkTopComponent);
-//            networkTopComponent.requestActive();
-//        }
-//    }
     public void onNetworkClose(NeuralNetwork nnet) {
         // openedNetworks.remove(nnet);
     }
@@ -83,33 +61,22 @@ public class ViewManager implements
      *
      * @param trainingSet - input trainig set that will be edited
      */
-    public void openTrainingSetWindow(DataSet trainingSet) {
-//        DataSetTopComponent trainingSetTopComponent;
+//    public void openTrainingSetWindow(DataSet trainingSet) {
+////        DataSetTopComponent trainingSetTopComponent;
+////
+////        if (openedTrainingSets.containsKey(trainingSet)) {
+////            trainingSetTopComponent = openedTrainingSets.get(trainingSet); // if network is allready opened get the window
+////            trainingSetTopComponent.requestActive();
+////        } else {
+////            trainingSetTopComponent = new DataSetTopComponent(trainingSet); // otherwise create new window to open network in
+////            //  trainingSetTopComponent.setTrainingSetEditFrameVariables(trainingSet);
+////            trainingSetTopComponent.open();
+////            openedTrainingSets.put(trainingSet, trainingSetTopComponent);
+////            trainingSetTopComponent.requestActive();
+////        }
 //
-//        if (openedTrainingSets.containsKey(trainingSet)) {
-//            trainingSetTopComponent = openedTrainingSets.get(trainingSet); // if network is allready opened get the window
-//            trainingSetTopComponent.requestActive();
-//        } else {
-//            trainingSetTopComponent = new DataSetTopComponent(trainingSet); // otherwise create new window to open network in
-//            //  trainingSetTopComponent.setTrainingSetEditFrameVariables(trainingSet);
-//            trainingSetTopComponent.open();
-//            openedTrainingSets.put(trainingSet, trainingSetTopComponent);
-//            trainingSetTopComponent.requestActive();
-//        }
-
-    }
-
-    /**
-     * Opens NeuornPropertiseFrame
-     *
-     * @param neuron - input neuron which properties will be shown
-     */
-//    public void openNeuronPropertiesFrame(Neuron neuron) {
-//        NeuronPropertiesFrameTopComponent neuronPropertiesFrame = NeuronPropertiesFrameTopComponent.findInstance();
-//        neuronPropertiesFrame.setNeuronForNeuronPropertiesFrame(neuron);
-//        neuronPropertiesFrame.open();
-//        neuronPropertiesFrame.requestActive();
 //    }
+
     /**
      * Opens TrainingEditFrameTopComponent - opened by TrainingSet Wizard
      *
@@ -189,9 +156,7 @@ public class ViewManager implements
 
     public void licencePlateRecognitionSample() {
        TopComponent tc = WindowManager.getDefault().findTopComponent("LprTopComponent");
-        tc.open();
-           
-       
+        tc.open();                  
     }
 
     /**
@@ -309,39 +274,6 @@ public class ViewManager implements
     }
 
     /**
-     * Shows message in MessageBoxTopComponent
-     *
-     * @param message - input message that will be displayed
-     */
-    public void showMessage(String message) {
-    }
-
-    /**
-     * Opens BasicNeuronSample
-     */
-//    public void showBasicNeuronSample() {
-//        BasicNeuronSampleTopComponent sample = new BasicNeuronSampleTopComponent();
-//        sample.open();
-//        sample.requestActive();
-//
-//    }
-    /**
-     * // now moved to NeurophProjectTemplateWizardIteratorRecomender
-     * instantiate method Opens RecommenderSample
-     */
-//    public void recommenderSample() {
-//        NeuralNetwork nnet = new org.neuroph.contrib.RecommenderNetwork();
-//        ((org.neuroph.contrib.RecommenderNetwork) nnet).createDemoNetwork();
-//        // how to create this training set, where the data comes from?
-//     //   DataSet tSet = new DataSet(20); // how many inputs / outputs / do we have this in neuroph studio?
-//
-//        nnet.setLabel("Recommender sample");
-//    //    tSet.setLabel("E-commerce tset");
-//
-//        NeurophProjectFilesFactory.getDefault().createNeuralNetworkFile(nnet);
-////        NeurophProjectFilesFactory.getDefault().createTrainingSetFile(tSet);
-//    }
-    /**
      * Opens PerceptronSample
      */
     public void showPerceptronSample() {
@@ -365,9 +297,7 @@ public class ViewManager implements
         TrainingSetObserver trainingSetObserver = new TrainingSetObserver() {
             @Override
             public void update(Observable o, Object arg) {
-                //DataSet t = getTrainingSet();
                 super.update(o, arg);
-               // t = getTrainingSet();
             }
         };
 
@@ -377,10 +307,6 @@ public class ViewManager implements
 
         NeuralNetwork nnet = neuralNetObserver.getNnet();
         nnet.setLearningRule(new BackPropagation());       //ovo je moralo da se stavi... zasto - treba izbaciti i staviti momentum
-
-      //  DataSet ts = trainingSetObserver.getTrainingSet();
-
-        //            org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample backpropagationVisualizer = new org.neuroph.netbeans.main.easyneurons.samples.mlperceptron.MultiLayerPerceptronSample(pst);
 
         SwingUtilities.invokeLater(new Runnable() {
             // pozovi ovo iz wizarda
@@ -396,7 +322,7 @@ public class ViewManager implements
         }
         );
         
-        showMessage("Started Multi Layer Perceptron with Backpropagation Sample");
+        //showMessage("Started Multi Layer Perceptron with Backpropagation Sample");
 
     }
 }
