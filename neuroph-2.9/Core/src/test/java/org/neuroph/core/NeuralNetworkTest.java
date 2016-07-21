@@ -1,23 +1,7 @@
 package org.neuroph.core;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang3.ArrayUtils;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -28,17 +12,22 @@ import org.neuroph.core.events.NeuralNetworkEventListener;
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.core.learning.LearningRule;
-import org.neuroph.nnet.learning.LMS;
+import org.neuroph.util.plugins.PluginBase;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  *
@@ -535,5 +524,14 @@ public class NeuralNetworkTest {
     public void testGetInputsCount() {
         assertThat(neuralNetwork.getInputsCount(),
                 is(2));
+    }
+
+    @Test
+    public void shouldReturnPlugin() {
+        PluginBase plugin = new PluginBase();
+
+        neuralNetwork.addPlugin(plugin);
+
+        assertTrue(neuralNetwork.getPlugin(PluginBase.class) instanceof PluginBase);
     }
 }

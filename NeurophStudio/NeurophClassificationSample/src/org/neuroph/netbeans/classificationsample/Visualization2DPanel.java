@@ -78,18 +78,22 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         this.drawingPointsDisabled = drawingPointsDisabled;
     }
 
+    //returns the visualizationOpetion(int)
     public int getVisualizationOption() {
         return visualizationOption;
     }
 
+    //sets the visualizationOption
     public void setVisualizationOption(int visualizationOption) {
         this.visualizationOption = visualizationOption;
     }
 
+    //returns boolean value that shows if the inputs are only positive
     public boolean positiveInputsOnly() {
         return positiveInputsOnly;
     }
 
+    //sets the if the inputs are only positive or not
     public void setPositiveInputsOnly(boolean positiveInputsOnly) {
         this.positiveInputsOnly = positiveInputsOnly;
     }
@@ -98,6 +102,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         this.visualizationStarted = visualizationStarted;
     }
 
+    //returns boolean value that shows if the point is drawed
     public boolean isPointDrawed() {
         return pointDrawn;
     }
@@ -107,18 +112,22 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     }
     private boolean allPointsRemoved = false;
 
+    //returns boolean value that shows if all the points are removed
     public boolean isAllPointsRemoved() {
         return allPointsRemoved;
     }
 
+    //sets the allPointsRemoved atribute
     public void setAllPointsRemoved(boolean allPointsRemoved) {
         this.allPointsRemoved = allPointsRemoved;
     }
 
+    //sets the neuralNetwork passed in the parameter
     public void setNeuralNetwork(NeuralNetwork neuralNetwork) {
         this.neuralNetwork = neuralNetwork;
     }
 
+    //sets the value of the indicator for mouse click button registration
     public void setValue(int v) {
         value = v;
     }
@@ -126,8 +135,8 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
     public void setNeuronColors(NeuralNetwork neuralNetwork) {
         int numberOfColors;
         numberOfColors = neuralNetwork.getLayerAt(1).getNeurons().size() - 1; //gets number of neurons in second layer
-        neuronColor = new Color[numberOfColors];
-        neuronColorInverted = new Color[numberOfColors];
+        neuronColor = new Color[numberOfColors]; //initializes neuronColor - a queue type Color with the size of numberOfColors
+        neuronColorInverted = new Color[numberOfColors];//same as the one before
         Random random = new Random();
         for (int i = 0; i < numberOfColors; i++) {//for each neuron, assign two colors
             float r = random.nextFloat();
@@ -473,7 +482,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         // clear drawing buffer (draw white background)
         graphicsBuffer.setColor(Color.WHITE);//drawing white rectangles for visualization
         if (positiveInputsOnly) {
-            graphicsBuffer.fillRect(0, 0, panelSize, panelSize);
+            graphicsBuffer.fillRect(0, 0, panelSize, panelSize);//fills the specified rectangle
         } else {
             graphicsBuffer.fillRect(-panelSize / 2, -panelSize / 2, panelSize, panelSize);
         }
@@ -566,7 +575,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
      */
     double transformFromPanelToDecartX(int x) {
         double xx;
-        if (positiveInputsOnly) {
+        if (positiveInputsOnly) {//transforms for positive inputs only
             double X = (double) x;
             xx = (double) X / (double)(panelSize - padding);
             if (xx > 1) {
@@ -593,7 +602,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
      */
     double transformFromPanelToDecartY(int panelY) {
         double yy;
-        if (positiveInputsOnly) {
+        if (positiveInputsOnly) {//transforms for positive inputs only
             double Y = (double) panelY;
             yy = 1 - Y / (double)(panelSize-padding);
             if (yy > 1) {

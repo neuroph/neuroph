@@ -82,11 +82,11 @@ public final class MlpClassificationSampleControlsTopComponent extends TopCompon
      * Obtain the MultiLayerPerceptronClassificationSampleTopComponent instance. Never call {@link #getDefault} directly!
      */
     public static synchronized MlpClassificationSampleControlsTopComponent findInstance() {
-        TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
+        TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);// finds top component
         if (win == null) {
             Logger.getLogger(MlpClassificationSampleControlsTopComponent.class.getName()).warning(
                     "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
-            return getDefault();
+            return getDefault();//if it cannot find the top component, it creates a new instance(Singleton patern)
         }
         if (win instanceof MlpClassificationSampleControlsTopComponent) {
             return (MlpClassificationSampleControlsTopComponent) win;
@@ -97,10 +97,12 @@ public final class MlpClassificationSampleControlsTopComponent extends TopCompon
         return getDefault();
     }
     
+    //getter for the sampleControlsPanel
     public MultiLayerPerceptronClassificationSamplePanel getSampleControlsPanel() {
         return sampleControlsPanel;
     }
 
+    //setter for sampleControlsPanel
     public void setSampleControlsPanel(MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel) {
         this.sampleControlsPanel = sampleControlsPanel;
     }
