@@ -61,7 +61,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         
     // visualization settings and parameters 
     private final int gridCellSize = 80; // 80 koliko ima grid cell tacaka panelWidth / 10 na svakih 10 pixela?
-    private final double coefficient = 0.025316456; // opseg vrednosti panela / sirina panela u pixelima
+    private final double pixelValue = 0.0253; //0.025316456; - value range / number of pixels
     private int[] selectedInputs; // indexes of inputs selected for visualization. this values are set through dialog
     private int learningIterationCounter = 0;
     private boolean isReadyToTrain = false; // initialized when nn and dset are available and set from initTraining
@@ -321,6 +321,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         }
         
         visualizationPanel.setNeuronColors(neuralNetwork);
+
     }
 
     /*
@@ -412,14 +413,11 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
     }
 
     
-   private void onStart() {
-        // setVisualizationOptions();        
+   private void onStart() {      
         controllsPanel.setVisualizationOptions();
-        setDrawingPointsDisabled(true);
-       
+        setDrawingPointsDisabled(true);       
         generateInputSpace(); // fills neuralNetworkInputs with vectors 
-
-        // setVisualizationStarted(true);
+        visualizationPanel.prepareTrainingBuffers() ;
         visualizationPanel.setVisualizationStarted(true);
     }    
     
@@ -495,8 +493,8 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
                     x = (int) Math.abs(xInput * (gridCellSize-1));
                     y = (gridCellSize-1) - (int) Math.abs(yInput * (gridCellSize-1));
                 } else {
-                    x = (int) Math.abs((xInput) / coefficient); // da vidis koliko je pixela x
-                    y = (gridCellSize-1) - (int) Math.abs((yInput) / coefficient);
+                    x = (int) Math.abs((xInput) / pixelValue); // da vidis koliko je pixela x
+                    y = (gridCellSize-1) - (int) Math.abs((yInput) / pixelValue); //  79 - kako da ovaj dodje do nule   79 - 
                 }
                 // da li dobro izracunavam output, zasto su svi crveni?
                 visualizationPanel.setGridPoint(x, y, output);                

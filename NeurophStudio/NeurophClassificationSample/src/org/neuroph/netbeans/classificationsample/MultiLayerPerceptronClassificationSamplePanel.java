@@ -521,10 +521,10 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
             DataSet dataSet = getSelectedShapeGenerator().generate();
             NeurophProjectFilesFactory.getDefault().createTrainingSetFile(dataSet);
             mlpVisualizationTc.setTrainingSet(dataSet);
-            mlpVisualizationTc.updateNeuralNetAndDataSetInfo(null, dataSet);           
-            mlpVisualizationTc.setSelectedInputs(new int[]{0, 1});
+            mlpVisualizationTc.updateNeuralNetAndDataSetInfo(null, dataSet);                       
             mlpVisualizationTc.coordinateSystemDomainCheck();
-            mlpVisualizationTc.getVisualizationPanel().drawPointsFromDataSet(dataSet, mlpVisualizationTc.getSelectedInputs());
+            mlpVisualizationTc.setSelectedInputs(new int[]{0, 1});
+            mlpVisualizationTc.drawPointsFromDataSet(dataSet, mlpVisualizationTc.getSelectedInputs());
             mlpVisualizationTc.repaint();
         }
         IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Sample data set created.");
