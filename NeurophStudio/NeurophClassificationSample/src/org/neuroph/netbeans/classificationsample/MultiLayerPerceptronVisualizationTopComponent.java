@@ -24,6 +24,7 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
+import org.openide.util.lookup.Lookups;
 import org.openide.util.lookup.ProxyLookup;
 import org.openide.windows.TopComponent;
 
@@ -76,6 +77,7 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         
         content = new InstanceContent();
+        content.add(this);
         aLookup = new AbstractLookup(content);
     }
 
@@ -588,4 +590,11 @@ public final class MultiLayerPerceptronVisualizationTopComponent extends TopComp
             e.dropComplete(true);
         }
     }
+
+    public void setSampleControllsTC(MlpClassificationSampleControlsTopComponent sampleControllsTC) {
+        this.sampleControllsTC = sampleControllsTC;
+    }
+    
+    
+    
 }

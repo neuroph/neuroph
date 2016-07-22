@@ -52,14 +52,6 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         this.mlpVisualizationTc = mlpSampleTc;
     }
                
-    // why do I have to see bs from here?
-//    public MultiLayerPerceptronClassificationSamplePanel(MultiLayerPerceptronVisualizationTopComponent mlptc) {
-//        initComponents();
-//        initializeNeuralNetworkComponents();
-//        initShapes(0, 0);
-//        this.mlpSampleTc = mlptc;
-//    }
-
     private void initializeNeuralNetworkComponents() {
         comboTransferFunction.addItem("Sigmoid");
         comboTransferFunction.addItem("Tanh");

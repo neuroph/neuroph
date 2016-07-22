@@ -33,9 +33,8 @@ import org.openide.windows.WindowManager;
 // TODO: da slusa listenerom visualization tc na koji je povezan
 public final class MlpClassificationSampleControlsTopComponent extends TopComponent implements LookupListener {
 
-    Lookup.Result lookupResult;
     MultiLayerPerceptronVisualizationTopComponent currentMlpVisualizationTc;
-    
+    Lookup.Result lookupResult;
     
     private MlpClassificationSampleControlsTopComponent() {
         initComponents();
@@ -61,7 +60,6 @@ public final class MlpClassificationSampleControlsTopComponent extends TopCompon
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.neuroph.netbeans.classificationsample.MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel;
     // End of variables declaration//GEN-END:variables
-  //  private MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel;
     
     private static MlpClassificationSampleControlsTopComponent instance;
     private static final String PREFERRED_ID = "MlpClassificationSampleControlsTopComponent";
@@ -101,15 +99,10 @@ public final class MlpClassificationSampleControlsTopComponent extends TopCompon
     public MultiLayerPerceptronClassificationSamplePanel getSampleControlsPanel() {
         return sampleControlsPanel;
     }
-
-    //setter for sampleControlsPanel
-    public void setSampleControlsPanel(MultiLayerPerceptronClassificationSamplePanel sampleControlsPanel) {
-        this.sampleControlsPanel = sampleControlsPanel;
-    }
-    
+  
     @Override
     public void componentOpened() {
-        lookupResult =  Utilities.actionsGlobalContext().lookupResult(Object.class); // MultiLayerPerceptronVisualizationTopComponent
+        lookupResult =  Utilities.actionsGlobalContext().lookupResult(MultiLayerPerceptronVisualizationTopComponent.class); // MultiLayerPerceptronVisualizationTopComponent
         lookupResult.addLookupListener(this);
     }
 
@@ -134,9 +127,11 @@ public final class MlpClassificationSampleControlsTopComponent extends TopCompon
     public void resultChanged(LookupEvent le) {
         // listen for visualization tc in global lookup
          Collection<? extends Object> mlpTcCollection = ((Lookup.Result)le.getSource()).allInstances();
-    //     currentMlpVisualizationTc = (MultiLayerPerceptronVisualizationTopComponent) mlpTcCollection.iterator().next();        
-    //     sampleControlsPanel.setMlpSampleTc(currentMlpVisualizationTc);
-        System.out.println(mlpTcCollection);
+         if (!mlpTcCollection.isEmpty()) {
+            currentMlpVisualizationTc = (MultiLayerPerceptronVisualizationTopComponent) mlpTcCollection.iterator().next();
+            sampleControlsPanel.setMlpSampleTc(currentMlpVisualizationTc);
+            currentMlpVisualizationTc.setSampleControllsTC(this);
+        }
     }
 
   
