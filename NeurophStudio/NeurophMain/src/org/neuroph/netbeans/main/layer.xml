@@ -60,6 +60,15 @@
             <file name="sep-before-reposearch.instance_hidden"/>
         </folder>
         <file name="GoTo_hidden"/>
+        <folder name="Help">
+            <file name="Separator1.instance_hidden"/>
+            <file name="SeparatorAfterJavadoc.instance_hidden"/>
+            <file name="netbeans-kb.url_hidden"/>
+            <file name="org-netbeans-modules-bugzilla-ReportNBIssueAction.shadow_hidden_hidden"/>
+            <file name="org-netbeans-modules-javadoc-search-IndexOverviewAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-javadoc-search-SearchDocAction.shadow_hidden"/>
+            <file name="shortcuts.xml_hidden"/>
+        </folder>
         <file name="Refactoring_hidden"/>
         <file name="RunProject_hidden"/>
         <file name="Source_hidden"/>
@@ -96,6 +105,7 @@
             <file name="org-netbeans-modules-favorites-templates-TemplatesAction.shadow_hidden"/>
             <file name="org-netbeans-modules-templates-actions-TemplatesAction.shadow_hidden"/>
             <file name="org-netbeans-modules-xml-catalog-CatalogAction.shadow_hidden"/>
+            <file name="org-openide-actions-ToolsAction.shadow_hidden"/>
         </folder>
         <folder name="Window">
                 <file name="TestAction.shadow">
@@ -104,8 +114,19 @@
         </folder>
     </folder>
     <folder name="OptionsDialog">
+        <folder name="Advanced">
+            <file name="Diff.instance_hidden"/>
+            <file name="org-netbeans-core-ui-options-filetypes-FileAssociationsOptionsPanelController.instance_hidden"/>
+        </folder>
+        <file name="Editor.instance_hidden"/>
         <file name="Editor_hidden"/>
+        <file name="FontsAndColors.instance_hidden"/>
+        <file name="Java.instance_hidden"/>
         <file name="Java_hidden"/>
+        <file name="Keymaps.instance_hidden"/>
+        <file name="PreviewExamples_hidden"/>
+        <file name="Team.instance_hidden"/>
+        <file name="Team_hidden"/>
     </folder>
     <folder name="Templates">
         <file name="AWTForms_hidden"/>
@@ -142,14 +163,34 @@
     </folder>
     <folder name="Windows2">
         <folder name="Components">
+            <file name="AnalysisResultTopComponent.settings_hidden"/>
+            <file name="AnalyzeStackTopComponent.settings_hidden"/>
+            <file name="AnalyzerTopComponent.settings_hidden"/>
+            <file name="AppStateExplorerTopComponent.settings_hidden"/>
             <file name="BasicNeuronSampleTopComponent.settings" url="BasicNeuronSampleTopComponentSettings.xml"/>
+            <file name="DashboardTopComponent.settings_hidden"/>
+            <file name="GitRepositories.settings_hidden"/>
+            <file name="GitVersioning.settings_hidden"/>
             <file name="GraphFrameTopComponent.settings" url="GraphFrameTopComponentSettings.xml"/>
+            <file name="JavaHierarchyTopComponent.settings_hidden"/>
+            <file name="JavadocTopComponent.settings_hidden"/>
             <file name="KohonenSampleTopComponent.settings" url="KohonenSampleTopComponentSettings.xml"/>
             <file name="MultiLayerPerceptronSampleTopComponent.settings" url="MultiLayerPerceptronSampleTopComponentSettings.xml"/>
             <file name="NFRSampleTopComponent.settings" url="NFRSampleTopComponentSettings.xml"/>
             <file name="PerceptronSampleFrameTopComponent.settings" url="PerceptronSampleFrameTopComponentSettings.xml"/>
+            <file name="SceneEditorTopComponent.settings_hidden"/>
+            <file name="SceneExplorerTopComponent.settings_hidden"/>
+            <file name="SceneViewerTopComponent.settings_hidden"/>
             <file name="SupervisedTrainingMonitorTopComponent.settings" url="SupervisedTrainingMonitorTopComponentSettings.xml"/>
+            <file name="TaskListTopComponent.settings_hidden"/>
             <file name="TestTopComponent.settings" url="TestTopComponentSettings.xml"/>
+            <file name="TokensBrowserTopComponent.settings_hidden"/>
+            <file name="bookmarks.settings_hidden"/>
+            <file name="breakpointsView.settings_hidden"/>
+            <file name="callstackView.settings_hidden"/>
+            <file name="debuggingView.settings_hidden"/>
+            <file name="favorites.settings_hidden"/>
+            <file name="services.settings_hidden"/>
         </folder>
         <folder name="Modes">
             <folder name="editor">
