@@ -163,21 +163,27 @@
     </folder>
     <folder name="Windows2">
         <folder name="Components">
+            <file name="ASTBrowserTopComponent.settings_hidden"/>
             <file name="AnalysisResultTopComponent.settings_hidden"/>
             <file name="AnalyzeStackTopComponent.settings_hidden"/>
             <file name="AnalyzerTopComponent.settings_hidden"/>
             <file name="AppStateExplorerTopComponent.settings_hidden"/>
             <file name="BasicNeuronSampleTopComponent.settings" url="BasicNeuronSampleTopComponentSettings.xml"/>
+            <file name="CallHierarchyTopComponent.settings_hidden"/>
+            <file name="CssStylesTC.settings_hidden"/>
             <file name="DashboardTopComponent.settings_hidden"/>
+            <file name="FilterExplorerTopComponent.settings_hidden"/>
             <file name="GitRepositories.settings_hidden"/>
             <file name="GitVersioning.settings_hidden"/>
             <file name="GraphFrameTopComponent.settings" url="GraphFrameTopComponentSettings.xml"/>
+            <file name="HQLEditorTopComponent.settings_hidden"/>
             <file name="JavaHierarchyTopComponent.settings_hidden"/>
             <file name="JavadocTopComponent.settings_hidden"/>
             <file name="KohonenSampleTopComponent.settings" url="KohonenSampleTopComponentSettings.xml"/>
             <file name="MultiLayerPerceptronSampleTopComponent.settings" url="MultiLayerPerceptronSampleTopComponentSettings.xml"/>
             <file name="NFRSampleTopComponent.settings" url="NFRSampleTopComponentSettings.xml"/>
             <file name="PerceptronSampleFrameTopComponent.settings" url="PerceptronSampleFrameTopComponentSettings.xml"/>
+            <file name="ReporterResultTopComponent.settings_hidden"/>
             <file name="SceneEditorTopComponent.settings_hidden"/>
             <file name="SceneExplorerTopComponent.settings_hidden"/>
             <file name="SceneViewerTopComponent.settings_hidden"/>

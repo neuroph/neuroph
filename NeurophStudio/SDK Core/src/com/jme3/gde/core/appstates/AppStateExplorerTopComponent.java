@@ -52,6 +52,7 @@ import org.openide.windows.TopComponent;
 /**
  * TODO: preliminary implementation 'til new scene system
  */
+
 @ConvertAsProperties(
     dtd = "-//com.jme3.gde.core.appstates//AppStateExplorer//EN",
 autostore = false)
@@ -59,12 +60,12 @@ autostore = false)
     preferredID = "AppStateExplorerTopComponent",
 //iconBase="SET/PATH/TO/ICON/HERE", 
 persistenceType = TopComponent.PERSISTENCE_ALWAYS)
-@TopComponent.Registration(mode = "explorer", openAtStartup = false)
+//@TopComponent.Registration(mode = "explorer", openAtStartup = false)
 @ActionID(category = "Window", id = "com.jme3.gde.core.appstates.AppStateExplorerTopComponent")
-@ActionReference(path = "Menu/Window" /*, position = 333 */)
-@TopComponent.OpenActionRegistration(
+//@ActionReference(path = "Menu/Window" )
+/*@TopComponent.OpenActionRegistration(
     displayName = "#CTL_AppStateExplorerAction",
-preferredID = "AppStateExplorerTopComponent")
+preferredID = "AppStateExplorerTopComponent")*/
 @Messages({
     "CTL_AppStateExplorerAction=AppStateExplorer",
     "CTL_AppStateExplorerTopComponent=AppStateExplorer Window",
