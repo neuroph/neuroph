@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.imagepreprocessing;
 
 
@@ -54,13 +49,13 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "org.neuroph.imagepreprocessing.PreprocessingWindowTopComponent")
-@ActionReference(path = "Menu/Window" /*, position = 333 */)
+//@ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_PreprocessingWindowAction",
         preferredID = "PreprocessingWindowTopComponent"
 )
 @Messages({
-    "CTL_PreprocessingWindowAction=PreprocessingWindow",
+    "CTL_PreprocessingWindowAction=ImagePreprocessingWindow",
     "CTL_PreprocessingWindowTopComponent=Image Preprocessing Tool",
     "HINT_PreprocessingWindowTopComponent=This is a Preprocessing window"
 })

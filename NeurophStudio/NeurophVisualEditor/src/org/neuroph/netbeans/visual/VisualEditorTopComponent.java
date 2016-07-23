@@ -41,7 +41,7 @@ import org.openide.windows.WindowManager;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "org.neuroph.netbeans.visual.VisualEditorTopComponent")
-@ActionReference(path = "Menu/Window" /*, position = 333 */)
+//@ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_VisualEditorAction",
         preferredID = "VisualEditorTopComponent"

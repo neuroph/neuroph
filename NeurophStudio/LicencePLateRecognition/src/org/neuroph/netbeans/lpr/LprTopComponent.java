@@ -62,7 +62,7 @@ import org.openide.windows.WindowManager;
         preferredID = "LprTopComponent"
 )
 @Messages({
-    "CTL_LprAction=Lpr",
+    "CTL_LprAction=Licence Plate Recognition",
     "CTL_LprTopComponent=Licence Plate Recognition",
     "HINT_LprTopComponent=This is a licence plate recognition window"
 })
