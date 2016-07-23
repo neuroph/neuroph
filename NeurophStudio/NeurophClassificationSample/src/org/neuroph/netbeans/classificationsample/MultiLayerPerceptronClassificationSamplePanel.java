@@ -12,11 +12,19 @@ import org.neuroph.datasetgen.shapes.RandomPolynomialGenerator;
 import org.neuroph.datasetgen.shapes.RingGenerator;
 import org.neuroph.datasetgen.shapes.SquareGenerator;
 import org.neuroph.datasetgen.shapes.XORGenerator;
+import org.neuroph.netbeans.project.CurrentProject;
+import org.neuroph.netbeans.project.NeurophProject;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.util.NeuralNetworkFactory;
 import org.neuroph.util.TransferFunctionType;
+import org.openide.explorer.ExplorerManager;
+import org.openide.explorer.view.BeanTreeView;
+import org.openide.nodes.Node;
+import org.openide.util.Utilities;
 import org.openide.windows.IOProvider;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  *
@@ -526,8 +534,18 @@ public class MultiLayerPerceptronClassificationSamplePanel extends javax.swing.J
         
         // open dataset node here  - how - best way by makeing programatical selection
 //        TopComponent projectsLogicalTC = WindowManager.getDefault().findTopComponent("projectTabLogical_tc");
-        // get expolorer or beantreeview from tc lookup?
-        
+//        // get expolorer or beantreeview from tc lookup?
+//            ExplorerManager em = ((ExplorerManager.Provider)projectsLogicalTC).getExplorerManager();
+//            Node rootNode = em.getRootContext();
+//            BeanTreeView view = Utilities.actionsGlobalContext().lookup(BeanTreeView.class); 
+//        NeurophProject currentProject = CurrentProject.getInstance().getCurrentProject();        
+//        final Node selectedNode = rootNode.findNode( object );                
+//
+//   //         projectsLogicalTC.get
+//   //         view.expandNode (node); 
+//    //             ExplorerManager.getRootContext().
+//   //http://netbeans-org.1045718.n5.nabble.com/Programmatically-expand-Node-in-BeanTreeView-td3031987.html
+//        System.out.println(view);
         
     }//GEN-LAST:event_createDataSetButtonActionPerformed
 

@@ -28,6 +28,7 @@
         </folder>
     </folder>
     <folder name="Menu">
+        <file name="BuildProject_hidden"/>
         <folder name="File">
             <attr name="position" intvalue="100"/>
             <file name="Import_hidden"/>
@@ -44,6 +45,7 @@
             <file name="SeparatorAfterFindPrevious.instance_hidden"/>
             <file name="SeparatorAfterProjectsSearch.instance_hidden"/>
             <file name="WhereUsedAction.shadow_hidden"/>
+            <file name="clipboard-history.shadow_hidden"/>
             <file name="org-netbeans-modules-editor-MainMenuAction$FindNextAction.instance_hidden"/>
             <file name="org-netbeans-modules-editor-MainMenuAction$FindPreviousAction.instance_hidden"/>
             <file name="org-netbeans-modules-editor-MainMenuAction$FindSelectionAction.instance_hidden"/>
@@ -57,27 +59,42 @@
             <file name="org-openide-actions-ReplaceAction.shadow_hidden"/>
             <file name="sep-before-reposearch.instance_hidden"/>
         </folder>
+        <file name="GoTo_hidden"/>
+        <file name="Refactoring_hidden"/>
+        <file name="RunProject_hidden"/>
+        <file name="Source_hidden"/>
+        <file name="Versioning_hidden"/>
         <folder name="View">
             <attr name="position" intvalue="250"/>
             <file name="Separator1.instance_hidden"/>
             <file name="Separator2.instance_hidden"/>
             <file name="Separator3.instance_hidden"/>
+            <file name="ShowEditorOnlyAction.shadow_hidden"/>
             <file name="org-netbeans-core-actions-HTMLViewAction.shadow_hidden"/>
             <file name="org-netbeans-core-multiview-EditorsAction.instance_hidden"/>
+            <file name="org-netbeans-core-multiview-SplitAction.instance_hidden"/>
             <file name="org-netbeans-modules-editor-NbCodeFoldingAction.instance_hidden"/>
             <file name="org-netbeans-modules-project-ui-SyncEditorWithViewsAction.shadow_hidden"/>
             <file name="org-netbeans-modules-versioning-ShowTextAnnotationsAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-versioning-core-ShowTextAnnotationsAction.shadow_hidden"/>
             <file name="org-netbeans-modules-versioning-diff-ShowDiffSidebarAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-versioning-ui-diff-ShowDiffSidebarAction.shadow_hidden"/>
+            <file name="toggle-breadcrumbs-view.shadow_hidden"/>
             <file name="toggle-line-numbers.shadow_hidden"/>
+            <file name="toggle-lines-view.shadow_hidden"/>
+            <file name="toggle-non-printable-characters.shadow_hidden"/>
+            <file name="toggle-toolbar.shadow_hidden"/>
         </folder>
         <folder name="Tools">
             <file name="I18N_hidden"/>
+            <file name="JavaPlatformsCustomizerAction.shadow_hidden"/>
             <file name="LibrariesCustomizerAction.shadow_hidden"/>
             <file name="PaletteManager_hidden"/>
             <file name="Separator1.instance_hidden"/>
             <file name="ServerManagerAction3.shadow_hidden"/>
             <file name="VariablesCustomizerAction.shadow_hidden"/>
             <file name="org-netbeans-modules-favorites-templates-TemplatesAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-templates-actions-TemplatesAction.shadow_hidden"/>
             <file name="org-netbeans-modules-xml-catalog-CatalogAction.shadow_hidden"/>
         </folder>
         <folder name="Window">
@@ -86,18 +103,42 @@
             </file>
         </folder>
     </folder>
+    <folder name="OptionsDialog">
+        <file name="Editor_hidden"/>
+        <file name="Java_hidden"/>
+    </folder>
     <folder name="Templates">
+        <file name="AWTForms_hidden"/>
+        <file name="Beans_hidden"/>
+        <file name="Classes_hidden"/>
+        <file name="ClientSide_hidden"/>
+        <file name="GUIForms_hidden"/>
+        <file name="Hibernate_hidden"/>
+        <file name="Licenses_hidden"/>
+        <file name="OSGi_hidden"/>
+        <file name="Other_hidden"/>
+        <file name="Persistence_hidden"/>
         <folder name="Project">
+            <file name="Import_hidden"/>
+            <file name="Maven2_hidden"/>
             <folder name="Samples">
+                <file name="JavaFX_hidden"/>
                 <file name="Standard_hidden"/>
             </folder>
-            <folder name="Standard">
-                <file name="j2sefreeform.xml_hidden"/>
-            </folder>
+            <file name="Standard_hidden"/>
         </folder>
+        <file name="Properties_hidden"/>
+        <file name="SpringFramework_hidden"/>
+        <file name="UnitTests_hidden"/>
+        <file name="XML_hidden"/>
     </folder>
     <folder name="Toolbars">
+        <file name="Build_hidden"/>
+        <file name="Clipboard_hidden"/>
+        <file name="Debug_hidden"/>
+        <file name="Debugging.xml_hidden"/>
         <file name="Standard.xml" url="Standard.xml"/>
+        <file name="UndoRedo_hidden"/>
     </folder>
     <folder name="Windows2">
         <folder name="Components">
