@@ -35,20 +35,21 @@ public class ConvolutionalNetworkWizard implements NetworkWizard {
         Dimension2D inputDimension = new Dimension2D(Integer.parseInt(inputWidth), Integer.parseInt(inputHeight));
         ConvolutionalNetwork convolutionNetwork;
 
-        ConvolutionalNetwork.Builder cnnBuilder = new ConvolutionalNetwork.Builder(inputDimension, 1);
-
+        ConvolutionalNetwork.Builder cnnBuilder = new ConvolutionalNetwork.Builder();
+        cnnBuilder.withInputLayer(inputDimension.getWidth(), inputDimension.getHeight(), 1);
+                
         for (JPanel panel : panelList) {
             if (panel.getToolTipText().equals("clp")) {
                 ConvolutionalLayerPanel clp = (ConvolutionalLayerPanel) panel;
                 int nuberOfMaps = Integer.parseInt(clp.getJtxtNumberOfMaps().getText().trim());
                 Dimension2D k = new Dimension2D(Integer.parseInt(clp.getJtxtKernelWidth().getText().trim()), Integer.parseInt(clp.getJtxtKernelheight().getText().trim()));
-                cnnBuilder = cnnBuilder.withConvolutionLayer(k, nuberOfMaps);
+                cnnBuilder = cnnBuilder.withConvolutionLayer(k.getWidth(), k.getHeight(), nuberOfMaps);
 
             } else {
                 PoolingLayerPanel clp = (PoolingLayerPanel) panel;
                 int nuberOfMaps = Integer.parseInt(clp.getJtxtNumberOfMaps().getText().trim());
                 Dimension2D k = new Dimension2D(Integer.parseInt(clp.getJtxtKernelWidth().getText().trim()), Integer.parseInt(clp.getJtxtKernelheight().getText().trim()));
-                cnnBuilder = cnnBuilder.withConvolutionLayer(k, nuberOfMaps);
+                cnnBuilder = cnnBuilder.withConvolutionLayer(k.getWidth(), k.getHeight(), nuberOfMaps);
             }
         }
         int outputNeouron = Integer.parseInt(outputNeuronCount);

@@ -409,7 +409,7 @@ public class Visualization2DPanel extends javax.swing.JPanel implements Componen
         this.dataSet = dataSet;
         this.selectedInputs = selectedInputs;
         dataSetPoints.clear();//initially, all points are erased
-        initGridPoints();
+        initGridPoints();   // re initialize grid points if they are filled 
         repaint();//repainting the component - sta ce mi ova komponenta ovde? da bi obrisao sve?
 
         // Graphics g = getGraphics();
