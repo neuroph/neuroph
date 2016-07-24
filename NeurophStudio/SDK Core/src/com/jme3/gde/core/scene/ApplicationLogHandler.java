@@ -104,7 +104,7 @@ public class ApplicationLogHandler extends Handler implements Callable<JButton> 
         levelFine.putValue(Action.SHORT_DESCRIPTION, "Set Fine Logging Level");
         levelInfo.putValue(Action.SHORT_DESCRIPTION, "Set Normal Logging Level");
         levelWarning.putValue(Action.SHORT_DESCRIPTION, "Set Warning Logging Level");
-        io = IOProvider.getDefault().getIO("JMonkeyEngine Logs", new Action[]{levelFine, levelInfo});
+        io = IOProvider.getDefault().getIO("NetBeans Platform Logs", new Action[]{levelFine, levelInfo});
         io.setErrSeparated(true);
     }
 
