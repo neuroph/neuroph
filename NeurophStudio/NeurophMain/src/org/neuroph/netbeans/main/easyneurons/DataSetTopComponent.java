@@ -175,9 +175,6 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         tablePopupMenu = new javax.swing.JPopupMenu();
         addRowMenuItem = new javax.swing.JMenuItem();
         delRowMenuItem = new javax.swing.JMenuItem();
-        namePanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        traningSetLabelTextField = new javax.swing.JTextField();
         buttonPanel = new javax.swing.JPanel();
         okButton = new javax.swing.JButton();
         addRowButton = new javax.swing.JButton();
@@ -202,14 +199,6 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         tablePopupMenu.add(delRowMenuItem);
 
         setLayout(new java.awt.BorderLayout());
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.jLabel1.text")); // NOI18N
-        namePanel.add(jLabel1);
-
-        traningSetLabelTextField.setColumns(30);
-        namePanel.add(traningSetLabelTextField);
-
-        add(namePanel, java.awt.BorderLayout.PAGE_START);
 
         org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(DataSetTopComponent.class, "DataSetTopComponent.okButton.text")); // NOI18N
         okButton.setPreferredSize(new java.awt.Dimension(100, 29));
@@ -255,13 +244,7 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         if (dataSetTable.isEditing()) {
             dataSetTable.getCellEditor().stopCellEditing();
         }
-        
-        if (this.traningSetLabelTextField.getText().trim().isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter the training set name!");
-            return;
-        }
-        
-        this.dataSet.setLabel(this.traningSetLabelTextField.getText().trim());
+           
         ArrayList<ArrayList> dataVector = this.tableModel.getDataVector();
         Iterator<ArrayList> iterator = dataVector.iterator();
         this.dataSet.clear();
@@ -342,13 +325,9 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
     private javax.swing.JButton cancelButton;
     private org.netbeans.swing.etable.ETable dataSetTable;
     private javax.swing.JMenuItem delRowMenuItem;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel namePanel;
     private javax.swing.JButton okButton;
     private javax.swing.JPopupMenu tablePopupMenu;
     private javax.swing.JScrollPane tableScrollPane;
-    private javax.swing.JTextField traningSetLabelTextField;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -390,7 +369,6 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         hidden.setCellRenderer(new InteractiveRenderer(tableModel.HIDDEN_INDEX));
         
         this.trainingSetLabel = trainingSet.getLabel();
-        this.traningSetLabelTextField.setText(this.trainingSetLabel);
         this.dataSetTable.getTableHeader().setReorderingAllowed(false);
     }
     
@@ -416,7 +394,6 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         hidden.setCellRenderer(new InteractiveRenderer(tableModel.HIDDEN_INDEX));
         
         this.trainingSetLabel = trainingSet.getLabel();
-        this.traningSetLabelTextField.setText(this.trainingSetLabel);
 
 //        if (dataSet.getRows().size() > 0) {
 //            DataSetRow trainingElement = (DataSetRow) dataSet.getRows().get(0);
