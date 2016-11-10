@@ -2,20 +2,21 @@ package org.neuroph.samples.convolution.util;
 
 import org.neuroph.core.Neuron;
 import org.neuroph.nnet.comp.layer.FeatureMapsLayer;
-import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import org.neuroph.nnet.comp.Dimension2D;
 
 public class LayerVisialize {
     private static final int RATIO = 20;
 
     private List<List<Double>> layerMaps;
     private FeatureMapsLayer featureMapsLayer;
-    private Layer2D.Dimensions mapDimensions;
+    private Dimension2D mapDimensions;
 
     public LayerVisialize(FeatureMapsLayer featureMapsLayer) {
 
@@ -27,7 +28,7 @@ public class LayerVisialize {
 
     private void initWeights() {
 
-        for (Layer2D featureMap : featureMapsLayer.getFeatureMaps()) {
+        for (FeatureMapLayer featureMap : featureMapsLayer.getFeatureMaps()) {
             List<Double> map = new ArrayList<>();
             for (Neuron neuron : featureMap.getNeurons()) {
                 map.add(neuron.getOutput());

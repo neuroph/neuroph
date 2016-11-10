@@ -16,7 +16,7 @@ public class MindWaveController {
     /**
      * Neural network based classifier
      */
-    NeuralNetwork neuralNetwork;
+    NeuralNetwork<?> neuralNetwork;
 
     /**
      * Creates new MindwaveController with specified neural network

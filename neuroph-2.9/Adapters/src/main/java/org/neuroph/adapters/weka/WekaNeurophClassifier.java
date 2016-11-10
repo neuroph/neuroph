@@ -1,5 +1,6 @@
 package org.neuroph.adapters.weka;
 
+import java.util.List;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
@@ -59,13 +60,13 @@ public class WekaNeurophClassifier extends AbstractClassifier {
         neuralNet.calculate();
 
         // find neuron with highest output
-        Neuron[] outputNeurons = neuralNet.getOutputNeurons();
+        List<Neuron> outputNeurons = neuralNet.getOutputNeurons();
         Neuron maxNeuron = null;
         int maxIdx = 0;
         double maxOut = Double.NEGATIVE_INFINITY;
-        for (int i=0; i< outputNeurons.length; i++) {
-            if (outputNeurons[i].getOutput() > maxOut) {
-                maxOut = outputNeurons[i].getOutput();
+        for (int i=0; i< outputNeurons.size(); i++) {
+            if (outputNeurons.get(i).getOutput() > maxOut) {
+                maxOut = outputNeurons.get(i).getOutput();
                 maxIdx = i;
             }
         }

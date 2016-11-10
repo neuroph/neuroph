@@ -234,6 +234,7 @@ public final class ImgRecTestTopComponent extends TopComponent implements Lookup
     @Override
     public void componentClosed() {
         neuralNetResultSets.removeLookupListener(this);
+        trainingSetNetResultSets.removeLookupListener(this);
     }
 
     void writeProperties(java.util.Properties p) {
@@ -314,21 +315,21 @@ public final class ImgRecTestTopComponent extends TopComponent implements Lookup
                 ImageRecognitionPlugin imageRecognition = (ImageRecognitionPlugin)selectedNeuralNetwork.getPlugin(ImageRecognitionPlugin.class);
                 
                 try {
-                
-                HashMap<String, Double> output = imageRecognition.recognizeImage(img);
 
-                String outputString = "";
-                NumberFormat numberFormat = DecimalFormat.getNumberInstance();
-		numberFormat.setMaximumFractionDigits(4);
-                Iterator keys = output.keySet().iterator();
-                while(keys.hasNext()) {
-                    String key = (String)keys.next();
-                    outputString += key + " : " + numberFormat.format( output.get(key) ) + "\n";
-                }
+                    HashMap<String, Double> output = imageRecognition.recognizeImage(img);
 
-                //testResultsTextArea.setText(outputString);
-                IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(outputString);
-                } catch(Exception ex) {
+                    String outputString = "";
+                    NumberFormat numberFormat = DecimalFormat.getNumberInstance();
+                    numberFormat.setMaximumFractionDigits(4);
+                    Iterator keys = output.keySet().iterator();
+                    while (keys.hasNext()) {
+                        String key = (String) keys.next();
+                        outputString += key + " : " + numberFormat.format(output.get(key)) + "\n";
+                    }
+
+                    //testResultsTextArea.setText(outputString);
+                    IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(outputString);
+                } catch (Exception ex) {
                     IOProvider.getDefault().getIO("Image Recognition Results", false).getOut().println(ex.getStackTrace());
                 }
         }

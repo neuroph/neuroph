@@ -33,21 +33,6 @@ import org.neuroph.nnet.learning.BackPropagation;
  */
 public class IrisClassificationSample {
 
-    static class LearningListener implements LearningEventListener {
-
-
-        long start = System.currentTimeMillis();
-
-        public void handleLearningEvent(LearningEvent event) {
-            BackPropagation bp = (BackPropagation) event.getSource();
-            System.out.println("Current iteration: " + bp.getCurrentIteration());
-            System.out.println("Error: " + bp.getTotalNetworkError());
-            System.out.println((System.currentTimeMillis() - start) / 1000.0);
-            start = System.currentTimeMillis();
-        }
-
-    }
-
 
     /**
      *  Runs this sample
@@ -63,8 +48,8 @@ public class IrisClassificationSample {
         // train the network with training set
 
         neuralNet.getLearningRule().addListener(new LearningListener());
-        neuralNet.getLearningRule().setLearningRate(0.01);
-        neuralNet.getLearningRule().setMaxIterations(30000);
+        neuralNet.getLearningRule().setLearningRate(0.2);
+    //    neuralNet.getLearningRule().setMaxIterations(30000);
 
         neuralNet.learn(irisDataSet);
 
@@ -74,6 +59,7 @@ public class IrisClassificationSample {
         System.out.println("Testing network...");
     }
     
+
     /**
      * Prints network output for the each element from the specified training set.
      * @param neuralNet neural network
@@ -90,5 +76,17 @@ public class IrisClassificationSample {
             System.out.println(" Output: " + Arrays.toString( networkOutput) );
         }
     }
+
+    static class LearningListener implements LearningEventListener {
+
+        @Override
+        public void handleLearningEvent(LearningEvent event) {
+            BackPropagation bp = (BackPropagation) event.getSource();
+            System.out.println("Current iteration: " + bp.getCurrentIteration());
+            System.out.println("Error: " + bp.getTotalNetworkError());
+        }
+
+    }
+
     
 }

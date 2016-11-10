@@ -15,6 +15,7 @@
  */
 package org.neuroph.util;
 
+import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -46,7 +47,8 @@ public class NeuralNetworkCODEC {
 	public static void network2array(NeuralNetwork network, double[] array) {
 		int index = 0;
 
-		for (Layer layer : network.getLayers()) {
+                 List<Layer> layers = network.getLayers();
+		for (Layer layer : layers) {
 			for (Neuron neuron : layer.getNeurons()) {
 				for (Connection connection : neuron.getOutConnections()) {
 					array[index++] = connection.getWeight().getValue();
@@ -62,8 +64,9 @@ public class NeuralNetworkCODEC {
 	 */
 	public static void array2network(double[] array, NeuralNetwork network) {
 		int index = 0;
-
-		for (Layer layer : network.getLayers()) {
+                
+                List<Layer> layers = network.getLayers();
+                for (Layer layer : layers) {
 			for (Neuron neuron : layer.getNeurons()) {
 				for (Connection connection : neuron.getOutConnections()) {
 					connection.getWeight().setValue(array[index++]);
@@ -81,9 +84,10 @@ public class NeuralNetworkCODEC {
 	public static int determineArraySize(NeuralNetwork network) {
 		int result = 0;
 
-		for (Layer layer : network.getLayers()) {
+                List<Layer> layers = network.getLayers();
+		for (Layer layer : layers) {
 			for (Neuron neuron : layer.getNeurons()) {
-				result+=neuron.getOutConnections().length;
+				result+=neuron.getOutConnections().size();
 			}
 		}
 		return result;

@@ -396,14 +396,7 @@ public final class NeuralNetworkTopComponent extends CloneableTopComponent imple
         neuralNetAndDataSet.setDataSet(trainingSet);
         userPaused = false;
 
-        NeuralNetworkType nnetType = neuralNetwork.getNetworkType(); // kod tipa
-        // mreze
-
-        //checks compitability of neural network and training set - iissue with bias neurons
-//        if (neuralNetAndDataSet.checkCompatibility(neuralNetwork, trainingSet) == false) {
-//            JOptionPane.showMessageDialog(this, "Incompatibility warning: Dimensons of selceted neural network " + neuralNetwork.toString() + " and training set are not the same. You must choose a training set with same dimensions.", "Training", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
+        NeuralNetworkType nnetType = neuralNetwork.getNetworkType(); // kod tipa mreze
 
         switch (nnetType) {
             case ADALINE:

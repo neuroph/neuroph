@@ -62,7 +62,7 @@ import org.openide.util.lookup.InstanceContent;
 )
 @TopComponent.Registration(mode = "properties", openAtStartup = false)
 @ActionID(category = "Window", id = "org.neuroph.netbeans.tcr.recognition.RecognitionTopComponent")
-@ActionReference(path = "Menu/Window", position = 790)
+// @ActionReference(path = "Menu/Window", position = 790)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_RecognitionAction",
         preferredID = "RecognitionTopComponent"

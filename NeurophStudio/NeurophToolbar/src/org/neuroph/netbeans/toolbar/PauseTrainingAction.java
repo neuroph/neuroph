@@ -22,10 +22,8 @@ import org.openide.windows.InputOutput;
 @Messages("CTL_PauseTrainingAction=Pause")
 public final class PauseTrainingAction implements ActionListener {
 
-    private TrainingController trainingController;
- 
-    
-    
+    private final TrainingController trainingController;
+       
     public PauseTrainingAction(TrainingController context) {
         this.trainingController = context;
     }
@@ -40,7 +38,6 @@ public final class PauseTrainingAction implements ActionListener {
         if (!trainingController.isPaused()) {
             trainingController.pause();
             out.println("Training paused at "+currentIteration+" iteration");
-            // chang ebutton icon to resume image
         } else {
             trainingController.resume();
             out.println("Training resumed at "+currentIteration+" iteration");

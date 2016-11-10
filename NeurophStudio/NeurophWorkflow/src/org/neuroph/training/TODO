@@ -1,0 +1,38 @@
+!!!Process templates!!! 
+
+
+generate a set of neural network settings
+for each training setting {
+    create neural network 
+    train network
+    test trained network
+}
+
++operacija ide u konstruktor taska
++ref na parent proces
+
+Add 
+
+LoopTask (loop task using for loops)
+IfTask (conditional branching)
+GotoTask (or while loop task)
+
+Condition()
+    isTrue()
+
+LoopTask(Condition, Task)
+    
+
++Share objects between tasks - put them in the hashMap as a Variable-object of class Object
+
+
+---------------
+Ucitaj podtkae (iz fajla)
++Normalizacija
++Sampling  - ubaci u framework 2.8 - ubaceno!
+
+validacija  -  probni trening, isprobati parametre npr. lr; moze se realizovati kao TrainingTask 
++trening 
+testiranje  - evaluacija; test taks da bud ena fazon goai evaluatora, i po uzoru na NoProp
+
+konfigurabilni tok!

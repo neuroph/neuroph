@@ -88,15 +88,15 @@ public class NeuronTest {
 
     @Test
     public void testGetInputsIterator() {
-        Connection[] conns = instance3.getInputConnections();
-        assertEquals(testConnection13, conns[0]);
-        assertEquals(testConnection23, conns[1]);
+        List<Connection> conns = instance3.getInputConnections();
+        assertEquals(testConnection13, conns.get(0));
+        assertEquals(testConnection23, conns.get(1));
     }
 
     @Test
     public void testRemoveInputConnectionFrom() {
         instance3.removeInputConnectionFrom(instance1);
-        List<Connection> c= Arrays.asList(instance3.getInputConnections());
+        List<Connection> c= instance3.getInputConnections();
         assertFalse(c.contains(testConnection13));
         assertTrue(c.contains(testConnection23));
     }

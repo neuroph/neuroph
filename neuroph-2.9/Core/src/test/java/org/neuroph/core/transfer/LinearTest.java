@@ -2,10 +2,7 @@ package org.neuroph.core.transfer;
 
 import java.util.Arrays;
 import java.util.Collection;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.neuroph.util.Properties;
@@ -45,28 +42,16 @@ public class LinearTest {
         this.input = input;
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
     @Before
     public void setUp() {
         instance = new Linear();
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**
      * Test of getOutput method, of class Linear.
      */
     @Test
-    public void testgetOutput() {
+    public void testGetOutput() {
         instance.setSlope(1);
         assertEquals(expected, instance.getOutput(input), 0.0);
     }
@@ -75,7 +60,7 @@ public class LinearTest {
      * Test of getDerivative method, of class Linear.
      */
     @Test
-    public void testgetDerivative() {
+    public void testGetDerivative() {
 
         instance = new Linear();// may be i shouldn't be instantiating instance in setUp
         instance.setSlope(1.0);
@@ -84,7 +69,7 @@ public class LinearTest {
     }
 
     @Test
-    public void testgetOutputwithproperties() {
+    public void testGetOutputWithProperties() {
         Properties properties = new Properties();
         properties.setProperty("transferFunction.slope", 1.0);
         instance = new Linear(properties);//again
@@ -93,7 +78,7 @@ public class LinearTest {
     }
 
     @Test
-    public void testgetDerivativewthproperties() {
+    public void testGetDerivativeWithProperties() {
         Properties properties = new Properties();
         properties.setProperty("transferFunction.slope", 1.0);
         instance = new Linear(properties);//and again

@@ -44,7 +44,7 @@ abstract public class LearningRule implements Serializable {
     /**
      * Neural network to train
      */
-    protected NeuralNetwork neuralNetwork;
+    protected NeuralNetwork<?> neuralNetwork;
     
     /**
      * Training data set
@@ -145,7 +145,9 @@ abstract public class LearningRule implements Serializable {
         if (listener == null)
             throw new IllegalArgumentException("listener is null!");
         
-        listeners.add(listener);
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
     }
 
     // This methods allows classes to unregister for LearningEvents

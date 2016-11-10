@@ -40,18 +40,18 @@ abstract public class TransferFunction implements Serializable {
 	/**
 	 * Returns the ouput of this function.
 	 * 
-	 * @param net
-	 *            net input
+	 * @param totalInput
+	 *            total input 
 	 */
-	abstract public double getOutput(double net);
+	abstract public double getOutput(double totalInput);
 
 	/**
 	 * Returns the first derivative of this function.
-	 * Note: this method should be abstract too
-	 * @param net
-	 *            net input
+	 * Note: should this method should be abstract?
+	 * @param totalInput
+	 *            total  input
 	 */
-	public double getDerivative(double net) {
+	public double getDerivative(double totalInput) {
 		return 1d;
 	}
 

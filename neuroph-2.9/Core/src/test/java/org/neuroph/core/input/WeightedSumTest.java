@@ -15,8 +15,8 @@ import org.neuroph.nnet.comp.neuron.InputNeuron;
 public class WeightedSumTest {
 
     private WeightedSum weightedSum;
-    private Connection[] inputConnections;
-    private InputNeuron[] inputNeurons;
+    private List<Connection> inputConnections;
+    private List<InputNeuron> inputNeurons;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -30,17 +30,17 @@ public class WeightedSumTest {
     public void setUp() {
         weightedSum = new WeightedSum();
 
-        inputNeurons = new InputNeuron[4];
-        for (int i = 0; i < inputNeurons.length; i++) {
-            inputNeurons[i] = new InputNeuron();
+        inputNeurons = new ArrayList<>(4);
+        for (int i = 0; i < 4; i++) {
+            inputNeurons.add(new InputNeuron());
         }
 
         Neuron toNeuron = new Neuron();
 
-        inputConnections = new Connection[4];
-        for (int i = 0; i < inputConnections.length; i++) {
-            inputConnections[i] = new Connection(inputNeurons[i], toNeuron, 1);
-            toNeuron.addInputConnection(inputConnections[i]);
+        inputConnections = new ArrayList<Connection>(4);
+        for (int i = 0; i < 4; i++) {
+            inputConnections.add( new Connection(inputNeurons.get(i), toNeuron, 1));
+            toNeuron.addInputConnection(inputConnections.get(i));
         }
     }
 
@@ -53,10 +53,10 @@ public class WeightedSumTest {
         double[] inputs = new double[]{1, 3, 5, 7};
         double[] weights = new double[]{.2, 5, 7, 8};
 
-        for (int i = 0; i < inputNeurons.length; i++) {
-            inputConnections[i].getWeight().setValue(weights[i]);
-            inputNeurons[i].setInput(inputs[i]);
-            inputNeurons[i].calculate();
+        for (int i = 0; i < inputNeurons.size(); i++) {
+            inputConnections.get(i).getWeight().setValue(weights[i]);   
+            inputNeurons.get(i).setInput(inputs[i]);
+            inputNeurons.get(i).calculate();
         }
 
         double output = weightedSum.getOutput(inputConnections);
@@ -68,10 +68,10 @@ public class WeightedSumTest {
         double[] inputs = new double[]{1, 3, 5, 7};
         double[] weights = {0.5d, 0.25d, -0.25d, 0.1d};
         
-        for (int i = 0; i < inputNeurons.length; i++) {
-            inputConnections[i].getWeight().setValue(weights[i]);   
-            inputNeurons[i].setInput(inputs[i]);
-            inputNeurons[i].calculate();            
+        for (int i = 0; i < inputNeurons.size(); i++) {
+            inputConnections.get(i).getWeight().setValue(weights[i]);   
+            inputNeurons.get(i).setInput(inputs[i]);
+            inputNeurons.get(i).calculate();            
         }
 
         double output = weightedSum.getOutput(inputConnections);

@@ -1,7 +1,5 @@
 package org.neuroph.contrib.model.errorestimation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.ClassifierEvaluator;
@@ -20,15 +18,11 @@ import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 import org.neuroph.util.data.sample.SubSampling;
 
 /**
- * Skeleton class which makes easy to implement concrete ErrorEstimationMethod
- * algorithms
+ * This class implements cross validation procedure.
+ * Splits data set into several subsets, trains with one and tests with all other subsets.
+ * Repeats that procedure with each subset
  *
- *
- * print and summarize results
- *
- * mke it easy to be used with existing training procedure: providing neural
- * network and learn
- *
+ * At the end runs evaluation
  *
  */
 public class CrossValidation {
@@ -65,7 +59,7 @@ public class CrossValidation {
      *
      * @param subsetCount defines number of folds used in sampling algorithm
      */
-    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int subSetCount) { // number of folds
+    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int subSetCount) { // number of folds/subsets
         this.neuralNetwork = neuralNetwork;
         this.dataSet = dataSet;    
         this.sampling = new SubSampling(subSetCount); // new RandomSamplingWithoutRepetition(numberOfSamples                      
@@ -78,12 +72,17 @@ public class CrossValidation {
         this.sampling = new SubSampling(subSetSizes);                    
     }    
 
+    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, Sampling sampling) { // number of folds/subsets
+        this.neuralNetwork = neuralNetwork;
+        this.dataSet = dataSet;    
+        this.sampling = sampling;                    
+    }    
+    
+
     public Sampling getSampling() {
         return sampling;
     }
-
-    
-    
+        
     public void setSampling(Sampling sampling) {
         this.sampling = sampling;
     }
@@ -92,7 +91,6 @@ public class CrossValidation {
         return evaluation;
     }
     
-
     // kfolding is done here
     // provide neural network and data set - thi is the main entry point for crossvalidation
     public void run() {

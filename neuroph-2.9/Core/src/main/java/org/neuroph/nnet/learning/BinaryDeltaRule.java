@@ -17,6 +17,7 @@
 
 package org.neuroph.nnet.learning;
 
+import java.util.List;
 import org.neuroph.core.Neuron;
 import org.neuroph.nnet.comp.neuron.ThresholdNeuron;
 
@@ -64,7 +65,8 @@ public class BinaryDeltaRule extends PerceptronLearning {
 	@Override
 	protected void updateNetworkWeights(double[] patternError) {
 		int i = 0;
-		for(Neuron outputNeuron : neuralNetwork.getOutputNeurons()) {
+                List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
+                for (Neuron outputNeuron : outputNeurons) {
 			ThresholdNeuron neuron = (ThresholdNeuron)outputNeuron;
 			double outErr = patternError[i];
 			double thresh = neuron.getThresh();

@@ -61,6 +61,7 @@ public class MatrixMomentumBackpropagation extends MomentumBackpropagation {
 
                 // update weights
                 this.updateLayerWeights(outputLayer, neuronErrors);
+                System.out.println("MSE:"+getErrorFunction().getTotalError());
         }
 
 

@@ -16,13 +16,12 @@ public class NeuralNetObserver implements Observer{
         return nnet;
     }
 
-     public void setNeuralNet(NeuralNetwork nn)
-    {
+    public void setNeuralNet(NeuralNetwork nn) {
         nnet = nn;
     }
 
     public void update(Observable o, Object arg) {
-         setNeuralNet(((org.neuroph.netbeans.classificationsample.PerceptronSampleTrainingSet)o).getNeuralNetwork());
+         setNeuralNet(((org.neuroph.netbeans.classificationsample.ObservableTrainingSet)o).getNeuralNetwork());
     }
 
 

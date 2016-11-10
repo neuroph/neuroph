@@ -38,7 +38,7 @@ public class ExplorerNeuralNetworkChildFactory extends ChildFactory<Object> {
         if (neuralNet.getLearningRule() != null) {
             toPopulate.add(neuralNet.getLearningRule());
         }
-        toPopulate.addAll(Arrays.asList(neuralNet.getLayers()));
+        toPopulate.addAll(neuralNet.getLayers());
         return true;
     }
 
@@ -57,7 +57,7 @@ public class ExplorerNeuralNetworkChildFactory extends ChildFactory<Object> {
             LayerNode layerNode = new LayerNode(layer);
             layerNode.setName("Layer " + String.valueOf(layer.getParentNetwork().indexOf(layer) + 1)); // TODO name updating
             return layerNode;
-        } else {
+        } else if (key instanceof LearningRule) {
             LearningRule learningRule = (LearningRule) key;
             LearningRuleNode learningRuleNode = new LearningRuleNode(learningRule); // TODO name updating
             learningRuleNode.setName("Learning rule");
@@ -68,5 +68,6 @@ public class ExplorerNeuralNetworkChildFactory extends ChildFactory<Object> {
 //        Node neuronNode = new NeuronNode((layer.getNeuronAt(0)));
 //        neuronNode.setName(layer.getNeurons().size() + " neurons");
 //        layerNode.getChildren().add(new Node[]{neuronNode});
+        return Node.EMPTY;
     }
 }

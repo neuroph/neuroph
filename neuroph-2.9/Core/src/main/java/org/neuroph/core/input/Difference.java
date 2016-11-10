@@ -17,6 +17,7 @@
 package org.neuroph.core.input;
 
 import java.io.Serializable;
+import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
@@ -37,7 +38,7 @@ public class Difference extends InputFunction implements Serializable {
 	
 
     @Override
-	public double getOutput(Connection[] inputConnections) {
+	public double getOutput(List<Connection> inputConnections) {
 		double output = 0d;
 
                 double sum = 0d;

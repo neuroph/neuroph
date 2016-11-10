@@ -16,6 +16,7 @@
 package org.neuroph.core.input;
 
 import java.io.Serializable;
+import java.util.List;
 import org.neuroph.core.Connection;
 
 /**
@@ -32,8 +33,11 @@ public class Min extends InputFunction implements Serializable {
     private static final long serialVersionUID = 2L;
 
     @Override
-    public double getOutput(Connection[] inputConnections) {
-        double min = Double.MAX_VALUE;
+    public double getOutput(List<Connection> inputConnections) {
+        
+        if (inputConnections.size() == 0) return 0;
+        
+        double min = inputConnections.get(0).getWeightedInput();
 
         for (Connection connection : inputConnections) {
             min = Math.min(min, connection.getWeightedInput());

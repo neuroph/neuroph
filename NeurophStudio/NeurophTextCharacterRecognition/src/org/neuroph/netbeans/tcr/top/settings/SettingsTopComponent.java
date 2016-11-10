@@ -55,7 +55,6 @@ import org.neuroph.ocr.util.Letter;
 import org.neuroph.ocr.util.Text;
 
 import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
 import org.openide.filesystems.FileObject;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
@@ -79,9 +78,9 @@ import org.openide.util.lookup.InstanceContent;
         //iconBase="SET/PATH/TO/ICON/HERE", 
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "properties", openAtStartup = true)
+@TopComponent.Registration(mode = "properties", openAtStartup = false)
 @ActionID(category = "Window", id = "org.neuroph.netbeans.tcr.top.properties.PropertiesTopComponent")
-@ActionReference(path = "Menu/Window", position = 789)
+//@ActionReference(path = "Menu/Window", position = 789)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_PropertiesAction",
         preferredID = "SettingsTopComponent"

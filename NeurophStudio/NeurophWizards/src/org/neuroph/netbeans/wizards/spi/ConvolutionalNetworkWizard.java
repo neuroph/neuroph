@@ -10,8 +10,9 @@ import org.neuroph.netbeans.wizards.ConvolutionalNetworkVisualPanel1;
 import org.neuroph.netbeans.wizards.ConvolutionalNetworkVisualPanel2;
 import org.neuroph.netbeans.wizards.PoolingLayerPanel;
 import org.neuroph.nnet.ConvolutionalNetwork;
+import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.nnet.comp.Kernel;
-import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
@@ -31,30 +32,30 @@ public class ConvolutionalNetworkWizard implements NetworkWizard {
         String inputHeight = (String) settings.getProperty("inputHeight");
         List<JPanel> panelList = (List<JPanel>) settings.getProperty("layers");
 
-        Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(Integer.parseInt(inputWidth), Integer.parseInt(inputHeight));
+        Dimension2D inputDimension = new Dimension2D(Integer.parseInt(inputWidth), Integer.parseInt(inputHeight));
         ConvolutionalNetwork convolutionNetwork;
 
-        ConvolutionalNetwork.Builder cnnBuilder = new ConvolutionalNetwork.Builder(inputDimension, 1);
-
+        ConvolutionalNetwork.Builder cnnBuilder = new ConvolutionalNetwork.Builder();
+        cnnBuilder.withInputLayer(inputDimension.getWidth(), inputDimension.getHeight(), 1);
+                
         for (JPanel panel : panelList) {
             if (panel.getToolTipText().equals("clp")) {
                 ConvolutionalLayerPanel clp = (ConvolutionalLayerPanel) panel;
                 int nuberOfMaps = Integer.parseInt(clp.getJtxtNumberOfMaps().getText().trim());
-                Kernel k = new Kernel(Integer.parseInt(clp.getJtxtKernelWidth().getText().trim()), Integer.parseInt(clp.getJtxtKernelheight().getText().trim()));
-                cnnBuilder = cnnBuilder.withConvolutionLayer(k, nuberOfMaps);
+                Dimension2D k = new Dimension2D(Integer.parseInt(clp.getJtxtKernelWidth().getText().trim()), Integer.parseInt(clp.getJtxtKernelheight().getText().trim()));
+                cnnBuilder = cnnBuilder.withConvolutionLayer(k.getWidth(), k.getHeight(), nuberOfMaps);
 
             } else {
                 PoolingLayerPanel clp = (PoolingLayerPanel) panel;
                 int nuberOfMaps = Integer.parseInt(clp.getJtxtNumberOfMaps().getText().trim());
-                Kernel k = new Kernel(Integer.parseInt(clp.getJtxtKernelWidth().getText().trim()), Integer.parseInt(clp.getJtxtKernelheight().getText().trim()));
-                cnnBuilder = cnnBuilder.withConvolutionLayer(k, nuberOfMaps);
+                Dimension2D k = new Dimension2D(Integer.parseInt(clp.getJtxtKernelWidth().getText().trim()), Integer.parseInt(clp.getJtxtKernelheight().getText().trim()));
+                cnnBuilder = cnnBuilder.withConvolutionLayer(k.getWidth(), k.getHeight(), nuberOfMaps);
             }
         }
         int outputNeouron = Integer.parseInt(outputNeuronCount);
         cnnBuilder = cnnBuilder.withFullConnectedLayer(outputNeouron);
-        convolutionNetwork = cnnBuilder.createNetwork();
+        convolutionNetwork = cnnBuilder.build();
         convolutionNetwork.setLabel(neuralNetworkName);
-        convolutionNetwork.setLearningRule(new MomentumBackpropagation()); // quick fix for demo should be removed from here
         ConvolutionalNetworkVisualPanel2.getInstance().clearForm();
         return convolutionNetwork;
     }

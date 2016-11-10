@@ -1,5 +1,6 @@
 package org.neuroph.core;
 
+import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.*;
 
@@ -26,17 +27,18 @@ public class LayerTest {
         testneuron2 = new Neuron();
         testneuron3 = new Neuron();
         testneuron4 = new Neuron();
+        
         testlayer1 = new Layer();
         testlayer2 = new Layer();
         testlayer1.addNeuron(testneuron1);
         testlayer1.addNeuron(testneuron2);
         //testlayer1.addNeuron(testneuron3);
         testlayer2.addNeuron(testneuron4);
+        
         testneuron4.addInputConnection(testneuron1, .5);
         testneuron1.addOutputConnection(testneuron4.getConnectionFrom(testneuron1));
         testneuron4.addInputConnection(testneuron2, .5);
         testneuron2.addOutputConnection(testneuron4.getConnectionFrom(testneuron2));
-
     }
 
     @After
@@ -45,15 +47,15 @@ public class LayerTest {
 
     @Test
     public void testaddNeuron() {
-        Neuron[] lst = testlayer1.getNeurons();
-        assertEquals(testneuron2, lst[1]);
+        List<Neuron> lst = testlayer1.getNeurons();
+        assertEquals(testneuron1, lst.get(0));
     }
 
     @Test
     public void testaddNeuronWithIndex() {
         testlayer1.addNeuron(1, testneuron3);
-        Neuron[] lst = testlayer1.getNeurons();
-        assertEquals(testneuron3, lst[1]);
+         List<Neuron> lst = testlayer1.getNeurons();
+        assertEquals(testneuron3, lst.get(1));
     }
 
     @Test
@@ -66,8 +68,8 @@ public class LayerTest {
     @Test
     public void testSetNeuron() {
         testlayer1.setNeuron(1, testneuron3);
-        Neuron[] lst = testlayer1.getNeurons();
-        assertEquals(testneuron3, lst[1]);
+        List<Neuron> lst = testlayer1.getNeurons();
+        assertEquals(testneuron3, lst.get(1));
     }
 
     @Test

@@ -95,7 +95,7 @@ public class Evaluation {
     /**
      * Out of the box method (util) which computes all metrics for given neural network and test data set
      */
-    public static void runFullEvaluation(NeuralNetwork<BackPropagation> neuralNet, DataSet dataSet) {
+    public static void runFullEvaluation(NeuralNetwork<?> neuralNet, DataSet dataSet) {
 
         Evaluation evaluation = new Evaluation();
         // take onlu output column names here

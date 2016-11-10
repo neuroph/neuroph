@@ -36,6 +36,5 @@ public final class StopTrainingAction implements ActionListener {
         InputOutput io = IOProvider.getDefault().getIO("Neuroph", false);
         PrintWriter out = io.getOut();
         out.println("Training stoped");  
-  //      GraphFrameTopComponent.getDefault().handleLearningEvent(new LearningEvent(trainingController.getNeuralNetAndDataSet().getNetwork().getLearningRule()));
     }
 }

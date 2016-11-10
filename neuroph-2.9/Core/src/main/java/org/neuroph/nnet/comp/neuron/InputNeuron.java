@@ -43,6 +43,6 @@ public class InputNeuron extends Neuron {
      */
     @Override
     public void calculate() {
-        this.output = this.netInput;
+        this.output = this.totalInput;
     }
 }

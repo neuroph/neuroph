@@ -390,15 +390,15 @@ public class NeuralNetworkScene extends ObjectScene implements LookupListener {
     private void redrawInputsWidgets() {
         inputsContainerWidget.removeChildren();
         inputsContainerWidget.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 5));
-        if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().length < TOO_MANY_NEURONS) {
+        if (neuralNetwork.getInputNeurons() != null && neuralNetwork.getInputNeurons().size() < TOO_MANY_NEURONS) {
 
-            for (int i = 0; i < neuralNetwork.getInputNeurons().length; i++) {
+            for (int i = 0; i < neuralNetwork.getInputNeurons().size(); i++) {
                 LabelWidget inputLabel = new LabelWidget(this);
                 inputLabel.setLabel("In " + (i + 1));
                 inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));
                 inputsContainerWidget.addChild(inputLabel);
 
-                NeuronWidget targetWidget = (NeuronWidget) findWidget(neuralNetwork.getInputNeurons()[i]);
+                NeuronWidget targetWidget = (NeuronWidget) findWidget(neuralNetwork.getInputNeurons().get(i));
 
                 if (scenePreferences.isShowConnections()) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
@@ -414,7 +414,7 @@ public class NeuralNetworkScene extends ObjectScene implements LookupListener {
         } else if (neuralNetwork.getInputNeurons() != null) {
 
             LabelWidget inputLabel = new LabelWidget(this);
-            inputLabel.setLabel(neuralNetwork.getInputNeurons().length + " Inputs");
+            inputLabel.setLabel(neuralNetwork.getInputNeurons().size() + " Inputs");
             inputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));
             inputsContainerWidget.addChild(inputLabel);
 
@@ -442,14 +442,14 @@ public class NeuralNetworkScene extends ObjectScene implements LookupListener {
         outputsLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         outputsContainerWidget.addChild(outputsLabel);
 
-        if (neuralNetwork.getOutputNeurons() != null && neuralNetwork.getOutputNeurons().length < TOO_MANY_NEURONS) {
-            for (int i = 0; i < neuralNetwork.getOutputNeurons().length; i++) {
+        if (neuralNetwork.getOutputNeurons() != null && neuralNetwork.getOutputNeurons().size() < TOO_MANY_NEURONS) {
+            for (int i = 0; i < neuralNetwork.getOutputNeurons().size(); i++) {
                 LabelWidget outputLabel = new LabelWidget(this);
                 outputLabel.setLabel("Out " + (i + 1));
                 outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));
                 outputsContainerWidget.addChild(outputLabel);
 
-                NeuronWidget sourceWidget = (NeuronWidget) findWidget(neuralNetwork.getOutputNeurons()[i]);
+                NeuronWidget sourceWidget = (NeuronWidget) findWidget(neuralNetwork.getOutputNeurons().get(i));
                 if (scenePreferences.isShowConnections()) {
                     ConnectionWidget connWidget = new ConnectionWidget(this);
 
@@ -462,7 +462,7 @@ public class NeuralNetworkScene extends ObjectScene implements LookupListener {
             //if last neural layer  has more than 100 neurons connect that neural layer widget with one output label
         } else if (neuralNetwork.getOutputNeurons() != null) {
             LabelWidget outputLabel = new LabelWidget(this);
-            outputLabel.setLabel("Output " + neuralNetwork.getOutputNeurons().length);
+            outputLabel.setLabel("Output " + neuralNetwork.getOutputNeurons().size());
             outputLabel.setBorder(org.netbeans.api.visual.border.BorderFactory.createRoundedBorder(5, 5, Color.white, Color.LIGHT_GRAY));
             outputsContainerWidget.addChild(outputLabel);
             Layer targetlayer = layers.get(layers.size() - 1);
@@ -559,7 +559,7 @@ public class NeuralNetworkScene extends ObjectScene implements LookupListener {
 
                     for (int j = 0; j < layers.get(currentLayerIdx).getNeuronsCount(); j++) {
                         Neuron targetNeuron = layers.get(currentLayerIdx).getNeuronAt(j);
-                        Connection[] inputConnections = targetNeuron.getInputConnections();
+                        Connection[] inputConnections = targetNeuron.getInputConnections().toArray(new Connection[0]);
 
                         for (int c = 0; c < inputConnections.length; c++) {
                             NeuronWidget targetWidget = (NeuronWidget) findWidget(targetNeuron);

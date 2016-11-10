@@ -17,15 +17,15 @@
 package org.neuroph.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.Future;
+import org.apache.commons.lang3.NotImplementedException;
 
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.core.transfer.Step;
 import org.neuroph.core.transfer.TransferFunction;
-import org.neuroph.util.NeurophArrayList;
 
 /**
  * <pre>
@@ -42,20 +42,20 @@ import org.neuroph.util.NeurophArrayList;
  * @see TransferFunction
  */
 
-public class Neuron implements Serializable, Callable<Void> {
+public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
 
-    @Override
-    public Void call() throws Exception {
-        calculate();
-        return null;
-    }
+//    @Override
+//    public Void call() throws Exception {
+//        calculate();
+//        return null;
+//    }
 
 
     /**
      * The class fingerprint that is set to indicate serialization
      * compatibility with a previous version of the class
      */
-    private static final long serialVersionUID = 3L;
+    private static final long serialVersionUID = 4L;
 
     /**
      * Parent layer for this neuron
@@ -65,19 +65,19 @@ public class Neuron implements Serializable, Callable<Void> {
     /**
      * Collection of neuron's input connections (connections to this neuron)
      */
-    protected NeurophArrayList<Connection> inputConnections;
+    protected List<Connection> inputConnections;
 
     /**
      * Collection of neuron's output connections (connections from this to other
      * neurons)
      */
-    protected NeurophArrayList<Connection> outConnections;
+    protected List<Connection> outConnections;
 
     /**
      * Total net input for this neuron. Represents total input for this neuron
      * received from input function.
      */
-    protected transient double netInput = 0;
+    protected transient double totalInput = 0;
 
     /**
      * Neuron output
@@ -105,15 +105,14 @@ public class Neuron implements Serializable, Callable<Void> {
     private String label;
 
     /**
-     * Creates an instance of Neuron with the weighted sum, input function
-     * and Step transfer function. This is the original McCulloch-Pitts
-     * neuron model.
+     * Creates an instance of Neuron with default settings: weighted sum input function
+     * and Step transfer function. This is the basic McCulloch-Pitts neuron model.
      */
     public Neuron() {
         this.inputFunction = new WeightedSum();
         this.transferFunction = new Step();
-        this.inputConnections = new NeurophArrayList<>(Connection.class);
-        this.outConnections = new NeurophArrayList<>(Connection.class);
+        this.inputConnections = new ArrayList<>();
+        this.outConnections = new ArrayList<>();
     }
 
     /**
@@ -133,19 +132,16 @@ public class Neuron implements Serializable, Callable<Void> {
 
         this.inputFunction = inputFunction;
         this.transferFunction = transferFunction;
-        this.inputConnections = new NeurophArrayList<>(Connection.class);
-        this.outConnections = new NeurophArrayList<>(Connection.class);
+        this.inputConnections = new ArrayList<>();
+        this.outConnections = new ArrayList<>();
     }
 
     /**
      * Calculates neuron's output
      */
     public void calculate() {
-        if ((this.inputConnections.size() > 0)) { // umesto ovoga treba koristiti input neuron
-            this.netInput = this.inputFunction.getOutput(this.inputConnections.asArray());
-        }
-
-        this.output = this.transferFunction.getOutput(this.netInput);
+        this.totalInput = inputFunction.getOutput(inputConnections);
+        this.output = transferFunction.getOutput(totalInput);
     }
 
     /**
@@ -162,7 +158,7 @@ public class Neuron implements Serializable, Callable<Void> {
      * @param input input value to set
      */
     public void setInput(double input) {
-        this.netInput = input;
+        this.totalInput = input;
     }
 
     /**
@@ -171,7 +167,7 @@ public class Neuron implements Serializable, Callable<Void> {
      * @return total net input
      */
     public double getNetInput() {
-        return this.netInput;
+        return this.totalInput;
     }
 
     /**
@@ -239,7 +235,7 @@ public class Neuron implements Serializable, Callable<Void> {
     }
 
     /**
-     * Adds input connection from specified neuron
+     * Adds input connection from specified neuron.
      *
      * @param fromNeuron neuron to connect from
      */
@@ -290,8 +286,8 @@ public class Neuron implements Serializable, Callable<Void> {
      *
      * @return input connections of this neuron
      */
-    public final Connection[] getInputConnections() {
-        return inputConnections.asArray();
+    public final List<Connection> getInputConnections() {
+        return inputConnections;
     }
 
     /**
@@ -299,8 +295,8 @@ public class Neuron implements Serializable, Callable<Void> {
      *
      * @return output connections from this neuron
      */
-    public final Connection[] getOutConnections() {
-        return outConnections.asArray();
+    public final List<Connection> getOutConnections() {
+        return outConnections;
     }
 
     protected void removeInputConnection(Connection conn) {
@@ -318,7 +314,7 @@ public class Neuron implements Serializable, Callable<Void> {
      */
     public void removeInputConnectionFrom(Neuron fromNeuron) {
         // run through all input connections
-        for (Connection c : inputConnections.asArray()) {
+        for (Connection c : inputConnections) {
             // and look for specified fromNeuron
             if (c.getFromNeuron() == fromNeuron) {
                 fromNeuron.removeOutputConnection(c);
@@ -330,7 +326,7 @@ public class Neuron implements Serializable, Callable<Void> {
 
     public void removeOutputConnectionTo(Neuron toNeuron) {
         // run through all output connections
-        for (Connection c : outConnections.asArray()) {
+        for (Connection c : outConnections) {
             // and look for specified toNeuron
             if (c.getToNeuron() == toNeuron) {
                 toNeuron.removeInputConnection(c);
@@ -345,7 +341,7 @@ public class Neuron implements Serializable, Callable<Void> {
     }
 
     public void removeAllOutputConnections() {
-        outConnections.clear();
+        outConnections.clear();                
     }
 
     public void removeAllConnections() {
@@ -489,6 +485,14 @@ public class Neuron implements Serializable, Callable<Void> {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+       throw new UnsupportedOperationException("Not yer implemented");
+       // return super.clone(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 
 
 }

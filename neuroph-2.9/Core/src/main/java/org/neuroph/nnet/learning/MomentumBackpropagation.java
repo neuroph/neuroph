@@ -114,7 +114,7 @@ public class MomentumBackpropagation extends BackPropagation {
     protected void onStart() {
         super.onStart();
         // create MomentumWeightTrainingData objects that will be used during the training to store previous weight value
-        for (Layer layer : this.neuralNetwork.getLayers()) {
+        for (Layer layer : neuralNetwork.getLayers()) {
             for (Neuron neuron : layer.getNeurons()) {
                 for (Connection connection : neuron.getInputConnections()) {
                     connection.getWeight().setTrainingData(new MomentumWeightTrainingData());

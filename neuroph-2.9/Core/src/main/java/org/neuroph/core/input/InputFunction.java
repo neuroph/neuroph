@@ -17,6 +17,7 @@
 package org.neuroph.core.input;
 
 import java.io.Serializable;
+import java.util.List;
 import org.neuroph.core.Connection;
 
 /**
@@ -35,7 +36,7 @@ import org.neuroph.core.Connection;
  * @author Zoran Sevarac <sevarac@gmail.com>
  * @see org.neuroph.core.Neuron
  */
-abstract public class InputFunction implements Serializable {
+abstract public class InputFunction implements Serializable {   // this should be functional interface!!!!!!!!
 	
 	/**
 	 * The class fingerprint that is set to indicate serialization
@@ -51,6 +52,6 @@ abstract public class InputFunction implements Serializable {
 	 *            neuron's input connections
 	 * @return input total net input
 	 */
-	abstract public double getOutput(Connection[] inputConnections);
+	abstract public double getOutput(List<Connection> inputConnections);
 
 }

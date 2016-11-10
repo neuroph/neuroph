@@ -1,19 +1,25 @@
 package org.neuroph.samples.convolution.mnist;
 
-import org.neuroph.contrib.model.errorestimation.CrossValidation;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;
-import org.neuroph.nnet.comp.Kernel;
-import org.neuroph.nnet.comp.layer.Layer2D;
 import org.neuroph.nnet.learning.BackPropagation;
-import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import org.neuroph.contrib.model.errorestimation.CrossValidation;
+import org.neuroph.core.Layer;
+import org.neuroph.core.Neuron;
+import org.neuroph.core.input.EuclideanRBF;
+import org.neuroph.core.transfer.Gaussian;
+import org.neuroph.core.transfer.Linear;
+import org.neuroph.core.transfer.Sigmoid;
+import org.neuroph.nnet.comp.Dimension2D;
+import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
+import org.neuroph.util.NeuronProperties;
 
 /**
  * Konvolucioni parametri
@@ -59,46 +65,52 @@ public class MNISTExample {
     public static void main(String[] args) {
         try {
 
-            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60000);
-            DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
+            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 60);
+            DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10);
 
-            Layer2D.Dimensions inputDimension = new Layer2D.Dimensions(32, 32);
-            Kernel convolutionKernel = new Kernel(5, 5);
-            Kernel poolingKernel = new Kernel(2, 2);
-
-            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder(inputDimension, 1)
-                    .withConvolutionLayer(convolutionKernel, 10)
-                    .withPoolingLayer(poolingKernel)
-                    .withConvolutionLayer(convolutionKernel, 1)
-                    .withPoolingLayer(poolingKernel)
-                    .withConvolutionLayer(convolutionKernel, 1)
+            ConvolutionalNetwork convolutionNetwork = new ConvolutionalNetwork.Builder()
+                    .withInputLayer(32, 32, 1)
+                    .withConvolutionLayer(5, 5, 6) // add transfer function and its properties
+                    .withPoolingLayer(2, 2)
+                    .withConvolutionLayer(5, 5, 16)
+                    .withPoolingLayer(2, 2)
+                    .withConvolutionLayer(5, 5, 120)
+                    .withFullConnectedLayer(84)
                     .withFullConnectedLayer(10)
-                    .createNetwork();
-
-            BackPropagation backPropagation = new MomentumBackpropagation();
-            backPropagation.setLearningRate(0.0001);
-            backPropagation.setMaxError(0.00001);
-            backPropagation.setMaxIterations(500);
-            backPropagation.addListener(new LearningListener());
+                    .build();
+            
+            
+            
+            // we need Output RBF euclidean layer - implement original LeNet5 - and make sure it works
+       //     + kreiraj RBF Euclidean i dodaj u output layer: EuclideanRBF
+        //    - amplitude for tanh - dodaj parametar
+        // trenutno konvolucioni sloj koristi RectifiedLinear.class - trebalo bi svi tanh
+        // zasto dva puta okida event za learning? loguje dvaput?
+            
+            ConvolutionalBackpropagation backPropagation = new ConvolutionalBackpropagation();
+            backPropagation.setLearningRate(0.001);
+            backPropagation.setMaxError(0.01);
+            //backPropagation.setMaxIterations(1000);
             backPropagation.setErrorFunction(new MeanSquaredError());
 
             convolutionNetwork.setLearningRule(backPropagation);
             backPropagation.addListener(new LearningListener());
 
-            System.out.println("Started training...");
+         //   System.out.println("Started training...");
             
-            convolutionNetwork.learn(testSet);
+            convolutionNetwork.learn(trainSet);
                         
-            System.out.println("Done training!");
+           // System.out.println("Done training!");
       
-            CrossValidation crossValidation = new CrossValidation(convolutionNetwork, testSet, 6);
-            crossValidation.run();
+//            CrossValidation crossValidation = new CrossValidation(convolutionNetwork, trainSet, 6);
+//            crossValidation.run();
             
 //           ClassificationMetrics validationResult = crossValidation.computeErrorEstimate(convolutionNetwork, trainSet);
            // Evaluation.runFullEvaluation(convolutionNetwork, testSet);
             
-            convolutionNetwork.save("/mnist.nnet");
+            convolutionNetwork.save("mnist.nnet");
 
+    //        System.out.println(crossValidation.getResult());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,9 +125,9 @@ public class MNISTExample {
         @Override
         public void handleLearningEvent(LearningEvent event) {
             BackPropagation bp = (BackPropagation) event.getSource();
-            LOG.error("Current iteration: " + bp.getCurrentIteration());
-            LOG.error("Error: " + bp.getTotalNetworkError());
-            LOG.error("Calculation time: " + (System.currentTimeMillis() - start) / 1000.0);
+            LOG.info("Current iteration: " + bp.getCurrentIteration());
+            LOG.info("Error: " + bp.getTotalNetworkError());
+            LOG.info("Calculation time: " + (System.currentTimeMillis() - start) / 1000.0);
          //   neuralNetwork.save(bp.getCurrentIteration() + "CNN_MNIST" + bp.getCurrentIteration() + ".nnet");
             start = System.currentTimeMillis();
 //            NeuralNetworkEvaluationService.completeEvaluation(neuralNetwork, testSet);

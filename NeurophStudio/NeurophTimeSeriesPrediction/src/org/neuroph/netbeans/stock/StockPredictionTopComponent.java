@@ -39,7 +39,7 @@ autostore = false)
 persistenceType = TopComponent.PERSISTENCE_NEVER)
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "org.neuroph.netbeans.stock.StockPredictionTopComponent")
-@ActionReference(path = "Menu/Window/Prediction" /*, position = 333 */)
+@ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
     displayName = "#CTL_StockPredictionAction",
 preferredID = "StockPredictionTopComponent")
@@ -282,8 +282,8 @@ public final class StockPredictionTopComponent extends TopComponent implements L
             activeNeuralNetwork = (NeuralNetwork) c.iterator().next();
             txtNN.setText(activeNeuralNetwork.toString());
         }
-        inputNeuronsCount = activeNeuralNetwork.getInputNeurons().length;
-        outputNeuronsCount = activeNeuralNetwork.getOutputNeurons().length;
+        inputNeuronsCount = activeNeuralNetwork.getInputNeurons().size();
+        outputNeuronsCount = activeNeuralNetwork.getOutputNeurons().size();
     }
     // Creates dataset for chart - needs a bit more work
     private static XYSeriesCollection createDataset(double[] inputArr, double[] outputArr) {

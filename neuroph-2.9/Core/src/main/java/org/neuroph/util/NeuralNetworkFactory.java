@@ -17,6 +17,7 @@
 package org.neuroph.util;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
@@ -262,11 +263,9 @@ public class NeuralNetworkFactory {
                     }
                 }
 
-                Neuron[] inputNeurons = new Neuron[inputNeuronsList.size()];
-                inputNeurons = inputNeuronsList.toArray(inputNeurons);
-		Neuron[] outputNeurons = ((Layer) nnet.getLayerAt(nnet.getLayersCount()-1)).getNeurons();
+		List<Neuron> outputNeurons = ((Layer) nnet.getLayerAt(nnet.getLayersCount()-1)).getNeurons();
 
-		nnet.setInputNeurons(inputNeurons);
+		nnet.setInputNeurons(inputNeuronsList);
 		nnet.setOutputNeurons(outputNeurons); 
 	}
 

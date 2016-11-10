@@ -228,7 +228,7 @@ public class ImageRecognitionPlugin extends PluginBase implements Serializable {
 	 */
 	public HashMap<String, Neuron> getMaxOutput() {
 		HashMap<String, Neuron> maxOutput = new HashMap<String, Neuron>();
-		Neuron maxNeuron = this.getParentNetwork().getOutputNeurons()[0];
+		Neuron maxNeuron = this.getParentNetwork().getOutputNeurons().get(0);
 
 		for (Neuron neuron : this.getParentNetwork().getOutputNeurons()) {
 			if (neuron.getOutput() > maxNeuron.getOutput())

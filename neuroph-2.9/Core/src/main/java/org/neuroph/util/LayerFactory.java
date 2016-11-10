@@ -22,12 +22,24 @@ import org.neuroph.core.Neuron;
 import org.neuroph.core.transfer.TransferFunction;
 
 /**
- * Provides methods to create instance of a Layer with specifed number of neurons and neuron's properties.
+ * Provides methods to create instance of a Layer with various setting (number of neurons and neuron's properties, etc.
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class LayerFactory {
+    
+        /**
+         * Private constructor prevents creating an instances of this class.
+         */
+        private LayerFactory() { }
+        
 
-	public static Layer createLayer(int neuronsCount, NeuronProperties neuronProperties) {
+        /**
+         * Creates and returns instance of Layer with specified number of neurons with specified properties
+         * @param neuronsCount
+         * @param neuronProperties
+         * @return 
+         */
+        public static Layer createLayer(int neuronsCount, NeuronProperties neuronProperties) {
 		Layer layer = new Layer(neuronsCount, neuronProperties);
         	return layer;
 	}

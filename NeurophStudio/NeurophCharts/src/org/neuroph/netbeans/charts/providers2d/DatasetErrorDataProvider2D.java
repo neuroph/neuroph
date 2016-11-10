@@ -20,7 +20,7 @@ import org.nugs.graph2d.api.Attribute;
 public class DatasetErrorDataProvider2D implements DataProvider2D {
 
     DataSet dataSet;
-    NeuralNetwork nnet;
+    NeuralNetwork<?> nnet;
     Point2D[] error;
     int attribute;
 
@@ -42,7 +42,7 @@ public class DatasetErrorDataProvider2D implements DataProvider2D {
             DataSetRow row = rows.get(i);
             nnet.setInput(row.getInput());
             nnet.calculate();
-            Neuron outputNeuron = nnet.getOutputNeurons()[0];
+            Neuron outputNeuron = nnet.getOutputNeurons().get(0);
                 double err = row.getDesiredOutput()[0] - outputNeuron.getOutput();
                 double colVal = rows.get(i).getInput()[attribute - 1];
                 error[counter] = new Point2D.Double(colVal, err);

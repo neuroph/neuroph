@@ -16,6 +16,7 @@
 
 package org.neuroph.nnet.learning;
 
+import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
@@ -64,9 +65,11 @@ public class BackPropagation extends LMS {
      */
     protected void calculateErrorAndUpdateOutputNeurons(double[] outputError) {
         int i = 0;
+        
         // for all output neurons
-        for (Neuron neuron : neuralNetwork.getOutputNeurons()) {
-            // if error is zero, just set zero error and continue to next neuron
+        List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
+        for (Neuron neuron : outputNeurons) {
+            // if error is zero, just se;t zero error and continue to next neuron
             if (outputError[i] == 0) {
                 neuron.setError(0);
                 i++;
@@ -89,9 +92,9 @@ public class BackPropagation extends LMS {
      * This method implements weights adjustment for the hidden layers
      */
     protected void calculateErrorAndUpdateHiddenNeurons() {
-        Layer[] layers = neuralNetwork.getLayers();
-        for (int layerIdx = layers.length - 2; layerIdx > 0; layerIdx--) {
-            for (Neuron neuron : layers[layerIdx].getNeurons()) {
+        List<Layer> layers = neuralNetwork.getLayers();
+        for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
+            for (Neuron neuron : layers.get(layerIdx).getNeurons()) {
                 // calculate the neuron's error (delta)
                 double neuronError = this.calculateHiddenNeuronError(neuron);
                 neuron.setError(neuronError);

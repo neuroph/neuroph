@@ -400,13 +400,13 @@ public final class KohonenSampleTopComponent extends TopComponent implements Lea
         List<Point> weightPoints = new ArrayList<Point>();
         Layer mapLayer = (Layer) neuralNet.getLayerAt(1);
         //Iterator<Neuron> eN = mapLayer.getNeuronsIterator();
-        Neuron[] eN = mapLayer.getNeurons();
+        List<Neuron>eN = mapLayer.getNeurons();
         for (Neuron neuron : mapLayer.getNeurons()) {
             //while (eN.hasNext()) {
             //Neuron neuron = eN.next();
-            Connection[] inputs = neuron.getInputConnections();
-            double wX = inputs[0].getWeight().value;
-            double wY = inputs[1].getWeight().value;
+            List<Connection>inputs = neuron.getInputConnections();
+            double wX = inputs.get(0).getWeight().value;
+            double wY = inputs.get(1).getWeight().value;
             Point point = createPoint(wX, wY);
             weightPoints.add(point);
         }

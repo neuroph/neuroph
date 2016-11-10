@@ -41,7 +41,7 @@ import org.openide.windows.WindowManager;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "org.neuroph.netbeans.visual.VisualEditorTopComponent")
-@ActionReference(path = "Menu/Window" /*, position = 333 */)
+//@ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_VisualEditorAction",
         preferredID = "VisualEditorTopComponent"
@@ -56,10 +56,9 @@ public final class VisualEditorTopComponent extends TopComponent implements Expl
     private FileObject fileObject;
     private NeuralNetworkScene neuralNetworkScene;
     private final InstanceContent content = new InstanceContent();
-    private final AbstractLookup aLookup = new AbstractLookup(content);
-
-    NeuralNetAndDataSet neuralNetAndDataSet;
+    private final AbstractLookup aLookup = new AbstractLookup(content);   
     private final ExplorerManager explorerManager = new ExplorerManager();
+    private NeuralNetAndDataSet neuralNetAndDataSet;
 
     // should never be called, except from Window -> VisualEditor
     public VisualEditorTopComponent() {        
@@ -113,9 +112,9 @@ public final class VisualEditorTopComponent extends TopComponent implements Expl
             content.add(new TrainingController(neuralNetAndDataSet)); // TODO remove this on deactivation?
         }
         
-        TopComponent tc = WindowManager.getDefault().findTopComponent("ExplorerTopComponent");
+        TopComponent tc = WindowManager.getDefault().findTopComponent("ExplorerTopComponent"); // TODO: explorer should listento Lookup of this TC ...
         if (tc != null) {
-            ExplorerTopComponent explorerTC = (ExplorerTopComponent) tc;
+            ExplorerTopComponent explorerTC = (ExplorerTopComponent) tc; 
             explorerTC.initializeOrSelectNNetRoot(neuralNetworkScene.getNeuralNetwork());
             explorerTC.setCurrentObjectScene(neuralNetworkScene);
         }

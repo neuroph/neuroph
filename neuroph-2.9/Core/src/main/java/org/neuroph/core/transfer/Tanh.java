@@ -41,6 +41,11 @@ public class Tanh extends TransferFunction implements Serializable {
      * The slope parametetar of the Tanh function
      */
     private double slope = 2d;
+    
+    /**
+     * The amplitude parameter
+     */
+    private double amplitude = 1.7159d;
 
     /**
      * Creates an instance of Tanh neuron transfer function with default
@@ -76,16 +81,16 @@ public class Tanh extends TransferFunction implements Serializable {
     }
 
     @Override
-    final public double getOutput(double net) {
+    final public double getOutput(double input) {
         // conditional logic helps to avoid NaN
-        if (net > 100) {
+        if (input > 100) {
             return 1.0;
-        } else if (net < -100) {
+        } else if (input < -100) {
             return -1.0;
         }
 
-        double E_x = Math.exp(this.slope * net);
-        this.output = (E_x - 1d) / (E_x + 1d);
+        double E_x = Math.exp(this.slope * input);
+        this.output = amplitude * ((E_x - 1d) / (E_x + 1d));
 //        this.output =  Math.tanh(2.0d/3.0*net) ;
 //        this.output = Math.tanh(net);
 
@@ -114,4 +119,16 @@ public class Tanh extends TransferFunction implements Serializable {
     public void setSlope(double slope) {
         this.slope = slope;
     }
+
+    public double getAmplitude() {
+        return amplitude;
+    }
+
+    public void setAmplitude(double amplitude) {
+        this.amplitude = amplitude;
+    }
+    
+    
+    
+    
 }

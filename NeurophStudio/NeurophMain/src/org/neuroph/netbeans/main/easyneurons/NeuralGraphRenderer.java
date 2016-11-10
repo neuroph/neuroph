@@ -21,41 +21,11 @@ import org.neuroph.netbeans.main.easyneurons.view.RowLayersLayout;
 import org.neuroph.netbeans.main.easyneurons.view.SquareLayersLayout;
 import org.neuroph.netbeans.main.easyneurons.view.KohonenLayout;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Paint;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JRadioButton;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -70,55 +40,40 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.awt.Point;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
 
-import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.ConstantTransformer;
-import org.apache.commons.collections15.functors.MapTransformer;
-
-import edu.uci.ics.jung.algorithms.generators.random.MixedRandomGraphGenerator;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.DAGLayout;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
-import edu.uci.ics.jung.algorithms.layout.SpringLayout;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.TreeLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 
 
-import edu.uci.ics.jung.algorithms.scoring.VoltageScorer;
-import edu.uci.ics.jung.algorithms.scoring.util.VertexScoreTransformer;
 import edu.uci.ics.jung.algorithms.util.SelfLoopEdgePredicate;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.util.Context;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
@@ -127,24 +82,15 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
-import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
-import edu.uci.ics.jung.visualization.control.EditingPopupGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.ScalingControl;
 import edu.uci.ics.jung.visualization.decorators.AbstractVertexShapeTransformer;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
 import edu.uci.ics.jung.visualization.decorators.GradientEdgePaintTransformer;
-import edu.uci.ics.jung.visualization.decorators.NumberFormattingTransformer;
-import edu.uci.ics.jung.visualization.decorators.PickableEdgePaintTransformer;
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.picking.PickedInfo;
 import edu.uci.ics.jung.visualization.picking.PickedState;
-import edu.uci.ics.jung.visualization.renderers.Renderer;
 
 import edu.uci.ics.jung.visualization.layout.LayoutTransition;
 import edu.uci.ics.jung.visualization.util.Animator;
-import edu.uci.ics.jung.graph.DelegateForest;
-import edu.uci.ics.jung.graph.DelegateTree;
-import edu.uci.ics.jung.graph.Tree;
 
 
 import java.text.NumberFormat;
@@ -228,7 +174,7 @@ public class NeuralGraphRenderer implements ActionListener {
         protected Map<Connection,Number> edge_weight = new HashMap<Connection,Number>();
 
 	protected Graph<Neuron, Connection> graph;
-	protected NeuralNetwork neuralNet;
+	protected NeuralNetwork<?> neuralNet;
 	protected JPanel graphPanel;
 
 	protected Layout<Neuron, Connection> layout;

@@ -21,7 +21,7 @@ import org.openide.windows.WindowManager;
 @ActionRegistration(
         displayName = "#CTL_OpenImagePreprocessingWindow"
 )
-@ActionReference(path = "Menu/Tools", position = 1800)
+@ActionReference(path = "Menu/Tools", position = 1200)
 @Messages("CTL_OpenImagePreprocessingWindow=Image Preprocessing")
 public final class OpenImagePreprocessingWindow implements ActionListener {
 
