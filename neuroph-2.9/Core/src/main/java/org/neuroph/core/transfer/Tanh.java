@@ -27,7 +27,7 @@ import org.neuroph.util.Properties;
  * output = ( e^(2*input)-1) / ( e^(2*input)+1 )
  * </pre>
  *
- * @author Zoran Sevarac <sevarac@gmail.com>
+ * @author Zoran Sevarac <sevarac@gmail.com>, Nyefan
  */
 public class Tanh extends TransferFunction implements Serializable {
 
