@@ -24,7 +24,7 @@ import org.neuroph.util.Properties;
  * <pre>
  * Tanh neuron transfer function.
  *
- * output = ( e^(2*input)-1) / ( e^(2*input)+1 )
+ * output = amplitude * tanh(slope * input) = amplitude * ( e^(2*slope*input)-1) / ( e^(2*slope*input)+1 )
  * </pre>
  *
  * @author Zoran Sevarac <sevarac@gmail.com>, Nyefan
@@ -40,18 +40,21 @@ public class Tanh extends TransferFunction implements Serializable {
     /**
      * The slope parameter of the Tanh function
      */
-    private double slope = 2d;
+    private double slope = 1d;
     
     /**
      * The amplitude parameter
      */
-    private double amplitude = 1.7159d;
+    private double amplitude = 1d;
 
+    /**
+     * The output of the getDerivative() function;
+     */
     private double derivativeOutput;
 
     /**
      * Creates an instance of Tanh neuron transfer function with default
-     * slope=1.
+     * slope=amplitude=1
      */
     public Tanh() {
     }
@@ -75,6 +78,7 @@ public class Tanh extends TransferFunction implements Serializable {
     public Tanh(Properties properties) {
         try {
             this.slope = (Double) properties.getProperty("transferFunction.slope");
+            //this.amplitude = (Double) properties.getProperty("transferFunction.amplitude");
         } catch (NullPointerException e) {
             // if properties are not set just leave default values
         } catch (NumberFormatException e) {
@@ -82,35 +86,42 @@ public class Tanh extends TransferFunction implements Serializable {
         }
     }
 
+    /**
+     * Returns the value of this function at x=input
+     *
+     * @param input location to evaluate this function
+     * @return value of this function at x=input
+     */
     @Override
     final public double getOutput(double input) {
         // conditional logic helps to avoid NaN
-        if (input > 100) {
-            return 1.0d;
-        } else if (input < -100) {
-            return -1.0d;
-        }
+        if (Math.abs(input) * slope > 100) { return Math.signum(input) * 1.0d; }
 
         //a*tanh(s*x) = a*[(e^(2*s*x) - 1) / (e^(2*s*x) - 1)]
-        double E_x = Math.exp(2 * this.slope * input);
-        this.output = amplitude * ((E_x - 1d) / (E_x + 1d));
+        double E_x = Math.exp(2.0d * slope * input);
+        output = amplitude * ((E_x - 1.0d) / (E_x + 1.0d));
 
-        return this.output;
+        return output;
     }
 
 
     // The derivative of a*tanh(s*x) is a*s*sech^2(s*x), or a*s*(1-tanh^2(s*x))
 
     /**
+     * Returns the derivative of this function evaluated at x=input
      *
-     * @return
+     * @param input location to evaluate the derivative
+     * @return derivative of this function evaluated at x=input
      */
     @Override
     final public double getDerivative(double input) {
+        // conditional logic helps to avoid NaN
+        if (Math.abs(input) * slope > 100) { return 0.0d; }
+
         //output here is a*tanh^2(s*x)
-        double E_x = Math.exp(2 * this.slope * input);
+        double E_x = Math.exp(2 * slope * input);
         double tanhsx = (E_x - 1d) / (E_x + 1d);
-        derivativeOutput = amplitude * slope * (1 - tanhsx * tanhsx);
+        derivativeOutput = amplitude * slope * (1.0d - tanhsx * tanhsx);
         return derivativeOutput;
     }
 
@@ -120,7 +131,7 @@ public class Tanh extends TransferFunction implements Serializable {
      * @return slope parameter of this function
      */
     public double getSlope() {
-        return this.slope;
+        return slope;
     }
 
     /**
