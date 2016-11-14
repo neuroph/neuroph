@@ -49,7 +49,13 @@ public class Evaluation {
         }
         
         // we should iterate all evaluators and getresults here- its hardcoded for now
-        ConfusionMatrix confusionMatrix = getEvaluator(ClassifierEvaluator.MultiClass.class).getResult();
+        ConfusionMatrix confusionMatrix;
+        if (neuralNetwork.getOutputsCount() >1) {        
+            confusionMatrix = getEvaluator(ClassifierEvaluator.MultiClass.class).getResult();
+        } else {
+            confusionMatrix = getEvaluator(ClassifierEvaluator.Binary.class).getResult();
+        }
+        
         double meanSquaredError = getEvaluator(ErrorEvaluator.class).getResult();
                    
         EvaluationResult result = new EvaluationResult();

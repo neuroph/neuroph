@@ -24,11 +24,11 @@ public class ConvolutionNeuralNetworkTest {
 
     @Before
     public void setUp() {
-        inputDimension = new Dimension2D(1, 1);
+      //  inputDimension = new Dimension2D(1, 1);
 
-        network = new ConvolutionalNetwork.Builder(inputDimension, 1).build();
+      //  network = new ConvolutionalNetwork.Builder(inputDimension, 1).build();
         kernel = new Kernel(1, 1);
-        inputLayer = new InputMapsLayer(inputDimension, 1);
+       // inputLayer = new InputMapsLayer(inputDimension, 1);
     }
 
     @Test
