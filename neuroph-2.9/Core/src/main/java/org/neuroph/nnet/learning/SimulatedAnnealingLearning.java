@@ -209,7 +209,7 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
      * Not used.
      */
     @Override
-    protected void updateNetworkWeights(double[] patternError) {
+    protected void calculateWeightChanges(double[] patternError) {
 
     }
 

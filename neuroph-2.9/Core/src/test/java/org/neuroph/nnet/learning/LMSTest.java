@@ -47,7 +47,7 @@ public class LMSTest extends TestCase {
         NeuralNetwork<LMS> neuralNetwork = new NeuralNetwork<>();
         neuralNetwork.setOutputNeurons(Arrays.asList(new Neuron[]{neuron}));
         lms.setNeuralNetwork(neuralNetwork);
-        lms.updateNetworkWeights(new double[]{1D});
+        lms.calculateWeightChanges(new double[]{1D});
         assertEquals(expectedWeightChange, weight.weightChange);
         assertEquals(startValue + expectedWeightChange, weight.getValue());
     }

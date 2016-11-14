@@ -71,7 +71,7 @@ public class SupervisedHebbianLearning extends LMS {
 //                double[] outputError = this.calculateOutputError(desiredOutput, output); // calculate error as difference between desired and actual
 //                this.addToSquaredErrorSum(outputError); // add error to total MSE
 //
-//                this.updateNetworkWeights(desiredOutput); // apply the weights update procedure
+//                this.calculateWeightChanges(desiredOutput); // apply the weights update procedure
 //	}
 
 	/**
@@ -82,7 +82,7 @@ public class SupervisedHebbianLearning extends LMS {
 	 *            desired network output
 	 */
 	@Override
-	protected void updateNetworkWeights(double[] desiredOutput) {
+	protected void calculateWeightChanges(double[] desiredOutput) {
 		int i = 0;
 		for (Neuron neuron : neuralNetwork.getOutputNeurons()) {
 			this.updateNeuronWeights(neuron, desiredOutput[i]);

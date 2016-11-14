@@ -63,7 +63,7 @@ public class BinaryDeltaRule extends PerceptronLearning {
          *
 	 */
 	@Override
-	protected void updateNetworkWeights(double[] patternError) {
+	protected void calculateWeightChanges(double[] patternError) {
 		int i = 0;
                 List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
                 for (Neuron outputNeuron : outputNeurons) {
