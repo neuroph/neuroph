@@ -20,7 +20,7 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(value=Parameterized.class)
 public class TanhTest {
-    private double input,slope, amplitude, expected,expected_derivative;
+    private double input, slope, amplitude, expected, expected_derivative;
     private Tanh instance;
     @Parameters
     public static Collection getparameters(){
