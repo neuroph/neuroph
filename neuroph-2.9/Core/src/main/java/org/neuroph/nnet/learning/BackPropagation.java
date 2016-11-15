@@ -50,7 +50,7 @@ public class BackPropagation extends LMS {
      * @param outputError output error vector
      */
     @Override
-    protected void updateNetworkWeights(double[] outputError) {
+    protected void calculateWeightChanges(double[] outputError) {
         this.calculateErrorAndUpdateOutputNeurons(outputError);
         this.calculateErrorAndUpdateHiddenNeurons();
     }

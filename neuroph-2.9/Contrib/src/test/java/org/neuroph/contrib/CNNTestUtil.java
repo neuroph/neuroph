@@ -10,7 +10,7 @@ import org.neuroph.nnet.comp.neuron.InputNeuron;
 public class CNNTestUtil {
 
 	public static List<Neuron> createNeurons(int numberOfNeurons, double input) {
-		List<Neuron> neurons = new ArrayList<Neuron>();
+		List<Neuron> neurons = new ArrayList<>();
 		for (int i = 0; i < numberOfNeurons; i++) {
 			Neuron inputNeuron = new Neuron();
 			inputNeuron.setInput(input);
@@ -20,7 +20,7 @@ public class CNNTestUtil {
 	}
 
 	public static List<InputNeuron> createInputNeurons(int numberOfNeurons, double input) {
-		List<InputNeuron> neurons = new ArrayList<InputNeuron>();
+		List<InputNeuron> neurons = new ArrayList<>();
 		for (int i = 0; i < numberOfNeurons; i++) {
 			InputNeuron inputNeuron = new InputNeuron();
 			inputNeuron.setInput(input);

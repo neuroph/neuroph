@@ -206,21 +206,40 @@ public class ClassificationMetrics {
 
     public static ClassificationMetrics[] createFromMatrix(ConfusionMatrix confusionMatrix) {
         // Create Classification measure for each class 
-        ClassificationMetrics[] measures = new ClassificationMetrics[confusionMatrix.getClassCount()];
-        String[] classLabels = confusionMatrix.getClassLabels();
-                
-        for(int clsIdx=0; clsIdx<confusionMatrix.getClassCount(); clsIdx++) { // for each class
-            // ove metode mozda ubaciti u matricu Confusion matrix - najbolje tako
-            int tp = confusionMatrix.getTruePositive(clsIdx);
-            int tn = confusionMatrix.getTrueNegative(clsIdx);
-            int fp = confusionMatrix.getFalsePositive(clsIdx);
-            int fn = confusionMatrix.getFalseNegative(clsIdx);                                   
-            
-            measures[clsIdx] = new ClassificationMetrics(tp, tn, fp, fn);         
-            measures[clsIdx].setClassLabel(classLabels[clsIdx]);           
-        }        
+        // Ovde rezdvojiti binary i multi
         
-        return measures;
+        int classCount = confusionMatrix.getClassCount();
+        if (classCount == 2) { // binary classification
+            ClassificationMetrics[] measures = new ClassificationMetrics[1]; 
+            String[] classLabels = confusionMatrix.getClassLabels();
+            
+                int tp = confusionMatrix.get(0, 0);
+                int tn = confusionMatrix.get(1, 1);
+                int fp = confusionMatrix.get(1, 0); // FalsePositive
+                int fn = confusionMatrix.get(0, 1); // FalseNegative
+            
+            measures[0] = new ClassificationMetrics(tp, tn, fp, fn);         
+            measures[0].setClassLabel(classLabels[0]);           
+            
+            return measures;
+            
+        } else { // multiclass classification        
+            ClassificationMetrics[] measures = new ClassificationMetrics[classCount];
+            String[] classLabels = confusionMatrix.getClassLabels();
+
+            for(int clsIdx=0; clsIdx<confusionMatrix.getClassCount(); clsIdx++) { // for each class
+                // ove metode mozda ubaciti u matricu Confusion matrix - najbolje tako
+                int tp = confusionMatrix.getTruePositive(clsIdx);
+                int tn = confusionMatrix.getTrueNegative(clsIdx);
+                int fp = confusionMatrix.getFalsePositive(clsIdx);
+                int fn = confusionMatrix.getFalseNegative(clsIdx);                                   
+
+                measures[clsIdx] = new ClassificationMetrics(tp, tn, fp, fn);         
+                measures[clsIdx].setClassLabel(classLabels[clsIdx]);           
+            }        
+            return measures;
+        }         
+        
     }
     
     
