@@ -17,6 +17,8 @@ package org.neuroph.core.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 import org.neuroph.util.VectorParser;
 
 /**
@@ -187,4 +189,37 @@ public class DataSetRow implements Serializable {
                        
         return sb.toString();        
     }    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DataSetRow other = (DataSetRow) obj;
+        if (!Objects.equals(this.label, other.label)) {
+            return false;
+        }
+        if (!Arrays.equals(this.input, other.input)) {
+            return false;
+        }
+        if (!Arrays.equals(this.desiredOutput, other.desiredOutput)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+    
 }

@@ -17,9 +17,11 @@ package org.neuroph.core.data;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
@@ -34,7 +36,7 @@ import org.neuroph.util.data.sample.SubSampling;
  * @see DataSetRow
  * http://openforecast.sourceforge.net/docs/net/sourceforge/openforecast/DataSet.html
  */
-public class DataSet implements Serializable {
+public class DataSet implements List<DataSetRow>, Serializable { // implements 
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
@@ -226,8 +228,9 @@ public class DataSet implements Serializable {
      *
      * @return number of training elements in this training set set
      */
+    @Override
     public int size() {
-        return this.rows.size();
+        return rows.size();
     }
 
     /**
@@ -530,7 +533,7 @@ public class DataSet implements Serializable {
                 }
             }
             ex.printStackTrace();
-            throw new NeurophException("Bad number format in data set file!", ex);
+            throw new NeurophException("Bad number format in data set file!", ex); // TODO: add line number!
         }
 
     }
@@ -565,6 +568,11 @@ public class DataSet implements Serializable {
         return trainAndTestSet;
     }
 
+    public List<DataSet> split(int ... sizePercents) {
+        SubSampling sampling = new SubSampling(sizePercents);
+        return sampling.sample(this);    
+    }
+    
 
     public List<DataSet> sample(Sampling sampling) {
         return sampling.sample(this);
@@ -589,6 +597,101 @@ public class DataSet implements Serializable {
 
     public void shuffle() {
         Collections.shuffle(rows);
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return rows.contains(o);// TODO: implement equals for DataSetRow
+    }
+
+    @Override
+    public Object[] toArray() {
+       return rows.toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return rows.toArray(a);
+    }
+
+    @Override
+    public boolean add(DataSetRow row) {
+        return rows.add(row);
+    }
+
+    @Override
+    public boolean remove(Object row) {
+        return rows.remove(row);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+       return rows.containsAll(c);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends DataSetRow> c) {
+        return rows.addAll(c);
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends DataSetRow> c) {
+        return rows.addAll(index, c);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return rows.removeAll(c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return rows.retainAll(c);
+    }
+
+    @Override
+    public DataSetRow get(int index) {
+        return rows.get(index);
+    }
+
+    @Override
+    public DataSetRow set(int index, DataSetRow row) {
+        return rows.set(index, row);
+    }
+
+    @Override
+    public void add(int index, DataSetRow row) {
+        rows.add(index, row);
+    }
+
+    @Override
+    public DataSetRow remove(int index) {
+        return rows.remove(index);
+    }
+
+    @Override
+    public int indexOf(Object row) {
+        return rows.indexOf(row);
+    }
+
+    @Override
+    public int lastIndexOf(Object row) {
+        return rows.lastIndexOf(row);
+    }
+
+    @Override
+    public ListIterator<DataSetRow> listIterator() {
+        return rows.listIterator();
+    }
+
+    @Override
+    public ListIterator<DataSetRow> listIterator(int index) {
+        return rows.listIterator(index);
+    }
+
+    @Override
+    public List<DataSetRow> subList(int fromIndex, int toIndex) {
+        return rows.subList(fromIndex, toIndex);
     }
 
 }
