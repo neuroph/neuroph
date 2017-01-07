@@ -17,9 +17,7 @@ package org.neuroph.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
 
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.util.NeuronFactory;
@@ -259,10 +257,10 @@ public class Layer implements Serializable {
      */
     public void calculate() {
 
-//        for (Neuron neuron : this.neurons) { // use directly underlying array since its faster
-//            neuron.calculate();
-//        }
-          neurons.parallelStream().forEach( n -> n.calculate());
+        for (Neuron neuron : this.neurons) { // use directly underlying array since its faster
+            neuron.calculate();
+        }
+//          neurons.parallelStream().forEach( n -> n.calculate());
 
 //        mainPool.invokeAll(Arrays.asList(neurons.asArray()));
     }

@@ -42,13 +42,13 @@ public class Evaluation {
              neuralNetwork.setInput(dataRow.getInput());    // apply input to neural network
              neuralNetwork.calculate();                     // and calculate neural network    
             
-            // feed actual neural network along with desired output to all evaluators
+            // feed actual neural network output and desired output to all evaluators
             for (Evaluator evaluator : evaluators.values()) { // for now we have only kfold and mse
                 evaluator.processNetworkResult(neuralNetwork.getOutput(), dataRow.getDesiredOutput());
             }
         }
         
-        // we should iterate all evaluators and getresults here- its hardcoded for now
+        // we should iterate all evaluators and get results here- its hardcoded for now
         ConfusionMatrix confusionMatrix;
         if (neuralNetwork.getOutputsCount() >1) {        
             confusionMatrix = getEvaluator(ClassifierEvaluator.MultiClass.class).getResult();
@@ -59,12 +59,10 @@ public class Evaluation {
         double meanSquaredError = getEvaluator(ErrorEvaluator.class).getResult();
                    
         EvaluationResult result = new EvaluationResult();
-        result.setDataSet(dataSet);
+        result.setDataSet(dataSet); // sta ce nam ovo?
         result.setConfusionMatrix(confusionMatrix);
         result.setMeanSquareError(meanSquaredError);
         
-         // add neural network here too and maybe dataset too?
-
         return result;                
     }
 

@@ -50,14 +50,13 @@ public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> 
      */
     public static class Binary extends ClassifierEvaluator {
 
-        public static final String[] BINARY_CLASS_LABELS = new String[]{"True", "False"};
-        public static final int TRUE = 0;
+        public static final String[] BINARY_CLASS_LABELS = new String[]{"True", "False"}; 
+        public static final int TRUE = 0; // da bi se slagao sa indexima u confusion matrici 
         public static final int FALSE = 1;
       
         public Binary(double threshold) {
             super(BINARY_CLASS_LABELS);
             setThreshold(threshold);
-
         }
 
         @Override
@@ -95,7 +94,8 @@ public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> 
             // just get max index
             int actualClassIdx = Utils.maxIdx(actualOutput);
             int predictedClassIdx = Utils.maxIdx(predictedOutput);
-
+            // TODO: use threshold here not only max but also greater than threshold
+            
             confusionMatrix.incrementElement(actualClassIdx, predictedClassIdx);
         }
     }

@@ -44,12 +44,13 @@ public class IrisClassificationSample {
         // create MultiLayerPerceptron neural network
         MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 16, 3);
         // create training set from file
-        DataSet irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
+        DataSet irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",");
         // train the network with training set
 
         neuralNet.getLearningRule().addListener(new LearningListener());
         neuralNet.getLearningRule().setLearningRate(0.2);
-    //    neuralNet.getLearningRule().setMaxIterations(30000);
+        neuralNet.getLearningRule().setMaxError(0.01);
+        neuralNet.getLearningRule().setMaxIterations(30000);
 
         neuralNet.learn(irisDataSet);
 

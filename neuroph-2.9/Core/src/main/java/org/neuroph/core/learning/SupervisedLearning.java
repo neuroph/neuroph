@@ -190,9 +190,9 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         double[] patternError = errorFunction.calculatePatternError(output, desiredOutput);
         this.calculateWeightChanges(patternError);
         
-        if (!batchMode) {
-            applyWeightChanges();
-        }
+//        if (!batchMode) { // this should be uncimmented for simultanuos update
+//            applyWeightChanges();
+//        }
     }
 
     /**

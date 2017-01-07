@@ -18,10 +18,11 @@ import org.neuroph.contrib.eval.EvaluationResult;
  */
 public class ClassificationMetrics {
 
-    double falseNegative;
-    double falsePositive;
-    double trueNegative;
     double truePositive;
+    double trueNegative;    
+    double falsePositive;
+    double falseNegative;
+
     double total;
     
     String classLabel;
