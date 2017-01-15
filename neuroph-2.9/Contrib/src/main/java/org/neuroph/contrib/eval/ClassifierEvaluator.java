@@ -5,9 +5,9 @@ import org.neuroph.contrib.eval.classification.Utils;
 
 public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> {
 
-    private String[] classLabels;
+    private final String[] classLabels;    
+    private double threshold; // used for binary classifier but should also be used for multi class
     ConfusionMatrix confusionMatrix;
-    private double threshold; // used for binary classifier
 
        
     private ClassifierEvaluator(String[] labels) {
@@ -25,56 +25,45 @@ public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> 
         return threshold;
     }
 
-    public void setThreshold(double threshold) {
+    public final void setThreshold(double threshold) {
         this.threshold = threshold;
     }
     
+    @Override
     public void reset() {
         confusionMatrix = new ConfusionMatrix(classLabels);
     }
     
-    
-
-//    public static ClassificationEvaluator createForDataSet(final DataSet dataSet) {
-//        if (dataSet.getOutputSize() == 1) {
-//            //TODO how can we handle different thresholds??? - use thresholds for both binary and multiclass
-//            return new Binary(0.5);
-//        } else {
-//            return new MultiClass(dataSet);
-//        }
-//    }
-
 
     /**
      * Binary evaluator used for computation of metrics in case when data has only one output result (one output neuron)
      */
-    public static class Binary extends ClassifierEvaluator {
+    public static final class Binary extends ClassifierEvaluator {
 
-        public static final String[] BINARY_CLASS_LABELS = new String[]{"True", "False"}; 
-        public static final int TRUE = 0; // da bi se slagao sa indexima u confusion matrici 
-        public static final int FALSE = 1;
-      
+        public static final String[] CLASS_LABELS = new String[]{"True", "False"}; 
+              
         public Binary(double threshold) {
-            super(BINARY_CLASS_LABELS);
+            super(CLASS_LABELS);
             setThreshold(threshold);
         }
 
         @Override
         public void processNetworkResult(double[] networkOutput, double[] desiredOutput) {
-            int actualClass = classForValueOf(desiredOutput[0]);
-            int predictedClass = classForValueOf(networkOutput[0]);
-
-            confusionMatrix.incrementElement(actualClass, predictedClass);
-        }
-
-        private int classForValueOf(double classResult) {
-            int classValue = FALSE;
-            if (classResult >= getThreshold()) {
-                classValue = TRUE;
+            
+            boolean actualClass = (desiredOutput[0] > 0); // true id desired output is 1, false otherwise
+            boolean predictedClass = (networkOutput[0] >= getThreshold()); // true if actual output is >= threshold, false otherwise
+                                    
+            if (actualClass && predictedClass) {
+                confusionMatrix.incrementElement(0, 0); // tp
+            } else if (actualClass && !predictedClass) {
+                confusionMatrix.incrementElement(0, 1); // fn
+            } else if (!actualClass && predictedClass) {
+                confusionMatrix.incrementElement(1, 0); // fp
+            } else if (!actualClass && !predictedClass) {
+                confusionMatrix.incrementElement(1, 1); // tn
             }
-            return classValue;
-        }
 
+        }
     }
 
     /**
@@ -94,7 +83,7 @@ public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> 
             // just get max index
             int actualClassIdx = Utils.maxIdx(actualOutput);
             int predictedClassIdx = Utils.maxIdx(predictedOutput);
-            // TODO: use threshold here not only max but also greater than threshold
+            // TODO: use threshold here not only max
             
             confusionMatrix.incrementElement(actualClassIdx, predictedClassIdx);
         }

@@ -4,7 +4,6 @@ package org.neuroph.contrib.eval.classification;
 import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import java.util.List;
-import org.neuroph.contrib.eval.EvaluationResult;
 
 /**
  * Container class for all metrics which use confusion matrix for their computation 
@@ -16,7 +15,7 @@ import org.neuroph.contrib.eval.EvaluationResult;
  * http://en.wikipedia.org/wiki/Matthews_correlation_coefficient
  * 
  */
-public class ClassificationMetrics {
+public final class ClassificationMetrics {
 
     double truePositive;
     double trueNegative;    
@@ -25,7 +24,7 @@ public class ClassificationMetrics {
 
     double total;
     
-    String classLabel;
+    String classLabel; // where is this used?
     
     
    /**
@@ -45,6 +44,10 @@ public class ClassificationMetrics {
         this.total = falseNegative + falsePositive + trueNegative + truePositive;
     }
 
+    /**
+     * Returns class label for
+     * @return class labels
+     */
     public String getClassLabel() {
         return classLabel;
     }
@@ -54,52 +57,72 @@ public class ClassificationMetrics {
     }
         
     /**
-     * Calculate and return classification accuracy measure
-     * @return 
+     * Calculate and return classification accuracy measure.
+     * A number of correct predictions made divided by the total number of predictions made
+     * a = ( tp + tn ) / n 
+     * 
+     * @return classification accuracy
      */
     public double getAccuracy() {
         return (truePositive + trueNegative) / total;
     }
     
+    
+    /**
+     * A number of wrong predictions made divided by the total number of predictions made.
+     * Also error = 1 - accuracy
+     * @return 
+     */
+    public double getErrorRate() {
+        return (falsePositive + falseNegative) / total;
+    }       
+    
+    
+    /**
+     * Calculate and return classification precision measure.
+     * A number of correctly classified positive examples divided by the total number of examples that are classified as positive
+     * Also known as positive predictive  value PPV
+     * @return classification precision measure
+     */
     public double getPrecision() {
-        return truePositive / (double) (truePositive + falsePositive);
+        return truePositive / (truePositive + falsePositive);
     }    
 
-    public double getRecall() {
-        return this.truePositive / (double)(this.truePositive + this.falseNegative);
-    }
-
     /**
-     * Calculate and return classification true positive rate, recall, sensitivity
+     * Calculate and return classification sensitivity (recall, true positive rate) 
+     * number of correctly classified positive examples divided by the total number of actual positive examples
      * @return 
      */
     public double getSensitivity() {
         return truePositive / (truePositive + falseNegative);
     }
+    
+    public double getRecall() {
+        return getSensitivity();
+    }
 
-    //Specifity
-
+    /**
+    * Specifity , true negative rate
+    */    
     public double getSpecificity() {
         return trueNegative / (trueNegative + falsePositive);
     }
 
+    /**
+     * Returns total number of classifications.
+     * @return total number of classifications
+     */
+    public double getTotal() {
+        return total;
+    }    
+    
     public double getFalsePositiveRate() {
         return falsePositive / (falsePositive + trueNegative);
     }
 
     //False negative rate,
-
     public double getFalseNegativeRate() {
         return falseNegative / (falseNegative + truePositive);
-    }
-
-    public double getErrorRate() {
-        return (this.falsePositive + this.falseNegative) / total;
-    }   
-    
-    //Total
-    public double getTotal() {
-        return total;
     }
 
     public double getFalseDiscoveryRate() {
@@ -112,9 +135,7 @@ public class ClassificationMetrics {
         return (truePositive * trueNegative - falsePositive * falseNegative) /
                 (sqrt((truePositive + falsePositive) * (truePositive + falseNegative) * (trueNegative + falsePositive) * (trueNegative + falseNegative)));
     }
-    
-    
-    
+            
    /**
      * Calculates F-score for beta equal to 1.
      * 
@@ -132,8 +153,8 @@ public class ClassificationMetrics {
      * @return f-score
      */
     public double getFMeasure(int beta) {
-        double f = ((beta * beta + 1) * getPrecision() * getRecall())
-                / (double)(beta * beta * getPrecision() + getRecall());
+        double f = ((beta * beta + 1) * getPrecision() * getSensitivity())
+                / (double)(beta * beta * getPrecision() + getSensitivity());
         if (Double.isNaN(f))
             return 0;
         else
@@ -164,6 +185,7 @@ public class ClassificationMetrics {
 
     
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         
@@ -173,22 +195,20 @@ public class ClassificationMetrics {
         sb.append("True negative:").append(trueNegative).append("\n");
         sb.append("False positive:").append(falsePositive).append("\n");   
         sb.append("False negative:").append(falseNegative).append("\n");        
+        sb.append("Accuracy (ACC): ").append(getAccuracy()).append("\n");        
         sb.append("Sensitivity or true positive rate (TPR): ").append(getSensitivity()).append("\n");
         sb.append("Specificity (SPC) or true negative rate (TNR): ").append(getSpecificity()).append("\n");
         sb.append("Fall-out or false positive rate (FPR): ").append(getFalsePositiveRate()).append("\n");
         sb.append("False negative rate (FNR): ").append(getFalseNegativeRate()).append("\n");        
-        sb.append("Accuracy (ACC): ").append(getAccuracy()).append("\n");
         sb.append("Precision or positive predictive value (PPV): ").append(getPrecision()).append("\n");
-        sb.append("Recall: ").append(getRecall()).append("\n");        
+        sb.append("Recall: ").append(getSensitivity()).append("\n");        
         sb.append("F-measure: ").append(getFMeasure()).append("\n");        
         sb.append("False discovery rate (FDR): ").append(getFalseDiscoveryRate()).append("\n");
         sb.append("Matthews correlation Coefficient (MCC): ").append(getMatthewsCorrelationCoefficient()).append("\n");
         return sb.toString();
     }    
     
-
-    
-    
+        
     public static class Stats {
         public double accuracy=0;
         public double precision=0;
@@ -257,7 +277,7 @@ public class ClassificationMetrics {
             for (ClassificationMetrics cm : results) {
                 average.accuracy += cm.getAccuracy();
                 average.precision += cm.getPrecision();
-                average.recall += cm.getRecall();
+                average.recall += cm.getSensitivity();
                 average.fScore += cm.getFMeasure();
 //                average.mserror += er.getMeanSquareError();
                 

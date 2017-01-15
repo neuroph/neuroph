@@ -6,6 +6,8 @@ import org.neuroph.core.data.DataSet;
 
 /**
  * Create class that will hold statistics for all evaluated datasets - avgs, mx, min, std, variation
+ * Result of the evaluation procedure
+ * 
  * @author zoran
  */
 public class EvaluationResult {

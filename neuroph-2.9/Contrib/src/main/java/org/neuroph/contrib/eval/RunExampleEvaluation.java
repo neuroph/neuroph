@@ -1,15 +1,13 @@
 package org.neuroph.contrib.eval;
 
-import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.nnet.MultiLayerPerceptron;
 
 /**
  *
  * @author zoran
  */
-public class RunEvaluation {
+public class RunExampleEvaluation {
 
     /**
      * @param args the command line arguments
