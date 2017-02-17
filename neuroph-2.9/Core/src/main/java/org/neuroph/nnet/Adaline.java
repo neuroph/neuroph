@@ -18,6 +18,7 @@ package org.neuroph.nnet;
 
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.nnet.comp.layer.InputLayer;
 import org.neuroph.nnet.comp.neuron.BiasNeuron;
 import org.neuroph.nnet.learning.LMS;
 import org.neuroph.util.ConnectionFactory;
@@ -68,18 +69,19 @@ public class Adaline extends NeuralNetwork {
 		inNeuronProperties.setProperty("transferFunction", TransferFunctionType.LINEAR);
 
 		// createLayer input layer with specified number of neurons
-		Layer inputLayer = LayerFactory.createLayer(inputNeuronsCount, inNeuronProperties);
+		//Layer inputLayer = LayerFactory.createLayer(inputNeuronsCount, inNeuronProperties);
+                Layer inputLayer = new InputLayer(inputNeuronsCount);
                 inputLayer.addNeuron(new BiasNeuron()); // add bias neuron (always 1, and it will act as bias input for output neuron)
 		this.addLayer(inputLayer);
                 
                // create output layer neuron settings for this network
 		NeuronProperties outNeuronProperties = new NeuronProperties();
-		outNeuronProperties.setProperty("transferFunction", TransferFunctionType.RAMP);
-		outNeuronProperties.setProperty("transferFunction.slope", new Double(1));
-		outNeuronProperties.setProperty("transferFunction.yHigh", new Double(1));
-		outNeuronProperties.setProperty("transferFunction.xHigh", new Double(1));
-		outNeuronProperties.setProperty("transferFunction.yLow", new Double(-1));
-		outNeuronProperties.setProperty("transferFunction.xLow", new Double(-1));
+		outNeuronProperties.setProperty("transferFunction", TransferFunctionType.LINEAR); // was RAMP
+//		outNeuronProperties.setProperty("transferFunction.slope", new Double(1));
+//		outNeuronProperties.setProperty("transferFunction.yHigh", new Double(1));
+//		outNeuronProperties.setProperty("transferFunction.xHigh", new Double(1));
+//		outNeuronProperties.setProperty("transferFunction.yLow", new Double(-1));
+//		outNeuronProperties.setProperty("transferFunction.xLow", new Double(-1));
 
 		// createLayer output layer (only one neuron)
 		Layer outputLayer = LayerFactory.createLayer(1, outNeuronProperties);

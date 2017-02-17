@@ -190,9 +190,9 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         double[] patternError = errorFunction.calculatePatternError(output, desiredOutput);
         this.calculateWeightChanges(patternError);
         
-//        if (!batchMode) { // this should be uncimmented for simultanuos update
-//            applyWeightChanges();
-//        }
+        if (!batchMode) { // this should be uncimmented for simultanuos update
+            applyWeightChanges();
+        }
     }
 
     /**
@@ -377,7 +377,11 @@ abstract public class SupervisedLearning extends IterativeLearning implements
                 for (Connection connection : neuron.getInputConnections()) {
                     // for each connection weight apply accumulated weight change
                     Weight weight = connection.getWeight();
-                    weight.value += weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                    if (!isInBatchMode()) {
+                        weight.value += weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                    } else {
+                        weight.value += weight.weightChange / (double)getTrainingSet().size();
+                    }
                     weight.weightChange = 0; // reset deltaWeight
                 }
             }
