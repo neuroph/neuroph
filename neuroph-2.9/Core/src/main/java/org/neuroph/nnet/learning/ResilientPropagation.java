@@ -137,7 +137,7 @@ public class ResilientPropagation extends BackPropagation {
             weightChange = sign(weightData.gradient) * delta;
         }
 
-        weight.value += weightChange;
+        //weight.value += weightChange; -- ovo mora da se radi simultano
         weightData.previousWeightChange = weightChange;
         weightData.previousGradient = weightData.gradient; // as in moveNowValuesToPreviousEpochValues
         weightData.gradient = 0;

@@ -62,7 +62,7 @@ public class LMS extends SupervisedLearning implements Serializable {
         List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
         for (Neuron neuron : outputNeurons) {
             neuron.setError(outputError[i]); // set the neuron error, as difference between desired and actual output 
-            this.updateNeuronWeights(neuron); // and update neuron weights
+            updateNeuronWeights(neuron); // and update neuron weights
             i++;
         }
     }
@@ -94,7 +94,7 @@ public class LMS extends SupervisedLearning implements Serializable {
             // get the input from current connection
             double input = connection.getInput();
             // calculate the weight change
-            double weightChange = this.learningRate * neuronError * input;
+            double weightChange = learningRate * neuronError * input;
 
             // get the connection weight
             Weight weight = connection.getWeight();
