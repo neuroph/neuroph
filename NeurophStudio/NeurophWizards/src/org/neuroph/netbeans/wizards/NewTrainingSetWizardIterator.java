@@ -76,9 +76,12 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
             String type = (String) wizard.getProperty("type");
             String file = (String) wizard.getProperty("file");
             String delimiter = (String) wizard.getProperty("delimiter");
-            if (delimiter.equals("Space")) delimiter = " ";
-                else if (delimiter.equals("tab")) delimiter = "\t";
+            if (delimiter.equalsIgnoreCase("Space")) delimiter = " ";
+                else if (delimiter.equals("tab")) delimiter = "\\t";
 
+            boolean loadColumnNames = false;
+            loadColumnNames = (boolean)wizard.getProperty("loadColumnNames");
+            
             DataSet dataSet = null;
                      
             // import data from file here if selected
@@ -88,7 +91,7 @@ public final class NewTrainingSetWizardIterator implements WizardDescriptor.Inst
                 else
                     dataSet = new DataSet(inputsNumber);                 
             } else {
-                dataSet = DataSet.createFromFile(file, inputsNumber, outputsNumber, delimiter, false);
+                dataSet = DataSet.createFromFile(file, inputsNumber, outputsNumber, delimiter, loadColumnNames);
             }
             
             dataSet.setLabel(label);

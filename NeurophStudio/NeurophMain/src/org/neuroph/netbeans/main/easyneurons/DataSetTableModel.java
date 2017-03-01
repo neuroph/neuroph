@@ -1,6 +1,7 @@
 package org.neuroph.netbeans.main.easyneurons;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import javax.swing.table.AbstractTableModel;
 import org.neuroph.core.data.DataSet;
@@ -18,43 +19,44 @@ public class DataSetTableModel extends AbstractTableModel {
      protected ArrayList<ArrayList>dataVector;
 
 	public DataSetTableModel() {
-		this.columnIdentifiers = new ArrayList<String>();
-		this.dataVector = new ArrayList<ArrayList>();
+		columnIdentifiers = new ArrayList<String>();
+		dataVector = new ArrayList<ArrayList>();
                 setDefaultTableValues();
 	}
 	
 	
-	public DataSetTableModel(DataSet trainingSet) {
-		this.columnIdentifiers = new ArrayList<String>();
-		this.dataVector = new ArrayList<ArrayList>();
-				
-		//DataSetRow trainingElement = trainingSet.getRowAt(0);
+	public DataSetTableModel(DataSet dataSet) {
+		columnIdentifiers = new ArrayList<String>();
+		dataVector = new ArrayList<ArrayList>();
+				                
+                HIDDEN_INDEX = dataSet.getInputSize();
 
-		//HIDDEN_INDEX = trainingElement.getInput().length;
+		String[] colNames =  dataSet.getColumnNames();
                 
-                HIDDEN_INDEX = trainingSet.getInputSize();
+                if (colNames.length > 0) {
+                   columnIdentifiers = new ArrayList<String>(Arrays.asList(colNames));
+                } else {
+                    for (int i = 0; i < dataSet.getInputSize(); i++) {
+                        columnIdentifiers.add("Input " + (i + 1));
+                    }
 
-		//double[] inputVector = trainingElement.getInput();
+                    if (dataSet.isSupervised()) {
+                        for (int i = 0; i < dataSet.getOutputSize(); i++) {
+                            columnIdentifiers.add("Output " + (i + 1));
+                        }
+                    }
 
-		for (int i = 0; i < trainingSet.getInputSize(); i++) {
-			this.columnIdentifiers.add("Input " + (i + 1));
-		}
-
-		if (trainingSet.isSupervised()) {
-//			double[] outputVector = ((DataSetRow) trainingElement)
-			//		.getDesiredOutput();
-			for (int i = 0; i < trainingSet.getOutputSize(); i++) {
-				this.columnIdentifiers.add("Output " + (i + 1));
-			}
-			
-			HIDDEN_INDEX += trainingSet.getOutputSize();
-		}
+                }
+                
+                 if (dataSet.isSupervised()) {
+                       HIDDEN_INDEX += dataSet.getOutputSize();
+                 }
+                 
+                 columnIdentifiers.add(""); // hidden col
 
                 
-		this.columnIdentifiers.add(""); // hidden col
-
 		// columns = inputs + outputs
-		Iterator<DataSetRow> iterator = trainingSet.iterator();
+		Iterator<DataSetRow> iterator = dataSet.iterator();
 		while (iterator.hasNext()) {
 			DataSetRow trainingElement = iterator.next();
                         //inputVector = VectorParser.convertToVector(trainingElement.getInput());
@@ -77,13 +79,13 @@ public class DataSetTableModel extends AbstractTableModel {
 			
 			rowVector.add(new String());
 
-			this.dataVector.add(rowVector);
+			dataVector.add(rowVector);
 		}
 	}
 
 	public DataSetTableModel(int inputs, int outputs) {
-		this.columnIdentifiers = new ArrayList<String>();
-		this.dataVector = new ArrayList<ArrayList>();
+		columnIdentifiers = new ArrayList<String>();
+		dataVector = new ArrayList<ArrayList>();
 		
 		HIDDEN_INDEX = inputs + outputs;
 		
@@ -102,7 +104,7 @@ public class DataSetTableModel extends AbstractTableModel {
 	
 	@Override
 	public String getColumnName(int column) {
-		return this.columnIdentifiers.get(column).toString();
+		return this.columnIdentifiers.get(column);
 	}	
 	
 	@Override
@@ -118,7 +120,7 @@ public class DataSetTableModel extends AbstractTableModel {
 
         @Override
 	public Object getValueAt(int row, int column) {
-		return this.dataVector.get(row).get(column);
+		return dataVector.get(row).get(column);
 	}	
 	
 	@Override
@@ -169,7 +171,7 @@ public class DataSetTableModel extends AbstractTableModel {
 	}	
 	
 	public ArrayList<ArrayList> getDataVector() {
-		return this.dataVector;
+		return dataVector;
 	}
 		
 	public void removeLastEmptyRow() {

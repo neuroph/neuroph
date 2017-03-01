@@ -106,6 +106,7 @@ public class NewTrainingSetWizardPanel1 implements WizardDescriptor.ValidatingPa
         
         ((WizardDescriptor) settings).putProperty("file", ((NewTrainingSetVisualPanel1)getComponent()).getFileField().getText().toString().trim());
         ((WizardDescriptor) settings).putProperty("delimiter", ((NewTrainingSetVisualPanel1)getComponent()).getDelimiterComboBox().getSelectedItem().toString().trim());
+        ((WizardDescriptor) settings).putProperty("loadColumnNames", ((NewTrainingSetVisualPanel1)getComponent()).getColumnNamesCheck().isSelected());
         
     }
 

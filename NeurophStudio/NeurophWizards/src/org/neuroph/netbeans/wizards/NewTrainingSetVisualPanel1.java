@@ -1,6 +1,7 @@
 package org.neuroph.netbeans.wizards;
 
 import java.io.File;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -46,6 +47,10 @@ public final class NewTrainingSetVisualPanel1 extends JPanel {
     public JComboBox getDelimiterComboBox() {
         return delimiterComboBox;
     }
+
+    public JCheckBox getColumnNamesCheck() {
+        return columnNamesCheck;
+    }
     
     
 
@@ -73,7 +78,7 @@ public final class NewTrainingSetVisualPanel1 extends JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         delimiterComboBox = new javax.swing.JComboBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        columnNamesCheck = new javax.swing.JCheckBox();
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(NewTrainingSetVisualPanel1.class, "NewTrainingSetVisualPanel1.jLabel1.text")); // NOI18N
 
@@ -117,8 +122,7 @@ public final class NewTrainingSetVisualPanel1 extends JPanel {
         delimiterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { ",", ";", "space", "tab" }));
         delimiterComboBox.setEnabled(false);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jCheckBox1, org.openide.util.NbBundle.getMessage(NewTrainingSetVisualPanel1.class, "NewTrainingSetVisualPanel1.jCheckBox1.text")); // NOI18N
-        jCheckBox1.setEnabled(false);
+        org.openide.awt.Mnemonics.setLocalizedText(columnNamesCheck, org.openide.util.NbBundle.getMessage(NewTrainingSetVisualPanel1.class, "NewTrainingSetVisualPanel1.columnNamesCheck.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -154,7 +158,7 @@ public final class NewTrainingSetVisualPanel1 extends JPanel {
                                     .addComponent(outputsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(inputsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jCheckBox1))
+                            .addComponent(columnNamesCheck))
                         .addGap(0, 175, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -189,7 +193,7 @@ public final class NewTrainingSetVisualPanel1 extends JPanel {
                     .addComponent(jLabel6)
                     .addComponent(delimiterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(jCheckBox1)
+                .addComponent(columnNamesCheck)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -219,10 +223,10 @@ public final class NewTrainingSetVisualPanel1 extends JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseFileButton;
+    private javax.swing.JCheckBox columnNamesCheck;
     private javax.swing.JComboBox delimiterComboBox;
     private javax.swing.JTextField fileField;
     private javax.swing.JTextField inputsTextField;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

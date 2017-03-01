@@ -101,9 +101,7 @@ public final class DataSetTopComponent extends TopComponent implements LookupLis
         } else {
             setName("Training set not loaded");
         }
-//        if (content == null) {
-//            content = new InstanceContent();
-//        }
+        
         WindowManager.getDefault().findTopComponent("ExplorerTopComponent").open();
     }
     
