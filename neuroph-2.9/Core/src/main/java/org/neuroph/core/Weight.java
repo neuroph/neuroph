@@ -25,7 +25,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @see Connection
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
-public class Weight implements java.io.Serializable, Cloneable {
+public class Weight<T> implements java.io.Serializable, Cloneable {
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
@@ -47,7 +47,7 @@ public class Weight implements java.io.Serializable, Cloneable {
      * Training data buffer holds various algorithm specific data which is used
      * for adjusting this weight value during training
      */
-    private transient Object trainingData;
+    private transient T trainingData;
 
     // maybe store deltaWeight and weight value history in transient fields...?
     /**
@@ -135,11 +135,11 @@ public class Weight implements java.io.Serializable, Cloneable {
      *
      * @return training data buffer for this weight
      */
-    public Object getTrainingData() {
+    public T getTrainingData() {
         return trainingData;
     }
 
-    public void setTrainingData(Object trainingData) {
+    public void setTrainingData(T trainingData) {
         this.trainingData = trainingData;
     }
 

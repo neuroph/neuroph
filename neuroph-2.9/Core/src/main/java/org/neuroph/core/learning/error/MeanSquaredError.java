@@ -23,7 +23,7 @@ import java.io.Serializable;
  *
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
-public class MeanSquaredError implements ErrorFunction, Serializable {
+public final class MeanSquaredError implements ErrorFunction, Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -38,29 +38,28 @@ public class MeanSquaredError implements ErrorFunction, Serializable {
         reset();
     }
 
+    @Override
+    public double[] calculatePatternError(double[] predictedOutput, double[] targetOutput) {
+        double[] patternError = new double[targetOutput.length];
 
+        for (int i = 0; i < predictedOutput.length; i++) {
+            patternError[i] =  predictedOutput[i] - targetOutput[i];
+            totalError += patternError[i] * patternError[i];
+        }
+        
+        patternCount++;
+        return patternError;
+    }
+    
     @Override
     public void reset() {
         totalError = 0d;
         patternCount = 0;
     }
 
-
     @Override
     public double getTotalError() {
         return totalError / ( 2 * patternCount );
-    }
-
-    @Override
-    public double[] calculatePatternError(double[] predictedOutput, double[] targetOutput) {
-        double[] patternError = new double[targetOutput.length];
-
-        for (int i = 0; i < predictedOutput.length; i++) {
-            patternError[i] =  targetOutput[i] - predictedOutput[i];
-            totalError += patternError[i] * patternError[i];
-        }
-        patternCount++;
-        return patternError;
     }
 
 }

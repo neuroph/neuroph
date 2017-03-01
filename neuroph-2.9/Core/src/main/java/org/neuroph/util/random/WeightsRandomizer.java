@@ -16,16 +16,12 @@
 
 package org.neuroph.util.random;
 
-import java.util.List;
 import java.util.Random;
 
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.core.learning.LearningRule;
-import org.neuroph.nnet.comp.layer.FeatureMapsLayer;
-import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 
 /**
  * Basic weights randomizer, iterates and randomizes all connection weights in network.
@@ -46,6 +42,11 @@ public class WeightsRandomizer {
         this.randomGenerator = new Random();
     }
 
+    
+    public WeightsRandomizer(long seed) {
+        this.randomGenerator = new Random(seed);
+    }
+     
     /**
      * Create a new instance of WeightsRandomizer with specified random generator
      * If you use the same random generators, you'll get the same random sequences
@@ -57,28 +58,13 @@ public class WeightsRandomizer {
     }
 
     /**
-     * Gets random generator used to generate random values
-     *
-     * @return random generator used to generate random values
-     */
-    public Random getRandomGenerator() {
-        return randomGenerator;
-    }
-
-    public void setRandomGenerator(Random randomGenerator) {
-        this.randomGenerator = randomGenerator;
-    }
-
-
-    /**
      * Iterates and randomizes all layers in specified network
      *
      * @param neuralNetwork neural network to randomize
      */
     public void randomize(NeuralNetwork<?> neuralNetwork) {
-    //    List<Layer> layers = neuralNetwork.getLayers();
         for (Layer layer : neuralNetwork.getLayers()) {
-                this.randomize(layer);
+                randomize(layer);
         }       
     }
 
@@ -115,6 +101,6 @@ public class WeightsRandomizer {
      * @return next random value fro random generator
      */
     protected double nextRandomWeight() {
-        return randomGenerator.nextDouble();
+        return randomGenerator.nextDouble() - 0.5;
     }
 }

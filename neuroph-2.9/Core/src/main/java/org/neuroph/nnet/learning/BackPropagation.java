@@ -83,7 +83,7 @@ public class BackPropagation extends LMS {
             neuron.setError(delta);
 
             // and update weights of the current neuron
-            this.updateNeuronWeights(neuron);
+            updateNeuronWeights(neuron);
             i++;
         } // for
     }
@@ -96,9 +96,9 @@ public class BackPropagation extends LMS {
         for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
             for (Neuron neuron : layers.get(layerIdx).getNeurons()) {
                 // calculate the neuron's error (delta)
-                double neuronError = this.calculateHiddenNeuronError(neuron);
+                double neuronError = calculateHiddenNeuronError(neuron);
                 neuron.setError(neuronError);
-                this.updateNeuronWeights(neuron);
+                updateNeuronWeights(neuron);
             } // for
         } // for
     }

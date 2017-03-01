@@ -66,11 +66,11 @@ public class MomentumBackpropagation extends BackPropagation {
             // double neuronError = Math.tanh(neuron.getError());
 
             Weight weight = connection.getWeight();
-            MomentumWeightTrainingData weightTrainingData = (MomentumWeightTrainingData) weight.getTrainingData();
+            MomentumTrainingData weightTrainingData = (MomentumTrainingData) weight.getTrainingData();
 
             //double currentWeightValue = weight.getValue();
             double previousWeightValue = weightTrainingData.previousValue;
-            double weightChange = this.learningRate * neuronError * input
+            double weightChange = learningRate * neuronError * input
                     + momentum * (weight.value - previousWeightValue);
             // save previous weight value
             //weight.getTrainingData().set(TrainingData.PREVIOUS_WEIGHT, currentWeightValue);
@@ -80,7 +80,6 @@ public class MomentumBackpropagation extends BackPropagation {
             // if the learning is in batch mode apply the weight change immediately
             if (this.isInBatchMode() == false) {
                 weight.weightChange = weightChange;
-                weight.value += weightChange;
             } else { // otherwise, sum the weight changes and apply them after at the end of epoch
                 weight.weightChange += weightChange;
             }
@@ -105,7 +104,7 @@ public class MomentumBackpropagation extends BackPropagation {
         this.momentum = momentum;
     }
 
-    public static class MomentumWeightTrainingData {
+    public static class MomentumTrainingData {
 
         public double previousValue;
     }
@@ -113,11 +112,11 @@ public class MomentumBackpropagation extends BackPropagation {
     @Override
     protected void onStart() {
         super.onStart();
-        // create MomentumWeightTrainingData objects that will be used during the training to store previous weight value
+        // create MomentumTrainingData objects that will be used during the training to store previous weight value
         for (Layer layer : neuralNetwork.getLayers()) {
             for (Neuron neuron : layer.getNeurons()) {
                 for (Connection connection : neuron.getInputConnections()) {
-                    connection.getWeight().setTrainingData(new MomentumWeightTrainingData());
+                    connection.getWeight().setTrainingData(new MomentumTrainingData());
                 }
             } // for
         } // for        

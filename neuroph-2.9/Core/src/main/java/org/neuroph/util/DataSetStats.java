@@ -1,19 +1,20 @@
-package org.neuroph.samples.norm;
+package org.neuroph.util;
 
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 
 /**
  * Utility class with methods for calculating dataset statistics
+ * TODO: add variance, and std
  */
-public class DataSetStatistics {
+public class DataSetStats {
 
     /**
      *
      * @param dataSet Neuroph dataset
      * @return arithmetic mean for each variable in data set
      */
-	public static double[] calculateMean(DataSet dataSet) {
+	public static double[] calculateMeanByColumns(DataSet dataSet) {
 		double[] mean = new double[dataSet.getInputSize()];
 
 		for (DataSetRow row : dataSet.getRows()) {
@@ -23,7 +24,7 @@ public class DataSetStatistics {
 			}
 		}
 		for (int i = 0; i < dataSet.getInputSize(); i++) {
-			mean[i] /= dataSet.getRows().size();
+			mean[i] /= (double)dataSet.getRows().size();
 		}
 		return mean;
 	}
@@ -39,7 +40,7 @@ public class DataSetStatistics {
 		double[] maxColumnElements = new double[inputSize];
 
 		for (int i = 0; i < inputSize; i++) {
-			maxColumnElements[i] = Double.MIN_VALUE;
+			maxColumnElements[i] = -Double.MAX_VALUE;
 		}
 
 		for (DataSetRow dataSetRow : dataSet.getRows()) {

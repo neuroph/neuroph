@@ -115,11 +115,6 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         super.onStart(); // reset iteration counter
         this.minErrorChangeIterationsCount = 0;
         this.previousEpochError = 0d;
-
-        // this is now done in constructor
-//        this.errorFunction = new MeanSquaredError();
-//        // create stop condition structure based on settings               
-//        this.stopConditions.add(new MaxErrorStop(this));
     }
 
     @Override
@@ -130,7 +125,6 @@ abstract public class SupervisedLearning extends IterativeLearning implements
 
     @Override
     protected void afterEpoch() {
-
         // calculate abs error change and count iterations if its below specified min error change (used for stop condition)
         double absErrorChange = Math.abs(previousEpochError - errorFunction.getTotalError());
         if (absErrorChange <= this.minErrorChange) {
@@ -182,17 +176,15 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      * @param trainingElement supervised training element which contains input and desired output
      */
     protected void learnPattern(DataSetRow trainingElement) {
-        double[] input = trainingElement.getInput();
-        this.neuralNetwork.setInput(input);
-        this.neuralNetwork.calculate();
-        double[] output = this.neuralNetwork.getOutput();
-        double[] desiredOutput = trainingElement.getDesiredOutput();
-        double[] patternError = errorFunction.calculatePatternError(output, desiredOutput);
-        this.calculateWeightChanges(patternError);
+        neuralNetwork.setInput(trainingElement.getInput());
+        neuralNetwork.calculate();
+        double[] output = neuralNetwork.getOutput();
+        double[] patternError = errorFunction.calculatePatternError(output, trainingElement.getDesiredOutput());
+        calculateWeightChanges(patternError);
         
-//        if (!batchMode) { // this should be uncimmented for simultanuos update
-//            applyWeightChanges();
-//        }
+        if (!batchMode) { // this should be uncimmented for simultanuos update
+            applyWeightChanges();
+        }
     }
 
     /**
@@ -211,50 +203,12 @@ abstract public class SupervisedLearning extends IterativeLearning implements
                 for (Connection connection : neuron.getInputConnections()) {
                     // for each connection weight apply accumulated weight change
                     Weight weight = connection.getWeight();
-                    weight.value += weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                    weight.value -= weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
                     weight.weightChange = 0; // reset deltaWeight
                 }
             }
         }
     }
-
-
-    /**
-     * Returns true if stop condition has been reached, false otherwise.
-     * Override this method in derived classes to implement custom stop criteria.
-     *
-     * @return true if stop condition is reached, false otherwise
-     */
-//    protected boolean hasReachedStopCondition() {
-//        // da li ovd etreba staviti da proverava i da li se koristi ovaj uslov??? ili staviti da uslov bude automatski samo s ajaako malom vrednoscu za errorChange Doule.minvalue
-//        return (this.totalNetworkError < this.maxError) || this.errorChangeStalled();
-//      //  return stopConditions.isReached();
-//    }
-
-    /**
-     * Returns true if absolute error change is sufficently small (<=minErrorChange) for minErrorChangeStopIterations number of iterations
-     * @return true if absolute error change is stalled (error is sufficently small for some number of iterations)
-     */
-//    protected boolean errorChangeStalled() {
-//        double absErrorChange = Math.abs(previousEpochError - totalNetworkError);
-//
-//        if (absErrorChange <= this.minErrorChange) {
-//            this.minErrorChangeIterationsCount++;
-//
-//            if (this.minErrorChangeIterationsCount >= this.minErrorChangeIterationsLimit) {
-//                return true;
-//            }
-//        } else {
-//            this.minErrorChangeIterationsCount = 0;
-//        }
-//
-//        return false;
-//    }
-
-
-//    public void addStopCondition(StopCondition stopCondition) {        
-//        stopConditions.add(stopCondition);
-//    }
     
     /**
      * Returns true if learning is performed in batch mode, false otherwise
@@ -377,7 +331,11 @@ abstract public class SupervisedLearning extends IterativeLearning implements
                 for (Connection connection : neuron.getInputConnections()) {
                     // for each connection weight apply accumulated weight change
                     Weight weight = connection.getWeight();
-                    weight.value += weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                    if (!isInBatchMode()) {
+                        weight.value -= weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                    } else {
+                        weight.value -= weight.weightChange / (double)getTrainingSet().size();
+                    }
                     weight.weightChange = 0; // reset deltaWeight
                 }
             }
