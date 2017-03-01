@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.contrib.bpbench;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +11,11 @@ import java.util.ArrayList;
 public class BackPropBenchmarks {
 
     public static void main(String[] args) throws IOException {
+        // lista treninga mreza sa razlicitim algoritmima
+        // napravi klasu Training (neuronsku mrezu i dataset, mozda podesavanje treninga)
+        //  Driver: testirati standardni backprop, momentum, resilient i quickprop
+        // za svaki trening statistike: min, max, mean, std
+        
         RunBackpropagation x = new RunBackpropagation();
         RunQuickPropagation q = new RunQuickPropagation();
         
