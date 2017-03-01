@@ -51,7 +51,7 @@ public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> 
         public void processNetworkResult(double[] networkOutput, double[] desiredOutput) {
             
             boolean actualClass = (desiredOutput[0] > 0); // true id desired output is 1, false otherwise
-            boolean predictedClass = (networkOutput[0] >= getThreshold()); // true if actual output is >= threshold, false otherwise
+            boolean predictedClass = (networkOutput[0] > getThreshold()); // true if actual output is >= threshold, false otherwise
                                     
             if (actualClass && predictedClass) {
                 confusionMatrix.incrementElement(0, 0); // tp

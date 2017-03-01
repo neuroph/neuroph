@@ -21,15 +21,20 @@ public class SoftMax extends TransferFunction {
     @Override
     public double getOutput(double netInput) {
         totalLayerInput = 0;
+                // add max here for numerical stability - find max netInput for all neurons in this lyer
+        double max = 0;
+        
         for (Neuron neuron : layer.getNeurons()) {
-            totalLayerInput += Math.exp(neuron.getNetInput());
+            totalLayerInput += Math.exp(neuron.getNetInput()-max);
         }
-        output = Math.exp(netInput) / totalLayerInput;
+
+        output = Math.exp(netInput-max) / totalLayerInput;
         return output;
     }
 
     @Override
     public double getDerivative(double net) {
         return 1d * (1d - output); // ovaj izvod nije dobar vec zavisi koji je neuron - ima dva izvoda
+        // -yi * yj
     }
 }
