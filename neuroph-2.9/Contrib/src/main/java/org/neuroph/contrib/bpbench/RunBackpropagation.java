@@ -31,6 +31,7 @@ public class RunBackpropagation implements LearningEventListener{
          BackPropagation bp = new BackPropagation();
          bp.setLearningRate(0.35);
          bp.setMaxError(0.02);
+         bp.setBatchMode(true);
         // create multi layer perceptron
         MultiLayerPerceptron mlp = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 4, 7, 3);
         mlp.setLearningRule(bp);

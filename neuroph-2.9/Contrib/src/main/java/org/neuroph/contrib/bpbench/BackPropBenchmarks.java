@@ -22,11 +22,11 @@ public class BackPropBenchmarks {
         PrintWriter out = new PrintWriter(new FileWriter("rezultati.txt"));
         int backprop = 0;
         int quickprop = 0;
-//       for (int i = 0; i < 5; i++) {
-//            x.nauci();
-//            out.println("BACK! iter: " + x.noOfIter);
-//            backprop += x.noOfIter;
-//        }
+       for (int i = 0; i < 5; i++) {
+            x.nauci();
+            out.println("BACK! iter: " + x.noOfIter);
+            backprop += x.noOfIter;
+        }
         out.println("BACK! ukupno iteracija: " + backprop);
        for (int i = 0; i < 5; i++) {
             q.nauci();

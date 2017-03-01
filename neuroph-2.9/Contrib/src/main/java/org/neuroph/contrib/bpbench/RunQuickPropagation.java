@@ -32,7 +32,7 @@ public class RunQuickPropagation implements LearningEventListener {
         qp.setLearningRate(0.35);
         qp.setMaxError(0.02);
         
-        MultiLayerPerceptron mlp = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 4, 10, 3);
+        MultiLayerPerceptron mlp = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 4, 7, 3);
         mlp.setLearningRule(qp);
         
         LearningRule learningRule = mlp.getLearningRule();
