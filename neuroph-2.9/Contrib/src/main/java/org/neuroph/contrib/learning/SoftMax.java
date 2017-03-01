@@ -34,7 +34,7 @@ public class SoftMax extends TransferFunction {
 
     @Override
     public double getDerivative(double net) {
-        return 1d * (1d - output); // ovaj izvod nije dobar vec zavisi koji je neuron - ima dva izvoda
+        return output * (1d - output); // ovaj izvod nije dobar vec zavisi koji je neuron - ima dva izvoda
         // -yi * yj
     }
 }
