@@ -17,7 +17,6 @@
 package org.neuroph.util.random;
 
 import org.neuroph.core.Connection;
-import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
 
 /**
@@ -42,23 +41,6 @@ public class DistortRandomizer extends WeightsRandomizer {
         this.distortionFactor = distortionFactor;
     }
     
-//    /**
-//     * Iterate all layers, neurons and connection weight and apply distort randomization 
-//     * @param neuralNetwork 
-//     */
-//    @Override
-//    public void randomize(NeuralNetwork neuralNetwork) {
-//        for (Layer layer : neuralNetwork.getLayers()) {
-//            for (Neuron neuron : layer.getNeurons()) {
-//                for (Connection connection : neuron.getInputConnections()) {
-//                    double weight = connection.getWeight().getValue();
-//                    connection.getWeight().setValue(distort(weight));
-//                }
-//            }
-//        }
-//
-//    }
-
     /**
      * Iterate all layers, neurons and connection weight and apply distort randomization
      * @param neuron

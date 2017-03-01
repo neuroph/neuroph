@@ -101,7 +101,6 @@ public class LMS extends SupervisedLearning implements Serializable {
             // if the learning is in online mode (not batch) apply the weight change immediately
             if (!this.isInBatchMode()) {
                 weight.weightChange = weightChange;                
-              //  weight.value += weightChange; // ovo se sada primenjuje u applyWeightChanges metodi
             } else { // otherwise its in batch mode, so sum the weight changes and apply them later, after the current epoch (see SupervisedLearning.doLearningEpoch method)
                 weight.weightChange += weightChange;
             }
