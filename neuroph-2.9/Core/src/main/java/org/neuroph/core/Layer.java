@@ -36,6 +36,9 @@ import org.neuroph.util.NeurophArrayList;
  */
 public class Layer implements Serializable {
 
+    /**
+     * Will automatically split the computation in to number of processors available on machine.
+     */
     final static ForkJoinPool fjp=new ForkJoinPool();//Takes default number of processors.
 
     /**
