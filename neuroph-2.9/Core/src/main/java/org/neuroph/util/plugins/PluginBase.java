@@ -41,7 +41,7 @@ public class PluginBase implements Serializable {
 	/**
 	 * Reference to parent neural network
 	 */
-	private NeuralNetwork parentNetwork;
+	private NeuralNetwork<?> parentNetwork;
 
         
         public PluginBase() {
@@ -67,7 +67,7 @@ public class PluginBase implements Serializable {
 	 * Returns the parent network for this plugin
 	 * @return parent network for this plugin
 	 */
-	public NeuralNetwork getParentNetwork() {
+	public NeuralNetwork<?> getParentNetwork() {
 		return parentNetwork;
 	}
 

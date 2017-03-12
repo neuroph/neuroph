@@ -52,11 +52,13 @@ public class XorMultiLayerPerceptronSample implements LearningEventListener {
         trainingSet.addRow(new DataSetRow(new double[]{1, 1}, new double[]{0}));
 
         // create multi layer perceptron
-        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.TANH, 2, 3, 1);
+        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
 
+        myMlPerceptron.setLearningRule(new BackPropagation());
+        
         // enable batch if using MomentumBackpropagation
-        if( myMlPerceptron.getLearningRule() instanceof MomentumBackpropagation )
-        	((MomentumBackpropagation)myMlPerceptron.getLearningRule()).setBatchMode(true);
+//        if( myMlPerceptron.getLearningRule() instanceof MomentumBackpropagation )
+//        	((MomentumBackpropagation)myMlPerceptron.getLearningRule()).setBatchMode(false);
 
         LearningRule learningRule = myMlPerceptron.getLearningRule();
         learningRule.addListener(this);

@@ -1,9 +1,12 @@
 package org.neuroph.nnet.learning;
 
+import java.util.List;
+import org.neuroph.core.Connection;
 import org.neuroph.nnet.comp.layer.ConvolutionalLayer;
-import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
+import org.neuroph.core.transfer.TransferFunction;
 
 public class ConvolutionalBackpropagation extends MomentumBackpropagation {
 
@@ -11,18 +14,39 @@ public class ConvolutionalBackpropagation extends MomentumBackpropagation {
 
         @Override
 	protected void calculateErrorAndUpdateHiddenNeurons() {
-		Layer[] layers = neuralNetwork.getLayers();
-		for (int layerIdx = layers.length - 2; layerIdx > 0; layerIdx--) {
-			for (Neuron neuron : layers[layerIdx].getNeurons()) {
+		List<Layer> layers = neuralNetwork.getLayers();
+		for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
+			for (Neuron neuron : layers.get(layerIdx).getNeurons()) {
 				double neuronError = this.calculateHiddenNeuronError(neuron);
 				neuron.setError(neuronError);
-				if (layers[layerIdx] instanceof ConvolutionalLayer) { // if it is convolutional layer c=adapt weughts, dont touch pooling. Pooling just propagate the error
+				if (layers.get(layerIdx) instanceof ConvolutionalLayer) { // if it is convolutional layer c=adapt weughts, dont touch pooling. Pooling just propagate the error
 					this.updateNeuronWeights(neuron);
 				}
 			} // for
 		} // for
 	}
 
+        
+        // ova mora da se overriduje jer glavna uzima izvod //  ali ova treba samo za pooling sloj 
+    @Override     
+    protected double calculateHiddenNeuronError(Neuron neuron) {
+
+        // for convolutional layers use standard backprop formula
+        if (neuron.getParentLayer() instanceof ConvolutionalLayer ) {
+            return super.calculateHiddenNeuronError(neuron);
+        }
+                
+        // for pooling layer just transfer error without using tranfer function derivative
+        double deltaSum = 0d;
+        for (Connection connection : neuron.getOutConnections()) {
+            double delta = connection.getToNeuron().getError()
+                    * connection.getWeight().value;
+            deltaSum += delta; // weighted delta sum from the next layer
+        } // for
+
+       return deltaSum;
+    }        
+        
 //	@Override
 //	protected double calculateHiddenNeuronError(Neuron neuron) {
 //		double totalError = super.calculateHiddenNeuronError(neuron);

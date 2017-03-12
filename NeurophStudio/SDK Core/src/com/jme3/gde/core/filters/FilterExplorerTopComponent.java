@@ -57,6 +57,7 @@ import org.openide.windows.WindowManager;
 /**
  * Top component which displays something.
  */
+/*
 @ConvertAsProperties(dtd = "-//com.jme3.gde.core.filters//FilterExplorer//EN",
 autostore = false)
 @TopComponent.Description(preferredID = "FilterExplorerTopComponent",
@@ -64,10 +65,11 @@ iconBase = "com/jme3/gde/core/filters/icons/eye.gif",
 persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 @TopComponent.Registration(mode = "navigator", openAtStartup = false)
 @ActionID(category = "Window", id = "com.jme3.gde.core.filters.FilterExplorerTopComponent")
-@ActionReference(path = "Menu/Window" /*, position = 333 */)
+@ActionReference(path = "Menu/Window" )
 @TopComponent.OpenActionRegistration(displayName = "#CTL_FilterExplorerAction",
-preferredID = "FilterExplorerTopComponent")
+preferredID = "FilterExplorerTopComponent")*/
 @SuppressWarnings("unchecked")
+
 public final class FilterExplorerTopComponent extends TopComponent implements ExplorerManager.Provider {
 
     private static final Logger logger = Logger.getLogger(FilterExplorerTopComponent.class.getName());

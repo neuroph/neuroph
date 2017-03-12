@@ -19,15 +19,15 @@ package org.neuroph.nnet;
 import org.neuroph.core.Layer;
 import org.neuroph.core.input.WeightedSum;
 import org.neuroph.nnet.comp.ConvolutionalUtils;
-import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.nnet.comp.layer.*;
-import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
+import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
+import org.neuroph.core.transfer.TransferFunction;
+import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.nnet.comp.neuron.BiasNeuron;
-import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.util.ConnectionFactory;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
@@ -42,7 +42,7 @@ import org.neuroph.util.TransferFunctionType;
  * @author Zoran Sevarac
  * @see ConvolutionalBackpropagation
  */
-public class ConvolutionalNetwork extends NeuralNetwork<BackPropagation> {
+public class ConvolutionalNetwork extends NeuralNetwork<ConvolutionalBackpropagation> {
 
     private static final long serialVersionUID = -1393907449047650509L;
 
@@ -62,7 +62,7 @@ public class ConvolutionalNetwork extends NeuralNetwork<BackPropagation> {
         FeatureMapsLayer inputLayer = (FeatureMapsLayer) getLayerAt(0);
         int currentNeuron = 0;
         for (int i = 0; i < inputLayer.getNumberOfMaps(); i++) {
-            Layer2D map = inputLayer.getFeatureMap(i);
+            FeatureMapLayer map = inputLayer.getFeatureMap(i);
             for (Neuron neuron : map.getNeurons()) {
                 if (!(neuron instanceof BiasNeuron))
                     neuron.setInput(inputVector[currentNeuron++]);
@@ -81,27 +81,43 @@ public class ConvolutionalNetwork extends NeuralNetwork<BackPropagation> {
             DEFAULT_FULL_CONNECTED_NEURON_PROPERTIES.setProperty("inputFunction", WeightedSum.class);
         }
 
-        public Builder(Layer2D.Dimensions mapSize, int numberOfMaps) {
+        public Builder() {
             network = new ConvolutionalNetwork();
-            InputMapsLayer inputLayer = new InputMapsLayer(mapSize, numberOfMaps);
-            inputLayer.setLabel("Input Layer");
-            network.addLayer(inputLayer);
-
         }
+        
+        public Builder withInputLayer(int width, int height, int numberOfMaps) {
+            if (network.getLayersCount() > 0) throw new NeurophException("Input layer must be the first layer in network");
+            
+            InputMapsLayer inputLayer = new InputMapsLayer(new Dimension2D(width, height), numberOfMaps); 
+            inputLayer.setLabel("Input Layer");
+            network.addLayer(inputLayer); 
 
-        public Builder withConvolutionLayer(final Kernel convolutionKernel, int numberOfMaps) {
-            FeatureMapsLayer lastLayer = getLastFeatureMapLayer();
-            ConvolutionalLayer convolutionLayer = new ConvolutionalLayer(lastLayer, convolutionKernel, numberOfMaps);
+            return this;
+        }        
+
+        public Builder withConvolutionLayer(int kernelWidth, int kernelHeight, int numberOfMaps) {
+            FeatureMapsLayer prevLayer = getLastFeatureMapLayer();
+            ConvolutionalLayer convolutionLayer = new ConvolutionalLayer(prevLayer, new Dimension2D(kernelWidth, kernelHeight), numberOfMaps);
 
             network.addLayer(convolutionLayer);
-            ConvolutionalUtils.fullConnectMapLayers(lastLayer, convolutionLayer);
+            ConvolutionalUtils.fullConnectMapLayers(prevLayer, convolutionLayer);
 
             return this;
         }
+        
+        public Builder withConvolutionLayer(final Dimension2D kernelDimension, int numberOfMaps, Class<? extends TransferFunction> transferFunction) {
+            FeatureMapsLayer prevLayer = getLastFeatureMapLayer();
+            ConvolutionalLayer convolutionLayer = new ConvolutionalLayer(prevLayer, kernelDimension, numberOfMaps, transferFunction);
 
-        public Builder withPoolingLayer(final Kernel poolingKernel) {
+            network.addLayer(convolutionLayer);
+            ConvolutionalUtils.fullConnectMapLayers(prevLayer, convolutionLayer);
+
+            return this;
+        }        
+
+        public Builder withPoolingLayer(int width, int height) {
             FeatureMapsLayer lastLayer = getLastFeatureMapLayer();
-            PoolingLayer poolingLayer = new PoolingLayer(lastLayer, poolingKernel);
+            PoolingLayer poolingLayer = new PoolingLayer(lastLayer, new Dimension2D(width, height));
 
             network.addLayer(poolingLayer);
             ConvolutionalUtils.fullConnectMapLayers(lastLayer, poolingLayer);
@@ -115,16 +131,22 @@ public class ConvolutionalNetwork extends NeuralNetwork<BackPropagation> {
             Layer fullConnectedLayer = new Layer(numberOfNeurons, DEFAULT_FULL_CONNECTED_NEURON_PROPERTIES);
             network.addLayer(fullConnectedLayer);
 
-
             ConnectionFactory.fullConnect(lastLayer, fullConnectedLayer);
 
             return this;
         }
+        
+        public Builder withFullConnectedLayer(Layer layer) {
+            Layer lastLayer = getLastLayer();
+            network.addLayer(layer);
+            ConnectionFactory.fullConnect(lastLayer, layer);
+            return this;
+        }        
 
-        public ConvolutionalNetwork createNetwork() {
+        public ConvolutionalNetwork build() {
             network.setInputNeurons(network.getLayerAt(0).getNeurons());
             network.setOutputNeurons(getLastLayer().getNeurons());
-            network.setLearningRule(new MomentumBackpropagation());
+            network.setLearningRule(new ConvolutionalBackpropagation());
             return network;
         }
 

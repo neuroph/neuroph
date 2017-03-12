@@ -7,7 +7,7 @@ public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> 
 
     private String[] classLabels;
     ConfusionMatrix confusionMatrix;
-    private double threshold; // not used at the moment
+    private double threshold; // used for binary classifier
 
        
     private ClassifierEvaluator(String[] labels) {
@@ -50,12 +50,10 @@ public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> 
      */
     public static class Binary extends ClassifierEvaluator {
 
-        public static final String[] BINARY_CLASS_LABELS = new String[]{"False", "True"};
-        public static final int TRUE = 1;
-        public static final int FALSE = 0;
-
-        
-
+        public static final String[] BINARY_CLASS_LABELS = new String[]{"True", "False"};
+        public static final int TRUE = 0;
+        public static final int FALSE = 1;
+      
         public Binary(double threshold) {
             super(BINARY_CLASS_LABELS);
             setThreshold(threshold);

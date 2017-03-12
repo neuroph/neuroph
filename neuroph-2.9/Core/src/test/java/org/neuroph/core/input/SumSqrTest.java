@@ -1,9 +1,8 @@
 package org.neuroph.core.input;
 
-import org.junit.After;
-import org.junit.AfterClass;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.neuroph.core.Connection;
@@ -16,49 +15,39 @@ import org.neuroph.nnet.comp.neuron.InputNeuron;
  */
 public class SumSqrTest {
 
-    private SumSqr sumSqr;
-    private Connection[] inputConnections;
-    private InputNeuron[] inputNeurons;
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
+    private SumSqr instance;
+    private List<Connection> inputConnections;
+    private List <InputNeuron> inputNeurons;  
 
     @Before
     public void setUp() {
-        sumSqr = new SumSqr();
-        inputNeurons = new InputNeuron[4];
-        for (int i = 0; i < inputNeurons.length; i++) {
-            inputNeurons[i] = new InputNeuron();
+        instance = new SumSqr();
+        inputNeurons = new ArrayList<>(4);
+        for(int i=0; i<4; i++) {
+            inputNeurons.add(new InputNeuron());
         }
 
         Neuron toNeuron = new Neuron();
 
-        inputConnections = new Connection[4];
-        for (int i = 0; i < inputConnections.length; i++) {
-            inputConnections[i] = new Connection(inputNeurons[i], toNeuron, 1);
-            toNeuron.addInputConnection(inputConnections[i]);
+        inputConnections = new ArrayList<>(4);
+        for (int i = 0; i < 4; i++) {
+            Connection conn =new Connection(inputNeurons.get(i), toNeuron, 1);
+            inputConnections.add(conn);
+            toNeuron.addInputConnection(conn);
         }
     }
 
-    @After
-    public void tearDown() {
-    }
-
+    
     @Test
     public void testSumMultipleInputs() {
         double[] inputs = new double[]{.1, .4, .7, .9};
 
-        for (int i = 0; i < inputNeurons.length; i++) {
-            inputNeurons[i].setInput(inputs[i]);
-            inputNeurons[i].calculate();
+        for (int i = 0; i < inputNeurons.size(); i++) {
+            inputNeurons.get(i).setInput(inputs[i]);
+            inputNeurons.get(i).calculate();
         }
 
-        double output = sumSqr.getOutput(inputConnections);
+        double output = instance.getOutput(inputConnections);
         assertEquals(1.47, output, .00001);
     }
 
@@ -66,18 +55,18 @@ public class SumSqrTest {
     public void testNegatives() {
         double[] inputs = new double[]{.1, -.4, .7, -.9};
 
-        for (int i = 0; i < inputNeurons.length; i++) {
-            inputNeurons[i].setInput(inputs[i]);
-            inputNeurons[i].calculate();
+        for (int i = 0; i < inputNeurons.size(); i++) {
+            inputNeurons.get(i).setInput(inputs[i]);
+            inputNeurons.get(i).calculate();
         }
 
-        double output = sumSqr.getOutput(inputConnections);
+        double output = instance.getOutput(inputConnections);
         assertEquals(1.47, output, .00001);
     }
 
     @Test
     public void testNoInput() {
-        double output = sumSqr.getOutput(new Connection[0]);
+        double output = instance.getOutput(new ArrayList<Connection>());
         assertEquals(0, output, .001);
     }
 }

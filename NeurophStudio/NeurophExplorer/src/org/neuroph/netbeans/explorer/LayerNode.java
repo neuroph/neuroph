@@ -79,7 +79,7 @@ public class LayerNode extends AbstractNode {
 
         @Override
         public Children call() throws Exception {
-            if (key.getNeurons().length == 0) {
+            if (key.getNeurons().size() == 0) {
                 return Children.LEAF;
             } else {
                 // synchronous so that selection of members doesn't miss (if everything was not yet generated)

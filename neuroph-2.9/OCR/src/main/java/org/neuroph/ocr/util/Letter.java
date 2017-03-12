@@ -5,7 +5,9 @@
  */
 package org.neuroph.ocr.util;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
+import org.neuroph.ocr.util.histogram.Histogram;
 
 /**
  *
@@ -22,46 +24,80 @@ public class Letter {
 
     private int scanQuality;
     private int fontSize;
+    private BufferedImage image;
+    private int[] heightHistogram;
+    private int[] gradient;
 
-    public Letter(int scanQuality, int fontSize) {
+//    public Letter(int scanQuality, int fontSize) {
+//        this.scanQuality = scanQuality;
+//        this.fontSize = fontSize;
+//
+//        calculateDimensions();
+//        calculateSmallestSizeLetter();
+//        calculateLetterSize();
+//        calculateTrashsize();
+//        calculateSpaceGap();
+//    }
+    
+    public Letter(int scanQuality, BufferedImage image) {
         this.scanQuality = scanQuality;
-        this.fontSize = fontSize;
-
-        calculateDimensions();
+        this.image = image;    
+        heightHistogram = Histogram.heightHistogram(image);
+        gradient = Histogram.gradient(heightHistogram);
         calculateSmallestSizeLetter();
-        calculateLetterSize();
-        calculateTrashsize();
-        calculateSpaceGap();
+        List<Integer> rowHeights = OCRUtilities.rowHeights(gradient, smallestSizeLetter);
+        int meanHeight = (int) caluclateMean(rowHeights);
+        calculateDimensions(meanHeight);  
+        calculateLetterSize(meanHeight);
+        calculateSpaceGap(meanHeight);
+        
+        
     }
+    
 
-    private void calculateDimensions() {
-        cropWidth = 45;
-        cropHeight = 45;
+    private void calculateDimensions(int meanHeight) {
+        int offset = (int) (0.1*meanHeight);
+        cropWidth = meanHeight+offset;
+        cropHeight = meanHeight+offset;
     }
 
     private void calculateSmallestSizeLetter() {
-        smallestSizeLetter = 9;
+        if (scanQuality == 300) {
+            smallestSizeLetter = 9;
+        }
+        if (scanQuality == 600) {
+            smallestSizeLetter = 18;
+        }
+        if (scanQuality == 1200) {
+            smallestSizeLetter = 36;
+        }
+    }
+    
+   
+    
+    
+    
+
+    private void calculateLetterSize(int meanHeight) {
+        letterSize = meanHeight;
     }
 
-    private void calculateLetterSize() {
-        letterSize = 42;
+    private void calculateTrashsize(int meanHeight) {
+        int offset = (int) (0.1*meanHeight);
+        trashSize = meanHeight-offset;
     }
 
-    private void calculateTrashsize() {
-        trashSize = 35;
+    private void calculateSpaceGap(int meanHeight) {
+        spaceGap = (int) (0.3*meanHeight);
     }
 
-    private void calculateSpaceGap() {
-        spaceGap = 12;
-    }
-
-    /**
-     * If you want to recognize small characters as dots and comas. Otherwise
-     * the algorithm will ignore them.
-     */
-    public void recognizeDots() {
-        trashSize = 9;
-    }
+//    /**
+//     * If you want to recognize small characters as dots and comas. Otherwise
+//     * the algorithm will ignore them.
+//     */
+//    public void recognizeDots() {
+//        trashSize = 9;
+//    }
 
     /**
      * @return height of the image with single character.
@@ -129,6 +165,44 @@ public class Letter {
     public int getFontSize() {
         return fontSize;
     }
+
+    public void setCropHeight(int cropHeight) {
+        this.cropHeight = cropHeight;
+    }
+
+    public void setCropWidth(int cropWidth) {
+        this.cropWidth = cropWidth;
+    }
+
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
+    }
+
+    public void setLetterSize(int letterSize) {
+        this.letterSize = letterSize;
+    }
+
+    public void setSmallestSizeLetter(int smallestSizeLetter) {
+        this.smallestSizeLetter = smallestSizeLetter;
+    }
+
+    public void setSpaceGap(int spaceGap) {
+        this.spaceGap = spaceGap;
+    }
+
+    public void setTrashSize(int trashSize) {
+        this.trashSize = trashSize;
+    }
+
+    private double caluclateMean(List<Integer> list) {
+        double sum = 0;
+        for (Integer element : list) {
+            sum+=element;
+        }
+        return sum/list.size();
+    }
+
+    
     
     
 

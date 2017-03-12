@@ -25,11 +25,11 @@ public class Histogram {
 
         int[] histogram = new int[height];
         int black = 0;
-        Color color;
+        int color;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                color = new Color(image.getRGB(j, i));
-                if (color == Color.BLACK) {
+                color = new Color(image.getRGB(j, i)).getRed();
+                if (color == black) {
                     histogram[i]++;
                 }
             }

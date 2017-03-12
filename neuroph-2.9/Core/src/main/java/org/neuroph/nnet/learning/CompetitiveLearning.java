@@ -17,6 +17,7 @@
 package org.neuroph.nnet.learning;
 
 
+import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.learning.UnsupervisedLearning;
@@ -68,7 +69,7 @@ public class CompetitiveLearning extends UnsupervisedLearning {
 		CompetitiveNeuron winningNeuron = ((CompetitiveLayer) neuralNetwork
 				.getLayerAt(1)).getWinner();
 
-		Connection[] inputConnections = winningNeuron
+		List<Connection> inputConnections = winningNeuron
 				.getConnectionsFromOtherLayers();
 
 		for(Connection connection : inputConnections) {

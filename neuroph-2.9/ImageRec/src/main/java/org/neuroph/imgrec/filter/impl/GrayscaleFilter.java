@@ -27,21 +27,15 @@ public class GrayscaleFilter implements ImageFilter,Serializable {
 
     @Override
     public BufferedImage processImage(BufferedImage image) {
-
         originalImage = image;
-
         int alpha;
         int red;
         int green;
         int blue;
-
         int gray;
-
         int width = originalImage.getWidth();
         int height = originalImage.getHeight();
-
         filteredImage = new BufferedImage(width, height, originalImage.getType());
-
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
 
@@ -55,17 +49,12 @@ public class GrayscaleFilter implements ImageFilter,Serializable {
                 gray = ImageUtilities.colorToRGB(alpha, gray, gray, gray);
 
                 filteredImage.setRGB(i, j, gray);
-
             }
         }
-
         return filteredImage;
     }
-
     @Override
     public String toString() {
         return "Grayscale Filter";
     }
-    
-    
 }

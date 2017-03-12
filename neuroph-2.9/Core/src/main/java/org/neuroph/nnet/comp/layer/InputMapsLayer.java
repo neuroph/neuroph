@@ -17,6 +17,7 @@
 package org.neuroph.nnet.comp.layer;
 
 import org.neuroph.core.transfer.Linear;
+import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.nnet.comp.neuron.InputNeuron;
 import org.neuroph.util.NeuronProperties;
 
@@ -45,8 +46,13 @@ public class InputMapsLayer extends FeatureMapsLayer {
      * @param mapDimension dimensions of a single feature map
      * @param mapCount  number of feature maps
      */
-    public InputMapsLayer( Layer2D.Dimensions mapDimensions, int mapCount) {
-        super(null, mapDimensions, mapCount, InputMapsLayer.DEFAULT_NEURON_PROP );
+    public InputMapsLayer( Dimension2D mapDimensions, int mapCount) {
+        super(mapDimensions, mapCount, InputMapsLayer.DEFAULT_NEURON_PROP );
+    }
+
+    @Override
+    public void connectMaps(FeatureMapLayer fromMap, FeatureMapLayer toMap) {
+       // does nothing
     }
     
     

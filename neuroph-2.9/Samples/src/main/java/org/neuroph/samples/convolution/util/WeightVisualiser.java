@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 import org.neuroph.nnet.comp.Kernel;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
@@ -25,13 +25,13 @@ public class WeightVisualiser {
 	private List<List<Double>> featureDetector;
 	private Kernel kernel;
 
-	public WeightVisualiser(Layer2D map, Kernel kernel) {
+	public WeightVisualiser(FeatureMapLayer map, Kernel kernel) {
 		this.kernel = kernel;
 		this.featureDetector = new ArrayList<>();
 		initWeights(map);
 	}
 
-	private void initWeights(Layer2D map) {
+	private void initWeights(FeatureMapLayer map) {
 		List<Double> weights = new ArrayList<>();
 		Neuron neuron = map.getNeuronAt(0);
 		int counter = 0;

@@ -1,18 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.neuroph</groupId>
-    <artifactId>Neuroph</artifactId>
-    <version>2.9</version>
-    <packaging>pom</packaging>
-    <name>Neuroph</name>
-    <modules>
-        <module>Core</module>
-        <module>Samples</module>
-        <module>ImageRec</module>
-        <module>OCR</module>
-        <module>Contrib</module>
-        <module>Adapters</module>
-    </modules>
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.neuroph</groupId>
+   <artifactId>Neuroph</artifactId>
+   <version>2.92</version>
+   <packaging>pom</packaging>
+
+   <name>Neuroph</name>
+   <modules>
+      <module>Core</module>
+      <module>Samples</module>
+      <module>ImageRec</module>
+      <module>OCR</module>
+      <module>Contrib</module>
+      <module>Adapters</module>
+   </modules>
+
+   <organization>
+      <name>Neuroph Project</name>
+      <url>http://neuroph.sourceforge.net/</url>
+   </organization>
+   <developers>
+      <developer>
+         <name>Zoran Sevarac</name>
+         <email>sevarac@gmail.com</email>
+         <organization>Neuroph</organization>
+         <organizationUrl>http://neuroph.sourceforge.net/</organizationUrl>
+      </developer>
+   </developers>
+
+   <properties>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.target>1.8</maven.compiler.target>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+      <encoding>UTF-8</encoding>
+      <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
+   </properties>
+
+   <repositories>
+      <repository>
+         <id>neuroph.sourceforge.net</id>
+         <url>http://neuroph.sourceforge.net/maven2/</url>
+      </repository>
+   </repositories>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.4</version>
+            <executions>
+               <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                     <goal>jar-no-fork</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.10.3</version>
+            <executions>
+               <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
 </project>

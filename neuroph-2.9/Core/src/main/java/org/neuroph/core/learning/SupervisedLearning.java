@@ -17,6 +17,7 @@ package org.neuroph.core.learning;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.List;
 
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
@@ -187,7 +188,11 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         double[] output = this.neuralNetwork.getOutput();
         double[] desiredOutput = trainingElement.getDesiredOutput();
         double[] patternError = errorFunction.calculatePatternError(output, desiredOutput);
-        this.updateNetworkWeights(patternError);
+        this.calculateWeightChanges(patternError);
+        
+        if (!batchMode) {
+            applyWeightChanges();
+        }
     }
 
     /**
@@ -198,10 +203,10 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      */
     protected void doBatchWeightsUpdate() {
         // iterate layers from output to input
-        Layer[] layers = neuralNetwork.getLayers();
+        List<Layer> layers = neuralNetwork.getLayers();
         for (int i = neuralNetwork.getLayersCount() - 1; i > 0; i--) {
             // iterate neurons at each layer
-            for (Neuron neuron : layers[i].getNeurons()) {
+            for (Neuron neuron : layers.get(i).getNeurons()) {
                 // iterate connections/weights for each neuron
                 for (Connection connection : neuron.getInputConnections()) {
                     // for each connection weight apply accumulated weight change
@@ -361,5 +366,21 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      * @param outputError output error vector for some network input (aka. patternError, network error)
      *                    usually the difference between desired and actual output
      */
-    abstract protected void updateNetworkWeights(double[] outputError);
+    abstract protected void calculateWeightChanges(double[] outputError);
+
+    private void applyWeightChanges() {
+        List<Layer> layers = neuralNetwork.getLayers();
+        for (int i = neuralNetwork.getLayersCount() - 1; i > 0; i--) {
+            // iterate neurons at each layer
+            for (Neuron neuron : layers.get(i).getNeurons()) {
+                // iterate connections/weights for each neuron
+                for (Connection connection : neuron.getInputConnections()) {
+                    // for each connection weight apply accumulated weight change
+                    Weight weight = connection.getWeight();
+                    weight.value += weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                    weight.weightChange = 0; // reset deltaWeight
+                }
+            }
+        }
+    }
 }

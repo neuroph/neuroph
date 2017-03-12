@@ -5,20 +5,13 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Iterator;
-import org.neuroph.contrib.eval.ClassificationEvaluator;
-import org.neuroph.contrib.eval.ErrorEvaluator;
-import org.neuroph.contrib.eval.Evaluation;
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.netbeans.visual.NeuralNetAndDataSet;
 import org.neuroph.netbeans.main.easyneurons.TestTopComponent;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
-import org.openide.windows.IOProvider;
 
 /**
  *

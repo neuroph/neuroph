@@ -37,7 +37,7 @@ public class VectorParser {
 	 */
 	static public ArrayList<Integer> parseInteger(String str) {
 		StringTokenizer tok = new StringTokenizer(str);
-		ArrayList<Integer> ret = new ArrayList<>();
+		ArrayList<Integer> ret = new ArrayList<Integer>();
 		while (tok.hasMoreTokens()) {
 			Integer d = Integer.valueOf(tok.nextToken());
 			ret.add(d);
@@ -72,7 +72,7 @@ public class VectorParser {
 	}
 
 	public static ArrayList<Double> convertToVector(double[] array) {
-		ArrayList<Double> vector = new ArrayList<>(array.length);
+		ArrayList<Double> vector = new ArrayList<Double>(array.length);
 
 		for (double val : array) {
 			vector.add(val);

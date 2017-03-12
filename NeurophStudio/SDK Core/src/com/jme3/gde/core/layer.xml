@@ -66,14 +66,7 @@
         </folder>
     </folder>
     <folder name="Menu">
-        <folder name="Window">
-            <file name="SceneExplorerAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/com-jme3-gde-core-sceneexplorer-SceneExplorerAction.instance"/>
-            </file>
-            <file name="SceneViewerAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/com-jme3-gde-core-sceneviewer-SceneViewerAction.instance"/>
-            </file>
-        </folder>
+        <folder name="Window"/>
         <folder name="File">
             <folder name="Import">
                 <file name="CodelessProject.shadow">
@@ -81,26 +74,6 @@
                     <attr name="position" intvalue="0"/>
                 </file>
             </folder>
-        </folder>
-        <folder name="Help">
-            <file name="com-jme3-gde-core-errorreport-RendererInfoAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/jMonkeyPlatform/com-jme3-gde-core-errorreport-RendererInfoAction.instance"/>
-                <attr name="position" intvalue="1225"/>
-            </file>
-            <file name="jmewiki.url" url="jmewiki.url">
-                <attr name="SystemFileSystem.localizingBundle" stringvalue="com.jme3.gde.core.Bundle"/>
-                <attr name="displayName" bundlevalue="com.jme3.gde.core.Bundle#Menu/Help/jmewiki.url"/>
-                <attr name="position" intvalue="200"/>
-            </file>
-            <file name="help-main.xml" url="help-main.xml">
-                <attr name="SystemFileSystem.localizingBundle" stringvalue="com.jme3.gde.core.Bundle"/>
-                <attr name="displayName" bundlevalue="com.jme3.gde.core.Bundle#Menu/Help/help-main.xml"/>
-                <attr name="position" intvalue="100"/>
-            </file>
-            <file name="org-netbeans-modules-usersguide-master.xml_hidden"/>
-            <file name="shortcuts.xml_hidden"/>
-            <file name="netbeans-kb.url_hidden"/>
-            <file name="org-netbeans-modules-bugzilla-ReportNBIssueAction.shadow_hidden"/>
         </folder>
     </folder>
     <!--TODO: Lookup for SceneViewer-->
@@ -333,10 +306,7 @@
         </folder>
     </folder>
     <folder name="Windows2">
-        <folder name="Components">
-            <file name="SceneExplorerTopComponent.settings" url="SceneExplorerTopComponentSettings.xml"/>
-            <file name="SceneViewerTopComponent.settings" url="SceneViewerTopComponentSettings.xml"/>
-        </folder>
+        <folder name="Components"/>
         <folder name="Modes">
             <folder name="editor">
                 <file name="SceneViewerTopComponent.wstcref" url="SceneViewerTopComponentWstcref.xml"/>

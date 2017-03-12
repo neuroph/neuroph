@@ -28,6 +28,7 @@
         </folder>
     </folder>
     <folder name="Menu">
+        <file name="BuildProject_hidden"/>
         <folder name="File">
             <attr name="position" intvalue="100"/>
             <file name="Import_hidden"/>
@@ -44,6 +45,7 @@
             <file name="SeparatorAfterFindPrevious.instance_hidden"/>
             <file name="SeparatorAfterProjectsSearch.instance_hidden"/>
             <file name="WhereUsedAction.shadow_hidden"/>
+            <file name="clipboard-history.shadow_hidden"/>
             <file name="org-netbeans-modules-editor-MainMenuAction$FindNextAction.instance_hidden"/>
             <file name="org-netbeans-modules-editor-MainMenuAction$FindPreviousAction.instance_hidden"/>
             <file name="org-netbeans-modules-editor-MainMenuAction$FindSelectionAction.instance_hidden"/>
@@ -57,28 +59,54 @@
             <file name="org-openide-actions-ReplaceAction.shadow_hidden"/>
             <file name="sep-before-reposearch.instance_hidden"/>
         </folder>
+        <file name="GoTo_hidden"/>
+        <folder name="Help">
+            <file name="Separator1.instance_hidden"/>
+            <file name="SeparatorAfterJavadoc.instance_hidden"/>
+            <file name="netbeans-kb.url_hidden"/>
+            <file name="org-netbeans-modules-bugzilla-ReportNBIssueAction.shadow_hidden_hidden"/>
+            <file name="org-netbeans-modules-javadoc-search-IndexOverviewAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-javadoc-search-SearchDocAction.shadow_hidden"/>
+            <file name="shortcuts.xml_hidden"/>
+        </folder>
+        <file name="Refactoring_hidden"/>
+        <file name="RunProject_hidden"/>
+        <file name="Source_hidden"/>
+        <file name="Versioning_hidden"/>
         <folder name="View">
             <attr name="position" intvalue="250"/>
             <file name="Separator1.instance_hidden"/>
             <file name="Separator2.instance_hidden"/>
             <file name="Separator3.instance_hidden"/>
+            <file name="ShowEditorOnlyAction.shadow_hidden"/>
             <file name="org-netbeans-core-actions-HTMLViewAction.shadow_hidden"/>
             <file name="org-netbeans-core-multiview-EditorsAction.instance_hidden"/>
+            <file name="org-netbeans-core-multiview-SplitAction.instance_hidden"/>
             <file name="org-netbeans-modules-editor-NbCodeFoldingAction.instance_hidden"/>
             <file name="org-netbeans-modules-project-ui-SyncEditorWithViewsAction.shadow_hidden"/>
             <file name="org-netbeans-modules-versioning-ShowTextAnnotationsAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-versioning-core-ShowTextAnnotationsAction.shadow_hidden"/>
             <file name="org-netbeans-modules-versioning-diff-ShowDiffSidebarAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-versioning-ui-diff-ShowDiffSidebarAction.shadow_hidden"/>
+            <file name="toggle-breadcrumbs-view.shadow_hidden"/>
             <file name="toggle-line-numbers.shadow_hidden"/>
+            <file name="toggle-lines-view.shadow_hidden"/>
+            <file name="toggle-non-printable-characters.shadow_hidden"/>
+            <file name="toggle-toolbar.shadow_hidden"/>
         </folder>
         <folder name="Tools">
             <file name="I18N_hidden"/>
+            <file name="JavaPlatformsCustomizerAction.shadow_hidden"/>
             <file name="LibrariesCustomizerAction.shadow_hidden"/>
             <file name="PaletteManager_hidden"/>
             <file name="Separator1.instance_hidden"/>
             <file name="ServerManagerAction3.shadow_hidden"/>
             <file name="VariablesCustomizerAction.shadow_hidden"/>
             <file name="org-netbeans-modules-favorites-templates-TemplatesAction.shadow_hidden"/>
+            <file name="org-netbeans-modules-options-OptionsWindowAction-separatorBefore.instance_hidden"/>
+            <file name="org-netbeans-modules-templates-actions-TemplatesAction.shadow_hidden"/>
             <file name="org-netbeans-modules-xml-catalog-CatalogAction.shadow_hidden"/>
+            <file name="org-openide-actions-ToolsAction.shadow_hidden"/>
         </folder>
         <folder name="Window">
                 <file name="TestAction.shadow">
@@ -86,29 +114,90 @@
             </file>
         </folder>
     </folder>
+    <folder name="OptionsDialog">
+        <folder name="Advanced">
+            <file name="Diff.instance_hidden"/>
+            <file name="org-netbeans-core-ui-options-filetypes-FileAssociationsOptionsPanelController.instance_hidden"/>
+        </folder>
+        <file name="Editor.instance_hidden"/>
+        <file name="Editor_hidden"/>
+        <file name="FontsAndColors.instance_hidden"/>
+        <file name="Java.instance_hidden"/>
+        <file name="Java_hidden"/>
+        <file name="Keymaps.instance_hidden"/>
+        <file name="PreviewExamples_hidden"/>
+        <file name="Team.instance_hidden"/>
+        <file name="Team_hidden"/>
+    </folder>
     <folder name="Templates">
+        <file name="AWTForms_hidden"/>
+        <file name="Beans_hidden"/>
+        <file name="Classes_hidden"/>
+        <file name="ClientSide_hidden"/>
+        <file name="GUIForms_hidden"/>
+        <file name="Hibernate_hidden"/>
+        <file name="Licenses_hidden"/>
+        <file name="OSGi_hidden"/>
+        <file name="Other_hidden"/>
+        <file name="Persistence_hidden"/>
         <folder name="Project">
+            <file name="Import_hidden"/>
+            <file name="Maven2_hidden"/>
             <folder name="Samples">
+                <file name="JavaFX_hidden"/>
                 <file name="Standard_hidden"/>
             </folder>
-            <folder name="Standard">
-                <file name="j2sefreeform.xml_hidden"/>
-            </folder>
+            <file name="Standard_hidden"/>
         </folder>
+        <file name="Properties_hidden"/>
+        <file name="SpringFramework_hidden"/>
+        <file name="UnitTests_hidden"/>
+        <file name="XML_hidden"/>
     </folder>
     <folder name="Toolbars">
+        <file name="Build_hidden"/>
+        <file name="Clipboard_hidden"/>
+        <file name="Debug_hidden"/>
+        <file name="Debugging.xml_hidden"/>
         <file name="Standard.xml" url="Standard.xml"/>
+        <file name="UndoRedo_hidden"/>
     </folder>
     <folder name="Windows2">
         <folder name="Components">
+            <file name="ASTBrowserTopComponent.settings_hidden"/>
+            <file name="AnalysisResultTopComponent.settings_hidden"/>
+            <file name="AnalyzeStackTopComponent.settings_hidden"/>
+            <file name="AnalyzerTopComponent.settings_hidden"/>
+            <file name="AppStateExplorerTopComponent.settings_hidden"/>
             <file name="BasicNeuronSampleTopComponent.settings" url="BasicNeuronSampleTopComponentSettings.xml"/>
+            <file name="CallHierarchyTopComponent.settings_hidden"/>
+            <file name="CssStylesTC.settings_hidden"/>
+            <file name="DashboardTopComponent.settings_hidden"/>
+            <file name="FilterExplorerTopComponent.settings_hidden"/>
+            <file name="GitRepositories.settings_hidden"/>
+            <file name="GitVersioning.settings_hidden"/>
             <file name="GraphFrameTopComponent.settings" url="GraphFrameTopComponentSettings.xml"/>
+            <file name="HQLEditorTopComponent.settings_hidden"/>
+            <file name="JavaHierarchyTopComponent.settings_hidden"/>
+            <file name="JavadocTopComponent.settings_hidden"/>
             <file name="KohonenSampleTopComponent.settings" url="KohonenSampleTopComponentSettings.xml"/>
             <file name="MultiLayerPerceptronSampleTopComponent.settings" url="MultiLayerPerceptronSampleTopComponentSettings.xml"/>
             <file name="NFRSampleTopComponent.settings" url="NFRSampleTopComponentSettings.xml"/>
             <file name="PerceptronSampleFrameTopComponent.settings" url="PerceptronSampleFrameTopComponentSettings.xml"/>
+            <file name="ReporterResultTopComponent.settings_hidden"/>
+            <file name="SceneEditorTopComponent.settings_hidden"/>
+            <file name="SceneExplorerTopComponent.settings_hidden"/>
+            <file name="SceneViewerTopComponent.settings_hidden"/>
             <file name="SupervisedTrainingMonitorTopComponent.settings" url="SupervisedTrainingMonitorTopComponentSettings.xml"/>
+            <file name="TaskListTopComponent.settings_hidden"/>
             <file name="TestTopComponent.settings" url="TestTopComponentSettings.xml"/>
+            <file name="TokensBrowserTopComponent.settings_hidden"/>
+            <file name="bookmarks.settings_hidden"/>
+            <file name="breakpointsView.settings_hidden"/>
+            <file name="callstackView.settings_hidden"/>
+            <file name="debuggingView.settings_hidden"/>
+            <file name="favorites.settings_hidden"/>
+            <file name="services.settings_hidden"/>
         </folder>
         <folder name="Modes">
             <folder name="editor">

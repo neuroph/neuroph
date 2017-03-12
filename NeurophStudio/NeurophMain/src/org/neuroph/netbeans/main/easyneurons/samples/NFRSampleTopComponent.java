@@ -318,7 +318,9 @@ public final class NFRSampleTopComponent extends TopComponent {
 }//GEN-LAST:event_classifyButtonMousePressed
 
     private void trainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trainButtonActionPerformed
-        controller.getNetwork().learnInNewThread(controller.getDataSet());
+        controller.getNetwork().learn(controller.getDataSet());
+        
+        
 }//GEN-LAST:event_trainButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

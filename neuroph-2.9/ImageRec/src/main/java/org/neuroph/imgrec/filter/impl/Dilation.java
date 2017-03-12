@@ -14,7 +14,8 @@ import org.neuroph.imgrec.ImageUtilities;
 import org.neuroph.imgrec.filter.ImageFilter;
 
 /**
- *
+ * Dilation filter is used for making lines on the image little bit wider. It convolves through whole image
+ * and every black pixel replaces with 9 pixels. 
  * @author Mihailo Stupar
  */
 public class Dilation implements ImageFilter,Serializable{

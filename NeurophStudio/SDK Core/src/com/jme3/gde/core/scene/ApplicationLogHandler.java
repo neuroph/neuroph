@@ -68,11 +68,11 @@ public class ApplicationLogHandler extends Handler implements Callable<JButton> 
             super(name, level, string);
         }
     }
-    InputOutput io;
+ //   InputOutput io;
     JmeFormatter formatter = new JmeFormatter();
     ActionListener listener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            io.select();
+   //         io.select();
         }
     };
     Action levelFine = new AbstractAction() {
@@ -104,8 +104,8 @@ public class ApplicationLogHandler extends Handler implements Callable<JButton> 
         levelFine.putValue(Action.SHORT_DESCRIPTION, "Set Fine Logging Level");
         levelInfo.putValue(Action.SHORT_DESCRIPTION, "Set Normal Logging Level");
         levelWarning.putValue(Action.SHORT_DESCRIPTION, "Set Warning Logging Level");
-        io = IOProvider.getDefault().getIO("JMonkeyEngine Logs", new Action[]{levelFine, levelInfo});
-        io.setErrSeparated(true);
+     //   io = IOProvider.getDefault().getIO("NetBeans Platform Logs", new Action[]{levelFine, levelInfo});
+       // io.setErrSeparated(true);
     }
 
     @Override
@@ -114,22 +114,22 @@ public class ApplicationLogHandler extends Handler implements Callable<JButton> 
             Throwable thrown = record.getThrown();
             if (thrown != null) {
                 NotifyUtil.error(thrown);
-                thrown.printStackTrace(io.getErr());
+         //       thrown.printStackTrace(io.getErr());
             } else {
                 NotifyUtil.show("Error", formatter.format(record), MessageType.ERROR, listener, 0);
-                io.getErr().println(formatter.formatMessage(record));
+           //     io.getErr().println(formatter.formatMessage(record));
             }
         } else if (record.getLevel().equals(Level.WARNING)) {
             NotifyUtil.show("Warning", formatter.formatMessage(record), MessageType.WARNING, listener, 10000);
-            io.getErr().println(formatter.formatMessage(record));
+            //io.getErr().println(formatter.formatMessage(record));
         } else if (record.getLevel().intValue() > 800) {
             //larger than INFO:
             NotifyUtil.show("Info", formatter.formatMessage(record), MessageType.INFO, listener, 6000);
-            io.getOut().println(formatter.formatMessage(record));
+//            io.getOut().println(formatter.formatMessage(record));
         } else if (record.getLevel().equals(Level.INFO)) {
-            io.getOut().println(formatter.formatMessage(record));
+        //    io.getOut().println(formatter.formatMessage(record));
         } else {
-            io.getOut().println(formatter.formatMessage(record));
+      //      io.getOut().println(formatter.formatMessage(record));
         }
     }
 
@@ -143,7 +143,7 @@ public class ApplicationLogHandler extends Handler implements Callable<JButton> 
 
     @Override
     public void close() throws SecurityException {
-        io.getOut().close();
-        io.getErr().close();
+  //      io.getOut().close();
+    //    io.getErr().close();
     }
 }

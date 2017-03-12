@@ -16,7 +16,7 @@ import org.nugs.graph2d.api.Attribute;
 public class ErrorDataProvider2D implements DataProvider2D {
 
     DataSet dataSet;
-    NeuralNetwork nnet;
+    NeuralNetwork<?> neuralNet;
     Point2D[] error;
 
     public ErrorDataProvider2D() {
@@ -24,7 +24,7 @@ public class ErrorDataProvider2D implements DataProvider2D {
 
     public ErrorDataProvider2D(DataSet dataSet, NeuralNetwork nnet) {
         this.dataSet = dataSet;
-        this.nnet = nnet;
+        this.neuralNet = nnet;
     }
 
     @Override
@@ -34,9 +34,9 @@ public class ErrorDataProvider2D implements DataProvider2D {
         List<DataSetRow> rows = dataSet.getRows();
         for (int i = 0; i < rows.size(); i++) {
             DataSetRow row = rows.get(i);
-            nnet.setInput(row.getInput());
-            nnet.calculate();
-            Neuron outputNeuron = nnet.getOutputNeurons()[0];
+            neuralNet.setInput(row.getInput());
+            neuralNet.calculate();
+            Neuron outputNeuron = neuralNet.getOutputNeurons().get(0);
             double err = row.getDesiredOutput()[0] - outputNeuron.getOutput();
             error[i + 1] = new Point2D.Double(i + 1, err);
         }

@@ -94,10 +94,10 @@ public class ImageRecognitionHelper {
          * @param imageLabels image labels
          */
 	private static void assignLabelsToOutputNeurons(NeuralNetwork neuralNetwork, List<String> imageLabels) {
-		Neuron[] outputNeurons = neuralNetwork.getOutputNeurons();
+		List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
 		
-		for(int i=0; i<outputNeurons.length; i++) {
-			Neuron neuron = outputNeurons[i];
+		for(int i=0; i<outputNeurons.size(); i++) {
+			Neuron neuron = outputNeurons.get(i);
 			String label = imageLabels.get(i);
 			neuron.setLabel(label);
 		}

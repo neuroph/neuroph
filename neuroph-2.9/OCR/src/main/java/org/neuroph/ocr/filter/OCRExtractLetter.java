@@ -32,7 +32,7 @@ public class OCRExtractLetter {
     }
 
     /**
-     * You <b>MUST</b> set three parameters<br/>
+     * You <b>must</b> set three parameters<br/>
      * 1. cropWidth<br/>
      * 2. cropHeight<br/>
      * 3. trashSize
@@ -77,13 +77,8 @@ public class OCRExtractLetter {
     public BufferedImage extraxtLetter(BufferedImage image, boolean[][] visited, int startX, int startY) {
         int gapWidth = cropWidth / 5 * 2;  //start x coordinate of letter, 2/5 itended
         int gapHeight = cropHeight / 5 * 2;  //start y coordinate of letter 
-
         LinkedList<String> queue = new LinkedList<String>();
-
         BufferedImage letter = new BufferedImage(cropWidth, cropHeight, image.getType());
-//        int alpha = new Color(image.getRGB(startX, startY)).getAlpha();
-//        int white = ImageUtilities.colorToRGB(alpha, 255, 255, 255);
-//        int black = ImageUtilities.colorToRGB(alpha, 0, 0, 0);\
         Color white = Color.WHITE;
         Color black = Color.BLACK;
 
@@ -93,7 +88,6 @@ public class OCRExtractLetter {
                 letter.setRGB(j, i, white.getRGB());
             }
         }
-
         int countPixels = 0; // ignore dots
         String positions = startX + " " + startY;
         visited[startX][startY] = true;
@@ -133,7 +127,6 @@ public class OCRExtractLetter {
 
             return null;
         }
-
         return letter;
     }
 

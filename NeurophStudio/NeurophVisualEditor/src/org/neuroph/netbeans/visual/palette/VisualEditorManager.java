@@ -88,7 +88,7 @@ public class VisualEditorManager {
 
         for (int i = 0; i < neurons.size(); i++) { // iterate from neurons 
             for (int j = 0; j < neurons.size(); j++) { // iterate to neurons
-                Connection[] inputConnections = neurons.get(j).getInputConnections(); // get all input connections for current neuron
+                Connection[] inputConnections = neurons.get(j).getInputConnections().toArray(new Connection[0]); // get all input connections for current neuron
                 for (int k = 0; k < inputConnections.length; k++) { // iterate all input connections
                     if (inputConnections[k].getFromNeuron() == neurons.get(i)) {
                         NeuronConnectionWidget connWidget = new NeuronConnectionWidget(neuralNetWidget.getScene(), inputConnections[k], neuronWidgets.get(i), neuronWidgets.get(j));

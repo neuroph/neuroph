@@ -100,9 +100,9 @@ public class WekaNeurophSample {
             MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(4, 16, 3);
 
             // set labels manualy
-            neuralNet.getOutputNeurons()[0].setLabel("Setosa");
-            neuralNet.getOutputNeurons()[1].setLabel("Versicolor");
-            neuralNet.getOutputNeurons()[2].setLabel("Virginica");
+            neuralNet.getOutputNeurons().get(0).setLabel("Setosa");
+            neuralNet.getOutputNeurons().get(1).setLabel("Versicolor");
+            neuralNet.getOutputNeurons().get(2).setLabel("Virginica");
 
             // initialize NeurophWekaClassifier
             WekaNeurophClassifier neurophWekaClassifier = new WekaNeurophClassifier(neuralNet);

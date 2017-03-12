@@ -21,6 +21,7 @@ package org.neuroph.core.events;
  * NeuralNetworkEvent class holds the information about event.
 * @author Zoran Sevarac <sevarac@gmail.com>
  */
+@FunctionalInterface
 public interface NeuralNetworkEventListener extends  java.util.EventListener {
     
       public void handleNeuralNetworkEvent(NeuralNetworkEvent event);

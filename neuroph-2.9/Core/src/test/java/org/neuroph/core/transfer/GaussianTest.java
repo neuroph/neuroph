@@ -22,7 +22,7 @@ public class GaussianTest {
     Gaussian instance;
     double input;
     double expected;
-    double expected_derivative;
+    double expectedDerivative;
 
     @Parameters
     public static Collection getParameters() {
@@ -39,18 +39,10 @@ public class GaussianTest {
                     {.9, .6669768108, -.60027991},});
     }
 
-    public GaussianTest(double input, double expected, double expected_derivative) {
+    public GaussianTest(double input, double expected, double expectedDerivative) {
         this.expected = expected;
         this.input = input;
-        this.expected_derivative = expected_derivative;
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
+        this.expectedDerivative = expectedDerivative;
     }
 
     @Before
@@ -78,8 +70,8 @@ public class GaussianTest {
     @Test
     public void testGetDerivative() {
         double expResult = 0.0;
-      //  double out = instance.getOutput(input);
+        double out = instance.getOutput(input);
         double result = instance.getDerivative(input);
-        assertEquals(expected_derivative, result, 0.0001);
+        assertEquals(expectedDerivative, result, 0.0001);
     }
 }

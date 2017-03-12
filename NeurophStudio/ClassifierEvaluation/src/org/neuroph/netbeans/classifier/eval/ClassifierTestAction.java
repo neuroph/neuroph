@@ -2,8 +2,8 @@ package org.neuroph.netbeans.classifier.eval;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.neuroph.contrib.eval.ClassificationEvaluator;
 import org.neuroph.contrib.eval.ErrorEvaluator;
+import org.neuroph.contrib.eval.ClassifierEvaluator;
 import org.neuroph.contrib.eval.Evaluation;
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.classification.ConfusionMatrix;
@@ -42,7 +42,7 @@ public final class ClassifierTestAction implements ActionListener {
         
        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Evaluating classifier neural network "/*+trainingController.getNetwork().getLabel() +" for data set "/*+trainingController.getDataSet().getLabel()*/);        
 
-       NeuralNetwork neuralNet = trainingController.getNetwork();
+       NeuralNetwork<?> neuralNet = trainingController.getNetwork();
        DataSet dataSet = trainingController.getDataSet();
        
    
@@ -58,13 +58,13 @@ public final class ClassifierTestAction implements ActionListener {
 
         Evaluation evaluation = new Evaluation();
         evaluation.addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
-        evaluation.addEvaluator(new ClassificationEvaluator.MultiClass(classNames));
+        evaluation.addEvaluator(new ClassifierEvaluator.MultiClass(classNames));
     
         evaluation.evaluateDataSet(trainingController.getNetwork(), trainingController.getDataSet());
         
         TestTopComponent.getDefault().output("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult()+"\r\n");
                 
-        ClassificationEvaluator evaluator = evaluation.getEvaluator(ClassificationEvaluator.MultiClass.class);
+        ClassifierEvaluator evaluator = evaluation.getEvaluator(ClassifierEvaluator.MultiClass.class);
         ConfusionMatrix confusionMatrix = evaluator.getResult();  
         
         TestTopComponent.getDefault().output("Confusion matrrix:\r\n");

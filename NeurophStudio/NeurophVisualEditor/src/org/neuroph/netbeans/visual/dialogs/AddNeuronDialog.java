@@ -255,7 +255,7 @@ public class AddNeuronDialog extends javax.swing.JDialog {
     private javax.swing.JTextField neuronNumberTextField;
     private javax.swing.JComboBox neuronTypeComboBox;
     private javax.swing.JLabel neuronTypeLabel;
-    private javax.swing.JComboBox transferFunctionComboBox;
+    private javax.swing.JComboBox<String> transferFunctionComboBox;
     private javax.swing.JLabel transferFunctionLabel;
     // End of variables declaration                   
 }

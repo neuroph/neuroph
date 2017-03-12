@@ -93,8 +93,8 @@ public class NeuralNetAndDataSet  {
      * the number of inputs and outputs of the input training set
      */
     public boolean checkCompatibility(NeuralNetwork neuralNetwork, DataSet trainingSet) {
-        int inputsNumberOfNeuralNetwork = neuralNetwork.getInputNeurons().length;
-        int outputsNumberOfNeuralNetwork = neuralNetwork.getOutputNeurons().length;
+        int inputsNumberOfNeuralNetwork = neuralNetwork.getInputNeurons().size();
+        int outputsNumberOfNeuralNetwork = neuralNetwork.getOutputNeurons().size();
 
         int inputsNumberOfTrainingSet = trainingSet.getRowAt(0).getInput().length;
         int outputsNumberOfTrainingSet = 0;

@@ -37,11 +37,11 @@ import javax.swing.JComponent;
 import org.netbeans.spi.options.OptionsPanelController;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
-
+/*
 @OptionsPanelController.TopLevelRegistration(categoryName = "#OptionsCategory_Name_OpenGL",
 iconBase = "com/jme3/gde/core/options/opengl-48.gif",
 keywords = "#OptionsCategory_Keywords_OpenGL",
-keywordsCategory = "OpenGL")
+keywordsCategory = "OpenGL")*/
 public final class OpenGLOptionsPanelController extends OptionsPanelController {
 
     private OpenGLPanel panel;

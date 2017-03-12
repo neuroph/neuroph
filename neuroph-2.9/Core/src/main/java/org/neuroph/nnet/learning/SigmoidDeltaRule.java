@@ -51,7 +51,7 @@ public class SigmoidDeltaRule extends LMS {
 	 *            output error vector
 	 */
 	@Override
-	protected void updateNetworkWeights(double[] outputError) {
+	protected void calculateWeightChanges(double[] outputError) {
 		int i = 0;
                 // for all output neurons
 		for(Neuron neuron : neuralNetwork.getOutputNeurons()) {

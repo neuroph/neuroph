@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.charts.providers2d;
 
 import org.nugs.graph2d.api.DataProvider2D;
@@ -20,7 +16,7 @@ import org.nugs.graph2d.api.Attribute;
 public class OutputDataProvider2D implements DataProvider2D {
 
     DataSet dataSet;
-    NeuralNetwork nnet;
+    NeuralNetwork<?> neuralNet;
     Point2D[] output;
 
     public OutputDataProvider2D() {
@@ -28,7 +24,7 @@ public class OutputDataProvider2D implements DataProvider2D {
 
     public OutputDataProvider2D(DataSet dataSet, NeuralNetwork nnet) {
         this.dataSet = dataSet;
-        this.nnet = nnet;
+        this.neuralNet = nnet;
     }
 
     @Override
@@ -38,9 +34,9 @@ public class OutputDataProvider2D implements DataProvider2D {
         List<DataSetRow> rows = dataSet.getRows();
         for (int i = 0; i < rows.size(); i++) {
             DataSetRow row = rows.get(i);
-            nnet.setInput(row.getInput());
-            nnet.calculate();
-            Neuron outputNeuron = nnet.getOutputNeurons()[0];
+            neuralNet.setInput(row.getInput());
+            neuralNet.calculate();
+            Neuron outputNeuron = neuralNet.getOutputNeurons().get(0);
             double out = outputNeuron.getOutput();
             output[i + 1] = new Point2D.Double(i + 1, out);
         }

@@ -41,9 +41,9 @@ public class DatasetOutputDataProvider3D implements DataProvider3D {
             DataSetRow row = rows.get(i);
             nnet.setInput(row.getInput());  // set current row as network input and
             nnet.calculate();               // calculate network
-            Neuron[] neurons = nnet.getLayerAt(attribute[0].getIndex()).getNeurons(); // get neurons at specified layer
-            for (int j = 0; j < neurons.length; j++) {
-                double out = neurons[j].getOutput();
+            List<Neuron> neurons = nnet.getLayerAt(attribute[0].getIndex()).getNeurons(); // get neurons at specified layer
+            for (int j = 0; j < neurons.size(); j++) {
+                double out = neurons.get(j).getOutput();
                 double colVal = row.getInput()[attribute[1].getIndex() - 1];
                 outputPoints3D[counter] = new Point3D(colVal, j, out);
                 counter++;

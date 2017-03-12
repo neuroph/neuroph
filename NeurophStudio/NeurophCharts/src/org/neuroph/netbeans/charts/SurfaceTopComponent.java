@@ -31,9 +31,9 @@ autostore = false)
     preferredID = "SurfaceTopComponent",
 //iconBase="SET/PATH/TO/ICON/HERE", 
 persistenceType = TopComponent.PERSISTENCE_ALWAYS)
-@TopComponent.Registration(mode = "output", openAtStartup = false)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "org.nugs.neurophgraph.SurfaceTopComponent")
-@ActionReference(path = "Menu/Window" /*, position = 333 */)
+//@ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
     displayName = "#CTL_SurfaceAction",
 preferredID = "SurfaceTopComponent")

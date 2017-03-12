@@ -25,10 +25,10 @@ public class BciHelper {
 
                 neuralNetwork.setLearningRule(new MomentumBackpropagation());
 
-		Neuron[] outputNeurons = neuralNetwork.getOutputNeurons();
+		List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
 		
-		for(int i=0; i<outputNeurons.length; i++) {
-                    outputNeurons[i].setLabel(classes[i]);
+		for(int i=0; i<outputNeurons.size(); i++) {
+                    outputNeurons.get(i).setLabel(classes[i]);
 		}                
                 
             return neuralNetwork;        

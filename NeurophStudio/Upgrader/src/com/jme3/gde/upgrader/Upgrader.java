@@ -17,9 +17,9 @@ public class Upgrader {
     private static final Logger logger = Logger.getLogger(Upgrader.class.getName());
     public static void checkUpgrade(){
         try {
-            logger.log(Level.INFO, "Start upgrade..");
-            AutoUpgrade.main(new String[0]);
-            logger.log(Level.INFO, "Finished upgrade.");
+//            logger.log(Level.INFO, "Start upgrade..");
+//            AutoUpgrade.main(new String[0]);
+//            logger.log(Level.INFO, "Finished upgrade.");
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }

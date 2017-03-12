@@ -458,13 +458,15 @@ public class DataSet implements Serializable {
      * @param delimiter       delimiter of values
      * @param loadColumnNames true if csv file contains column names in first line, false otherwise
      * @return instance of dataset with values from specified file
+     * 
+     * TODO: try with resources, provide information on exact line of error if format is not good in NumberFormatException
      */
     public static DataSet createFromFile(String filePath, int inputsCount, int outputsCount, String delimiter, boolean loadColumnNames) {
         BufferedReader reader = null;
 
         if (filePath == null) throw new IllegalArgumentException("File name cannot be null!");
-        if (inputsCount <= 0) throw new IllegalArgumentException("Number of inputs cannot be <= 0");
-        if (outputsCount < 0) throw new IllegalArgumentException("Number of outputs cannot be < 0");
+        if (inputsCount <= 0) throw new IllegalArgumentException("Number of inputs cannot be <= 0 : "+inputsCount);
+        if (outputsCount < 0) throw new IllegalArgumentException("Number of outputs cannot be < 0 : "+outputsCount);
         if ((delimiter == null) || delimiter.isEmpty())
             throw new IllegalArgumentException("Delimiter cannot be null or empty!");
 

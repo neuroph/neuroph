@@ -24,10 +24,10 @@ import org.neuroph.util.Properties;
  * <pre>
  * Tanh neuron transfer function.
  *
- * output = ( e^(2*input)-1) / ( e^(2*input)+1 )
+ * output = amplitude * tanh(slope * input) = amplitude * ( e^(2*slope*input)-1) / ( e^(2*slope*input)+1 )
  * </pre>
  *
- * @author Zoran Sevarac <sevarac@gmail.com>
+ * @author Zoran Sevarac <sevarac@gmail.com>, Nyefan
  */
 public class Tanh extends TransferFunction implements Serializable {
 
@@ -38,22 +38,32 @@ public class Tanh extends TransferFunction implements Serializable {
     private static final long serialVersionUID = 2L;
 
     /**
-     * The slope parametetar of the Tanh function
+     * The slope parameter of the Tanh function
      */
-    private double slope = 2d;
+    private double slope = 1d;
+    
+    /**
+     * The amplitude parameter
+     */
+    private double amplitude = 1d;
+
+    /**
+     * The output of the getDerivative() function;
+     */
+    private double derivativeOutput;
 
     /**
      * Creates an instance of Tanh neuron transfer function with default
-     * slope=1.
+     * slope=amplitude=1
      */
     public Tanh() {
     }
 
     /**
      * Creates an instance of Tanh neuron transfer function with specified
-     * value for slope parametar.
+     * value for slope parameter.
      *
-     * @param slope the slope parametar for the Tanh function
+     * @param slope the slope parameter for the Tanh function
      */
     public Tanh(double slope) {
         this.slope = slope;
@@ -68,6 +78,7 @@ public class Tanh extends TransferFunction implements Serializable {
     public Tanh(Properties properties) {
         try {
             this.slope = (Double) properties.getProperty("transferFunction.slope");
+            //this.amplitude = (Double) properties.getProperty("transferFunction.amplitude");
         } catch (NullPointerException e) {
             // if properties are not set just leave default values
         } catch (NumberFormatException e) {
@@ -75,43 +86,82 @@ public class Tanh extends TransferFunction implements Serializable {
         }
     }
 
+    /**
+     * Returns the value of this function at x=input
+     *
+     * @param input location to evaluate this function
+     * @return value of this function at x=input
+     */
     @Override
-    final public double getOutput(double net) {
+    final public double getOutput(double input) {
         // conditional logic helps to avoid NaN
-        if (net > 100) {
-            return 1.0;
-        } else if (net < -100) {
-            return -1.0;
-        }
+        if (Math.abs(input) * slope > 100) { return Math.signum(input) * 1.0d; }
 
-        double E_x = Math.exp(this.slope * net);
-        this.output = (E_x - 1d) / (E_x + 1d);
-//        this.output =  Math.tanh(2.0d/3.0*net) ;
-//        this.output = Math.tanh(net);
+        //a*tanh(s*x) = a*[(e^(2*s*x) - 1) / (e^(2*s*x) - 1)]
+        double E_x = Math.exp(2.0d * slope * input);
+        output = amplitude * ((E_x - 1.0d) / (E_x + 1.0d));
 
-        return this.output;
+        return output;
     }
 
+
+    // The derivative of a*tanh(s*x) is a*s*sech^2(s*x), or a*s*(1-tanh^2(s*x))
+
+    /**
+     * Returns the derivative of this function evaluated at x=input
+     *
+     * @param input location to evaluate the derivative
+     * @return derivative of this function evaluated at x=input
+     */
     @Override
-    final public double getDerivative(double net) {
-        return (1d - output * output);
+    final public double getDerivative(double input) {
+        // conditional logic helps to avoid NaN
+        if (Math.abs(input) * slope > 100) { return 0.0d; }
+
+        //output here is a*tanh^2(s*x)
+        double E_x = Math.exp(2 * slope * input);
+        double tanhsx = (E_x - 1d) / (E_x + 1d);
+        derivativeOutput = amplitude * slope * (1.0d - tanhsx * tanhsx);
+        return derivativeOutput;
     }
 
     /**
-     * Returns the slope parametar of this function
+     * Returns the slope parameter of this function
      *
-     * @return slope parametar of this function
+     * @return slope parameter of this function
      */
     public double getSlope() {
-        return this.slope;
+        return slope;
     }
 
     /**
-     * Sets the slope parametar for this function
+     * Sets the slope parameter for this function
      *
-     * @param slope value for the slope parametar
+     * @param slope value for the slope parameter
      */
     public void setSlope(double slope) {
         this.slope = slope;
     }
+
+    /**
+     * Returns the amplitude parameter of this function
+     *
+     * @return amplitude parameter of this function
+     */
+    public double getAmplitude() {
+        return amplitude;
+    }
+
+    /**
+     * Sets the slope parameter for this function
+     *
+     * @param amplitude value for the amplitude parameter
+     */
+    public void setAmplitude(double amplitude) {
+        this.amplitude = amplitude;
+    }
+    
+    
+    
+    
 }

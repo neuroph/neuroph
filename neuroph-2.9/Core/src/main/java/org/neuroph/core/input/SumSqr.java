@@ -16,6 +16,7 @@
 package org.neuroph.core.input;
 
 import java.io.Serializable;
+import java.util.List;
 import org.neuroph.core.Connection;
 
 /**
@@ -32,7 +33,7 @@ public class SumSqr extends InputFunction implements Serializable {
     private static final long serialVersionUID = 2L;
 
     @Override
-    public double getOutput(Connection[] inputConnections) {
+    public double getOutput(List<Connection> inputConnections) {
         double output = 0d;
 
         for (Connection connection : inputConnections) {

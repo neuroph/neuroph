@@ -26,11 +26,16 @@ import org.neuroph.nnet.comp.neuron.InputOutputNeuron;
 import org.neuroph.nnet.comp.neuron.ThresholdNeuron;
 
 /**
- * Provides methods to create customized instances of Neurons.
+ * Provides methods to create customized instances of Neuron.
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class NeuronFactory {
 
+         /**
+         * Private constructor prevents creating an instances of this class.
+         */
+        private NeuronFactory() { }
+    
 	/**
 	 * Creates and returns neuron instance according to the given specification in neuronProperties.
 	 * 
@@ -103,11 +108,9 @@ public class NeuronFactory {
             try {
                 inputFunction = (InputFunction) inputFunctionClass.newInstance();
             } catch (InstantiationException e) {
-                System.err.println("InstantiationException while creating InputFunction!");
-                e.printStackTrace();
+                throw new NeurophException("InstantiationException while creating InputFunction!", e);                
             } catch (IllegalAccessException e) {
-                System.err.println("No permission to invoke method");
-                e.printStackTrace();
+                throw new NeurophException("IllegalAccessException while creating InputFunction!", e);     
             }
 
             return inputFunction;

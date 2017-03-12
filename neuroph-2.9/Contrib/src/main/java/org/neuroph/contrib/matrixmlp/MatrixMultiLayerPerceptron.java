@@ -46,7 +46,7 @@ public class MatrixMultiLayerPerceptron extends NeuralNetwork {
 
     private void createMatrixLayers() {
         matrixLayers = new MatrixLayer[sourceNetwork.getLayersCount()];
-        matrixLayers[0] = new MatrixInputLayer(sourceNetwork.getLayers()[0].getNeuronsCount());
+        matrixLayers[0] = new MatrixInputLayer(sourceNetwork.getLayerAt(0).getNeuronsCount());
 
         MatrixLayer prevLayer = matrixLayers[0];
         

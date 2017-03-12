@@ -13,7 +13,7 @@ public class ConfusionMatrix {
     /**
      * Values of confusion matrix
      */    
-    private double[][] values;
+    private int[][] values;
     
     /**
      * Number of classes
@@ -30,20 +30,19 @@ public class ConfusionMatrix {
     
     /**
      * Creates new confusion matrix with specified class labels and number of classes
-     * @param labels
-     * @param classCount 
+     * @param classLabels
      */
     public ConfusionMatrix(String[] classLabels) {
         this.classLabels = classLabels;     
         this.classCount = classLabels.length;
-        this.values = new double[classCount][classCount];
+        this.values = new int[classCount][classCount];
     }
 
     /**
      * Returns confusion matrix values as double array
      * @return confusion matrix values as double array
      */
-    public double[][] getValues() {
+    public int[][] getValues() {
         return values;
     }
     
@@ -143,8 +142,7 @@ public class ConfusionMatrix {
         return total;
     }
     
-    
-    
-
-    
+    public int get(int x, int y)  {
+        return values[x][y];
+    }    
 }

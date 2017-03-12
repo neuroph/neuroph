@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.neuroph.netbeans.classificationsample;
 
 import java.util.ArrayList;
@@ -17,31 +13,50 @@ public class Combinatorics {
         private static ArrayList<Double[]> variations;
         private static ArrayList<Boolean> mark;
 
-        public static ArrayList<Double[]> generateVariations(ArrayList<Double> array, int numberOfInputs, boolean withRepetition) {
-           
-            variations = new ArrayList<>();
+        /**
+         * Generise varijacije k klase za zadati niz vrednosti
+         *
+         * @param values niz vrednosti za varijacije
+         * @param numberOfInputs broj pozicija na kojima se varijaju (koja je
+         * klasa varijacija)
+         * @param withRepetition da li su sa ponavljanjem ili bez ponavlajnja
+         * @return
+         */
+        public static ArrayList<double[]> generateVariations(ArrayList<Double> values, int numberOfInputs, boolean withRepetition) {
+
+            variations = new ArrayList<>(); // this list will hold all variations
 
             if (!withRepetition) {
-                mark = new ArrayList<>();
-
-                for (int i = 0; i < array.size(); i++) {
+                mark = new ArrayList<>(); // mark used elements 
+                for (int i = 0; i < values.size(); i++) {
                     mark.add(false);
                 }
             }
 
             Double[] initialVariation = new Double[numberOfInputs];
-
             for (int i = 0; i < initialVariation.length; i++) {
                 initialVariation[i] = 0.0;
             }
 
             if (withRepetition) {
-                calculateVariationsWithRepetition(0, initialVariation, array, numberOfInputs);
+                calculateVariationsWithRepetition(0, initialVariation, values, numberOfInputs);
             } else {
-                calculateVariationsWithoutRepetition(0, initialVariation, mark, array, numberOfInputs);
+                calculateVariationsWithoutRepetition(0, initialVariation, mark, values, numberOfInputs);
             }
 
-            return variations;
+            ArrayList<double[]> returnArray = new  ArrayList<>();
+            
+            // quick fix prebaci ovde sve u double[]
+            for (int i = 0; i < variations.size(); i++) {
+                double[] array = new double[numberOfInputs];
+                Double[] input = variations.get(i);
+                for(int j=0;j<numberOfInputs; j++) {
+                    array[j] = input[j];
+                }
+                returnArray.add(array);
+            }
+
+            return returnArray;
         }
 
         private static void calculateVariationsWithRepetition(int position, Double[] variation, ArrayList<Double> array, int numberOfInputs) {

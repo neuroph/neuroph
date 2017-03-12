@@ -19,7 +19,7 @@ public class JMLNeurophClassifier implements Classifier {
     /**
      * NeuralNetwork
      */
-    NeuralNetwork neuralNet;
+    NeuralNetwork<?> neuralNet;
 
     /**
      * Creates instance of NeurophJMLClassifier 

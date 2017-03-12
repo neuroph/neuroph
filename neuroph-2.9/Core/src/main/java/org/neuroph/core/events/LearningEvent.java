@@ -36,7 +36,7 @@ public class LearningEvent extends java.util.EventObject {
         return eventType;
     }
     
-    
+    // Add types of learning events you want to listen to to this enum
     public static enum Type {
         EPOCH_ENDED, LEARNING_STOPPED;
     }

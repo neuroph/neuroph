@@ -17,11 +17,11 @@ import org.neuroph.training.NormalizationTask;
 import org.neuroph.training.ReportTask;
 import org.neuroph.training.SamplingTask;
 import org.neuroph.training.SaveNeuralNetworkTask;
-import org.neuroph.training.SetTrainingPropertiesTask;
+import org.neuroph.training.SetWorkflowParametarsTask;
 import org.neuroph.training.StatsTask;
 import org.neuroph.training.StoreTrainingResultTask;
 import org.neuroph.training.TestTask;
-import org.neuroph.training.TrainingPropertiesGeneratorTask;
+import org.neuroph.training.WorkflowPropertiesGeneratorTask;
 import org.neuroph.training.TrainingTask;
 import org.neuroph.util.data.norm.MaxNormalizer;
 import org.openide.DialogDisplayer;
@@ -75,7 +75,7 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                     @Override
                     public void run() {
 
-                        org.neuroph.training.Process trainingProcess = new org.neuroph.training.Process();
+                        org.neuroph.training.NeurophWorkflow trainingProcess = new org.neuroph.training.NeurophWorkflow();
                         trainingProcess.addListener( TrainingProcessManager.getDefault() );
                         
                         //---------------------------------------------------------------------         
@@ -83,7 +83,7 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         // it would be great to load all these settings from XML file
                         // Creates process var: processPropertiesStack
                         // izgenerise sva podesavanja i stavi na stek. i onda se proces izvrsava za jedno po jedno podesavanje sa steka
-                        TrainingPropertiesGeneratorTask trainingPropertiesGeneratorTask = new TrainingPropertiesGeneratorTask("trainingPropertiesGenerator", "trainingPropertiesStack");
+                        WorkflowPropertiesGeneratorTask trainingPropertiesGeneratorTask = new WorkflowPropertiesGeneratorTask("trainingPropertiesGenerator", "trainingPropertiesStack");
                         //set parameters for training process 
                         trainingPropertiesGeneratorTask.setLearningRates((double[]) wiz.getProperty("learningRates"));
                         trainingPropertiesGeneratorTask.setHiddenNeurons((int[]) wiz.getProperty("hiddenNeurons"));
@@ -93,7 +93,7 @@ public final class TrainerWizardDynamicWizardAction implements ActionListener {
                         trainingPropertiesGeneratorTask.setDataSet((DataSet) wiz.getProperty("dataSet"));
                         trainingProcess.addTask(trainingPropertiesGeneratorTask);
 
-                        trainingProcess.addTask(new SetTrainingPropertiesTask("setProperties", "trainingPropertiesStack", "trainingProperties"));
+                        trainingProcess.addTask(new SetWorkflowParametarsTask("setProperties", "trainingPropertiesStack", "trainingProperties"));
 
                         DataSetLoaderTask dataLoaderTask = new DataSetLoaderTask("dataSetLoader", "dataSetProperties", "dataSet");
                         trainingProcess.addTask(dataLoaderTask);

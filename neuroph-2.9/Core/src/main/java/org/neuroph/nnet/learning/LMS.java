@@ -16,6 +16,7 @@
 package org.neuroph.nnet.learning;
 
 import java.io.Serializable;
+import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.Weight;
@@ -55,10 +56,11 @@ public class LMS extends SupervisedLearning implements Serializable {
      * @see SupervisedLearning#learnPattern(org.neuroph.core.data.DataSetRow)  learnPattern
      */
     @Override
-    protected void updateNetworkWeights(double[] outputError) {
+    protected void calculateWeightChanges(double[] outputError) {
         int i = 0;
         // for each neuron in output layer
-        for (Neuron neuron : neuralNetwork.getOutputNeurons()) {
+        List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
+        for (Neuron neuron : outputNeurons) {
             neuron.setError(outputError[i]); // set the neuron error, as difference between desired and actual output 
             this.updateNeuronWeights(neuron); // and update neuron weights
             i++;
@@ -77,7 +79,7 @@ public class LMS extends SupervisedLearning implements Serializable {
      * @param neuron
      *            neuron to update weights
      * 
-     * @see LMS#updateNetworkWeights(double[]) 
+     * @see LMS#calculateWeightChanges(double[]) 
      */
     public void updateNeuronWeights(Neuron neuron) {
         // get the error(delta) for specified neuron,
@@ -99,7 +101,7 @@ public class LMS extends SupervisedLearning implements Serializable {
             // if the learning is in online mode (not batch) apply the weight change immediately
             if (!this.isInBatchMode()) {
                 weight.weightChange = weightChange;                
-                weight.value += weightChange;
+               // weight.value += weightChange;
             } else { // otherwise its in batch mode, so sum the weight changes and apply them later, after the current epoch (see SupervisedLearning.doLearningEpoch method)
                 weight.weightChange += weightChange;
             }

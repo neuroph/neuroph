@@ -1,5 +1,7 @@
 package org.neuroph.core.input;
 
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.*;
 import org.neuroph.core.Connection;
@@ -13,36 +15,25 @@ import org.neuroph.nnet.comp.neuron.InputNeuron;
 public class ProductTest {
 
 	private Product product;
-        private Connection[] inputConnections;
+        private List<Connection> inputConnections;
         private InputNeuron[] inputNeurons;        
-
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
 
 	@Before
 	public void setUp() {
             product = new Product();
             inputNeurons = new InputNeuron[4];
-            for (int i = 0; i < inputNeurons.length; i++) {
+            for (int i = 0; i < 4; i++) {
                 inputNeurons[i] = new InputNeuron();
             }
 
             Neuron toNeuron = new Neuron();
 
-            inputConnections = new Connection[4];
-            for (int i = 0; i < inputConnections.length; i++) {
-                inputConnections[i] = new Connection(inputNeurons[i], toNeuron, 1);
-                toNeuron.addInputConnection(inputConnections[i]);
+            inputConnections = new ArrayList<Connection>(4);
+            for (int i = 0; i < 4; i++) {
+                Connection conn = new Connection(inputNeurons[i], toNeuron, 1);
+                inputConnections.add(conn);
+                toNeuron.addInputConnection(conn);
             }            
-	}
-
-	@After
-	public void tearDown() {
 	}
 
 	@Test
@@ -110,7 +101,7 @@ public class ProductTest {
 
 	@Test
 	public void testEmptyInput() {
-		 double output = product.getOutput(new Connection[0]);
+		 double output = product.getOutput(new ArrayList<Connection>());
 		assertEquals(0, output, .00001);
 	}
 }

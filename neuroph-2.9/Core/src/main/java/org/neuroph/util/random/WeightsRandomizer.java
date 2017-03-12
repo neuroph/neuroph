@@ -16,14 +16,16 @@
 
 package org.neuroph.util.random;
 
+import java.util.List;
 import java.util.Random;
 
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
+import org.neuroph.core.learning.LearningRule;
 import org.neuroph.nnet.comp.layer.FeatureMapsLayer;
-import org.neuroph.nnet.comp.layer.Layer2D;
+import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 
 /**
  * Basic weights randomizer, iterates and randomizes all connection weights in network.
@@ -73,10 +75,11 @@ public class WeightsRandomizer {
      *
      * @param neuralNetwork neural network to randomize
      */
-    public void randomize(NeuralNetwork neuralNetwork) {
+    public void randomize(NeuralNetwork<?> neuralNetwork) {
+    //    List<Layer> layers = neuralNetwork.getLayers();
         for (Layer layer : neuralNetwork.getLayers()) {
                 this.randomize(layer);
-        }
+        }       
     }
 
     /**
@@ -96,7 +99,7 @@ public class WeightsRandomizer {
      * @param neuron neuron to randomize
      */
     public void randomize(Neuron neuron) {
-        int numberOfInputConnections = neuron.getInputConnections().length;
+        int numberOfInputConnections = neuron.getInputConnections().size();
         double coefficient = 1d / Math.sqrt(numberOfInputConnections);
         coefficient = coefficient == 0 ? 1 : coefficient;
         for (Connection connection : neuron.getInputConnections()) {
