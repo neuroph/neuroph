@@ -36,7 +36,7 @@ import org.neuroph.util.NeurophArrayList;
  */
 public class Layer implements Serializable {
 
-    final static ForkJoinPool fjp=new ForkJoinPool();
+    final static ForkJoinPool fjp=new ForkJoinPool();//Takes default number of processors.
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
