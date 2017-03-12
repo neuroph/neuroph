@@ -11,19 +11,22 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 //import org.openide.util.ImageUtilities;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.neuroph.core.Neuron;
+import org.neuroph.core.transfer.Step;
+import org.neuroph.nnet.comp.neuron.InputOutputNeuron;
 
 /**
  * Top component which displays something.
  */
 @ConvertAsProperties(dtd = "-//org.neuroph.netbeans.main.easyneurons.samples//BasicNeuronSample//EN",
-autostore = false)
+        autostore = false)
 public final class BasicNeuronSampleTopComponent extends TopComponent {
-    Neuron neuron;
-    
+
+    InputOutputNeuron neuron;
 
     private static BasicNeuronSampleTopComponent instance;
-    /** path to the icon used by the component and its open action */
+    /**
+     * path to the icon used by the component and its open action
+     */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "BasicNeuronSampleTopComponent";
 
@@ -33,60 +36,65 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         setToolTipText(NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "HINT_BasicNeuronSampleTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
-	neuron = new Neuron();
-//        neuronPanel.add(new BasicNeuronPanel());
-//	neuronPanel.revalidate();
+        neuron = new InputOutputNeuron();
+        neuron.setTransferFunction(new Step());
+        
     }
 
-	public void calculateNeuron() {
-		double i1 = Double.parseDouble(inputField1.getText().trim());
-		double i2 = Double.parseDouble(inputField2.getText().trim());
+    public void calculateNeuron() {
+        double i1 = Double.parseDouble(inputField1.getText().trim());
+        double i2 = Double.parseDouble(inputField2.getText().trim());
 
-		double w1 = Double.parseDouble(weightField1.getText().trim());
-		double w2 = Double.parseDouble(weightField2.getText().trim());
+        double w1 = Double.parseDouble(weightField1.getText().trim());
+        double w2 = Double.parseDouble(weightField2.getText().trim());
 
-		double totalInput = w1*i1 + w2*i2;
-		neuron.setInput(totalInput);
-		neuron.calculate();
-		double output = neuron.getOutput();
+        double totalInput = w1 * i1 + w2 * i2;
+        neuron.setInput(totalInput);
+        neuron.calculate();
+        double output = neuron.getOutput();
 
-		inputFunctionField.setText((new DecimalFormat("#0.00")).format(totalInput));
-		outputField.setText((new DecimalFormat("#0.00")).format(output));
-		repaint();
-	}
+        inputFunctionField.setText((new DecimalFormat("#0.00")).format(totalInput));
+        outputField.setText((new DecimalFormat("#0.00")).format(output));
+        repaint();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
-	    Graphics2D g2d =(Graphics2D)g;
-	    g2d.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        super.repaint(); // sa ovim radi super, da li moze bez ovoga???        
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-	double output = neuron.getOutput();
-	int colorIntensity = 200 - Math.abs( (int)(output*100)*2);
-	if (colorIntensity > 200 ) colorIntensity = 200;
-	if (colorIntensity < 0 ) colorIntensity = 0;
+        double output = neuron.getOutput();
+        int colorIntensity = 200 - Math.abs((int) (output * 100) * 2);
+        if (colorIntensity > 200) {
+            colorIntensity = 200;
+        }
+        if (colorIntensity < 0) {
+            colorIntensity = 0;
+        }
 
-	   if (output>0) {
-			g2d.setColor( new Color(255, colorIntensity, colorIntensity));
-		} else if (output<0) {
-			g2d.setColor( new Color(colorIntensity, colorIntensity, 255));
-		} else {
-			g2d.setColor( new Color(102, 102, 102));
-		}
+        if (output > 0) {
+            g2d.setColor(new Color(255, colorIntensity, colorIntensity));
+        } else if (output < 0) {
+            g2d.setColor(new Color(colorIntensity, colorIntensity, 255));
+        } else {
+            g2d.setColor(new Color(102, 102, 102));
+        }
 
-	    g2d.fillOval(40, 40, 240, 240);
+        g2d.fillOval(190, 60, 300, 300);
 
-	    g2d.setColor( new Color(0, 0, 0));
-	    g2d.drawLine(160, 170, 80, 340);
-	    g2d.drawLine(160, 170, 250, 340);
-	    g2d.drawLine(160, 25, 160, 170);
+        g2d.setColor(new Color(0, 0, 0));
+        g2d.drawLine(340, 170, 230, 360);
+        g2d.drawLine(340, 170, 450, 360);
+        g2d.drawLine(340, 35, 340, 170);
 
-//            super.repaint(); // sa ovim radi super, da li moze bez ovoga???
+
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -112,39 +120,39 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel5.text")); // NOI18N
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 295, -1, -1));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 400, -1, -1));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel3.text")); // NOI18N
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 263, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, -1, -1));
 
         weightField1.setColumns(6);
         weightField1.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.weightField1.text")); // NOI18N
-        add(weightField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 260, -1, -1));
+        add(weightField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 360, -1, -1));
 
         inputField1.setColumns(6);
         inputField1.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.inputField1.text")); // NOI18N
-        add(inputField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 292, -1, -1));
+        add(inputField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 390, -1, -1));
 
         inputField2.setColumns(6);
         inputField2.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.inputField2.text")); // NOI18N
-        add(inputField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, -1, -1));
+        add(inputField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 390, -1, -1));
 
         weightField2.setColumns(6);
         weightField2.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.weightField2.text")); // NOI18N
-        add(weightField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, -1, -1));
+        add(weightField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, -1, -1));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel4.text")); // NOI18N
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, -1, -1));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 360, -1, -1));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel6.text")); // NOI18N
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 300, -1, -1));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, -1, -1));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel9, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel9.text")); // NOI18N
-        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(106, 14, -1, -1));
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, -1, -1));
 
-        outputField.setColumns(6);
         outputField.setEditable(false);
-        add(outputField, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 11, -1, -1));
+        outputField.setColumns(6);
+        add(outputField, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
 
         jPanel3.setOpaque(false);
 
@@ -157,7 +165,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 51));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel1.text")); // NOI18N
         jPanel2.add(jLabel1);
 
@@ -180,12 +188,14 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(52, 52, 52)
-                        .addComponent(calculateButton)))
+                        .addComponent(calculateButton)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -197,10 +207,10 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(calculateButton)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, 170));
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, -1, 170));
     }// </editor-fold>//GEN-END:initComponents
 
     private void calculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateButtonActionPerformed
@@ -227,9 +237,10 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
     private javax.swing.JTextField weightField2;
     // End of variables declaration//GEN-END:variables
     /**
-     * Gets default instance. Do not use directly: reserved for *.settings files only,
-     * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
-     * To obtain the singleton instance, use {@link #findInstance}.
+     * Gets default instance. Do not use directly: reserved for *.settings files
+     * only, i.e. deserialization routines; otherwise you could get a
+     * non-deserialized instance. To obtain the singleton instance, use
+     * {@link #findInstance}.
      */
     public static synchronized BasicNeuronSampleTopComponent getDefault() {
         if (instance == null) {
@@ -239,7 +250,8 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
     }
 
     /**
-     * Obtain the BasicNeuronSampleTopComponent instance. Never call {@link #getDefault} directly!
+     * Obtain the BasicNeuronSampleTopComponent instance. Never call
+     * {@link #getDefault} directly!
      */
     public static synchronized BasicNeuronSampleTopComponent findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);

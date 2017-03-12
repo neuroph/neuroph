@@ -20,6 +20,7 @@ import org.netbeans.api.project.ProjectManager;
 import org.netbeans.spi.project.ui.support.ProjectChooser;
 import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.neuroph.netbeans.main.ViewManager;
+import org.neuroph.netbeans.main.easyneurons.samples.perceptron.PerceptronSampleFrameTopComponent;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -80,8 +81,14 @@ public class NeurophProjectTemplateWizardIteratorPerceptron implements WizardDes
         if (parent != null && parent.exists()) {
             ProjectChooser.setProjectsFolder(parent);
         }
-          ViewManager.getInstance().showPerceptronSample();
-        return resultSet;
+        
+        
+        PerceptronSampleFrameTopComponent perceptronVisualizer = new PerceptronSampleFrameTopComponent();
+        perceptronVisualizer.initSample(); // sve odavde prebaciti u top coponent svu inicjijalizaciju kreiranje nn i ts i ocistiti i sve ostalo iz ove metodw!!!!!!
+        perceptronVisualizer.open();
+        perceptronVisualizer.requestActive();
+        
+          return resultSet;
     }
 
     public void initialize(WizardDescriptor wiz) {

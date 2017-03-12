@@ -3,18 +3,18 @@ package org.neuroph.contrib.eval;
 import org.neuroph.core.learning.error.ErrorFunction;
 
 /**
- * Calculates scalar result using ErrorFunction
+ * Calculates scalar evaluation result using ErrorFunction
  */
 public class ErrorEvaluator implements Evaluator<Double> {
 
-    private ErrorFunction errorFunction;
+    private final ErrorFunction errorFunction;
 
     public ErrorEvaluator(final ErrorFunction errorFunction) {
         this.errorFunction = errorFunction;
     }
 
     @Override
-    public void processNetworkResult(double[] networkOutput, double[] desiredOutput) {
+    public void processNetworkResult(final double[] networkOutput, final double[] desiredOutput) {
         errorFunction.calculatePatternError(networkOutput, desiredOutput);
     }
 

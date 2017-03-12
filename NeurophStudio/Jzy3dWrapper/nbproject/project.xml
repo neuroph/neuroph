@@ -225,87 +225,87 @@
             </public-packages>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all-natives-linux-amd64.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-amd64.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-amd64.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt-natives-macosx-universal.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-macosx-universal.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-macosx-universal.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all-natives-windows-amd64.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-windows-amd64.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-windows-amd64.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all-natives-linux-armv6hf.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-armv6hf.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-armv6hf.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt-natives-linux-i586.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-i586.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-i586.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all-natives-solaris-amd64.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-solaris-amd64.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-solaris-amd64.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt-natives-windows-i586.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-windows-i586.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-windows-i586.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt-natives-solaris-amd64.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-solaris-amd64.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-solaris-amd64.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all-natives-linux-i586.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-i586.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-i586.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt-natives-windows-amd64.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-windows-amd64.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-windows-amd64.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all-natives-linux-armv6.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-armv6.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-linux-armv6.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all-natives-solaris-i586.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-solaris-i586.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-solaris-i586.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt-natives-linux-armv6.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-armv6.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-armv6.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt-natives-solaris-i586.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-solaris-i586.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-solaris-i586.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all-natives-macosx-universal.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-macosx-universal.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-macosx-universal.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jzy3d-api-0.9.1.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jzy3d-api-0.9.1.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jzy3d-api-0.9.1.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt-natives-linux-armv6hf.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-armv6hf.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-armv6hf.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jogl-all-natives-windows-i586.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-windows-i586.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/jogl-all-natives-windows-i586.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/gluegen-rt-natives-linux-amd64.jar</runtime-relative-path>
-                <binary-origin>/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-amd64.jar</binary-origin>
+                <binary-origin>/media/zoran/Data/NeurophWorkspace/repository/neuroph_git/NeurophStudio/Jzy3dWrapper/release/modules/ext/gluegen-rt-natives-linux-amd64.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

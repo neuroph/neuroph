@@ -2,8 +2,6 @@ package org.neuroph.netbeans.classifier.eval;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Paint;
 import java.util.HashMap;
 import java.util.Set;
 import org.goai.classification.eval.ClassificationResultByClass;
@@ -167,28 +165,14 @@ public final class ClassifierChartTopComponent extends TopComponent {
         final BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
         
-//        // set up gradient paints for series...
-//        final GradientPaint gp0 = new GradientPaint(
-//            0.0f, 0.0f, Color.blue, 
-//            0.0f, 0.0f, Color.lightGray
-//        );
-//        final GradientPaint gp1 = new GradientPaint(
-//            0.0f, 0.0f, Color.green, 
-//            0.0f, 0.0f, Color.lightGray
-//        );
-//        final GradientPaint gp2 = new GradientPaint(
-//            0.0f, 0.0f, Color.red, 
-//            0.0f, 0.0f, Color.lightGray
-//        );
         renderer.setSeriesPaint(0, Color.green); // correct
         renderer.setSeriesPaint(1, Color.red); // wrong
-//        renderer.setSeriesPaint(2, Color.GREEN);
 
         final CategoryAxis domainAxis = plot.getDomainAxis();
         domainAxis.setCategoryLabelPositions(
             CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0)
         );
-        // OPTIONAL CUSTOMISATION COMPLETED.
+
         
         return chart;
         

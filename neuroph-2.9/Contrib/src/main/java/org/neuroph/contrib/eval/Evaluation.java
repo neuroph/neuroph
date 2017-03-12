@@ -4,7 +4,6 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.learning.error.MeanSquaredError;
-import org.neuroph.nnet.learning.BackPropagation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,11 +14,11 @@ import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 /**
  * Evaluation service used to run different evaluators on trained neural network
  */
-public class Evaluation {
+public final class Evaluation {
 
-    private static Logger LOGGER = LoggerFactory.getLogger("neuroph");
+    private static final Logger LOGGER = LoggerFactory.getLogger("neuroph");
 
-    private Map<Class<?>, Evaluator> evaluators = new HashMap<>();
+    private final Map<Class<?>, Evaluator> evaluators = new HashMap<>();
 
     public Evaluation() {
           addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
@@ -31,6 +30,7 @@ public class Evaluation {
      * 
      * @param neuralNetwork trained neural network
      * @param dataSet       test data set used for evaluation
+     * @return 
      */
     public EvaluationResult evaluateDataSet(NeuralNetwork neuralNetwork, DataSet dataSet) {
         // first reset all evaluators
@@ -42,13 +42,13 @@ public class Evaluation {
              neuralNetwork.setInput(dataRow.getInput());    // apply input to neural network
              neuralNetwork.calculate();                     // and calculate neural network    
             
-            // feed actual neural network along with desired output to all evaluators
+            // feed actual neural network output and desired output to all evaluators
             for (Evaluator evaluator : evaluators.values()) { // for now we have only kfold and mse
                 evaluator.processNetworkResult(neuralNetwork.getOutput(), dataRow.getDesiredOutput());
             }
         }
         
-        // we should iterate all evaluators and getresults here- its hardcoded for now
+        // we should iterate all evaluators and get results here- its hardcoded for now
         ConfusionMatrix confusionMatrix;
         if (neuralNetwork.getOutputsCount() >1) {        
             confusionMatrix = getEvaluator(ClassifierEvaluator.MultiClass.class).getResult();
@@ -59,17 +59,16 @@ public class Evaluation {
         double meanSquaredError = getEvaluator(ErrorEvaluator.class).getResult();
                    
         EvaluationResult result = new EvaluationResult();
-        result.setDataSet(dataSet);
+        result.setDataSet(dataSet); // sta ce nam ovo?
         result.setConfusionMatrix(confusionMatrix);
         result.setMeanSquareError(meanSquaredError);
         
-         // add neural network here too and maybe dataset too?
-
         return result;                
     }
 
     /**
     *
+     * @param evaluator
     */
     public  void addEvaluator(Evaluator evaluator) { /* <T extends Evaluator>     |  Class<T> type, T instance */      
         if (evaluator == null) throw new IllegalArgumentException("Evaluator cannot be null!");
@@ -78,6 +77,7 @@ public class Evaluation {
     }
 
     /**
+     * @param <T> Evaluator class
      * @param type concrete evaluator class
      * @return result of evaluation for given Evaluator type
      */
@@ -100,6 +100,9 @@ public class Evaluation {
 
     /**
      * Out of the box method (util) which computes all metrics for given neural network and test data set
+     * 
+     * @param neuralNet neural network to evaluate
+     * @param dataSet data set to evaluate
      */
     public static void runFullEvaluation(NeuralNetwork<?> neuralNet, DataSet dataSet) {
 

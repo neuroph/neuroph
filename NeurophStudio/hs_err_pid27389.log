@@ -1,0 +1,1633 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fb3eb24f195, pid=27389, tid=140413026895616
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_20-b26) (build 1.8.0_20-b26)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.20-b23 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# 
+[error occurred during error reporting (printing problematic frame), id 0xb]
+
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007fb4200dd800):  JavaThread "AWT-XAWT" daemon [_thread_in_native, id=27413, stack(0x00007fb474870000,0x00007fb474971000)]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 128 (SI_KERNEL), si_addr: 0x0000000000000000
+
+Registers:
+RAX=0x0000000000000000, RBX=0x00007fb47496f400, RCX=0xffffffffffffff26, RDX=0x0000000000010004
+RSP=0x00007fb47496f380, RBP=0x00007fb494140d20, RSI=0x00007fb47496f388, RDI=0x6e2e006261747274
+R8 =0x0000000000000000, R9 =0x0000000000000000, R10=0x00007fb475ba9dc4, R11=0x00007fb4957adc70
+R12=0x00007fb47496f400, R13=0x00007fb420043570, R14=0x00007fb47496f5b0, R15=0x00007fb4200dd800
+RIP=0x00007fb3eb24f195, EFLAGS=0x0000000000010202, CSGSFS=0x0000000000000033, ERR=0x0000000000000000
+  TRAPNO=0x000000000000000d
+
+Top of Stack: (sp=0x00007fb47496f380)
+0x00007fb47496f380:   00007fb420044890 0000000000000000
+0x00007fb47496f390:   0000000000000000 00007fb3eb259835
+0x00007fb47496f3a0:   0000000000000000 0000000000000040
+0x00007fb47496f3b0:   00007fb420045950 0000000100000000
+0x00007fb47496f3c0:   00007fb420045920 00007fb47496f400
+0x00007fb47496f3d0:   00007fb494140d20 00007fb420043570
+0x00007fb47496f3e0:   00007fb47496f5d8 00007fb493e4a54b
+0x00007fb47496f3f0:   00007fb47496f3d0 0000000000000001
+0x00007fb47496f400:   00007fb400000000 00007fb420043570
+0x00007fb47496f410:   0000000004e00ac4 00000000000b4aba
+0x00007fb47496f420:   0000000600078b8f 0000000000000000
+0x00007fb47496f430:   00007fb400000000 00007fb4200459b0
+0x00007fb47496f440:   00007fb4200dd800 00007fb4939e6311
+0x00007fb47496f450:   0000000000000000 00007fb4939e51b5
+0x00007fb47496f460:   00000000c7d014b8 00007fb4955c4b40
+0x00007fb47496f470:   0000000000000006 00007fb41cad57e0
+0x00007fb47496f480:   0000000000000000 00007fb4200448a8
+0x00007fb47496f490:   00007fb400000000 00007fb4939e5b61
+0x00007fb47496f4a0:   00007fb4200dd800 00007fb47496f518
+0x00007fb47496f4b0:   00007fb420044890 00007fb420044890
+0x00007fb47496f4c0:   00000000000b4a47 fbc58eff513c0800
+0x00007fb47496f4d0:   00007fb41cad57e0 00007fb420043570
+0x00007fb47496f4e0:   00007fb41cad57e0 00007fb493e475e7
+0x00007fb47496f4f0:   00007fb47496f518 00007fb41cad9a80
+0x00007fb47496f500:   00007fb420043570 00007fb41cad57e0
+0x00007fb47496f510:   0000000000000000 00007fb420043570
+0x00007fb47496f520:   00007fb47496f5d8 00007fb493e47695
+0x00007fb47496f530:   00007fb420043570 0000000000000000
+0x00007fb47496f540:   0000000000000001 00007fb493e47fc5
+0x00007fb47496f550:   00007fb420043570 00007fb493e3a0db
+0x00007fb47496f560:   00007fb48b482f38 00007fb47496f5c0
+0x00007fb47496f570:   0000000000000000 00007fb475ba9e36 
+
+Instructions: (pc=0x00007fb3eb24f195)
+0x00007fb3eb24f175:   66 66 2e 0f 1f 84 00 00 00 00 00 48 83 ec 18 48
+0x00007fb3eb24f185:   8b 3d 4d e2 22 00 ba 04 00 01 00 48 8d 74 24 08
+0x00007fb3eb24f195:   48 8b 07 ff 50 30 48 8b 44 24 08 48 83 c4 18 c3
+0x00007fb3eb24f1a5:   66 66 2e 0f 1f 84 00 00 00 00 00 48 83 ec 18 48 
+
+Register to memory mapping:
+
+RAX=0x0000000000000000 is an unknown value
+RBX=0x00007fb47496f400 is pointing into the stack for thread: 0x00007fb4200dd800
+RCX=0xffffffffffffff26 is an unknown value
+RDX=0x0000000000010004 is an unknown value
+RSP=0x00007fb47496f380 is pointing into the stack for thread: 0x00007fb4200dd800
+RBP=0x00007fb494140d20: _XErrorFunction+0 in /usr/lib/x86_64-linux-gnu/libX11.so.6 at 0x00007fb493e0c000
+RSI=0x00007fb47496f388 is pointing into the stack for thread: 0x00007fb4200dd800
+RDI=0x6e2e006261747274 is an unknown value
+R8 =0x0000000000000000 is an unknown value
+R9 =0x0000000000000000 is an unknown value
+R10=0x00007fb475ba9dc4 is at entry_point+68 in (nmethod*)0x00007fb475ba9c10
+R11=0x00007fb4957adc70: <offset 0x187c70> in /lib/x86_64-linux-gnu/libc.so.6 at 0x00007fb495626000
+R12=0x00007fb47496f400 is pointing into the stack for thread: 0x00007fb4200dd800
+R13=0x00007fb420043570 is an unknown value
+R14=0x00007fb47496f5b0 is pointing into the stack for thread: 0x00007fb4200dd800
+R15=0x00007fb4200dd800 is a thread
+
+
+Stack: [0x00007fb474870000,0x00007fb474971000],  sp=0x00007fb47496f380,  free space=1020k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+
+[error occurred during error reporting (printing native stack), id 0xb]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+J 5503  sun.awt.X11.XlibWrapper.XEventsQueued(JI)I (0 bytes) @ 0x00007fb475ba9dc4 [0x00007fb475ba9d80+0x44]
+j  sun.awt.X11.XToolkit.run(Z)V+63
+j  sun.awt.X11.XToolkit.run()V+5
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x00007fb404117000 JavaThread "ForkJoinPool.commonPool-worker-3" daemon [_thread_blocked, id=974, stack(0x00007fb3eaf0a000,0x00007fb3eb00b000)]
+  0x00007fb424008800 JavaThread "Data System Nodes for org.netbeans.modules.masterfs.ui.FileBasedFSWithUI" daemon [_thread_blocked, id=27971, stack(0x00007fb3e0f3f000,0x00007fb3e1040000)]
+  0x00007fb4041e9000 JavaThread "org.netbeans.modules.project.ui.OpenProjectList" daemon [_thread_blocked, id=27969, stack(0x00007fb47357d000,0x00007fb47367e000)]
+  0x00007fb3fc142000 JavaThread "Nb Exit" daemon [_thread_blocked, id=27611, stack(0x00007fb47466e000,0x00007fb47476f000)]
+  0x00007fb3f8405000 JavaThread "On Start/Stop" daemon [_thread_blocked, id=27610, stack(0x00007fb3e66cd000,0x00007fb3e67ce000)]
+  0x00007fb48400b000 JavaThread "DestroyJavaVM" [_thread_blocked, id=27391, stack(0x00007fb492a06000,0x00007fb492b07000)]
+  0x00007fb4217df000 JavaThread "Thread-5" daemon [_thread_blocked, id=27454, stack(0x00007fb3e69ce000,0x00007fb3e6acf000)]
+  0x00007fb420ec0800 JavaThread "TimerQueue" daemon [_thread_blocked, id=27440, stack(0x00007fb3eb980000,0x00007fb3eba81000)]
+  0x00007fb420ee0800 JavaThread "AWT-EventQueue-0" [_thread_blocked, id=27432, stack(0x00007fb47295c000,0x00007fb472a5d000)]
+  0x00007fb421255800 JavaThread "AWT-Shutdown" [_thread_blocked, id=27431, stack(0x00007fb472a5d000,0x00007fb472b5e000)]
+  0x00007fb420550000 JavaThread "Module-Actions" daemon [_thread_blocked, id=27428, stack(0x00007fb472d60000,0x00007fb472e61000)]
+  0x00007fb421963800 JavaThread "Bundle File Closer" daemon [_thread_blocked, id=27420, stack(0x00007fb47337b000,0x00007fb47347c000)]
+  0x00007fb424001000 JavaThread "ExplorerManager-selection" daemon [_thread_blocked, id=27419, stack(0x00007fb47347c000,0x00007fb47357d000)]
+=>0x00007fb4200dd800 JavaThread "AWT-XAWT" daemon [_thread_in_native, id=27413, stack(0x00007fb474870000,0x00007fb474971000)]
+  0x00007fb4200a1800 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=27412, stack(0x00007fb4880d7000,0x00007fb4881d8000)]
+  0x00007fb42003b800 JavaThread "RequestProcessor queue manager" daemon [_thread_blocked, id=27411, stack(0x00007fb4881d8000,0x00007fb4882d9000)]
+  0x00007fb48473a000 JavaThread "CLI Requests Server" daemon [_thread_in_native, id=27406, stack(0x00007fb488e1c000,0x00007fb488f1d000)]
+  0x00007fb484541000 JavaThread "Active Reference Queue Daemon" daemon [_thread_blocked, id=27405, stack(0x00007fb488f1d000,0x00007fb48901e000)]
+  0x00007fb4842ac800 JavaThread "Service Thread" daemon [_thread_blocked, id=27403, stack(0x00007fb489547000,0x00007fb489648000)]
+  0x00007fb484297000 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, id=27402, stack(0x00007fb489648000,0x00007fb489749000)]
+  0x00007fb484295800 JavaThread "C2 CompilerThread1" daemon [_thread_in_native, id=27401, stack(0x00007fb489749000,0x00007fb48984a000)]
+  0x00007fb484292800 JavaThread "C2 CompilerThread0" daemon [_thread_in_native, id=27400, stack(0x00007fb48984a000,0x00007fb48994b000)]
+  0x00007fb484290800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=27399, stack(0x00007fb48994b000,0x00007fb489a4c000)]
+  0x00007fb484262000 JavaThread "Finalizer" daemon [_thread_in_Java, id=27398, stack(0x00007fb489a4c000,0x00007fb489b4d000)]
+  0x00007fb484260000 JavaThread "Reference Handler" daemon [_thread_blocked, id=27397, stack(0x00007fb489b4d000,0x00007fb489c4e000)]
+
+Other Threads:
+  0x00007fb484259000 VMThread [stack: 0x00007fb489c4e000,0x00007fb489d4f000] [id=27396]
+  0x00007fb4842af800 WatcherThread [stack: 0x00007fb489446000,0x00007fb489547000] [id=27404]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ PSYoungGen      total 793088K, used 20611K [0x000000076cf00000, 0x00000007ae700000, 0x00000007c0000000)
+  eden space 633856K, 3% used [0x000000076cf00000,0x000000076e320f68,0x0000000793a00000)
+  from space 159232K, 0% used [0x00000007a4b80000,0x00000007a4b80000,0x00000007ae700000)
+  to   space 219648K, 0% used [0x0000000793a00000,0x0000000793a00000,0x00000007a1080000)
+ ParOldGen       total 604672K, used 77300K [0x00000006c6c00000, 0x00000006eba80000, 0x000000076cf00000)
+  object space 604672K, 12% used [0x00000006c6c00000,0x00000006cb77d350,0x00000006eba80000)
+ Metaspace       used 75904K, capacity 84862K, committed 87464K, reserved 1124352K
+  class space    used 9563K, capacity 12263K, committed 12720K, reserved 1048576K
+
+Card table byte_map: [0x00007fb4907c7000,0x00007fb490f92000] byte_map_base: 0x00007fb48d191000
+
+Marking Bits: (ParMarkBitMap*) 0x00007fb4955fbac0
+ Begin Bits: [0x00007fb454360000, 0x00007fb4581b0000)
+ End Bits:   [0x00007fb4581b0000, 0x00007fb45c000000)
+
+Polling page: 0x00007fb496239000
+
+CodeCache: size=245760Kb used=40084Kb max_used=40904Kb free=205675Kb
+ bounds [0x00007fb475000000, 0x00007fb477880000, 0x00007fb484000000]
+ total_blobs=12762 nmethods=11810 adapters=861
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 5070.458 Thread 0x00007fb484297000 nmethod 16074 0x00007fb47549de50 code [0x00007fb47549e000, 0x00007fb47549e770]
+Event: 5070.458 Thread 0x00007fb484297000 16075       3       org.openide.util.CharSequences$Fixed6Bit_21_30::charAt (615 bytes)
+Event: 5070.465 Thread 0x00007fb484297000 nmethod 16075 0x00007fb476696e10 code [0x00007fb476696fc0, 0x00007fb476697890]
+Event: 5070.465 Thread 0x00007fb484297000 16083       1       sun.java2d.xr.MutableInteger::setValue (6 bytes)
+Event: 5070.465 Thread 0x00007fb484297000 nmethod 16083 0x00007fb475a7da90 code [0x00007fb475a7dbe0, 0x00007fb475a7dcf0]
+Event: 5070.465 Thread 0x00007fb484297000 16082       3       java.util.concurrent.ConcurrentHashMap::remove (8 bytes)
+Event: 5070.466 Thread 0x00007fb484297000 nmethod 16082 0x00007fb475470f50 code [0x00007fb4754710c0, 0x00007fb4754712e8]
+Event: 5070.466 Thread 0x00007fb484297000 16069       3       org.openide.util.lookup.AbstractLookup$ReferenceToResult::run (13 bytes)
+Event: 5070.466 Thread 0x00007fb484297000 nmethod 16069 0x00007fb475496b90 code [0x00007fb475496d00, 0x00007fb475496f28]
+Event: 5070.466 Thread 0x00007fb484297000 16070   !   3       org.openide.util.lookup.AbstractLookup::cleanUpResult (44 bytes)
+
+GC Heap History (10 events):
+Event: 152.121 GC heap before
+{Heap before GC invocations=19 (full 4):
+ PSYoungGen      total 729600K, used 692636K [0x000000076cf00000, 0x00000007a1100000, 0x00000007c0000000)
+  eden space 620544K, 100% used [0x000000076cf00000,0x0000000792d00000,0x0000000792d00000)
+  from space 109056K, 66% used [0x0000000799d00000,0x000000079e3670d8,0x00000007a0780000)
+  to   space 114688K, 0% used [0x0000000792d00000,0x0000000792d00000,0x0000000799d00000)
+ ParOldGen       total 577536K, used 217910K [0x00000006c6c00000, 0x00000006ea000000, 0x000000076cf00000)
+  object space 577536K, 37% used [0x00000006c6c00000,0x00000006d40cdb38,0x00000006ea000000)
+ Metaspace       used 76449K, capacity 85690K, committed 86056K, reserved 1122304K
+  class space    used 9660K, capacity 12507K, committed 12592K, reserved 1048576K
+Event: 152.186 GC heap after
+Heap after GC invocations=19 (full 4):
+ PSYoungGen      total 735232K, used 78236K [0x000000076cf00000, 0x00000007a5980000, 0x00000007c0000000)
+  eden space 620544K, 0% used [0x000000076cf00000,0x000000076cf00000,0x0000000792d00000)
+  from space 114688K, 68% used [0x0000000792d00000,0x0000000797967158,0x0000000799d00000)
+  to   space 121344K, 0% used [0x000000079e300000,0x000000079e300000,0x00000007a5980000)
+ ParOldGen       total 577536K, used 217918K [0x00000006c6c00000, 0x00000006ea000000, 0x000000076cf00000)
+  object space 577536K, 37% used [0x00000006c6c00000,0x00000006d40cfb38,0x00000006ea000000)
+ Metaspace       used 76449K, capacity 85690K, committed 86056K, reserved 1122304K
+  class space    used 9660K, capacity 12507K, committed 12592K, reserved 1048576K
+}
+Event: 163.953 GC heap before
+{Heap before GC invocations=20 (full 4):
+ PSYoungGen      total 735232K, used 698780K [0x000000076cf00000, 0x00000007a5980000, 0x00000007c0000000)
+  eden space 620544K, 100% used [0x000000076cf00000,0x0000000792d00000,0x0000000792d00000)
+  from space 114688K, 68% used [0x0000000792d00000,0x0000000797967158,0x0000000799d00000)
+  to   space 121344K, 0% used [0x000000079e300000,0x000000079e300000,0x00000007a5980000)
+ ParOldGen       total 577536K, used 217918K [0x00000006c6c00000, 0x00000006ea000000, 0x000000076cf00000)
+  object space 577536K, 37% used [0x00000006c6c00000,0x00000006d40cfb38,0x00000006ea000000)
+ Metaspace       used 76645K, capacity 85952K, committed 86312K, reserved 1122304K
+  class space    used 9662K, capacity 12508K, committed 12592K, reserved 1048576K
+Event: 164.043 GC heap after
+Heap after GC invocations=20 (full 4):
+ PSYoungGen      total 777728K, used 121323K [0x000000076cf00000, 0x00000007a9180000, 0x00000007c0000000)
+  eden space 656384K, 0% used [0x000000076cf00000,0x000000076cf00000,0x0000000795000000)
+  from space 121344K, 99% used [0x000000079e300000,0x00000007a597ae88,0x00000007a5980000)
+  to   space 150528K, 0% used [0x0000000795000000,0x0000000795000000,0x000000079e300000)
+ ParOldGen       total 577536K, used 241862K [0x00000006c6c00000, 0x00000006ea000000, 0x000000076cf00000)
+  object space 577536K, 41% used [0x00000006c6c00000,0x00000006d5831890,0x00000006ea000000)
+ Metaspace       used 76645K, capacity 85952K, committed 86312K, reserved 1122304K
+  class space    used 9662K, capacity 12508K, committed 12592K, reserved 1048576K
+}
+Event: 1161.260 GC heap before
+{Heap before GC invocations=21 (full 4):
+ PSYoungGen      total 777728K, used 777707K [0x000000076cf00000, 0x00000007a9180000, 0x00000007c0000000)
+  eden space 656384K, 100% used [0x000000076cf00000,0x0000000795000000,0x0000000795000000)
+  from space 121344K, 99% used [0x000000079e300000,0x00000007a597ae88,0x00000007a5980000)
+  to   space 150528K, 0% used [0x0000000795000000,0x0000000795000000,0x000000079e300000)
+ ParOldGen       total 577536K, used 241862K [0x00000006c6c00000, 0x00000006ea000000, 0x000000076cf00000)
+  object space 577536K, 41% used [0x00000006c6c00000,0x00000006d5831890,0x00000006ea000000)
+ Metaspace       used 77644K, capacity 87326K, committed 87464K, reserved 1124352K
+  class space    used 9776K, capacity 12666K, committed 12720K, reserved 1048576K
+Event: 1161.471 GC heap after
+Heap after GC invocations=21 (full 4):
+ PSYoungGen      total 806912K, used 150516K [0x000000076cf00000, 0x00000007b2400000, 0x00000007c0000000)
+  eden space 656384K, 0% used [0x000000076cf00000,0x000000076cf00000,0x0000000795000000)
+  from space 150528K, 99% used [0x0000000795000000,0x000000079e2fd238,0x000000079e300000)
+  to   space 221696K, 0% used [0x00000007a4b80000,0x00000007a4b80000,0x00000007b2400000)
+ ParOldGen       total 577536K, used 364211K [0x00000006c6c00000, 0x00000006ea000000, 0x000000076cf00000)
+  object space 577536K, 63% used [0x00000006c6c00000,0x00000006dcfaccd0,0x00000006ea000000)
+ Metaspace       used 77644K, capacity 87326K, committed 87464K, reserved 1124352K
+  class space    used 9776K, capacity 12666K, committed 12720K, reserved 1048576K
+}
+Event: 5069.974 GC heap before
+{Heap before GC invocations=22 (full 4):
+ PSYoungGen      total 806912K, used 806900K [0x000000076cf00000, 0x00000007b2400000, 0x00000007c0000000)
+  eden space 656384K, 100% used [0x000000076cf00000,0x0000000795000000,0x0000000795000000)
+  from space 150528K, 99% used [0x0000000795000000,0x000000079e2fd238,0x000000079e300000)
+  to   space 221696K, 0% used [0x00000007a4b80000,0x00000007a4b80000,0x00000007b2400000)
+ ParOldGen       total 577536K, used 364211K [0x00000006c6c00000, 0x00000006ea000000, 0x000000076cf00000)
+  object space 577536K, 63% used [0x00000006c6c00000,0x00000006dcfaccd0,0x00000006ea000000)
+ Metaspace       used 77666K, capacity 87326K, committed 87464K, reserved 1124352K
+  class space    used 9776K, capacity 12666K, committed 12720K, reserved 1048576K
+Event: 5070.126 GC heap after
+Heap after GC invocations=22 (full 4):
+ PSYoungGen      total 793088K, used 2784K [0x000000076cf00000, 0x00000007ae700000, 0x00000007c0000000)
+  eden space 633856K, 0% used [0x000000076cf00000,0x000000076cf00000,0x0000000793a00000)
+  from space 159232K, 1% used [0x00000007a4b80000,0x00000007a4e38020,0x00000007ae700000)
+  to   space 219648K, 0% used [0x0000000793a00000,0x0000000793a00000,0x00000007a1080000)
+ ParOldGen       total 577536K, used 513261K [0x00000006c6c00000, 0x00000006ea000000, 0x000000076cf00000)
+  object space 577536K, 88% used [0x00000006c6c00000,0x00000006e613b638,0x00000006ea000000)
+ Metaspace       used 77666K, capacity 87326K, committed 87464K, reserved 1124352K
+  class space    used 9776K, capacity 12666K, committed 12720K, reserved 1048576K
+}
+Event: 5070.126 GC heap before
+{Heap before GC invocations=23 (full 5):
+ PSYoungGen      total 793088K, used 2784K [0x000000076cf00000, 0x00000007ae700000, 0x00000007c0000000)
+  eden space 633856K, 0% used [0x000000076cf00000,0x000000076cf00000,0x0000000793a00000)
+  from space 159232K, 1% used [0x00000007a4b80000,0x00000007a4e38020,0x00000007ae700000)
+  to   space 219648K, 0% used [0x0000000793a00000,0x0000000793a00000,0x00000007a1080000)
+ ParOldGen       total 577536K, used 513261K [0x00000006c6c00000, 0x00000006ea000000, 0x000000076cf00000)
+  object space 577536K, 88% used [0x00000006c6c00000,0x00000006e613b638,0x00000006ea000000)
+ Metaspace       used 77666K, capacity 87326K, committed 87464K, reserved 1124352K
+  class space    used 9776K, capacity 12666K, committed 12720K, reserved 1048576K
+Event: 5070.417 GC heap after
+Heap after GC invocations=23 (full 5):
+ PSYoungGen      total 793088K, used 0K [0x000000076cf00000, 0x00000007ae700000, 0x00000007c0000000)
+  eden space 633856K, 0% used [0x000000076cf00000,0x000000076cf00000,0x0000000793a00000)
+  from space 159232K, 0% used [0x00000007a4b80000,0x00000007a4b80000,0x00000007ae700000)
+  to   space 219648K, 0% used [0x0000000793a00000,0x0000000793a00000,0x00000007a1080000)
+ ParOldGen       total 604672K, used 77300K [0x00000006c6c00000, 0x00000006eba80000, 0x000000076cf00000)
+  object space 604672K, 12% used [0x00000006c6c00000,0x00000006cb77d350,0x00000006eba80000)
+ Metaspace       used 75899K, capacity 84856K, committed 87464K, reserved 1124352K
+  class space    used 9562K, capacity 12262K, committed 12720K, reserved 1048576K
+}
+
+Deoptimization events (10 events):
+Event: 344.320 Thread 0x00007fb4200dd800 Uncommon trap: reason=null_assert action=make_not_entrant pc=0x00007fb47722a2d4 method=sun.awt.X11.XSelection$SelectionEventHandler.dispatchEvent(Lsun/awt/X11/XEvent;)V @ 161
+Event: 478.751 Thread 0x00007fb4200dd800 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007fb476bcbca4 method=sun.awt.X11.XAtom.lookup(J)Lsun/awt/X11/XAtom; @ 15
+Event: 478.751 Thread 0x00007fb4200dd800 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007fb4767ee064 method=java.awt.datatransfer.SystemFlavorMap.getFlavorsForNative(Ljava/lang/String;)Ljava/util/List; @ 10
+Event: 478.751 Thread 0x00007fb4200dd800 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007fb47685bf2c method=sun.awt.X11.XAtom.lookup(J)Lsun/awt/X11/XAtom; @ 15
+Event: 2461.816 Thread 0x00007fb4200dd800 Uncommon trap: reason=unloaded action=reinterpret pc=0x00007fb4768321bc method=sun.awt.datatransfer.SunClipboard.checkChange([J)V @ 128
+Event: 5070.417 Thread 0x00007fb4200dd800 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007fb47640c204 method=java.awt.datatransfer.SystemFlavorMap.getFlavorsForNative(Ljava/lang/String;)Ljava/util/List; @ 22
+Event: 5070.423 Thread 0x00007fb484262000 Uncommon trap: reason=unreached action=reinterpret pc=0x00007fb476faaacc method=org.openide.util.lookup.ProxyLookup$ImmutableInternalData.removeTemplate(Lorg/openide/util/lookup/ProxyLookup;Lorg/openide/util/Lookup$Template;)Lorg/openide/util/lookup/Proxy
+Event: 5070.426 Thread 0x00007fb484262000 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007fb4762c6224 method=org.openide.util.lookup.ProxyLookup.setData(Lorg/openide/util/lookup/ProxyLookup$ImmutableInternalData;[Lorg/openide/util/Lookup;Ljava/util/Map;Ljava/util/Map;)Ljava/uti
+Event: 5070.431 Thread 0x00007fb484541000 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007fb47537f5fc method=java.lang.Class.reflectionData()Ljava/lang/Class$ReflectionData; @ 24
+Event: 5070.431 Thread 0x00007fb484541000 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007fb47608a660 method=java.lang.Class.reflectionData()Ljava/lang/Class$ReflectionData; @ 24
+
+Internal exceptions (10 events):
+Event: 195.029 Thread 0x00007fb3f940c000 Exception <a 'java/security/PrivilegedActionException'> (0x000000078af14980) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u20/1074/hotspot/src/share/vm/prims/jvm.cpp, line 1275]
+Event: 195.029 Thread 0x00007fb3f940c000 Exception <a 'java/security/PrivilegedActionException'> (0x000000078af174f0) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u20/1074/hotspot/src/share/vm/prims/jvm.cpp, line 1275]
+Event: 195.030 Thread 0x00007fb3f940c000 Exception <a 'java/security/PrivilegedActionException'> (0x000000078af24548) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u20/1074/hotspot/src/share/vm/prims/jvm.cpp, line 1275]
+Event: 195.030 Thread 0x00007fb3f940c000 Exception <a 'java/security/PrivilegedActionException'> (0x000000078af277a0) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u20/1074/hotspot/src/share/vm/prims/jvm.cpp, line 1275]
+Event: 478.751 Thread 0x00007fb4200dd800 Implicit null exception at 0x00007fb476bcba5d to 0x00007fb476bcbc83
+Event: 478.751 Thread 0x00007fb4200dd800 Implicit null exception at 0x00007fb47685bdf9 to 0x00007fb47685bf1c
+Event: 5070.417 Thread 0x00007fb4200dd800 Implicit null exception at 0x00007fb476408392 to 0x00007fb47640c1cb
+Event: 5070.426 Thread 0x00007fb484262000 Implicit null exception at 0x00007fb4762c0a21 to 0x00007fb4762c61d9
+Event: 5070.431 Thread 0x00007fb484541000 Implicit null exception at 0x00007fb47537ef49 to 0x00007fb47537f5d9
+Event: 5070.431 Thread 0x00007fb484541000 Implicit null exception at 0x00007fb47608a17d to 0x00007fb47608a64d
+
+Events (10 events):
+Event: 5070.426 Thread 0x00007fb484262000 DEOPT UNPACKING pc=0x00007fb475004f69 sp=0x00007fb489b4b538 mode 2
+Event: 5070.431 Thread 0x00007fb484541000 Uncommon trap: trap_request=0xfffffff4 fr.pc=0x00007fb47537f5fc
+Event: 5070.431 Thread 0x00007fb484541000 DEOPT PACKING pc=0x00007fb47537f5fc sp=0x00007fb48901c560
+Event: 5070.431 Thread 0x00007fb484541000 DEOPT UNPACKING pc=0x00007fb475004f69 sp=0x00007fb48901c4c8 mode 2
+Event: 5070.431 Thread 0x00007fb484541000 Uncommon trap: trap_request=0xfffffff4 fr.pc=0x00007fb47608a660
+Event: 5070.431 Thread 0x00007fb484541000 DEOPT PACKING pc=0x00007fb47608a660 sp=0x00007fb48901c3e0
+Event: 5070.431 Thread 0x00007fb484541000 DEOPT UNPACKING pc=0x00007fb475004f69 sp=0x00007fb48901c3b0 mode 2
+Event: 5070.438 Executing VM operation: BulkRevokeBias
+Event: 5070.440 Executing VM operation: BulkRevokeBias done
+Event: 5070.445 Thread 0x00007fb484297000 flushing nmethod 0x00007fb4774d5250
+
+
+Dynamic libraries:
+00400000-00401000 r-xp 00000000 08:03 25953291                           /usr/local/java/jdk1.8.0_20/bin/java
+00600000-00601000 rw-p 00000000 08:03 25953291                           /usr/local/java/jdk1.8.0_20/bin/java
+020b6000-02392000 rw-p 00000000 00:00 0                                  [heap]
+6c6c00000-6eba80000 rw-p 00000000 00:00 0 
+6eba80000-76cf00000 ---p 00000000 00:00 0 
+76cf00000-7ae700000 rw-p 00000000 00:00 0 
+7ae700000-7c0000000 ---p 00000000 00:00 0 
+7c0000000-7c0c6c000 rw-p 00000000 00:00 0 
+7c0c6c000-800000000 ---p 00000000 00:00 0 
+7fb3da3e0000-7fb3da5e0000 rw-p 00000000 00:00 0 
+7fb3da651000-7fb3da751000 rw-p 00000000 00:00 0 
+7fb3da751000-7fb3da851000 ---p 00000000 00:00 0 
+7fb3da851000-7fb3daa51000 rw-p 00000000 00:00 0 
+7fb3dabfb000-7fb3dac04000 r--s 000aa000 08:03 12331920                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-refactoring-api.jar
+7fb3dac04000-7fb3dae04000 rw-p 00000000 00:00 0 
+7fb3dae04000-7fb3db004000 rw-p 00000000 00:00 0 
+7fb3db004000-7fb3db025000 r-xp 00000000 08:03 12189831                   /lib/x86_64-linux-gnu/liblzma.so.5.0.0
+7fb3db025000-7fb3db224000 ---p 00021000 08:03 12189831                   /lib/x86_64-linux-gnu/liblzma.so.5.0.0
+7fb3db224000-7fb3db225000 r--p 00020000 08:03 12189831                   /lib/x86_64-linux-gnu/liblzma.so.5.0.0
+7fb3db225000-7fb3db226000 rw-p 00021000 08:03 12189831                   /lib/x86_64-linux-gnu/liblzma.so.5.0.0
+7fb3db226000-7fb3db382000 r-xp 00000000 08:03 25952921                   /usr/lib/x86_64-linux-gnu/libxml2.so.2.9.1
+7fb3db382000-7fb3db582000 ---p 0015c000 08:03 25952921                   /usr/lib/x86_64-linux-gnu/libxml2.so.2.9.1
+7fb3db582000-7fb3db58a000 r--p 0015c000 08:03 25952921                   /usr/lib/x86_64-linux-gnu/libxml2.so.2.9.1
+7fb3db58a000-7fb3db58c000 rw-p 00164000 08:03 25952921                   /usr/lib/x86_64-linux-gnu/libxml2.so.2.9.1
+7fb3db58c000-7fb3db58d000 rw-p 00000000 00:00 0 
+7fb3db58d000-7fb3db5c5000 r-xp 00000000 08:03 25952953                   /usr/lib/x86_64-linux-gnu/libcroco-0.6.so.3.0.1
+7fb3db5c5000-7fb3db7c4000 ---p 00038000 08:03 25952953                   /usr/lib/x86_64-linux-gnu/libcroco-0.6.so.3.0.1
+7fb3db7c4000-7fb3db7c7000 r--p 00037000 08:03 25952953                   /usr/lib/x86_64-linux-gnu/libcroco-0.6.so.3.0.1
+7fb3db7c7000-7fb3db7c8000 rw-p 0003a000 08:03 25952953                   /usr/lib/x86_64-linux-gnu/libcroco-0.6.so.3.0.1
+7fb3db7c8000-7fb3db7fc000 r-xp 00000000 08:03 25960579                   /usr/lib/x86_64-linux-gnu/librsvg-2.so.2.40.2
+7fb3db7fc000-7fb3db9fb000 ---p 00034000 08:03 25960579                   /usr/lib/x86_64-linux-gnu/librsvg-2.so.2.40.2
+7fb3db9fb000-7fb3db9fc000 r--p 00033000 08:03 25960579                   /usr/lib/x86_64-linux-gnu/librsvg-2.so.2.40.2
+7fb3db9fc000-7fb3db9fd000 rw-p 00034000 08:03 25960579                   /usr/lib/x86_64-linux-gnu/librsvg-2.so.2.40.2
+7fb3db9fd000-7fb3db9ff000 r-xp 00000000 08:03 26219409                   /usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so
+7fb3db9ff000-7fb3dbbfe000 ---p 00002000 08:03 26219409                   /usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so
+7fb3dbbfe000-7fb3dbbff000 r--p 00001000 08:03 26219409                   /usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so
+7fb3dbbff000-7fb3dbc00000 rw-p 00002000 08:03 26219409                   /usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so
+7fb3dbc00000-7fb3de80a000 r--p 00000000 08:03 35530                      /usr/share/icons/hicolor/icon-theme.cache
+7fb3de80a000-7fb3de8f3000 r--p 00000000 08:03 40125                      /usr/share/icons/Humanity/icon-theme.cache
+7fb3de8f3000-7fb3decbc000 r--s 00000000 08:07 585174                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/testuserdir/var/cache/dict/dictionary_en_US.trie2
+7fb3decbc000-7fb3deebc000 rw-p 00000000 00:00 0 
+7fb3deebc000-7fb3df0bc000 rw-p 00000000 00:00 0 
+7fb3df0bc000-7fb3df2bc000 rw-p 00000000 00:00 0 
+7fb3df2bc000-7fb3df2c4000 r-xp 00000000 08:03 26219221                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libmanagement.so
+7fb3df2c4000-7fb3df4c4000 ---p 00008000 08:03 26219221                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libmanagement.so
+7fb3df4c4000-7fb3df4c5000 rw-p 00008000 08:03 26219221                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libmanagement.so
+7fb3df4c5000-7fb3df6c5000 rw-p 00000000 00:00 0 
+7fb3df6c5000-7fb3df8c5000 rw-p 00000000 00:00 0 
+7fb3df8c5000-7fb3dfac5000 rw-p 00000000 00:00 0 
+7fb3dfb36000-7fb3dfd36000 rw-p 00000000 00:00 0 
+7fb3dfd36000-7fb3dfe0f000 r-xp 00000000 08:03 26219181                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libmlib_image.so
+7fb3dfe0f000-7fb3e000f000 ---p 000d9000 08:03 26219181                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libmlib_image.so
+7fb3e000f000-7fb3e0010000 rw-p 000d9000 08:03 26219181                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libmlib_image.so
+7fb3e0010000-7fb3e0110000 rw-s 00000000 00:04 212434966                  /SYSV00000000 (deleted)
+7fb3e0110000-7fb3e013a000 r-xp 00000000 08:03 26218615                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libdcpr.so
+7fb3e013a000-7fb3e033a000 ---p 0002a000 08:03 26218615                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libdcpr.so
+7fb3e033a000-7fb3e033d000 rw-p 0002a000 08:03 26218615                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libdcpr.so
+7fb3e033d000-7fb3e053d000 rw-p 00000000 00:00 0 
+7fb3e053d000-7fb3e073d000 rw-p 00000000 00:00 0 
+7fb3e073d000-7fb3e093d000 rw-p 00000000 00:00 0 
+7fb3e093d000-7fb3e0b3d000 rw-p 00000000 00:00 0 
+7fb3e0b3d000-7fb3e0b40000 ---p 00000000 00:00 0 
+7fb3e0b40000-7fb3e0c3e000 rw-p 00000000 00:00 0 
+7fb3e0c3e000-7fb3e0c41000 ---p 00000000 00:00 0 
+7fb3e0c41000-7fb3e0f3f000 rw-p 00000000 00:00 0 
+7fb3e0f3f000-7fb3e0f42000 ---p 00000000 00:00 0 
+7fb3e0f42000-7fb3e1040000 rw-p 00000000 00:00 0                          [stack:27971]
+7fb3e5041000-7fb3e52f4000 r-xp 00000000 08:03 25959945                   /usr/lib/x86_64-linux-gnu/libvorbisenc.so.2.0.8
+7fb3e52f4000-7fb3e54f3000 ---p 002b3000 08:03 25959945                   /usr/lib/x86_64-linux-gnu/libvorbisenc.so.2.0.8
+7fb3e54f3000-7fb3e550f000 r--p 002b2000 08:03 25959945                   /usr/lib/x86_64-linux-gnu/libvorbisenc.so.2.0.8
+7fb3e550f000-7fb3e5510000 rw-p 002ce000 08:03 25959945                   /usr/lib/x86_64-linux-gnu/libvorbisenc.so.2.0.8
+7fb3e5510000-7fb3e5540000 r-xp 00000000 08:03 25960452                   /usr/lib/x86_64-linux-gnu/libFLAC.so.8.3.0
+7fb3e5540000-7fb3e573f000 ---p 00030000 08:03 25960452                   /usr/lib/x86_64-linux-gnu/libFLAC.so.8.3.0
+7fb3e573f000-7fb3e5740000 r--p 0002f000 08:03 25960452                   /usr/lib/x86_64-linux-gnu/libFLAC.so.8.3.0
+7fb3e5740000-7fb3e5741000 rw-p 00030000 08:03 25960452                   /usr/lib/x86_64-linux-gnu/libFLAC.so.8.3.0
+7fb3e5741000-7fb3e5746000 r-xp 00000000 08:03 25957579                   /usr/lib/x86_64-linux-gnu/libasyncns.so.0.3.1
+7fb3e5746000-7fb3e5945000 ---p 00005000 08:03 25957579                   /usr/lib/x86_64-linux-gnu/libasyncns.so.0.3.1
+7fb3e5945000-7fb3e5946000 r--p 00004000 08:03 25957579                   /usr/lib/x86_64-linux-gnu/libasyncns.so.0.3.1
+7fb3e5946000-7fb3e5947000 rw-p 00005000 08:03 25957579                   /usr/lib/x86_64-linux-gnu/libasyncns.so.0.3.1
+7fb3e5947000-7fb3e59a8000 r-xp 00000000 08:03 25958953                   /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.25
+7fb3e59a8000-7fb3e5ba8000 ---p 00061000 08:03 25958953                   /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.25
+7fb3e5ba8000-7fb3e5baa000 r--p 00061000 08:03 25958953                   /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.25
+7fb3e5baa000-7fb3e5bab000 rw-p 00063000 08:03 25958953                   /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.25
+7fb3e5bab000-7fb3e5baf000 rw-p 00000000 00:00 0 
+7fb3e5baf000-7fb3e5bb7000 r-xp 00000000 08:03 12193376                   /lib/x86_64-linux-gnu/libwrap.so.0.7.6
+7fb3e5bb7000-7fb3e5db6000 ---p 00008000 08:03 12193376                   /lib/x86_64-linux-gnu/libwrap.so.0.7.6
+7fb3e5db6000-7fb3e5db7000 r--p 00007000 08:03 12193376                   /lib/x86_64-linux-gnu/libwrap.so.0.7.6
+7fb3e5db7000-7fb3e5db8000 rw-p 00008000 08:03 12193376                   /lib/x86_64-linux-gnu/libwrap.so.0.7.6
+7fb3e5db8000-7fb3e5db9000 rw-p 00000000 00:00 0 
+7fb3e5db9000-7fb3e5e1f000 r-xp 00000000 08:03 2547                       /usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-4.0.so
+7fb3e5e1f000-7fb3e601e000 ---p 00066000 08:03 2547                       /usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-4.0.so
+7fb3e601e000-7fb3e601f000 r--p 00065000 08:03 2547                       /usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-4.0.so
+7fb3e601f000-7fb3e6020000 rw-p 00066000 08:03 2547                       /usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-4.0.so
+7fb3e6020000-7fb3e602a000 r-xp 00000000 08:03 12189820                   /lib/x86_64-linux-gnu/libjson-c.so.2.0.0
+7fb3e602a000-7fb3e6229000 ---p 0000a000 08:03 12189820                   /lib/x86_64-linux-gnu/libjson-c.so.2.0.0
+7fb3e6229000-7fb3e622a000 r--p 00009000 08:03 12189820                   /lib/x86_64-linux-gnu/libjson-c.so.2.0.0
+7fb3e622a000-7fb3e622b000 rw-p 0000a000 08:03 12189820                   /lib/x86_64-linux-gnu/libjson-c.so.2.0.0
+7fb3e622b000-7fb3e6272000 r-xp 00000000 08:03 25960704                   /usr/lib/x86_64-linux-gnu/libpulse.so.0.16.2
+7fb3e6272000-7fb3e6472000 ---p 00047000 08:03 25960704                   /usr/lib/x86_64-linux-gnu/libpulse.so.0.16.2
+7fb3e6472000-7fb3e6473000 r--p 00047000 08:03 25960704                   /usr/lib/x86_64-linux-gnu/libpulse.so.0.16.2
+7fb3e6473000-7fb3e6474000 rw-p 00048000 08:03 25960704                   /usr/lib/x86_64-linux-gnu/libpulse.so.0.16.2
+7fb3e66cd000-7fb3e66d0000 ---p 00000000 00:00 0 
+7fb3e66d0000-7fb3e69ce000 rw-p 00000000 00:00 0                          [stack:27610]
+7fb3e69ce000-7fb3e69d1000 ---p 00000000 00:00 0 
+7fb3e69d1000-7fb3e6ccf000 rw-p 00000000 00:00 0                          [stack:27454]
+7fb3e6ccf000-7fb3e6cd2000 ---p 00000000 00:00 0 
+7fb3e6cd2000-7fb3e6fd0000 rw-p 00000000 00:00 0 
+7fb3e6fd0000-7fb3e71d0000 rw-p 00000000 00:00 0 
+7fb3e836e000-7fb3e83a5000 r-xp 00000000 08:03 25962235                   /usr/lib/x86_64-linux-gnu/libtxc_dxtn_s2tc.so.0.0.0
+7fb3e83a5000-7fb3e85a4000 ---p 00037000 08:03 25962235                   /usr/lib/x86_64-linux-gnu/libtxc_dxtn_s2tc.so.0.0.0
+7fb3e85a4000-7fb3e85a5000 r--p 00036000 08:03 25962235                   /usr/lib/x86_64-linux-gnu/libtxc_dxtn_s2tc.so.0.0.0
+7fb3e85a5000-7fb3e85a6000 rw-p 00037000 08:03 25962235                   /usr/lib/x86_64-linux-gnu/libtxc_dxtn_s2tc.so.0.0.0
+7fb3e85a6000-7fb3e85ae000 r-xp 00000000 08:03 25953325                   /usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1
+7fb3e85ae000-7fb3e87ad000 ---p 00008000 08:03 25953325                   /usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1
+7fb3e87ad000-7fb3e87ae000 r--p 00007000 08:03 25953325                   /usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1
+7fb3e87ae000-7fb3e87af000 rw-p 00008000 08:03 25953325                   /usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1
+7fb3e87af000-7fb3e8895000 r-xp 00000000 08:03 25956923                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.19
+7fb3e8895000-7fb3e8a94000 ---p 000e6000 08:03 25956923                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.19
+7fb3e8a94000-7fb3e8a9c000 r--p 000e5000 08:03 25956923                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.19
+7fb3e8a9c000-7fb3e8a9e000 rw-p 000ed000 08:03 25956923                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.19
+7fb3e8a9e000-7fb3e8ab3000 rw-p 00000000 00:00 0 
+7fb3e8ab3000-7fb3e8abe000 r-xp 00000000 08:03 25955437                   /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+7fb3e8abe000-7fb3e8cbd000 ---p 0000b000 08:03 25955437                   /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+7fb3e8cbd000-7fb3e8cbe000 r--p 0000a000 08:03 25955437                   /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+7fb3e8cbe000-7fb3e8cbf000 rw-p 0000b000 08:03 25955437                   /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+7fb3e8cbf000-7fb3e8cc5000 r-xp 00000000 08:03 25953421                   /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+7fb3e8cc5000-7fb3e8ec4000 ---p 00006000 08:03 25953421                   /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+7fb3e8ec4000-7fb3e8ec5000 r--p 00005000 08:03 25953421                   /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+7fb3e8ec5000-7fb3e8ec6000 rw-p 00006000 08:03 25953421                   /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+7fb3e8ec6000-7fb3e8ee5000 r-xp 00000000 08:03 25953532                   /usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.0.0
+7fb3e8ee5000-7fb3e90e4000 ---p 0001f000 08:03 25953532                   /usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.0.0
+7fb3e90e4000-7fb3e90e5000 r--p 0001e000 08:03 25953532                   /usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.0.0
+7fb3e90e5000-7fb3e90e6000 rw-p 0001f000 08:03 25953532                   /usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.0.0
+7fb3e90e6000-7fb3e95d5000 r-xp 00000000 08:03 26214576                   /usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+7fb3e95d5000-7fb3e97d5000 ---p 004ef000 08:03 26214576                   /usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+7fb3e97d5000-7fb3e97ec000 r--p 004ef000 08:03 26214576                   /usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+7fb3e97ec000-7fb3e97f8000 rw-p 00506000 08:03 26214576                   /usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+7fb3e97f8000-7fb3e9844000 rw-p 00000000 00:00 0 
+7fb3e9844000-7fb3e9850000 r-xp 00000000 08:03 25952977                   /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+7fb3e9850000-7fb3e9a4f000 ---p 0000c000 08:03 25952977                   /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+7fb3e9a4f000-7fb3e9a50000 r--p 0000b000 08:03 25952977                   /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+7fb3e9a50000-7fb3e9a51000 rw-p 0000c000 08:03 25952977                   /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+7fb3e9a51000-7fb3e9a52000 r-xp 00000000 08:03 25959512                   /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+7fb3e9a52000-7fb3e9c51000 ---p 00001000 08:03 25959512                   /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+7fb3e9c51000-7fb3e9c52000 r--p 00000000 08:03 25959512                   /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+7fb3e9c52000-7fb3e9c53000 rw-p 00001000 08:03 25959512                   /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+7fb3e9c53000-7fb3e9c58000 r-xp 00000000 08:03 25962316                   /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+7fb3e9c58000-7fb3e9e57000 ---p 00005000 08:03 25962316                   /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+7fb3e9e57000-7fb3e9e58000 r--p 00004000 08:03 25962316                   /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+7fb3e9e58000-7fb3e9e59000 rw-p 00005000 08:03 25962316                   /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+7fb3e9e59000-7fb3e9e5b000 r-xp 00000000 08:03 25962314                   /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+7fb3e9e5b000-7fb3ea05a000 ---p 00002000 08:03 25962314                   /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+7fb3ea05a000-7fb3ea05b000 r--p 00001000 08:03 25962314                   /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+7fb3ea05b000-7fb3ea05c000 rw-p 00002000 08:03 25962314                   /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+7fb3ea05c000-7fb3ea05e000 r-xp 00000000 08:03 25962298                   /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+7fb3ea05e000-7fb3ea25d000 ---p 00002000 08:03 25962298                   /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+7fb3ea25d000-7fb3ea25e000 r--p 00001000 08:03 25962298                   /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+7fb3ea25e000-7fb3ea25f000 rw-p 00002000 08:03 25962298                   /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+7fb3ea25f000-7fb3ea262000 r-xp 00000000 08:03 25961816                   /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+7fb3ea262000-7fb3ea462000 ---p 00003000 08:03 25961816                   /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+7fb3ea462000-7fb3ea463000 r--p 00003000 08:03 25961816                   /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+7fb3ea463000-7fb3ea464000 rw-p 00004000 08:03 25961816                   /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+7fb3ea464000-7fb3ea479000 r-xp 00000000 08:03 25952711                   /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+7fb3ea479000-7fb3ea678000 ---p 00015000 08:03 25952711                   /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+7fb3ea678000-7fb3ea67a000 r--p 00014000 08:03 25952711                   /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+7fb3ea67a000-7fb3ea67b000 rw-p 00016000 08:03 25952711                   /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+7fb3ea67b000-7fb3ea67c000 r-xp 00000000 08:03 25952476                   /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+7fb3ea67c000-7fb3ea87b000 ---p 00001000 08:03 25952476                   /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+7fb3ea87b000-7fb3ea87c000 r--p 00000000 08:03 25952476                   /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+7fb3ea87c000-7fb3ea87d000 rw-p 00001000 08:03 25952476                   /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+7fb3ea87d000-7fb3ea89f000 r-xp 00000000 08:03 25955444                   /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+7fb3ea89f000-7fb3eaa9f000 ---p 00022000 08:03 25955444                   /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+7fb3eaa9f000-7fb3eaaa2000 r--p 00022000 08:03 25955444                   /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+7fb3eaaa2000-7fb3eaaa3000 rw-p 00025000 08:03 25955444                   /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+7fb3eaaa3000-7fb3eaaa4000 rw-p 00000000 00:00 0 
+7fb3eaaa4000-7fb3eab06000 r-xp 00000000 08:03 26351375                   /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+7fb3eab06000-7fb3ead05000 ---p 00062000 08:03 26351375                   /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+7fb3ead05000-7fb3ead08000 r--p 00061000 08:03 26351375                   /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+7fb3ead08000-7fb3ead09000 rw-p 00064000 08:03 26351375                   /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+7fb3ead09000-7fb3eaf08000 rw-p 00000000 00:00 0 
+7fb3eaf08000-7fb3eaf0a000 ---p 00000000 00:00 0 
+7fb3eaf0a000-7fb3eaf0d000 ---p 00000000 00:00 0 
+7fb3eaf0d000-7fb3eb00b000 rw-p 00000000 00:00 0                          [stack:974]
+7fb3eb00b000-7fb3eb00f000 r-xp 00000000 08:03 25953389                   /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+7fb3eb00f000-7fb3eb20f000 ---p 00004000 08:03 25953389                   /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+7fb3eb20f000-7fb3eb210000 r--p 00004000 08:03 25953389                   /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+7fb3eb210000-7fb3eb211000 rw-p 00005000 08:03 25953389                   /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+7fb3eb211000-7fb3eb27b000 r-xp 00000000 08:07 583603                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/testuserdir/liblwjgl64.so
+7fb3eb27b000-7fb3eb47b000 ---p 0006a000 08:07 583603                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/testuserdir/liblwjgl64.so
+7fb3eb47b000-7fb3eb47d000 r--p 0006a000 08:07 583603                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/testuserdir/liblwjgl64.so
+7fb3eb47d000-7fb3eb47e000 rw-p 0006c000 08:07 583603                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/testuserdir/liblwjgl64.so
+7fb3eb47e000-7fb3eb47f000 r-xp 00000000 08:03 26219207                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libjawt.so
+7fb3eb47f000-7fb3eb67e000 ---p 00001000 08:03 26219207                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libjawt.so
+7fb3eb67e000-7fb3eb67f000 rw-p 00000000 08:03 26219207                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libjawt.so
+7fb3eb67f000-7fb3eb682000 ---p 00000000 00:00 0 
+7fb3eb682000-7fb3eb980000 rw-p 00000000 00:00 0 
+7fb3eb980000-7fb3eb983000 ---p 00000000 00:00 0 
+7fb3eb983000-7fb3ebc81000 rw-p 00000000 00:00 0                          [stack:27440]
+7fb3ebc81000-7fb3ebe81000 rw-p 00000000 00:00 0 
+7fb3ebe81000-7fb3ebe82000 ---p 00000000 00:00 0 
+7fb3ebe82000-7fb3ec682000 rw-p 00000000 00:00 0 
+7fb3ec682000-7fb3ec683000 ---p 00000000 00:00 0 
+7fb3ec683000-7fb3ece83000 rw-p 00000000 00:00 0 
+7fb3ece83000-7fb3ece84000 ---p 00000000 00:00 0 
+7fb3ece84000-7fb3ed684000 rw-p 00000000 00:00 0                          [stack:27436]
+7fb3ed684000-7fb3ed6c8000 r-xp 00000000 08:03 12191843                   /lib/x86_64-linux-gnu/libdbus-1.so.3.7.6
+7fb3ed6c8000-7fb3ed8c7000 ---p 00044000 08:03 12191843                   /lib/x86_64-linux-gnu/libdbus-1.so.3.7.6
+7fb3ed8c7000-7fb3ed8c8000 r--p 00043000 08:03 12191843                   /lib/x86_64-linux-gnu/libdbus-1.so.3.7.6
+7fb3ed8c8000-7fb3ed8c9000 rw-p 00044000 08:03 12191843                   /lib/x86_64-linux-gnu/libdbus-1.so.3.7.6
+7fb3ed8c9000-7fb3ed8d1000 r-xp 00000000 08:03 12189719                   /lib/x86_64-linux-gnu/libnih-dbus.so.1.0.0
+7fb3ed8d1000-7fb3edad1000 ---p 00008000 08:03 12189719                   /lib/x86_64-linux-gnu/libnih-dbus.so.1.0.0
+7fb3edad1000-7fb3edad2000 r--p 00008000 08:03 12189719                   /lib/x86_64-linux-gnu/libnih-dbus.so.1.0.0
+7fb3edad2000-7fb3edad3000 rw-p 00009000 08:03 12189719                   /lib/x86_64-linux-gnu/libnih-dbus.so.1.0.0
+7fb3edad3000-7fb3edaea000 r-xp 00000000 08:03 12189818                   /lib/x86_64-linux-gnu/libnih.so.1.0.0
+7fb3edaea000-7fb3edce9000 ---p 00017000 08:03 12189818                   /lib/x86_64-linux-gnu/libnih.so.1.0.0
+7fb3edce9000-7fb3edcea000 r--p 00016000 08:03 12189818                   /lib/x86_64-linux-gnu/libnih.so.1.0.0
+7fb3edcea000-7fb3edceb000 rw-p 00017000 08:03 12189818                   /lib/x86_64-linux-gnu/libnih.so.1.0.0
+7fb3edceb000-7fb3edd04000 r-xp 00000000 08:03 12193258                   /lib/x86_64-linux-gnu/libcgmanager.so.0.0.0
+7fb3edd04000-7fb3edf03000 ---p 00019000 08:03 12193258                   /lib/x86_64-linux-gnu/libcgmanager.so.0.0.0
+7fb3edf03000-7fb3edf05000 r--p 00018000 08:03 12193258                   /lib/x86_64-linux-gnu/libcgmanager.so.0.0.0
+7fb3edf05000-7fb3edf06000 rw-p 0001a000 08:03 12193258                   /lib/x86_64-linux-gnu/libcgmanager.so.0.0.0
+7fb3edf06000-7fb3edf16000 r-xp 00000000 08:03 12189790                   /lib/x86_64-linux-gnu/libudev.so.1.3.5
+7fb3edf16000-7fb3ee115000 ---p 00010000 08:03 12189790                   /lib/x86_64-linux-gnu/libudev.so.1.3.5
+7fb3ee115000-7fb3ee116000 r--p 0000f000 08:03 12189790                   /lib/x86_64-linux-gnu/libudev.so.1.3.5
+7fb3ee116000-7fb3ee117000 rw-p 00010000 08:03 12189790                   /lib/x86_64-linux-gnu/libudev.so.1.3.5
+7fb3ee117000-7fb3ee14b000 r-xp 00000000 08:03 26218513                   /usr/lib/x86_64-linux-gnu/gvfs/libgvfscommon.so
+7fb3ee14b000-7fb3ee34b000 ---p 00034000 08:03 26218513                   /usr/lib/x86_64-linux-gnu/gvfs/libgvfscommon.so
+7fb3ee34b000-7fb3ee350000 r--p 00034000 08:03 26218513                   /usr/lib/x86_64-linux-gnu/gvfs/libgvfscommon.so
+7fb3ee350000-7fb3ee351000 rw-p 00039000 08:03 26218513                   /usr/lib/x86_64-linux-gnu/gvfs/libgvfscommon.so
+7fb3ee351000-7fb3ee380000 r-xp 00000000 08:03 26218514                   /usr/lib/x86_64-linux-gnu/gio/modules/libgvfsdbus.so
+7fb3ee380000-7fb3ee580000 ---p 0002f000 08:03 26218514                   /usr/lib/x86_64-linux-gnu/gio/modules/libgvfsdbus.so
+7fb3ee580000-7fb3ee581000 r--p 0002f000 08:03 26218514                   /usr/lib/x86_64-linux-gnu/gio/modules/libgvfsdbus.so
+7fb3ee581000-7fb3ee582000 rw-p 00030000 08:03 26218514                   /usr/lib/x86_64-linux-gnu/gio/modules/libgvfsdbus.so
+7fb3ee582000-7fb3ee583000 rw-p 00000000 00:00 0 
+7fb3ee583000-7fb3ee5dc000 r-xp 00000000 08:03 25960593                   /usr/lib/x86_64-linux-gnu/libibus-1.0.so.5.0.505
+7fb3ee5dc000-7fb3ee7dc000 ---p 00059000 08:03 25960593                   /usr/lib/x86_64-linux-gnu/libibus-1.0.so.5.0.505
+7fb3ee7dc000-7fb3ee7de000 r--p 00059000 08:03 25960593                   /usr/lib/x86_64-linux-gnu/libibus-1.0.so.5.0.505
+7fb3ee7de000-7fb3ee7df000 rw-p 0005b000 08:03 25960593                   /usr/lib/x86_64-linux-gnu/libibus-1.0.so.5.0.505
+7fb3ee7df000-7fb3ee7e0000 rw-p 00000000 00:00 0 
+7fb3ee7e0000-7fb3ee7e6000 r-xp 00000000 08:03 26214933                   /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/immodules/im-ibus.so
+7fb3ee7e6000-7fb3ee9e6000 ---p 00006000 08:03 26214933                   /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/immodules/im-ibus.so
+7fb3ee9e6000-7fb3ee9e7000 r--p 00006000 08:03 26214933                   /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/immodules/im-ibus.so
+7fb3ee9e7000-7fb3ee9e8000 rw-p 00007000 08:03 26214933                   /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/immodules/im-ibus.so
+7fb3ee9e8000-7fb3eebe8000 rw-p 00000000 00:00 0 
+7fb3eebe8000-7fb3eebe9000 ---p 00000000 00:00 0 
+7fb3eebe9000-7fb3ef3e9000 rw-p 00000000 00:00 0                          [stack:27435]
+7fb3ef3e9000-7fb3ef3ea000 ---p 00000000 00:00 0 
+7fb3ef3ea000-7fb3efbea000 rw-p 00000000 00:00 0                          [stack:27434]
+7fb3efbea000-7fb3efbf5000 r-xp 00000000 08:03 26219988                   /usr/lib/x86_64-linux-gnu/gio/modules/libdconfsettings.so
+7fb3efbf5000-7fb3efdf5000 ---p 0000b000 08:03 26219988                   /usr/lib/x86_64-linux-gnu/gio/modules/libdconfsettings.so
+7fb3efdf5000-7fb3efdf6000 r--p 0000b000 08:03 26219988                   /usr/lib/x86_64-linux-gnu/gio/modules/libdconfsettings.so
+7fb3efdf6000-7fb3efdf7000 rw-p 0000c000 08:03 26219988                   /usr/lib/x86_64-linux-gnu/gio/modules/libdconfsettings.so
+7fb3efdf7000-7fb3efdfe000 r-xp 00000000 08:03 25957746                   /usr/lib/x86_64-linux-gnu/libogg.so.0.8.1
+7fb3efdfe000-7fb3efffe000 ---p 00007000 08:03 25957746                   /usr/lib/x86_64-linux-gnu/libogg.so.0.8.1
+7fb3efffe000-7fb3effff000 r--p 00007000 08:03 25957746                   /usr/lib/x86_64-linux-gnu/libogg.so.0.8.1
+7fb3effff000-7fb3f0000000 rw-p 00008000 08:03 25957746                   /usr/lib/x86_64-linux-gnu/libogg.so.0.8.1
+7fb3f0000000-7fb3f0852000 rw-p 00000000 00:00 0 
+7fb3f0852000-7fb3f4000000 ---p 00000000 00:00 0 
+7fb3f4059000-7fb3f4085000 r-xp 00000000 08:03 25959949                   /usr/lib/x86_64-linux-gnu/libvorbis.so.0.4.5
+7fb3f4085000-7fb3f4284000 ---p 0002c000 08:03 25959949                   /usr/lib/x86_64-linux-gnu/libvorbis.so.0.4.5
+7fb3f4284000-7fb3f4285000 r--p 0002b000 08:03 25959949                   /usr/lib/x86_64-linux-gnu/libvorbis.so.0.4.5
+7fb3f4285000-7fb3f4286000 rw-p 0002c000 08:03 25959949                   /usr/lib/x86_64-linux-gnu/libvorbis.so.0.4.5
+7fb3f4286000-7fb3f428f000 r-xp 00000000 08:03 25955480                   /usr/lib/x86_64-linux-gnu/libltdl.so.7.3.0
+7fb3f428f000-7fb3f448e000 ---p 00009000 08:03 25955480                   /usr/lib/x86_64-linux-gnu/libltdl.so.7.3.0
+7fb3f448e000-7fb3f448f000 r--p 00008000 08:03 25955480                   /usr/lib/x86_64-linux-gnu/libltdl.so.7.3.0
+7fb3f448f000-7fb3f4490000 rw-p 00009000 08:03 25955480                   /usr/lib/x86_64-linux-gnu/libltdl.so.7.3.0
+7fb3f4490000-7fb3f44a1000 r-xp 00000000 08:03 25965488                   /usr/lib/x86_64-linux-gnu/libtdb.so.1.2.12
+7fb3f44a1000-7fb3f46a0000 ---p 00011000 08:03 25965488                   /usr/lib/x86_64-linux-gnu/libtdb.so.1.2.12
+7fb3f46a0000-7fb3f46a1000 r--p 00010000 08:03 25965488                   /usr/lib/x86_64-linux-gnu/libtdb.so.1.2.12
+7fb3f46a1000-7fb3f46a2000 rw-p 00011000 08:03 25965488                   /usr/lib/x86_64-linux-gnu/libtdb.so.1.2.12
+7fb3f46a2000-7fb3f46a9000 r-xp 00000000 08:03 25959947                   /usr/lib/x86_64-linux-gnu/libvorbisfile.so.3.3.4
+7fb3f46a9000-7fb3f48a8000 ---p 00007000 08:03 25959947                   /usr/lib/x86_64-linux-gnu/libvorbisfile.so.3.3.4
+7fb3f48a8000-7fb3f48a9000 r--p 00006000 08:03 25959947                   /usr/lib/x86_64-linux-gnu/libvorbisfile.so.3.3.4
+7fb3f48a9000-7fb3f48aa000 rw-p 00007000 08:03 25959947                   /usr/lib/x86_64-linux-gnu/libvorbisfile.so.3.3.4
+7fb3f48aa000-7fb3f48b9000 r-xp 00000000 08:03 25953431                   /usr/lib/x86_64-linux-gnu/libcanberra.so.0.2.5
+7fb3f48b9000-7fb3f4ab8000 ---p 0000f000 08:03 25953431                   /usr/lib/x86_64-linux-gnu/libcanberra.so.0.2.5
+7fb3f4ab8000-7fb3f4ab9000 r--p 0000e000 08:03 25953431                   /usr/lib/x86_64-linux-gnu/libcanberra.so.0.2.5
+7fb3f4ab9000-7fb3f4aba000 rw-p 0000f000 08:03 25953431                   /usr/lib/x86_64-linux-gnu/libcanberra.so.0.2.5
+7fb3f4aba000-7fb3f4abe000 r-xp 00000000 08:03 25952397                   /usr/lib/x86_64-linux-gnu/libcanberra-gtk.so.0.1.9
+7fb3f4abe000-7fb3f4cbd000 ---p 00004000 08:03 25952397                   /usr/lib/x86_64-linux-gnu/libcanberra-gtk.so.0.1.9
+7fb3f4cbd000-7fb3f4cbe000 r--p 00003000 08:03 25952397                   /usr/lib/x86_64-linux-gnu/libcanberra-gtk.so.0.1.9
+7fb3f4cbe000-7fb3f4cbf000 rw-p 00004000 08:03 25952397                   /usr/lib/x86_64-linux-gnu/libcanberra-gtk.so.0.1.9
+7fb3f4cbf000-7fb3f4cc4000 r-xp 00000000 08:03 26215194                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/libcanberra-gtk-module.so
+7fb3f4cc4000-7fb3f4ec3000 ---p 00005000 08:03 26215194                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/libcanberra-gtk-module.so
+7fb3f4ec3000-7fb3f4ec4000 r--p 00004000 08:03 26215194                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/libcanberra-gtk-module.so
+7fb3f4ec4000-7fb3f4ec5000 rw-p 00005000 08:03 26215194                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/libcanberra-gtk-module.so
+7fb3f4ec5000-7fb3f4ef4000 r-xp 00000000 08:03 26216324                   /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libmurrine.so
+7fb3f4ef4000-7fb3f50f4000 ---p 0002f000 08:03 26216324                   /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libmurrine.so
+7fb3f50f4000-7fb3f50f5000 r--p 0002f000 08:03 26216324                   /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libmurrine.so
+7fb3f50f5000-7fb3f50f6000 rw-p 00030000 08:03 26216324                   /usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libmurrine.so
+7fb3f50f6000-7fb3f5106000 r-xp 00000000 08:03 25957990                   /usr/lib/x86_64-linux-gnu/libunity-gtk2-parser.so.0.0.0
+7fb3f5106000-7fb3f5305000 ---p 00010000 08:03 25957990                   /usr/lib/x86_64-linux-gnu/libunity-gtk2-parser.so.0.0.0
+7fb3f5305000-7fb3f5306000 r--p 0000f000 08:03 25957990                   /usr/lib/x86_64-linux-gnu/libunity-gtk2-parser.so.0.0.0
+7fb3f5306000-7fb3f5307000 rw-p 00010000 08:03 25957990                   /usr/lib/x86_64-linux-gnu/libunity-gtk2-parser.so.0.0.0
+7fb3f5307000-7fb3f530c000 r-xp 00000000 08:03 26218667                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/libunity-gtk-module.so
+7fb3f530c000-7fb3f550b000 ---p 00005000 08:03 26218667                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/libunity-gtk-module.so
+7fb3f550b000-7fb3f550c000 r--p 00004000 08:03 26218667                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/libunity-gtk-module.so
+7fb3f550c000-7fb3f550d000 rw-p 00005000 08:03 26218667                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/libunity-gtk-module.so
+7fb3f550d000-7fb3f551e000 r-xp 00000000 08:03 26214710                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/liboverlay-scrollbar.so
+7fb3f551e000-7fb3f571d000 ---p 00011000 08:03 26214710                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/liboverlay-scrollbar.so
+7fb3f571d000-7fb3f571e000 r--p 00010000 08:03 26214710                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/liboverlay-scrollbar.so
+7fb3f571e000-7fb3f571f000 rw-p 00011000 08:03 26214710                   /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/liboverlay-scrollbar.so
+7fb3f571f000-7fb3f5720000 r-xp 00000000 08:03 25952785                   /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.4002.0
+7fb3f5720000-7fb3f591f000 ---p 00001000 08:03 25952785                   /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.4002.0
+7fb3f591f000-7fb3f5920000 r--p 00000000 08:03 25952785                   /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.4002.0
+7fb3f5920000-7fb3f5921000 rw-p 00001000 08:03 25952785                   /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.4002.0
+7fb3f5921000-7fb3f5927000 r-xp 00000000 08:03 25953690                   /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.1
+7fb3f5927000-7fb3f5b26000 ---p 00006000 08:03 25953690                   /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.1
+7fb3f5b26000-7fb3f5b27000 r--p 00005000 08:03 25953690                   /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.1
+7fb3f5b27000-7fb3f5b28000 rw-p 00006000 08:03 25953690                   /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.1
+7fb3f5b28000-7fb3f5b4c000 r-xp 00000000 08:03 25965844                   /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+7fb3f5b4c000-7fb3f5d4b000 ---p 00024000 08:03 25965844                   /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+7fb3f5d4b000-7fb3f5d4d000 r--p 00023000 08:03 25965844                   /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+7fb3f5d4d000-7fb3f5d4e000 rw-p 00025000 08:03 25965844                   /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+7fb3f5d4e000-7fb3f5d8b000 r-xp 00000000 08:03 12193752                   /lib/x86_64-linux-gnu/libpcre.so.3.13.1
+7fb3f5d8b000-7fb3f5f8a000 ---p 0003d000 08:03 12193752                   /lib/x86_64-linux-gnu/libpcre.so.3.13.1
+7fb3f5f8a000-7fb3f5f8b000 r--p 0003c000 08:03 12193752                   /lib/x86_64-linux-gnu/libpcre.so.3.13.1
+7fb3f5f8b000-7fb3f5f8c000 rw-p 0003d000 08:03 12193752                   /lib/x86_64-linux-gnu/libpcre.so.3.13.1
+7fb3f5f8c000-7fb3f5f93000 r-xp 00000000 08:03 25953518                   /usr/lib/x86_64-linux-gnu/libffi.so.6.0.1
+7fb3f5f93000-7fb3f6192000 ---p 00007000 08:03 25953518                   /usr/lib/x86_64-linux-gnu/libffi.so.6.0.1
+7fb3f6192000-7fb3f6193000 r--p 00006000 08:03 25953518                   /usr/lib/x86_64-linux-gnu/libffi.so.6.0.1
+7fb3f6193000-7fb3f6194000 rw-p 00007000 08:03 25953518                   /usr/lib/x86_64-linux-gnu/libffi.so.6.0.1
+7fb3f6194000-7fb3f61bb000 r-xp 00000000 08:03 12191831                   /lib/x86_64-linux-gnu/libexpat.so.1.6.0
+7fb3f61bb000-7fb3f63bb000 ---p 00027000 08:03 12191831                   /lib/x86_64-linux-gnu/libexpat.so.1.6.0
+7fb3f63bb000-7fb3f63bd000 r--p 00027000 08:03 12191831                   /lib/x86_64-linux-gnu/libexpat.so.1.6.0
+7fb3f63bd000-7fb3f63be000 rw-p 00029000 08:03 12191831                   /lib/x86_64-linux-gnu/libexpat.so.1.6.0
+7fb3f63be000-7fb3f63c6000 r-xp 00000000 08:03 25955565                   /usr/lib/x86_64-linux-gnu/libthai.so.0.2.0
+7fb3f63c6000-7fb3f65c5000 ---p 00008000 08:03 25955565                   /usr/lib/x86_64-linux-gnu/libthai.so.0.2.0
+7fb3f65c5000-7fb3f65c6000 r--p 00007000 08:03 25955565                   /usr/lib/x86_64-linux-gnu/libthai.so.0.2.0
+7fb3f65c6000-7fb3f65c7000 rw-p 00008000 08:03 25955565                   /usr/lib/x86_64-linux-gnu/libthai.so.0.2.0
+7fb3f65c7000-7fb3f661a000 r-xp 00000000 08:03 25960566                   /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.927.0
+7fb3f661a000-7fb3f681a000 ---p 00053000 08:03 25960566                   /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.927.0
+7fb3f681a000-7fb3f681b000 r--p 00053000 08:03 25960566                   /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.927.0
+7fb3f681b000-7fb3f681c000 rw-p 00054000 08:03 25960566                   /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.927.0
+7fb3f681c000-7fb3f6833000 r-xp 00000000 08:03 12189768                   /lib/x86_64-linux-gnu/libresolv-2.19.so
+7fb3f6833000-7fb3f6a33000 ---p 00017000 08:03 12189768                   /lib/x86_64-linux-gnu/libresolv-2.19.so
+7fb3f6a33000-7fb3f6a34000 r--p 00017000 08:03 12189768                   /lib/x86_64-linux-gnu/libresolv-2.19.so
+7fb3f6a34000-7fb3f6a35000 rw-p 00018000 08:03 12189768                   /lib/x86_64-linux-gnu/libresolv-2.19.so
+7fb3f6a35000-7fb3f6a37000 rw-p 00000000 00:00 0 
+7fb3f6a37000-7fb3f6a57000 r-xp 00000000 08:03 12190507                   /lib/x86_64-linux-gnu/libselinux.so.1
+7fb3f6a57000-7fb3f6c56000 ---p 00020000 08:03 12190507                   /lib/x86_64-linux-gnu/libselinux.so.1
+7fb3f6c56000-7fb3f6c57000 r--p 0001f000 08:03 12190507                   /lib/x86_64-linux-gnu/libselinux.so.1
+7fb3f6c57000-7fb3f6c58000 rw-p 00020000 08:03 12190507                   /lib/x86_64-linux-gnu/libselinux.so.1
+7fb3f6c58000-7fb3f6c5a000 rw-p 00000000 00:00 0 
+7fb3f6c5a000-7fb3f6c72000 r-xp 00000000 08:03 12190510                   /lib/x86_64-linux-gnu/libz.so.1.2.8
+7fb3f6c72000-7fb3f6e71000 ---p 00018000 08:03 12190510                   /lib/x86_64-linux-gnu/libz.so.1.2.8
+7fb3f6e71000-7fb3f6e72000 r--p 00017000 08:03 12190510                   /lib/x86_64-linux-gnu/libz.so.1.2.8
+7fb3f6e72000-7fb3f6e73000 rw-p 00018000 08:03 12190510                   /lib/x86_64-linux-gnu/libz.so.1.2.8
+7fb3f6e73000-7fb3f6e7b000 r-xp 00000000 08:03 25952573                   /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7fb3f6e7b000-7fb3f707a000 ---p 00008000 08:03 25952573                   /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7fb3f707a000-7fb3f707b000 r--p 00007000 08:03 25952573                   /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7fb3f707b000-7fb3f707c000 rw-p 00008000 08:03 25952573                   /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7fb3f707c000-7fb3f707e000 r-xp 00000000 08:03 25952576                   /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7fb3f707e000-7fb3f727d000 ---p 00002000 08:03 25952576                   /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7fb3f727d000-7fb3f727e000 r--p 00001000 08:03 25952576                   /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7fb3f727e000-7fb3f727f000 rw-p 00002000 08:03 25952576                   /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7fb3f727f000-7fb3f72a4000 r-xp 00000000 08:03 12191855                   /lib/x86_64-linux-gnu/libpng12.so.0.50.0
+7fb3f72a4000-7fb3f74a3000 ---p 00025000 08:03 12191855                   /lib/x86_64-linux-gnu/libpng12.so.0.50.0
+7fb3f74a3000-7fb3f74a4000 r--p 00024000 08:03 12191855                   /lib/x86_64-linux-gnu/libpng12.so.0.50.0
+7fb3f74a4000-7fb3f74a5000 rw-p 00025000 08:03 12191855                   /lib/x86_64-linux-gnu/libpng12.so.0.50.0
+7fb3f74a5000-7fb3f7545000 r-xp 00000000 08:03 25965798                   /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.30.2
+7fb3f7545000-7fb3f7745000 ---p 000a0000 08:03 25965798                   /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.30.2
+7fb3f7745000-7fb3f774c000 r--p 000a0000 08:03 25965798                   /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.30.2
+7fb3f774c000-7fb3f774d000 rw-p 000a7000 08:03 25965798                   /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.30.2
+7fb3f774d000-7fb3f77ea000 r-xp 00000000 08:03 25952810                   /usr/lib/x86_64-linux-gnu/libfreetype.so.6.11.1
+7fb3f77ea000-7fb3f79e9000 ---p 0009d000 08:03 25952810                   /usr/lib/x86_64-linux-gnu/libfreetype.so.6.11.1
+7fb3f79e9000-7fb3f79ef000 r--p 0009c000 08:03 25952810                   /usr/lib/x86_64-linux-gnu/libfreetype.so.6.11.1
+7fb3f79ef000-7fb3f79f0000 rw-p 000a2000 08:03 25952810                   /usr/lib/x86_64-linux-gnu/libfreetype.so.6.11.1
+7fb3f79f0000-7fb3f79f2000 r-xp 00000000 08:03 25952663                   /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7fb3f79f2000-7fb3f7bf1000 ---p 00002000 08:03 25952663                   /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7fb3f7bf1000-7fb3f7bf2000 r--p 00001000 08:03 25952663                   /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7fb3f7bf2000-7fb3f7bf3000 rw-p 00002000 08:03 25952663                   /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7fb3f7bf3000-7fb3f7bf5000 r-xp 00000000 08:03 25953273                   /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7fb3f7bf5000-7fb3f7df4000 ---p 00002000 08:03 25953273                   /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7fb3f7df4000-7fb3f7df5000 r--p 00001000 08:03 25953273                   /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7fb3f7df5000-7fb3f7df6000 rw-p 00002000 08:03 25953273                   /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7fb3f7df6000-7fb3f7dff000 r-xp 00000000 08:03 25952911                   /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7fb3f7dff000-7fb3f7ffe000 ---p 00009000 08:03 25952911                   /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7fb3f7ffe000-7fb3f7fff000 r--p 00008000 08:03 25952911                   /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7fb3f7fff000-7fb3f8000000 rw-p 00009000 08:03 25952911                   /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7fb3f8000000-7fb3f9b3a000 rw-p 00000000 00:00 0 
+7fb3f9b3a000-7fb3fc000000 ---p 00000000 00:00 0 
+7fb3fc000000-7fb3fc172000 rw-p 00000000 00:00 0 
+7fb3fc172000-7fb400000000 ---p 00000000 00:00 0 
+7fb400000000-7fb400021000 rw-p 00000000 00:00 0 
+7fb400021000-7fb404000000 ---p 00000000 00:00 0 
+7fb404000000-7fb404241000 rw-p 00000000 00:00 0 
+7fb404241000-7fb408000000 ---p 00000000 00:00 0 
+7fb408000000-7fb408021000 rw-p 00000000 00:00 0 
+7fb408021000-7fb40c000000 ---p 00000000 00:00 0 
+7fb40c000000-7fb40c042000 rw-p 00000000 00:00 0 
+7fb40c042000-7fb410000000 ---p 00000000 00:00 0 
+7fb410000000-7fb410043000 rw-p 00000000 00:00 0 
+7fb410043000-7fb414000000 ---p 00000000 00:00 0 
+7fb414000000-7fb41438f000 rw-p 00000000 00:00 0 
+7fb41438f000-7fb418000000 ---p 00000000 00:00 0 
+7fb418000000-7fb418021000 rw-p 00000000 00:00 0 
+7fb418021000-7fb41c000000 ---p 00000000 00:00 0 
+7fb41c000000-7fb41cf03000 rw-p 00000000 00:00 0 
+7fb41cf03000-7fb420000000 ---p 00000000 00:00 0 
+7fb420000000-7fb4219b3000 rw-p 00000000 00:00 0 
+7fb4219b3000-7fb424000000 ---p 00000000 00:00 0 
+7fb424000000-7fb424091000 rw-p 00000000 00:00 0 
+7fb424091000-7fb428000000 ---p 00000000 00:00 0 
+7fb428000000-7fb428513000 rw-p 00000000 00:00 0 
+7fb428513000-7fb42c000000 ---p 00000000 00:00 0 
+7fb42c000000-7fb42c1de000 rw-p 00000000 00:00 0 
+7fb42c1de000-7fb430000000 ---p 00000000 00:00 0 
+7fb430000000-7fb430021000 rw-p 00000000 00:00 0 
+7fb430021000-7fb434000000 ---p 00000000 00:00 0 
+7fb434000000-7fb434031000 rw-p 00000000 00:00 0 
+7fb434031000-7fb438000000 ---p 00000000 00:00 0 
+7fb438000000-7fb43ab8b000 rw-p 00000000 00:00 0 
+7fb43ab8b000-7fb43c000000 ---p 00000000 00:00 0 
+7fb43c000000-7fb43c021000 rw-p 00000000 00:00 0 
+7fb43c021000-7fb440000000 ---p 00000000 00:00 0 
+7fb440000000-7fb441937000 rw-p 00000000 00:00 0 
+7fb441937000-7fb444000000 ---p 00000000 00:00 0 
+7fb444000000-7fb4457d7000 rw-p 00000000 00:00 0 
+7fb4457d7000-7fb448000000 ---p 00000000 00:00 0 
+7fb448000000-7fb448021000 rw-p 00000000 00:00 0 
+7fb448021000-7fb44c000000 ---p 00000000 00:00 0 
+7fb44c000000-7fb44c021000 rw-p 00000000 00:00 0 
+7fb44c021000-7fb450000000 ---p 00000000 00:00 0 
+7fb450000000-7fb450021000 rw-p 00000000 00:00 0 
+7fb450021000-7fb454000000 ---p 00000000 00:00 0 
+7fb454005000-7fb454041000 rw-s 00000000 00:04 245432341                  /SYSV00000000 (deleted)
+7fb454041000-7fb4540a1000 rw-s 00000000 00:04 212369428                  /SYSV00000000 (deleted)
+7fb4540a1000-7fb4540b4000 r--s 00344000 08:03 25955128                   /usr/local/java/jdk1.8.0_20/jre/lib/resources.jar
+7fb4540b4000-7fb454106000 r--p 00000000 08:03 4657                       /usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf
+7fb454106000-7fb45415d000 r--p 00000000 08:03 7430                       /usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-R.ttf
+7fb45415d000-7fb45415f000 r-xp 00000000 08:03 25953380                   /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7fb45415f000-7fb45435e000 ---p 00002000 08:03 25953380                   /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7fb45435e000-7fb45435f000 r--p 00001000 08:03 25953380                   /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7fb45435f000-7fb454360000 rw-p 00002000 08:03 25953380                   /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7fb454360000-7fb45c000000 rw-p 00000000 00:00 0 
+7fb45c000000-7fb45c02a000 rw-p 00000000 00:00 0 
+7fb45c02a000-7fb460000000 ---p 00000000 00:00 0 
+7fb460000000-7fb46245d000 rw-p 00000000 00:00 0 
+7fb46245d000-7fb464000000 ---p 00000000 00:00 0 
+7fb464000000-7fb464021000 rw-p 00000000 00:00 0 
+7fb464021000-7fb468000000 ---p 00000000 00:00 0 
+7fb468000000-7fb468021000 rw-p 00000000 00:00 0 
+7fb468021000-7fb46c000000 ---p 00000000 00:00 0 
+7fb46c000000-7fb46c021000 rw-p 00000000 00:00 0 
+7fb46c021000-7fb470000000 ---p 00000000 00:00 0 
+7fb470024000-7fb47002f000 r--s 00000000 08:03 13898109                   /var/cache/fontconfig/945677eb7aeaf62f1d50efc3fb3ec7d8-le64.cache-4
+7fb47002f000-7fb470035000 r--s 00000000 08:03 13906568                   /var/cache/fontconfig/2cd17615ca594fa2959ae173292e504c-le64.cache-4
+7fb470035000-7fb47003c000 r--s 00000000 08:03 13906565                   /var/cache/fontconfig/a755afe4a08bf5b97852ceb7400b47bc-le64.cache-4
+7fb47003c000-7fb470048000 r--s 00000000 08:03 13906564                   /var/cache/fontconfig/6d41288fd70b0be22e8c3a91e032eec0-le64.cache-4
+7fb470048000-7fb47005c000 r--s 00000000 08:03 13906563                   /var/cache/fontconfig/04aabc0a78ac019cf9454389977116d2-le64.cache-4
+7fb47005c000-7fb470060000 r--s 00000000 08:03 13906561                   /var/cache/fontconfig/385c0604a188198f04d133e54aba7fe7-le64.cache-4
+7fb470060000-7fb470065000 r--s 00000000 08:03 13906556                   /var/cache/fontconfig/8801497958630a81b71ace7c5f9b32a8-le64.cache-4
+7fb470065000-7fb470078000 r--s 00000000 08:03 13906548                   /var/cache/fontconfig/d52a8644073d54c13679302ca1180695-le64.cache-4
+7fb470078000-7fb470083000 r--s 00000000 08:03 13906539                   /var/cache/fontconfig/d589a48862398ed80a3d6066f4f56f4c-le64.cache-4
+7fb47009c000-7fb4700bd000 r--s 00000000 08:03 26349627                   /usr/share/mime/mime.cache
+7fb4700bd000-7fb4700ca000 r--p 00000000 08:03 32581                      /usr/share/icons/gnome/icon-theme.cache
+7fb4700ca000-7fb4700d5000 r--p 00000000 08:03 40126                      /usr/share/icons/Humanity-Dark/icon-theme.cache
+7fb4700d5000-7fb4700e7000 r--p 00000000 08:03 33926                      /usr/share/icons/ubuntu-mono-dark/icon-theme.cache
+7fb4700e7000-7fb4700ea000 ---p 00000000 00:00 0 
+7fb4700ea000-7fb470120000 rw-p 00000000 00:00 0 
+7fb470120000-7fb470162000 r--p 00000000 08:03 34797                      /usr/share/glib-2.0/schemas/gschemas.compiled
+7fb470162000-7fb470268000 r-xp 00000000 08:03 12189795                   /lib/x86_64-linux-gnu/libglib-2.0.so.0.4002.0
+7fb470268000-7fb470467000 ---p 00106000 08:03 12189795                   /lib/x86_64-linux-gnu/libglib-2.0.so.0.4002.0
+7fb470467000-7fb470468000 r--p 00105000 08:03 12189795                   /lib/x86_64-linux-gnu/libglib-2.0.so.0.4002.0
+7fb470468000-7fb470469000 rw-p 00106000 08:03 12189795                   /lib/x86_64-linux-gnu/libglib-2.0.so.0.4002.0
+7fb470469000-7fb47046a000 rw-p 00000000 00:00 0 
+7fb47046a000-7fb4704b9000 r-xp 00000000 08:03 25952784                   /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.4002.0
+7fb4704b9000-7fb4706b9000 ---p 0004f000 08:03 25952784                   /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.4002.0
+7fb4706b9000-7fb4706ba000 r--p 0004f000 08:03 25952784                   /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.4002.0
+7fb4706ba000-7fb4706bb000 rw-p 00050000 08:03 25952784                   /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.4002.0
+7fb4706bb000-7fb4706f5000 r-xp 00000000 08:03 25960542                   /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.8.0
+7fb4706f5000-7fb4708f4000 ---p 0003a000 08:03 25960542                   /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.8.0
+7fb4708f4000-7fb4708f6000 r--p 00039000 08:03 25960542                   /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.8.0
+7fb4708f6000-7fb4708f7000 rw-p 0003b000 08:03 25960542                   /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.8.0
+7fb4708f7000-7fb470941000 r-xp 00000000 08:03 25960576                   /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.3600.3
+7fb470941000-7fb470b41000 ---p 0004a000 08:03 25960576                   /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.3600.3
+7fb470b41000-7fb470b43000 r--p 0004a000 08:03 25960576                   /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.3600.3
+7fb470b43000-7fb470b44000 rw-p 0004c000 08:03 25960576                   /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.3600.3
+7fb470b44000-7fb470b58000 r-xp 00000000 08:03 25960692                   /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.3600.3
+7fb470b58000-7fb470d57000 ---p 00014000 08:03 25960692                   /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.3600.3
+7fb470d57000-7fb470d58000 r--p 00013000 08:03 25960692                   /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.3600.3
+7fb470d58000-7fb470d59000 rw-p 00014000 08:03 25960692                   /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.3600.3
+7fb470d59000-7fb470ec5000 r-xp 00000000 08:03 25952786                   /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.4002.0
+7fb470ec5000-7fb4710c4000 ---p 0016c000 08:03 25952786                   /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.4002.0
+7fb4710c4000-7fb4710c8000 r--p 0016b000 08:03 25952786                   /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.4002.0
+7fb4710c8000-7fb4710ca000 rw-p 0016f000 08:03 25952786                   /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.4002.0
+7fb4710ca000-7fb4710cc000 rw-p 00000000 00:00 0 
+7fb4710cc000-7fb4710ec000 r-xp 00000000 08:03 25952900                   /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3000.7
+7fb4710ec000-7fb4712eb000 ---p 00020000 08:03 25952900                   /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3000.7
+7fb4712eb000-7fb4712ec000 r--p 0001f000 08:03 25952900                   /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3000.7
+7fb4712ec000-7fb4712ed000 rw-p 00020000 08:03 25952900                   /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3000.7
+7fb4712ed000-7fb4713f3000 r-xp 00000000 08:03 25959797                   /usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+7fb4713f3000-7fb4715f2000 ---p 00106000 08:03 25959797                   /usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+7fb4715f2000-7fb4715f5000 r--p 00105000 08:03 25959797                   /usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+7fb4715f5000-7fb4715f6000 rw-p 00108000 08:03 25959797                   /usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+7fb4715f6000-7fb4715f8000 rw-p 00000000 00:00 0 
+7fb4715f8000-7fb471617000 r-xp 00000000 08:03 25960548                   /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.21009.1
+7fb471617000-7fb471817000 ---p 0001f000 08:03 25960548                   /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.21009.1
+7fb471817000-7fb471819000 r--p 0001f000 08:03 25960548                   /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.21009.1
+7fb471819000-7fb47181a000 rw-p 00021000 08:03 25960548                   /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.21009.1
+7fb47181a000-7fb471825000 r-xp 00000000 08:03 25960568                   /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.3600.3
+7fb471825000-7fb471a25000 ---p 0000b000 08:03 25960568                   /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.3600.3
+7fb471a25000-7fb471a26000 r--p 0000b000 08:03 25960568                   /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.3600.3
+7fb471a26000-7fb471a27000 rw-p 0000c000 08:03 25960568                   /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.3600.3
+7fb471a27000-7fb471a2a000 r-xp 00000000 08:03 25952783                   /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.4002.0
+7fb471a2a000-7fb471c29000 ---p 00003000 08:03 25952783                   /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.4002.0
+7fb471c29000-7fb471c2a000 r--p 00002000 08:03 25952783                   /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.4002.0
+7fb471c2a000-7fb471c2b000 rw-p 00003000 08:03 25952783                   /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.4002.0
+7fb471c2b000-7fb471cd8000 r-xp 00000000 08:03 25957315                   /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.23
+7fb471cd8000-7fb471ed8000 ---p 000ad000 08:03 25957315                   /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.23
+7fb471ed8000-7fb471edc000 r--p 000ad000 08:03 25957315                   /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.23
+7fb471edc000-7fb471ede000 rw-p 000b1000 08:03 25957315                   /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.23
+7fb471ede000-7fb47230e000 r-xp 00000000 08:03 25957316                   /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.23
+7fb47230e000-7fb47250d000 ---p 00430000 08:03 25957316                   /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.23
+7fb47250d000-7fb472514000 r--p 0042f000 08:03 25957316                   /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.23
+7fb472514000-7fb472518000 rw-p 00436000 08:03 25957316                   /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.23
+7fb472518000-7fb47251b000 rw-p 00000000 00:00 0 
+7fb472535000-7fb472543000 r--s 00133000 08:07 2502030                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/org-netbeans-lib-profiler-ui.jar
+7fb472543000-7fb472546000 ---p 00000000 00:00 0 
+7fb472546000-7fb472844000 rw-p 00000000 00:00 0 
+7fb472844000-7fb47285b000 r-xp 00000000 08:03 12329740                   /home/zoran/netbeans-8.1/platform/modules/lib/amd64/linux/libjnidispatch-410.so
+7fb47285b000-7fb47295a000 ---p 00017000 08:03 12329740                   /home/zoran/netbeans-8.1/platform/modules/lib/amd64/linux/libjnidispatch-410.so
+7fb47295a000-7fb47295c000 rw-p 00016000 08:03 12329740                   /home/zoran/netbeans-8.1/platform/modules/lib/amd64/linux/libjnidispatch-410.so
+7fb47295c000-7fb47295f000 ---p 00000000 00:00 0 
+7fb47295f000-7fb472a5d000 rw-p 00000000 00:00 0                          [stack:27432]
+7fb472a5d000-7fb472a60000 ---p 00000000 00:00 0 
+7fb472a60000-7fb472b5e000 rw-p 00000000 00:00 0                          [stack:27431]
+7fb472b5e000-7fb472b61000 ---p 00000000 00:00 0 
+7fb472b61000-7fb472c5f000 rw-p 00000000 00:00 0 
+7fb472c5f000-7fb472c62000 ---p 00000000 00:00 0 
+7fb472c62000-7fb472d60000 rw-p 00000000 00:00 0 
+7fb472d60000-7fb472d63000 ---p 00000000 00:00 0 
+7fb472d63000-7fb472e61000 rw-p 00000000 00:00 0                          [stack:27428]
+7fb472e61000-7fb472e64000 ---p 00000000 00:00 0 
+7fb472e64000-7fb473162000 rw-p 00000000 00:00 0 
+7fb473162000-7fb473179000 r--s 0010f000 08:03 12332650                   /home/zoran/netbeans-8.1/ide/modules/ext/xerces-2.8.0.jar
+7fb473179000-7fb47317c000 ---p 00000000 00:00 0 
+7fb47317c000-7fb47327a000 rw-p 00000000 00:00 0 
+7fb47327a000-7fb47327d000 ---p 00000000 00:00 0 
+7fb47327d000-7fb47337b000 rw-p 00000000 00:00 0 
+7fb47337b000-7fb47337e000 ---p 00000000 00:00 0 
+7fb47337e000-7fb47347c000 rw-p 00000000 00:00 0                          [stack:27420]
+7fb47347c000-7fb47347f000 ---p 00000000 00:00 0 
+7fb47347f000-7fb47357d000 rw-p 00000000 00:00 0                          [stack:27419]
+7fb47357d000-7fb473580000 ---p 00000000 00:00 0 
+7fb473580000-7fb47367e000 rw-p 00000000 00:00 0                          [stack:27969]
+7fb47367f000-7fb473688000 r--s 00000000 08:03 13898281                   /var/cache/fontconfig/3f7329c5293ffd510edef78f73874cfd-le64.cache-4
+7fb47368a000-7fb473692000 rw-s 00000000 00:04 584229                     /drm mm object (deleted)
+7fb473692000-7fb473892000 rw-p 00000000 00:00 0 
+7fb473896000-7fb47389e000 rw-s 00000000 00:04 584228                     /drm mm object (deleted)
+7fb47389e000-7fb4738a6000 rw-s 00000000 00:04 584224                     /drm mm object (deleted)
+7fb4738a6000-7fb473932000 r--s 00fea000 08:03 26086940                   /usr/local/java/jdk1.8.0_20/jre/lib/ext/jfxrt.jar
+7fb473932000-7fb473940000 r--s 00221000 08:03 12334205                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-hibernate.jar
+7fb473940000-7fb47399d000 r--s 00496000 08:03 12333768                   /home/zoran/netbeans-8.1/java/modules/ext/hibernate4/hibernate-core-4.3.1.Final.jar
+7fb47399d000-7fb4739ab000 r--s 001d8000 08:03 12332135                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-html-editor.jar
+7fb4739ab000-7fb4739ea000 r--s 00312000 08:03 12332692                   /home/zoran/netbeans-8.1/ide/modules/ext/jaxb/jaxb-xjc.jar
+7fb4739eb000-7fb4739f2000 r--s 00000000 08:03 13906554                   /var/cache/fontconfig/3047814df9a2f067bd2d96a2b9c36e5a-le64.cache-4
+7fb4739f2000-7fb4739fb000 r--s 000fc000 08:03 12326921                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-modules-autoupdate-ui.jar
+7fb4739fb000-7fb4739ff000 r--s 0004a000 08:03 12332309                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-spi-editor-hints.jar
+7fb473a00000-7fb473a12000 r--s 00080000 08:03 12332697                   /home/zoran/netbeans-8.1/ide/modules/ext/jing.jar
+7fb473a12000-7fb473a1e000 r--s 0007d000 08:03 12334341                   /home/zoran/netbeans-8.1/java/maven/lib/maven-core-3.0.5.jar
+7fb473a1e000-7fb473a35000 r--s 000f2000 08:03 12332611                   /home/zoran/netbeans-8.1/ide/modules/ext/jaxb/jaxb1-impl.jar
+7fb473a35000-7fb473a43000 r--s 00142000 08:03 12332343                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-csl-api.jar
+7fb473a43000-7fb473a48000 r--s 00034000 08:07 2494416                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/commons-beanutils-1.8.3.jar
+7fb473a48000-7fb473a4c000 r--s 00000000 08:03 13917228                   /var/cache/fontconfig/c57959a16110560c8d0fcea73374aeeb-le64.cache-4
+7fb473a4c000-7fb473a5a000 r--s 00080000 08:03 12333807                   /home/zoran/netbeans-8.1/java/modules/ext/hibernate4/commons-collections-3.2.1.jar
+7fb473a5a000-7fb473a65000 r--s 00144000 08:03 12334102                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-spring-beans.jar
+7fb473a6f000-7fb473a73000 r--s 00054000 08:03 12332455                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-api-debugger.jar
+7fb473a76000-7fb473a82000 r--s 001e8000 08:03 12332682                   /home/zoran/netbeans-8.1/ide/modules/ext/validator.jar
+7fb473a82000-7fb473a86000 r--s 00060000 08:03 12332429                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-spi-viewmodel.jar
+7fb473a86000-7fb473a87000 r--s 00000000 08:03 12332124                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-libs-antlr3-runtime.jar
+7fb473a87000-7fb473a97000 r--s 0017d000 08:03 12332242                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-projectui.jar
+7fb473a97000-7fb473a9e000 r--p 00000000 08:03 11554292                   /home/zoran/.config/dconf/user (deleted)
+7fb473a9e000-7fb473aa5000 r--s 00064000 08:03 12333812                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-j2ee-persistenceapi.jar
+7fb473aa5000-7fb473aab000 r--s 00000000 08:03 13906549                   /var/cache/fontconfig/b47c4e1ecd0709278f4910c18777a504-le64.cache-4
+7fb473aab000-7fb473ab3000 r--s 0005e000 08:03 12330304                   /home/zoran/netbeans-8.1/platform/modules/ext/osgi.core-5.0.0.jar
+7fb473ab3000-7fb473ab8000 r--s 0005d000 08:03 12332207                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-web-common.jar
+7fb473ab8000-7fb473abc000 r--s 00000000 08:03 13917227                   /var/cache/fontconfig/7ef2298fde41cc6eeb7af42e48b7d293-le64.cache-4
+7fb473abc000-7fb473abf000 r--s 00021000 08:03 12331785                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-extexecution-base.jar
+7fb473abf000-7fb473ac0000 r--s 00005000 08:03 12332577                   /home/zoran/netbeans-8.1/ide/modules/ext/json-simple-1.1.1.jar
+7fb473ac0000-7fb473ac1000 r--s 00000000 08:03 12332299                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-libs-json_simple.jar
+7fb473acb000-7fb473ad0000 r--s 00061000 08:03 12330235                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-core-ui.jar
+7fb473ad0000-7fb473cd0000 rw-p 00000000 00:00 0 
+7fb473cd0000-7fb473cd3000 r--s 00045000 08:03 12331789                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-completion.jar
+7fb473cd5000-7fb473cda000 r--s 00053000 08:03 12332030                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-code-analysis.jar
+7fb473cda000-7fb473cdc000 r--s 00020000 08:03 12333932                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-platform-ui.jar
+7fb473cdc000-7fb473ce8000 r--s 00122000 08:03 12330104                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-api-search.jar
+7fb473ce8000-7fb473ceb000 r--s 00000000 08:03 13908256                   /var/cache/fontconfig/e13b20fdb08344e0e664864cc2ede53d-le64.cache-4
+7fb473cf4000-7fb473cf7000 r--s 00028000 08:03 12331601                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-project-libraries-ui.jar
+7fb473cff000-7fb473d00000 r--s 00001000 08:03 12331725                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-project-spi-intern.jar
+7fb473d00000-7fb473d08000 r--s 000a6000 08:03 12334144                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-source.jar
+7fb473d08000-7fb473d09000 r--s 00000000 08:03 12333803                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-source-compat8.jar
+7fb473d09000-7fb473d1e000 r--s 00395000 08:03 12333933                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-source-base.jar
+7fb473d1f000-7fb473d20000 r--s 0000f000 08:03 12334179                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-lexer.jar
+7fb473d29000-7fb473d32000 r--s 00120000 08:03 12331849                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-parsing-indexing.jar
+7fb473d38000-7fb473d3c000 r--s 00040000 08:03 12331968                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-parsing-lucene.jar
+7fb473d41000-7fb473d59000 r--s 001ae000 08:03 12331922                   /home/zoran/netbeans-8.1/ide/modules/docs/org-netbeans-modules-usersguide.jar
+7fb473d5a000-7fb473d64000 r--s 00118000 08:03 12332456                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-diff.jar
+7fb473d66000-7fb473d6d000 r--s 00155000 08:03 12332081                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-schema2beans.jar
+7fb473d6d000-7fb473d91000 r--s 00279000 08:03 12334343                   /home/zoran/netbeans-8.1/java/modules/ext/nb-javac-impl.jar
+7fb473d91000-7fb473d92000 r--s 00001000 08:03 12334261                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-libs-javacimpl.jar
+7fb473d92000-7fb473d99000 r--s 00025000 08:03 12334345                   /home/zoran/netbeans-8.1/java/modules/ext/nb-javac-api.jar
+7fb473d99000-7fb473d9a000 r--s 00002000 08:03 12334273                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-libs-javacapi.jar
+7fb473d9a000-7fb473d9c000 r--s 00000000 08:03 13906569                   /var/cache/fontconfig/99e8ed0e538f840c565b6ed5dad60d56-le64.cache-4
+7fb473d9c000-7fb473da2000 r--s 0005d000 08:03 12332680                   /home/zoran/netbeans-8.1/ide/modules/ext/webserver.jar
+7fb473da2000-7fb473dac000 r--s 000dd000 08:03 12332382                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor.jar
+7fb473db2000-7fb473db5000 r--s 00028000 08:03 12334211                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-classfile.jar
+7fb473db5000-7fb473db7000 r--s 00024000 08:03 12332189                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-api-java-classpath.jar
+7fb473db7000-7fb473dba000 r--s 00030000 08:03 12327527                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-modules-javahelp.jar
+7fb473dba000-7fb473dbf000 r--s 00086000 08:03 12333018                   /home/zoran/netbeans-8.1/extide/modules/org-apache-tools-ant-module.jar
+7fb473dbf000-7fb473dc1000 r--s 0000f000 08:03 12332526                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-api-xml-ui.jar
+7fb473dc1000-7fb473dc2000 r--s 00000000 08:03 13906571                   /var/cache/fontconfig/c05880de57d1f5e948fdfacc138775d9-le64.cache-4
+7fb473dc2000-7fb473dc3000 r--s 00000000 08:03 13906567                   /var/cache/fontconfig/e7071f4a29fa870f4323321c154eba04-le64.cache-4
+7fb473dc7000-7fb473dc9000 r--s 00001000 08:03 12333013                   /home/zoran/netbeans-8.1/extide/modules/org-netbeans-modules-options-java.jar
+7fb473dcc000-7fb473dce000 r--s 00027000 08:07 2685181                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-charts.jar
+7fb473dce000-7fb473dd0000 r--s 00015000 08:07 2684070                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-stock.jar
+7fb473dd3000-7fb473dd6000 r--s 00023000 08:03 12332423                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-image.jar
+7fb473dd6000-7fb473dd8000 r--s 0000c000 08:07 2503098                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-toolbar.jar
+7fb473dd8000-7fb473dda000 r--s 00000000 08:03 13906559                   /var/cache/fontconfig/767a8244fc0220cfb567a839d0392e0b-le64.cache-4
+7fb473ddd000-7fb473de2000 r--s 00083000 08:03 12329771                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-core-output2.jar
+7fb473de5000-7fb473de7000 r--s 0001a000 08:03 25955135                   /usr/local/java/jdk1.8.0_20/jre/lib/jce.jar
+7fb473de7000-7fb473dec000 r--s 00050000 08:03 12332296                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-terminal.jar
+7fb473df2000-7fb473df4000 r--s 0001b000 08:07 2495040                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-lpr.jar
+7fb473df9000-7fb473dfe000 r--s 00039000 08:07 588791                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/BoofCV-geo-0.18-sources.jar
+7fb473dfe000-7fb473e0a000 r--s 00086000 08:07 588789                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/BoofCV-feature-0.18-sources.jar
+7fb473e0d000-7fb473e14000 r--s 0002f000 08:03 12330351                   /home/zoran/netbeans-8.1/platform/modules/ext/osgi.cmpn-4.2.jar
+7fb473e14000-7fb473e1a000 r--s 00035000 08:03 12332637                   /home/zoran/netbeans-8.1/ide/modules/ext/jvyamlb-0.2.7.jar
+7fb473e1a000-7fb473e1b000 r--s 00001000 08:07 588838                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/BoofCV-xuggler-0.18-sources.jar
+7fb473e1b000-7fb473e20000 r--s 00037000 08:07 588799                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/BoofCV-geo-0.18.jar
+7fb473e20000-7fb473e21000 r--s 00001000 08:07 588839                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/BoofCV-xuggler-0.18.jar
+7fb473e22000-7fb473e30000 r--s 0008b000 08:07 588790                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/BoofCV-feature-0.18.jar
+7fb473e32000-7fb473e37000 r--s 00074000 08:03 12332454                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-html.jar
+7fb473e37000-7fb473e43000 r--s 0008b000 08:07 588806                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/BoofCV-ip-0.18-sources.jar
+7fb473e45000-7fb473e50000 r--s 001e8000 08:03 12334077                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-debugger-jpda.jar
+7fb473e50000-7fb473e51000 r--s 00007000 08:07 588804                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/BoofCV-io-0.18-sources.jar
+7fb473e51000-7fb473e52000 r--s 00001000 08:07 588771                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/boofcv.jar
+7fb473e52000-7fb473e53000 r--s 00000000 08:03 1705563                    /tmp/output1469101491171
+7fb473e53000-7fb473e5a000 r--s 0003f000 08:03 12334303                   /home/zoran/netbeans-8.1/java/maven/lib/sisu-inject-bean-2.3.0.jar
+7fb473e60000-7fb473e66000 r--s 0003e000 08:03 12334299                   /home/zoran/netbeans-8.1/java/modules/ext/hibernate4/cglib-2.2.jar
+7fb473e66000-7fb473e6e000 r--s 00051000 08:03 12334258                   /home/zoran/netbeans-8.1/java/modules/ext/hibernate4/log4j-1.2.12.jar
+7fb473e75000-7fb473ef1000 r--s 0079b000 08:03 12334260                   /home/zoran/netbeans-8.1/java/modules/ext/eclipselink/eclipselink.jar
+7fb473ef1000-7fb473ef2000 r--s 00003000 08:03 12333946                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-j2ee-eclipselink.jar
+7fb473ef3000-7fb473ef9000 r--s 00836000 08:07 2494794                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-help.jar
+7fb473ef9000-7fb473efa000 r--s 00000000 08:03 12334289                   /home/zoran/netbeans-8.1/java/modules/org-jdesktop-beansbinding.jar
+7fb473efb000-7fb473efd000 r--s 00005000 08:07 2494902                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-imageexplorer.jar
+7fb473eff000-7fb473f06000 r--s 00053000 08:07 2504589                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/log4j-1.2.14.jar
+7fb473f06000-7fb473f07000 r--s 0000a000 08:07 2504588                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/json.jar
+7fb473f07000-7fb473f09000 r--s 00007000 08:07 2504590                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/mindstream.jar
+7fb473f0c000-7fb473f0e000 r--s 0000a000 08:07 2504458                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-files.jar
+7fb473f12000-7fb473f19000 r--s 0008a000 08:03 12334148                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-maven-model.jar
+7fb473f19000-7fb473f1e000 r--s 00033000 08:03 12333992                   /home/zoran/netbeans-8.1/java/modules/ext/maven/indexer-core-5.1.1-patched.jar
+7fb473f1e000-7fb473f21000 r--s 00017000 08:03 12332029                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-guards.jar
+7fb473f21000-7fb473f23000 r--s 00013000 08:03 12332033                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-indent.jar
+7fb473f29000-7fb473f2a000 r--s 00000000 08:03 13906566                   /var/cache/fontconfig/0d8c3b2ac0904cb8a57a757ad11a4a08-le64.cache-4
+7fb473f2e000-7fb473f2f000 r--s 00000000 08:03 13906562                   /var/cache/fontconfig/1ac9eb803944fde146138c791f5cc56a-le64.cache-4
+7fb473f2f000-7fb473f31000 r--s 0000a000 08:03 12334147                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-ant-grammar.jar
+7fb473f31000-7fb473f34000 r--s 00043000 08:03 12332140                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-fold.jar
+7fb473f34000-7fb473f35000 r--s 00000000 08:03 13906560                   /var/cache/fontconfig/dc05db6664285cc2f12bf69c139ae4c3-le64.cache-4
+7fb473f35000-7fb473f36000 r--s 00000000 08:03 13904410                   /var/cache/fontconfig/4794a0821666d79190d59a36cb4f44b5-le64.cache-4
+7fb473f38000-7fb473f3a000 r--s 00015000 08:03 12331915                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-settings.jar
+7fb473f3d000-7fb473f3f000 r--s 00023000 08:03 12332127                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-util.jar
+7fb473f43000-7fb473f44000 rwxp 00000000 00:00 0 
+7fb473f44000-7fb473f45000 rw-s 00000000 00:04 584225                     /drm mm object (deleted)
+7fb473f45000-7fb473f47000 r--s 00001000 08:03 26086938                   /usr/local/java/jdk1.8.0_20/jre/lib/ext/dnsns.jar
+7fb473f47000-7fb473f4c000 r--s 00066000 08:03 12334277                   /home/zoran/netbeans-8.1/java/modules/ext/hibernate4/antlr-2.7.7.jar
+7fb473f4c000-7fb473f51000 r--s 00047000 08:03 12334276                   /home/zoran/netbeans-8.1/java/modules/ext/hibernate4/dom4j-1.6.1.jar
+7fb473f51000-7fb473f53000 r--s 00020000 08:07 2502012                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/com-sun-tools-visualvm-charts.jar
+7fb473f53000-7fb473f54000 r--s 00000000 08:03 13906552                   /var/cache/fontconfig/56cf4f4769d0f4abc89a4895d7bd3ae1-le64.cache-4
+7fb473f57000-7fb473f5c000 r--s 00069000 08:03 12332298                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-db-mysql.jar
+7fb473f5c000-7fb473f5e000 r--s 0001b000 08:07 2495467                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-classificationsample.jar (deleted)
+7fb473f5f000-7fb473f60000 rw-s 00000000 00:04 587266                     /drm mm object (deleted)
+7fb473f60000-7fb473f67000 r--s 00098000 08:07 2495414                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-visual.jar
+7fb473f67000-7fb473f68000 r--s 00000000 08:07 588574                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/locale/org-netbeans-core-windows_neurophstudio.jar
+7fb473f68000-7fb473f79000 r--s 0023c000 08:03 12329773                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-core-windows.jar
+7fb473f7d000-7fb473f83000 r--s 00083000 08:03 12333880                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-j2seplatform.jar
+7fb473f83000-7fb473f8a000 r--s 00095000 08:03 12330349                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-core.jar
+7fb473f8c000-7fb473f8d000 r--s 00004000 08:03 12327658                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-modules-keyring.jar
+7fb473f90000-7fb473f93000 r--s 00034000 08:03 12332425                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-derby.jar
+7fb473fa3000-7fb473fa6000 r--s 00038000 08:03 12332205                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-localtasks.jar
+7fb473fa6000-7fb473fa9000 r--s 00020000 08:03 12332609                   /home/zoran/netbeans-8.1/ide/modules/ext/html5-datatypes.jar
+7fb473fac000-7fb473faf000 r--s 00022000 08:03 12332699                   /home/zoran/netbeans-8.1/ide/modules/ext/iri.jar
+7fb473fb0000-7fb473fb2000 r--s 00009000 08:03 12333883                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-maven-refactoring.jar
+7fb473fb2000-7fb473fb4000 r--s 00015000 08:03 12332181                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-parsing-nb.jar
+7fb473fb4000-7fb473fb7000 r--s 00041000 08:03 12331518                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-xml-schema-completion.jar
+7fb473fb7000-7fb473fbe000 r--s 00048000 08:07 588983                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jung-visualization-2.0.jar
+7fb473fbe000-7fb473fcc000 r--s 00081000 08:07 588965                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/colt-1.2.0.jar
+7fb473fcd000-7fb473fd1000 r--s 0005c000 08:03 12333491                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-projectimport-eclipse-core.jar
+7fb473fd1000-7fb473fd3000 r--s 0000e000 08:07 588982                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jung-graph-impl-2.0.jar
+7fb473fd3000-7fb473fd5000 r--s 00009000 08:03 12331604                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-global-format.jar
+7fb473fd5000-7fb473fe1000 r--s 00076000 08:07 588951                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/collections-generic-4.01.jar
+7fb473fe1000-7fb473fe2000 r--s 00003000 08:07 588991                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/org-netbeans-modules-java-j2seproject-copylibstask.jar
+7fb473fe2000-7fb473fe3000 r--s 00002000 08:07 588999                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/swing-worker-1.1.jar
+7fb473fe3000-7fb473fe4000 r--s 00000000 08:07 588935                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/AbsoluteLayout.jar
+7fb473fe4000-7fb473fe7000 r--s 00013000 08:07 588966                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/commons-io-1.3.2.jar
+7fb473fe7000-7fb473feb000 r--s 0003d000 08:07 588943                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/appframework-1.0.3.jar
+7fb473feb000-7fb473fec000 r--s 00001000 08:07 588919                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/c.jar
+7fb473fec000-7fb473fed000 r--s 00000000 08:07 2495481                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-studio-updates.jar
+7fb473fef000-7fb4741ef000 rw-p 00000000 00:00 0 
+7fb4741ef000-7fb474258000 r-xp 00000000 08:03 26219153                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libt2k.so
+7fb474258000-7fb474457000 ---p 00069000 08:03 26219153                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libt2k.so
+7fb474457000-7fb47445e000 rw-p 00068000 08:03 26219153                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libt2k.so
+7fb47445e000-7fb47466e000 rw-p 00000000 00:00 0 
+7fb47466e000-7fb474671000 ---p 00000000 00:00 0 
+7fb474671000-7fb47476f000 rw-p 00000000 00:00 0                          [stack:27611]
+7fb47476f000-7fb474772000 ---p 00000000 00:00 0 
+7fb474772000-7fb474870000 rw-p 00000000 00:00 0 
+7fb474870000-7fb474873000 ---p 00000000 00:00 0 
+7fb474873000-7fb474b71000 rw-p 00000000 00:00 0                          [stack:27413]
+7fb474b71000-7fb474b87000 r-xp 00000000 08:03 12191811                   /lib/x86_64-linux-gnu/libgcc_s.so.1
+7fb474b87000-7fb474d86000 ---p 00016000 08:03 12191811                   /lib/x86_64-linux-gnu/libgcc_s.so.1
+7fb474d86000-7fb474d87000 rw-p 00015000 08:03 12191811                   /lib/x86_64-linux-gnu/libgcc_s.so.1
+7fb474d87000-7fb474dec000 r-xp 00000000 08:03 26219198                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libfontmanager.so
+7fb474dec000-7fb474feb000 ---p 00065000 08:03 26219198                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libfontmanager.so
+7fb474feb000-7fb474fef000 rw-p 00064000 08:03 26219198                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libfontmanager.so
+7fb474fef000-7fb475000000 rw-p 00000000 00:00 0 
+7fb475000000-7fb477880000 rwxp 00000000 00:00 0 
+7fb477880000-7fb484000000 ---p 00000000 00:00 0 
+7fb484000000-7fb4847aa000 rw-p 00000000 00:00 0 
+7fb4847aa000-7fb488000000 ---p 00000000 00:00 0 
+7fb488000000-7fb488005000 r--s 000be000 08:03 12326505                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-modules-autoupdate-services.jar
+7fb488005000-7fb488007000 r--s 00014000 08:03 12333879                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-j2seprofiles.jar
+7fb488007000-7fb488008000 r--s 0000a000 08:07 2494873                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-project.jar
+7fb488009000-7fb48800d000 r--s 00021000 08:03 12334262                   /home/zoran/netbeans-8.1/java/maven/lib/maven-model-builder-3.0.5.jar
+7fb48800d000-7fb488010000 r--s 0001c000 08:03 12331783                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-projectuiapi-base.jar
+7fb488010000-7fb488014000 r--s 0003f000 08:03 12332187                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-projectapi.jar
+7fb488014000-7fb488015000 r--s 00002000 08:07 2495576                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-nugs-graph2d.jar
+7fb488015000-7fb488016000 r--s 00006000 08:07 2685110                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-nugs-graph3d.jar
+7fb488017000-7fb48801c000 r--s 00080000 08:03 12333735                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-j2ee-jpa-verification.jar
+7fb48801c000-7fb48801d000 r--s 00008000 08:07 2494511                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/neuroph-ocr-2.92.jar
+7fb48801d000-7fb488022000 r--s 0007e000 08:03 12334070                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-freeform.jar
+7fb488022000-7fb488024000 r--s 00017000 08:07 2684247                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-netbeans-hwr.jar
+7fb488024000-7fb488029000 r--s 0002c000 08:07 2494509                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/neuroph-core-2.92.jar
+7fb488029000-7fb48802b000 r--s 00024000 08:03 12331978                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-languages-yaml.jar
+7fb48802b000-7fb48802d000 r--s 00008000 08:07 2494498                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/NoProp.jar
+7fb48802d000-7fb48802f000 r--s 00005000 08:03 12334210                   /home/zoran/netbeans-8.1/java/modules/ext/hibernate4/slf4j-api-1.6.1.jar
+7fb488031000-7fb488033000 r--s 0000d000 08:03 12334103                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-junit-ant-ui.jar
+7fb488033000-7fb488037000 r--s 00053000 08:03 12331603                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-codetemplates.jar
+7fb488037000-7fb48803e000 r--s 0002b000 08:03 12334282                   /home/zoran/netbeans-8.1/java/maven/lib/sisu-inject-plexus-2.3.0.jar
+7fb48803e000-7fb488041000 r--s 000dc000 08:03 12330412                   /home/zoran/netbeans-8.1/platform/modules/ext/jna-4.1.0.jar
+7fb488042000-7fb488044000 r--s 00003000 08:07 2685092                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-nugs-graph3d-api.jar
+7fb488044000-7fb488045000 r--s 00000000 08:07 2494453                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/gluegen-rt-natives-linux-amd64.jar
+7fb488046000-7fb488047000 r--s 00001000 08:07 2494460                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/gluegen-rt-natives-windows-amd64.jar
+7fb488047000-7fb488049000 r--s 00001000 08:03 12332459                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-core-browser.jar
+7fb488049000-7fb48804b000 r--s 0002c000 08:03 12332007                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-html-knockout.jar
+7fb48804b000-7fb48804d000 r--s 00001000 08:03 12332653                   /home/zoran/netbeans-8.1/ide/modules/ext/bytelist-0.1.jar
+7fb48804d000-7fb48804f000 r--s 00006000 08:03 12331723                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-languages-manifest.jar
+7fb48804f000-7fb488050000 r--s 00001000 08:07 2494461                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/gluegen-rt-natives-windows-i586.jar
+7fb488051000-7fb488053000 r--s 00029000 08:03 12330920                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-deprecated-pre65formatting.jar
+7fb488053000-7fb488054000 r--s 0001c000 08:07 2494468                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jogl-all-natives-solaris-i586.jar
+7fb488054000-7fb488055000 r--s 00001000 08:03 12333878                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-debugger-jpda-ant.jar
+7fb488055000-7fb488056000 r--s 00000000 08:07 2494455                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/gluegen-rt-natives-linux-armv6hf.jar
+7fb488056000-7fb488057000 r--s 0001b000 08:07 2494463                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jogl-all-natives-linux-armv6.jar
+7fb488057000-7fb488058000 r--s 00000000 08:07 2494456                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/gluegen-rt-natives-linux-i586.jar
+7fb488058000-7fb488059000 r--s 0002a000 08:07 2494465                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jogl-all-natives-linux-i586.jar
+7fb48805a000-7fb48805b000 r--s 0001f000 08:07 2494469                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jogl-all-natives-windows-amd64.jar
+7fb48805c000-7fb488060000 r--s 0004c000 08:03 12332006                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-search.jar
+7fb488060000-7fb488063000 r--s 00056000 08:03 12334106                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-ant-freeform.jar
+7fb488063000-7fb488067000 r--s 0001c000 08:03 12334329                   /home/zoran/netbeans-8.1/java/maven/lib/aether-util-1.13.1.jar
+7fb488067000-7fb48806a000 r--s 00008000 08:03 12334279                   /home/zoran/netbeans-8.1/java/modules/ext/jaxws22/management-api.jar
+7fb48806b000-7fb48806d000 r--s 00009000 08:03 12334344                   /home/zoran/netbeans-8.1/java/maven/lib/commons-cli-1.2.jar
+7fb48806e000-7fb488070000 r--s 00124000 08:03 12331605                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-javascript2-knockout.jar
+7fb488070000-7fb488074000 r--s 0005a000 08:03 12334069                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-maven-indexer.jar
+7fb488076000-7fb48807a000 r--s 00015000 08:03 12332574                   /home/zoran/netbeans-8.1/ide/modules/ext/jaxb/api/jaxb-api.jar
+7fb48807b000-7fb48807c000 r--s 0002a000 08:07 2494462                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jogl-all-natives-linux-amd64.jar
+7fb488083000-7fb488089000 r--s 000a3000 08:03 12333762                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-debugger-jpda-visual.jar
+7fb488089000-7fb48808c000 r--s 00049000 08:03 12333938                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-editor-base.jar
+7fb48808c000-7fb48808e000 r--s 0000a000 08:03 12330216                   /home/zoran/netbeans-8.1/platform/modules/ext/hamcrest-core-1.3.jar
+7fb48808f000-7fb488092000 r--s 0002d000 08:03 12334181                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-debug.jar
+7fb488092000-7fb488094000 r--s 0002f000 08:03 12333764                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-j2ee-jpa-refactoring.jar
+7fb488094000-7fb488096000 r--s 00000000 08:03 12330105                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-libs-felix.jar
+7fb488096000-7fb488099000 r--s 0004c000 08:03 12334110                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-javawebstart.jar
+7fb488099000-7fb48809e000 r--s 00084000 08:03 12334291                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-i18n.jar
+7fb48809e000-7fb4880a0000 r--s 0001b000 08:03 12331885                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-html-validation.jar
+7fb4880a0000-7fb4880a3000 r--s 00026000 08:07 589423                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jME3-jbullet.jar
+7fb4880a3000-7fb4880a6000 r--s 00036000 08:07 589382                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jME3-desktop.jar
+7fb4880a6000-7fb4880a8000 r--s 00008000 08:07 589519                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jME3-niftygui.jar
+7fb4880a8000-7fb4880ac000 r--s 0001c000 08:07 589503                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jME3-networking.jar
+7fb4880ac000-7fb4880ad000 r--s 00002000 08:07 589499                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jME3-jogg.jar
+7fb4880b2000-7fb4880b4000 r--s 000c5000 08:07 2494527                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/GoaiFramework.jar
+7fb4880b4000-7fb4880b5000 rw-s 00000000 00:04 586764                     /drm mm object (deleted)
+7fb4880b5000-7fb4880b8000 r--s 0014a000 08:07 278374                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/FXyzLib.jar
+7fb4880b8000-7fb4880b9000 r--s 00000000 08:03 13906551                   /var/cache/fontconfig/b9d506c9ac06c20b433354fa67a72993-le64.cache-4
+7fb4880b9000-7fb4880bb000 r--s 00000000 08:03 12333888                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-debugger-jpda-kit.jar
+7fb4880bb000-7fb4880bd000 r--s 00027000 08:03 12327290                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-modules-templates.jar
+7fb4880bd000-7fb4880bf000 r--s 00008000 08:03 12326750                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-modules-keyring-fallback.jar
+7fb4880bf000-7fb4880c2000 r--s 00033000 08:03 12331653                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-bugtracking-commons.jar
+7fb4880c2000-7fb4880c4000 r--s 00009000 08:03 12333865                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-maven-persistence.jar
+7fb4880c4000-7fb4880c6000 r--s 00002000 08:03 12331967                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-lexer-nbbridge.jar
+7fb4880c6000-7fb4880c8000 r--s 00026000 08:03 12334333                   /home/zoran/netbeans-8.1/java/maven/lib/maven-model-3.0.5.jar
+7fb4880c8000-7fb4880c9000 r--s 00000000 08:03 13906537                   /var/cache/fontconfig/0c9eb80ebd1c36541ebe2852d3bb0c49-le64.cache-4
+7fb4880c9000-7fb4880cb000 r--s 00008000 08:03 12332568                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-core-ide.jar
+7fb4880cb000-7fb4880cd000 r--s 0001c000 08:03 12333937                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-maven-checkstyle.jar
+7fb4880cd000-7fb4880ce000 r--s 00000000 08:03 12332394                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-db-kit.jar
+7fb4880ce000-7fb4880d0000 r--s 00008000 08:03 12333811                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-source-queries.jar
+7fb4880d0000-7fb4880d4000 r--s 00050000 08:03 12333931                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-maven-repository.jar
+7fb4880d4000-7fb4880d7000 r--s 00047000 08:03 12332198                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-mylyn-util.jar
+7fb4880d7000-7fb4880da000 ---p 00000000 00:00 0 
+7fb4880da000-7fb4881d8000 rw-p 00000000 00:00 0                          [stack:27412]
+7fb4881d8000-7fb4881db000 ---p 00000000 00:00 0 
+7fb4881db000-7fb4882d9000 rw-p 00000000 00:00 0                          [stack:27411]
+7fb4882d9000-7fb4882dc000 ---p 00000000 00:00 0 
+7fb4882dc000-7fb4883da000 rw-p 00000000 00:00 0 
+7fb4883da000-7fb4883dd000 ---p 00000000 00:00 0 
+7fb4883dd000-7fb4884db000 rw-p 00000000 00:00 0 
+7fb4884db000-7fb4884ea000 r-xp 00000000 08:03 25957366                   /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7fb4884ea000-7fb4886e9000 ---p 0000f000 08:03 25957366                   /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7fb4886e9000-7fb4886ea000 r--p 0000e000 08:03 25957366                   /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7fb4886ea000-7fb4886eb000 rw-p 0000f000 08:03 25957366                   /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7fb4886eb000-7fb4886f0000 r-xp 00000000 08:03 25953207                   /usr/lib/x86_64-linux-gnu/libXtst.so.6.1.0
+7fb4886f0000-7fb4888ef000 ---p 00005000 08:03 25953207                   /usr/lib/x86_64-linux-gnu/libXtst.so.6.1.0
+7fb4888ef000-7fb4888f0000 r--p 00004000 08:03 25953207                   /usr/lib/x86_64-linux-gnu/libXtst.so.6.1.0
+7fb4888f0000-7fb4888f1000 rw-p 00005000 08:03 25953207                   /usr/lib/x86_64-linux-gnu/libXtst.so.6.1.0
+7fb4888f1000-7fb488945000 r-xp 00000000 08:03 26219220                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libawt_xawt.so
+7fb488945000-7fb488b45000 ---p 00054000 08:03 26219220                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libawt_xawt.so
+7fb488b45000-7fb488b49000 rw-p 00054000 08:03 26219220                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libawt_xawt.so
+7fb488b49000-7fb488b4a000 rw-p 00000000 00:00 0 
+7fb488b4a000-7fb488bec000 r-xp 00000000 08:03 26219206                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libawt.so
+7fb488bec000-7fb488dec000 ---p 000a2000 08:03 26219206                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libawt.so
+7fb488dec000-7fb488df8000 rw-p 000a2000 08:03 26219206                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libawt.so
+7fb488df8000-7fb488e1c000 rw-p 00000000 00:00 0 
+7fb488e1c000-7fb488e1f000 ---p 00000000 00:00 0 
+7fb488e1f000-7fb488f1d000 rw-p 00000000 00:00 0                          [stack:27406]
+7fb488f1d000-7fb488f20000 ---p 00000000 00:00 0 
+7fb488f20000-7fb48901e000 rw-p 00000000 00:00 0                          [stack:27405]
+7fb48901e000-7fb489034000 r-xp 00000000 08:03 26219213                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libnet.so
+7fb489034000-7fb489234000 ---p 00016000 08:03 26219213                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libnet.so
+7fb489234000-7fb489235000 rw-p 00016000 08:03 26219213                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libnet.so
+7fb489235000-7fb489246000 r-xp 00000000 08:03 26219216                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libnio.so
+7fb489246000-7fb489445000 ---p 00011000 08:03 26219216                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libnio.so
+7fb489445000-7fb489446000 rw-p 00010000 08:03 26219216                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libnio.so
+7fb489446000-7fb489447000 ---p 00000000 00:00 0 
+7fb489447000-7fb489547000 rw-p 00000000 00:00 0                          [stack:27404]
+7fb489547000-7fb48954a000 ---p 00000000 00:00 0 
+7fb48954a000-7fb489648000 rw-p 00000000 00:00 0                          [stack:27403]
+7fb489648000-7fb48964b000 ---p 00000000 00:00 0 
+7fb48964b000-7fb489749000 rw-p 00000000 00:00 0                          [stack:27402]
+7fb489749000-7fb48974c000 ---p 00000000 00:00 0 
+7fb48974c000-7fb48984a000 rw-p 00000000 00:00 0                          [stack:27401]
+7fb48984a000-7fb48984d000 ---p 00000000 00:00 0 
+7fb48984d000-7fb48994b000 rw-p 00000000 00:00 0                          [stack:27400]
+7fb48994b000-7fb48994e000 ---p 00000000 00:00 0 
+7fb48994e000-7fb489a4c000 rw-p 00000000 00:00 0                          [stack:27399]
+7fb489a4c000-7fb489a4f000 ---p 00000000 00:00 0 
+7fb489a4f000-7fb489b4d000 rw-p 00000000 00:00 0                          [stack:27398]
+7fb489b4d000-7fb489b50000 ---p 00000000 00:00 0 
+7fb489b50000-7fb489c4e000 rw-p 00000000 00:00 0                          [stack:27397]
+7fb489c4e000-7fb489c4f000 ---p 00000000 00:00 0 
+7fb489c4f000-7fb48ac5e000 rw-p 00000000 00:00 0                          [stack:27396]
+7fb48ac5e000-7fb48ae34000 r--s 03ca8000 08:03 25955124                   /usr/local/java/jdk1.8.0_20/jre/lib/rt.jar
+7fb48ae34000-7fb48bdfe000 rw-p 00000000 00:00 0 
+7fb48bdfe000-7fb48bdff000 ---p 00000000 00:00 0 
+7fb48bdff000-7fb48beff000 rw-p 00000000 00:00 0                          [stack:27395]
+7fb48beff000-7fb48bf00000 ---p 00000000 00:00 0 
+7fb48bf00000-7fb48c000000 rw-p 00000000 00:00 0                          [stack:27394]
+7fb48c000000-7fb48c125000 rw-p 00000000 00:00 0 
+7fb48c125000-7fb490000000 ---p 00000000 00:00 0 
+7fb490000000-7fb49000d000 r--s 000e6000 08:07 589079                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/lwjgl.jar
+7fb49000d000-7fb490012000 r--s 00030000 08:07 589070                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jinput.jar
+7fb490012000-7fb490013000 r--s 0000b000 08:07 589094                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/stack-alloc.jar
+7fb490013000-7fb490015000 r--s 00012000 08:07 589061                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/eventbus.jar
+7fb490015000-7fb490016000 r--s 00006000 08:03 12331061                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-spellchecker-bindings-htmlxml.jar
+7fb490016000-7fb490018000 r--s 00002000 08:03 12333947                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-maven-indexer-ui.jar
+7fb490018000-7fb49001b000 r--s 00027000 08:03 12334209                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-testng-ui.jar
+7fb49001b000-7fb49001e000 r--s 00042000 08:03 12334255                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-testng.jar
+7fb49001e000-7fb490020000 r--s 0000d000 08:03 12332308                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-gototest.jar
+7fb490020000-7fb490022000 r--s 00009000 08:07 589067                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/j-ogg-vorbisd.jar
+7fb490022000-7fb490024000 r--s 00010000 08:07 589087                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/nifty-style-black.jar
+7fb490024000-7fb490025000 r--s 00000000 08:03 12329969                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-libs-junit4.jar
+7fb490025000-7fb490026000 r--s 00002000 08:07 2495560                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-nugs-graph2d-api.jar
+7fb490026000-7fb49002c000 r--s 00046000 08:07 2494440                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/ext/jcommon-1.0.17.jar
+7fb49002f000-7fb490031000 r--s 00020000 08:03 12332036                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-tasklist-todo.jar
+7fb490031000-7fb490032000 r--s 00001000 08:03 12331623                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-projectui-buildmenu.jar
+7fb490032000-7fb490036000 r--s 0003c000 08:03 12333813                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-j2ee-core-utilities.jar
+7fb490036000-7fb490039000 r--s 00043000 08:03 12332032                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-xml-retriever.jar
+7fb490039000-7fb49003a000 r--s 00003000 08:03 12332087                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-plain.jar
+7fb49003a000-7fb49003c000 r--s 00000000 08:03 12332338                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-ide-kit.jar
+7fb49003c000-7fb49003d000 r--s 00000000 08:07 2494439                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-jfree.jar
+7fb49003d000-7fb49003e000 r--s 00007000 08:03 12330214                   /home/zoran/netbeans-8.1/platform/modules/org-openide-execution.jar
+7fb49003e000-7fb490040000 r--s 0000a000 08:03 12334318                   /home/zoran/netbeans-8.1/java/maven/lib/maven-settings-3.0.5.jar
+7fb490040000-7fb490042000 r--s 0000d000 08:03 12332197                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-html-lexer.jar
+7fb490042000-7fb490044000 r--s 0000a000 08:03 12330110                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-api-intent.jar
+7fb490044000-7fb49004e000 r--s 00151000 08:03 12330300                   /home/zoran/netbeans-8.1/platform/modules/org-openide-loaders.jar
+7fb490050000-7fb490051000 r--s 00007000 08:03 12331977                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-languages-diff.jar
+7fb490051000-7fb490053000 r--s 0000d000 08:03 12327674                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-modules-queries.jar
+7fb490053000-7fb490056000 r--s 00034000 08:03 12330281                   /home/zoran/netbeans-8.1/platform/modules/org-openide-actions.jar
+7fb490056000-7fb490058000 r--s 00027000 08:03 12332194                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-web-indent.jar
+7fb490058000-7fb49005a000 r--s 00009000 08:03 12334326                   /home/zoran/netbeans-8.1/java/modules/ext/jaxws22/mimepull.jar
+7fb49005a000-7fb49005c000 r--s 00004000 08:03 12334278                   /home/zoran/netbeans-8.1/java/modules/ext/jaxws22/gmbal-api-only.jar
+7fb49005c000-7fb49005f000 r--s 00009000 08:03 12458423                   /home/zoran/netbeans-8.1/java/modules/ext/jaxws22/api/jaxws-api.jar
+7fb49005f000-7fb490061000 r--s 00019000 08:03 12333993                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-source-ant.jar
+7fb490061000-7fb490063000 r--s 00005000 08:03 12459836                   /home/zoran/netbeans-8.1/java/modules/ext/jaxws22/api/saaj-api.jar
+7fb490063000-7fb490065000 r--s 00001000 08:03 12458419                   /home/zoran/netbeans-8.1/java/modules/ext/jaxws22/api/jsr181-api.jar
+7fb490065000-7fb490067000 r--s 00008000 08:03 12332664                   /home/zoran/netbeans-8.1/ide/modules/ext/servlet-2.2.jar
+7fb490067000-7fb490069000 r--s 0000d000 08:03 12334264                   /home/zoran/netbeans-8.1/java/maven/lib/plexus-interpolation-1.14.jar
+7fb490069000-7fb49006b000 r--s 0000c000 08:03 12334038                   /home/zoran/netbeans-8.1/java/modules/ext/maven/maven-dependency-tree-2.0.jar
+7fb49006b000-7fb49006c000 r--s 00002000 08:03 12332065                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-print-editor.jar
+7fb49006c000-7fb49006e000 r--s 00000000 08:03 12331923                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-javascript2-kit.jar
+7fb49006e000-7fb490070000 r--s 0002d000 08:03 12331856                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-javascript2-jade.jar
+7fb490070000-7fb490073000 r--s 00041000 08:03 12334244                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-form-nb.jar
+7fb490073000-7fb490074000 r--s 00001000 08:03 12330228                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-libs-jna.jar
+7fb490074000-7fb490075000 r--s 00000000 08:03 12334308                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-libs-cglib.jar
+7fb490075000-7fb490076000 r--s 00006000 08:03 12334263                   /home/zoran/netbeans-8.1/java/maven/lib/plexus-sec-dispatcher-1.3.jar
+7fb490076000-7fb49007a000 r--s 0006b000 08:03 12330358                   /home/zoran/netbeans-8.1/platform/modules/org-openide-text.jar
+7fb49007a000-7fb49007c000 r--s 00014000 08:03 12333839                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-testrunner-ui.jar
+7fb49007c000-7fb49007f000 r--s 0002a000 08:03 12330297                   /home/zoran/netbeans-8.1/platform/modules/org-openide-windows.jar
+7fb49007f000-7fb490081000 r--s 00006000 08:03 12334120                   /home/zoran/netbeans-8.1/java/maven/lib/maven-repository-metadata-3.0.5.jar
+7fb490081000-7fb490083000 r--s 00006000 08:03 12334184                   /home/zoran/netbeans-8.1/java/maven/lib/aether-connector-wagon-1.13.1.jar
+7fb490083000-7fb490085000 r--s 0001b000 08:03 12331724                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-javascript2-nodejs.jar
+7fb490085000-7fb490087000 r--s 00034000 08:03 12330299                   /home/zoran/netbeans-8.1/platform/modules/org-openide-dialogs.jar
+7fb490087000-7fb490089000 r--s 00006000 08:03 12327655                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-api-progress-nb.jar
+7fb490089000-7fb49008b000 r--s 00015000 08:03 12329790                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-api-progress.jar
+7fb49008b000-7fb490093000 r--s 000a7000 08:03 12330374                   /home/zoran/netbeans-8.1/platform/modules/org-openide-awt.jar
+7fb490093000-7fb490094000 ---p 00000000 00:00 0 
+7fb490094000-7fb490194000 rw-p 00000000 00:00 0                          [stack:27393]
+7fb490194000-7fb490195000 ---p 00000000 00:00 0 
+7fb490195000-7fb4903bd000 rw-p 00000000 00:00 0                          [stack:27392]
+7fb4903bd000-7fb4907c7000 ---p 00000000 00:00 0 
+7fb4907c7000-7fb4908ef000 rw-p 00000000 00:00 0 
+7fb4908ef000-7fb490cf8000 ---p 00000000 00:00 0 
+7fb490cf8000-7fb490f05000 rw-p 00000000 00:00 0 
+7fb490f05000-7fb490f91000 ---p 00000000 00:00 0 
+7fb490f91000-7fb491034000 rw-p 00000000 00:00 0 
+7fb491034000-7fb491352000 ---p 00000000 00:00 0 
+7fb491352000-7fb49136c000 r-xp 00000000 08:03 26219209                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libzip.so
+7fb49136c000-7fb49156c000 ---p 0001a000 08:03 26219209                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libzip.so
+7fb49156c000-7fb49156d000 rw-p 0001a000 08:03 26219209                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libzip.so
+7fb49156d000-7fb491578000 r-xp 00000000 08:03 12193929                   /lib/x86_64-linux-gnu/libnss_files-2.19.so
+7fb491578000-7fb491777000 ---p 0000b000 08:03 12193929                   /lib/x86_64-linux-gnu/libnss_files-2.19.so
+7fb491777000-7fb491778000 r--p 0000a000 08:03 12193929                   /lib/x86_64-linux-gnu/libnss_files-2.19.so
+7fb491778000-7fb491779000 rw-p 0000b000 08:03 12193929                   /lib/x86_64-linux-gnu/libnss_files-2.19.so
+7fb491779000-7fb491784000 r-xp 00000000 08:03 12189924                   /lib/x86_64-linux-gnu/libnss_nis-2.19.so
+7fb491784000-7fb491983000 ---p 0000b000 08:03 12189924                   /lib/x86_64-linux-gnu/libnss_nis-2.19.so
+7fb491983000-7fb491984000 r--p 0000a000 08:03 12189924                   /lib/x86_64-linux-gnu/libnss_nis-2.19.so
+7fb491984000-7fb491985000 rw-p 0000b000 08:03 12189924                   /lib/x86_64-linux-gnu/libnss_nis-2.19.so
+7fb491985000-7fb49199c000 r-xp 00000000 08:03 12189916                   /lib/x86_64-linux-gnu/libnsl-2.19.so
+7fb49199c000-7fb491b9b000 ---p 00017000 08:03 12189916                   /lib/x86_64-linux-gnu/libnsl-2.19.so
+7fb491b9b000-7fb491b9c000 r--p 00016000 08:03 12189916                   /lib/x86_64-linux-gnu/libnsl-2.19.so
+7fb491b9c000-7fb491b9d000 rw-p 00017000 08:03 12189916                   /lib/x86_64-linux-gnu/libnsl-2.19.so
+7fb491b9d000-7fb491b9f000 rw-p 00000000 00:00 0 
+7fb491b9f000-7fb491ba8000 r-xp 00000000 08:03 12189915                   /lib/x86_64-linux-gnu/libnss_compat-2.19.so
+7fb491ba8000-7fb491da7000 ---p 00009000 08:03 12189915                   /lib/x86_64-linux-gnu/libnss_compat-2.19.so
+7fb491da7000-7fb491da8000 r--p 00008000 08:03 12189915                   /lib/x86_64-linux-gnu/libnss_compat-2.19.so
+7fb491da8000-7fb491da9000 rw-p 00009000 08:03 12189915                   /lib/x86_64-linux-gnu/libnss_compat-2.19.so
+7fb491da9000-7fb491dd3000 r-xp 00000000 08:03 26219204                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libjava.so
+7fb491dd3000-7fb491fd3000 ---p 0002a000 08:03 26219204                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libjava.so
+7fb491fd3000-7fb491fd5000 rw-p 0002a000 08:03 26219204                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libjava.so
+7fb491fd5000-7fb491fe2000 r-xp 00000000 08:03 26219208                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libverify.so
+7fb491fe2000-7fb4921e2000 ---p 0000d000 08:03 26219208                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libverify.so
+7fb4921e2000-7fb4921e4000 rw-p 0000d000 08:03 26219208                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libverify.so
+7fb4921e4000-7fb4921eb000 r-xp 00000000 08:03 12193925                   /lib/x86_64-linux-gnu/librt-2.19.so
+7fb4921eb000-7fb4923ea000 ---p 00007000 08:03 12193925                   /lib/x86_64-linux-gnu/librt-2.19.so
+7fb4923ea000-7fb4923eb000 r--p 00006000 08:03 12193925                   /lib/x86_64-linux-gnu/librt-2.19.so
+7fb4923eb000-7fb4923ec000 rw-p 00007000 08:03 12193925                   /lib/x86_64-linux-gnu/librt-2.19.so
+7fb4923ec000-7fb4923f1000 r-xp 00000000 08:03 25959285                   /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7fb4923f1000-7fb4925f0000 ---p 00005000 08:03 25959285                   /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7fb4925f0000-7fb4925f1000 r--p 00004000 08:03 25959285                   /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7fb4925f1000-7fb4925f2000 rw-p 00005000 08:03 25959285                   /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7fb4925f2000-7fb4925fb000 r-xp 00000000 08:03 25952492                   /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7fb4925fb000-7fb4927fa000 ---p 00009000 08:03 25952492                   /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7fb4927fa000-7fb4927fb000 r--p 00008000 08:03 25952492                   /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7fb4927fb000-7fb4927fc000 rw-p 00009000 08:03 25952492                   /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7fb4927fc000-7fb492805000 r-xp 00000000 08:03 25962331                   /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7fb492805000-7fb492a04000 ---p 00009000 08:03 25962331                   /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7fb492a04000-7fb492a05000 r--p 00008000 08:03 25962331                   /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7fb492a05000-7fb492a06000 rw-p 00009000 08:03 25962331                   /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7fb492a06000-7fb492a09000 ---p 00000000 00:00 0 
+7fb492a09000-7fb492b07000 rw-p 00000000 00:00 0                          [stack:27391]
+7fb492b07000-7fb492dd0000 r--p 00000000 08:03 25957954                   /usr/lib/locale/locale-archive
+7fb492dd0000-7fb492dd1000 ---p 00000000 00:00 0 
+7fb492dd1000-7fb4935d1000 rw-p 00000000 00:00 0 
+7fb4935d1000-7fb4935d6000 r-xp 00000000 08:03 25952491                   /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7fb4935d6000-7fb4937d5000 ---p 00005000 08:03 25952491                   /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7fb4937d5000-7fb4937d6000 r--p 00004000 08:03 25952491                   /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7fb4937d6000-7fb4937d7000 rw-p 00005000 08:03 25952491                   /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7fb4937d7000-7fb4937d9000 r-xp 00000000 08:03 25952450                   /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7fb4937d9000-7fb4939d9000 ---p 00002000 08:03 25952450                   /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7fb4939d9000-7fb4939da000 r--p 00002000 08:03 25952450                   /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7fb4939da000-7fb4939db000 rw-p 00003000 08:03 25952450                   /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7fb4939db000-7fb4939f8000 r-xp 00000000 08:03 25961859                   /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7fb4939f8000-7fb493bf8000 ---p 0001d000 08:03 25961859                   /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7fb493bf8000-7fb493bf9000 r--p 0001d000 08:03 25961859                   /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7fb493bf9000-7fb493bfa000 rw-p 0001e000 08:03 25961859                   /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7fb493bfa000-7fb493c0b000 r-xp 00000000 08:03 25959279                   /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7fb493c0b000-7fb493e0a000 ---p 00011000 08:03 25959279                   /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7fb493e0a000-7fb493e0b000 r--p 00010000 08:03 25959279                   /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7fb493e0b000-7fb493e0c000 rw-p 00011000 08:03 25959279                   /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7fb493e0c000-7fb493f3c000 r-xp 00000000 08:03 25952525                   /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7fb493f3c000-7fb49413c000 ---p 00130000 08:03 25952525                   /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7fb49413c000-7fb49413d000 r--p 00130000 08:03 25952525                   /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7fb49413d000-7fb494141000 rw-p 00131000 08:03 25952525                   /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7fb494141000-7fb49419a000 r-xp 00000000 08:03 26219226                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libsplashscreen.so
+7fb49419a000-7fb49439a000 ---p 00059000 08:03 26219226                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libsplashscreen.so
+7fb49439a000-7fb49439b000 rw-p 00059000 08:03 26219226                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/libsplashscreen.so
+7fb49439b000-7fb49439e000 rw-p 00000000 00:00 0 
+7fb49439e000-7fb4944a3000 r-xp 00000000 08:03 12189908                   /lib/x86_64-linux-gnu/libm-2.19.so
+7fb4944a3000-7fb4946a2000 ---p 00105000 08:03 12189908                   /lib/x86_64-linux-gnu/libm-2.19.so
+7fb4946a2000-7fb4946a3000 r--p 00104000 08:03 12189908                   /lib/x86_64-linux-gnu/libm-2.19.so
+7fb4946a3000-7fb4946a4000 rw-p 00105000 08:03 12189908                   /lib/x86_64-linux-gnu/libm-2.19.so
+7fb4946a4000-7fb49530e000 r-xp 00000000 08:03 26478697                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/server/libjvm.so
+7fb49530e000-7fb49550d000 ---p 00c6a000 08:03 26478697                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/server/libjvm.so
+7fb49550d000-7fb4955e4000 rw-p 00c69000 08:03 26478697                   /usr/local/java/jdk1.8.0_20/jre/lib/amd64/server/libjvm.so
+7fb4955e4000-7fb495626000 rw-p 00000000 00:00 0 
+7fb495626000-7fb4957e1000 r-xp 00000000 08:03 12193926                   /lib/x86_64-linux-gnu/libc-2.19.so
+7fb4957e1000-7fb4959e0000 ---p 001bb000 08:03 12193926                   /lib/x86_64-linux-gnu/libc-2.19.so
+7fb4959e0000-7fb4959e4000 r--p 001ba000 08:03 12193926                   /lib/x86_64-linux-gnu/libc-2.19.so
+7fb4959e4000-7fb4959e6000 rw-p 001be000 08:03 12193926                   /lib/x86_64-linux-gnu/libc-2.19.so
+7fb4959e6000-7fb4959eb000 rw-p 00000000 00:00 0 
+7fb4959eb000-7fb4959ee000 r-xp 00000000 08:03 12189912                   /lib/x86_64-linux-gnu/libdl-2.19.so
+7fb4959ee000-7fb495bed000 ---p 00003000 08:03 12189912                   /lib/x86_64-linux-gnu/libdl-2.19.so
+7fb495bed000-7fb495bee000 r--p 00002000 08:03 12189912                   /lib/x86_64-linux-gnu/libdl-2.19.so
+7fb495bee000-7fb495bef000 rw-p 00003000 08:03 12189912                   /lib/x86_64-linux-gnu/libdl-2.19.so
+7fb495bef000-7fb495c04000 r-xp 00000000 08:03 25954955                   /usr/local/java/jdk1.8.0_20/lib/amd64/jli/libjli.so
+7fb495c04000-7fb495e03000 ---p 00015000 08:03 25954955                   /usr/local/java/jdk1.8.0_20/lib/amd64/jli/libjli.so
+7fb495e03000-7fb495e04000 rw-p 00014000 08:03 25954955                   /usr/local/java/jdk1.8.0_20/lib/amd64/jli/libjli.so
+7fb495e04000-7fb495e1d000 r-xp 00000000 08:03 12189920                   /lib/x86_64-linux-gnu/libpthread-2.19.so
+7fb495e1d000-7fb49601c000 ---p 00019000 08:03 12189920                   /lib/x86_64-linux-gnu/libpthread-2.19.so
+7fb49601c000-7fb49601d000 r--p 00018000 08:03 12189920                   /lib/x86_64-linux-gnu/libpthread-2.19.so
+7fb49601d000-7fb49601e000 rw-p 00019000 08:03 12189920                   /lib/x86_64-linux-gnu/libpthread-2.19.so
+7fb49601e000-7fb496022000 rw-p 00000000 00:00 0 
+7fb496022000-7fb496045000 r-xp 00000000 08:03 12189922                   /lib/x86_64-linux-gnu/ld-2.19.so
+7fb496045000-7fb496046000 r--s 00002000 08:03 12331795                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-extexecution-impl.jar
+7fb496046000-7fb496047000 r--s 0000b000 08:03 12333804                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-testrunner-ant.jar
+7fb496047000-7fb496063000 r--s 00393000 08:03 26086939                   /usr/local/java/jdk1.8.0_20/jre/lib/ext/cldrdata.jar
+7fb496063000-7fb4960dc000 r--s 010df000 08:03 25953815                   /usr/local/java/jdk1.8.0_20/lib/tools.jar
+7fb4960e8000-7fb496116000 r--s 001c9000 08:03 12458418                   /home/zoran/netbeans-8.1/java/maven/lib/ext/wagon-http-2.8-shaded.jar
+7fb496118000-7fb496131000 r--s 0015f000 08:03 12334259                   /home/zoran/netbeans-8.1/java/modules/ext/maven/lucene-core-3.6.2.jar
+7fb496131000-7fb496135000 r--s 00041000 08:03 12329514                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-core-multiview.jar
+7fb49613a000-7fb496146000 r--s 00143000 08:03 12330109                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-api-visual.jar
+7fb496148000-7fb49614f000 r--s 0009c000 08:03 12332208                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-css-visual.jar
+7fb49615a000-7fb49615d000 r--s 0003f000 08:03 12327421                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-modules-settings.jar
+7fb496166000-7fb496168000 r--s 00012000 08:03 12332008                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-projectapi-nb.jar
+7fb49616c000-7fb49616d000 r--s 00000000 08:03 1705566                    /tmp/output1469101542153
+7fb496171000-7fb496173000 r--s 0000b000 08:03 12334316                   /home/zoran/netbeans-8.1/java/maven/lib/maven-artifact-3.0.5.jar
+7fb496173000-7fb496177000 r--s 0004e000 08:03 12332130                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-parsing-api.jar
+7fb496177000-7fb496179000 r--s 00025000 08:03 12331515                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-bracesmatching.jar
+7fb496179000-7fb49617e000 r--s 00092000 08:03 25955129                   /usr/local/java/jdk1.8.0_20/jre/lib/jsse.jar
+7fb49617e000-7fb496188000 r--s 00116000 08:03 26087013                   /usr/local/java/jdk1.8.0_20/jre/lib/ext/localedata.jar
+7fb496188000-7fb49618f000 r--s 0001e000 08:03 25953810                   /usr/local/java/jdk1.8.0_20/lib/dt.jar
+7fb49618f000-7fb496190000 r--s 00000000 08:03 12329679                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util_zh_CN.jar
+7fb496190000-7fb496191000 r--s 00000000 08:03 12330143                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util_ru.jar
+7fb496191000-7fb496192000 r--s 00000000 08:03 12329655                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util_pt_BR.jar
+7fb496192000-7fb496193000 r--s 00000000 08:03 12330132                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util_ja.jar
+7fb496193000-7fb496195000 r--s 00000000 08:03 12327565                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-ui_zh_CN.jar
+7fb496195000-7fb496197000 r--s 00000000 08:03 12329671                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-ui_ru.jar
+7fb496197000-7fb496199000 r--s 00000000 08:03 12327564                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-ui_pt_BR.jar
+7fb496199000-7fb49619b000 r--s 00000000 08:03 12329658                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-ui_ja.jar
+7fb49619b000-7fb49619c000 r--s 00000000 08:03 12327047                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-lookup_zh_CN.jar
+7fb49619c000-7fb49619d000 r--s 00000000 08:03 12327315                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-lookup_ru.jar
+7fb49619d000-7fb49619e000 r--s 00000000 08:03 12327045                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-lookup_pt_BR.jar
+7fb49619e000-7fb49619f000 r--s 00000000 08:03 12327318                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-lookup_ja.jar
+7fb49619f000-7fb4961a0000 r--s 00000000 08:03 12327562                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-modules_zh_CN.jar
+7fb4961a0000-7fb4961a1000 r--s 00000000 08:03 12329678                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-modules_ru.jar
+7fb4961a1000-7fb4961a2000 r--s 00000000 08:03 12327556                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-modules_pt_BR.jar
+7fb4961a2000-7fb4961a3000 r--s 00000000 08:03 12329656                   /home/zoran/netbeans-8.1/platform/lib/locale/org-openide-modules_ja.jar
+7fb4961a3000-7fb4961a4000 r--s 00000000 08:03 12330406                   /home/zoran/netbeans-8.1/platform/lib/locale/boot_zh_CN.jar
+7fb4961a4000-7fb4961a5000 r--s 00000000 08:03 12330661                   /home/zoran/netbeans-8.1/platform/lib/locale/boot_ru.jar
+7fb4961a5000-7fb4961a6000 r--s 00000000 08:03 12330409                   /home/zoran/netbeans-8.1/platform/lib/locale/boot_pt_BR.jar
+7fb4961a6000-7fb4961a7000 r--s 00000000 08:03 12330662                   /home/zoran/netbeans-8.1/platform/lib/locale/boot_ja.jar
+7fb4961a7000-7fb4961a8000 r--s 0000c000 08:07 588565                     /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/core/locale/core_neurophstudio.jar
+7fb4961a8000-7fb4961a9000 r--s 00001000 08:03 12327033                   /home/zoran/netbeans-8.1/platform/core/locale/org-openide-filesystems_pt_BR.jar
+7fb4961a9000-7fb4961aa000 r--s 00006000 08:03 12331850                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-swing-validation.jar
+7fb4961aa000-7fb4961ab000 r--s 00000000 08:03 12329909                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-libs-testng.jar
+7fb4961ab000-7fb4961ac000 r--s 00005000 08:03 12334153                   /home/zoran/netbeans-8.1/java/modules/ext/maven/indexer-artifact-5.1.1.jar
+7fb4961ac000-7fb4961ad000 r--s 00000000 08:03 12327119                   /home/zoran/netbeans-8.1/platform/core/locale/org-netbeans-libs-asm_zh_CN.jar
+7fb4961ad000-7fb4961ae000 r--s 00000000 08:03 12330361                   /home/zoran/netbeans-8.1/platform/core/locale/core-base_ru.jar
+7fb4961ae000-7fb4961af000 r--s 00014000 08:03 12333994                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-testrunner.jar
+7fb4961af000-7fb4961b0000 r--s 00000000 08:03 12332452                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-libs-nashorn.jar
+7fb4961b0000-7fb4961b1000 r--s 00007000 08:03 12334149                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-guards.jar
+7fb4961b1000-7fb4961b2000 r--s 00007000 08:03 12332341                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-libs-freemarker.jar
+7fb4961b2000-7fb4961b3000 r--s 00000000 08:03 12327683                   /home/zoran/netbeans-8.1/platform/core/locale/org-netbeans-libs-asm_ru.jar
+7fb4961b3000-7fb4961b4000 r--s 00003000 08:03 12334035                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-websvc-jaxws21.jar
+7fb4961b4000-7fb4961b5000 r--s 00003000 08:03 12332552                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-libs-jaxb.jar
+7fb4961b5000-7fb4961b6000 r--s 00001000 08:03 12327035                   /home/zoran/netbeans-8.1/platform/core/locale/org-openide-filesystems_zh_CN.jar
+7fb4961b6000-7fb4961b7000 r--s 00000000 08:03 12326694                   /home/zoran/netbeans-8.1/platform/core/locale/org-openide-filesystems-compat8_ru.jar
+7fb4961b7000-7fb4961b8000 r--s 00001000 08:03 12327300                   /home/zoran/netbeans-8.1/platform/core/locale/org-openide-filesystems_ru.jar
+7fb4961b8000-7fb4961b9000 r--s 0000f000 08:03 12333631                   /home/zoran/netbeans-8.1/java/modules/org-netbeans-modules-java-source-queriesimpl.jar
+7fb4961b9000-7fb4961ba000 r--s 00000000 08:07 2494484                    /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster/modules/org-neuroph-jama.jar
+7fb4961ba000-7fb4961bb000 r--s 00001000 08:03 12326922                   /home/zoran/netbeans-8.1/platform/modules/org-netbeans-modules-masterfs-nio2.jar
+7fb4961bb000-7fb4961bc000 r--s 00000000 00:15 86614                      /run/user/1001/dconf/user (deleted)
+7fb4961bc000-7fb4961bd000 r--s 00000000 08:03 12330325                   /home/zoran/netbeans-8.1/platform/core/org-netbeans-libs-asm.jar
+7fb4961bd000-7fb4961c2000 r--s 000b4000 08:03 12330666                   /home/zoran/netbeans-8.1/platform/core/core.jar
+7fb4961c2000-7fb4961c3000 r--s 0000d000 08:03 12331791                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-utilities-project.jar
+7fb4961c3000-7fb4961c5000 r--s 00007000 08:03 12334338                   /home/zoran/netbeans-8.1/java/modules/ext/jaxws22/ha-api.jar
+7fb4961c5000-7fb4961c6000 r--s 00009000 08:03 12333767                   /home/zoran/netbeans-8.1/java/modules/ext/hibernate4/hibernate-c3p0-4.3.1.Final.jar
+7fb4961c6000-7fb4961c8000 r--s 0000e000 08:03 12334300                   /home/zoran/netbeans-8.1/java/modules/ext/jaxws22/streambuffer.jar
+7fb4961c8000-7fb49621a000 rw-p 00000000 00:00 0 
+7fb49621a000-7fb49621c000 r--s 0000b000 08:03 12334301                   /home/zoran/netbeans-8.1/java/maven/lib/wagon-provider-api-2.4.jar
+7fb49621c000-7fb49621d000 r--s 00008000 08:03 12332240                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-xml-lexer.jar
+7fb49621d000-7fb49621f000 r--s 00025000 08:03 12331847                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-structure.jar
+7fb49621f000-7fb496221000 r--s 00015000 08:03 12331784                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-spi-editor-hints-projects.jar
+7fb496221000-7fb496222000 r--s 00006000 08:03 12331606                   /home/zoran/netbeans-8.1/ide/modules/org-netbeans-modules-editor-tools-storage.jar
+7fb496222000-7fb496227000 r--s 0007b000 08:03 12330638                   /home/zoran/netbeans-8.1/platform/lib/org-openide-util.jar
+7fb496227000-7fb49622a000 r--s 00044000 08:03 12330367                   /home/zoran/netbeans-8.1/platform/lib/org-openide-util-ui.jar
+7fb49622a000-7fb49622d000 r--s 00056000 08:03 12330243                   /home/zoran/netbeans-8.1/platform/lib/org-openide-util-lookup.jar
+7fb49622d000-7fb496230000 r--s 00078000 08:03 12330667                   /home/zoran/netbeans-8.1/platform/lib/boot.jar
+7fb496230000-7fb496238000 rw-s 00000000 08:03 2114990                    /tmp/hsperfdata_zoran/27389
+7fb496238000-7fb496239000 rw-p 00000000 00:00 0 
+7fb496239000-7fb49623a000 r--p 00000000 00:00 0 
+7fb49623a000-7fb49623b000 r--s 0000b000 08:03 12330366                   /home/zoran/netbeans-8.1/platform/lib/org-openide-modules.jar
+7fb49623b000-7fb496242000 r--s 00000000 08:03 26232348                   /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
+7fb496242000-7fb496244000 rw-p 00000000 00:00 0 
+7fb496244000-7fb496245000 r--p 00022000 08:03 12189922                   /lib/x86_64-linux-gnu/ld-2.19.so
+7fb496245000-7fb496246000 rw-p 00023000 08:03 12189922                   /lib/x86_64-linux-gnu/ld-2.19.so
+7fb496246000-7fb496247000 rw-p 00000000 00:00 0 
+7ffeb1654000-7ffeb1676000 rw-p 00000000 00:00 0                          [stack]
+7ffeb16ff000-7ffeb1701000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+VM Arguments:
+jvm_args: -Djdk.home=/usr/local/java/jdk1.8.0_20 -Dnetbeans.running.environment=gnome -Dnetbeans.dirs=/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/cluster:/home/zoran/netbeans-8.1/ide:/home/zoran/netbeans-8.1/java:/home/zoran/netbeans-8.1/platform:/home/zoran/netbeans-8.1/extide -Dnetbeans.home=/home/zoran/netbeans-8.1/platform -Dnetbeans.logger.console=true -ea -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/testuserdir/var/log/heapdump.hprof 
+java_command: org.netbeans.Main --cachedir /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/testuserdir/var/cache --userdir /media/zoran/Data/NeurophWorkspace/neurophTrunk/neuroph_git/NeurophStudio/build/testuserdir --branding neurophstudio
+java_class_path (initial): /home/zoran/netbeans-8.1/platform/lib/boot.jar:/home/zoran/netbeans-8.1/platform/lib/org-openide-modules.jar:/home/zoran/netbeans-8.1/platform/lib/org-openide-util-lookup.jar:/home/zoran/netbeans-8.1/platform/lib/org-openide-util-ui.jar:/home/zoran/netbeans-8.1/platform/lib/org-openide-util.jar:/home/zoran/netbeans-8.1/platform/lib/locale/boot_ja.jar:/home/zoran/netbeans-8.1/platform/lib/locale/boot_pt_BR.jar:/home/zoran/netbeans-8.1/platform/lib/locale/boot_ru.jar:/home/zoran/netbeans-8.1/platform/lib/locale/boot_zh_CN.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-modules_ja.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-modules_pt_BR.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-modules_ru.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-modules_zh_CN.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-lookup_ja.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-lookup_pt_BR.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-lookup_ru.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-lookup_zh_CN.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-ui_ja.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-ui_pt_BR.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-ui_ru.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util-ui_zh_CN.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util_ja.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util_pt_BR.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util_ru.jar:/home/zoran/netbeans-8.1/platform/lib/locale/org-openide-util_zh_CN.jar:/usr/local/java/jdk1.8.0_20/lib/dt.jar:/usr/local/java/jdk1.8.0_20/lib/tools.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=/usr/local/java/jdk1.8.0_20
+PATH=/usr/share/maven3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/zoran/bin:/usr/local/java/jdk1.8.0_20/bin
+LD_LIBRARY_PATH=/usr/local/java/jdk1.8.0_20/jre/lib/amd64:/usr/local/java/jdk1.8.0_20/jre/lib/i386:/usr/local/java/jdk1.8.0_20/jre/lib/amd64:/usr/local/java/jdk1.8.0_20/jre/lib/i386:
+SHELL=/bin/bash
+DISPLAY=:0.0
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0xa77530], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xa77530], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x8e1d90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: SIG_IGN, sa_mask[0]=00000000000010000000000000000000, sa_flags=SA_RESTART
+SIGXFSZ: [libjvm.so+0x8e1d90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x8e1d90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGUSR2: [libjvm.so+0x8e35c0], sa_mask[0]=00100000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0x8e4980], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: [libjvm.so+0x8e4980], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x8e4980], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=14.04
+DISTRIB_CODENAME=trusty
+DISTRIB_DESCRIPTION="Ubuntu 14.04.3 LTS"
+
+uname:Linux 3.13.0-55-generic #94-Ubuntu SMP Thu Jun 18 00:27:10 UTC 2015 x86_64
+libc:glibc 2.19 NPTL 2.19 
+rlimit: STACK 8192k, CORE 0k, NPROC 127409, NOFILE 4096, AS infinity
+load average:1.11 1.44 1.37
+
+/proc/meminfo:
+MemTotal:       16330484 kB
+MemFree:          833232 kB
+Buffers:         2407988 kB
+Cached:          3079896 kB
+SwapCached:            0 kB
+Active:          9834844 kB
+Inactive:        4776576 kB
+Active(anon):    8460780 kB
+Inactive(anon):  1374380 kB
+Active(file):    1374064 kB
+Inactive(file):  3402196 kB
+Unevictable:         184 kB
+Mlocked:             184 kB
+SwapTotal:      33344508 kB
+SwapFree:       33344240 kB
+Dirty:               276 kB
+Writeback:             0 kB
+AnonPages:       9123748 kB
+Mapped:           518748 kB
+Shmem:            711624 kB
+Slab:             658636 kB
+SReclaimable:     585212 kB
+SUnreclaim:        73424 kB
+KernelStack:        6928 kB
+PageTables:        67520 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    41509748 kB
+Committed_AS:   21033396 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      381952 kB
+VmallocChunk:   34359343704 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:   6264832 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:       82912 kB
+DirectMap2M:     4007936 kB
+DirectMap1G:    12582912 kB
+
+
+CPU:total 4 (2 cores per cpu, 2 threads per core) family 6 model 69 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2
+
+/proc/cpuinfo:
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 69
+model name	: Intel(R) Core(TM) i7-4500U CPU @ 1.80GHz
+stepping	: 1
+microcode	: 0x15
+cpu MHz		: 774.000
+cache size	: 4096 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat epb xsaveopt pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
+bogomips	: 3591.51
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 69
+model name	: Intel(R) Core(TM) i7-4500U CPU @ 1.80GHz
+stepping	: 1
+microcode	: 0x15
+cpu MHz		: 1800.000
+cache size	: 4096 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat epb xsaveopt pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
+bogomips	: 3591.51
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 69
+model name	: Intel(R) Core(TM) i7-4500U CPU @ 1.80GHz
+stepping	: 1
+microcode	: 0x15
+cpu MHz		: 1800.000
+cache size	: 4096 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat epb xsaveopt pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
+bogomips	: 3591.51
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 69
+model name	: Intel(R) Core(TM) i7-4500U CPU @ 1.80GHz
+stepping	: 1
+microcode	: 0x15
+cpu MHz		: 1800.000
+cache size	: 4096 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat epb xsaveopt pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid
+bogomips	: 3591.51
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+
+
+Memory: 4k page, physical 16330484k(833232k free), swap 33344508k(33344240k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.20-b23) for linux-amd64 JRE (1.8.0_20-b26), built on Jul 30 2014 13:13:52 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
+
+time: Thu Jul 21 15:09:13 2016
+elapsed time: 5070 seconds (0d 1h 24m 30s)
+

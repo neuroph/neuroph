@@ -157,7 +157,7 @@ public class DiabetesSample implements LearningEventListener {
 //        for (int i = 0; i < 21; i++) {
         System.out.println("Creating neural network...");
         //Create MultiLayerPerceptron neural network
-        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(inputsCount, 9, outputsCount);
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(inputsCount, 20, 10, outputsCount);
 //            System.out.println("HIDDEN COUNT: " + i);
         //attach listener to learning rule
         MomentumBackpropagation learningRule = (MomentumBackpropagation) neuralNet.getLearningRule();
@@ -165,7 +165,7 @@ public class DiabetesSample implements LearningEventListener {
 
         learningRule.setLearningRate(0.05);
         learningRule.setMaxError(0.01);
-        learningRule.setMaxIterations(10000);
+        learningRule.setMaxIterations(100000);
 
         System.out.println("Training network...");
         //train the network with training set

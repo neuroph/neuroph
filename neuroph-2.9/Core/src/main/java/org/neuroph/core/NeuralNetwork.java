@@ -303,7 +303,6 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
             layer.calculate();
         }
         
-
         fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.CALCULATED));
     }
 

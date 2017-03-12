@@ -153,7 +153,7 @@ public class ImagePanel extends JPanel {
 
     public int getFielcdAsInt(JTextField t) {              // vraca broj iz textFileda kao int
         try {
-            return (Integer.valueOf(t.getText())).intValue();
+            return (Integer.valueOf(t.getText()));
         } catch (NumberFormatException e) {
             setFieldToInt(t, 0);
             return 0;
@@ -162,7 +162,7 @@ public class ImagePanel extends JPanel {
 
     public double getFieldAsDouble(JTextField t) {         // vraca broj iz text fielda kao float
         try {
-            return (Double.valueOf(t.getText())).doubleValue();
+            return (Double.valueOf(t.getText()));
         } catch (NumberFormatException e) {
             setFieldToDouble(t, 0);
             return 0;

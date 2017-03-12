@@ -36,8 +36,10 @@ preferredID = "VizualizeDataset2DTopComponent")
 })
 public final class VisualizeDataset2DTopComponent extends TopComponent {
 
-    private DataSet dataset;
+
     private Graph2DBuilder graphBuilder;
+    String[] columnNames;
+    int numInputs;
 
     public VisualizeDataset2DTopComponent() {
         initComponents();
@@ -56,22 +58,17 @@ public final class VisualizeDataset2DTopComponent extends TopComponent {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        graphCombo = new javax.swing.JComboBox();
+        graphTypeCombo = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         xCombo = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         yCombo = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        visualizeButton = new javax.swing.JButton();
         graphPanel = new javax.swing.JPanel();
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(VisualizeDataset2DTopComponent.class, "VisualizeDataset2DTopComponent.jLabel1.text")); // NOI18N
 
-        graphCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        graphCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                graphComboActionPerformed(evt);
-            }
-        });
+        graphTypeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(VisualizeDataset2DTopComponent.class, "VisualizeDataset2DTopComponent.jLabel2.text")); // NOI18N
 
@@ -81,10 +78,10 @@ public final class VisualizeDataset2DTopComponent extends TopComponent {
 
         yCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(VisualizeDataset2DTopComponent.class, "VisualizeDataset2DTopComponent.jButton1.text")); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(visualizeButton, org.openide.util.NbBundle.getMessage(VisualizeDataset2DTopComponent.class, "VisualizeDataset2DTopComponent.visualizeButton.text")); // NOI18N
+        visualizeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                visualizeButtonActionPerformed(evt);
             }
         });
 
@@ -95,7 +92,7 @@ public final class VisualizeDataset2DTopComponent extends TopComponent {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(graphCombo, 0, 152, Short.MAX_VALUE)
+                    .addComponent(graphTypeCombo, 0, 152, Short.MAX_VALUE)
                     .addComponent(xCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(yCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -104,7 +101,7 @@ public final class VisualizeDataset2DTopComponent extends TopComponent {
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(0, 106, Short.MAX_VALUE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(visualizeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -113,7 +110,7 @@ public final class VisualizeDataset2DTopComponent extends TopComponent {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(graphCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(graphTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -123,7 +120,7 @@ public final class VisualizeDataset2DTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(yCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addComponent(jButton1)
+                .addComponent(visualizeButton)
                 .addContainerGap(210, Short.MAX_VALUE))
         );
 
@@ -145,38 +142,39 @@ public final class VisualizeDataset2DTopComponent extends TopComponent {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void graphComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphComboActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_graphComboActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-
+    private void visualizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizeButtonActionPerformed
         graphPanel.removeAll();
-        String x = (String) xCombo.getSelectedItem();
-        Attribute in1 = parseInputOrOutput(x);
-        String y = (String) yCombo.getSelectedItem();
-        Attribute in2 = parseInputOrOutput(y);
+                        
+        int xIdx = xCombo.getSelectedIndex();
+        boolean isOutput;
+        
+        if (xIdx < numInputs) isOutput = false;
+            else isOutput = true;
+        
+        Attribute in1 = new Attribute(xIdx, isOutput, columnNames[xIdx]);
+        int yIdx = yCombo.getSelectedIndex();
+        
+        if (yIdx < numInputs) isOutput = false;
+            else isOutput = true;
+        
+        Attribute in2 =new Attribute(yIdx, isOutput, columnNames[yIdx]);
 
-        graphBuilder = (Graph2DBuilder) graphCombo.getSelectedItem();
+        graphBuilder = (Graph2DBuilder) graphTypeCombo.getSelectedItem();
         graphBuilder.setAttribute1(in1);
         graphBuilder.setAttribute2(in2);
         ChartPanel chartPanel = graphBuilder.create();
         graphPanel.add(chartPanel);
 
         graphPanel.validate();
-
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_visualizeButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox graphCombo;
     private javax.swing.JPanel graphPanel;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox graphTypeCombo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton visualizeButton;
     private javax.swing.JComboBox xCombo;
     private javax.swing.JComboBox yCombo;
     // End of variables declaration//GEN-END:variables
@@ -204,40 +202,30 @@ public final class VisualizeDataset2DTopComponent extends TopComponent {
     }
 
     public void openChart(DataSet dataset) {
-        this.dataset = dataset;
-
-
         xCombo.removeAllItems();
         yCombo.removeAllItems();
 
-        graphCombo.removeAllItems();
+        graphTypeCombo.removeAllItems();
+        
+        columnNames = dataset.getColumnNames();
+        numInputs = dataset.getInputSize();
 
         DataSetRow row = dataset.getRowAt(0);
         for (int i = 0; i < row.getInput().length; i++) {
-            xCombo.addItem("input " + (i + 1));
-            yCombo.addItem("input " + (i + 1));
+            xCombo.addItem(columnNames[i]);
+            yCombo.addItem(columnNames[i]);
         }
+       
+        
         for (int i = 0; i < row.getDesiredOutput().length; i++) {
-            yCombo.addItem("output " + (i + 1));
-            xCombo.addItem("output " + (i + 1));
+            yCombo.addItem(columnNames[i+numInputs]);
+            xCombo.addItem(columnNames[i+numInputs]);            
         }
-        graphCombo.addItem(new DatasetScatter2D(dataset));
-        graphCombo.addItem(new DatasetSeries2D(dataset));
+        
+        graphTypeCombo.addItem(new DatasetScatter2D(dataset));
+        graphTypeCombo.addItem(new DatasetSeries2D(dataset));
 
 
     }
-
-    private Attribute parseInputOrOutput(String string) {
-        Attribute attr;
-        if (string.startsWith("input")) {
-            int index = Integer.parseInt(string.substring(6)) - 1;
-            attr = new Attribute(index, false, "Input");
-        } else {
-            int index = Integer.parseInt(string.substring(7)) - 1;
-            attr = new Attribute(index, true, "Output");
-        }
-        return attr;
-    }
-
    
 }

@@ -85,25 +85,26 @@ public class NeurophProjectTemplateWizardIteratorRecomender implements WizardDes
         if (parent != null && parent.exists()) {
             ProjectChooser.setProjectsFolder(parent);
         }
-            NeurophProject np= (NeurophProject) ProjectManager.getDefault().findProject(dir);
+       
+        NeurophProject np= (NeurophProject) ProjectManager.getDefault().findProject(dir);
        CurrentProject.getInstance().setCurrentProject(np);
-         // ViewManager.getInstance().recommenderSample();
-     
+    
           // create nn and ts here
-        NeuralNetwork nnet = new org.neuroph.contrib.RecommenderNetwork();
-        ((org.neuroph.contrib.RecommenderNetwork) nnet).createDemoNetwork();
+//        NeuralNetwork nnet = new org.neuroph.contrib.RecommenderNetwork();
+//        ((org.neuroph.contrib.RecommenderNetwork) nnet).createDemoNetwork();
         // how to create this training set, where the data comes from?
      //   DataSet tSet = new DataSet(20); // how many inputs / outputs / do we have this in neuroph studio?
 
-        nnet.setLabel("Recommender sample");
+//        nnet.setLabel("Recommender sample");
     //    tSet.setLabel("E-commerce tset");
 
-        NeurophProjectFilesFactory.getDefault().createNeuralNetworkFile(nnet);
+//        NeurophProjectFilesFactory.getDefault().createNeuralNetworkFile(nnet);
 //        NeurophProjectFilesFactory.getDefault().createTrainingSetFile(tSet);          
           
           return resultSet;
     }
 
+   @Override
     public void initialize(WizardDescriptor wiz) {
         this.wiz = wiz;
         index = 0;

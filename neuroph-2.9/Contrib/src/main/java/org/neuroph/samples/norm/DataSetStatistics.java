@@ -8,7 +8,7 @@ public class DataSetStatistics {
 	public static double[] calculateMean(DataSet dataSet) {
 		double[] mean = new double[dataSet.getInputSize()];
 
-		for (DataSetRow row : dataSet.getRows()) {
+		for (DataSetRow row : dataSet) {
 			double[] currentInput = row.getInput();
 			for (int i = 0; i < dataSet.getInputSize(); i++) {
 				mean[i] += currentInput[i];

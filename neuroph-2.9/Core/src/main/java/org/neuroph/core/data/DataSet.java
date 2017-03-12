@@ -17,9 +17,11 @@ package org.neuroph.core.data;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
@@ -29,12 +31,13 @@ import org.neuroph.util.data.sample.SubSampling;
 /**
  * This class represents a collection of data rows (DataSetRow instances) used
  * for training and testing neural network.
- *
+ * TODO: add logging
+ * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  * @see DataSetRow
  * http://openforecast.sourceforge.net/docs/net/sourceforge/openforecast/DataSet.html
  */
-public class DataSet implements Serializable {
+public class DataSet implements List<DataSetRow>, Serializable { // implements 
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
@@ -86,7 +89,8 @@ public class DataSet implements Serializable {
         this.rows = new ArrayList();
         this.inputSize = inputSize;
         this.isSupervised = false;
-        this.columnNames = new String[inputSize];
+        //this.columnNames = new String[inputSize];
+        setDefaultColumnNames();
     }
 
     /**
@@ -97,10 +101,11 @@ public class DataSet implements Serializable {
      */
     public DataSet(int inputSize, int outputSize) {
         this.rows = new ArrayList();
-        this.inputSize = inputSize;
-        this.outputSize = outputSize;
+        this.inputSize = inputSize; // > 0
+        this.outputSize = outputSize; // > 0
         this.isSupervised = true;
-        this.columnNames = new String[inputSize + outputSize];
+      //  this.columnNames = new String[inputSize + outputSize];
+        setDefaultColumnNames();
     }
 
     /**
@@ -108,7 +113,7 @@ public class DataSet implements Serializable {
      *
      * @param row data set row to add
      */
-    public void addRow(DataSetRow row)
+    public boolean addRow(DataSetRow row)
             throws VectorSizeMismatchException {
 
         if (row == null) {
@@ -121,14 +126,13 @@ public class DataSet implements Serializable {
             throw new VectorSizeMismatchException("Input vector size does not match data set input size!");
         }
 
-
         if ((this.outputSize != 0)
                 && (row.getDesiredOutput().length != this.outputSize)) {
             throw new VectorSizeMismatchException("Output vector size does not match data set output size!");
         }
 
         // if everything was ok add training row
-        this.rows.add(row);
+        return rows.add(row);
     }
 
     /**
@@ -226,8 +230,9 @@ public class DataSet implements Serializable {
      *
      * @return number of training elements in this training set set
      */
+    @Override
     public int size() {
-        return this.rows.size();
+        return rows.size();
     }
 
     /**
@@ -348,23 +353,15 @@ public class DataSet implements Serializable {
      * Saves this training set to file specified in its filePath field
      */
     public void save() {
-        ObjectOutputStream out = null;
-
-        try {
-            File file = new File(this.filePath);
-            out = new ObjectOutputStream(new FileOutputStream(file));
+        
+        if (filePath == null) throw new NeurophException("filePath is null! It must be specified in order to save file!");
+        
+        try (ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filePath)))) {
             out.writeObject(this);
             out.flush();
-
+            out.close();
         } catch (IOException ioe) {
             throw new NeurophException(ioe);
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException ioe) {
-                }
-            }
         }
     }
 
@@ -415,38 +412,27 @@ public class DataSet implements Serializable {
 
     /**
      * Loads training set from the specified file
-     *
+     * TODO:  throw checked exceptionse here
+     * 
      * @param filePath training set file
      * @return loded training set
      */
     public static DataSet load(String filePath) {
-        ObjectInputStream oistream = null;
 
-        try {
-            File file = new File(filePath);
-            if (!file.exists()) {
-                throw new FileNotFoundException("Cannot find file: " + filePath);
-
-            }
-
-            oistream = new ObjectInputStream(new FileInputStream(filePath));
+        try (ObjectInputStream oistream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filePath))) ) {
+ 
             DataSet dataSet = (DataSet) oistream.readObject();
             dataSet.setFilePath(filePath);
 
             return dataSet;
 
+        } catch(FileNotFoundException fnfe) {
+           throw new NeurophException("Could not find file: '" + filePath + "'!", fnfe); 
         } catch (IOException ioe) {
-            throw new NeurophException("Error reading file!", ioe);
+            throw new NeurophException("Error reading file: '" + filePath + "'!", ioe);
         } catch (ClassNotFoundException ex) {
             throw new NeurophException("Class not found while trying to read DataSet object from the stream!", ex);
-        } finally {
-            if (oistream != null) {
-                try {
-                    oistream.close();
-                } catch (IOException ioe) {
-                }
-            }
-        }
+        } 
     }
 
     /**
@@ -462,18 +448,16 @@ public class DataSet implements Serializable {
      * TODO: try with resources, provide information on exact line of error if format is not good in NumberFormatException
      */
     public static DataSet createFromFile(String filePath, int inputsCount, int outputsCount, String delimiter, boolean loadColumnNames) {
-        BufferedReader reader = null;
-
+       
         if (filePath == null) throw new IllegalArgumentException("File name cannot be null!");
         if (inputsCount <= 0) throw new IllegalArgumentException("Number of inputs cannot be <= 0 : "+inputsCount);
         if (outputsCount < 0) throw new IllegalArgumentException("Number of outputs cannot be < 0 : "+outputsCount);
         if ((delimiter == null) || delimiter.isEmpty())
             throw new IllegalArgumentException("Delimiter cannot be null or empty!");
 
-        try {
+        try ( BufferedReader reader = new BufferedReader(new FileReader(filePath)) ) {
             DataSet dataSet = new DataSet(inputsCount, outputsCount);
             dataSet.setFilePath(filePath);            
-            reader = new BufferedReader(new FileReader(new File(filePath)));
 
             String line = null;
 
@@ -482,6 +466,8 @@ public class DataSet implements Serializable {
                 line = reader.readLine();
                 String[] colNames = line.split(delimiter);
                 dataSet.setColumnNames(colNames);
+            } else {
+                dataSet.setDefaultColumnNames();
             }
 
             while ((line = reader.readLine()) != null) {
@@ -515,22 +501,10 @@ public class DataSet implements Serializable {
         } catch (FileNotFoundException ex) {
             throw new NeurophException("Could not find data set file!", ex);
         } catch (IOException ex) {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException ex1) {
-                }
-            }
-            throw new NeurophException("Error reading data set file!", ex);
+             throw new NeurophException("Error reading data set file!", ex);
         } catch (NumberFormatException ex) {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException ex1) {
-                }
-            }
-            ex.printStackTrace();
-            throw new NeurophException("Bad number format in data set file!", ex);
+             ex.printStackTrace();
+            throw new NeurophException("Bad number format in data set file!", ex); // TODO: add line number!
         }
 
     }
@@ -565,6 +539,11 @@ public class DataSet implements Serializable {
         return trainAndTestSet;
     }
 
+    public List<DataSet> split(int ... sizePercents) {
+        SubSampling sampling = new SubSampling(sizePercents);
+        return sampling.sample(this);    
+    }
+    
 
     public List<DataSet> sample(Sampling sampling) {
         return sampling.sample(this);
@@ -591,4 +570,110 @@ public class DataSet implements Serializable {
         Collections.shuffle(rows);
     }
 
+    @Override
+    public boolean contains(Object o) {
+        return rows.contains(o);// TODO: implement equals for DataSetRow
+    }
+
+    @Override
+    public Object[] toArray() {
+       return rows.toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return rows.toArray(a);
+    }
+
+    @Override
+    public boolean add(DataSetRow row) {
+        return rows.add(row); // better  call to addRow instead
+    }
+
+    @Override
+    public boolean remove(Object row) {
+        return rows.remove(row);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+       return rows.containsAll(c);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends DataSetRow> c) {
+        return rows.addAll(c);
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends DataSetRow> c) {
+        return rows.addAll(index, c);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return rows.removeAll(c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return rows.retainAll(c);
+    }
+
+    @Override
+    public DataSetRow get(int index) {
+        return rows.get(index);
+    }
+
+    @Override
+    public DataSetRow set(int index, DataSetRow row) {
+        return rows.set(index, row);
+    }
+
+    @Override
+    public void add(int index, DataSetRow row) {
+        rows.add(index, row);
+    }
+
+    @Override
+    public DataSetRow remove(int index) {
+        return rows.remove(index);
+    }
+
+    @Override
+    public int indexOf(Object row) {
+        return rows.indexOf(row);
+    }
+
+    @Override
+    public int lastIndexOf(Object row) {
+        return rows.lastIndexOf(row);
+    }
+
+    @Override
+    public ListIterator<DataSetRow> listIterator() {
+        return rows.listIterator();
+    }
+
+    @Override
+    public ListIterator<DataSetRow> listIterator(int index) {
+        return rows.listIterator(index);
+    }
+
+    @Override
+    public List<DataSetRow> subList(int fromIndex, int toIndex) {
+        return rows.subList(fromIndex, toIndex);
+    }
+
+    private void setDefaultColumnNames() {
+        columnNames = new String[inputSize + outputSize];
+        
+        for (int i = 0; i < inputSize; i++) {
+            columnNames[i] = "Input" + (i+1);
+        }
+        for (int i = 0; i < outputSize; i++) {
+            columnNames[inputSize + i] = "Output" + (i+1);
+        }
+    }
+    
 }

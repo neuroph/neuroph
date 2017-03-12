@@ -1,4 +1,5 @@
 
+
 /**
  * Copyright 2014 Neuroph Project http://neuroph.sourceforge.net
  *
@@ -316,5 +317,6 @@ public class Layer implements Serializable {
     public boolean isEmpty() {
         return neurons.isEmpty();
     }
+
 
 }

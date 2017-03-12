@@ -1,28 +1,31 @@
 package org.neuroph.contrib.eval;
 
 /**
- * Interface for all Evaluators
+ * Generic interface for all types of evaluators
  *
- * @param <T> Generic type used to define the return type of final evaluation result
+ * @param <T> Return type of final evaluation result
  */
 public interface Evaluator<T> {
     
     /**
      * This method should handle processing of a single network output within an evaluation procedure
      * 
-     * @param networkOutput
-     * @param desiredOutput 
+     * @param networkOutput actual network output
+     * @param desiredOutput desired/target network output
      */
     public void processNetworkResult(double[] networkOutput, double[] desiredOutput);
 
     /**
      * This method should return final evaluation result
-     * @return 
+     * 
+     * @return final evaluation result
      */
     public T getResult();
 
     
-    
+    /**
+     * 
+     */    
     public void reset();
 
 }

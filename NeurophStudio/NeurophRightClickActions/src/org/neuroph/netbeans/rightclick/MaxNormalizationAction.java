@@ -36,10 +36,10 @@ public final class MaxNormalizationAction extends AbstractAction implements Acti
 
     @Override
     public void actionPerformed(ActionEvent ev) {
-        DataSet dataSet = context.getDataSet();
+       DataSet dataSet = context.getDataSet();
        MaxNormalizer norm = new MaxNormalizer();
        norm.normalize(dataSet);
        
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Normalized data set " + dataSet.getLabel() + " using Max normalization method");
+       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Normalized data set " + dataSet.getLabel() + " using Max normalization method");
     }
 }

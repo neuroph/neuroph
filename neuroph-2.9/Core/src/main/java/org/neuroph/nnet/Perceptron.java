@@ -18,6 +18,7 @@ package org.neuroph.nnet;
 
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.nnet.comp.layer.InputLayer;
 import org.neuroph.nnet.comp.neuron.ThresholdNeuron;
 import org.neuroph.nnet.learning.BinaryDeltaRule;
 import org.neuroph.util.ConnectionFactory;
@@ -86,12 +87,7 @@ public class Perceptron extends NeuralNetwork {
 		// set network type
 		this.setNetworkType(NeuralNetworkType.PERCEPTRON);
 
-		// init neuron settings for input layer
-		NeuronProperties inputNeuronProperties = new NeuronProperties();
-   		inputNeuronProperties.setProperty("transferFunction", TransferFunctionType.LINEAR);
-
-		// create input layer
-		Layer inputLayer = LayerFactory.createLayer(inputNeuronsCount, inputNeuronProperties);
+                Layer inputLayer = new InputLayer(inputNeuronsCount);
 		this.addLayer(inputLayer);
 
 		NeuronProperties outputNeuronProperties = new NeuronProperties();

@@ -211,6 +211,11 @@ abstract public class IterativeLearning extends LearningRule implements
         fireLearningEvent(new LearningEvent(this, LearningEvent.Type.LEARNING_STOPPED));
     }
 
+    /**
+     * Returns true if any of the stop conditions has been reached.
+     * 
+     * @return 
+     */
     protected boolean hasReachedStopCondition() {
         for (StopCondition stop : stopConditions) {
             if (stop.isReached()) {
@@ -234,8 +239,8 @@ abstract public class IterativeLearning extends LearningRule implements
     }
 
     /**
-     * Runs one learning iteration for the specified training set and notfies
-     * observers. This method does the the doLearningEpoch() and in addtion
+     * Runs one learning iteration with the specified training set and fires
+     * event to notify observers. This method does the the doLearningEpoch() and in addtion
      * notifes observrs when iteration is done.
      *
      * @param trainingSet training set to learn

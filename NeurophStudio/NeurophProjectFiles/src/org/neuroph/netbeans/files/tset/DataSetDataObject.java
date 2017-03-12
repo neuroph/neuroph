@@ -150,13 +150,12 @@ public class DataSetDataObject extends MultiDataObject implements Openable, Look
     
     @Override
     public void open() {
-        content.remove(dataSet);
-        dataSet = readFromFile(fileObject);
-        content.add(dataSet);
+       // content.remove(dataSet);
+       // dataSet = readFromFile(fileObject);
+       // content.add(dataSet);
         
         if (dataSetTopComponent == null || !dataSetTopComponent.isOpened()) {
             dataSetTopComponent = new DataSetTopComponent(this);
-//            nnetTopComponent.setFileObject(fileObject);
             dataSetTopComponent.open();
         }
         

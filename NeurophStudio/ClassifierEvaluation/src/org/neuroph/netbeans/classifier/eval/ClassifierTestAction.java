@@ -28,10 +28,10 @@ import org.openide.windows.IOProvider;
 @Messages("CTL_ClassifierTestAction=Classifier Test ")
 public final class ClassifierTestAction implements ActionListener {
     
-    private final NeuralNetAndDataSet trainingController;
+    private final NeuralNetAndDataSet neuralNetAndDataSet;
     
     public ClassifierTestAction(NeuralNetAndDataSet context) {
-        this.trainingController = context;
+        this.neuralNetAndDataSet = context;
     }        
 
     @Override
@@ -40,31 +40,47 @@ public final class ClassifierTestAction implements ActionListener {
         TestTopComponent.getDefault().requestActive();
         TestTopComponent.getDefault().clear();
         
-       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Evaluating classifier neural network "/*+trainingController.getNetwork().getLabel() +" for data set "/*+trainingController.getDataSet().getLabel()*/);        
+       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Evaluating classifier neural network "/*+neuralNetAndDataSet.getNetwork().getLabel() +" for data set "/*+neuralNetAndDataSet.getDataSet().getLabel()*/);        
 
-       NeuralNetwork<?> neuralNet = trainingController.getNetwork();
-       DataSet dataSet = trainingController.getDataSet();
+       NeuralNetwork<?> neuralNet = neuralNetAndDataSet.getNetwork();
+       DataSet dataSet = neuralNetAndDataSet.getDataSet();
        
+       boolean isMultiClass = false;
    
-       String[] classNames =  new String[neuralNet.getOutputsCount()];// = {"LeftHand", "RightHand", "Foot", "Rest"};        
+       String[] classNames =  new String[neuralNet.getOutputsCount()]; // neuralNet.getOutputLabels()  
        int i = 0;
+       
        for(Neuron n : neuralNet.getOutputNeurons()) {
            classNames[i] = n.getLabel(); 
            i++;
        } 
 
+       if (i>1) isMultiClass = true;
        
-       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Testing neural network "+trainingController.getNetwork().getLabel() +" for data set "+trainingController.getDataSet().getLabel());        
+       IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Testing neural network "+neuralNetAndDataSet.getNetwork().getLabel() +" for data set "+neuralNetAndDataSet.getDataSet().getLabel());        
 
         Evaluation evaluation = new Evaluation();
         evaluation.addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
-        evaluation.addEvaluator(new ClassifierEvaluator.MultiClass(classNames));
+        
+        if (isMultiClass) {
+            evaluation.addEvaluator(new ClassifierEvaluator.MultiClass(classNames));
+        } else {        
+            evaluation.addEvaluator(new ClassifierEvaluator.Binary(0.5));
+        }
     
-        evaluation.evaluateDataSet(trainingController.getNetwork(), trainingController.getDataSet());
+        evaluation.evaluateDataSet(neuralNetAndDataSet.getNetwork(), neuralNetAndDataSet.getDataSet());
         
         TestTopComponent.getDefault().output("MeanSquare Error: " + evaluation.getEvaluator(ErrorEvaluator.class).getResult()+"\r\n");
                 
-        ClassifierEvaluator evaluator = evaluation.getEvaluator(ClassifierEvaluator.MultiClass.class);
+        ClassifierEvaluator evaluator;
+        
+        if (isMultiClass) {
+            evaluator = evaluation.getEvaluator(ClassifierEvaluator.MultiClass.class);
+        } else {
+            evaluator = evaluation.getEvaluator(ClassifierEvaluator.Binary.class);
+        }
+            
+        
         ConfusionMatrix confusionMatrix = evaluator.getResult();  
         
         TestTopComponent.getDefault().output("Confusion matrrix:\r\n");
@@ -73,18 +89,13 @@ public final class ClassifierTestAction implements ActionListener {
         TestTopComponent.getDefault().output("Classification metrics\r\n");
         ClassificationMetrics[] metrics = ClassificationMetrics.createFromMatrix(confusionMatrix);      
    
+        // calculate avg mse and avg metrics
         ClassificationMetrics.Stats average = ClassificationMetrics.average(metrics);
         
         for(ClassificationMetrics cm : metrics)
             TestTopComponent.getDefault().output(cm.toString()+"\r\n");    
         
         TestTopComponent.getDefault().output(average.toString());   
-        
-        
-       
-        
-        // calculate avg mse
-        // and avg metrics
-       
+               
     }
 }
