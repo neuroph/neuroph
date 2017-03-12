@@ -16,6 +16,8 @@
 package org.neuroph.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
 import org.neuroph.core.events.NeuralNetworkEvent;
@@ -34,6 +36,7 @@ import org.neuroph.util.NeurophArrayList;
  */
 public class Layer implements Serializable {
 
+    final static ForkJoinPool fjp=new ForkJoinPool();
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
@@ -254,9 +257,14 @@ public class Layer implements Serializable {
      * Performs calculaton for all neurons in this layer
      */
     public void calculate() {
-
+        List futuresList = new ArrayList();
         for (Neuron neuron : this.neurons.asArray()) { // use directly underlying array since its faster
-            neuron.calculate();
+            //neuron.calculate();
+            fjp.execute(new CalculateTask(neuron));
+        }
+        
+        for (Object future : futuresList) {
+            //Do something if you want.
         }
 //          neurons.parallelStream().forEach( n -> n.calculate());
 
