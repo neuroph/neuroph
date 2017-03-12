@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2014 Neuroph Project http://neuroph.sourceforge.net
  *
@@ -17,13 +18,13 @@ package org.neuroph.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
+import org.neuroph.util.NeurophArrayList;
 
 /**
  * <pre>
@@ -36,6 +37,10 @@ import org.neuroph.util.NeuronProperties;
  */
 public class Layer implements Serializable {
 
+    /**
+     * Will automatically split the computation in to number of processors available on machine.
+     */
+    final static ForkJoinPool fjp=new ForkJoinPool();//Takes default number of processors.
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
@@ -49,9 +54,9 @@ public class Layer implements Serializable {
     private NeuralNetwork parentNetwork;
 
     /**
-     * Collection of neurons in this layer
+     * Collection of neurons (Neuron instances)
      */
-    protected List<Neuron> neurons;
+    protected NeurophArrayList<Neuron> neurons;
 
     /**
      * Label for this layer
@@ -62,7 +67,7 @@ public class Layer implements Serializable {
      * Creates an instance of empty Layer
      */
     public Layer() {
-        neurons = new ArrayList<>();
+        neurons = new NeurophArrayList(Neuron.class);
     }
     
     /**
@@ -70,7 +75,7 @@ public class Layer implements Serializable {
      * @param neuronsCount number of neurons in this layer
      */
     public Layer(int neuronsCount) {
-       neurons = new ArrayList<>(neuronsCount);
+       neurons = new NeurophArrayList(Neuron.class, neuronsCount);
     }    
 
     /**
@@ -81,7 +86,7 @@ public class Layer implements Serializable {
      * @param neuronProperties properties of neurons in layer
      */
     public Layer(int neuronsCount, NeuronProperties neuronProperties) {
-        this(neuronsCount);
+        neurons = new NeurophArrayList(Neuron.class, neuronsCount);
 
         for (int i = 0; i < neuronsCount; i++) {
             Neuron neuron = NeuronFactory.createNeuron(neuronProperties);
@@ -112,9 +117,8 @@ public class Layer implements Serializable {
      *
      * @return array of neurons in this layer
      */
-    public final List<Neuron> getNeurons() {
-        // return Collections.unmodifiableList(neurons);
-        return neurons;        
+    public final Neuron[] getNeurons() {
+        return neurons.asArray();
     }
 
     /**
@@ -136,7 +140,7 @@ public class Layer implements Serializable {
         
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));                
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_ADDED));                
     }
 
     /**
@@ -162,7 +166,7 @@ public class Layer implements Serializable {
         
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));                        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_ADDED));                        
     }
 
     /**
@@ -185,7 +189,7 @@ public class Layer implements Serializable {
         
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));                        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_ADDED));                        
         
     }
 
@@ -251,18 +255,22 @@ public class Layer implements Serializable {
     public int getNeuronsCount() {
         return neurons.size();
     }
-   
-// static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+    static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
 
     /**
      * Performs calculaton for all neurons in this layer
      */
     public void calculate() {
-
-//        for (Neuron neuron : this.neurons) { // use directly underlying array since its faster
-//            neuron.calculate();
-//        }
-          neurons.parallelStream().forEach( n -> n.calculate());
+        List futuresList = new ArrayList();
+        for (Neuron neuron : this.neurons.asArray()) { // use directly underlying array since its faster
+            //neuron.calculate();
+            fjp.execute(new CalculateTask(neuron));
+        }
+        
+        for (Object future : futuresList) {
+            //Do something if you want.
+        }
+//          neurons.parallelStream().forEach( n -> n.calculate());
 
 //        mainPool.invokeAll(Arrays.asList(neurons.asArray()));
     }
