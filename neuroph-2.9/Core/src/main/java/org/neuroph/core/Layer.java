@@ -42,7 +42,7 @@ public class Layer implements Serializable {
      */
     final static ForkJoinPool fjp=new ForkJoinPool();//Takes default number of processors.
 
-      /**
+    /**
      * The class fingerprint that is set to indicate serialization compatibility
      * with a previous version of the class
      */
@@ -141,7 +141,7 @@ public class Layer implements Serializable {
         
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));                
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_ADDED));                
     }
 
     /**
@@ -167,7 +167,7 @@ public class Layer implements Serializable {
         
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));                        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_ADDED));                        
     }
 
     /**
@@ -190,7 +190,7 @@ public class Layer implements Serializable {
         
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));                        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_ADDED));                        
         
     }
 
@@ -256,16 +256,20 @@ public class Layer implements Serializable {
     public int getNeuronsCount() {
         return neurons.size();
     }
-   
-// static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+    static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
 
     /**
      * Performs calculaton for all neurons in this layer
      */
     public void calculate() {
-
+        List futuresList = new ArrayList();
         for (Neuron neuron : this.neurons) { // use directly underlying array since its faster
-            neuron.calculate();
+            //neuron.calculate();
+            fjp.execute(new CalculateTask(neuron));
+        }
+        
+        for (Object future : futuresList) {
+            //Do something if you want.
         }
 //          neurons.parallelStream().forEach( n -> n.calculate());
 
@@ -312,5 +316,6 @@ public class Layer implements Serializable {
     
     public boolean isEmpty() {
         return neurons.isEmpty();
-}
+    }
+
 }
