@@ -60,7 +60,7 @@ public class PerceptronLearning extends LMS {
                 // get the neurons threshold
                 double thresh = thresholdNeuron.getThresh();
                 // calculate new threshold value
-                thresh = thresh - this.learningRate * neuronError;
+                thresh = thresh + this.learningRate * neuronError;
                 // apply the new threshold
                 thresholdNeuron.setThresh(thresh);
 	}
