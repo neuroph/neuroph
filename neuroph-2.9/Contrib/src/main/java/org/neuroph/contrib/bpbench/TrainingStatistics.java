@@ -49,7 +49,7 @@ public class TrainingStatistics {
             sumIter += trainingResults.get(i).getNoOfIterations();
         }
         meanError = sumError / trainingResults.size();
-        meanIterations = sumIter / trainingResults.size();
+        meanIterations = (double)sumIter / trainingResults.size();
     }
     private void calculateStd(){
         if(meanError == 0 || meanIterations == 0) calculateMean();
@@ -111,7 +111,7 @@ public class TrainingStatistics {
 
     @Override
     public String toString() {
-        return "TrainingStatistics{" + "minIterations=" + minIterations + ", maxIterations=" + maxIterations + ", meanIterations=" + meanIterations + ", stdIterations=" + stdIterations + ", minError=" + minError + ", maxError=" + maxError + ", meanError=" + meanError + ", stdError=" + stdError + ", trainingList=" + trainingResults + '}';
+        return "TrainingStatistics{" + "minIterations=" + minIterations + ", maxIterations=" + maxIterations + ", meanIterations=" + meanIterations + ", stdIterations=" + stdIterations + ", minError=" + minError + ", maxError=" + maxError + ", meanError=" + meanError + ", stdError=" + stdError  + '}';
     }
 
   

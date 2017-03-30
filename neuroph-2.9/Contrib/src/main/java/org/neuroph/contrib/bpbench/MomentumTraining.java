@@ -23,8 +23,9 @@ public class MomentumTraining extends Training {
         setParameters(mbp);
         getNeuralNet().setLearningRule(mbp);
         LearningRule learningRule = getNeuralNet().getLearningRule();
-        learningRule.addListener(this);
+       // learningRule.addListener(this);
         getNeuralNet().learn(getDataset());
+         this.getStats().addData(new TrainingResult(mbp.getCurrentIteration(), mbp.getTotalNetworkError(), createMatrix()));
         //testNeuralNetwork(getNeuralNet(), getDataset());
        
     }
@@ -38,6 +39,7 @@ public class MomentumTraining extends Training {
         MomentumBackpropagation mbp = (MomentumBackpropagation) bp;
         mbp.setLearningRate(getSettings().getLearningRate());
         mbp.setMomentum(getSettings().getLearningRate());
+        mbp.setMaxIterations(getSettings().getMaxIterations());
     }
 
 }

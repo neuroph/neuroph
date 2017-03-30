@@ -27,10 +27,14 @@ public class BackPropBenchmarks {
     public void addTraining(Training training){
         this.listOfTrainings.add(training);
     }
-    public void run(){
+    public void run(int repeat){
         for (Training training : listOfTrainings) {
-            training.testNeuralNet();
-            
+            for (int i = 0; i < repeat; i++) {
+                training.testNeuralNet();
+               
+                training.getNeuralNet().randomizeWeights();
+            }
+             System.out.println(training.getStats());
         }
         
     }
@@ -48,15 +52,17 @@ public class BackPropBenchmarks {
         DataSet trainingSet = DataSet.createFromFile("iris_data_normalised.txt", 4, 3, ",");
         MultiLayerPerceptron mlp = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 4, 7, 3);
         
-        TrainingSettings settings = new TrainingSettings(0.2, 0, 10, 0, 0.1, true);
-        //Training t1 = new MomentumTraining((NeuralNetwork)mlp, trainingSet);
-        Training t2 = new BackpropagationTraining((NeuralNetwork)mlp, trainingSet, settings);
-        bpb.addTraining(t2);
-       // bpb.addTraining(t1);
-        for (int i = 0; i < 10; i++) {
-             bpb.run();
+        TrainingSettingsGenerator generator = new TrainingSettingsGenerator(0.1, 1, 0.3, 5, 10, 1, 0, 0.1, 1000, true);
+        
+        for (TrainingSettings settings : generator.generateSettings()) {
+            Training t = new BackpropagationTraining(null, trainingSet, settings);
+            Training t2 = new MomentumTraining(null, trainingSet, settings);
+            bpb.addTraining(t);
+            bpb.addTraining(t2);
+           
         }
-         
+        System.out.println(bpb.listOfTrainings.size());
+         bpb.run(3);
        
         /*
         RunBackpropagation x = new RunBackpropagation();
