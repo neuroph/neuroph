@@ -64,6 +64,7 @@ abstract public class IterativeLearning extends LearningRule implements
      * Flag for indicating if learning thread is paused
      */
     private transient volatile boolean pausedLearning = false;
+    
 
     /**
      * Creates new instance of IterativeLearning learning algorithm

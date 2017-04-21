@@ -94,7 +94,7 @@ public class LMS extends SupervisedLearning implements Serializable {
             // get the input from current connection
             double input = connection.getInput();
             // calculate the weight change
-            double weightChange = learningRate * neuronError * input;
+            double weightChange = -learningRate * neuronError * input;
 
             // get the connection weight
             Weight weight = connection.getWeight();

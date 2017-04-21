@@ -56,7 +56,7 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
      */
     public Weight() {
         this.value = Math.random() - 0.5d;
-        this.weightChange = 0;
+        this.weightChange = 0;        
     }
 
     /**

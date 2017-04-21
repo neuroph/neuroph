@@ -71,7 +71,7 @@ public class ResilientPropagation extends BackPropagation {
             ResilientWeightTrainingtData weightData = (ResilientWeightTrainingtData) weight.getTrainingData();
 
             // calculate the weight gradient (and sum gradients since learning is done in batch mode)
-            weightData.gradient += neuronError * input;
+            weightData.gradient += -neuronError * input;  // - ili + ovde ? bilo je +
         }
     }
 

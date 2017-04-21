@@ -28,7 +28,7 @@ public class RunQuickPropagation implements LearningEventListener {
                 
         DataSet trainingSet = DataSet.createFromFile("iris_data_normalised.txt", 4, 3, ",");
         QuickPropagation qp = new QuickPropagation();
-        qp.setBatchMode(true);
+        qp.setBatchMode(true); // ovo setovati intern ou klasi
         qp.setLearningRate(0.35);
         qp.setMaxError(0.02);
         

@@ -29,6 +29,7 @@ import org.neuroph.core.learning.error.ErrorFunction;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.core.learning.stop.MaxErrorStop;
 import org.neuroph.core.learning.stop.StopCondition;
+import org.neuroph.util.TrainingSetImport;
 
 // TODO:  random pattern order
 
@@ -75,7 +76,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
     private boolean batchMode = false;
 
     private ErrorFunction errorFunction;
-
+    
     /**
      * Creates new supervised learning rule
      */
@@ -105,6 +106,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      * @param maxIterations maximum number of learning iterations
      */
     public void learn(DataSet trainingSet, double maxError, int maxIterations) {
+        this.trainingSet = trainingSet;
         this.maxError = maxError;
         this.setMaxIterations(maxIterations);
         this.learn(trainingSet);
@@ -203,7 +205,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
                 for (Connection connection : neuron.getInputConnections()) {
                     // for each connection weight apply accumulated weight change
                     Weight weight = connection.getWeight();
-                    weight.value -= weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                    weight.value -= weight.weightChange / ((double)getTrainingSet().size()); // apply delta weight which is the sum of delta weights in batch mode
                     weight.weightChange = 0; // reset deltaWeight
                 }
             }
@@ -332,9 +334,9 @@ abstract public class SupervisedLearning extends IterativeLearning implements
                     // for each connection weight apply accumulated weight change
                     Weight weight = connection.getWeight();
                     if (!isInBatchMode()) {
-                        weight.value -= weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                        weight.value += weight.weightChange;
                     } else {
-                        weight.value -= weight.weightChange / (double)getTrainingSet().size();
+                        weight.value += weight.weightChange / (double)getTrainingSet().size();
                     }
                     weight.weightChange = 0; // reset deltaWeight
                 }

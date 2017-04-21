@@ -79,7 +79,7 @@ public class BackPropagation extends LMS {
             // otherwise calculate and set error/delta for the current neuron
             TransferFunction transferFunction = neuron.getTransferFunction();
             double neuronInput = neuron.getNetInput();
-            double delta = outputError[i] * transferFunction.getDerivative(neuronInput); // delta = (d-y)*df(net)
+            double delta = outputError[i] * transferFunction.getDerivative(neuronInput); // delta = (y-d)*df(net)
             neuron.setError(delta);
 
             // and update weights of the current neuron

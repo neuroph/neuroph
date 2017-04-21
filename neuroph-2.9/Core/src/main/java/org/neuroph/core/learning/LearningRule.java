@@ -49,7 +49,7 @@ abstract public class LearningRule implements Serializable {
     /**
      * Training data set
      */
-    private transient DataSet trainingSet;
+    protected transient DataSet trainingSet;
     
     /**
      * Flag to stop learning
