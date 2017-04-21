@@ -35,7 +35,7 @@ public class QuickpropagationTraining extends Training {
     @Override
     public void setParameters(BackPropagation bp) {
         QuickPropagation qp = (QuickPropagation) bp;
-        qp.setBatchMode(getSettings().isBatchMode());
+       // qp.setBatchMode(getSettings().isBatchMode()); // uvej je u batch modu
         qp.setLearningRate(getSettings().getLearningRate());
         qp.setMaxError(getSettings().getMaxError());
     }

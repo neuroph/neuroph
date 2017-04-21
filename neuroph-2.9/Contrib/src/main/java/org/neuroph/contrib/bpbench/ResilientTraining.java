@@ -39,7 +39,7 @@ public class ResilientTraining extends Training{
     @Override
     public void setParameters(BackPropagation bp) {
         ResilientPropagation rp = (ResilientPropagation) bp;
-        rp.setLearningRate(getSettings().getLearningRate());
+        rp.setLearningRate(getSettings().getLearningRate()); // ovo verovato izbaciti prouciti
     }
     
 }

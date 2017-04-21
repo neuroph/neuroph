@@ -14,7 +14,7 @@ import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 public class TrainingResult {
     
     private int noOfIterations;
-    private double error;
+    private double totalError;
     private ConfusionMatrix confusionMatrix;
     
     public TrainingResult() {
@@ -22,16 +22,16 @@ public class TrainingResult {
 
     public TrainingResult(int noOfIterations, double error, ConfusionMatrix confusionMatrix) {
         this.noOfIterations = noOfIterations;
-        this.error = error;
+        this.totalError = error;
         this.confusionMatrix = confusionMatrix;
     }
 
     public double getError() {
-        return error;
+        return totalError;
     }
 
     public void setError(double error) {
-        this.error = error;
+        this.totalError = error;
     }
 
     public int getNoOfIterations() {

@@ -5,8 +5,10 @@
  */
 package org.neuroph.contrib.bpbench;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  *
@@ -14,18 +16,26 @@ import java.util.List;
  */
 public class TrainingSettingsGenerator {
 
-    double minLearningRate;
-    double maxLearningRate;
-    double learningRateStep;
+    private double minLearningRate;
+    private double maxLearningRate;
+    private double learningRateStep;
 
-    int minHiddenNeurons;
-    int maxHiddenNeurons;
-    int hiddenNeuronsStep;
+    private int minHiddenNeurons;
+    private int maxHiddenNeurons;
+    private int hiddenNeuronsStep;
     
-    double momentum;
-    double maxError;
-    int maxIterations;
-    boolean batchMode;
+    private double momentum;
+    private double maxError;
+    private int maxIterations;
+    private boolean batchMode;
+
+    private Properties settings;
+    
+    public TrainingSettingsGenerator() {
+        settings = new Properties();
+    }
+    
+    
     public TrainingSettingsGenerator(double minLearningRate, double maxLearningRate, double learningRateStep, int minHiddenNeurons, int maxHiddenNeurons, int hiddenNeuronsStep, double momentum, double maxError, int maxIterations, boolean batchMode) {
      if (minLearningRate > 0) {
             this.minLearningRate = minLearningRate;
@@ -79,4 +89,27 @@ public class TrainingSettingsGenerator {
         return list;
     }
 
+    public Properties getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Properties settings) {
+        this.settings = settings;
+        setUpGenerator();
+    }
+
+    private void setUpGenerator() {
+        this.batchMode = Boolean.parseBoolean(settings.getProperty("batchMode", "false"));
+        this.hiddenNeuronsStep = Integer.parseInt(settings.getProperty("hiddenNeuronsStep", "0"));
+        this.learningRateStep = Double.parseDouble(settings.getProperty("learningRateStep", "0.1"));
+        this.maxError = Double.parseDouble(settings.getProperty("maxError", "0.1"));
+        this.maxHiddenNeurons = Integer.parseInt(settings.getProperty("maxHiddenNeurons", "1"));
+        this.maxIterations = Integer.parseInt(settings.getProperty("maxIterations", "10000"));
+        this.maxLearningRate = Double.parseDouble(settings.getProperty("maxLearningRate", "1"));
+        this.minHiddenNeurons = Integer.parseInt(settings.getProperty("minHiddenNeurons", "0"));
+        this.minLearningRate = Double.parseDouble(settings.getProperty("minLearningRate", "0.001"));
+        this.momentum = Double.parseDouble(settings.getProperty("momentum", "0"));
+    }
+
+    
 }

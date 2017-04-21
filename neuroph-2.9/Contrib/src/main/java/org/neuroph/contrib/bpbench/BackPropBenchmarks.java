@@ -1,12 +1,7 @@
 package org.neuroph.contrib.bpbench;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.data.DataSet;
-import org.neuroph.nnet.MultiLayerPerceptron;
-import org.neuroph.util.TransferFunctionType;
 
 /**
  *
@@ -15,6 +10,7 @@ import org.neuroph.util.TransferFunctionType;
 public class BackPropBenchmarks {
  
     private List<Training> listOfTrainings;
+    private int noOfRepetitions;
 
     public BackPropBenchmarks() {
         this.listOfTrainings = new ArrayList<>();
@@ -27,9 +23,9 @@ public class BackPropBenchmarks {
     public void addTraining(Training training){
         this.listOfTrainings.add(training);
     }
-    public void run(int repeat){
+    public void run(){
         for (Training training : listOfTrainings) {
-            for (int i = 0; i < repeat; i++) {
+            for (int i = 0; i < noOfRepetitions; i++) {
                 training.testNeuralNet();
                
                 training.getNeuralNet().randomizeWeights();
@@ -38,53 +34,13 @@ public class BackPropBenchmarks {
         }
         
     }
-    //TrainingSettingsGenerator - generise testove za raspon vrednosti learning rate min i max, generise i broj skrivenih neurona
-    public static void main(String[] args) throws IOException {
-        // lista treninga mreza sa razlicitim algoritmima
-        // napravi klasu Training (neuronsku mrezu i dataset, mozda podesavanje treninga)
-        //  Driver: testirati standardni backprop, momentum, resilient i quickprop
-        // za svaki trening statistike: min, max, mean, std
-        
-        //Trening je jedna iteracija algoritma ili n ponavljanja?????
-        //Upotreba niti za testiranje?
-        //Matrica konfuzije da se izracuna!
-        BackPropBenchmarks bpb = new BackPropBenchmarks();
-        DataSet trainingSet = DataSet.createFromFile("iris_data_normalised.txt", 4, 3, ",");
-        MultiLayerPerceptron mlp = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 4, 7, 3);
-        
-        TrainingSettingsGenerator generator = new TrainingSettingsGenerator(0.1, 1, 0.3, 5, 10, 1, 0, 0.1, 1000, true);
-        
-        for (TrainingSettings settings : generator.generateSettings()) {
-            Training t = new BackpropagationTraining(null, trainingSet, settings);
-            Training t2 = new MomentumTraining(null, trainingSet, settings);
-            bpb.addTraining(t);
-            bpb.addTraining(t2);
-           
-        }
-        System.out.println(bpb.listOfTrainings.size());
-         bpb.run(3);
-       
-        /*
-        RunBackpropagation x = new RunBackpropagation();
-        RunQuickPropagation q = new RunQuickPropagation();
-        
-        PrintWriter out = new PrintWriter(new FileWriter("rezultati.txt"));
-        int backprop = 0;
-        int quickprop = 0;
-//       for (int i = 0; i < 5; i++) {
-//            x.nauci();
-//            out.println("BACK! iter: " + x.noOfIter);
-//            backprop += x.noOfIter;
-//        }
-        out.println("BACK! ukupno iteracija: " + backprop);
-       for (int i = 0; i < 5; i++) {
-            q.nauci();
-            out.println("QUICK! iter: " + q.noOfIter);
-            quickprop += q.noOfIter;
-        }
-        out.println("QUICK! ukupno iteracija: " + quickprop);
-        out.flush();
-        out.close();
-*/
+
+    public int getNoOfRepetitions() {
+        return noOfRepetitions;
     }
+
+    public void setNoOfRepetitions(int noOfRepetitions) {
+        this.noOfRepetitions = noOfRepetitions;
+    }
+  
 }

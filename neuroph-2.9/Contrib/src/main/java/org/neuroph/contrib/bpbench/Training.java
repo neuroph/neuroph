@@ -32,25 +32,29 @@ public abstract class Training implements LearningEventListener {
     private TrainingSettings settings;
    
     public abstract void testNeuralNet();
+    //Property klasa
     public abstract void setParameters(BackPropagation bp);
     
     public ConfusionMatrix createMatrix(){
         Evaluation eval = new Evaluation();
-        eval.addEvaluator(new ClassifierEvaluator.MultiClass(dataset.getColumnNames()));
+        eval.addEvaluator(new ClassifierEvaluator.MultiClass(dataset.getColumnNames())); // output labels
         return eval.evaluateDataSet(neuralNet, dataset).getConfusionMatrix();
     }
    
     public Training(NeuralNetwork neuralNet, DataSet dataset, TrainingSettings settings) {
-        if(neuralNet != null){
-            this.neuralNet = neuralNet;
-        }
-        else  {
-            this.neuralNet = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, dataset.getInputSize(), settings.getHiddenNeurons(), dataset.getOutputSize());
-        }
+        this.neuralNet = neuralNet;
         this.dataset = dataset;
         this.stats = new TrainingStatistics();
         this.settings = settings;
     }
+
+    public Training(DataSet dataset, TrainingSettings settings) {
+        this.dataset = dataset;
+        this.settings = settings;
+        
+        this.neuralNet = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, dataset.getInputSize(), settings.getHiddenNeurons(), dataset.getOutputSize());
+    }
+    
 
     public TrainingSettings getSettings() {
         return settings;
