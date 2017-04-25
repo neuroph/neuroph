@@ -14,31 +14,32 @@ import org.neuroph.nnet.learning.QuickPropagation;
  */
 public class QuickpropagationTraining extends Training {
 
-    @Override
-    public void testNeuralNet() {
-        QuickPropagation qp = new QuickPropagation();
-        setParameters(qp);
-        getNeuralNet().setLearningRule(qp);
-        LearningRule learningRule = getNeuralNet().getLearningRule();
-        learningRule.addListener(this);
-        getNeuralNet().learn(getDataset());
-        //testNeuralNetwork(getNeuralNet(), getDataset());
-       
-    }
-
- 
-
     public QuickpropagationTraining(NeuralNetwork neuralNet, DataSet dataset, TrainingSettings settings) {
         super(neuralNet, dataset, settings);
     }
 
-    @Override
-    public void setParameters(BackPropagation bp) {
-        QuickPropagation qp = (QuickPropagation) bp;
-       // qp.setBatchMode(getSettings().isBatchMode()); // uvej je u batch modu
-        qp.setLearningRate(getSettings().getLearningRate());
-        qp.setMaxError(getSettings().getMaxError());
+    public QuickpropagationTraining(DataSet dataset, TrainingSettings settings) {
+        super(dataset, settings);
     }
 
+    @Override
+    public void testNeuralNet() {
+        QuickPropagation qp = (QuickPropagation) setParameters();
+        getNeuralNet().setLearningRule(qp);
+        getNeuralNet().learn(getDataset());
+        this.getStats().addData(new TrainingResult(qp.getCurrentIteration(), qp.getTotalNetworkError(), createMatrix()));
+        this.getStats().calculateParameters();
+
+    }
+
+    @Override
+    public LearningRule setParameters() {
+        QuickPropagation qp = new QuickPropagation();
+        qp.setBatchMode(true);
+        qp.setLearningRate(getSettings().getLearningRate());
+        qp.setMaxError(getSettings().getLearningRate());
+        qp.setMaxIterations(getSettings().getMaxIterations());
+        return qp;
+    }
 
 }

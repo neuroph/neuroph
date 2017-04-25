@@ -17,27 +17,6 @@ import org.neuroph.nnet.learning.BackPropagation;
  */
 public class BackpropagationTraining extends Training {
 
-    @Override
-    public void testNeuralNet() {
-        //create learning rule and set given learning parameters
-        BackPropagation bp = new BackPropagation();
-
-        setParameters(bp);
-        this.getNeuralNet().setLearningRule(bp);
-        LearningRule learningRule = this.getNeuralNet().getLearningRule();
-
-        //learn and and add results to statistics
-        this.getNeuralNet().learn(this.getDataset());
-
-        this.getStats().addData(new TrainingResult(bp.getCurrentIteration(), bp.getTotalNetworkError(), createMatrix()));
-
-        //calculate mean and std for error and iterations
-        this.getStats().calculateParameters();
-
-        //System.out.println(getStats());
-        System.out.println(getStats().getTrainingResults().get(0).getConfusionMatrix().toString());
-    }
-
     public BackpropagationTraining(NeuralNetwork neuralNet, DataSet dataset, TrainingSettings settings) {
         super(neuralNet, dataset, settings);
     }
@@ -47,10 +26,22 @@ public class BackpropagationTraining extends Training {
     }
 
     @Override
-    public void setParameters(BackPropagation bp) {
+    public void testNeuralNet() {
+        BackPropagation bp = (BackPropagation) this.setParameters();
+        this.getNeuralNet().setLearningRule(bp);
+        this.getNeuralNet().learn(this.getDataset());
+        this.getStats().addData(new TrainingResult(bp.getCurrentIteration(), bp.getTotalNetworkError(), createMatrix()));
+        this.getStats().calculateParameters();
+
+    }
+
+    @Override
+    public LearningRule setParameters() {
+        BackPropagation bp = new BackPropagation();
         bp.setLearningRate(getSettings().getLearningRate());
         bp.setMaxError(getSettings().getMaxError());
         bp.setBatchMode(getSettings().isBatchMode());
         bp.setMaxIterations(getSettings().getMaxIterations());
+        return bp;
     }
 }

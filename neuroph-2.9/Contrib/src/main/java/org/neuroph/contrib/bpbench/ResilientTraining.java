@@ -15,31 +15,34 @@ import org.neuroph.nnet.learning.ResilientPropagation;
  *
  * @author Mladen
  */
-public class ResilientTraining extends Training{
+public class ResilientTraining extends Training {
 
-    @Override
-    public void testNeuralNet() {
-        ResilientPropagation rp = new ResilientPropagation();
-        setParameters(rp);
-        getNeuralNet().setLearningRule(rp);
-        LearningRule learningRule = getNeuralNet().getLearningRule();
-        learningRule.addListener(this);
-        getNeuralNet().learn(getDataset());
-        //testNeuralNetwork(getNeuralNet(), getDataset());
-       
-    }
-
-  
-
-    
     public ResilientTraining(NeuralNetwork neuralNet, DataSet dataset, TrainingSettings settings) {
         super(neuralNet, dataset, settings);
     }
 
-    @Override
-    public void setParameters(BackPropagation bp) {
-        ResilientPropagation rp = (ResilientPropagation) bp;
-        rp.setLearningRate(getSettings().getLearningRate()); // ovo verovato izbaciti prouciti
+    public ResilientTraining(DataSet dataset, TrainingSettings settings) {
+        super(dataset, settings);
     }
     
+
+    @Override
+    public void testNeuralNet() {
+        ResilientPropagation rp = (ResilientPropagation) setParameters();
+        getNeuralNet().setLearningRule(rp);
+        getNeuralNet().learn(getDataset());
+        this.getStats().addData(new TrainingResult(rp.getCurrentIteration(), rp.getTotalNetworkError(), createMatrix()));
+        this.getStats().calculateParameters();
+
+    }
+
+    @Override
+    public LearningRule setParameters() {
+        ResilientPropagation rp = new ResilientPropagation();
+        rp.setBatchMode(getSettings().isBatchMode());
+        rp.setMaxError(getSettings().getMaxError());
+        rp.setMaxIterations(getSettings().getMaxIterations());
+        return rp;
+    }
+
 }

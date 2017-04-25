@@ -5,7 +5,6 @@
  */
 package org.neuroph.contrib.bpbench;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -99,16 +98,16 @@ public class TrainingSettingsGenerator {
     }
 
     private void setUpGenerator() {
-        this.batchMode = Boolean.parseBoolean(settings.getProperty("batchMode", "false"));
-        this.hiddenNeuronsStep = Integer.parseInt(settings.getProperty("hiddenNeuronsStep", "0"));
-        this.learningRateStep = Double.parseDouble(settings.getProperty("learningRateStep", "0.1"));
-        this.maxError = Double.parseDouble(settings.getProperty("maxError", "0.1"));
-        this.maxHiddenNeurons = Integer.parseInt(settings.getProperty("maxHiddenNeurons", "1"));
-        this.maxIterations = Integer.parseInt(settings.getProperty("maxIterations", "10000"));
-        this.maxLearningRate = Double.parseDouble(settings.getProperty("maxLearningRate", "1"));
-        this.minHiddenNeurons = Integer.parseInt(settings.getProperty("minHiddenNeurons", "0"));
-        this.minLearningRate = Double.parseDouble(settings.getProperty("minLearningRate", "0.001"));
-        this.momentum = Double.parseDouble(settings.getProperty("momentum", "0"));
+        this.batchMode = Boolean.parseBoolean(settings.getProperty(BackpropagationSettings.BATCH_MODE, "false"));
+        this.hiddenNeuronsStep = Integer.parseInt(settings.getProperty(BackpropagationSettings.HIDDEN_NEURONS_STEP, "0"));
+        this.learningRateStep = Double.parseDouble(settings.getProperty(BackpropagationSettings.LEARNING_RATE_STEP, "0.1"));
+        this.maxError = Double.parseDouble(settings.getProperty(BackpropagationSettings.MAX_ERROR, "0.1"));
+        this.maxHiddenNeurons = Integer.parseInt(settings.getProperty(BackpropagationSettings.MAX_HIDDEN_NEURONS, "1"));
+        this.maxIterations = Integer.parseInt(settings.getProperty(BackpropagationSettings.MAX_ITERATIONS, "10000"));
+        this.maxLearningRate = Double.parseDouble(settings.getProperty(BackpropagationSettings.MAX_LEARNING_RATE, "1"));
+        this.minHiddenNeurons = Integer.parseInt(settings.getProperty(BackpropagationSettings.MIN_HIDDEN_NEURONS, "0"));
+        this.minLearningRate = Double.parseDouble(settings.getProperty(BackpropagationSettings.MIN_LEARNING_RATE, "0.001"));
+        this.momentum = Double.parseDouble(settings.getProperty(BackpropagationSettings.MOMENTUM, "0"));
     }
 
     

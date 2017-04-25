@@ -17,29 +17,36 @@ import org.neuroph.nnet.learning.MomentumBackpropagation;
  */
 public class MomentumTraining extends Training {
 
-    @Override
-    public void testNeuralNet() {
-        MomentumBackpropagation mbp = new MomentumBackpropagation();
-        setParameters(mbp);
-        getNeuralNet().setLearningRule(mbp);
-        LearningRule learningRule = getNeuralNet().getLearningRule();
-       // learningRule.addListener(this);
-        getNeuralNet().learn(getDataset());
-         this.getStats().addData(new TrainingResult(mbp.getCurrentIteration(), mbp.getTotalNetworkError(), createMatrix()));
-        //testNeuralNetwork(getNeuralNet(), getDataset());
-       
-    }
-
-    public MomentumTraining(NeuralNetwork neuralNet, DataSet dataset, TrainingSettings settings) {
+     public MomentumTraining(NeuralNetwork neuralNet, DataSet dataset, TrainingSettings settings) {
         super(neuralNet, dataset, settings);
     }
 
+    public MomentumTraining(DataSet dataset, TrainingSettings settings) {
+        super(dataset, settings);
+    }
+     
+    
     @Override
-    public void setParameters(BackPropagation bp) {
-        MomentumBackpropagation mbp = (MomentumBackpropagation) bp;
+    public void testNeuralNet() {
+        MomentumBackpropagation mbp = (MomentumBackpropagation) setParameters();
+        getNeuralNet().setLearningRule(mbp);
+        getNeuralNet().learn(getDataset());
+        this.getStats().addData(new TrainingResult(mbp.getCurrentIteration(), mbp.getTotalNetworkError(), createMatrix()));
+        this.getStats().calculateParameters();
+
+    }
+
+   
+
+    @Override
+    public LearningRule setParameters() {
+        MomentumBackpropagation mbp = new MomentumBackpropagation();
+        mbp.setBatchMode(getSettings().isBatchMode());
         mbp.setLearningRate(getSettings().getLearningRate());
-        mbp.setMomentum(getSettings().getLearningRate());
+        mbp.setMaxError(getSettings().getMaxError());
         mbp.setMaxIterations(getSettings().getMaxIterations());
+        mbp.setMomentum(getSettings().getMomentum());
+        return mbp;
     }
 
 }

@@ -25,23 +25,23 @@ public class BackpropBenchmarksExample {
         
         TrainingSettingsGenerator generator = new TrainingSettingsGenerator();
         Properties prop = new Properties();
-        //Stavi konstante u posebnu klasu
-        prop.setProperty("minLearningRate", "0.1");
-        prop.setProperty("maxLearningRate", "1.0");
-        prop.setProperty("learningRateStep", "0.3");
-        prop.setProperty("minHiddenNeurons", "5");
-        prop.setProperty("maxHiddenNeurons", "10");
-        prop.setProperty("hiddenNeuronsStep", "1");
-        prop.setProperty("momentum", "0");
-        prop.setProperty("maxError", "0.1");
-        prop.setProperty("maxIterations", "1000");
-        prop.setProperty("batchMode", "true");
+     
+        prop.setProperty(BackpropagationSettings.MIN_LEARNING_RATE, "0.1");
+        prop.setProperty(BackpropagationSettings.MAX_LEARNING_RATE, "1.0");
+        prop.setProperty(BackpropagationSettings.LEARNING_RATE_STEP, "0.3");
+        prop.setProperty(BackpropagationSettings.MIN_HIDDEN_NEURONS, "5");
+        prop.setProperty(BackpropagationSettings.MAX_HIDDEN_NEURONS, "10");
+        prop.setProperty(BackpropagationSettings.HIDDEN_NEURONS_STEP, "1");
+        prop.setProperty(BackpropagationSettings.MOMENTUM, "0");
+        prop.setProperty(BackpropagationSettings.MAX_ERROR, "0.1");
+        prop.setProperty(BackpropagationSettings.MAX_ITERATIONS, "1000");
+        prop.setProperty(BackpropagationSettings.BATCH_MODE, "true");
         generator.setSettings(prop);
         
         for (TrainingSettings settings : generator.generateSettings()) {
-            //drugi konstruktor bez NN
+            
             Training t = new BackpropagationTraining(trainingSet, settings);
-            Training t2 = new MomentumTraining(null,trainingSet, settings);
+            Training t2 = new MomentumTraining(mlp,trainingSet, settings);
             bpb.addTraining(t);
             bpb.addTraining(t2);
            
