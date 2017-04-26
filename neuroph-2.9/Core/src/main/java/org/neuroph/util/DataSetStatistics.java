@@ -9,31 +9,23 @@ import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 
 /**
- * This class represents statistics for data set.
+ * This class calculates statistics for data set.
  *
  * @author Arsenovic Aleksandar <salle18@gmail.com>
  */
 public class DataSetStatistics {
 
-    private final int inputSize;
-
-    private final int outputSize;
+    private final int rowSize;
 
     private final int rowCount;
 
-    private final DataSetColumnType[] inputColumnType;
-
-    private final DataSetColumnType[] outputColumnType;
+    private final DataSetColumnType[] columnType;
 
     private final double[] mean;
 
     private final double[] max;
 
-    private final double[] maxOut;
-
     private final double[] min;
-
-    private final double[] minOut;
 
     private final double[] sum;
 
@@ -41,153 +33,171 @@ public class DataSetStatistics {
 
     private final double[] stdDev;
 
-    private final double[] frequencyIn;
-
-    private final double[] frequencyOut;
+    private final double[] frequency;
 
     private final DataSet dataSet;
 
     public DataSetStatistics(DataSet dataSet) {
         this.dataSet = dataSet;
-        this.inputSize = dataSet.getInputSize();
-        this.outputSize = dataSet.getOutputSize();
+        this.rowSize = dataSet.getInputSize() + dataSet.getOutputSize();
         this.rowCount = dataSet.getRows().size();
-        this.inputColumnType = new DataSetColumnType[this.inputSize];
-        this.outputColumnType = new DataSetColumnType[this.outputSize];
-        this.mean = new double[this.inputSize];
-        this.max = new double[this.inputSize];
-        this.maxOut = new double[this.outputSize];
-        this.min = new double[this.inputSize];
-        this.minOut = new double[this.outputSize];
-        this.sum = new double[this.inputSize];
-        this.var = new double[this.inputSize];
-        this.stdDev = new double[this.inputSize];
-        this.frequencyIn = new double[this.inputSize];
-        this.frequencyOut = new double[this.outputSize];
+        this.columnType = new DataSetColumnType[this.rowSize];
+        this.mean = new double[this.rowSize];
+        this.max = new double[this.rowSize];
+        this.min = new double[this.rowSize];
+        this.sum = new double[this.rowSize];
+        this.var = new double[this.rowSize];
+        this.stdDev = new double[this.rowSize];
+        this.frequency = new double[this.rowSize];
         this.setDefaultValues();
     }
 
+    /**
+     * Sets default values for statistics.
+     */
     private void setDefaultValues() {
-        for (int i = 0; i < this.inputSize; i++) {
+        for (int i = 0; i < this.rowSize; i++) {
             this.max[i] = -Double.MAX_VALUE;
             this.min[i] = Double.MAX_VALUE;
-            this.inputColumnType[i] = DataSetColumnType.NUMERIC;
-        }
-        for (int i = 0; i < this.outputSize; i++) {
-            this.maxOut[i] = -Double.MAX_VALUE;
-            this.minOut[i] = Double.MAX_VALUE;
-            this.outputColumnType[i] = DataSetColumnType.NUMERIC;
+            this.columnType[i] = DataSetColumnType.NUMERIC;
         }
     }
 
+    /**
+     * Resets statistics values to default.
+     */
     private void resetValues() {
-        for (int i = 0; i < this.inputSize; i++) {
+        for (int i = 0; i < this.rowSize; i++) {
             this.sum[i] = 0;
             this.var[i] = 0;
-            this.frequencyIn[i] = -1;
-        }
-        for (int i = 0; i < this.outputSize; i++) {
-            this.frequencyOut[i] = -1;
+            this.frequency[i] = -1;
         }
     }
 
-    public void setInputColumnType(int index, DataSetColumnType columnType) {
-        this.inputColumnType[index] = columnType;
+    /**
+     * Sets column type for the given index.
+     * 
+     * @param index Index of the column in the row.
+     * @param columnType Column type to set, nominal or numeric.
+     */
+    public void setColumnType(int index, DataSetColumnType columnType) {
+        this.columnType[index] = columnType;
     }
 
-    public void setOutputColumnType(int index, DataSetColumnType columnType) {
-        this.outputColumnType[index] = columnType;
-    }
-
+    /**
+     * Calculates basic statistics by columns of the dataset.
+     */
     public void calculateStatistics() {
         this.resetValues();
         for (DataSetRow dataSetRow : this.dataSet.getRows()) {
-            double[] input = dataSetRow.getInput();
-            double[] output = dataSetRow.getDesiredOutput();
-
-            for (int i = 0; i < this.inputSize; i++) {
-                this.max[i] = Math.max(this.max[i], input[i]);
-                this.min[i] = Math.min(this.min[i], input[i]);
-                this.sum[i] += input[i];
-                if (this.inputColumnType[i] == DataSetColumnType.NOMINAL) {
-                    this.frequencyIn[i] += input[i];
-                }
-            }
-
-            for (int i = 0; i < this.outputSize; i++) {
-                this.maxOut[i] = Math.max(this.maxOut[i], output[i]);
-                this.minOut[i] = Math.min(this.minOut[i], output[i]);
-                if (this.outputColumnType[i] == DataSetColumnType.NOMINAL) {
-                    this.frequencyOut[i] += output[i];
+            double[] row = this.getRow(dataSetRow);
+            for (int i = 0; i < this.rowSize; i++) {
+                this.max[i] = Math.max(this.max[i], row[i]);
+                this.min[i] = Math.min(this.min[i], row[i]);
+                this.sum[i] += row[i];
+                if (this.columnType[i] == DataSetColumnType.NOMINAL) {
+                    this.frequency[i] += row[i];
                 }
             }
         }
 
-        for (int i = 0; i < this.inputSize; i++) {
+        for (int i = 0; i < this.rowSize; i++) {
             this.mean[i] = this.sum[i] / (double) this.rowCount;
-            if (this.inputColumnType[i] == DataSetColumnType.NOMINAL) {
-                this.frequencyIn[i] /= (double) this.rowCount;
+            if (this.columnType[i] == DataSetColumnType.NOMINAL) {
+                this.frequency[i] /= (double) this.rowCount;
             }
-        }
-
-        for (int i = 0; i < this.outputSize; i++) {
-            if (this.outputColumnType[i] == DataSetColumnType.NOMINAL) {
-                this.frequencyOut[i] /= (double) this.rowCount;
-            }
-
         }
 
         for (DataSetRow dataSetRow : this.dataSet.getRows()) {
-            double[] input = dataSetRow.getInput();
-            for (int i = 0; i < this.inputSize; i++) {
-                double delta = input[i] - this.mean[i];
+            double[] row = this.getRow(dataSetRow);
+            for (int i = 0; i < this.rowSize; i++) {
+                double delta = row[i] - this.mean[i];
                 this.var[i] += delta * delta;
             }
         }
 
-        for (int i = 0; i < this.inputSize; i++) {
+        for (int i = 0; i < this.rowSize; i++) {
             this.var[i] /= (double) this.rowCount;
             this.stdDev[i] = Math.sqrt(this.var[i]);
         }
     }
 
+    /**
+     * Merges data set input and output arrays.
+     * 
+     * @param dataSetRow Data set row for which we merge input and output.
+     * @return Merged input and output arrays.
+     */
+    private double[] getRow(DataSetRow dataSetRow) {
+        double[] input = dataSetRow.getInput();
+        double[] output = dataSetRow.getDesiredOutput();
+        double[] row = new double[this.rowSize];
+        System.arraycopy(input, 0, row, 0, input.length);
+        System.arraycopy(output, 0, row, input.length, output.length);
+        return row;
+    }
+
+    /**
+     * Get mean for each data set column.
+     * 
+     * @return Array of means by columns.
+     */
     public double[] getMean() {
         return this.mean;
     }
 
+    /**
+     * Get maximum for each data set column.
+     * 
+     * @return Array of maximums by columns.
+     */
     public double[] getMax() {
         return this.max;
     }
 
-    public double[] getMaxOut() {
-        return this.maxOut;
-    }
-
+    /**
+     * Get minimum for each data set column.
+     * 
+     * @return Array of minimums by columns. 
+     */
     public double[] getMin() {
         return this.min;
     }
 
-    public double[] getMinOut() {
-        return this.minOut;
-    }
-
+    /**
+     * Get sum for each data set column.
+     * 
+     * @return Array of sums by columns.
+     */
     public double[] getSum() {
         return this.sum;
     }
 
+    /**
+     * Get variant for each data set column.
+     * 
+     * @return Array of variants by columns. 
+     */
     public double[] getVar() {
         return this.var;
     }
 
+    /**
+     * Get standard deviation for each data set column.
+     * 
+     * @return Array of standard deviations by columns.
+     */
     public double[] getStdDev() {
         return this.stdDev;
     }
 
-    public double[] getFrequencyIn() {
-        return this.frequencyIn;
-    }
-
-    public double[] getFrequencyOut() {
-        return this.frequencyOut;
+    /**
+     * Get data set frequency for nominal columns.
+     * Returns -1 for numeric columns.
+     * 
+     * @return Array of frequencies by columns.
+     */
+    public double[] getFrequency() {
+        return this.frequency;
     }
 }
