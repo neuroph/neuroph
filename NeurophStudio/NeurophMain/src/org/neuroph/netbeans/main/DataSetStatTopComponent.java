@@ -11,6 +11,11 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.statistics.HistogramDataset;
+import org.jfree.data.statistics.HistogramType;
 
 /**
  * Top component which displays something.
@@ -33,8 +38,8 @@ import org.openide.util.NbBundle.Messages;
 )
 @Messages({
     "CTL_DataSetStatAction=DataSetStat",
-    "CTL_DataSetStatTopComponent=DataSetStat Window",
-    "HINT_DataSetStatTopComponent=This is a DataSetStat window"
+    "CTL_DataSetStatTopComponent=Dataset statistics",
+    "HINT_DataSetStatTopComponent=This is a dataset statistics visualization"
 })
 public final class DataSetStatTopComponent extends TopComponent {
     
@@ -55,19 +60,36 @@ public final class DataSetStatTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        graph = new javax.swing.JPanel();
+
+        graph.setName("graph"); // NOI18N
+        graph.setOpaque(false);
+
+        javax.swing.GroupLayout graphLayout = new javax.swing.GroupLayout(graph);
+        graph.setLayout(graphLayout);
+        graphLayout.setHorizontalGroup(
+            graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        graphLayout.setVerticalGroup(
+            graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(graph, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel graph;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
@@ -94,6 +116,25 @@ public final class DataSetStatTopComponent extends TopComponent {
     public void openChart(DataSet dataset) {
         this.dataset = dataset;
         
+        
         System.out.println("OPEN DATA SET STATISTICS CHART");
     }
+    
+//    private JFreeChart createHistogram(DataSet dataset) {
+//        HistogramDataset histogramDataset = new HistogramDataset();
+//        histogramDataset.setType(HistogramType.FREQUENCY);
+//        histogramDataset.addSeries("Hist", data, 50); // Number of bins is 50
+//        String plotTitle = "";
+//        String xAxis = "Statistics";
+//        String yAxis = "Value";
+//        PlotOrientation orientation = PlotOrientation.VERTICAL;
+//
+//        boolean show = false;
+//        boolean toolTips = false;
+//        boolean urls = false;
+//        JFreeChart chart = ChartFactory.createHistogram(plotTitle, xAxis, yAxis,
+//                histogramDataset, orientation, show, toolTips, urls);
+//
+//        return chart;
+//    }
 }

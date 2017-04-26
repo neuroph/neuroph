@@ -7,12 +7,16 @@ package org.neuroph.netbeans.rightclick;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.files.tset.DataSetDataObject;
 import org.neuroph.netbeans.main.DataSetStatTopComponent;
+import org.neuroph.util.DataSetStatistics;
+import org.neuroph.util.DataSetColumnType;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.IOProvider;
 
 @ActionID(
         category = "Neuroph",
@@ -21,8 +25,8 @@ import org.openide.util.NbBundle.Messages;
 @ActionRegistration(
         displayName = "#CTL_DataSetStatisticsAction"
 )
-@ActionReference(path = "Loaders/Languages/Actions", position = 0)
-@Messages("CTL_DataSetStatisticsAction=DataSet Statistics")
+@ActionReference(path = "Loaders/text/x-tset/Actions", position = 200)
+@Messages("CTL_DataSetStatisticsAction=Dataset statistics")
 public final class DataSetStatisticsAction implements ActionListener {
 
     private final DataSetDataObject context;
@@ -34,8 +38,18 @@ public final class DataSetStatisticsAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         DataSetStatTopComponent comp = new DataSetStatTopComponent();
-        comp.open();
-        comp.requestActive();
-        comp.openChart(context.getDataSet());
+        DataSet dataSet = context.getDataSet();
+        DataSetStatistics statistics = new DataSetStatistics(dataSet);
+        statistics.setColumnType(4, DataSetColumnType.NOMINAL);
+        statistics.setColumnType(5, DataSetColumnType.NOMINAL);
+        statistics.setColumnType(6, DataSetColumnType.NOMINAL);
+        statistics.calculateStatistics();
+//        comp.open();
+//        comp.requestActive();
+//        comp.openChart(dataSet);
+        
+        
+        
+//        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Normalized data set " + dataSet.getLabel() + " using Max normalization method");
     }
 }
