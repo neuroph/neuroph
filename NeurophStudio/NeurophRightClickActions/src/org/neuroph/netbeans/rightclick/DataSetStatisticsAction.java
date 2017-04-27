@@ -41,17 +41,23 @@ public final class DataSetStatisticsAction implements ActionListener {
         DataSetStatTopComponent comp = new DataSetStatTopComponent();
         DataSet dataSet = context.getDataSet();
         DataSetStatistics statistics = new DataSetStatistics(dataSet);
-        statistics.setColumnType(4, DataSetColumnType.NOMINAL);
-        statistics.setColumnType(5, DataSetColumnType.NOMINAL);
-        statistics.setColumnType(6, DataSetColumnType.NOMINAL);
         statistics.calculateStatistics();
-        System.out.println(Arrays.toString(statistics.getMin()));
-//        comp.open();
-//        comp.requestActive();
-//        comp.openChart(dataSet);
+        comp.open();
+        comp.requestActive();
+        comp.openChart(statistics);
         
-        
-        
-//        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Normalized data set " + dataSet.getLabel() + " using Max normalization method");
+        this.outputStatistics(statistics);
+    }
+    
+    private void outputStatistics(DataSetStatistics statistics) {
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Dataset statistics for " + statistics.getDataSet().getLabel() + " dataset");
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("MIN: " + Arrays.toString(statistics.getMin()));
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("MIN: " + Arrays.toString(statistics.getMin()));
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("MAX: " + Arrays.toString(statistics.getMax()));
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("MEAN: " + Arrays.toString(statistics.getMean()));
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("SUM: " + Arrays.toString(statistics.getSum()));
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("VAR: " + Arrays.toString(statistics.getVar()));
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("STDDEV: " + Arrays.toString(statistics.getStdDev()));
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("FREQ: " + Arrays.toString(statistics.getFrequency()));
     }
 }

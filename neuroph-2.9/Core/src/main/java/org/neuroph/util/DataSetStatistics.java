@@ -36,6 +36,20 @@ public class DataSetStatistics {
     private final double[] frequency;
 
     private final DataSet dataSet;
+    
+    public static final String MIN = "min";
+    
+    public static final String MAX = "max";
+    
+    public static final String MEAN = "mean";
+    
+    public static final String SUM = "sum";
+    
+    public static final String STD_DEV = "std dev";
+    
+    public static final String VAR = "var";
+    
+    public static final String FREQ = "freq";
 
     public DataSetStatistics(DataSet dataSet) {
         this.dataSet = dataSet;
@@ -135,6 +149,15 @@ public class DataSetStatistics {
         System.arraycopy(input, 0, row, 0, input.length);
         System.arraycopy(output, 0, row, input.length, output.length);
         return row;
+    }
+    
+    /**
+     * Get original data set.
+     * 
+     * @return Original dataset.
+     */
+    public DataSet getDataSet() {
+        return this.dataSet;
     }
 
     /**

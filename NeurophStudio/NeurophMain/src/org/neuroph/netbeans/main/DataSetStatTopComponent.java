@@ -5,17 +5,20 @@
  */
 package org.neuroph.netbeans.main;
 
+import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.neuroph.core.data.DataSet;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.statistics.HistogramDataset;
-import org.jfree.data.statistics.HistogramType;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.util.DataSetStatistics;
 
 /**
  * Top component which displays something.
@@ -42,8 +45,8 @@ import org.jfree.data.statistics.HistogramType;
     "HINT_DataSetStatTopComponent=This is a dataset statistics visualization"
 })
 public final class DataSetStatTopComponent extends TopComponent {
-    
-    private DataSet dataset;
+
+    private DataSetStatistics statistics;
 
     public DataSetStatTopComponent() {
         initComponents();
@@ -61,39 +64,65 @@ public final class DataSetStatTopComponent extends TopComponent {
     private void initComponents() {
 
         graph = new javax.swing.JPanel();
-
-        graph.setName("graph"); // NOI18N
-        graph.setOpaque(false);
+        statisticsComboBox = new javax.swing.JComboBox<>();
 
         javax.swing.GroupLayout graphLayout = new javax.swing.GroupLayout(graph);
         graph.setLayout(graphLayout);
         graphLayout.setHorizontalGroup(
             graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 783, Short.MAX_VALUE)
         );
         graphLayout.setVerticalGroup(
             graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        statisticsComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                statisticsComboBoxItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(graph, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(statisticsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(statisticsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(330, Short.MAX_VALUE))
             .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void statisticsComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statisticsComboBoxItemStateChanged
+        if (statistics != null) {
+            String value = statisticsComboBox.getSelectedItem().toString();
+            refreshChart(value);
+        }
+    }//GEN-LAST:event_statisticsComboBoxItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel graph;
+    private javax.swing.JComboBox<String> statisticsComboBox;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+        statisticsComboBox.addItem(DataSetStatistics.MIN);
+        statisticsComboBox.addItem(DataSetStatistics.MAX);
+        statisticsComboBox.addItem(DataSetStatistics.MEAN);
+        statisticsComboBox.addItem(DataSetStatistics.SUM);
+        statisticsComboBox.addItem(DataSetStatistics.STD_DEV);
+        statisticsComboBox.addItem(DataSetStatistics.VAR);
+        statisticsComboBox.addItem(DataSetStatistics.FREQ);
     }
 
     @Override
@@ -112,29 +141,127 @@ public final class DataSetStatTopComponent extends TopComponent {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
     }
-    
-    public void openChart(DataSet dataset) {
-        this.dataset = dataset;
-        
-        
-        System.out.println("OPEN DATA SET STATISTICS CHART");
+
+    /**
+     * Setup statistic and show chart for min statistic.
+     * 
+     * @param statistics Dataset statistics. 
+     */
+    public void openChart(DataSetStatistics statistics) {
+        this.statistics = statistics;
+        DataSet dataSet = statistics.getDataSet();
+        this.resetDataSetColumnNames(dataSet);
+        graph.setLayout(new BorderLayout());
+
+        refreshChart(DataSetStatistics.MIN);
     }
-    
-//    private JFreeChart createHistogram(DataSet dataset) {
-//        HistogramDataset histogramDataset = new HistogramDataset();
-//        histogramDataset.setType(HistogramType.FREQUENCY);
-//        histogramDataset.addSeries("Hist", data, 50); // Number of bins is 50
-//        String plotTitle = "";
-//        String xAxis = "Statistics";
-//        String yAxis = "Value";
-//        PlotOrientation orientation = PlotOrientation.VERTICAL;
-//
-//        boolean show = false;
-//        boolean toolTips = false;
-//        boolean urls = false;
-//        JFreeChart chart = ChartFactory.createHistogram(plotTitle, xAxis, yAxis,
-//                histogramDataset, orientation, show, toolTips, urls);
-//
-//        return chart;
-//    }
+
+    /**
+     * Refreshes chart panel for given statistic.
+     * 
+     * @param statistic Statistic to show chart for.
+     */
+    private void refreshChart(String statistic) {
+        DefaultCategoryDataset chartDataset = createChartDataSet(statistic);
+        ChartPanel chartPanel = new ChartPanel(this.createBarChart(chartDataset));
+        graph.removeAll();
+        graph.add(chartPanel);
+        graph.validate();
+    }
+
+    /**
+     * Creates bar chart for given dataset.
+     * 
+     * @param chartDataset Dataset to create bar chart from.
+     * @return Created bar chart.
+     */
+    private JFreeChart createBarChart(DefaultCategoryDataset chartDataset) {
+        String title = "Dataset statistic";
+        String xAxis = "Statistics";
+        String yAxis = "Value";
+        PlotOrientation orientation = PlotOrientation.VERTICAL;
+        boolean legend = true;
+        boolean toolTips = false;
+        boolean urls = false;
+
+        JFreeChart chart = ChartFactory.createBarChart(title, xAxis, yAxis,
+                chartDataset, orientation, legend, toolTips, urls);
+
+        return chart;
+    }
+
+    /**
+     * Returns data set for given statistic.
+     * 
+     * @param statistic Statistic for which to provide dataset.
+     * @return Data set for given statistic.
+     */
+    private DefaultCategoryDataset createChartDataSet(String statistic) {
+        DefaultCategoryDataset chartDataset = new DefaultCategoryDataset();
+        String[] columnNames = statistics.getDataSet().getColumnNames();
+        double[] values;
+
+        switch (statistic) {
+            case DataSetStatistics.MIN:
+                values = statistics.getMin();
+                break;
+            case DataSetStatistics.MAX:
+                values = statistics.getMax();
+                break;
+            case DataSetStatistics.MEAN:
+                values = statistics.getMean();
+                break;
+            case DataSetStatistics.SUM:
+                values = statistics.getSum();
+                break;
+            case DataSetStatistics.STD_DEV:
+                values = statistics.getStdDev();
+                break;
+            case DataSetStatistics.VAR:
+                values = statistics.getVar();
+                break;
+            case DataSetStatistics.FREQ:
+                values = statistics.getFrequency();
+                break;
+            default:
+                values = statistics.getMean();
+                break;
+        }
+        this.chartDataSetAddValues(chartDataset, values, statistic, columnNames);
+        return chartDataset;
+    }
+
+    /**
+     * Fills dataset with provided values and keys.
+     * 
+     * @param chartDataset Dataset to fill.
+     * @param values Values to add to dataset.
+     * @param key Column key for dataset.
+     * @param columnNames Row keys for dataset.
+     */
+    private void chartDataSetAddValues(DefaultCategoryDataset chartDataset, double[] values, String key, String[] columnNames) {
+        for (int i = 0; i < values.length; i++) {
+            chartDataset.addValue(values[i], columnNames[i], key);
+        }
+    }
+
+    /**
+     * Resets column names where column names are null.
+     * 
+     * @param dataSet Dataset on which to reset column names.
+     */
+    private void resetDataSetColumnNames(DataSet dataSet) {
+        int inputSize = dataSet.getInputSize();
+        int outputSize = dataSet.getOutputSize();
+        for (int i = 0; i < inputSize; i++) {
+            if (dataSet.getColumnName(i) == null) {
+                dataSet.setColumnName(i, "Input" + (i + 1));
+            }
+        }
+        for (int i = 0; i < outputSize; i++) {
+            if (dataSet.getColumnName(inputSize + i) == null) {
+                dataSet.setColumnName(inputSize + i, "Output" + (i + 1));
+            }
+        }
+    }
 }
