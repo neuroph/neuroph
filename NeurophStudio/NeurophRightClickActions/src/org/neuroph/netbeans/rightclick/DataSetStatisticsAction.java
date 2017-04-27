@@ -7,6 +7,7 @@ package org.neuroph.netbeans.rightclick;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.netbeans.files.tset.DataSetDataObject;
 import org.neuroph.netbeans.main.DataSetStatTopComponent;
@@ -44,6 +45,7 @@ public final class DataSetStatisticsAction implements ActionListener {
         statistics.setColumnType(5, DataSetColumnType.NOMINAL);
         statistics.setColumnType(6, DataSetColumnType.NOMINAL);
         statistics.calculateStatistics();
+        System.out.println(Arrays.toString(statistics.getMin()));
 //        comp.open();
 //        comp.requestActive();
 //        comp.openChart(dataSet);
