@@ -6,7 +6,6 @@
 package org.neuroph.netbeans.main;
 
 import java.awt.BorderLayout;
-import java.awt.event.ItemEvent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -17,6 +16,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.statistics.HistogramDataset;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.util.DataSetStatistics;
 
@@ -48,6 +48,8 @@ public final class DataSetStatTopComponent extends TopComponent {
 
     private DataSetStatistics statistics;
 
+    private boolean initialized = false;
+
     public DataSetStatTopComponent() {
         initComponents();
         setName(Bundle.CTL_DataSetStatTopComponent());
@@ -65,12 +67,17 @@ public final class DataSetStatTopComponent extends TopComponent {
 
         graph = new javax.swing.JPanel();
         statisticsComboBox = new javax.swing.JComboBox<>();
+        columnsComboBox = new javax.swing.JComboBox<>();
+        histogramCheckBox = new javax.swing.JCheckBox();
+        histogramBinsComboBox = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout graphLayout = new javax.swing.GroupLayout(graph);
         graph.setLayout(graphLayout);
         graphLayout.setHorizontalGroup(
             graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 783, Short.MAX_VALUE)
+            .addGap(0, 743, Short.MAX_VALUE)
         );
         graphLayout.setVerticalGroup(
             graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -83,46 +90,100 @@ public final class DataSetStatTopComponent extends TopComponent {
             }
         });
 
+        columnsComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                columnsComboBoxActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(histogramCheckBox, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.histogramCheckBox.text")); // NOI18N
+        histogramCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                histogramCheckBoxActionPerformed(evt);
+            }
+        });
+
+        histogramBinsComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                histogramBinsComboBoxActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.jLabel2.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.jLabel1.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(statisticsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(histogramCheckBox)
+                    .addComponent(columnsComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, 107, Short.MAX_VALUE)
+                    .addComponent(statisticsComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(histogramBinsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
                 .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statisticsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(330, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(histogramCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(columnsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(histogramBinsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 249, Short.MAX_VALUE))
             .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void statisticsComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statisticsComboBoxItemStateChanged
-        if (statistics != null) {
-            String value = statisticsComboBox.getSelectedItem().toString();
-            refreshChart(value);
+        if (initialized) {
+            refreshChart();
         }
     }//GEN-LAST:event_statisticsComboBoxItemStateChanged
 
+    private void columnsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_columnsComboBoxActionPerformed
+        if (initialized) {
+            refreshChart();
+        }
+    }//GEN-LAST:event_columnsComboBoxActionPerformed
+
+    private void histogramCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_histogramCheckBoxActionPerformed
+        if (initialized) {
+            refreshChart();
+        }
+    }//GEN-LAST:event_histogramCheckBoxActionPerformed
+
+    private void histogramBinsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_histogramBinsComboBoxActionPerformed
+        if (initialized) {
+            refreshChart();
+        }
+    }//GEN-LAST:event_histogramBinsComboBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> columnsComboBox;
     private javax.swing.JPanel graph;
+    private javax.swing.JComboBox<String> histogramBinsComboBox;
+    private javax.swing.JCheckBox histogramCheckBox;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JComboBox<String> statisticsComboBox;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        statisticsComboBox.addItem(DataSetStatistics.MIN);
-        statisticsComboBox.addItem(DataSetStatistics.MAX);
-        statisticsComboBox.addItem(DataSetStatistics.MEAN);
-        statisticsComboBox.addItem(DataSetStatistics.SUM);
-        statisticsComboBox.addItem(DataSetStatistics.STD_DEV);
-        statisticsComboBox.addItem(DataSetStatistics.VAR);
-        statisticsComboBox.addItem(DataSetStatistics.FREQ);
     }
 
     @Override
@@ -144,8 +205,8 @@ public final class DataSetStatTopComponent extends TopComponent {
 
     /**
      * Setup statistic and show chart for min statistic.
-     * 
-     * @param statistics Dataset statistics. 
+     *
+     * @param statistics Dataset statistics.
      */
     public void openChart(DataSetStatistics statistics) {
         this.statistics = statistics;
@@ -153,17 +214,36 @@ public final class DataSetStatTopComponent extends TopComponent {
         this.resetDataSetColumnNames(dataSet);
         graph.setLayout(new BorderLayout());
 
-        refreshChart(DataSetStatistics.MIN);
+        setComboBoxStatistics();
+        setComboBoxColumns();
+        setComboBoxHistogramBins();
+
+        initialized = true;
+
+        refreshChart();
     }
 
     /**
-     * Refreshes chart panel for given statistic.
-     * 
-     * @param statistic Statistic to show chart for.
+     * Refreshes chart panel for selected statistic.
+     *
      */
-    private void refreshChart(String statistic) {
-        DefaultCategoryDataset chartDataset = createChartDataSet(statistic);
-        ChartPanel chartPanel = new ChartPanel(this.createBarChart(chartDataset));
+    private void refreshChart() {
+        boolean isHistogram = histogramCheckBox.isSelected();
+        JFreeChart chart;
+        if (isHistogram) {
+            statisticsComboBox.setEnabled(false);
+            columnsComboBox.setEnabled(true);
+            histogramBinsComboBox.setEnabled(true);
+            chart = this.createHistogramChart(createHistogramDataSet());
+        } else {
+            statisticsComboBox.setEnabled(true);
+            columnsComboBox.setEnabled(false);
+            histogramBinsComboBox.setEnabled(false);
+            String statistic = statisticsComboBox.getSelectedItem().toString();
+            chart = this.createBarChart(createBarChartDataSet(statistic));
+        }
+
+        ChartPanel chartPanel = new ChartPanel(chart);
         graph.removeAll();
         graph.add(chartPanel);
         graph.validate();
@@ -171,7 +251,7 @@ public final class DataSetStatTopComponent extends TopComponent {
 
     /**
      * Creates bar chart for given dataset.
-     * 
+     *
      * @param chartDataset Dataset to create bar chart from.
      * @return Created bar chart.
      */
@@ -191,12 +271,33 @@ public final class DataSetStatTopComponent extends TopComponent {
     }
 
     /**
-     * Returns data set for given statistic.
-     * 
-     * @param statistic Statistic for which to provide dataset.
-     * @return Data set for given statistic.
+     * Creates histogram chart for given dataset.
+     *
+     * @param chartDataset Dataset to create histogram chart.
+     * @return Created histogram chart.
      */
-    private DefaultCategoryDataset createChartDataSet(String statistic) {
+    private JFreeChart createHistogramChart(HistogramDataset chartDataset) {
+        String title = "Dataset statistic";
+        String xAxis = "Statistics";
+        String yAxis = "Value";
+        PlotOrientation orientation = PlotOrientation.VERTICAL;
+        boolean legend = true;
+        boolean toolTips = false;
+        boolean urls = false;
+
+        JFreeChart chart = ChartFactory.createHistogram(title, xAxis, yAxis,
+                chartDataset, orientation, legend, toolTips, urls);
+
+        return chart;
+    }
+
+    /**
+     * Returns data set for given statistic.
+     *
+     * @param statistic Statistic for which to provide dataset.
+     * @return Dataset for given statistic.
+     */
+    private DefaultCategoryDataset createBarChartDataSet(String statistic) {
         DefaultCategoryDataset chartDataset = new DefaultCategoryDataset();
         String[] columnNames = statistics.getDataSet().getColumnNames();
         double[] values;
@@ -232,8 +333,30 @@ public final class DataSetStatTopComponent extends TopComponent {
     }
 
     /**
+     * Returns data set for give column index.
+     *
+     * @return Dataset for give column index.
+     */
+    private HistogramDataset createHistogramDataSet() {
+        int columnIndex = Integer.parseInt(columnsComboBox.getSelectedItem().toString());
+        int binsCount = Integer.parseInt(histogramBinsComboBox.getSelectedItem().toString());
+        HistogramDataset chartDataset = new HistogramDataset();
+        DataSet dataSet = statistics.getDataSet();
+        int rowCount = dataSet.getRows().size();
+        double[] values = new double[rowCount];
+
+        for (int i = 0; i < rowCount; i++) {
+            double[] row = dataSet.getRowAt(i).toArray();
+            values[i] = row[columnIndex];
+        }
+
+        chartDataset.addSeries(dataSet.getColumnName(columnIndex), values, binsCount);
+        return chartDataset;
+    }
+
+    /**
      * Fills dataset with provided values and keys.
-     * 
+     *
      * @param chartDataset Dataset to fill.
      * @param values Values to add to dataset.
      * @param key Column key for dataset.
@@ -247,7 +370,7 @@ public final class DataSetStatTopComponent extends TopComponent {
 
     /**
      * Resets column names where column names are null.
-     * 
+     *
      * @param dataSet Dataset on which to reset column names.
      */
     private void resetDataSetColumnNames(DataSet dataSet) {
@@ -262,6 +385,40 @@ public final class DataSetStatTopComponent extends TopComponent {
             if (dataSet.getColumnName(inputSize + i) == null) {
                 dataSet.setColumnName(inputSize + i, "Output" + (i + 1));
             }
+        }
+    }
+
+    /**
+     * Sets statistics combo box values.
+     */
+    private void setComboBoxStatistics() {
+        statisticsComboBox.addItem(DataSetStatistics.MIN);
+        statisticsComboBox.addItem(DataSetStatistics.MAX);
+        statisticsComboBox.addItem(DataSetStatistics.MEAN);
+        statisticsComboBox.addItem(DataSetStatistics.SUM);
+        statisticsComboBox.addItem(DataSetStatistics.STD_DEV);
+        statisticsComboBox.addItem(DataSetStatistics.VAR);
+        statisticsComboBox.addItem(DataSetStatistics.FREQ);
+    }
+
+    /**
+     * Sets column index combo box values.
+     */
+    private void setComboBoxColumns() {
+        DataSet dataSet = statistics.getDataSet();
+        int inputSize = dataSet.getInputSize();
+        int outputSize = dataSet.getOutputSize();
+        for (int i = 0; i < inputSize + outputSize; i++) {
+            columnsComboBox.addItem(String.valueOf(i));
+        }
+    }
+
+    /**
+     * Sets histogram bins combo box values.
+     */
+    private void setComboBoxHistogramBins() {
+        for (int i = 10; i <= 50; i += 10) {
+            histogramBinsComboBox.addItem(String.valueOf(i));
         }
     }
 }

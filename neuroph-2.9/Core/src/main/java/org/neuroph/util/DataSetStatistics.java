@@ -104,7 +104,7 @@ public class DataSetStatistics {
     public void calculateStatistics() {
         this.resetValues();
         for (DataSetRow dataSetRow : this.dataSet.getRows()) {
-            double[] row = this.getRow(dataSetRow);
+            double[] row = dataSetRow.toArray();
             for (int i = 0; i < this.rowSize; i++) {
                 this.max[i] = Math.max(this.max[i], row[i]);
                 this.min[i] = Math.min(this.min[i], row[i]);
@@ -123,7 +123,7 @@ public class DataSetStatistics {
         }
 
         for (DataSetRow dataSetRow : this.dataSet.getRows()) {
-            double[] row = this.getRow(dataSetRow);
+            double[] row = dataSetRow.toArray();
             for (int i = 0; i < this.rowSize; i++) {
                 double delta = row[i] - this.mean[i];
                 this.var[i] += delta * delta;
@@ -134,21 +134,6 @@ public class DataSetStatistics {
             this.var[i] /= (double) this.rowCount;
             this.stdDev[i] = Math.sqrt(this.var[i]);
         }
-    }
-
-    /**
-     * Merges data set input and output arrays.
-     * 
-     * @param dataSetRow Data set row for which we merge input and output.
-     * @return Merged input and output arrays.
-     */
-    private double[] getRow(DataSetRow dataSetRow) {
-        double[] input = dataSetRow.getInput();
-        double[] output = dataSetRow.getDesiredOutput();
-        double[] row = new double[this.rowSize];
-        System.arraycopy(input, 0, row, 0, input.length);
-        System.arraycopy(output, 0, row, input.length, output.length);
-        return row;
     }
     
     /**

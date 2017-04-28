@@ -171,6 +171,12 @@ public class DataSetRow implements Serializable {
         return sb.toString();        
     }
     
+    public double[] toArray() {
+        double[] row = new double[input.length + desiredOutput.length];
+        System.arraycopy(input, 0, row, 0, input.length);
+        System.arraycopy(desiredOutput, 0, row, input.length, desiredOutput.length);
+        return row;
+    }
 
     public String toCSV() {
         StringBuilder sb = new StringBuilder();

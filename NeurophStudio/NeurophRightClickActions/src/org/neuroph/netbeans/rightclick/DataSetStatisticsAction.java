@@ -38,15 +38,16 @@ public final class DataSetStatisticsAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ev) {
-        DataSetStatTopComponent comp = new DataSetStatTopComponent();
+        
         DataSet dataSet = context.getDataSet();
         DataSetStatistics statistics = new DataSetStatistics(dataSet);
         statistics.calculateStatistics();
+        this.outputStatistics(statistics);
+        
+        DataSetStatTopComponent comp = new DataSetStatTopComponent();
         comp.open();
         comp.requestActive();
         comp.openChart(statistics);
-        
-        this.outputStatistics(statistics);
     }
     
     private void outputStatistics(DataSetStatistics statistics) {
