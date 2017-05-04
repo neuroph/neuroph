@@ -12,6 +12,8 @@ import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 public class CrossValidationResult {
     List<EvaluationResult> results;  
     ClassificationMetrics.Stats average; 
+    int numberOfFolds;
+    int numberOfInstances;
     
     public CrossValidationResult() {        
         results = new ArrayList<>();
@@ -47,7 +49,8 @@ public class CrossValidationResult {
                 average.recall += cm.getRecall();
                 average.fScore += cm.getFMeasure();
                 average.mserror += er.getMeanSquareError();
-                
+                average.correlationCoefficient += cm.getMatthewsCorrelationCoefficient();
+
                 if(!classLabels.contains(cm.getClassLabel()))
                     classLabels.add(cm.getClassLabel());
             }
@@ -59,6 +62,7 @@ public class CrossValidationResult {
         average.recall = average.recall / count;
         average.fScore = average.fScore / count;
         average.mserror = average.mserror / count;
+        average.correlationCoefficient = average.correlationCoefficient / count;
                                 
     }       
     
@@ -70,6 +74,20 @@ public class CrossValidationResult {
     public String toString() {
         return "CrossValidationResult{" + "results=" + results + ", average=" + average + '}';
     }
+    
+    public void printResult() {
+        System.out.println("=== Cross validation result ===");
+        System.out.println("Instances: " + numberOfInstances);
+        System.out.println("Number of folds: " + numberOfFolds);
+        System.out.println("\n");
+        System.out.println("=== Summary ===");
+        System.out.println("Correlation coefficient: " + average.correlationCoefficient);
+        System.out.println("Mean squared error: " + average.mserror);
+        System.out.println("Accuracy: " + average.accuracy);
+        System.out.println("Precision: " + average.precision);
+        System.out.println("Recall: " +average.recall);
+        System.out.println("FScore: " + average.fScore);
+    }   
     
     
     
