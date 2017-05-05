@@ -33,9 +33,9 @@ public class BackpropBenchmarksExample {
       
         Properties prop = new Properties();
         prop.setProperty(BackpropagationSettings.MIN_LEARNING_RATE, "0.1");
-        prop.setProperty(BackpropagationSettings.MAX_LEARNING_RATE, "0.5");
-        prop.setProperty(BackpropagationSettings.LEARNING_RATE_STEP, "0.3");
-        prop.setProperty(BackpropagationSettings.MIN_HIDDEN_NEURONS, "8");
+        prop.setProperty(BackpropagationSettings.MAX_LEARNING_RATE, "0.4");
+        prop.setProperty(BackpropagationSettings.LEARNING_RATE_STEP, "0.5");
+        prop.setProperty(BackpropagationSettings.MIN_HIDDEN_NEURONS, "9");
         prop.setProperty(BackpropagationSettings.MAX_HIDDEN_NEURONS, "10");
         prop.setProperty(BackpropagationSettings.HIDDEN_NEURONS_STEP, "1");
         prop.setProperty(BackpropagationSettings.MOMENTUM, "0.5");
@@ -51,7 +51,7 @@ public class BackpropBenchmarksExample {
         trainingTypeCollection.add(MomentumTraining.class);
         
         bpb.startBenchmark(trainingTypeCollection, settingsCollection, trainingSet, mlp);
-        bpb.saveResults("test123");
+        bpb.saveResults("C:\\Users\\Mladen\\Desktop\\test123");
       
     }
 }

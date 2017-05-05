@@ -3,8 +3,6 @@ package org.neuroph.contrib.bpbench;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.MultiLayerPerceptron;
 
@@ -132,12 +130,15 @@ public class BackPropBenchmarks {
         }
         this.run();
     }
-
+/**
+ * Save result of benchmarking in given location as csv
+ * @param filePath 
+ */
     public void saveResults(String filePath) {
         try {
             ExportUtil.exportToCSV(filePath, listOfTrainings);
         } catch (IOException ex) {
-            System.out.println("kurac");
+            System.out.println(ex.getMessage());
         }
     }
 
