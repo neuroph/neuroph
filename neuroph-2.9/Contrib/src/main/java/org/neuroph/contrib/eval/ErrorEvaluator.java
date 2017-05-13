@@ -15,7 +15,7 @@ public class ErrorEvaluator implements Evaluator<Double> {
 
     @Override
     public void processNetworkResult(final double[] networkOutput, final double[] desiredOutput) {
-        errorFunction.calculatePatternError(networkOutput, desiredOutput);
+        errorFunction.addPatternError(networkOutput, desiredOutput);
     }
 
     @Override

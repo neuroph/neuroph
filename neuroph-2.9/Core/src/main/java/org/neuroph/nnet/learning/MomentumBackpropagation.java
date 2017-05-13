@@ -59,25 +59,22 @@ public class MomentumBackpropagation extends BackPropagation {
             }
 
             // get the error for specified neuron,
-            double neuronError = neuron.getError();
+            double neuronDelta = neuron.getError();
 
             // tanh can be used to minimise the impact of big error values, which can cause network instability
             // suggested at https://sourceforge.net/tracker/?func=detail&atid=1107579&aid=3130561&group_id=238532
             // double neuronError = Math.tanh(neuron.getError());
 
-            Weight weight = connection.getWeight();
-            MomentumTrainingData weightTrainingData = (MomentumTrainingData) weight.getTrainingData();
+            Weight<MomentumTrainingData> weight = connection.getWeight();
+            MomentumTrainingData weightTrainingData = weight.getTrainingData();
 
             //double currentWeightValue = weight.getValue();
-            double previousWeightValue = weightTrainingData.previousValue;
-            double weightChange = -learningRate * neuronError * input + momentum * (weight.value - previousWeightValue);
-            // save previous weight value
-            //weight.getTrainingData().set(TrainingData.PREVIOUS_WEIGHT, currentWeightValue);
-            weightTrainingData.previousValue = weight.value;
+            double weightChange = -learningRate * neuronDelta * input + momentum * weightTrainingData.previousWeightChange;
+            weightTrainingData.previousWeightChange = weight.weightChange;
 
 
             // if the learning is in batch mode apply the weight change immediately
-            if (this.isInBatchMode() == false) {
+            if (isBatchMode() == false) {
                 weight.weightChange = weightChange;
             } else { // otherwise, sum the weight changes and apply them after at the end of epoch
                 weight.weightChange += weightChange;
@@ -104,8 +101,7 @@ public class MomentumBackpropagation extends BackPropagation {
     }
 
     public static class MomentumTrainingData {
-
-        public double previousValue;
+        public double previousWeightChange;
     }
 
     @Override

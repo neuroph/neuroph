@@ -23,8 +23,11 @@ import org.neuroph.core.Weight;
 import org.neuroph.core.learning.SupervisedLearning;
 
 /**
- * LMS learning rule for neural networks.
- * 
+ * LMS learning rule for neural networks. This learning rule is used to train
+ * Adaline neural network, and this class is base for all LMS based learning
+ * rules like PerceptronLearning, DeltaRule, SigmoidDeltaRule, Backpropagation
+ * etc.
+ *
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class LMS extends SupervisedLearning implements Serializable {
@@ -38,9 +41,6 @@ public class LMS extends SupervisedLearning implements Serializable {
 
     /**
      * Creates a new LMS learning rule
-     * This learning rule is used to train Adaline neural network, 
-     * and this class is base for all LMS based learning rules like 
-     * PerceptronLearning, DeltaRule, SigmoidDeltaRule, Backpropagation etc.
      */
     public LMS() {
 
@@ -83,7 +83,7 @@ public class LMS extends SupervisedLearning implements Serializable {
      */
     public void updateNeuronWeights(Neuron neuron) {
         // get the error(delta) for specified neuron,
-        double neuronError = neuron.getError();
+        double delta = neuron.getError();
 
         // tanh can be used to minimise the impact of big error values, which can cause network instability
         // suggested at https://sourceforge.net/tracker/?func=detail&atid=1107579&aid=3130561&group_id=238532
@@ -94,14 +94,14 @@ public class LMS extends SupervisedLearning implements Serializable {
             // get the input from current connection
             double input = connection.getInput();
             // calculate the weight change
-            double weightChange = -learningRate * neuronError * input;
+            double weightChange = -learningRate * delta * input;
 
             // get the connection weight
             Weight weight = connection.getWeight();
             // if the learning is in online mode (not batch) apply the weight change immediately
-            if (!this.isInBatchMode()) {
+            if (!this.isBatchMode()) {
                 weight.weightChange = weightChange;                
-            } else { // otherwise its in batch mode, so sum the weight changes and apply them later, after the current epoch (see SupervisedLearning.doLearningEpoch method)
+            } else { // otherwise its in batch mode, accumulate  weight changes and apply them later, after the current epoch (see SupervisedLearning.doLearningEpoch method)
                 weight.weightChange += weightChange;
             }
         }

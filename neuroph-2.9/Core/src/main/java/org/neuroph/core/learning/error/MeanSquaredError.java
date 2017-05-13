@@ -38,8 +38,9 @@ public final class MeanSquaredError implements ErrorFunction, Serializable {
         reset();
     }
 
+    
     @Override
-    public double[] calculatePatternError(double[] predictedOutput, double[] targetOutput) {
+    public double[] addPatternError(double[] predictedOutput, double[] targetOutput) {
         double[] patternError = new double[targetOutput.length];
 
         for (int i = 0; i < predictedOutput.length; i++) {
@@ -59,7 +60,7 @@ public final class MeanSquaredError implements ErrorFunction, Serializable {
 
     @Override
     public double getTotalError() {
-        return totalError / ( 2 * patternCount );
+        return totalError / (2 *  patternCount );
     }
 
 }

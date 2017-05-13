@@ -143,7 +143,7 @@ public class SimulatedAnnealingLearning extends SupervisedLearning {
             double[] desiredOutput = trainingSetRow
                     .getDesiredOutput();
 
-            double[] patternError = getErrorFunction().calculatePatternError(desiredOutput, output);
+            double[] patternError = getErrorFunction().addPatternError(desiredOutput, output);
             double sqrErrorSum = 0;
             for (double error : patternError) {
                 sqrErrorSum += (error * error);

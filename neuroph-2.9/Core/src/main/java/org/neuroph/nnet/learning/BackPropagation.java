@@ -45,14 +45,14 @@ public class BackPropagation extends LMS {
 
     /**
      * This method implements weight update procedure for the whole network
-     * for the specified  output error vector
+     * for the specified  output error vector.
      *
      * @param outputError output error vector
      */
     @Override
     protected void calculateWeightChanges(double[] outputError) {
-        this.calculateErrorAndUpdateOutputNeurons(outputError);
-        this.calculateErrorAndUpdateHiddenNeurons();
+        calculateErrorAndUpdateOutputNeurons(outputError);
+        calculateErrorAndUpdateHiddenNeurons();
     }
 
 
@@ -69,7 +69,7 @@ public class BackPropagation extends LMS {
         // for all output neurons
         List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
         for (Neuron neuron : outputNeurons) {
-            // if error is zero, just se;t zero error and continue to next neuron
+            // if error is zero, just set zero error and continue to next neuron
             if (outputError[i] == 0) {
                 neuron.setError(0);
                 i++;
@@ -96,8 +96,8 @@ public class BackPropagation extends LMS {
         for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
             for (Neuron neuron : layers.get(layerIdx).getNeurons()) {
                 // calculate the neuron's error (delta)
-                double neuronError = calculateHiddenNeuronError(neuron);
-                neuron.setError(neuronError);
+                double delta = calculateHiddenNeuronError(neuron);
+                neuron.setError(delta);
                 updateNeuronWeights(neuron);
             } // for
         } // for
@@ -112,16 +112,15 @@ public class BackPropagation extends LMS {
     protected double calculateHiddenNeuronError(Neuron neuron) {
         double deltaSum = 0d;
         for (Connection connection : neuron.getOutConnections()) {
-            double delta = connection.getToNeuron().getError()
-                    * connection.getWeight().value;
+            double delta = connection.getToNeuron().getError() * connection.getWeight().value;
             deltaSum += delta; // weighted delta sum from the next layer
         } // for
 
         TransferFunction transferFunction = neuron.getTransferFunction();
-        double netInput = neuron.getNetInput(); // should we use input of this or other neuron?
-        double f1 = transferFunction.getDerivative(netInput);
-        double neuronError = f1 * deltaSum;
-        return neuronError;
+        double netInput = neuron.getNetInput();
+        double f1 = transferFunction.getDerivative(netInput);   // does this use netInput or cached output in order to avoid double caluclation? 
+        double delta = f1 * deltaSum;
+        return delta;
     }
 
 }

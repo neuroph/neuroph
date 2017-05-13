@@ -12,7 +12,7 @@ import org.neuroph.core.Weight;
 public class QuickPropagation extends BackPropagation {
 
     // ove dve konstante sam preuzeo iz radova koje si mi poslao - ne konstante vec d amogu da se setuju po potrebi
-    private double maximumGrowthFactor = 1.1;
+    private double maximumGrowthFactor = 1.75;
   //  private final static double shrinkFactor = maximumGrowthFactor / (1.0 + maximumGrowthFactor);
     // hes mapu koristim da cuvam vrednosti prethodnih iteracija - koristi training data
 

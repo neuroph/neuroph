@@ -85,7 +85,7 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     protected transient double output = 0;
 
     /**
-     * Local error for this neuron
+     * Local error (delta) for this neuron     * 
      */
     protected transient double error = 0;
 

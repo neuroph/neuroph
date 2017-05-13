@@ -46,7 +46,7 @@ public class DistortRandomizer extends WeightsRandomizer {
      * @param neuron
      */
     @Override
-    public void randomize(Neuron neuron) {
+    protected void randomize(Neuron neuron) {
             for (Connection connection : neuron.getInputConnections()) {
                     double weight = connection.getWeight().getValue();
                     connection.getWeight().setValue(distort(weight));
@@ -60,7 +60,7 @@ public class DistortRandomizer extends WeightsRandomizer {
      * @return distorted weight value
      */
     private double distort(double weight) {        
-        return  weight + (this.distortionFactor - (randomGenerator.nextDouble() * this.distortionFactor * 2)); 
+        return  weight + (this.distortionFactor - (randomGen.nextDouble() * this.distortionFactor * 2)); 
     }
        
 }

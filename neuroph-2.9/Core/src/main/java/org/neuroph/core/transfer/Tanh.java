@@ -161,8 +161,5 @@ public class Tanh extends TransferFunction implements Serializable {
     public void setAmplitude(double amplitude) {
         this.amplitude = amplitude;
     }
-    
-    
-    
-    
+                
 }

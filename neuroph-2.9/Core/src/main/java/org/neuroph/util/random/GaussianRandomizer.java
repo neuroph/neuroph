@@ -59,8 +59,8 @@ public class GaussianRandomizer extends WeightsRandomizer {
             this.useLast = false;
         } else {
             do {
-                x1 = 2.0 * randomGenerator.nextDouble() - 1.0;
-                x2 = 2.0 * randomGenerator.nextDouble() - 1.0;
+                x1 = 2.0 * randomGen.nextDouble() - 1.0;
+                x2 = 2.0 * randomGen.nextDouble() - 1.0;
                 w = x1 * x1 + x2 * x2;
             } while (w >= 1.0);
 

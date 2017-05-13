@@ -87,15 +87,15 @@ public class Sigmoid extends TransferFunction implements Serializable {
 	}
 
 	@Override
-	public double getOutput(double net) {
+	public double getOutput(double netInput) {
                 // conditional logic helps to avoid NaN
-                if (net > 100) {
+                if (netInput > 100) {
                     return 1.0;
-                }else if (net < -100) {
+                }else if (netInput < -100) {
                     return 0.0;
                 }
 
-		double den = 1d + Math.exp(-this.slope * net);
+		double den = 1 + Math.exp(-this.slope * netInput);
                 this.output = (1d / den);
                 
 		return this.output;

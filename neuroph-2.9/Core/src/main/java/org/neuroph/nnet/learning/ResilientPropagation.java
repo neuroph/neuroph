@@ -20,7 +20,7 @@ public class ResilientPropagation extends BackPropagation {
     private double initialDelta = 0.1;
     private double maxDelta = 1;
     private double minDelta = 1e-6;
-    private static final double ZERO_TOLERANCE = 1e-27; // the lowest limit when something is considered to be zero
+    private static final double ZERO_TOLERANCE = 1e-27; // the lowest limit when something is considered to be zero -it should be bigger liek 1e-17
 
     public ResilientPropagation() {
         super();
