@@ -71,6 +71,7 @@ public class BinaryDeltaRule extends PerceptronLearning {
 			double outErr = patternError[i];
 			double thresh = neuron.getThresh();
 			double netInput = neuron.getNetInput();
+			// double threshError =  thresh - netInput; // distance from zero
 			double threshError =  thresh - netInput; // distance from zero
                         // use output error to decide weathet to inrease, decrase or leave unchanged weights
                         // add errorCorrection to threshError to move above or below zero

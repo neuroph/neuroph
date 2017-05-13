@@ -53,14 +53,14 @@ public class PerceptronLearning extends LMS {
                 // adjust the input connection weights with method from LMS superclass
                 super.updateNeuronWeights(neuron);
 
-                // and adjust the neurons threshold
+                // and adjust the neurons threshold - ovo bi trebalo podesavati isto na karju prolaza
                 ThresholdNeuron thresholdNeuron = (ThresholdNeuron)neuron;
                 // get neurons error
                 double neuronError = thresholdNeuron.getError();
                 // get the neurons threshold
                 double thresh = thresholdNeuron.getThresh();
                 // calculate new threshold value
-                thresh = thresh - this.learningRate * neuronError;
+                thresh = thresh + this.learningRate * neuronError;
                 // apply the new threshold
                 thresholdNeuron.setThresh(thresh);
 	}
