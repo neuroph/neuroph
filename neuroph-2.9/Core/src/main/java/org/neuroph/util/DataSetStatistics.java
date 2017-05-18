@@ -19,8 +19,6 @@ public class DataSetStatistics {
 
     private final int rowCount;
 
-    private final DataSetColumnType[] columnType;
-
     private final double[] mean;
 
     private final double[] max;
@@ -55,7 +53,6 @@ public class DataSetStatistics {
         this.dataSet = dataSet;
         this.rowSize = dataSet.getInputSize() + dataSet.getOutputSize();
         this.rowCount = dataSet.getRows().size();
-        this.columnType = new DataSetColumnType[this.rowSize];
         this.mean = new double[this.rowSize];
         this.max = new double[this.rowSize];
         this.min = new double[this.rowSize];
@@ -73,7 +70,6 @@ public class DataSetStatistics {
         for (int i = 0; i < this.rowSize; i++) {
             this.max[i] = -Double.MAX_VALUE;
             this.min[i] = Double.MAX_VALUE;
-            this.columnType[i] = DataSetColumnType.NUMERIC;
         }
     }
 
@@ -84,18 +80,8 @@ public class DataSetStatistics {
         for (int i = 0; i < this.rowSize; i++) {
             this.sum[i] = 0;
             this.var[i] = 0;
-            this.frequency[i] = -1;
+            this.frequency[i] = -0.0;
         }
-    }
-
-    /**
-     * Sets column type for the given index.
-     * 
-     * @param index Index of the column in the row.
-     * @param columnType Column type to set, nominal or numeric.
-     */
-    public void setColumnType(int index, DataSetColumnType columnType) {
-        this.columnType[index] = columnType;
     }
 
     /**
@@ -103,13 +89,14 @@ public class DataSetStatistics {
      */
     public void calculateStatistics() {
         this.resetValues();
+        DataSetColumnType[] columnTypes = this.dataSet.getColumnTypes();
         for (DataSetRow dataSetRow : this.dataSet.getRows()) {
             double[] row = dataSetRow.toArray();
             for (int i = 0; i < this.rowSize; i++) {
                 this.max[i] = Math.max(this.max[i], row[i]);
                 this.min[i] = Math.min(this.min[i], row[i]);
                 this.sum[i] += row[i];
-                if (this.columnType[i] == DataSetColumnType.NOMINAL) {
+                if (columnTypes[i] == DataSetColumnType.NOMINAL) {
                     this.frequency[i] += row[i];
                 }
             }
@@ -117,7 +104,7 @@ public class DataSetStatistics {
 
         for (int i = 0; i < this.rowSize; i++) {
             this.mean[i] = this.sum[i] / (double) this.rowCount;
-            if (this.columnType[i] == DataSetColumnType.NOMINAL) {
+            if (columnTypes[i] == DataSetColumnType.NOMINAL) {
                 this.frequency[i] /= (double) this.rowCount;
             }
         }
@@ -192,7 +179,7 @@ public class DataSetStatistics {
 
     /**
      * Get data set frequency for nominal columns.
-     * Returns -1 for numeric columns.
+     * Returns -0.0 for numeric columns.
      * 
      * @return Array of frequencies by columns.
      */

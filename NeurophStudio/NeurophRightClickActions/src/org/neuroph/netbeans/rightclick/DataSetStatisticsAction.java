@@ -51,14 +51,17 @@ public final class DataSetStatisticsAction implements ActionListener {
     }
     
     private void outputStatistics(DataSetStatistics statistics) {
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("Dataset statistics for " + statistics.getDataSet().getLabel() + " dataset");
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("MIN: " + Arrays.toString(statistics.getMin()));
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("MIN: " + Arrays.toString(statistics.getMin()));
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("MAX: " + Arrays.toString(statistics.getMax()));
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("MEAN: " + Arrays.toString(statistics.getMean()));
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("SUM: " + Arrays.toString(statistics.getSum()));
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("VAR: " + Arrays.toString(statistics.getVar()));
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("STDDEV: " + Arrays.toString(statistics.getStdDev()));
-        IOProvider.getDefault().getIO("Neuroph", false).getOut().println("FREQ: " + Arrays.toString(statistics.getFrequency()));
+        output("Dataset statistics for " + statistics.getDataSet().getLabel() + " dataset");
+        output("MIN: " + Arrays.toString(statistics.getMin()));
+        output("MIN: " + Arrays.toString(statistics.getMin()));
+        output("MAX: " + Arrays.toString(statistics.getMax()));
+        output("MEAN: " + Arrays.toString(statistics.getMean()));
+        output("VAR: " + Arrays.toString(statistics.getVar()));
+        output("STDDEV: " + Arrays.toString(statistics.getStdDev()));
+        output("FREQ: " + Arrays.toString(statistics.getFrequency()));
+    }
+    
+    private void output(String message) {
+        IOProvider.getDefault().getIO("Neuroph", false).getOut().println(message);
     }
 }
