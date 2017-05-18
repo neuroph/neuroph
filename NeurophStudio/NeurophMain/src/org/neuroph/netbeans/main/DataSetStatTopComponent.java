@@ -66,12 +66,17 @@ public final class DataSetStatTopComponent extends TopComponent {
     private void initComponents() {
 
         graph = new javax.swing.JPanel();
-        statisticsComboBox = new javax.swing.JComboBox<>();
         columnsComboBox = new javax.swing.JComboBox<>();
         histogramCheckBox = new javax.swing.JCheckBox();
         histogramBinsComboBox = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        CheckBoxMin = new javax.swing.JCheckBox();
+        CheckBoxMax = new javax.swing.JCheckBox();
+        CheckBoxMean = new javax.swing.JCheckBox();
+        CheckBoxStdDev = new javax.swing.JCheckBox();
+        CheckBoxVar = new javax.swing.JCheckBox();
+        CheckBoxFreq = new javax.swing.JCheckBox();
 
         javax.swing.GroupLayout graphLayout = new javax.swing.GroupLayout(graph);
         graph.setLayout(graphLayout);
@@ -83,12 +88,6 @@ public final class DataSetStatTopComponent extends TopComponent {
             graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-
-        statisticsComboBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statisticsComboBoxItemStateChanged(evt);
-            }
-        });
 
         columnsComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,27 +112,87 @@ public final class DataSetStatTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.jLabel1.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(CheckBoxMin, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.CheckBoxMin.text")); // NOI18N
+        CheckBoxMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxMinActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(CheckBoxMax, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.CheckBoxMax.text")); // NOI18N
+        CheckBoxMax.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxMaxActionPerformed(evt);
+            }
+        });
+
+        CheckBoxMean.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(CheckBoxMean, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.CheckBoxMean.text")); // NOI18N
+        CheckBoxMean.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxMeanActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(CheckBoxStdDev, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.CheckBoxStdDev.text")); // NOI18N
+        CheckBoxStdDev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxStdDevActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(CheckBoxVar, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.CheckBoxVar.text")); // NOI18N
+        CheckBoxVar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxVarActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(CheckBoxFreq, org.openide.util.NbBundle.getMessage(DataSetStatTopComponent.class, "DataSetStatTopComponent.CheckBoxFreq.text")); // NOI18N
+        CheckBoxFreq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxFreqActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(histogramCheckBox)
-                    .addComponent(columnsComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, 107, Short.MAX_VALUE)
-                    .addComponent(statisticsComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(histogramBinsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CheckBoxMin)
+                            .addComponent(CheckBoxMax)
+                            .addComponent(CheckBoxMean)
+                            .addComponent(CheckBoxStdDev)
+                            .addComponent(CheckBoxVar)
+                            .addComponent(CheckBoxFreq)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(columnsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(histogramBinsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(31, 31, 31)
                 .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(statisticsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(CheckBoxMin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CheckBoxMax)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CheckBoxMean)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CheckBoxStdDev)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CheckBoxVar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CheckBoxFreq)
                 .addGap(18, 18, 18)
                 .addComponent(histogramCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -144,16 +203,10 @@ public final class DataSetStatTopComponent extends TopComponent {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(histogramBinsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 249, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
             .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void statisticsComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statisticsComboBoxItemStateChanged
-        if (initialized) {
-            refreshChart();
-        }
-    }//GEN-LAST:event_statisticsComboBoxItemStateChanged
 
     private void columnsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_columnsComboBoxActionPerformed
         if (initialized) {
@@ -173,14 +226,55 @@ public final class DataSetStatTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_histogramBinsComboBoxActionPerformed
 
+    private void CheckBoxMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxMinActionPerformed
+        if (initialized) {
+            refreshChart();
+        }
+    }//GEN-LAST:event_CheckBoxMinActionPerformed
+
+    private void CheckBoxMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxMaxActionPerformed
+        if (initialized) {
+            refreshChart();
+        }
+    }//GEN-LAST:event_CheckBoxMaxActionPerformed
+
+    private void CheckBoxMeanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxMeanActionPerformed
+        if (initialized) {
+            refreshChart();
+        }
+    }//GEN-LAST:event_CheckBoxMeanActionPerformed
+
+    private void CheckBoxStdDevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxStdDevActionPerformed
+        if (initialized) {
+            refreshChart();
+        }
+    }//GEN-LAST:event_CheckBoxStdDevActionPerformed
+
+    private void CheckBoxVarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxVarActionPerformed
+        if (initialized) {
+            refreshChart();
+        }
+    }//GEN-LAST:event_CheckBoxVarActionPerformed
+
+    private void CheckBoxFreqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxFreqActionPerformed
+        if (initialized) {
+            refreshChart();
+        }
+    }//GEN-LAST:event_CheckBoxFreqActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox CheckBoxFreq;
+    private javax.swing.JCheckBox CheckBoxMax;
+    private javax.swing.JCheckBox CheckBoxMean;
+    private javax.swing.JCheckBox CheckBoxMin;
+    private javax.swing.JCheckBox CheckBoxStdDev;
+    private javax.swing.JCheckBox CheckBoxVar;
     private javax.swing.JComboBox<String> columnsComboBox;
     private javax.swing.JPanel graph;
     private javax.swing.JComboBox<String> histogramBinsComboBox;
     private javax.swing.JCheckBox histogramCheckBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JComboBox<String> statisticsComboBox;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
@@ -214,7 +308,6 @@ public final class DataSetStatTopComponent extends TopComponent {
         this.resetDataSetColumnNames(dataSet);
         graph.setLayout(new BorderLayout());
 
-        setComboBoxStatistics();
         setComboBoxColumns();
         setComboBoxHistogramBins();
 
@@ -231,16 +324,15 @@ public final class DataSetStatTopComponent extends TopComponent {
         boolean isHistogram = histogramCheckBox.isSelected();
         JFreeChart chart;
         if (isHistogram) {
-            statisticsComboBox.setEnabled(false);
+            setStatisticsComboBoxesEnabled(false);
             columnsComboBox.setEnabled(true);
             histogramBinsComboBox.setEnabled(true);
             chart = this.createHistogramChart(createHistogramDataSet());
         } else {
-            statisticsComboBox.setEnabled(true);
+            setStatisticsComboBoxesEnabled(true);
             columnsComboBox.setEnabled(false);
             histogramBinsComboBox.setEnabled(false);
-            String statistic = statisticsComboBox.getSelectedItem().toString();
-            chart = this.createBarChart(createBarChartDataSet(statistic));
+            chart = this.createBarChart(createBarChartDataSet());
         }
 
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -292,43 +384,39 @@ public final class DataSetStatTopComponent extends TopComponent {
     }
 
     /**
-     * Returns data set for given statistic.
+     * Returns data set for selected statistics.
      *
-     * @param statistic Statistic for which to provide dataset.
-     * @return Dataset for given statistic.
+     * @return Dataset for selected statistics.
      */
-    private DefaultCategoryDataset createBarChartDataSet(String statistic) {
+    private DefaultCategoryDataset createBarChartDataSet() {
         DefaultCategoryDataset chartDataset = new DefaultCategoryDataset();
         String[] columnNames = statistics.getDataSet().getColumnNames();
         double[] values;
 
-        switch (statistic) {
-            case DataSetStatistics.MIN:
-                values = statistics.getMin();
-                break;
-            case DataSetStatistics.MAX:
-                values = statistics.getMax();
-                break;
-            case DataSetStatistics.MEAN:
-                values = statistics.getMean();
-                break;
-            case DataSetStatistics.SUM:
-                values = statistics.getSum();
-                break;
-            case DataSetStatistics.STD_DEV:
-                values = statistics.getStdDev();
-                break;
-            case DataSetStatistics.VAR:
-                values = statistics.getVar();
-                break;
-            case DataSetStatistics.FREQ:
-                values = statistics.getFrequency();
-                break;
-            default:
-                values = statistics.getMean();
-                break;
+        if (this.CheckBoxMin.isSelected()) {
+            this.chartDataSetAddValues(chartDataset, statistics.getMin(), "min", columnNames);
         }
-        this.chartDataSetAddValues(chartDataset, values, statistic, columnNames);
+        
+        if (this.CheckBoxMax.isSelected()) {
+            this.chartDataSetAddValues(chartDataset, statistics.getMax(), "max", columnNames);
+        }
+        
+        if (this.CheckBoxMean.isSelected()) {
+            this.chartDataSetAddValues(chartDataset, statistics.getMean(), "mean", columnNames);
+        }
+        
+        if (this.CheckBoxStdDev.isSelected()) {
+            this.chartDataSetAddValues(chartDataset, statistics.getStdDev(), "stddev", columnNames);
+        }
+        
+        if (this.CheckBoxVar.isSelected()) {
+            this.chartDataSetAddValues(chartDataset, statistics.getVar(), "var", columnNames);
+        }
+        
+        if (this.CheckBoxFreq.isSelected()) {
+            this.chartDataSetAddValues(chartDataset, statistics.getFrequency(), "freq", columnNames);
+        }
+        
         return chartDataset;
     }
 
@@ -389,19 +477,6 @@ public final class DataSetStatTopComponent extends TopComponent {
     }
 
     /**
-     * Sets statistics combo box values.
-     */
-    private void setComboBoxStatistics() {
-        statisticsComboBox.addItem(DataSetStatistics.MIN);
-        statisticsComboBox.addItem(DataSetStatistics.MAX);
-        statisticsComboBox.addItem(DataSetStatistics.MEAN);
-        statisticsComboBox.addItem(DataSetStatistics.SUM);
-        statisticsComboBox.addItem(DataSetStatistics.STD_DEV);
-        statisticsComboBox.addItem(DataSetStatistics.VAR);
-        statisticsComboBox.addItem(DataSetStatistics.FREQ);
-    }
-
-    /**
      * Sets column index combo box values.
      */
     private void setComboBoxColumns() {
@@ -411,6 +486,20 @@ public final class DataSetStatTopComponent extends TopComponent {
         for (int i = 0; i < inputSize + outputSize; i++) {
             columnsComboBox.addItem(String.valueOf(i));
         }
+    }
+    
+    /**
+     * Sets statistics checkboxes enabled state.
+     * 
+     * @param enabled 
+     */
+    private void setStatisticsComboBoxesEnabled(boolean enabled) {
+        this.CheckBoxMin.setEnabled(enabled);
+        this.CheckBoxMax.setEnabled(enabled);
+        this.CheckBoxMean.setEnabled(enabled);
+        this.CheckBoxStdDev.setEnabled(enabled);
+        this.CheckBoxVar.setEnabled(enabled);
+        this.CheckBoxFreq.setEnabled(enabled);
     }
 
     /**

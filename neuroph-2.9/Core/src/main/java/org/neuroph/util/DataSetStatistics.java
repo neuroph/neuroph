@@ -173,15 +173,6 @@ public class DataSetStatistics {
     }
 
     /**
-     * Get sum for each data set column.
-     * 
-     * @return Array of sums by columns.
-     */
-    public double[] getSum() {
-        return this.sum;
-    }
-
-    /**
      * Get variant for each data set column.
      * 
      * @return Array of variants by columns. 
