@@ -19,9 +19,10 @@
          <version>${project.version}</version>
       </dependency>
       <dependency>
-         <groupId>android</groupId>
-         <artifactId>android</artifactId>
-         <version>x.x</version>
-      </dependency>
+    	<groupId>com.google.android</groupId>
+    	<artifactId>android</artifactId>
+    	<version>1.5_r4</version>
+    	<scope>provided</scope>
+     </dependency>
    </dependencies>
 </project>
