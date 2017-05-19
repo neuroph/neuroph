@@ -2,6 +2,7 @@ package org.neuroph.contrib.eval;
 
 import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.classification.ConfusionMatrix;
+import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 
 /**
@@ -15,7 +16,7 @@ public class EvaluationResult {
     ConfusionMatrix confusionMatrix;
     double meanSquareError ;
     DataSet dataSet;
-    // include neural net and data set?
+    NeuralNetwork neuralNetwork;
 
     public ConfusionMatrix getConfusionMatrix() {
         return confusionMatrix;
@@ -43,6 +44,14 @@ public class EvaluationResult {
 
     public void setDataSet(DataSet dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public NeuralNetwork getNeuralNetwork() {
+        return neuralNetwork;
+    }
+
+    public void setNeuralNetwork(NeuralNetwork neuralNetwork) {
+        this.neuralNetwork = neuralNetwork;
     }
 
     @Override
