@@ -153,6 +153,81 @@
                 <package>org.slf4j.helpers</package>
                 <package>org.slf4j.impl</package>
                 <package>org.slf4j.spi</package>
+                <package>weka</package>
+                <package>weka.associations</package>
+                <package>weka.attributeSelection</package>
+                <package>weka.classifiers</package>
+                <package>weka.classifiers.bayes</package>
+                <package>weka.classifiers.bayes.net</package>
+                <package>weka.classifiers.bayes.net.estimate</package>
+                <package>weka.classifiers.bayes.net.search</package>
+                <package>weka.classifiers.bayes.net.search.ci</package>
+                <package>weka.classifiers.bayes.net.search.fixed</package>
+                <package>weka.classifiers.bayes.net.search.global</package>
+                <package>weka.classifiers.bayes.net.search.local</package>
+                <package>weka.classifiers.evaluation</package>
+                <package>weka.classifiers.evaluation.output.prediction</package>
+                <package>weka.classifiers.functions</package>
+                <package>weka.classifiers.functions.neural</package>
+                <package>weka.classifiers.functions.supportVector</package>
+                <package>weka.classifiers.lazy</package>
+                <package>weka.classifiers.lazy.kstar</package>
+                <package>weka.classifiers.meta</package>
+                <package>weka.classifiers.misc</package>
+                <package>weka.classifiers.pmml.consumer</package>
+                <package>weka.classifiers.rules</package>
+                <package>weka.classifiers.rules.part</package>
+                <package>weka.classifiers.trees</package>
+                <package>weka.classifiers.trees.j48</package>
+                <package>weka.classifiers.trees.lmt</package>
+                <package>weka.classifiers.trees.m5</package>
+                <package>weka.classifiers.xml</package>
+                <package>weka.clusterers</package>
+                <package>weka.core</package>
+                <package>weka.core.converters</package>
+                <package>weka.core.json</package>
+                <package>weka.core.logging</package>
+                <package>weka.core.mathematicalexpression</package>
+                <package>weka.core.matrix</package>
+                <package>weka.core.neighboursearch</package>
+                <package>weka.core.neighboursearch.balltrees</package>
+                <package>weka.core.neighboursearch.covertrees</package>
+                <package>weka.core.neighboursearch.kdtrees</package>
+                <package>weka.core.pmml</package>
+                <package>weka.core.scripting</package>
+                <package>weka.core.stemmers</package>
+                <package>weka.core.tokenizers</package>
+                <package>weka.core.xml</package>
+                <package>weka.datagenerators</package>
+                <package>weka.datagenerators.classifiers.classification</package>
+                <package>weka.datagenerators.classifiers.regression</package>
+                <package>weka.datagenerators.clusterers</package>
+                <package>weka.estimators</package>
+                <package>weka.experiment</package>
+                <package>weka.experiment.xml</package>
+                <package>weka.filters</package>
+                <package>weka.filters.supervised.attribute</package>
+                <package>weka.filters.supervised.instance</package>
+                <package>weka.filters.unsupervised.attribute</package>
+                <package>weka.filters.unsupervised.instance</package>
+                <package>weka.filters.unsupervised.instance.subsetbyexpression</package>
+                <package>weka.gui</package>
+                <package>weka.gui.arffviewer</package>
+                <package>weka.gui.beans</package>
+                <package>weka.gui.beans.xml</package>
+                <package>weka.gui.boundaryvisualizer</package>
+                <package>weka.gui.experiment</package>
+                <package>weka.gui.explorer</package>
+                <package>weka.gui.graphvisualizer</package>
+                <package>weka.gui.hierarchyvisualizer</package>
+                <package>weka.gui.scripting</package>
+                <package>weka.gui.scripting.event</package>
+                <package>weka.gui.sql</package>
+                <package>weka.gui.sql.event</package>
+                <package>weka.gui.streams</package>
+                <package>weka.gui.treevisualizer</package>
+                <package>weka.gui.visualize</package>
+                <package>weka.gui.visualize.plugins</package>
             </public-packages>
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-contrib-2.94.jar</runtime-relative-path>
@@ -177,6 +252,10 @@
             <class-path-extension>
                 <runtime-relative-path>ext/neuroph-imgrec-2.94.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/neuroph-imgrec-2.94.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/weka-dev-3.7.5.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/weka-dev-3.7.5.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/NoProp.jar</runtime-relative-path>

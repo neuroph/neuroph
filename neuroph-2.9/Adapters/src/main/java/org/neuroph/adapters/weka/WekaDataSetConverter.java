@@ -13,6 +13,7 @@ import weka.core.DenseInstance;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.converters.ConverterUtils;
 
 /**
  * Provides methods to convert dataset instances from Neuroph to Weka 
@@ -222,6 +223,44 @@ public class WekaDataSetConverter {
         }
         
         return classValues;
+    }
+    
+       /**
+     * Creates neuroph dataset from arff weka file.
+     * 
+     * @param filePath Path to the file.
+     * @param numInputs Number of inputs.
+     * @return Neuroph dataset.
+     * @throws Exception 
+     */
+    public static DataSet createDataSetFromFile(String filePath, int numInputs) throws Exception {
+        return createDataSetFromFile(filePath, numInputs, 0);
+    }
+    
+    /**
+     * Creates neuroph dataset from arff weka file.
+     * 
+     * @param filePath Path to the file.
+     * @param numInputs Number of inputs.
+     * @param numOutputs Number of outputs.
+     * @return Neuroph dataset.
+     */
+    public static DataSet createDataSetFromFile(String filePath, int numInputs, int numOutputs) {
+
+        try {
+            ConverterUtils.DataSource dataSource = new ConverterUtils.DataSource(filePath);
+
+            Instances wekaDataset = dataSource.getDataSet();
+            
+            wekaDataset.setClassIndex(numInputs);
+
+            DataSet neurophDataset = WekaDataSetConverter.convertWekaToNeurophDataset(wekaDataset, numInputs, numOutputs);
+            
+            return neurophDataset;
+            
+        } catch (Exception e) {
+            return new DataSet(0);
+        }
     }
                
 }

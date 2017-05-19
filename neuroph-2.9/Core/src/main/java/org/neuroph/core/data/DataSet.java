@@ -25,6 +25,7 @@ import java.util.ListIterator;
 
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
+import org.neuroph.util.DataSetColumnType;
 import org.neuroph.util.data.sample.Sampling;
 import org.neuroph.util.data.sample.SubSampling;
 
@@ -78,7 +79,11 @@ public class DataSet implements List<DataSetRow>, Serializable { // implements
      * Full file path including file name
      */
     private transient String filePath;
-
+    
+    /**
+     * Column types for data set
+     */
+    private DataSetColumnType[] columnTypes;
 
     /**
      * Creates an instance of new empty training set
@@ -91,6 +96,7 @@ public class DataSet implements List<DataSetRow>, Serializable { // implements
         this.isSupervised = false;
         //this.columnNames = new String[inputSize];
         setDefaultColumnNames();
+        setDefaultColumnTypes();
     }
 
     /**
@@ -106,6 +112,7 @@ public class DataSet implements List<DataSetRow>, Serializable { // implements
         this.isSupervised = true;
       //  this.columnNames = new String[inputSize + outputSize];
         setDefaultColumnNames();
+        setDefaultColumnTypes();
     }
 
     /**
@@ -268,8 +275,25 @@ public class DataSet implements List<DataSetRow>, Serializable { // implements
     public void setColumnName(int idx, String columnName) {
         columnNames[idx] = columnName;
     }
-
-
+    
+    public DataSetColumnType[] getColumnTypes() {
+        return this.columnTypes;
+    }
+    
+    public DataSetColumnType getColumnType(int index) {
+        return this.columnTypes[index];
+    }
+    
+    /**
+     * Sets column type for the given index.
+     * 
+     * @param index Index of the column in the row.
+     * @param columnType Column type to set, nominal or numeric.
+     */
+    public void setColumnType(int index, DataSetColumnType columnType) {
+        this.columnTypes[index] = columnType;
+    }
+    
     /**
      * Sets full file path for this training set
      *
@@ -673,6 +697,16 @@ public class DataSet implements List<DataSetRow>, Serializable { // implements
         }
         for (int i = 0; i < outputSize; i++) {
             columnNames[inputSize + i] = "Output" + (i+1);
+        }
+    }
+    
+    private void setDefaultColumnTypes() {
+        columnTypes = new DataSetColumnType[inputSize + outputSize];
+        for (int i = 0; i < inputSize; i++) {
+            columnTypes[i] = DataSetColumnType.NUMERIC;
+        }
+        for (int i = 0; i < outputSize; i++) {
+            columnTypes[inputSize + i] = DataSetColumnType.NUMERIC;
         }
     }
     
