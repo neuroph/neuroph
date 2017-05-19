@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 import org.neuroph.contrib.eval.ClassifierEvaluator;
 import org.neuroph.contrib.model.errorestimation.CrossValidation;
 
@@ -107,30 +109,36 @@ public class MultilayerPerceptronOptimazer<T extends BackPropagation> implements
         LOG.info("Total [{}] different network topologies found", allArchitectures.size());
 
         for (List<Integer> architecture : allArchitectures) {
-            architecture.add(0, dataSet.getInputSize());
-            architecture.add(dataSet.getOutputSize());
-
-            LOG.info("Architecture: [{}]", architecture);
-
-            MultiLayerPerceptron network = new MultiLayerPerceptron(architecture);
-            LearningListener listener = new LearningListener(10, learningRule.getMaxIterations());
-            learningRule.addListener(listener);
-            network.setLearningRule(learningRule);
-            
-            errorEstimationMethod = new CrossValidation(network, dataSet, 10);
-            errorEstimationMethod.run();
-            // FIX
-            ClassificationMetrics[] result = ClassificationMetrics.createFromMatrix(errorEstimationMethod.getEvaluator(ClassifierEvaluator.MultiClass.class).getResult());
-
-            // nadji onaj sa najmanjim f measure
-            if (optimalResult == null || optimalResult.getFMeasure()< result[0].getFMeasure()) {
-                LOG.info("Architecture [{}] became optimal architecture  with metrics {}", architecture, result);
-                optimalResult = result[0];
-                optimalClassifier = network;
-                optimalArchitecure = architecture;
+            try {
+                architecture.add(0, dataSet.getInputSize());
+                architecture.add(dataSet.getOutputSize());
+                
+                LOG.info("Architecture: [{}]", architecture);
+                
+                MultiLayerPerceptron network = new MultiLayerPerceptron(architecture);
+                LearningListener listener = new LearningListener(10, learningRule.getMaxIterations());
+                learningRule.addListener(listener);
+                network.setLearningRule(learningRule);
+                
+                errorEstimationMethod = new CrossValidation(network, dataSet, 10);
+                errorEstimationMethod.run();
+                // FIX
+                ClassificationMetrics[] result = ClassificationMetrics.createFromMatrix(errorEstimationMethod.getEvaluator(ClassifierEvaluator.MultiClass.class).getResult());
+                
+                // nadji onaj sa najmanjim f measure
+                if (optimalResult == null || optimalResult.getFMeasure()< result[0].getFMeasure()) {
+                    LOG.info("Architecture [{}] became optimal architecture  with metrics {}", architecture, result);
+                    optimalResult = result[0];
+                    optimalClassifier = network;
+                    optimalArchitecure = architecture;
+                }
+                
+                LOG.info("#################################################################");
+            } catch (InterruptedException ex) {
+                java.util.logging.Logger.getLogger(MultilayerPerceptronOptimazer.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
+                java.util.logging.Logger.getLogger(MultilayerPerceptronOptimazer.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            LOG.info("#################################################################");
         }
 
 

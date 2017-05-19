@@ -81,12 +81,12 @@ public class CrossValidationResult {
         System.out.println("Number of folds: " + numberOfFolds);
         System.out.println("\n");
         System.out.println("=== Summary ===");
-        System.out.println("Correlation coefficient: " + average.correlationCoefficient);
         System.out.println("Mean squared error: " + average.mserror);
         System.out.println("Accuracy: " + average.accuracy);
         System.out.println("Precision: " + average.precision);
         System.out.println("Recall: " +average.recall);
         System.out.println("FScore: " + average.fScore);
+        System.out.println("Correlation coefficient: " + average.correlationCoefficient);        
     }   
     
     

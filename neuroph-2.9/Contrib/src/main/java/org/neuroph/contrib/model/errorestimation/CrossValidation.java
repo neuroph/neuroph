@@ -1,40 +1,34 @@
 package org.neuroph.contrib.model.errorestimation;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import org.neuroph.contrib.eval.Evaluation;
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
 import org.neuroph.contrib.eval.ClassifierEvaluator;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.util.data.sample.Sampling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 import org.apache.commons.lang3.SerializationUtils;
 import org.neuroph.contrib.eval.ErrorEvaluator;
 import org.neuroph.contrib.eval.EvaluationResult;
 import org.neuroph.contrib.eval.Evaluator;
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.util.data.sample.SubSampling;
 
 /**
- * This class implements cross validation procedure. Splits data set into
- * several subsets, trains with one and tests with all other subsets. Repeats
- * that procedure with each subset
+ * This class implements multithreaded cross validation procedure. 
+ * Splits data set into k subsets (folds), trains the network with data from k-1 and tests with one subset
+ * Repeats the procedure k times each time using different subset for testing.
  *
- * At the end runs evaluation
- *
+ * @author Boris Fulurija
+ * @author Lukic Sasa Multithreading
+ * @author Zoran Sevarac
  */
 public class CrossValidation {
 
@@ -80,25 +74,26 @@ public class CrossValidation {
     }
 
     /**
-     * Default constructor for creating KFold error estimation
+     * Creates a new instance of crrossvalidation for specified neural network, data set and number of folds.
      *
-     * @param subsetCount defines number of folds used in sampling algorithm
+     * @param neuralNetwork
+     * @param dataSet
+     * @param foldCount number of folds to use
      */
-    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int subSetCount) { // number of folds/subsets
-        initialize(neuralNetwork, dataSet, subSetCount);
-        this.sampling = new SubSampling(subSetCount); // new RandomSamplingWithoutRepetition(numberOfSamples   
+    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int foldCount) { // number of folds/subsets
+        initialize(neuralNetwork, dataSet, foldCount);
+        this.sampling = new SubSampling(foldCount); // new RandomSamplingWithoutRepetition(numberOfSamples   
     }
 
-    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int... subSetSizes) { // number of folds
-        initialize(neuralNetwork, dataSet, subSetSizes.length);
-        this.sampling = new SubSampling(subSetSizes);
-    }
+//    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int... subSetSizes) { // number of folds
+//        initialize(neuralNetwork, dataSet, subSetSizes.length);
+//        this.sampling = new SubSampling(subSetSizes);
+//    }
 
-    //TODO - get datasets from sampling
-    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, Sampling sampling) { // number of folds/subsets
-        initialize(neuralNetwork, dataSet, 10);
-        this.sampling = sampling;
-    }
+//    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, Sampling sampling) { // number of folds/subsets
+//        initialize(neuralNetwork, dataSet, 10);
+//        this.sampling = sampling;
+//    }
 
     public Sampling getSampling() {
         return sampling;
