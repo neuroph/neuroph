@@ -21,6 +21,7 @@ public final class ClassificationMetrics {
     double trueNegative;    
     double falsePositive;
     double falseNegative;
+    double correlationCoefficient;
 
     double total;
     
@@ -214,11 +215,12 @@ public final class ClassificationMetrics {
         public double precision=0;
         public double recall=0;
         public double fScore=0;        
-        public double mserror=0;    
+        public double mserror=0;  
+        public double corelationCoefficient = 0;
 
         @Override
         public String toString() {
-            return "Stats{" + "accuracy=" + accuracy + ", precision=" + precision + ", recall=" + recall + ", fScore=" + fScore + ", mserror=" + mserror + '}';
+            return "Stats{" + "accuracy=" + accuracy + ", precision=" + precision + ", recall=" + recall + ", fScore=" + fScore + ", mserror=" + mserror + ", corelationCoefficient=" + corelationCoefficient + '}';
         }
         
         
