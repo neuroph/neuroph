@@ -26,7 +26,7 @@ public class CrossEntropyError implements ErrorFunction, Serializable {
     }
 
     @Override
-    public double[] calculatePatternError(double[] predictedOutput, double[] targetOutput) {
+    public double[] addPatternError(double[] predictedOutput, double[] targetOutput) {
         double[] error = new double[targetOutput.length];
 
         if (predictedOutput.length != targetOutput.length)

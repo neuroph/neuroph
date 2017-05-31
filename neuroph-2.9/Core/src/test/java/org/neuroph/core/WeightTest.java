@@ -92,19 +92,6 @@ public class WeightTest {
      * Test of randomize method, of class Weight.
      */
     @Test
-    public void testRandomize_0args() {
-        System.out.println("randomize");
-        Weight instance = new Weight(0.3);
-        instance.randomize();
-        if (instance.value == 0.3)
-            fail("Weight is not changed after randomization");
-
-    }
-
-    /**
-     * Test of randomize method, of class Weight.
-     */
-    @Test
     public void testRandomize_double_double() {
         System.out.println("randomize");
         double min = 0.3;

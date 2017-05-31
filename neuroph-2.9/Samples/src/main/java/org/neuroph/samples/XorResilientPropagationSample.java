@@ -20,8 +20,12 @@ import java.util.Arrays;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import org.neuroph.core.events.LearningEvent;
+import org.neuroph.core.events.LearningEventListener;
+import org.neuroph.core.learning.LearningRule;
 import org.neuroph.core.learning.SupervisedLearning;
 import org.neuroph.nnet.MultiLayerPerceptron;
+import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.ResilientPropagation;
 import org.neuroph.util.TransferFunctionType;
 
@@ -30,12 +34,16 @@ import org.neuroph.util.TransferFunctionType;
  * learning rule for the XOR problem.
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
-public class XorResilientPropagationSample {
-
+public class XorResilientPropagationSample implements LearningEventListener {
+    
+    public static void main(String[] args) {
+        new XorResilientPropagationSample().run();
+    }
+            
     /**
      * Runs this sample
      */
-    public static void main(String[] args) {
+    public  void run() {
     	
         // create training set (logical XOR function)
         DataSet trainingSet = new DataSet(2, 1);
@@ -48,7 +56,9 @@ public class XorResilientPropagationSample {
         MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
         // set ResilientPropagation learning rule
         myMlPerceptron.setLearningRule(new ResilientPropagation()); 
-       
+        LearningRule learningRule = myMlPerceptron.getLearningRule();
+        learningRule.addListener(this);       
+        
         // learn the training set
         System.out.println("Training neural network...");
         myMlPerceptron.learn(trainingSet);
@@ -78,5 +88,12 @@ public class XorResilientPropagationSample {
             System.out.println(" Output: " + Arrays.toString( networkOutput) );
         }
     }
+    
+    @Override
+    public void handleLearningEvent(LearningEvent event) {
+        BackPropagation bp = (BackPropagation)event.getSource();
+        if (event.getEventType() != LearningEvent.Type.LEARNING_STOPPED)
+            System.out.println(bp.getCurrentIteration() + ". iteration : "+ bp.getTotalNetworkError());
+    }       
 
 }

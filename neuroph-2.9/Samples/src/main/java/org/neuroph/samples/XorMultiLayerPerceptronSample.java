@@ -17,6 +17,7 @@
 package org.neuroph.samples;
 
 import java.util.Arrays;
+import java.util.Random;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
@@ -25,7 +26,9 @@ import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.util.TransferFunctionType;
+import org.neuroph.util.random.WeightsRandomizer;
 
 /**
  * This sample shows how to create, train, save and load simple Multi Layer Perceptron for the XOR problem.
@@ -52,9 +55,13 @@ public class XorMultiLayerPerceptronSample implements LearningEventListener {
 
         // create multi layer perceptron
         MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
+        myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+        
+        System.out.println(Arrays.toString(myMlPerceptron.getWeights()));
 
         myMlPerceptron.setLearningRule(new BackPropagation());
-        
+      
+        myMlPerceptron.getLearningRule().setLearningRate(0.5);
         // enable batch if using MomentumBackpropagation
 //        if( myMlPerceptron.getLearningRule() instanceof MomentumBackpropagation )
 //        	((MomentumBackpropagation)myMlPerceptron.getLearningRule()).setBatchMode(false);
@@ -84,7 +91,7 @@ public class XorMultiLayerPerceptronSample implements LearningEventListener {
     /**
      * Prints network output for the each element from the specified training set.
      * @param neuralNet neural network
-     * @param trainingSet training set
+     * @param testSet test set
      */
     public static void testNeuralNetwork(NeuralNetwork neuralNet, DataSet testSet) {
 

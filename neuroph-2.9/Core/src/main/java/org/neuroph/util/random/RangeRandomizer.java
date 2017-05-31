@@ -16,6 +16,8 @@
 
 package org.neuroph.util.random;
 
+import java.util.Random;
+
 /**
  * This class provides ranged weights randomizer, which randomize weights in specified [min, max] range.
  * @author Zoran Sevarac <sevarac@gmail.com>
@@ -43,12 +45,18 @@ public class RangeRandomizer extends WeightsRandomizer {
         this.min = min;
     }
 
+    public RangeRandomizer(double min, double max, Random randomGen) {
+        super(randomGen);
+        this.min = min;
+        this.max = max;
+    }
+        
     /**
      * Generates next random value within [min, max] range determined by the settings in this randomizer
      * @return next weight random value
      */
     @Override
     protected double nextRandomWeight() {
-        return min + randomGenerator.nextDouble() * (max - min);
+        return min + randomGen.nextDouble() * (max - min);
     }
 }

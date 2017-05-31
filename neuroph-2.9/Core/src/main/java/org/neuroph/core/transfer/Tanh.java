@@ -52,6 +52,7 @@ public class Tanh extends TransferFunction implements Serializable {
      */
     private double derivativeOutput;
 
+    
     /**
      * Creates an instance of Tanh neuron transfer function with default
      * slope=amplitude=1
@@ -119,7 +120,7 @@ public class Tanh extends TransferFunction implements Serializable {
         if (Math.abs(input) * slope > 100) { return 0.0d; }
 
         //output here is a*tanh^2(s*x)
-        double E_x = Math.exp(2 * slope * input);
+        double E_x = Math.exp(2 * slope * input);   // we coul duse buffered output here, but in that case we ignor input parameter and it shoul dbe removed to avoid confusion
         double tanhsx = (E_x - 1d) / (E_x + 1d);
         derivativeOutput = amplitude * slope * (1.0d - tanhsx * tanhsx);
         return derivativeOutput;
@@ -160,8 +161,5 @@ public class Tanh extends TransferFunction implements Serializable {
     public void setAmplitude(double amplitude) {
         this.amplitude = amplitude;
     }
-    
-    
-    
-    
+                
 }

@@ -32,15 +32,15 @@ public interface ErrorFunction {
     public double getTotalError();
 
     /**
-     * Calculates pattern error for given predicted and target output vector
-     * @param predictedOutput
-     * @param targetOutput
-     * @return patern error
+     * Calculates and adds pattern error for the given predicted and target output vector and adds it to total error.
+     * @param predictedOutput actual network output
+     * @param targetOutput target/desired output
+     * @return returns pattern error vector
      */
-    public double[] calculatePatternError(double[] predictedOutput, double[] targetOutput);
+    public double[] addPatternError(double[] predictedOutput, double[] targetOutput);
     
     /**
-     * Sets total error to zero
+     * Sets total error and pattern count  to zero.
      */
     public void reset();    
 

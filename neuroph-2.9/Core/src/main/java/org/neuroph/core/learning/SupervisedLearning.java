@@ -28,7 +28,6 @@ import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.learning.error.ErrorFunction;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.core.learning.stop.MaxErrorStop;
-import org.neuroph.core.learning.stop.StopCondition;
 
 // TODO:  random pattern order
 
@@ -46,44 +45,49 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      * compatibility with a previous version of the class
      */
     private static final long serialVersionUID = 3L;
+    
     /**
      * Total network error in previous epoch
      */
     protected transient double previousEpochError;
+    
     /**
      * Max allowed network error (condition to stop learning)
      */
     protected double maxError = 0.01d;
+    
     /**
      * Stopping condition: training stops if total network error change is smaller than minErrorChange
      * for minErrorChangeIterationsLimit number of iterations
      */
     private double minErrorChange = Double.POSITIVE_INFINITY;
+    
     /**
      * Stopping condition: training stops if total network error change is smaller than minErrorChange
      * for minErrorChangeStopIterations number of iterations
      */
     private int minErrorChangeIterationsLimit = Integer.MAX_VALUE;
+    
     /**
-     * Count iterations where error change is smaller then minErrorChange
+     * Count iterations where error change is smaller then minErrorChange.
      */
     private transient int minErrorChangeIterationsCount;
+    
     /**
-     * Setting to determine if learning (weights update) is in batch mode
+     * Setting to determine if learning (weights update) is in batch mode.
      * False by default.
      */
     private boolean batchMode = false;
 
     private ErrorFunction errorFunction;
-
+    
     /**
      * Creates new supervised learning rule
      */
     public SupervisedLearning() {
         super();
-        this.errorFunction = new MeanSquaredError();
-        // create stop condition structure based on settings               
-        this.stopConditions.add(new MaxErrorStop(this));        
+        errorFunction = new MeanSquaredError();          
+        stopConditions.add(new MaxErrorStop(this));        
     }
 
     /**
@@ -94,7 +98,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      */
     public void learn(DataSet trainingSet, double maxError) {
         this.maxError = maxError;
-        this.learn(trainingSet);
+        learn(trainingSet);
     }
 
     /**
@@ -105,22 +109,23 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      * @param maxIterations maximum number of learning iterations
      */
     public void learn(DataSet trainingSet, double maxError, int maxIterations) {
+        this.trainingSet = trainingSet;
         this.maxError = maxError;
-        this.setMaxIterations(maxIterations);
-        this.learn(trainingSet);
+        setMaxIterations(maxIterations);
+        learn(trainingSet);
     }
 
     @Override
     protected void onStart() {
         super.onStart(); // reset iteration counter
-        this.minErrorChangeIterationsCount = 0;
-        this.previousEpochError = 0d;
+        minErrorChangeIterationsCount = 0;
+        previousEpochError = 0d;
     }
 
     @Override
     protected void beforeEpoch() {
-        this.previousEpochError = errorFunction.getTotalError();
-        this.errorFunction.reset();
+        previousEpochError = errorFunction.getTotalError();
+        errorFunction.reset();
     }
 
     @Override
@@ -128,13 +133,13 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         // calculate abs error change and count iterations if its below specified min error change (used for stop condition)
         double absErrorChange = Math.abs(previousEpochError - errorFunction.getTotalError());
         if (absErrorChange <= this.minErrorChange) {
-            this.minErrorChangeIterationsCount++;
+            minErrorChangeIterationsCount++;
         } else {
-            this.minErrorChangeIterationsCount = 0;
+            minErrorChangeIterationsCount = 0;
         }
 
         // if learning is performed in batch mode, apply accumulated weight changes from this epoch        
-        if (this.batchMode == true) {
+        if (batchMode == true) {
             doBatchWeightsUpdate();
         }
     }
@@ -150,24 +155,12 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      * @param trainingSet training set for training network
      */
     @Override
-    public void doLearningEpoch(DataSet trainingSet) {
-
-        // feed network with all elements from training set
+    public void doLearningEpoch(DataSet trainingSet) {        
         Iterator<DataSetRow> iterator = trainingSet.iterator();
-        while (iterator.hasNext() && !isStopped()) {
+        while (iterator.hasNext() && !isStopped()) { // iterate all elements from training set - maybe remove isStopped from here
             DataSetRow dataSetRow = iterator.next();
-            // learn current input/output pattern defined by SupervisedTrainingElement
-            this.learnPattern(dataSetRow);
+            learnPattern(dataSetRow);             // learn current input/output pattern defined by SupervisedTrainingElement
         }
-
-        // calculate total network error as MSE. Use MSE so network does not grow with bigger training sets
-        //this.totalNetworkError = errorFunction.getTotalError();
-        
-        // moved stopping condition to separate method hasReachedStopCondition() so it can be overriden / customized in subclasses
-        // this condition is allready checked in IterativeLearning.learn(DataSet trainingSet)
-//        if (hasReachedStopCondition()) {
-//            stopLearning();
-//        }
     }
 
     /**
@@ -179,12 +172,11 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         neuralNetwork.setInput(trainingElement.getInput());
         neuralNetwork.calculate();
         double[] output = neuralNetwork.getOutput();
-        double[] patternError = errorFunction.calculatePatternError(output, trainingElement.getDesiredOutput());
+        double[] patternError = errorFunction.addPatternError(output, trainingElement.getDesiredOutput());
         calculateWeightChanges(patternError);
         
-        if (!batchMode) { // this should be uncimmented for simultanuos update
-            applyWeightChanges();
-        }
+        if (!batchMode) applyWeightChanges(); // batch mode updates are done i doBatchWeightsUpdate
+        
     }
 
     /**
@@ -203,7 +195,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
                 for (Connection connection : neuron.getInputConnections()) {
                     // for each connection weight apply accumulated weight change
                     Weight weight = connection.getWeight();
-                    weight.value -= weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                    weight.value += weight.weightChange / getTrainingSet().size(); // apply delta weight which is the sum of delta weights in batch mode    - TODO: add mini batch
                     weight.weightChange = 0; // reset deltaWeight
                 }
             }
@@ -215,7 +207,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      *
      * @return true if learning is performed in batch mode, false otherwise
      */
-    public boolean isInBatchMode() {
+    public boolean isBatchMode() {
         return batchMode;
     }
 
@@ -331,11 +323,12 @@ abstract public class SupervisedLearning extends IterativeLearning implements
                 for (Connection connection : neuron.getInputConnections()) {
                     // for each connection weight apply accumulated weight change
                     Weight weight = connection.getWeight();
-                    if (!isInBatchMode()) {
-                        weight.value -= weight.weightChange; // apply delta weight which is the sum of delta weights in batch mode
+                    if (!isBatchMode()) {
+                        weight.value += weight.weightChange;
                     } else {
-                        weight.value -= weight.weightChange / (double)getTrainingSet().size();
+                        weight.value += (weight.weightChange / getTrainingSet().size());
                     }
+                    
                     weight.weightChange = 0; // reset deltaWeight
                 }
             }

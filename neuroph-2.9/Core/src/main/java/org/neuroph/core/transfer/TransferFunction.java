@@ -35,7 +35,7 @@ abstract public class TransferFunction implements Serializable {
         /**
          * Output result
          */
-        protected double output; // cached output value to avoid double calculation for derivative
+        protected transient double output; // cached output value to avoid double calculation for derivative
 
 	/**
 	 * Returns the ouput of this function.

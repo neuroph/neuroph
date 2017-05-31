@@ -69,7 +69,7 @@ public class SigmoidDeltaRule extends LMS {
 			neuron.setError(delta);
                         
                         // and update weights of the current neuron
-			this.updateNeuronWeights(neuron);				
+			updateNeuronWeights(neuron);				
 			i++;
 		} // for				
 	}

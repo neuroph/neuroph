@@ -56,7 +56,7 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
      */
     public Weight() {
         this.value = Math.random() - 0.5d;
-        this.weightChange = 0;
+        this.weightChange = 0;        
     }
 
     /**
@@ -113,22 +113,15 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
     }
 
     /**
-     * Sets random weight value
-     */
-    public void randomize() {
-        this.value = Math.random() - 0.5d;
-    }
-
-    /**
      * Sets random weight value within specified interval
+     * Use weight randomizers for this
      */
+    @Deprecated
     public void randomize(double min, double max) {
         this.value = min + Math.random() * (max - min);
     }
 
-    public void randomize(Random generator) {
-        this.value = generator.nextDouble();
-    }
+
 
     /**
      * Returns training data buffer for this weight

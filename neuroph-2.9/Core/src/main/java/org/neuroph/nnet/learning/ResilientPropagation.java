@@ -20,11 +20,11 @@ public class ResilientPropagation extends BackPropagation {
     private double initialDelta = 0.1;
     private double maxDelta = 1;
     private double minDelta = 1e-6;
-    private static final double ZERO_TOLERANCE = 1e-27; // the lowest limit when something is considered to be zero
+    private static final double ZERO_TOLERANCE = 1e-27; // the lowest limit when something is considered to be zero -it should be bigger liek 1e-17
 
     public ResilientPropagation() {
         super();
-        super.setBatchMode(true);
+        super.setBatchMode(true);   // resilient always works in a batch mode maybe disable setting batch mode to false
     }
 
     private int sign(final double value) {
@@ -52,7 +52,8 @@ public class ResilientPropagation extends BackPropagation {
     }
     
     /**
-     * Calculate and sum gradients for each neuron's weight, the actual weight update is done in batch mode
+     * Calculate and sum gradients for each neuron's weight, the actual weight update is done in batch mode.
+     * 
      * @see ResilientPropagation#resillientWeightUpdate(org.neuroph.core.Weight) 
      */
     @Override
@@ -71,7 +72,7 @@ public class ResilientPropagation extends BackPropagation {
             ResilientWeightTrainingtData weightData = (ResilientWeightTrainingtData) weight.getTrainingData();
 
             // calculate the weight gradient (and sum gradients since learning is done in batch mode)
-            weightData.gradient += neuronError * input;
+            weightData.gradient += -neuronError * input;  // - ili + ovde ? bilo je +
         }
     }
 
@@ -106,7 +107,7 @@ public class ResilientPropagation extends BackPropagation {
         int gradientSignChange = sign(weightData.previousGradient * weightData.gradient);
 
         double weightChange = 0; // weight change to apply (delta weight)
-        double delta; //  adaptation factor
+        double delta; //  adaptation factor - svaka tezina treba da ima svoj delta i d ag apamti - u tom ej epoenta!!!!
 
         if (gradientSignChange > 0) {
             // if the gradient has retained its sign, then we increase delta (adaptation factor) so that it will converge faster
@@ -182,11 +183,20 @@ public class ResilientPropagation extends BackPropagation {
     public void setMinDelta(double minDelta) {
         this.minDelta = minDelta;
     }
+
+    @Override
+    public void setBatchMode(boolean batchMode) {
+        if (batchMode == false) throw new IllegalStateException("Resilient propagation runs only in batch mode!");
+    }
+    
+    
+    
     
     public class ResilientWeightTrainingtData {
-        public double gradient;
-        public double previousGradient;
-        public double previousWeightChange;
+        public double gradient; // dE / dw(t)
+        public double previousGradient; // dE / dw(t-1)
+        public double previousWeightChange; // deltaWeight(t-1)
         public double previousDelta = initialDelta;
+        // add deltaij - svaki weight ima svooj delta param a ne jedan zajednicki 
     }
 }

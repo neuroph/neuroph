@@ -64,6 +64,7 @@ abstract public class IterativeLearning extends LearningRule implements
      * Flag for indicating if learning thread is paused
      */
     private transient volatile boolean pausedLearning = false;
+    
 
     /**
      * Creates new instance of IterativeLearning learning algorithm
@@ -137,14 +138,14 @@ abstract public class IterativeLearning extends LearningRule implements
     /**
      * Pause the learning
      */
-    public void pause() {
+    public final void pause() {
         this.pausedLearning = true;
     }
 
     /**
      * Resumes the paused learning
      */
-    public void resume() {
+    public final void resume() {
         this.pausedLearning = false;
         synchronized (this) {
             this.notify();
@@ -216,7 +217,7 @@ abstract public class IterativeLearning extends LearningRule implements
      * 
      * @return 
      */
-    protected boolean hasReachedStopCondition() {
+    protected final boolean hasReachedStopCondition() {
         for (StopCondition stop : stopConditions) {
             if (stop.isReached()) {
                 return true;
