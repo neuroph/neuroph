@@ -2,7 +2,11 @@ package org.neuroph.core.transfer;
 
 import java.util.Arrays;
 import java.util.Collection;
+
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.neuroph.util.Properties;
@@ -12,77 +16,81 @@ import org.junit.runners.Parameterized.Parameters;
 
 /**
  *
- * @author Shivanth
+ * @author Shivanth, Tijana
  */
 @RunWith(value = Parameterized.class)
 public class LinearTest {
 
-    Linear instance;
-    double input;
-    double expected;
+	Linear instance;
+	double input, expected;
 
-    @Parameters
-    public static Collection getParameters() {
-        return Arrays.asList(new Object[][]{
-                    {.1, .1},
-                    {.2, .2},
-                    {.3, .3},
-                    {.4, .4},
-                    {.5, .5},
-                    {.6, .6},
-                    {.7, .7},
-                    {.8, .8},
-                    {.9, .9},
-                    {1, 1}
-                });
-    }
+	@Parameters
+	public static Collection<Object[]> getParameters() {
+		Object[][] objects = new Object[10][2];
+		double no = 0.1;
+		for (int i = 0; i < 10; i++) {
+			objects[i] = new Object[] { no, no };
+			no += 0.1;
+		}
+		return Arrays.asList(objects);
+	}
 
-    public LinearTest(double expected, double input) {
-        this.expected = expected;
-        this.input = input;
-    }
+	public LinearTest(double expected, double input) {
+		this.expected = expected;
+		this.input = input;
+	}
 
-    @Before
-    public void setUp() {
-        instance = new Linear();
-    }
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+	}
 
-    /**
-     * Test of getOutput method, of class Linear.
-     */
-    @Test
-    public void testGetOutput() {
-        instance.setSlope(1);
-        assertEquals(expected, instance.getOutput(input), 0.0);
-    }
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+	}
 
-    /**
-     * Test of getDerivative method, of class Linear.
-     */
-    @Test
-    public void testGetDerivative() {
+	@Before
+	public void setUp() {
+		instance = new Linear();
+		instance.setSlope(1);
+	}
 
-        instance = new Linear();// may be i shouldn't be instantiating instance in setUp
-        instance.setSlope(1.0);
-        double result = instance.getDerivative(input);
-        assertEquals(1, result, 0.0);
-    }
+	@After
+	public void tearDown() {
+	}
 
-    @Test
-    public void testGetOutputWithProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("transferFunction.slope", 1.0);
-        instance = new Linear(properties);//again
-        double result = instance.getOutput(input);
-        assertEquals(expected, result, 0.0);
-    }
+	/**
+	 * Test of getOutput method, of class Linear.
+	 */
+	@Test
+	public void testgetOutput() {
+		double result = instance.getOutput(input);
+		assertEquals(expected, result, 0.0);
+	}
 
-    @Test
-    public void testGetDerivativeWithProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("transferFunction.slope", 1.0);
-        instance = new Linear(properties);//and again
-        double result = instance.getDerivative(input);
-        assertEquals(1.0, result, 0.0);
-    }
+	/**
+	 * Test of getDerivative method, of class Linear.
+	 */
+	@Test
+	public void testgetDerivative() {
+		double result = instance.getDerivative(input);
+		assertEquals(1, result, 0.0);
+	}
+
+	@Test
+	public void testgetOutputwithproperties() {
+		Properties properties = new Properties();
+		properties.setProperty("transferFunction.slope", 1.0);
+		instance = new Linear(properties);// again
+		double result = instance.getOutput(input);
+		assertEquals(expected, result, 0.0);
+	}
+
+	@Test
+	public void testgetDerivativewthproperties() {
+		Properties properties = new Properties();
+		properties.setProperty("transferFunction.slope", 1.0);
+		instance = new Linear(properties);// and again
+		double result = instance.getDerivative(input);
+		assertEquals(1, result, 0.0);
+	}
 }
