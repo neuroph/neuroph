@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Random;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,6 +24,7 @@ import org.neuroph.core.learning.IterativeLearning;
 import org.neuroph.core.learning.LearningRule;
 import org.neuroph.util.NeuralNetworkType;
 import org.neuroph.util.plugins.PluginBase;
+import org.neuroph.util.random.WeightsRandomizer;
 
 /**
  *
@@ -355,12 +357,13 @@ public class NeuralNetworkTest {
 		instance.addLayer(l1);
 		instance.addLayer(l2);
 
-		instance.createConnection(l1.getNeuronAt(0), l2.getNeuronAt(0), 5);
-		instance.createConnection(l1.getNeuronAt(1), l2.getNeuronAt(0), 3);
-		instance.randomizeWeights();
+		instance.createConnection(l1.getNeuronAt(0), l2.getNeuronAt(0), 1);
+		instance.createConnection(l1.getNeuronAt(1), l2.getNeuronAt(0), 1);
 
-		assertTrue(instance.getWeights()[0] < 1);
-		assertTrue(instance.getWeights()[1] < 1);
+		instance.randomizeWeights(new WeightsRandomizer(new Random(123)));
+		Random r = new Random(123);
+		assertEquals(r.nextDouble(), instance.getWeights()[0], 0.000001);
+		assertEquals(r.nextDouble(), instance.getWeights()[1], 0.000001);
 	}
 
 	@Test
@@ -377,10 +380,10 @@ public class NeuralNetworkTest {
 
 		instance.createConnection(l1.getNeuronAt(0), l2.getNeuronAt(0), 5);
 		instance.createConnection(l1.getNeuronAt(1), l2.getNeuronAt(0), 3);
-		instance.randomizeWeights(0, 0.3);
+		instance.randomizeWeights(-0.9, 0.9);
 
-		assertTrue(instance.getWeights()[0] < 0.3 && instance.getWeights()[0] > 0);
-		assertTrue(instance.getWeights()[1] < 0.3 && instance.getWeights()[1] > 0);
+		assertTrue(instance.getWeights()[0] < 0.9 && instance.getWeights()[0] > -0.9);
+		assertTrue(instance.getWeights()[1] < 0.9 && instance.getWeights()[1] > -0.9);
 	}
 
 	@Test
@@ -585,6 +588,5 @@ public class NeuralNetworkTest {
 		NeuralNetwork nn = NeuralNetwork.createFromFile("testNet.nnet");
 		assertEquals(nn.getLabel(), "TestNetLabel");
 	}
-
 
 }
