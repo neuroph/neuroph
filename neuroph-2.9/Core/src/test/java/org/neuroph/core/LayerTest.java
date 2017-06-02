@@ -54,11 +54,11 @@ public class LayerTest {
 	public void testCalculate() {
 		InputLayer input = new InputLayer(2);
 		testneuron1.addInputConnection(input.getNeuronAt(0), 5);
-		input.getNeuronAt(0).setOutput(1);
+		input.getNeuronAt(0).setInput(1);
 		instance.calculate();
 		Step transfer = new Step();
 		assertEquals(transfer.getOutput(5), testneuron1.getOutput(), 0.0);
-		input.getNeuronAt(0).setOutput(-1);
+		input.getNeuronAt(0).setInput(-1);
 		instance.calculate();
 		assertEquals(transfer.getOutput(-5), testneuron1.getOutput(), 0.0);
 	}

@@ -70,7 +70,7 @@ public class NeuronTest {
 		Neuron n = new Neuron();
 		Connection conn = new Connection(input, n, 5);
 		n.addInputConnection(conn);
-		input.setOutput(1);
+		input.setInput(1);
 		n.calculate();
 		assertEquals(new Step().getOutput(5), n.getOutput(), .0000001);
 		n.setTransferFunction(new Sigmoid());
