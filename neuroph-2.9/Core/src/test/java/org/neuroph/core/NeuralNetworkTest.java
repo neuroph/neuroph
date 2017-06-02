@@ -362,8 +362,8 @@ public class NeuralNetworkTest {
 
 		instance.randomizeWeights(new WeightsRandomizer(new Random(123)));
 		Random r = new Random(123);
-		assertEquals(r.nextDouble(), instance.getWeights()[0], 0.000001);
-		assertEquals(r.nextDouble(), instance.getWeights()[1], 0.000001);
+		assertEquals(r.nextDouble(), instance.getWeights()[0], 0.0);
+		assertEquals(r.nextDouble(), instance.getWeights()[1], 0.0);
 	}
 
 	@Test
