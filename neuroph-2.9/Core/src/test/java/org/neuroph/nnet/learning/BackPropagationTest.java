@@ -21,7 +21,7 @@ import org.neuroph.util.random.WeightsRandomizer;
 
 /**
  *
- * @author Tijana
+ * @author Tijana, Zoran
  */
 public class BackPropagationTest {
 
