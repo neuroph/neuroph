@@ -60,7 +60,7 @@ public class WeightedSumTest {
         }
 
         double output = weightedSum.getOutput(inputConnections);
-        assertEquals(106.2, output, .0001);
+        assertEquals(106.2, output, .000001); // 1e-6 ili 7
     }
 
     @Test
