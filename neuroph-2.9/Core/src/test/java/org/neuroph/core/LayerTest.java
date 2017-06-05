@@ -1,122 +1,155 @@
 package org.neuroph.core;
 
-import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.*;
+import org.neuroph.core.learning.LearningRule;
+import org.neuroph.core.transfer.Step;
+import org.neuroph.nnet.comp.layer.InputLayer;
 
 /**
  * 
- * @author Shivanth
+ * @author Shivanth, Tijana
  */
 public class LayerTest {
 
-    Neuron testneuron1, testneuron2, testneuron3, testneuron4;
-    Layer testlayer1, testlayer2;
+	Layer instance;
+	Neuron testneuron1, testneuron2, testneuron3;
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+	}
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+	}
 
-    @Before
-    public void setUp() {
-        testneuron1 = new Neuron();
-        testneuron2 = new Neuron();
-        testneuron3 = new Neuron();
-        testneuron4 = new Neuron();
-        
-        testlayer1 = new Layer();
-        testlayer2 = new Layer();
-        testlayer1.addNeuron(testneuron1);
-        testlayer1.addNeuron(testneuron2);
-        //testlayer1.addNeuron(testneuron3);
-        testlayer2.addNeuron(testneuron4);
-        
-        testneuron4.addInputConnection(testneuron1, .5);
-        testneuron1.addOutputConnection(testneuron4.getConnectionFrom(testneuron1));
-        testneuron4.addInputConnection(testneuron2, .5);
-        testneuron2.addOutputConnection(testneuron4.getConnectionFrom(testneuron2));
-    }
+	@Before
+	public void setUp() {
+		testneuron1 = new Neuron();
+		testneuron2 = new Neuron();
+		testneuron3 = new Neuron();
+		instance = new Layer();
+		instance.addNeuron(testneuron1);
+		instance.addNeuron(testneuron2);
+	}
 
-    @After
-    public void tearDown() {
-    }
+	@After
+	public void tearDown() {
+	}
 
-    @Test
-    public void testaddNeuron() {
-        List<Neuron> lst = testlayer1.getNeurons();
-        assertEquals(testneuron1, lst.get(0));
-    }
+	@Test
+	public void testAddNeuronWithIndex() {
+		instance.addNeuron(1, testneuron3);
+		Neuron[] lst = instance.getNeurons();
+		assertEquals(testneuron3, lst[1]);
+	}
 
-    @Test
-    public void testaddNeuronWithIndex() {
-        testlayer1.addNeuron(1, testneuron3);
-         List<Neuron> lst = testlayer1.getNeurons();
-        assertEquals(testneuron3, lst.get(1));
-    }
+	@Test
+	public void testAddNeuron() {
+		Neuron[] lst = instance.getNeurons();
+		assertEquals(testneuron2, lst[1]);
+	}
 
-    @Test
-    public void testRemoveNeuron() {
-        testlayer1.removeNeuron(testneuron1);
-        testlayer1.removeNeuron(testneuron2);
-        assertEquals(0, testlayer1.getNeuronsCount());
-    }
+	@Test
+	public void testCalculate() {
+		InputLayer input = new InputLayer(2);
+		testneuron1.addInputConnection(input.getNeuronAt(0), 5);
+		input.getNeuronAt(0).setInput(1);
+		instance.calculate();
+		Step transfer = new Step();
+		assertEquals(transfer.getOutput(5), testneuron1.getOutput(), 0.0);
+		input.getNeuronAt(0).setInput(-1);
+		instance.calculate();
+		assertEquals(transfer.getOutput(-5), testneuron1.getOutput(), 0.0);
+	}
 
-    @Test
-    public void testSetNeuron() {
-        testlayer1.setNeuron(1, testneuron3);
-        List<Neuron> lst = testlayer1.getNeurons();
-        assertEquals(testneuron3, lst.get(1));
-    }
+	@Test
+	public void testLabel() {
+		assertEquals(instance.getLabel(), null);
+		instance.setLabel("Test");
+		assertEquals(instance.getLabel(), "Test");
+	}
 
-    @Test
-    public void testremoveNeuronAt() {
-        testlayer1.removeNeuronAt(1);
-        testlayer1.removeNeuronAt(0);
-        assertEquals(0, testlayer1.getNeuronsCount());
-    }
+	@Test
+	public void testGetNeuronAt() {
+		assertEquals(instance.getNeuronAt(0), testneuron1);
+	}
 
-    @Test
-    public void testgetNeuronAt() {
-        assertEquals(testlayer1.getNeuronAt(0), testneuron1);
-    }
+	@Test
+	public void testGetNeurons() {
+		assertEquals(instance.getNeurons().length, 2);
+	}
 
-    @Test
-    public void testindexOf() {
-        assertEquals(testlayer1.indexOf(testneuron1), 0);
-    }
+	@Test
+	public void testGetNeuronsCount() {
+		assertEquals(instance.getNeuronsCount(), 2);
+	}
 
-    @Test
-    public void testgetNeuronsCount() {
-        assertEquals(testlayer1.getNeuronsCount(), 2);
-        assertEquals(testlayer2.getNeuronsCount(), 1);
-    }
+	@Test
+	public void testParentNetwork() {
+		assertEquals(instance.getParentNetwork(), null);
+		NeuralNetwork<LearningRule> nn = new NeuralNetwork<>();
+		instance.setParentNetwork(nn);
+		assertEquals(instance.getParentNetwork(), nn);
+	}
 
-    @Test
-    public void testcalculate() {
-        testlayer1.calculate();
-        assertEquals(0, testneuron1.getOutput(), .0001);
-    }
+	@Test
+	public void testIndexOf() {
+		assertEquals(instance.indexOf(testneuron1), 0);
+		assertEquals(instance.indexOf(testneuron2), 1);
+	}
 
-    @Test
-    public void testreset() {
-        testneuron1.setInput(5d);
-        testneuron1.setOutput(6d);
-        assertEquals(6d, testneuron1.getOutput(), .001);
-        testlayer1.reset();
-        assertEquals(0d, testneuron1.getNetInput(), .0001);
-        assertEquals(0d, testneuron1.getOutput(), .0001);
-    }
+	@Test
+	public void testInitializeWeights() {
+		InputLayer input = new InputLayer(2);
+		testneuron1.addInputConnection(input.getNeuronAt(0), 5);
+		testneuron2.addInputConnection(input.getNeuronAt(1), 5);
+		instance.initializeWeights(1);
+		assertEquals(1, testneuron1.getWeights()[0].getValue(), .0001);
+		assertEquals(1, testneuron2.getWeights()[0].getValue(), .0001);
+	}
 
-    @Test
-    public void testinitializeweights_double() {
-        testlayer2.initializeWeights(0d);
-        assertEquals(0d, testneuron4.getWeights()[0].getValue(), .001);
-        assertEquals(0d, testneuron4.getWeights()[0].getValue(), .0001);
-    }
+	@Test
+	public void testIsEmpty() {
+		assertFalse(instance.isEmpty());
+		instance.removeAllNeurons();
+		assertTrue(instance.isEmpty());
+	}
 
+	@Test
+	public void testRemoveAllNeurons() {
+		instance.removeAllNeurons();
+		assertEquals(0, instance.getNeuronsCount());
+	}
+
+	@Test
+	public void testRemoveNeuron() {
+		instance.removeNeuron(testneuron1);
+		instance.removeNeuron(testneuron2);
+		assertEquals(0, instance.getNeuronsCount());
+	}
+
+	@Test
+	public void testRemoveNeuronAt() {
+		instance.removeNeuronAt(0);
+		assertEquals(1, instance.getNeuronsCount());
+	}
+
+	@Test
+	public void testReset() {
+		testneuron1.setInput(5d);
+		testneuron1.setOutput(6d);
+		assertEquals(6d, testneuron1.getOutput(), .0001);
+		instance.reset();
+		assertEquals(0d, testneuron1.getNetInput(), .0001);
+		assertEquals(0d, testneuron1.getOutput(), .0001);
+	}
+
+	@Test
+	public void testSetNeuron() {
+		instance.setNeuron(1, testneuron3);
+		Neuron[] lst = instance.getNeurons();
+		assertEquals(testneuron3, lst[1]);
+	}
 
 }

@@ -36,13 +36,21 @@ public class InputNeuron extends Neuron {
     public InputNeuron() {
         super(new WeightedSum(), new Linear());
     }
-
+    
     /**
-     * Calculate method of this type of neuron just transfers its externaly set 
+     * Sets neuron's input and transfers its externally set 
      * input (with setNetInput) to its output
      */
     @Override
+    public void setInput(double input) {
+    	super.setInput(input);
+    	this.output = this.netInput;
+    }
+
+    /**
+     * Calculate method of this type of neuron does nothing
+     */
+    @Override
     public void calculate() {
-        this.output = this.totalInput;
     }
 }
