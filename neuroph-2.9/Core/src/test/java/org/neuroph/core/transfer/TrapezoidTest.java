@@ -6,62 +6,64 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 import static org.junit.Assert.*;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  *
- * @author Shivanth
+ * @author Shivanth, Tijana
  */
+
+@RunWith(value = Parameterized.class)
 public class TrapezoidTest {
 
-    double net;
-    Trapezoid instance;
+	Trapezoid instance;
+	double net, expected;
 
-    public TrapezoidTest() {
-    }
+	public TrapezoidTest(double net, double expected) {
+		this.net = net;
+		this.expected = expected;
+	}
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
+	@Parameters
+	public static Collection<Object[]> getParamters() {
+		return Arrays.asList(new Object[][] { { 0.5, 0.75 }, { 0.9, 0 }, { 0.65, 1 } });
+	}
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+	}
 
-    @Before
-    public void setUp() {
-        instance = new Trapezoid();
-        net = .5;
-    }
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+	}
 
-    @After
-    public void tearDown() {
-    }
+	@Before
+	public void setUp() {
+		instance = new Trapezoid();
+		instance.setLeftHigh(0.6);
+		instance.setLeftLow(0.2);
+		instance.setRightHigh(0.7);
+		instance.setRightLow(0.2);
+	}
 
-    /**
-     * Test of getOutput method, of class Trapezoid.
-     */
-    @Test
-    public void testGetOutput() {
-        double lefthigh = .6, leftlow = .2, righthigh = .7, rightlow = .2;
-        instance.setLeftHigh(lefthigh);
-        instance.setLeftLow(leftlow);
-        instance.setRightHigh(righthigh);
-        instance.setRightLow(rightlow);
-        double expResult = 0.75;
-        double result = instance.getOutput(net);
-        assertEquals(expResult, result, 0.0);
-        net = .9;
-        expResult = 0;
-        result = instance.getOutput(net);
-        assertEquals(expResult, result, .0001);
-        net = .65;
-        expResult = 1.0;
-        result = instance.getOutput(net);
-        assertEquals(expResult, result, .0001);
+	@After
+	public void tearDown() {
+	}
 
-    }
-    /**
-     * Test of setLeftLow method, of class Trapezoid.
-     */
+	/**
+	 * Test of getOutput method, of class Trapezoid.
+	 */
+	@Test
+	public void testGetOutput() {
+		double result = instance.getOutput(net);
+		assertEquals(expected, result, 0.0);
+	}
+
 }

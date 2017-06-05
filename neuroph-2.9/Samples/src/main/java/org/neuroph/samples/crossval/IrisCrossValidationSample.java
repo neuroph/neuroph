@@ -1,5 +1,6 @@
 package org.neuroph.samples.crossval;
 
+import java.util.concurrent.ExecutionException;
 import org.neuroph.contrib.eval.ClassifierEvaluator;
 import org.neuroph.contrib.model.errorestimation.CrossValidation;
 import org.neuroph.contrib.model.errorestimation.CrossValidationResult;
@@ -13,19 +14,17 @@ import org.neuroph.nnet.MultiLayerPerceptron;
  */
 public class IrisCrossValidationSample {
     
-    public static void main(String[] args) {
-        // create data set from csv file
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
         MultiLayerPerceptron neuralNet = (MultiLayerPerceptron) NeuralNetwork.createFromFile("irisNet.nnet");
         DataSet dataSet = DataSet.createFromFile("data_sets/iris_data_normalised.txt", 4, 3, ",");       
         String[] classNames = {"Virginica", "Setosa", "Versicolor"};
         
-        CrossValidation crossval = new CrossValidation(neuralNet, dataSet, 5);
+        CrossValidation crossval = new CrossValidation(neuralNet, dataSet, 10);
         crossval.addEvaluator(new ClassifierEvaluator.MultiClass(classNames));
                                                                                          
         crossval.run();
         CrossValidationResult results = crossval.getResult();
-        System.out.println(results);        
-        
+        results.printResult();        
     }
     
 

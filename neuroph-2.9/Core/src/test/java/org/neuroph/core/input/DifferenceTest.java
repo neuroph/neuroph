@@ -1,52 +1,78 @@
 package org.neuroph.core.input;
 
-import java.util.ArrayList;
-import java.util.List;
 import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 import org.neuroph.nnet.comp.neuron.InputNeuron;
-import static org.junit.Assert.assertEquals;
 
+/**
+ *
+ * @author Tijana
+ */
+@RunWith(value = Parameterized.class)
 public class DifferenceTest {
 
-    Difference instance;
-    private List<Connection> inputConnections;
-    private List<InputNeuron> inputNeurons;    
+	Difference instance;
+	Connection[] inputConnections;
+	InputNeuron[] inputNeurons;
+	double[] inputs;
+	double expected;
 
-    @Before
-    public void setUp() {
-        instance = new Difference();
-        inputNeurons = new ArrayList<>(4);
-        for(int i=0; i<4; i++)
-            inputNeurons.add(new InputNeuron());
-        
-        Neuron toNeuron =  new Neuron();
-                
-        inputConnections = new ArrayList<Connection>(4);
-        for(int i=0; i<4; i++) {
-            Connection conn = new Connection(inputNeurons.get(i), toNeuron, 1);
-            inputConnections.add(conn);
-            toNeuron.addInputConnection(conn);
-        }         
-    }
+	public DifferenceTest(DoubleArray inputs, double expected) {
+		this.inputs = inputs.getArray();
+		this.expected = expected;
+	}
 
-    @Test
-    public void testEmptyArrayInput() {
-        double output = instance.getOutput(new ArrayList<Connection>());
-        assertEquals(0, output, .00000001);
-    }
+	@Parameters
+	public static Collection<Object[]> getParamters() {
+		return Arrays.asList(new Object[][] { { new DoubleArray(new double[] { 1, 1, 1, 1 }), 0 },
+				{ new DoubleArray(new double[] { .5d, .25d, -0.25d, 0.1 }), 1.784656 },
+				{ new DoubleArray(new double[] { 0, 0, 0, 0 }), 2 } });
 
-    @Test
-    public void testOnRandomConnections() {
-        double[] inputs = new double[]{.5d, .25d, -0.25d, 0.1};
-        for(int i=0; i<inputNeurons.size(); i++) {
-            inputNeurons.get(i).setInput(inputs[i]);
-            inputNeurons.get(i).calculate();
-        }        
-        double output = instance.getOutput(inputConnections);
-        assertEquals(1.7846, output, 0.0001d);
-    }
+	}
+
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+	}
+
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+	}
+
+	@Before
+	public void setUp() {
+		instance = new Difference();
+		inputNeurons = new InputNeuron[4];
+		for (int i = 0; i < inputNeurons.length; i++)
+			inputNeurons[i] = new InputNeuron();
+
+		Neuron toNeuron = new Neuron();
+
+		inputConnections = new Connection[4];
+		for (int i = 0; i < inputConnections.length; i++) {
+			inputConnections[i] = new Connection(inputNeurons[i], toNeuron, 1);
+			toNeuron.addInputConnection(inputConnections[i]);
+		}
+	}
+
+	@Test
+	public void testGetOutput() {
+		for (int i = 0; i < inputNeurons.length; i++) {
+			inputNeurons[i].setInput(inputs[i]);
+			inputNeurons[i].calculate();
+		}
+		double result = instance.getOutput(inputConnections);
+		assertEquals(expected, result, 0.000001);
+	}
 }
