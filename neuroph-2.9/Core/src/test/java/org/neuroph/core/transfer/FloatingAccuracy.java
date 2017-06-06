@@ -7,5 +7,5 @@ package org.neuroph.core.transfer;
 
 class FloatingAccuracy {
     
-    public static final double ACCURACY = 0.000000000000001;
+    public static final double ACCURACY = 0.00000000000001;
 }

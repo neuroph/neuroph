@@ -111,24 +111,24 @@ public class BackPropagationTest {
         assertTrue(instance.getTotalNetworkError() < maxError);
     }
 
-//    @Test
-//    public void testIrisMSE() {
-//        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
-//        myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
-//
-//        myMlPerceptron.setLearningRule(instance);
-//        myMlPerceptron.learn(irisDataSet);
-//
-//        MeanSquaredError mse = new MeanSquaredError();
-//        for (DataSetRow testSetRow : irisDataSet.getRows()) {
-//            myMlPerceptron.setInput(testSetRow.getInput());
-//            myMlPerceptron.calculate();
-//            double[] networkOutput = myMlPerceptron.getOutput();
-//            mse.addPatternError(networkOutput, testSetRow.getDesiredOutput());
-//        }
-//        assertTrue(mse.getTotalError() < maxError);
-//    }
- 
+ /*   @Test
+    public void testIrisMSE() {
+        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
+        myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+
+        myMlPerceptron.setLearningRule(instance);
+        myMlPerceptron.learn(irisDataSet);
+
+        MeanSquaredError mse = new MeanSquaredError();
+        for (DataSetRow testSetRow : irisDataSet.getRows()) {
+            myMlPerceptron.setInput(testSetRow.getInput());
+            myMlPerceptron.calculate();
+            double[] networkOutput = myMlPerceptron.getOutput();
+            mse.addPatternError(networkOutput, testSetRow.getDesiredOutput());
+        }
+        System.out.print(mse.getTotalError());
+        assertTrue(mse.getTotalError() < maxError);
+    }*/
 
     @Test
     public void testIrisIterations() {
