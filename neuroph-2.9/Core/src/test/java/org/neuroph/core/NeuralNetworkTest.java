@@ -1,537 +1,592 @@
 package org.neuroph.core;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.junit.*;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.neuroph.core.data.DataSet;
-import org.neuroph.core.events.NeuralNetworkEvent;
-import org.neuroph.core.events.NeuralNetworkEventListener;
-import org.neuroph.core.exceptions.NeurophException;
-import org.neuroph.core.exceptions.VectorSizeMismatchException;
-import org.neuroph.core.learning.LearningRule;
-import org.neuroph.util.plugins.PluginBase;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
+import org.neuroph.core.Layer;
+import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.Neuron;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.events.NeuralNetworkEvent;
+import org.neuroph.core.events.NeuralNetworkEventListener;
+import org.neuroph.core.learning.IterativeLearning;
+import org.neuroph.core.learning.LearningRule;
+import org.neuroph.util.NeuralNetworkType;
+import org.neuroph.util.plugins.PluginBase;
+import org.neuroph.util.random.WeightsRandomizer;
 
 /**
  *
- * @author Shivanth
- * @author Jubin - cleaned up added mock and powermock
- *
+ * @author Shivanth, Jubin, Tijana
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(value = NeuralNetwork.class)
 public class NeuralNetworkTest {
+	NeuralNetwork<LearningRule> instance;
+
+	@Rule
+	public ExpectedException expectedEx = ExpectedException.none();
+
+	@Before
+	public void setUp() {
+		instance = new NeuralNetwork<>();
+	}
+
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+	}
+
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+	}
+
+	@Test
+	public void testAddLayer() {
+		Layer l = Mockito.mock(Layer.class);
+		instance.addLayer(l);
+		assertTrue(instance.getLayers()[0] == l);
+		assertTrue(instance.getLayers().length == 1);
+	}
+
+	@Test
+	public void testAddLayerIndex() {
+		Layer l = Mockito.mock(Layer.class);
+		instance.addLayer(0, l);
+		assertTrue(instance.getLayers()[0] == l);
+		assertTrue(instance.getLayers().length == 1);
+		instance.addLayer(1, l);
+		assertTrue(instance.getLayers()[1] == l);
+		assertTrue(instance.getLayers().length == 2);
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testAddLayerIndexWithException() throws Exception {
+		Layer l = new Layer();
+		instance.addLayer(5, l);
+	}
+
+	@Test
+	public void testAddListener() {
+		NeuralNetworkEventListener l = Mockito.mock(NeuralNetworkEventListener.class);
+		instance.addListener(l);
+		NeuralNetworkEvent event = Mockito.mock(NeuralNetworkEvent.class);
+		instance.fireNetworkEvent(event);
+		Mockito.verify(l).handleNeuralNetworkEvent(event);
+
+		NeuralNetworkEventListener l1 = Mockito.mock(NeuralNetworkEventListener.class);
+		Mockito.verify(l1, Mockito.never()).handleNeuralNetworkEvent(event);
+	}
+
+	@Test
+	public void testAddPlugin() {
+		PluginBase p = Mockito.mock(PluginBase.class);
+		instance.addPlugin(p);
+		assertTrue(instance.getPlugin(p.getClass()) == p);
+
+		PluginBase p1 = Mockito.mock(PluginBase.class);
+		assertFalse(instance.getPlugin(p1.getClass()) == p1);
+	}
+
+	@Test
+	public void testCalculate() {
+		NeuralNetworkEventListener l = Mockito.mock(NeuralNetworkEventListener.class);
+		instance.addListener(l);
+		instance.calculate();
+		Mockito.verify(l).handleNeuralNetworkEvent(Mockito.any(NeuralNetworkEvent.class));
+	}
+
+	@Test
+	public void testCreateConnection() {
+		Neuron n = new Neuron();
+		Neuron n1 = new Neuron();
+		instance.setInputNeurons(new Neuron[] { n });
+		instance.setOutputNeurons(new Neuron[] { n1 });
+		instance.createConnection(instance.getInputNeurons()[0], instance.getOutputNeurons()[0], 5);
+		assertTrue(instance.getOutputNeurons()[0].getInputConnections().length == 1);
+		assertTrue(instance.getOutputNeurons()[0].getInputConnections()[0].getWeight().getValue() == 5);
+		assertTrue(instance.getInputNeurons()[0].getInputConnections().length == 0);
+	}
+
+	public void testCreateFromFile() {
+		Layer l = Mockito.mock(Layer.class);
+		instance.addLayer(l);
+		instance.save("test.nnet");
+		@SuppressWarnings("unchecked")
+		NeuralNetwork<LearningRule> nn1 = NeuralNetwork.createFromFile("test.nnet");
+		assertTrue(instance.getLayers().length == nn1.getLayers().length);
+		assertTrue(instance.getLayers()[0] == nn1.getLayers()[0]);
+	}
+
+	@Test
+	public void testGetInputNeurons() {
+		assertTrue(instance.getInputNeurons().length == 0);
+		Neuron n = Mockito.mock(Neuron.class);
+		instance.setInputNeurons(new Neuron[] { n });
+		assertTrue(instance.getInputNeurons()[0] == n);
+		assertTrue(instance.getInputNeurons().length == 1);
+	}
+
+	@Test
+	public void testGetInputsCount() {
+		assertTrue(instance.getInputsCount() == 0);
+		Neuron n = Mockito.mock(Neuron.class);
+		instance.setInputNeurons(new Neuron[] { n, n });
+		assertTrue(instance.getInputsCount() == 2);
+	}
+
+	@Test
+	public void testGetLabel() {
+		assertTrue(instance.getLabel().length() == 0);
+		instance.setLabel("Test");
+		assertTrue(instance.getLabel().length() == 4);
+		assertTrue(instance.getLabel().equals("Test"));
+	}
+
+	@Test
+	public void testGetLayerAt() {
+		Layer l = Mockito.mock(Layer.class);
+		Layer l1 = Mockito.mock(Layer.class);
+		instance.addLayer(0, l);
+		instance.addLayer(1, l1);
+		assertTrue(instance.getLayers()[0] == instance.getLayerAt(0));
+		assertTrue(instance.getLayers()[1] == instance.getLayerAt(1));
+		assertTrue(instance.getLayerAt(0) == l);
+		assertTrue(instance.getLayerAt(1) == l1);
+	}
+
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testGetLayerAtException() throws Exception {
+		instance.getLayerAt(0);
+	}
+
+	@Test
+	public void testGetLayers() {
+		assertTrue(instance.getLayers().length == 0);
+		Layer l = Mockito.mock(Layer.class);
+		Layer l1 = Mockito.mock(Layer.class);
+		instance.addLayer(0, l);
+		instance.addLayer(1, l1);
+		assertTrue(instance.getLayers()[0] == l);
+		assertTrue(instance.getLayers()[1] == l1);
+		assertTrue(instance.getLayers().length == 2);
+	}
+
+	@Test
+	public void testGetLayersCount() {
+		assertTrue(instance.getLayersCount() == 0);
+		Layer l = Mockito.mock(Layer.class);
+		Layer l1 = Mockito.mock(Layer.class);
+		instance.addLayer(0, l);
+		instance.addLayer(1, l1);
+		assertTrue(instance.getLayers().length == instance.getLayersCount());
+		assertTrue(instance.getLayersCount() == 2);
+	}
+
+	@Test
+	public void testGetLearningRule() {
+		assertNull(instance.getLearningRule());
+		LearningRule l = Mockito.mock(LearningRule.class);
+		instance.setLearningRule(l);
+		assertTrue(instance.getLearningRule() == l);
+	}
+
+	@Test
+	public void testGetLearningThread() {
+		assertNull(instance.getLearningThread());
+		instance.setLearningRule(Mockito.mock(LearningRule.class));
+		instance.learnInNewThread(Mockito.mock(DataSet.class));
+		assertTrue(instance.getLearningThread() instanceof Thread);
+	}
+
+	@Test
+	public void testGetNetworkType() {
+		assertNull(instance.getNetworkType());
+		instance.setNetworkType(NeuralNetworkType.PERCEPTRON);
+		assertTrue(instance.getNetworkType() == NeuralNetworkType.PERCEPTRON);
+		assertTrue(instance.getNetworkType().toString().equals("PERCEPTRON"));
+	}
+
+	@Test
+	public void testGetOutput() {
+		assertNull(instance.getOutput());
+		Neuron n = Mockito.mock(Neuron.class);
+		instance.setOutputNeurons(new Neuron[] { n });
+		assertTrue(instance.getOutput().length == 1);
+		assertTrue(instance.getOutput()[0] == 0);
+	}
+
+	@Test
+	public void testGetOutputNeurons() {
+		assertTrue(instance.getOutputNeurons().length == 0);
+		Neuron n = Mockito.mock(Neuron.class);
+		instance.setOutputNeurons(new Neuron[] { n });
+		assertTrue(instance.getOutputNeurons().length == 1);
+		assertTrue(instance.getOutputNeurons()[0] == n);
+	}
+
+	@Test
+	public void testGetOutputsCount() {
+		assertTrue(instance.getOutputsCount() == 0);
+		Neuron n = Mockito.mock(Neuron.class);
+		instance.setOutputNeurons(new Neuron[] { n, n });
+		assertTrue(instance.getOutputsCount() == 2);
+	}
+
+	@Test
+	public void testGetPlugin() {
+		PluginBase p = Mockito.mock(PluginBase.class);
+		assertNull(instance.getPlugin(p.getClass()));
+		instance.addPlugin(p);
+		assertTrue(instance.getPlugin(p.getClass()) == p);
+	}
+
+	@Test
+	public void testGetWeights() {
+		assertTrue(instance.getWeights().length == 0);
+		Layer l1 = new Layer();
+		l1.addNeuron(new Neuron());
+		l1.addNeuron(new Neuron());
+		Layer l2 = new Layer();
+		l2.addNeuron(new Neuron());
+
+		instance.addLayer(l1);
+		instance.addLayer(l2);
+
+		instance.createConnection(l1.getNeuronAt(0), l2.getNeuronAt(0), 5);
+		instance.createConnection(l1.getNeuronAt(1), l2.getNeuronAt(0), 3);
+
+		assertTrue(instance.getWeights().length == 2);
+		assertTrue(instance.getWeights()[0] == 5);
+		assertTrue(instance.getWeights()[1] == 3);
+	}
+
+	@Test
+	public void testIndexOf() {
+		Layer l = Mockito.mock(Layer.class);
+		assertTrue(instance.indexOf(l) == -1);
+		instance.addLayer(l);
+		assertTrue(instance.indexOf(l) == 0);
+	}
+
+	@Test
+	public void testIsEmpty() {
+		assertTrue(instance.isEmpty());
+		Layer l = Mockito.mock(Layer.class);
+		instance.addLayer(l);
+		assertFalse(instance.isEmpty());
+	}
+
+	@Test
+	public void testLearn() {
+		DataSet ds = Mockito.mock(DataSet.class);
+		LearningRule l = Mockito.mock(LearningRule.class);
+		instance.setLearningRule(l);
+		instance.learn(ds);
+		Mockito.verify(l).learn(ds);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void testLearnException() throws Exception {
+		DataSet ds = Mockito.mock(DataSet.class);
+		instance.learn(ds);
+	}
+
+	@Test
+	public void testLearnWithLr() {
+		DataSet ds = Mockito.mock(DataSet.class);
+		LearningRule l = Mockito.mock(LearningRule.class);
+		instance.learn(ds, l);
+		Mockito.verify(l).learn(ds);
+	}
+
+	@Test
+	public void testLearnInNewThread() {
+		int no = Thread.getAllStackTraces().size();
+		instance.setLearningRule(Mockito.mock(LearningRule.class));
+		instance.learnInNewThread(Mockito.mock(DataSet.class));
+		assertTrue(Thread.getAllStackTraces().size() == no + 1);
+	}
+
+	@Test
+	public void testLearnInNewThreadWithLr() {
+		int no = Thread.getAllStackTraces().size();
+		instance.learnInNewThread(Mockito.mock(DataSet.class), Mockito.mock(LearningRule.class));
+		assertTrue(Thread.getAllStackTraces().size() == no + 1);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testLoad() {
+		instance.addLayer(Mockito.mock(Layer.class));
+		instance.save("test.nnet");
+		NeuralNetwork<LearningRule> nn1;
+		try {
+			nn1 = NeuralNetwork.load(new FileInputStream("test.nnet"));
+			assertTrue(instance.getLayers().length == nn1.getLayers().length);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testPauseLearning() {
+		IterativeLearning l = Mockito.mock(IterativeLearning.class);
+		instance.learnInNewThread(Mockito.mock(DataSet.class), l);
+		instance.pauseLearning();
+		Mockito.verify(l).pause();
+	}
+
+	@Test
+	public void testRandomizeWeights() {
+		assertTrue(instance.getWeights().length == 0);
+		Layer l1 = new Layer();
+		l1.addNeuron(new Neuron());
+		l1.addNeuron(new Neuron());
+		Layer l2 = new Layer();
+		l2.addNeuron(new Neuron());
+
+		instance.addLayer(l1);
+		instance.addLayer(l2);
+
+		instance.createConnection(l1.getNeuronAt(0), l2.getNeuronAt(0), 1);
+		instance.createConnection(l1.getNeuronAt(1), l2.getNeuronAt(0), 1);
+
+		instance.randomizeWeights(new WeightsRandomizer(new Random(123)));
+		Random r = new Random(123);
+		assertEquals(r.nextDouble(), instance.getWeights()[0], 0.0);
+		assertEquals(r.nextDouble(), instance.getWeights()[1], 0.0);
+	}
+
+	@Test
+	public void testRandomizeWeightsMinMax() {
+		assertTrue(instance.getWeights().length == 0);
+		Layer l1 = new Layer();
+		l1.addNeuron(new Neuron());
+		l1.addNeuron(new Neuron());
+		Layer l2 = new Layer();
+		l2.addNeuron(new Neuron());
+
+		instance.addLayer(l1);
+		instance.addLayer(l2);
+
+		instance.createConnection(l1.getNeuronAt(0), l2.getNeuronAt(0), 5);
+		instance.createConnection(l1.getNeuronAt(1), l2.getNeuronAt(0), 3);
+		instance.randomizeWeights(-0.9, 0.9);
+
+		assertTrue(instance.getWeights()[0] < 0.9 && instance.getWeights()[0] > -0.9);
+		assertTrue(instance.getWeights()[1] < 0.9 && instance.getWeights()[1] > -0.9);
+	}
+
+	@Test
+	public void testRemoveLayer() {
+		Layer l = Mockito.mock(Layer.class);
+		instance.addLayer(l);
+		assertTrue(instance.getLayers()[0] == l);
+		instance.removeLayer(l);
+		assertNull(instance.getLayers()[0]);
+	}
+
+	@Test
+	public void testRemoveLayerIndex() {
+		instance.addLayer(0, Mockito.mock(Layer.class));
+		instance.removeLayerAt(0);
+		assertNull(instance.getLayers()[0]);
+	}
+
+	@Test
+	public void testRemoveListener() {
+		NeuralNetworkEventListener l = Mockito.mock(NeuralNetworkEventListener.class);
+		instance.addListener(l);
+		NeuralNetworkEvent event = Mockito.mock(NeuralNetworkEvent.class);
+		instance.fireNetworkEvent(event);
+		Mockito.verify(l, Mockito.times(1)).handleNeuralNetworkEvent(event);
+		instance.removeListener(l);
+		instance.fireNetworkEvent(event);
+		Mockito.verify(l, Mockito.times(1)).handleNeuralNetworkEvent(event);
+	}
+
+	@Test
+	public void testRemovePlugin() {
+		PluginBase p = Mockito.mock(PluginBase.class);
+		instance.addPlugin(p);
+		assertTrue(instance.getPlugin(p.getClass()) == p);
+		instance.removePlugin(p.getClass());
+		assertNull(instance.getPlugin(p.getClass()));
+	}
+
+	@Test
+	public void testReset() {
+		Layer l = Mockito.mock(Layer.class);
+		Layer l1 = Mockito.mock(Layer.class);
+		instance.addLayer(l);
+		instance.addLayer(l1);
+		instance.reset();
+		Mockito.verify(l).reset();
+		Mockito.verify(l1).reset();
+	}
+
+	@Test
+	public void testResume() {
+		IterativeLearning l = Mockito.mock(IterativeLearning.class);
+		instance.learnInNewThread(Mockito.mock(DataSet.class), l);
+		instance.resumeLearning();
+		Mockito.verify(l).resume();
+	}
+
+	@Test
+	public void testSave() {
+		instance.save("test.nnet");
+		File f = new File("test.nnet");
+		assertTrue(f.exists());
+	}
+
+	@Test
+	public void testSetInput() {
+		Neuron n = Mockito.mock(Neuron.class);
+		Neuron n1 = Mockito.mock(Neuron.class);
+		instance.setInputNeurons(new Neuron[] { n, n1 });
+		instance.setInput(0, 1);
+		Mockito.verify(n).setInput(0);
+		Mockito.verify(n1).setInput(1);
+	}
+
+	@Test
+	public void testSetInputNeurons() {
+		Neuron n = Mockito.mock(Neuron.class);
+		Neuron n1 = Mockito.mock(Neuron.class);
+		instance.setInputNeurons(new Neuron[] { n, n1 });
+		assertTrue(instance.getInputNeurons()[0] == n);
+		assertTrue(instance.getInputNeurons()[1] == n1);
+		assertTrue(instance.getInputNeurons().length == 2);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void testSetInputNeuronsNull() throws Exception {
+		instance.setInputNeurons(null);
+	}
+
+	@Test
+	public void testSetLabel() {
+		instance.setLabel("Test");
+		assertTrue(instance.getLabel().equals("Test"));
+	}
+
+	@Test
+	public void testSetLearningRule() {
+		LearningRule l = Mockito.mock(LearningRule.class);
+		instance.setLearningRule(l);
+		assertTrue(instance.getLearningRule() == l);
+	}
+
+	@Test
+	public void testSetNetworkType() {
+		instance.setNetworkType(NeuralNetworkType.PERCEPTRON);
+		assertTrue(instance.getNetworkType() == NeuralNetworkType.PERCEPTRON);
+		assertTrue(instance.getNetworkType().toString().equals("PERCEPTRON"));
+		instance.setNetworkType(NeuralNetworkType.MULTI_LAYER_PERCEPTRON);
+		assertTrue(instance.getNetworkType() == NeuralNetworkType.MULTI_LAYER_PERCEPTRON);
+		assertTrue(instance.getNetworkType().toString().equals("MULTI_LAYER_PERCEPTRON"));
+	}
+
+	@Test
+	public void testSetOutputLabels() {
+		Neuron n = Mockito.mock(Neuron.class);
+		Neuron n1 = Mockito.mock(Neuron.class);
+		instance.setOutputNeurons(new Neuron[] { n, n1 });
+		instance.setOutputLabels(new String[] { "a", "b" });
+		Mockito.verify(n).setLabel("a");
+		Mockito.verify(n1).setLabel("b");
+	}
+
+	@Test
+	public void testSetOutputNeurons() {
+		Neuron n = Mockito.mock(Neuron.class);
+		instance.setOutputNeurons(new Neuron[] { n });
+		assertTrue(instance.getOutputNeurons()[0] == n);
+		assertTrue(instance.getOutputNeurons().length == 1);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void testSetOutputNeuronsNull() throws Exception {
+		instance.setOutputNeurons(null);
+	}
+
+	@Test
+	public void testSetWeights() {
+		assertTrue(instance.getWeights().length == 0);
+		Layer l1 = new Layer();
+		l1.addNeuron(new Neuron());
+		l1.addNeuron(new Neuron());
+		Layer l2 = new Layer();
+		l2.addNeuron(new Neuron());
+
+		instance.addLayer(l1);
+		instance.addLayer(l2);
+
+		instance.createConnection(l1.getNeuronAt(0), l2.getNeuronAt(0), 5);
+		instance.createConnection(l1.getNeuronAt(1), l2.getNeuronAt(0), 3);
+
+		instance.setWeights(new double[] { 6, 4 });
+
+		assertTrue(instance.getWeights().length == 2);
+		assertTrue(instance.getWeights()[0] == 6);
+		assertTrue(instance.getWeights()[1] == 4);
+	}
+
+	@Test
+	public void testStopLearning() {
+		IterativeLearning l = Mockito.mock(IterativeLearning.class);
+		instance.learnInNewThread(Mockito.mock(DataSet.class), l);
+		instance.stopLearning();
+		Mockito.verify(l).stopLearning();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testRemoveNullListener() {
+		NeuralNetworkEventListener nnlist3 = null;
+		NeuralNetworkEvent NNevt = Mockito.mock(NeuralNetworkEvent.class);
+		instance.removeListener(nnlist3);
+		instance.fireNetworkEvent(NNevt);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddNullListener() {
+		NeuralNetworkEventListener nnlist3 = null;
+		NeuralNetworkEvent NNevt = Mockito.mock(NeuralNetworkEvent.class);
+		instance.addListener(nnlist3);
+		instance.fireNetworkEvent(NNevt);
+	}
+
+	@Test
+	public void shouldCreatefromFileStream() {
+		try {
+			instance.setLabel("TestNetLabel");
+			instance.save("testNet.nnet");
+			@SuppressWarnings("rawtypes")
+			NeuralNetwork nn = NeuralNetwork.load(new FileInputStream("testNet.nnet"));
+			assertEquals(nn.getLabel(), "TestNetLabel");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void shouldCreatefromFile() throws Exception {
+		instance.setLabel("TestNetLabel");
+		instance.save("testNet.nnet");
+		@SuppressWarnings("rawtypes")
+		NeuralNetwork nn = NeuralNetwork.createFromFile("testNet.nnet");
+		assertEquals(nn.getLabel(), "TestNetLabel");
+	}
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-//	@Rule public TemporaryFolder folder= new TemporaryFolder();
-
-    @SuppressWarnings("rawtypes")
-    private NeuralNetwork<LearningRule> neuralNetwork;
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() {
-
-        MockitoAnnotations.initMocks(this);
-        neuralNetwork = new NeuralNetwork<>();
-        Layer layer1 = mock(Layer.class);
-        Layer layer2 = mock(Layer.class);
-        Layer layer3 = mock(Layer.class);
-
-        neuralNetwork.addLayer(layer1);
-        neuralNetwork.addLayer(layer2);
-        neuralNetwork.addLayer(layer3);
-
-        List<Neuron> neurons = new ArrayList<>(2);
-        for (int i = 0; i < 2; i++) {
-            neurons.add( mock(Neuron.class) );
-        }
-        neuralNetwork.setInputNeurons(neurons);
-
-        
-        List<Neuron> outputNeurons = new ArrayList<>(2);        
-        for (int i = 0; i < 2; i++) {
-            outputNeurons.add( mock(Neuron.class) );
-        }
-        neuralNetwork.setOutputNeurons(outputNeurons);
-
-    }
-
-    @After
-    public void tearDown() {
-    }
-
-    @Test
-    public void testPrelims() {
-        assertEquals(3, neuralNetwork.getLayers().size());
-    }
-
-    @Test
-    public void testInputNeurons() {
-        assertEquals(2, neuralNetwork.getInputNeurons().size());
-        assertThat(3, not(neuralNetwork.getInputNeurons().size()));
-    }
-
-    @Test
-    public void testOutputNeuros() {
-        assertEquals(2, neuralNetwork.getOutputNeurons().size());
-        assertThat(3, not(neuralNetwork.getOutputNeurons().size()));
-    }
-
-    @Test
-    public void shouldFireNetworkEvent() {
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        NeuralNetworkEventListener nnlist2 = mock(NeuralNetworkEventListener.class);
-        NeuralNetworkEventListener nnlist3 = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        neuralNetwork.addListener(nnlist2);
-        neuralNetwork.addListener(nnlist3);
-
-        NeuralNetworkEvent NNevt = mock(NeuralNetworkEvent.class);
-
-        neuralNetwork.fireNetworkEvent(NNevt);
-
-        verify(nnlist).handleNeuralNetworkEvent(NNevt);
-        verify(nnlist2).handleNeuralNetworkEvent(NNevt);
-        verify(nnlist3).handleNeuralNetworkEvent(NNevt);
-    }
-
-    @Test
-    public void shouldNotFireNetworkEvent() {
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        NeuralNetworkEvent NNevt = mock(NeuralNetworkEvent.class);
-        neuralNetwork.fireNetworkEvent(NNevt);
-        verify(nnlist, Mockito.times(0)).handleNeuralNetworkEvent(NNevt);;
-    }
-
-    //not sure the test cases for these static methods are correct. 
-    //the coverage report doesnt show for these test cases.
-
-    @Test(expected = NeurophException.class)
-    public void shouldNotCreatefromFile() {
-        File file = mock(File.class);
-        when(file.exists()).thenReturn(false);
-        NeuralNetwork.createFromFile(file);
-    }
-
-    @Test(expected = NeurophException.class)
-    public void shouldNotCreatefromFilepath() {
-        NeuralNetwork nn = NeuralNetwork.load("jujubi.txt");
-    }
-
-    @Test
-    public void shouldCreatefromFileStream() {
-        try {
-            neuralNetwork.setLabel("TestNetLabel");
-            neuralNetwork.save("testNet.nnet");
-            NeuralNetwork nn = NeuralNetwork.load(new FileInputStream("testNet.nnet"));
-            assertThat(nn.getLabel(), is("TestNetLabel"));
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void shouldCreatefromFile() throws Exception {
-        neuralNetwork.setLabel("TestNetLabel");
-        neuralNetwork.save("testNet.nnet");
-        NeuralNetwork nn = NeuralNetwork.createFromFile("testNet.nnet");
-        assertThat(nn.getLabel(), is("TestNetLabel"));
-    }
-
-    @Test
-    public void testSave() throws IOException {
-        neuralNetwork.setLabel("TestNetLabel");
-        neuralNetwork.save("testNet.nnet");
-        NeuralNetwork nn = NeuralNetwork.load("testNet.nnet");
-        assertThat(nn.getLabel(), is("TestNetLabel"));
-    }
-
-    @Test
-    public void testAddLayer() {
-        Layer layer1 = mock(Layer.class);
-        double count = neuralNetwork.getLayersCount();
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        neuralNetwork.addLayer(layer1);
-        assertEquals((count + 1), neuralNetwork.getLayersCount(), 0);
-        verify(nnlist, times(1)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
-    }
-
-    @Test//(expected=IllegalArgumentException.class)
-    public void testAddNullLayer() {
-        Layer layer1 = null;
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("Layer cant be null!");
-        neuralNetwork.addLayer(layer1);
-        verify(nnlist, times(0)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
-    }
-
-    @Test
-    public void testAddLayerIndex() {
-        Layer layer1 = mock(Layer.class);
-        double count = neuralNetwork.getLayersCount();
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        neuralNetwork.addLayer(0, layer1);
-        assertEquals((count + 1), neuralNetwork.getLayersCount(), 0);
-        verify(nnlist, times(1)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
-    }
-
-    @Test//(expected=IllegalArgumentException.class)
-    public void testAddNullLayerIndex() {
-        Layer layer1 = null;
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("Layer cant be null!");
-        neuralNetwork.addLayer(0, layer1);
-        verify(nnlist, times(0)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
-    }
-
-    @Test
-    public void testRemoveLayerAt() {
-        int count = neuralNetwork.getLayersCount();
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        neuralNetwork.removeLayerAt(count - 1);
-        verify(nnlist, times(1)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
-    }
-
-    @Test
-    public void testRemoveLayer() {
-        int count = neuralNetwork.getLayersCount();
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        Layer l1 = neuralNetwork.getLayerAt(count - 1);
-        neuralNetwork.removeLayer(l1);
-        verify(nnlist, times(1)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
-    }
-
-    @Test(expected=IndexOutOfBoundsException.class)
-    public void testRemoveLayerAtMax() {
-        int count = neuralNetwork.getLayersCount();
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        exception.expect(IndexOutOfBoundsException.class);
-        neuralNetwork.removeLayerAt(count);
-        verify(nnlist, times(0)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
-    }
-
-    @Test//(expected=RuntimeException.class)
-    public void testRemoveLayerNotThere() {
-       // int count = neuralNetwork.getLayersCount();
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        Layer l1 = new Layer(2);
-        exception.expect(RuntimeException.class);
-        exception.expectMessage("Layer not in Neural n/w");
-        neuralNetwork.removeLayer(l1);//firing an event not supposed to be there
-        verify(nnlist, times(0)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
-    }
-
-    @Test//(expected=VectorSizeMismatchException.class)
-    public void testSetInput() {
-        double[] input = {1.0, 2.0};
-        neuralNetwork.setInput(input);
-        for (int i = 0; i < neuralNetwork.getInputNeurons().size(); i++) {
-            verify(neuralNetwork.getInputNeurons().get(i), times(1)).setInput(input[i]);
-        }
-
-        double[] input1 = {1.0, 2.0, 3.0};
-        exception.expect(VectorSizeMismatchException.class);
-        exception.expectMessage("Input vector size does not match network input dimension!");
-        neuralNetwork.setInput(input1);
-
-    }
-
-    @Test
-    public void testOutputNeurons() {
-
-        double[] outputNeuron = neuralNetwork.getOutput();
-        assertEquals(2, outputNeuron.length, 0);
-
-    }
-
-    @Test
-    public void testCalculate() {
-        List<Layer>  layers = neuralNetwork.getLayers();
-        for (Layer layer : layers) {
-            Mockito.doNothing().when(layer).calculate();
-        }
-        NeuralNetworkEventListener nnlist = mock(NeuralNetworkEventListener.class);
-        neuralNetwork.addListener(nnlist);
-        neuralNetwork.calculate();
-        verify(nnlist, times(1)).handleNeuralNetworkEvent(any(NeuralNetworkEvent.class));
-    }
-
-    @Test
-    public void testReset() {
-         List<Layer>  layers = neuralNetwork.getLayers();
-        for (Layer layer : layers) {
-            Mockito.doNothing().when(layer).reset();
-        }
-        neuralNetwork.reset();
-        for (Layer layer : layers) {
-            verify(layer, times(1)).reset();
-        }
-    }
-
-    @Test
-    public void testSetLearningRule() {
-        LearningRule learningRule = mock(LearningRule.class);
-        Mockito.doCallRealMethod().when(learningRule).setNeuralNetwork(neuralNetwork);
-        neuralNetwork.setLearningRule(learningRule);
-        verify(learningRule, times(1)).setNeuralNetwork(any(NeuralNetwork.class));
-        assertNotNull(neuralNetwork.getLearningRule());
-    }
-
-    @Test//(expected=IllegalArgumentException.class)
-    public void testSetNullLearningRule() {
-        LearningRule learningRule = null;
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("Learning rule can't be null!");
-        neuralNetwork.setLearningRule(learningRule);
-
-    }
-
-    @Test
-    public void testSetNullLearningRule1() {
-        LearningRule learningRule = null;
-        try {
-            neuralNetwork.setLearningRule(learningRule);
-        } catch (IllegalArgumentException e) {
-
-        }
-        assertEquals(null, neuralNetwork.getLearningRule());
-    }
-
-    @Test
-    public void testLearn() {
-        DataSet ds = mock(DataSet.class);
-        LearningRule learningRule = mock(LearningRule.class);
-        neuralNetwork.setLearningRule(learningRule);
-        neuralNetwork.learn(ds);
-        verify(learningRule, times(1)).learn(ds);
-    }
-
-    @Test//(expected=IllegalArgumentException.class)
-    public void testNullLearn() {
-        DataSet ds = null;
-        LearningRule learningRule = mock(LearningRule.class);
-        neuralNetwork.setLearningRule(learningRule);
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("Training set is null!");
-        neuralNetwork.learn(ds);
-    }
-
-    @Test
-    public void testLearn_with_learningrule() {
-        DataSet ds = mock(DataSet.class);
-        LearningRule learningRule = mock(LearningRule.class);
-        neuralNetwork.learn(ds, learningRule);
-        verify(learningRule, times(1)).learn(ds);
-    }
-
-    @Test//(expected=IllegalArgumentException.class)
-    public void testLearn_with_null_learningrule() {
-        DataSet ds = mock(DataSet.class);
-        LearningRule learningRule = null;
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("Learning rule can't be null!");
-        neuralNetwork.learn(ds, learningRule);
-    }
-
-    @Test
-    public void testGetWeights() {
-        NeuralNetwork<?> neuralNetwork = new NeuralNetwork<>();
-        Layer layer0 = new Layer();
-        Layer layer1 = new Layer();
-        neuralNetwork.addLayer(layer0);
-        neuralNetwork.addLayer(layer1);
-        layer0.addNeuron(new Neuron());
-        layer0.addNeuron(new Neuron());
-        layer0.addNeuron(new Neuron());
-        layer1.addNeuron(new Neuron());
-        layer1.addNeuron(new Neuron());
-        layer1.addNeuron(new Neuron());
-
-        for (Layer layer : neuralNetwork.getLayers()) {
-            for (Neuron nn : layer.getNeurons()) {
-                Connection connection = new Connection(new Neuron(), nn, 2.0);
-                nn.addInputConnection(connection);
-            }
-        }
-
-        double[] weights = ArrayUtils.toPrimitive(neuralNetwork.getWeights());
-        double[] w1 = new double[]{2.0, 2.0, 2.0, 2.0, 2.0, 2.0};
-        Assert.assertArrayEquals(w1, weights, 0);
-    }
-
-    @Test
-    public void testSetWeights() {
-        NeuralNetwork<?> neuralNetwork = new NeuralNetwork<>();
-        Layer layer0 = new Layer();
-        Layer layer1 = new Layer();
-        neuralNetwork.addLayer(layer0);
-        neuralNetwork.addLayer(layer1);
-        layer0.addNeuron(new Neuron());
-        layer0.addNeuron(new Neuron());
-        layer0.addNeuron(new Neuron());
-        layer1.addNeuron(new Neuron());
-        layer1.addNeuron(new Neuron());
-        layer1.addNeuron(new Neuron());
-
-        for (Layer layer : neuralNetwork.getLayers()) {
-            for (Neuron nn : layer.getNeurons()) {
-                Connection connection = new Connection(new Neuron(), nn);
-                nn.addInputConnection(connection);
-            }
-        }
-        double[] w1 = new double[]{2.0, 2.0, 2.0, 2.0, 2.0, 2.0};
-        neuralNetwork.setWeights(w1);
-        Assert.assertArrayEquals(w1, ArrayUtils.toPrimitive(neuralNetwork.getWeights()), 0);
-
-    }
-
-    @Test
-    public void testIsEmpty() {
-        NeuralNetwork neuralNetwork = new NeuralNetwork<>();
-        assertThat(neuralNetwork.isEmpty(), is(true));
-    }
-
-    @Test
-    public void testCreateConnection() {
-        NeuralNetwork neuralNetwork = new NeuralNetwork<>();
-        Layer layer0 = new Layer();
-        Layer layer1 = new Layer();
-        neuralNetwork.addLayer(layer0);
-        neuralNetwork.addLayer(layer1);
-        layer0.addNeuron(new Neuron());
-        layer0.addNeuron(new Neuron());
-        layer0.addNeuron(new Neuron());
-        layer1.addNeuron(new Neuron());
-        layer1.addNeuron(new Neuron());
-        layer1.addNeuron(new Neuron());
-
-        neuralNetwork.createConnection(layer0.getNeuronAt(0), layer1.getNeuronAt(0), 2);
-        List<Connection> conns = layer1.getNeuronAt(0).getInputConnections();
-        assertNotNull(conns);
-        assertThat(conns.size(), is(1));
-    }
-
-    @Test
-    public void testAddListener() {
-        NeuralNetworkEventListener nnlist3 = mock(NeuralNetworkEventListener.class);
-        NeuralNetworkEvent NNevt = mock(NeuralNetworkEvent.class);
-        neuralNetwork.addListener(nnlist3);
-        neuralNetwork.fireNetworkEvent(NNevt);
-        verify(nnlist3, times(1)).handleNeuralNetworkEvent(NNevt);
-    }
-
-    @Test
-    public void testRemoveListener() {
-        NeuralNetworkEventListener nnlist3 = mock(NeuralNetworkEventListener.class);
-        NeuralNetworkEvent NNevt = mock(NeuralNetworkEvent.class);
-        neuralNetwork.addListener(nnlist3);
-        neuralNetwork.removeListener(nnlist3);
-        neuralNetwork.fireNetworkEvent(NNevt);
-        verify(nnlist3, times(0)).handleNeuralNetworkEvent(NNevt);
-    }
-
-    @Test//(expected=IllegalArgumentException.class)
-    public void testAddNullListener() {
-        NeuralNetworkEventListener nnlist3 = null;
-        NeuralNetworkEvent NNevt = mock(NeuralNetworkEvent.class);
-        exception.expect(IllegalArgumentException.class);
-        neuralNetwork.addListener(nnlist3);
-        neuralNetwork.fireNetworkEvent(NNevt);
-    }
-
-    @Test//(expected=IllegalArgumentException.class)
-    public void testRemoveNullListener() {
-        NeuralNetworkEventListener nnlist3 = null;
-        NeuralNetworkEvent NNevt = mock(NeuralNetworkEvent.class);
-        exception.expect(IllegalArgumentException.class);
-        neuralNetwork.removeListener(nnlist3);
-        neuralNetwork.fireNetworkEvent(NNevt);
-    }
-
-    @Test
-    public void testLabel() {
-        neuralNetwork.setLabel("hello");
-        assertThat(neuralNetwork.getLabel(), is("hello"));
-    }
-
-    @Test
-    public void testToString() {
-        neuralNetwork.setLabel("Hello");
-        assertThat(neuralNetwork.getLabel(), is(neuralNetwork.toString()));
-    }
-
-    @Test
-    public void testSetOutputLabels() {
-        NeuralNetwork<?> neuralNetwork = new NeuralNetwork<>();
-        List<Neuron> neurons = new ArrayList<>(2);
-        for (int i = 0; i < 2; i++) {
-            neurons.add(new Neuron());
-        }
-        neuralNetwork.setOutputNeurons(neurons);
-
-        String[] labels = {"hello", "good", "day"};
-        neuralNetwork.setOutputLabels(labels);
-        for (int i = 0; i < neuralNetwork.getOutputNeurons().size(); i++) {
-            assertThat(neuralNetwork.getOutputNeurons().get(i).getLabel(),
-                    is(labels[i]));
-        }
-    }
-
-    @Test
-    public void testGetOutputsCount() {
-        assertThat(neuralNetwork.getOutputsCount(),
-                is(2));
-    }
- 
-    @Test
-    public void testGetInputsCount() {
-        assertThat(neuralNetwork.getInputsCount(),
-                is(2));
-    }
-
-    @Test
-    public void shouldReturnPlugin() {
-        PluginBase plugin = new PluginBase();
-
-        neuralNetwork.addPlugin(plugin);
-
-        assertTrue(neuralNetwork.getPlugin(PluginBase.class) instanceof PluginBase);
-    }
 }
