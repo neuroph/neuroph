@@ -1,10 +1,11 @@
-
 package org.neuroph.core.input;
 
+import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -20,67 +21,69 @@ import org.neuroph.nnet.comp.neuron.InputNeuron;
  */
 @RunWith(value = Parameterized.class)
 public class OrTest {
-	Or instance;
-	Connection[] inputConnections;
-	InputNeuron[] inputNeurons;
-	double[] inputs;
-	double expected;
 
-	public OrTest(DoubleArray inputs, double expected) {
-		this.inputs = inputs.getArray();
-		this.expected = expected;
-	}
+    Or instance;
+    List<Connection> inputConnections;
+    List<InputNeuron> inputNeurons;
+    double[] inputs;
+    double expected;
 
-	@Parameters
-	public static Collection<Object[]> getParamters() {
-		return Arrays.asList(new Object[][] { { new DoubleArray(new double[] { 0.49999d, 0d, 0d, 0d }), 0 },
-				{ new DoubleArray(new double[] { 0d, 0d, 0d, 0d }), 0 },
-				{ new DoubleArray(new double[] { 0.5d, 0d, 0d, 0d }), 1 },
-				{ new DoubleArray(new double[] { 1d, 0d, 0d, 0d }), 1 },
-				{ new DoubleArray(new double[] { 0.52d, 0.53d, 0.54d, 0.5d, 0.6d, 0.83d }), 1 },
-				{ new DoubleArray(new double[] { 0.32d, 0.44d, 0.33d, 0.5d, 0.4d, 0.23d }), 1 } });
+    public OrTest(DoubleArray inputs, double expected) {
+        this.inputs = inputs.getArray();
+        this.expected = expected;
+    }
 
-	}
+    @Parameters
+    public static Collection<Object[]> getParamters() {
+        return Arrays.asList(new Object[][]{{new DoubleArray(new double[]{0.49999d, 0d, 0d, 0d}), 0},
+        {new DoubleArray(new double[]{0d, 0d, 0d, 0d}), 0},
+        {new DoubleArray(new double[]{0.5d, 0d, 0d, 0d}), 1},
+        {new DoubleArray(new double[]{1d, 0d, 0d, 0d}), 1},
+        {new DoubleArray(new double[]{0.52d, 0.53d, 0.54d, 0.5d, 0.6d, 0.83d}), 1},
+        {new DoubleArray(new double[]{0.32d, 0.44d, 0.33d, 0.5d, 0.4d, 0.23d}), 1}});
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
+    }
 
-	}
+    @BeforeClass
+    public static void setUpClass() throws Exception {
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
+    }
 
-	@Before
-	public void setUp() {
-		instance = new Or();
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
 
-		inputNeurons = new InputNeuron[4];
-		for (int i = 0; i < inputNeurons.length; i++)
-			inputNeurons[i] = new InputNeuron();
+    @Before
+    public void setUp() {
+        instance = new Or();
 
-		Neuron toNeuron = new Neuron();
+        inputNeurons = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            inputNeurons.add(new InputNeuron());
+        }
 
-		inputConnections = new Connection[4];
-		for (int i = 0; i < inputConnections.length; i++) {
-			inputConnections[i] = new Connection(inputNeurons[i], toNeuron, 1);
-			toNeuron.addInputConnection(inputConnections[i]);
-		}
-	}
+        Neuron toNeuron = new Neuron();
 
-	@After
-	public void tearDown() {
-	}
+        inputConnections = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            inputConnections.add(new Connection(inputNeurons.get(i), toNeuron, 1));
+            toNeuron.addInputConnection(inputConnections.get(i));
+        }
+    }
 
-	@Test
-	public void testGetOutput() {
-		for (int i = 0; i < inputNeurons.length; i++) {
-			inputNeurons[i].setInput(inputs[i]);
-			inputNeurons[i].calculate();
-		}
+    @After
+    public void tearDown() {
+    }
 
-		double result = instance.getOutput(inputConnections);
-		assertEquals(expected, result, 0.000001);
-	}
+    @Test
+    public void testGetOutput() {
+        for (int i = 0; i < inputNeurons.size(); i++) {
+            inputNeurons.get(i).setInput(inputs[i]);
+            inputNeurons.get(i).calculate();
+        }
+
+        double result = instance.getOutput(inputConnections);
+        assertEquals(expected, result, 0.000001);
+    }
 
 }

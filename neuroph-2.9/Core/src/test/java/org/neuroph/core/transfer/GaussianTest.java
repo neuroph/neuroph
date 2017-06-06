@@ -19,59 +19,63 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class GaussianTest {
 
-	Gaussian instance;
-	double input, expected, expected_derivative;
+    Gaussian instance;
+    double input, expected, expected_derivative;
 
-	@Parameters
-	public static Collection<Object[]> getParameters() {
-		return Arrays.asList(new Object[][] { { 0, 1.0, 0 }, { .1, .9950124, -.09950124 },
-				{ .2, .9801986733, -.1960397 }, { .3, .955997481, -.286799244 }, { .4, .923116946, -0.3692465 },
-				{ .5, 0.882496, -.44124851 }, { .6, .83527021141, -.501162126 }, { .7, .782704538, -.54789317 },
-				{ .8, .7261490370, -.58091922 }, { .9, .6669768108, -.60027991 }, });
-	}
+    @Parameters
+    public static Collection<Object[]> getParameters() {
+        return Arrays.asList(new Object[][]{{0, 1.0, 0},
+        {.1, .995012479192682, -.099501247919268},
+        {.2, .980198673306755, -.196039734661351},
+        {.3, .9559974818331, -.28679924454993},
+        {.4, .923116346386635, -.369246538554654},
+        {.5, .882496902584595, -.441248451292297},
+        {.6, .835270211411272, -.501162126846763},
+        {.7, .782704538241868, -.547893176769307},
+        {.8, .726149037073690, -.580919229658952},
+        {.9, .666976810858474, -.600279129772627},});
+    }
 
-	public GaussianTest(double input, double expected, double expected_derivative) {
-		this.expected = expected;
-		this.input = input;
-		this.expected_derivative = expected_derivative;
-	}
+    public GaussianTest(double input, double expected, double expected_derivative) {
+        this.expected = expected;
+        this.input = input;
+        this.expected_derivative = expected_derivative;
+    }
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
 
-	@Before
-	public void setUp() {
-		instance = new Gaussian();
-		instance.setSigma(1);
-	}
+    @Before
+    public void setUp() {
+        instance = new Gaussian();
+        instance.setSigma(1);
+    }
 
-	@After
-	public void tearDown() {
-	}
+    @After
+    public void tearDown() {
+    }
 
-	/**
-	 * Test of getOutput method, of class Gaussian.
-	 */
-	@Test
-	public void testGetOutput() {
-		double result = instance.getOutput(input);
-		assertEquals(expected, result, 0.000001);
-	}
+    /**
+     * Test of getOutput method, of class Gaussian.
+     */
+    @Test
+    public void testGetOutput() {
+        double result = instance.getOutput(input);
+        assertEquals(expected, result, FloatingAccuracy.ACCURACY);
+    }
 
-	/**
-	 * Test of getDerivative method, of class Gaussian.
-	 */
-	@Test
-	public void testGetDerivative() {
-		instance.getOutput(input);
-		double result = instance.getDerivative(input);
-		System.out.println(expected_derivative);
-		System.out.println(result);
-		assertEquals(expected_derivative, result, 0.000001);
-	}
+    /**
+     * Test of getDerivative method, of class Gaussian.
+     */
+    @Test
+    public void testGetDerivative() {
+        instance.getOutput(input);
+        double result = instance.getDerivative(input);
+        assertEquals(expected_derivative, result, FloatingAccuracy.ACCURACY);
+    }
 }

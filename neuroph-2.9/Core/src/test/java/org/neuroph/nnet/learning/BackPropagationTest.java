@@ -1,5 +1,6 @@
 package org.neuroph.nnet.learning;
 
+import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 import java.util.Random;
@@ -25,202 +26,230 @@ import org.neuroph.util.random.WeightsRandomizer;
  */
 public class BackPropagationTest {
 
-	BackPropagation instance;
-	DataSet xorDataSet;
-	DataSet irisDataSet;
-	double maxError;
+    BackPropagation instance;
+    DataSet xorDataSet;
+    DataSet irisDataSet;
+    double maxError;
 
-	@Before
-	public void setUp() {
-		instance = new BackPropagation();
-		xorDataSet = new DataSet(2, 1);
-		xorDataSet.addRow(new DataSetRow(new double[] { 0, 0 }, new double[] { 0 }));
-		xorDataSet.addRow(new DataSetRow(new double[] { 0, 1 }, new double[] { 1 }));
-		xorDataSet.addRow(new DataSetRow(new double[] { 1, 0 }, new double[] { 1 }));
-		xorDataSet.addRow(new DataSetRow(new double[] { 1, 1 }, new double[] { 0 }));
-		maxError = 0.01;
-		instance.setLearningRate(0.5);
-		instance.setMaxError(maxError);
+    @Before
+    public void setUp() {
+        instance = new BackPropagation();
+        xorDataSet = new DataSet(2, 1);
+        xorDataSet.addRow(new DataSetRow(new double[]{0, 0}, new double[]{0}));
+        xorDataSet.addRow(new DataSetRow(new double[]{0, 1}, new double[]{1}));
+        xorDataSet.addRow(new DataSetRow(new double[]{1, 0}, new double[]{1}));
+        xorDataSet.addRow(new DataSetRow(new double[]{1, 1}, new double[]{0}));
+        maxError = 0.01;
+        instance.setLearningRate(0.5);
+        instance.setMaxError(maxError);
+        String inputFileName = "src\\test\\resources\\iris_normalized.txt";
+        irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
 
-		String inputFileName = "iris_data_normalised.txt";
-		irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
+    }
 
-	}
+    @Test
+    public void testXorMaxError() {
+        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
+        myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
 
-	@Test
-	public void testXorMaxError() {
-		MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
-		myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+        myMlPerceptron.setLearningRule(instance);
+        myMlPerceptron.learn(xorDataSet);
 
-		myMlPerceptron.setLearningRule(instance);
-		myMlPerceptron.learn(xorDataSet);
+        assertTrue(instance.getTotalNetworkError() < maxError);
+    }
 
-		assertTrue(instance.getTotalNetworkError() < maxError);
-	}
+    @Test
+    public void testXorMSE() {
+        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
+        myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
 
-	@Test
-	public void testXorMSE() {
-		MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
-		myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+        myMlPerceptron.setLearningRule(instance);
+        myMlPerceptron.learn(xorDataSet);
 
-		myMlPerceptron.setLearningRule(instance);
-		myMlPerceptron.learn(xorDataSet);
+        MeanSquaredError mse = new MeanSquaredError();
+        for (DataSetRow testSetRow : xorDataSet.getRows()) {
+            myMlPerceptron.setInput(testSetRow.getInput());
+            myMlPerceptron.calculate();
+            double[] networkOutput = myMlPerceptron.getOutput();
+            mse.addPatternError(networkOutput, testSetRow.getDesiredOutput());
+        }
+        assertTrue(mse.getTotalError() < maxError);
+    }
 
-		MeanSquaredError mse = new MeanSquaredError(xorDataSet.getRows().size());
-		for (DataSetRow testSetRow : xorDataSet.getRows()) {
-			myMlPerceptron.setInput(testSetRow.getInput());
-			myMlPerceptron.calculate();
-			double[] networkOutput = myMlPerceptron.getOutput();
-			mse.addOutputError(new double[] { testSetRow.getDesiredOutput()[0] - networkOutput[0] });
-		}
-		assertTrue(mse.getTotalError() < maxError);
-	}
+    @Test
+    public void testXorIterations() {
+        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
+        myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
 
-	@Test
-	public void testXorIterations() {
-		MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
-		myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+        myMlPerceptron.setLearningRule(instance);
+        myMlPerceptron.learn(xorDataSet);
 
-		myMlPerceptron.setLearningRule(instance);
-		myMlPerceptron.learn(xorDataSet);
+        int iterations = instance.getCurrentIteration();
+        Double[] weights = myMlPerceptron.getWeights();
 
-		int iterations = instance.getCurrentIteration();
-		Double[] weights = myMlPerceptron.getWeights();
+        for (int i = 0; i < 5; i++) {
+            myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
+            myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+            myMlPerceptron.setLearningRule(instance);
+            myMlPerceptron.learn(xorDataSet);
+            Double[] weights1 = myMlPerceptron.getWeights();
+            for (int j = 0; j < weights1.length; j++) {
+                assertEquals(weights[j], weights1[j], 0.0);
+            }
+            assertEquals(iterations, instance.getCurrentIteration(), 0.0);
+        }
+    }
 
-		for (int i = 0; i < 5; i++) {
-			myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 2, 3, 1);
-			myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
-			myMlPerceptron.setLearningRule(instance);
-			myMlPerceptron.learn(xorDataSet);
-			Double[] weights1 = myMlPerceptron.getWeights();
-			for (int j = 0; j < weights1.length; j++) {
-				assertEquals(weights[j], weights1[j], 0.0);
-			}
-			assertEquals(iterations, instance.getCurrentIteration(), 0.0);
-		}
-	}
+    @Test
+    public void testIrisMaxError() {
+        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
+        myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+        myMlPerceptron.setLearningRule(instance);
 
-	@Test
-	public void testIrisMaxError() {
-		MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
-		myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
-		myMlPerceptron.setLearningRule(instance);
+        myMlPerceptron.learn(irisDataSet);
 
-		myMlPerceptron.learn(irisDataSet);
-		assertTrue(instance.getTotalNetworkError() < maxError);
-	}
+        assertTrue(instance.getTotalNetworkError() < maxError);
+    }
 
-	@Test
-	public void testIrisMSE() {
-		MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
-		myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+//    @Test
+//    public void testIrisMSE() {
+//        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
+//        myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+//
+//        myMlPerceptron.setLearningRule(instance);
+//        myMlPerceptron.learn(irisDataSet);
+//
+//        MeanSquaredError mse = new MeanSquaredError();
+//        for (DataSetRow testSetRow : irisDataSet.getRows()) {
+//            myMlPerceptron.setInput(testSetRow.getInput());
+//            myMlPerceptron.calculate();
+//            double[] networkOutput = myMlPerceptron.getOutput();
+//            mse.addPatternError(networkOutput, testSetRow.getDesiredOutput());
+//        }
+//        assertTrue(mse.getTotalError() < maxError);
+//    }
+ 
 
-		myMlPerceptron.setLearningRule(instance);
-		myMlPerceptron.learn(irisDataSet);
+    @Test
+    public void testIrisIterations() {
+        MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
+        myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+        myMlPerceptron.setLearningRule(instance);
+        myMlPerceptron.learn(irisDataSet);
 
-		MeanSquaredError mse = new MeanSquaredError(irisDataSet.getRows().size());
-		for (DataSetRow testSetRow : irisDataSet.getRows()) {
-			myMlPerceptron.setInput(testSetRow.getInput());
-			myMlPerceptron.calculate();
-			double[] networkOutput = myMlPerceptron.getOutput();
-			mse.addOutputError(new double[] { testSetRow.getDesiredOutput()[0] - networkOutput[0] });
-		}
-		assertTrue(mse.getTotalError() < maxError);
-	}
+        int iterations = instance.getCurrentIteration();
+        Double[] weights = myMlPerceptron.getWeights();
+        for (int i = 0; i < 5; i++) {
+            myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
+            myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
+            myMlPerceptron.setLearningRule(instance);
+            myMlPerceptron.learn(irisDataSet);
+            Double[] weights1 = myMlPerceptron.getWeights();
+            for (int j = 0; j < weights1.length; j++) {
+                assertEquals(weights[j], weights1[j], 0.0);
+            }
+            assertEquals(iterations, instance.getCurrentIteration(), 0.0);
+        }
+    }
 
-	@Test
-	public void testIrisIterations() {
-		MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
-		myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
-		myMlPerceptron.setLearningRule(instance);
-		myMlPerceptron.learn(irisDataSet);
+    @Test
+    public void testCalculateErrorAndUpdateHiddenNeurons() {
+        NeuralNetwork<BackPropagation> nn = new NeuralNetwork<>();
+        nn.setInputNeurons(new ArrayList<Neuron>() {
+            {
+                add(new Neuron());
+                add(new Neuron());
+            }
+        });
+        nn.setOutputNeurons(new ArrayList<Neuron>() {
+            {
+                add(new Neuron());
+            }
+        });
+        nn.setLearningRule(instance);
+        Layer l1 = new Layer();
+        Layer l2 = new Layer();
+        Layer l3 = new Layer();
+        Neuron n = new Neuron();
+        n.setError(0.5);
+        Neuron n1 = new Neuron();
+        Linear transfer = new Linear();
+        n1.setTransferFunction(transfer);
 
-		int iterations = instance.getCurrentIteration();
-		Double[] weights = myMlPerceptron.getWeights();
-		for (int i = 0; i < 5; i++) {
-			myMlPerceptron = new MultiLayerPerceptron(4, 16, 3);
-			myMlPerceptron.randomizeWeights(new WeightsRandomizer(new Random(123)));
-			myMlPerceptron.setLearningRule(instance);
-			myMlPerceptron.learn(irisDataSet);
-			Double[] weights1 = myMlPerceptron.getWeights();
-			for (int j = 0; j < weights1.length; j++) {
-				assertEquals(weights[j], weights1[j], 0.0);
-			}
-			assertEquals(iterations, instance.getCurrentIteration(), 0.0);
-		}
-	}
+        double weigth = 2;
+        n.addInputConnection(new Connection(n1, n, weigth));
 
-	@Test
-	public void testCalculateErrorAndUpdateHiddenNeurons() {
-		NeuralNetwork<BackPropagation> nn = new NeuralNetwork<>();
-		nn.setInputNeurons(new Neuron[] { new Neuron(), new Neuron() });
-		nn.setOutputNeurons(new Neuron[] { new Neuron() });
-		nn.setLearningRule(instance);
-		Layer l1 = new Layer();
-		Layer l2 = new Layer();
-		Layer l3 = new Layer();
-		Neuron n = new Neuron();
-		n.setError(0.5);
-		Neuron n1 = new Neuron();
-		Linear transfer = new Linear();
-		n1.setTransferFunction(transfer);
+        assertTrue(0 == n1.getError());
 
-		double weigth = 2;
-		n.addInputConnection(new Connection(n1, n, weigth));
+        nn.addLayer(l1);
+        nn.addLayer(l2);
+        nn.addLayer(l3);
+        l2.addNeuron(n1);
 
-		assertTrue(0 == n1.getError());
+        instance.calculateErrorAndUpdateHiddenNeurons();
 
-		nn.addLayer(l1);
-		nn.addLayer(l2);
-		nn.addLayer(l3);
-		l2.addNeuron(n1);
+        assertTrue(instance.calculateHiddenNeuronError(n1) == n1.getError());
+    }
 
-		instance.calculateErrorAndUpdateHiddenNeurons();
+    @Test
+    public void testCalculateErrorAndUpdateOutputNeurons() {
+        NeuralNetwork<BackPropagation> nn = new NeuralNetwork<>();
+        nn.setInputNeurons(new ArrayList<Neuron>() {
+            {
+                add(new Neuron());
+                add(new Neuron());
+            }
+        });
+        nn.setOutputNeurons(new ArrayList<Neuron>() {
+            {
+                add(new Neuron());
+            }
+        });
+        nn.setLearningRule(instance);
+        nn.getOutputNeurons().get(0).setError(1);
+        instance.calculateErrorAndUpdateOutputNeurons(new double[]{0});
+        assertTrue(nn.getOutputNeurons().get(0).getError() == 0);
+        instance.calculateErrorAndUpdateOutputNeurons(new double[]{0.5});
+        assertTrue(nn.getOutputNeurons().get(0).getError() == 0.5);
+    }
 
-		assertTrue(instance.calculateHiddenNeuronError(n1) == n1.getError());
-	}
+    @Test
+    public void testCalculateHiddenNeuronError() {
+        Neuron n = new Neuron();
+        n.setError(0.5);
+        Neuron n1 = new Neuron();
 
-	@Test
-	public void testCalculateErrorAndUpdateOutputNeurons() {
-		NeuralNetwork<BackPropagation> nn = new NeuralNetwork<>();
-		nn.setInputNeurons(new Neuron[] { new Neuron(), new Neuron() });
-		nn.setOutputNeurons(new Neuron[] { new Neuron() });
-		nn.setLearningRule(instance);
-		nn.getOutputNeurons()[0].setError(1);
-		instance.calculateErrorAndUpdateOutputNeurons(new double[] { 0 });
-		assertTrue(nn.getOutputNeurons()[0].getError() == 0);
-		instance.calculateErrorAndUpdateOutputNeurons(new double[] { 0.5 });
-		assertTrue(nn.getOutputNeurons()[0].getError() == 0.5);
-	}
+        Linear transfer = new Linear();
+        n1.setTransferFunction(transfer);
 
-	@Test
-	public void testCalculateHiddenNeuronError() {
-		Neuron n = new Neuron();
-		n.setError(0.5);
-		Neuron n1 = new Neuron();
+        double weigth = 2;
+        n.addInputConnection(new Connection(n1, n, weigth));
 
-		Linear transfer = new Linear();
-		n1.setTransferFunction(transfer);
+        double result = n.getError() * weigth * transfer.getDerivative(n.getNetInput());
 
-		double weigth = 2;
-		n.addInputConnection(new Connection(n1, n, weigth));
+        assertTrue(result == instance.calculateHiddenNeuronError(n1));
+    }
 
-		double result = n.getError() * weigth * transfer.getDerivative(n.getNetInput());
-
-		assertTrue(result == instance.calculateHiddenNeuronError(n1));
-	}
-
-	@Test
-	public void testUpdateNetworkWeights() {
-		NeuralNetwork<BackPropagation> nn = new NeuralNetwork<>();
-		nn.setInputNeurons(new Neuron[] { new Neuron(), new Neuron() });
-		nn.setOutputNeurons(new Neuron[] { new Neuron() });
-		nn.setLearningRule(instance);
-		BackPropagation bp1 = Mockito.spy(BackPropagation.class);
-		nn.setLearningRule(bp1);
-		double[] weigths = { 1, 2 };
-		bp1.updateNetworkWeights(weigths);
-		Mockito.verify(bp1).calculateErrorAndUpdateOutputNeurons(weigths);
-		Mockito.verify(bp1).calculateErrorAndUpdateHiddenNeurons();
-	}
+    @Test
+    public void testUpdateNetworkWeights() {
+        NeuralNetwork<BackPropagation> nn = new NeuralNetwork<>();
+        nn.setInputNeurons(new ArrayList<Neuron>() {
+            {
+                add(new Neuron());
+                add(new Neuron());
+            }
+        });
+        nn.setOutputNeurons(new ArrayList<Neuron>() {
+            {
+                add(new Neuron());
+            }
+        });
+        nn.setLearningRule(instance);
+        BackPropagation bp1 = Mockito.spy(new BackPropagation());
+        nn.setLearningRule(bp1);
+        double[] weigths = {1, 2};
+        bp1.calculateWeightChanges(weigths);
+        Mockito.verify(bp1).calculateErrorAndUpdateOutputNeurons(weigths);
+        Mockito.verify(bp1).calculateErrorAndUpdateHiddenNeurons();
+    }
 }

@@ -50,6 +50,7 @@ public final class MeanSquaredError implements ErrorFunction, Serializable {
         
         patternCount++;
         return patternError;
+        
     }
     
     @Override
@@ -60,7 +61,7 @@ public final class MeanSquaredError implements ErrorFunction, Serializable {
 
     @Override
     public double getTotalError() {
-        return totalError / (2 *  patternCount );
+        return totalError / (2*patternCount );
     }
 
 }

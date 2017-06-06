@@ -92,6 +92,8 @@ public class WeightsRandomizer {
             connection.getWeight().setValue(nextRandomWeight());
 
         }
+        
+        
     }
 
     /**

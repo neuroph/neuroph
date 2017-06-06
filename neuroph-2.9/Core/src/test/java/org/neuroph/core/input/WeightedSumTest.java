@@ -1,9 +1,11 @@
 package org.neuroph.core.input;
 
+import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -20,68 +22,69 @@ import org.neuroph.nnet.comp.neuron.InputNeuron;
 @RunWith(value = Parameterized.class)
 public class WeightedSumTest {
 
-	WeightedSum instance;
-	Connection[] inputConnections;
-	InputNeuron[] inputNeurons;
-	double[] inputs, weights;
-	double expected;
+    WeightedSum instance;
+    List<Connection> inputConnections;
+    List<InputNeuron> inputNeurons;
+    double[] inputs, weights;
+    double expected;
 
-	public WeightedSumTest(DoubleArray inputs, DoubleArray weights, double expected) {
-		this.inputs = inputs.getArray();
-		this.weights = weights.getArray();
-		this.expected = expected;
-	}
+    public WeightedSumTest(DoubleArray inputs, DoubleArray weights, double expected) {
+        this.inputs = inputs.getArray();
+        this.weights = weights.getArray();
+        this.expected = expected;
+    }
 
-	@Parameters
-	public static Collection<Object[]> getParamters() {
-		return Arrays.asList(new Object[][] {
-				{ new DoubleArray(new double[] { 1, 3, 5, 7 }), new DoubleArray(new double[] { .2, 5, 7, 8 }), 106.2 },
-				{ new DoubleArray(new double[] { 1, 3, 5, 7 }),
-						new DoubleArray(new double[] { 0.5d, 0.25d, -0.25d, 0.1d }), 0.7 } });
+    @Parameters
+    public static Collection<Object[]> getParamters() {
+        return Arrays.asList(new Object[][]{
+            {new DoubleArray(new double[]{1, 3, 5, 7}), new DoubleArray(new double[]{.2, 5, 7, 8}), 106.2},
+            {new DoubleArray(new double[]{1, 3, 5, 7}),
+                new DoubleArray(new double[]{0.5d, 0.25d, -0.25d, 0.1d}), 0.7}});
 
-	}
+    }
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
 
-	@Before
-	public void setUp() {
-		instance = new WeightedSum();
+    @Before
+    public void setUp() {
+        instance = new WeightedSum();
 
-		inputNeurons = new InputNeuron[4];
-		for (int i = 0; i < inputNeurons.length; i++) {
-			inputNeurons[i] = new InputNeuron();
-		}
+        inputNeurons = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            inputNeurons.add(new InputNeuron());
+        }
 
-		Neuron toNeuron = new Neuron();
+        Neuron toNeuron = new Neuron();
 
-		inputConnections = new Connection[4];
-		for (int i = 0; i < inputConnections.length; i++) {
-			inputConnections[i] = new Connection(inputNeurons[i], toNeuron, 1);
-			toNeuron.addInputConnection(inputConnections[i]);
-		}
-	}
+        inputConnections = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            inputConnections.add(new Connection(inputNeurons.get(i), toNeuron, 1));
+            toNeuron.addInputConnection(inputConnections.get(i));
+        }
 
-	@After
-	public void tearDown() {
-	}
+    }
 
-	@Test
-	public void testGetOutput() {
+    @After
+    public void tearDown() {
+    }
 
-		for (int i = 0; i < inputNeurons.length; i++) {
-			inputConnections[i].getWeight().setValue(weights[i]);
-			inputNeurons[i].setInput(inputs[i]);
-			inputNeurons[i].calculate();
-		}
+    @Test
+    public void testGetOutput() {
 
-		double result = instance.getOutput(inputConnections);
-		assertEquals(expected, result, .000001);
-	}
+        for (int i = 0; i < inputNeurons.size(); i++) {
+            inputConnections.get(i).getWeight().setValue(weights[i]);
+            inputNeurons.get(i).setInput(inputs[i]);
+            inputNeurons.get(i).calculate();
+        }
+
+        double result = instance.getOutput(inputConnections);
+        assertEquals(expected, result, .000001);
+    }
 
 }

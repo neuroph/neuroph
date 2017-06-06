@@ -63,12 +63,12 @@ public class LMSTest {
 		adaline.setLearningRule(instance);
 		adaline.learn(dataSet);
 
-		MeanSquaredError mse = new MeanSquaredError(dataSet.getRows().size());
+		MeanSquaredError mse = new MeanSquaredError();
 		for (DataSetRow testSetRow : dataSet.getRows()) {
 			adaline.setInput(testSetRow.getInput());
 			adaline.calculate();
 			double[] networkOutput = adaline.getOutput();
-			mse.addOutputError(new double[] { testSetRow.getDesiredOutput()[0] - networkOutput[0] });
+			 mse.addPatternError(new double[]{networkOutput[0]}, new double[]{testSetRow.getDesiredOutput()[0]});
 		}
 		assertTrue(mse.getTotalError() < maxError);
 	}

@@ -105,7 +105,7 @@ public class NeuronTest {
 	@Test
 	public void testRemoveInputConnectionFrom() {
 		instance3.removeInputConnectionFrom(instance1);
-		List<Connection> c = Arrays.asList(instance3.getInputConnections());
+		List<Connection> c = instance3.getInputConnections();
 		assertFalse(c.contains(testConnection13));
 		assertTrue(c.contains(testConnection23));
 	}

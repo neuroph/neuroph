@@ -44,7 +44,7 @@ public class DataSetStatisticsTest extends TestCase {
         Assert.assertTrue(Arrays.equals(mean, new double[]{5.84, 3.05, 3.76, 1.20, 0.33, 0.33, 0.33}));
         Assert.assertTrue(Arrays.equals(var, new double[]{0.68, 0.19, 3.09, 0.58, 0.22, 0.22, 0.22}));
         Assert.assertTrue(Arrays.equals(stdDev, new double[]{0.83, 0.43, 1.76, 0.76, 0.47, 0.47, 0.47}));
-        Assert.assertTrue(Arrays.equals(frequency, new double[]{-1, -1, -1, -1, 0.33, 0.33, 0.33}));
+        Assert.assertTrue(Arrays.equals(frequency, new double[]{0, 0, 0, 0, 0.33, 0.33, 0.33}));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class DataSetStatisticsTest extends TestCase {
         Assert.assertTrue(Arrays.equals(mean, new double[]{0.74, 0.69, 0.54, 0.48, 0.33, 0.33, 0.33}));
         Assert.assertTrue(Arrays.equals(var, new double[]{0.01, 0.01, 0.06, 0.09, 0.22, 0.22, 0.22}));
         Assert.assertTrue(Arrays.equals(stdDev, new double[]{0.10, 0.10, 0.25, 0.30, 0.47, 0.47, 0.47}));
-        Assert.assertTrue(Arrays.equals(frequency, new double[]{-1, -1, -1, -1, 0.33, 0.33, 0.33}));
+        Assert.assertTrue(Arrays.equals(frequency, new double[]{0, 0, 0, 0, 0.33, 0.33, 0.33}));
     }
 
 }

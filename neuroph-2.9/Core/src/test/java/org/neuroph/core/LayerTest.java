@@ -1,5 +1,6 @@
 package org.neuroph.core;
 
+import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.*;
 import org.neuroph.core.learning.LearningRule;
@@ -40,14 +41,14 @@ public class LayerTest {
 	@Test
 	public void testAddNeuronWithIndex() {
 		instance.addNeuron(1, testneuron3);
-		Neuron[] lst = instance.getNeurons();
-		assertEquals(testneuron3, lst[1]);
+                List<Neuron> lst = instance.getNeurons();
+		assertEquals(testneuron3, lst.get(1));
 	}
 
 	@Test
 	public void testAddNeuron() {
-		Neuron[] lst = instance.getNeurons();
-		assertEquals(testneuron2, lst[1]);
+		List<Neuron> lst = instance.getNeurons();
+		assertEquals(testneuron2, lst.get(1));
 	}
 
 	@Test
@@ -77,7 +78,7 @@ public class LayerTest {
 
 	@Test
 	public void testGetNeurons() {
-		assertEquals(instance.getNeurons().length, 2);
+		assertEquals(instance.getNeurons().size(), 2);
 	}
 
 	@Test
@@ -148,8 +149,8 @@ public class LayerTest {
 	@Test
 	public void testSetNeuron() {
 		instance.setNeuron(1, testneuron3);
-		Neuron[] lst = instance.getNeurons();
-		assertEquals(testneuron3, lst[1]);
+		List<Neuron> lst = instance.getNeurons();
+		assertEquals(testneuron3, lst.get(1));
 	}
 
 }
