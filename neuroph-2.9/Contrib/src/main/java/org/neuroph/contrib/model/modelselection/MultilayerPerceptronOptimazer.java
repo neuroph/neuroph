@@ -1,8 +1,8 @@
 package org.neuroph.contrib.model.modelselection;
 
 import org.neuroph.contrib.model.errorestimation.Bootstrapping;
-import org.neuroph.contrib.model.errorestimation.CrossValidation;
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
+import org.neuroph.eval.CrossValidation;
+import org.neuroph.eval.classification.ClassificationMetrics;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
-import org.neuroph.contrib.eval.ClassifierEvaluator;
-import org.neuroph.contrib.model.errorestimation.CrossValidation;
+import org.neuroph.eval.ClassifierEvaluator;
+import org.neuroph.eval.CrossValidation;
 
 /**
  * @param <T> Type which defined which LearningRule will be used during model optimization

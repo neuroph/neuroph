@@ -5,7 +5,7 @@
  */
 package org.neuroph.contrib.bpbench;
 
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
+import org.neuroph.eval.classification.ConfusionMatrix;
 
 /**
  * Class that holds results of each individual training
