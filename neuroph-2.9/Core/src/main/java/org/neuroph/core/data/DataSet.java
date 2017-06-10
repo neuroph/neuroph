@@ -15,19 +15,14 @@
  */
 package org.neuroph.core.data;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.util.DataSetColumnType;
 import org.neuroph.util.data.sample.Sampling;
 import org.neuroph.util.data.sample.SubSampling;
+
+import java.io.*;
+import java.util.*;
 
 /**
  * This class represents a collection of data rows (DataSetRow instances) used
@@ -472,16 +467,45 @@ public class DataSet implements List<DataSetRow>, Serializable { // implements
      * TODO: try with resources, provide information on exact line of error if format is not good in NumberFormatException
      */
     public static DataSet createFromFile(String filePath, int inputsCount, int outputsCount, String delimiter, boolean loadColumnNames) {
-       
         if (filePath == null) throw new IllegalArgumentException("File name cannot be null!");
-        if (inputsCount <= 0) throw new IllegalArgumentException("Number of inputs cannot be <= 0 : "+inputsCount);
-        if (outputsCount < 0) throw new IllegalArgumentException("Number of outputs cannot be < 0 : "+outputsCount);
+
+        try (Reader reader = new FileReader(filePath)) {
+            return createFromReader(reader, filePath, inputsCount, outputsCount, delimiter, loadColumnNames);
+
+        } catch (FileNotFoundException ex) {
+            throw new NeurophException("Could not find data set file!", ex);
+        } catch (IOException ex) {
+            throw new NeurophException("Error reading data set file!", ex);
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+            throw new NeurophException("Bad number format in data set file!", ex); // TODO: add line number!
+        }
+    }
+
+    /**
+     * Creates and returns data set from specified csv reader
+     *
+     * @param csvReader       reader for a csv dataset stream to import
+     * @param filePath        csvReader's file path or null if csvReader is not a FileReader
+     * @param inputsCount     number of inputs
+     * @param outputsCount    number of outputs
+     * @param delimiter       delimiter of values
+     * @param loadColumnNames true if csv file contains column names in first line, false otherwise
+     * @return instance of dataset with values from specified file
+     * <p>
+     * TODO: try with resources, provide information on exact line of error if format is not good in NumberFormatException
+     */
+    public static DataSet createFromReader(Reader csvReader, String filePath, int inputsCount, int outputsCount,
+                                           String delimiter, boolean loadColumnNames) {
+
+        if (inputsCount <= 0) throw new IllegalArgumentException("Number of inputs cannot be <= 0 : " + inputsCount);
+        if (outputsCount < 0) throw new IllegalArgumentException("Number of outputs cannot be < 0 : " + outputsCount);
         if ((delimiter == null) || delimiter.isEmpty())
             throw new IllegalArgumentException("Delimiter cannot be null or empty!");
 
-        try ( BufferedReader reader = new BufferedReader(new FileReader(filePath)) ) {
+        try (BufferedReader reader = new BufferedReader(csvReader) ) {
             DataSet dataSet = new DataSet(inputsCount, outputsCount);
-            dataSet.setFilePath(filePath);            
+            dataSet.setFilePath(filePath);
 
             String line = null;
 
@@ -519,15 +543,15 @@ public class DataSet implements List<DataSetRow>, Serializable { // implements
             }
 
             reader.close();
-            
+
             return dataSet;
 
         } catch (FileNotFoundException ex) {
             throw new NeurophException("Could not find data set file!", ex);
         } catch (IOException ex) {
-             throw new NeurophException("Error reading data set file!", ex);
+            throw new NeurophException("Error reading data set file!", ex);
         } catch (NumberFormatException ex) {
-             ex.printStackTrace();
+            ex.printStackTrace();
             throw new NeurophException("Bad number format in data set file!", ex); // TODO: add line number!
         }
 
