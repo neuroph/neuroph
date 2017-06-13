@@ -18,6 +18,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
 import org.jfree.chart.annotations.XYPointerAnnotation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -44,10 +45,6 @@ import org.neuroph.nnet.comp.neuron.InputOutputNeuron;
         autostore = false)
 public final class BasicNeuronSampleTopComponent extends TopComponent {
 
-    private static void calculateDomainAxis(double totalInput) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     InputOutputNeuron neuron;
     String  transferFunction;
    String inputFunction;
@@ -73,6 +70,8 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
     private static final String PREFERRED_ID = "BasicNeuronSampleTopComponent";
 
     public BasicNeuronSampleTopComponent() {
+        UIManager.put("Slider.paintValue", false);
+
         initComponents();
         setName(NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "CTL_BasicNeuronSampleTopComponent"));
         setToolTipText(NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "HINT_BasicNeuronSampleTopComponent"));
@@ -198,7 +197,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel7, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel7.text")); // NOI18N
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
         CBTransferChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Linear", "Sgn", "Sigmoid", "Step", "Tanh" }));
         CBTransferChoice.addActionListener(new java.awt.event.ActionListener() {
@@ -254,7 +253,6 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         WeightSlider2.setMinorTickSpacing(50);
         WeightSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
         WeightSlider2.setPaintTicks(true);
-        WeightSlider2.setPaintTrack(false);
         WeightSlider2.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 WeightSlider2StateChanged(evt);
@@ -266,7 +264,6 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         InputSlider2.setMinorTickSpacing(50);
         InputSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
         InputSlider2.setPaintTicks(true);
-        InputSlider2.setPaintTrack(false);
         InputSlider2.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 InputSlider2StateChanged(evt);
@@ -297,9 +294,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(TextWeight2, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(WeightSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(WeightSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
@@ -311,13 +306,13 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                         .addGap(9, 9, 9))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addComponent(TextInput2, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addComponent(TextInput2, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel5))
@@ -332,7 +327,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 .addGap(7, 7, 7))
         );
 
-        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 280, 160, 210));
+        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 280, 190, 230));
 
         jPanel5.setBackground(new java.awt.Color(153, 255, 153));
 
@@ -341,7 +336,6 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         WeightSlider1.setMinorTickSpacing(50);
         WeightSlider1.setOrientation(javax.swing.JSlider.VERTICAL);
         WeightSlider1.setPaintTicks(true);
-        WeightSlider1.setPaintTrack(false);
         WeightSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 WeightSlider1StateChanged(evt);
@@ -353,7 +347,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         InputSlider1.setMinorTickSpacing(50);
         InputSlider1.setOrientation(javax.swing.JSlider.VERTICAL);
         InputSlider1.setPaintTicks(true);
-        InputSlider1.setPaintTrack(false);
+        InputSlider1.setToolTipText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.InputSlider1.toolTipText")); // NOI18N
         InputSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 InputSlider1StateChanged(evt);
@@ -376,30 +370,27 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(TextWeight1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(WeightSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(WeightSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(TextWeight1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(InputSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel10))
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(InputSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGap(9, 9, 9))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(TextInput1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel10))
@@ -414,7 +405,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 .addGap(7, 7, 7))
         );
 
-        add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 160, 210));
+        add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, -1, 230));
 
         jPanel6.setBackground(new java.awt.Color(153, 255, 153));
 
@@ -465,7 +456,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                     .addComponent(jLabelParameterSlope)
                     .addComponent(jLabelParameterYhigh)
                     .addComponent(jLabelParameterYlow))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldYlow, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
                     .addComponent(jTextFieldYhigh, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
@@ -492,18 +483,18 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldYlow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelParameterYlow))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 90, 200, 170));
+        add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 80, 190, 200));
 
         jPanelDerivative.setBackground(new java.awt.Color(153, 255, 153));
         jPanelDerivative.setLayout(new java.awt.BorderLayout());
-        add(jPanelDerivative, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 300, 350, 260));
+        add(jPanelDerivative, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 290, 350, 260));
 
         jPanelGraph.setBackground(new java.awt.Color(153, 255, 153));
         jPanelGraph.setLayout(new java.awt.BorderLayout());
-        add(jPanelGraph, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 20, 350, 270));
+        add(jPanelGraph, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 10, 350, 270));
     }// </editor-fold>//GEN-END:initComponents
 
     private void CBTransferChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBTransferChoiceActionPerformed
@@ -792,6 +783,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         }
     drawTheGraph();
     }
+    
      private void drawTheGraph() {
           JFreeChart chart=createChart(createDataset());
         
@@ -801,6 +793,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         jPanelGraph.validate();
         drawTheGraphDerivative();
     }
+    
      private void drawTheGraphDerivative() {
           rangederivative=Math.ceil(Math.abs(neuron.getTransferFunction().getDerivative(9)))+2;
           System.out.println(rangederivative);
