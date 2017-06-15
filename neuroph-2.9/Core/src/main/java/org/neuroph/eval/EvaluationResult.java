@@ -1,9 +1,9 @@
-package org.neuroph.contrib.eval;
+package org.neuroph.eval;
 
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.eval.classification.ClassificationMetrics;
+import org.neuroph.eval.classification.ConfusionMatrix;
 
 /**
  * Create class that will hold statistics for all evaluated datasets - avgs, mx, min, std, variation

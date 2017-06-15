@@ -1,5 +1,6 @@
-package org.neuroph.contrib.eval;
+package org.neuroph.samples.eval;
 
+import org.neuroph.eval.Evaluation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 

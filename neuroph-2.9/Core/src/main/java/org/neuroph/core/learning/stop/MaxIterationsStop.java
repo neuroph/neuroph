@@ -25,7 +25,7 @@ import org.neuroph.core.learning.IterativeLearning;
  */
 public class MaxIterationsStop implements StopCondition, Serializable {
 
-    private IterativeLearning learningRule;    
+    private final IterativeLearning learningRule;    
     
     public MaxIterationsStop(IterativeLearning learningRule) {
         this.learningRule = learningRule;
@@ -33,8 +33,7 @@ public class MaxIterationsStop implements StopCondition, Serializable {
         
     @Override
     public boolean isReached() {
-        
-        
+                
         if (learningRule.getCurrentIteration() >= learningRule.getMaxIterations()) {
             return true;
         }

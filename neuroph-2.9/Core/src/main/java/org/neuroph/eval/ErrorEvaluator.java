@@ -1,4 +1,4 @@
-package org.neuroph.contrib.eval;
+package org.neuroph.eval;
 
 import org.neuroph.core.learning.error.ErrorFunction;
 

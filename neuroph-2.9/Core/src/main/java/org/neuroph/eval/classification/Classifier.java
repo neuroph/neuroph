@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.neuroph.contrib.eval.classification;
+package org.neuroph.eval.classification;
 
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;

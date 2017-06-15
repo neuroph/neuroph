@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
+import org.neuroph.eval.classification.ConfusionMatrix;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
@@ -16,7 +16,7 @@ import org.neuroph.util.TransferFunctionType;
  *
  * @author Milan Brkic - milan.brkic1@yahoo.com
  */
-public class AutoTrainer implements Trainer {
+public class AutoTrainer {
 
     private final static Logger LOGGER = Logger.getLogger(AutoTrainer.class.getName());
     private List<TrainingSettings> trainingSettingsList;
@@ -309,12 +309,6 @@ public class AutoTrainer implements Trainer {
         LOGGER.log(Level.INFO, "Generated : {0} settings.", this.trainingSettingsList.size());
     }
 
-    // todo: remove
-    @Override
-    public void train(NeuralNetwork neuralNet, DataSet dataSet) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     /**
      *
      * You can get results calling getResults() method.
@@ -322,7 +316,6 @@ public class AutoTrainer implements Trainer {
      * @param neuralNetwork type of neural net
      * @param dataSet
      */
-    @Override
     public void train(DataSet dataSet) {// mozda da se vrati Training setting koji je najbolje resenje za dati dataset.??
         generateTrainingSettings();
         List<TrainingResult> statResults = null;

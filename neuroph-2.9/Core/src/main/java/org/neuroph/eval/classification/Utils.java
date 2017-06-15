@@ -1,4 +1,4 @@
-package org.neuroph.contrib.eval.classification;
+package org.neuroph.eval.classification;
 
 public class Utils {
 

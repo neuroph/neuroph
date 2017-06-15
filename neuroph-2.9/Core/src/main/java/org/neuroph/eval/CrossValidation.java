@@ -1,8 +1,6 @@
-package org.neuroph.contrib.model.errorestimation;
+package org.neuroph.eval;
 
 import java.util.ArrayList;
-import org.neuroph.contrib.eval.Evaluation;
-import org.neuroph.contrib.eval.ClassifierEvaluator;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.util.data.sample.Sampling;
@@ -15,9 +13,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.apache.commons.lang3.SerializationUtils;
-import org.neuroph.contrib.eval.ErrorEvaluator;
-import org.neuroph.contrib.eval.EvaluationResult;
-import org.neuroph.contrib.eval.Evaluator;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.util.data.sample.SubSampling;
 
@@ -32,7 +27,7 @@ import org.neuroph.util.data.sample.SubSampling;
  */
 public class CrossValidation {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(CrossValidation.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrossValidation.class.getName());
 
     /**
      * Neural network to train
@@ -57,7 +52,7 @@ public class CrossValidation {
      * Evaluation procedure. Holds a collection of evaluators which can be
      * automatically added
      */
-    private Evaluation evaluation = new Evaluation();
+    private final Evaluation evaluation = new Evaluation();
 
     private CrossValidationResult results;
 
@@ -84,16 +79,6 @@ public class CrossValidation {
         initialize(neuralNetwork, dataSet, foldCount);
         this.sampling = new SubSampling(foldCount); // new RandomSamplingWithoutRepetition(numberOfSamples   
     }
-
-//    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, int... subSetSizes) { // number of folds
-//        initialize(neuralNetwork, dataSet, subSetSizes.length);
-//        this.sampling = new SubSampling(subSetSizes);
-//    }
-
-//    public CrossValidation(NeuralNetwork neuralNetwork, DataSet dataSet, Sampling sampling) { // number of folds/subsets
-//        initialize(neuralNetwork, dataSet, 10);
-//        this.sampling = sampling;
-//    }
 
     public Sampling getSampling() {
         return sampling;
@@ -146,9 +131,9 @@ public class CrossValidation {
 
     private class CrossValidationWorker implements Callable<EvaluationResult> {
 
-        private NeuralNetwork neuralNetwork;
-        private DataSet dataSet;
-        private int foldIndex;
+        private final NeuralNetwork neuralNetwork;
+        private final DataSet dataSet;
+        private final int foldIndex;
 
         public CrossValidationResult getResults() {
             return results;

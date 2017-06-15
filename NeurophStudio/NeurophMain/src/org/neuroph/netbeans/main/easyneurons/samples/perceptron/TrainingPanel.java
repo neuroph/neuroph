@@ -1,5 +1,6 @@
 package org.neuroph.netbeans.main.easyneurons.samples.perceptron;
 
+import java.awt.Dimension;
 import org.jdesktop.application.Action;
 
 /**
@@ -41,6 +42,7 @@ public class TrainingPanel extends javax.swing.JPanel {
 
     public void initComp() {
         jDefinite.setText("Max Iterations:");
+        jDefinite.setPreferredSize(new Dimension(120, 40));
         jbTrain.setText("Train");
         jbStop.setText("Stop");
         jbStep.setText("Step");

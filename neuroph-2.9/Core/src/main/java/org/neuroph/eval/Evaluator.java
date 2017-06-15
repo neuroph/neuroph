@@ -1,4 +1,4 @@
-package org.neuroph.contrib.eval;
+package org.neuroph.eval;
 
 /**
  * Generic interface for all types of evaluators

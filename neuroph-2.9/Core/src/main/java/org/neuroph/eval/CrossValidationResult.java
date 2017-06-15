@@ -1,9 +1,8 @@
-package org.neuroph.contrib.model.errorestimation;
+package org.neuroph.eval;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.neuroph.contrib.eval.EvaluationResult;
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
+import org.neuroph.eval.classification.ClassificationMetrics;
 
 /**
  *

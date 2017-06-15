@@ -1,6 +1,6 @@
 package org.neuroph.contrib.autotrain;
 
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
+import org.neuroph.eval.classification.ConfusionMatrix;
 
 /**
  *

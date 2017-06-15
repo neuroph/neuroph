@@ -1,4 +1,4 @@
-package org.neuroph.contrib.eval;
+package org.neuroph.eval;
 
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
@@ -8,8 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
+import org.neuroph.eval.classification.ClassificationMetrics;
+import org.neuroph.eval.classification.ConfusionMatrix;
+
 
 /**
  * Evaluation service used to run different evaluators on trained neural network

@@ -1,7 +1,8 @@
-package org.neuroph.contrib.eval;
+package org.neuroph.eval;
 
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
-import org.neuroph.contrib.eval.classification.Utils;
+import org.neuroph.eval.classification.ConfusionMatrix;
+import org.neuroph.eval.classification.Utils;
+
 
 public abstract class ClassifierEvaluator implements Evaluator<ConfusionMatrix> {
 

@@ -1,4 +1,4 @@
-package org.neuroph.contrib.eval.classification;
+package org.neuroph.eval.classification;
 
 /**
  * Confusion matrix container, holds class labels and matrix values .
