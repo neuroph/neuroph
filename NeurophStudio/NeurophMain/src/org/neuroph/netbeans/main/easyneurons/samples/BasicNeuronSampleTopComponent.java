@@ -15,9 +15,11 @@ import org.jfree.ui.RefineryUtilities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import org.jfree.chart.annotations.XYPointerAnnotation;
 import org.jfree.data.xy.XYSeries;
@@ -180,6 +182,10 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         jTextFieldYlow = new javax.swing.JTextField();
         jPanelDerivative = new javax.swing.JPanel();
         jPanelGraph = new javax.swing.JPanel();
+        jPanelFormula = new javax.swing.JPanel();
+        jLabelfunction = new javax.swing.JLabel();
+        jPanelFormulaDer = new javax.swing.JPanel();
+        jLabelFunctionDer = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -208,10 +214,11 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         jPanel1.add(CBTransferChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 51));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel1.text")); // NOI18N
-        jPanel2.add(jLabel1);
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 9, -1, -1));
 
         CBInputChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "WeightedSum", "Difference", "Max", "Min" }));
         CBInputChoice.addActionListener(new java.awt.event.ActionListener() {
@@ -219,7 +226,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 CBInputChoiceActionPerformed(evt);
             }
         });
-        jPanel2.add(CBInputChoice);
+        jPanel2.add(CBInputChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(106, 5, -1, -1));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -247,8 +254,10 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, -1, 170));
 
         jPanel4.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         WeightSlider2.setBackground(new java.awt.Color(255, 255, 255));
+        WeightSlider2.setMaximum(200);
         WeightSlider2.setMinimum(-200);
         WeightSlider2.setMinorTickSpacing(50);
         WeightSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
@@ -258,8 +267,10 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 WeightSlider2StateChanged(evt);
             }
         });
+        jPanel4.add(WeightSlider2, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 46, 35, 145));
 
         InputSlider2.setBackground(new java.awt.Color(255, 255, 255));
+        InputSlider2.setMaximum(200);
         InputSlider2.setMinimum(-200);
         InputSlider2.setMinorTickSpacing(50);
         InputSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
@@ -269,10 +280,13 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 InputSlider2StateChanged(evt);
             }
         });
+        jPanel4.add(InputSlider2, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 46, 36, 145));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel3.text")); // NOI18N
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 23, 55, -1));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel5.text")); // NOI18N
+        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 23, -1, -1));
 
         TextWeight2.setColumns(6);
         TextWeight2.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.TextWeight2.text")); // NOI18N
@@ -281,57 +295,19 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 TextWeight2ActionPerformed(evt);
             }
         });
+        jPanel4.add(TextWeight2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 198, 55, 25));
 
         TextInput2.setColumns(6);
         TextInput2.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.TextInput2.text")); // NOI18N
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(TextWeight2, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(WeightSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(InputSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel5))
-                        .addGap(9, 9, 9))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(TextInput2, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(InputSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(WeightSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextWeight2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextInput2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7))
-        );
+        jPanel4.add(TextInput2, new org.netbeans.lib.awtextra.AbsoluteConstraints(117, 198, 55, 25));
 
         add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 280, 190, 230));
 
         jPanel5.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         WeightSlider1.setBackground(new java.awt.Color(255, 255, 255));
+        WeightSlider1.setMaximum(200);
         WeightSlider1.setMinimum(-200);
         WeightSlider1.setMinorTickSpacing(50);
         WeightSlider1.setOrientation(javax.swing.JSlider.VERTICAL);
@@ -341,8 +317,10 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 WeightSlider1StateChanged(evt);
             }
         });
+        jPanel5.add(WeightSlider1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 46, 35, 145));
 
         InputSlider1.setBackground(new java.awt.Color(255, 255, 255));
+        InputSlider1.setMaximum(200);
         InputSlider1.setMinimum(-200);
         InputSlider1.setMinorTickSpacing(50);
         InputSlider1.setOrientation(javax.swing.JSlider.VERTICAL);
@@ -353,69 +331,38 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 InputSlider1StateChanged(evt);
             }
         });
+        jPanel5.add(InputSlider1, new org.netbeans.lib.awtextra.AbsoluteConstraints(122, 46, 35, 145));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel8, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel8.text")); // NOI18N
+        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 23, -1, -1));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel10, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabel10.text")); // NOI18N
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(122, 23, 37, -1));
 
         TextWeight1.setColumns(6);
         TextWeight1.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.TextWeight1.text")); // NOI18N
+        jPanel5.add(TextWeight1, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 198, 55, 25));
 
         TextInput1.setColumns(6);
         TextInput1.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.TextInput1.text")); // NOI18N
+        jPanel5.add(TextInput1, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 198, 55, 25));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(WeightSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(TextWeight1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(InputSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(9, 9, 9))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(TextInput1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(InputSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(WeightSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextWeight1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextInput1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7))
-        );
-
-        add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, -1, 230));
+        add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 280, 190, 230));
 
         jPanel6.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabelParameterSlope, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabelParameterSlope.text")); // NOI18N
+        jPanel6.add(jLabelParameterSlope, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 23, -1, -1));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabelParameterAmplitude, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabelParameterAmplitude.text")); // NOI18N
+        jPanel6.add(jLabelParameterAmplitude, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 63, -1, -1));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabelParameterYhigh, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabelParameterYhigh.text")); // NOI18N
+        jPanel6.add(jLabelParameterYhigh, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 103, -1, -1));
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabelParameterYlow, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabelParameterYlow.text")); // NOI18N
+        jPanel6.add(jLabelParameterYlow, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 143, -1, -1));
 
         jTextFieldSlope.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jTextFieldSlope.text")); // NOI18N
         jTextFieldSlope.addActionListener(new java.awt.event.ActionListener() {
@@ -423,6 +370,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 jTextFieldSlopeActionPerformed(evt);
             }
         });
+        jPanel6.add(jTextFieldSlope, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 20, 42, -1));
 
         jTextFieldAmplitude.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jTextFieldAmplitude.text")); // NOI18N
         jTextFieldAmplitude.addActionListener(new java.awt.event.ActionListener() {
@@ -430,6 +378,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 jTextFieldAmplitudeActionPerformed(evt);
             }
         });
+        jPanel6.add(jTextFieldAmplitude, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 60, 42, -1));
 
         jTextFieldYhigh.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jTextFieldYhigh.text")); // NOI18N
         jTextFieldYhigh.addActionListener(new java.awt.event.ActionListener() {
@@ -437,6 +386,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 jTextFieldYhighActionPerformed(evt);
             }
         });
+        jPanel6.add(jTextFieldYhigh, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 100, 42, -1));
 
         jTextFieldYlow.setText(org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jTextFieldYlow.text")); // NOI18N
         jTextFieldYlow.addActionListener(new java.awt.event.ActionListener() {
@@ -444,47 +394,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
                 jTextFieldYlowActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelParameterAmplitude)
-                    .addComponent(jLabelParameterSlope)
-                    .addComponent(jLabelParameterYhigh)
-                    .addComponent(jLabelParameterYlow))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldYlow, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                    .addComponent(jTextFieldYhigh, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                    .addComponent(jTextFieldSlope)
-                    .addComponent(jTextFieldAmplitude))
-                .addGap(22, 22, 22))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelParameterSlope)
-                    .addComponent(jTextFieldSlope, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelParameterAmplitude)
-                    .addComponent(jTextFieldAmplitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelParameterYhigh)
-                    .addComponent(jTextFieldYhigh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldYlow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelParameterYlow))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel6.add(jTextFieldYlow, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 140, 42, -1));
 
         add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 80, 190, 200));
 
@@ -495,6 +405,48 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         jPanelGraph.setBackground(new java.awt.Color(153, 255, 153));
         jPanelGraph.setLayout(new java.awt.BorderLayout());
         add(jPanelGraph, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 10, 350, 270));
+
+        jPanelFormula.setBackground(new java.awt.Color(204, 204, 255));
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabelfunction, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabelfunction.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanelFormulaLayout = new javax.swing.GroupLayout(jPanelFormula);
+        jPanelFormula.setLayout(jPanelFormulaLayout);
+        jPanelFormulaLayout.setHorizontalGroup(
+            jPanelFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFormulaLayout.createSequentialGroup()
+                .addComponent(jLabelfunction, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanelFormulaLayout.setVerticalGroup(
+            jPanelFormulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelFormulaLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabelfunction, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        add(jPanelFormula, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 20, 220, 120));
+
+        jPanelFormulaDer.setBackground(new java.awt.Color(204, 204, 255));
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabelFunctionDer, org.openide.util.NbBundle.getMessage(BasicNeuronSampleTopComponent.class, "BasicNeuronSampleTopComponent.jLabelFunctionDer.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanelFormulaDerLayout = new javax.swing.GroupLayout(jPanelFormulaDer);
+        jPanelFormulaDer.setLayout(jPanelFormulaDerLayout);
+        jPanelFormulaDerLayout.setHorizontalGroup(
+            jPanelFormulaDerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFormulaDerLayout.createSequentialGroup()
+                .addComponent(jLabelFunctionDer, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanelFormulaDerLayout.setVerticalGroup(
+            jPanelFormulaDerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFormulaDerLayout.createSequentialGroup()
+                .addComponent(jLabelFunctionDer, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        add(jPanelFormulaDer, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 300, 220, 120));
     }// </editor-fold>//GEN-END:initComponents
 
     private void CBTransferChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBTransferChoiceActionPerformed
@@ -507,6 +459,8 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
          jLabelParameterYhigh.setForeground(Color.black);
          jLabelParameterYlow.setForeground(Color.black);
          jLabelParameterAmplitude.setForeground(Color.black);
+          paintImageFormula(transferFunction); 
+          paintImageFormulaDer(transferFunction);  
         switch(transferFunction){
             case"Sigmoid":{
             jLabelParameterSlope.setForeground(Color.red);
@@ -514,6 +468,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
             jTextFieldYhigh.setEnabled(false);
             jTextFieldYlow.setEnabled(false);
             jTextFieldSlope.setText("1");
+           
             break;
             }
             case"Step":{
@@ -523,34 +478,38 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
             jTextFieldSlope.setEnabled(false);
             jTextFieldYhigh.setText("1");
             jTextFieldYlow.setText("0");
-                
+            
             break;
             }
             case"Tanh":{
-               jLabelParameterSlope.setForeground(Color.red);
-               jLabelParameterAmplitude.setForeground(Color.red);
-               jTextFieldYhigh.setEnabled(false);
-               jTextFieldYlow.setEnabled(false);
-               jTextFieldSlope.setText("1");
-               jTextFieldAmplitude.setText("1");
+            jLabelParameterSlope.setForeground(Color.red);
+            jLabelParameterAmplitude.setForeground(Color.red);
+            jTextFieldYhigh.setEnabled(false);
+            jTextFieldYlow.setEnabled(false);
+            jTextFieldSlope.setText("1");
+            jTextFieldAmplitude.setText("1");
+            
                break;
             }
             case"Linear":{
-                jLabelParameterSlope.setForeground(Color.red);
-                jTextFieldAmplitude.setEnabled(false);
-                jTextFieldYhigh.setEnabled(false);
-                jTextFieldYlow.setEnabled(false);
-                jTextFieldSlope.setText("1");
+            jLabelParameterSlope.setForeground(Color.red);
+            jTextFieldAmplitude.setEnabled(false);
+            jTextFieldYhigh.setEnabled(false);
+            jTextFieldYlow.setEnabled(false);
+            jTextFieldSlope.setText("1");
+           
                 break;
             }
             case"Sgn":{
-                jTextFieldAmplitude.setEnabled(false);
-                jTextFieldYhigh.setEnabled(false);
-                jTextFieldYlow.setEnabled(false);
-                jTextFieldSlope.setEnabled(false);
-                checkTF();
+            jTextFieldAmplitude.setEnabled(false);
+            jTextFieldYhigh.setEnabled(false);
+            jTextFieldYlow.setEnabled(false);
+            jTextFieldSlope.setEnabled(false);
+           
+               
                 break;
             }
+            
            
         }
         checkTF();
@@ -653,10 +612,12 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelFunctionDer;
     private javax.swing.JLabel jLabelParameterAmplitude;
     private javax.swing.JLabel jLabelParameterSlope;
     private javax.swing.JLabel jLabelParameterYhigh;
     private javax.swing.JLabel jLabelParameterYlow;
+    private javax.swing.JLabel jLabelfunction;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -664,6 +625,8 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanelDerivative;
+    private javax.swing.JPanel jPanelFormula;
+    private javax.swing.JPanel jPanelFormulaDer;
     private javax.swing.JPanel jPanelGraph;
     private javax.swing.JTextField jTextFieldAmplitude;
     private javax.swing.JTextField jTextFieldSlope;
@@ -749,6 +712,7 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
             case"Sigmoid":{
                 neuron.setTransferFunction(new Sigmoid(slope));
                 calculateNeuron();    
+                
                 break;
                 }
             
@@ -918,7 +882,18 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         }
         plot.getDomainAxis().setAxisLineVisible(true);
         plot.getRangeAxis().setAxisLineVisible(true);
-        
+        if(transferFunction.equals("Linear")||transferFunction.equals("Sgn")||transferFunction.equals("Step")){
+         plot.getDomainAxis().setRange(-4,4);
+        }
+         if(transferFunction.equals("Sigmoid")){
+             if(slope<=1 && slope >=-1){
+             plot.getDomainAxis().setRange(-4,4);
+             }
+             else {
+              plot.getDomainAxis().setRange(-1,1);
+             }
+         
+        }
         if(transferFunction.equals("Step") || transferFunction.equals("Sgn")){
        plot.addAnnotation(xy);
         }
@@ -938,11 +913,15 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         );
        
         XYPlot plot = (XYPlot) chart.getPlot();
-        if(transferFunction.equals("Step")){
+        if(transferFunction.equals("Step") || transferFunction.equals("Sgn")){
         plot.getDomainAxis().setRange(-2,2);
         }
+        else if(transferFunction.equals("Tanh")||transferFunction.equals("Sigmoid")){
+        plot.getDomainAxis().setRange(-4,4);
+        }
         else{
-        plot.getDomainAxis().setRange(-domain,domain);
+        plot.getDomainAxis().setRange(-4,4);    
+        //  plot.getDomainAxis().setRange(-domain,domain);
         }
         if(transferFunction.equals("Sigmoid")){
          plot.getRangeAxis().setRange(-0.5,1.5);
@@ -950,10 +929,38 @@ public final class BasicNeuronSampleTopComponent extends TopComponent {
         else if(transferFunction.equals("Tanh")){
          plot.getRangeAxis().setRange(-1.5,1.5);
         }
-       
+        else if(transferFunction.equals("Step")){
+         plot.getRangeAxis().setRange(yLow-1,yHigh+1);
+        }
         else{
         
         plot.getRangeAxis().setRange(-range,range);}
         return chart;
     }
+
+    private void paintImageFormula(String transferFunction) {
+                jPanelFormula.removeAll();
+                ImageIcon icon = new ImageIcon("src\\org\\neuroph\\netbeans\\main\\easyneurons\\samples\\resources\\functionimg\\"+transferFunction.toLowerCase()+".png");
+                Image image=icon.getImage();
+                Image newImage= image.getScaledInstance(jLabelfunction.getWidth(), jLabelfunction.getHeight(),Image.SCALE_SMOOTH);
+                ImageIcon icon1=new ImageIcon(newImage);
+                jLabelfunction.setIcon(icon1);
+                jPanelFormula.add(jLabelfunction);
+                jPanelFormula.revalidate();
+                jPanelFormula.repaint();
+    }
+
+    private void paintImageFormulaDer(String transferFunction) {
+                jPanelFormulaDer.removeAll();
+                ImageIcon iconder = new ImageIcon("src\\org\\neuroph\\netbeans\\main\\easyneurons\\samples\\resources\\functionimg\\"+transferFunction.toLowerCase()+"der.png");
+                Image imageder=iconder.getImage();
+                Image newImageder= imageder.getScaledInstance(jLabelfunction.getWidth(), jLabelfunction.getHeight(),Image.SCALE_SMOOTH);
+                ImageIcon icon1der=new ImageIcon(newImageder);
+                jLabelFunctionDer.setIcon(icon1der);
+                jPanelFormulaDer.add(jLabelFunctionDer);
+                jPanelFormulaDer.revalidate();
+                jPanelFormulaDer.repaint();
+    }
+
+    
 }
