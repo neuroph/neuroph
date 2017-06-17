@@ -2,19 +2,16 @@ package org.neuroph.samples.mnist.learn;
 
 import java.io.IOException;
 
-import org.neuroph.contrib.eval.Evaluation;
+import org.neuroph.eval.Evaluation;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;
-import org.neuroph.nnet.comp.Kernel;
-import org.neuroph.nnet.comp.layer.FeatureMapLayer;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.nnet.comp.Dimension2D;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
-import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,8 +45,13 @@ public class CnnMNIST {
 
             LOG.info("{}-{}-{}", layer1, layer2, layer3);
 
-            DataSet trainSet = MNISTDataSet.createFromFile(MNISTDataSet.TRAIN_LABEL_NAME, MNISTDataSet.TRAIN_IMAGE_NAME, 100);
-            DataSet testSet = MNISTDataSet.createFromFile(MNISTDataSet.TEST_LABEL_NAME, MNISTDataSet.TEST_IMAGE_NAME, 10000);
+         String putanja = "C:\\Users\\jecak_000\\Documents\\Neuroph\\neuroph_novaVerzija\\neurophNoviPull\\neuroph-2.9\\Samples\\";
+         String labelName = putanja.concat(MNISTDataSet.TRAIN_LABEL_NAME);
+         String trainImage = putanja.concat(MNISTDataSet.TRAIN_IMAGE_NAME);
+         String testLabel =  putanja.concat(MNISTDataSet.TEST_LABEL_NAME);
+         String testImage  = putanja.concat(MNISTDataSet.TEST_IMAGE_NAME);
+         DataSet trainSet = MNISTDataSet.createFromFile(labelName,trainImage, 100);
+         DataSet testSet = MNISTDataSet.createFromFile(testLabel,testImage, 100);
 
             Dimension2D inputDimension = new Dimension2D(32, 32);
             Dimension2D convolutionKernel = new Dimension2D(5, 5);

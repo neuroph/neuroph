@@ -10,16 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import org.neuroph.contrib.model.errorestimation.CrossValidation;
-import org.neuroph.core.Layer;
-import org.neuroph.core.Neuron;
-import org.neuroph.core.input.EuclideanRBF;
-import org.neuroph.core.transfer.Gaussian;
-import org.neuroph.core.transfer.Linear;
-import org.neuroph.core.transfer.Sigmoid;
-import org.neuroph.nnet.comp.Dimension2D;
+import org.neuroph.eval.Evaluation;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
-import org.neuroph.util.NeuronProperties;
 
 /**
  * Konvolucioni parametri
@@ -106,7 +98,7 @@ public class MNISTExample {
 //            crossValidation.run();
             
 //           ClassificationMetrics validationResult = crossValidation.computeErrorEstimate(convolutionNetwork, trainSet);
-           // Evaluation.runFullEvaluation(convolutionNetwork, testSet);
+            Evaluation.runFullEvaluation(convolutionNetwork, testSet);
             
             convolutionNetwork.save("mnist.nnet");
 

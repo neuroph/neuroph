@@ -1,6 +1,6 @@
 package org.neuroph.samples.evaluation;
 
-import org.neuroph.contrib.eval.Evaluation;
+import org.neuroph.eval.Evaluation;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.MultiLayerPerceptron;

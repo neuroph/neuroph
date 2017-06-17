@@ -1,6 +1,6 @@
 package org.neuroph.samples.mnist.master;
 
-import org.neuroph.contrib.eval.classification.ClassificationResult;
+import org.neuroph.eval.classification.ClassificationResult;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
-import org.neuroph.contrib.eval.classification.Utils;
+import org.neuroph.eval.classification.Utils;
 
 /**
  * Simple application which demonstrated the usage of CNN for digit recognition

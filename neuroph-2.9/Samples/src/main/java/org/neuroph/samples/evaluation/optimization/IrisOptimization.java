@@ -1,6 +1,6 @@
 package org.neuroph.samples.evaluation.optimization;
 
-import org.neuroph.contrib.eval.Evaluation;
+import org.neuroph.eval.Evaluation;
 import org.neuroph.contrib.model.modelselection.MultilayerPerceptronOptimazer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;

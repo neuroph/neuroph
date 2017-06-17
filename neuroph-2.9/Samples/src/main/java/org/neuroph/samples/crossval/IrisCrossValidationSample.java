@@ -1,9 +1,9 @@
 package org.neuroph.samples.crossval;
 
 import java.util.concurrent.ExecutionException;
-import org.neuroph.contrib.eval.ClassifierEvaluator;
-import org.neuroph.contrib.model.errorestimation.CrossValidation;
-import org.neuroph.contrib.model.errorestimation.CrossValidationResult;
+import org.neuroph.eval.ClassifierEvaluator;
+import org.neuroph.eval.CrossValidation;
+import org.neuroph.eval.CrossValidationResult;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.MultiLayerPerceptron;

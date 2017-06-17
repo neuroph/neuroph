@@ -5,11 +5,11 @@
  */
 package org.neuroph.samples.eval;
 
-import org.neuroph.contrib.eval.ClassifierEvaluator;
-import org.neuroph.contrib.eval.ErrorEvaluator;
-import org.neuroph.contrib.eval.Evaluation;
-import org.neuroph.contrib.eval.classification.ClassificationMetrics;
-import org.neuroph.contrib.eval.classification.ConfusionMatrix;
+import org.neuroph.eval.ClassifierEvaluator;
+import org.neuroph.eval.ErrorEvaluator;
+import org.neuroph.eval.Evaluation;
+import org.neuroph.eval.classification.ClassificationMetrics;
+import org.neuroph.eval.classification.ConfusionMatrix;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.learning.error.MeanSquaredError;

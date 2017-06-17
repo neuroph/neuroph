@@ -1,11 +1,6 @@
 package org.neuroph.samples.mnist.learn;
 
 
-import org.neuroph.contrib.model.errorestimation.CrossValidation;
-import org.neuroph.contrib.model.errorestimation.CrossValidation;
-import org.neuroph.contrib.eval.Evaluation;
-import org.neuroph.contrib.model.modelselection.MultilayerPerceptronOptimazer;
-import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
