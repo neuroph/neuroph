@@ -1,6 +1,9 @@
 package org.neuroph.samples.cifar10;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.nnet.ConvolutionalNetwork;
@@ -8,6 +11,9 @@ import org.neuroph.core.data.DataSet;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
 import org.neuroph.eval.Evaluation;
+import org.neuroph.imgrec.ColorMode;
+import org.neuroph.imgrec.ImageRecognitionHelper;
+import org.neuroph.imgrec.image.Dimension;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.ConvolutionalBackpropagation;
 import org.neuroph.samples.convolution.mnist.MNISTDataSet;
@@ -33,12 +39,14 @@ public class Cifar10Example {
          DataSet trainSet = MNISTDataSet.createFromFile(labelName,trainImage, 100);
          DataSet testSet = MNISTDataSet.createFromFile(testLabel,testImage, 100);*/
        
-       DataSet trainSet = DataSet.load("C:\\Users\\jecak_000\\Documents\\NetBeansProjects\\PrepoznavanjeSlika_p1\\Training Sets\\cifar_veciSkupTrening.tset");
-       DataSet testSet = trainSet;//DataSet.load("C:\\Users\\jecak_000\\Documents\\NetBeansProjects\\PrepoznavanjeSlika_p1\\Test Sets\\cifar_veciSkupTest.tset");
-       String[] labels = {"airplane","automobile","bird","cat","deer","dog","frog","horse","ship","truck"};
-       trainSet.setColumnNames(labels);
-       testSet.setColumnNames(labels);
-         
+       //DataSet trainSet = DataSet.load("C:\\Users\\jecak_000\\Documents\\NetBeansProjects\\PrepoznavanjeSlika_p1\\Training Sets\\cifar_veciSkupTrening.tset");
+       //DataSet testSwithPoolingLayeret = trainSet;//DataSet.load("C:\\Users\\jecak_000\\Documents\\NetBeansProjects\\PrepoznavanjeSlika_p1\\Test Sets\\cifar_veciSkupTest.tset");
+       List<String> labels = Arrays.asList(new String[]{"airplane","automobile","bird","cat","deer","dog","frog","horse","ship","truck"});
+
+       //trainSet.setColumnNames(labels);
+       //testSet.setColumnNames(labels);'
+       DataSet trainSet = ImageRecognitionHelper.createImageDataSetFromFile("D:\\Doktorske\\Beograd\\Neuronske mreze - Zoran Sevarac\\Cifar 10\\train\\train_1000\\", labels, "", ColorMode.COLOR_RGB, new Dimension(32, 32), "cifar", 1);
+       DataSet testSet = trainSet;
          
        /*  Dimension2D inputDimension = new Dimension2D(32, 32);
          Dimension2D convolutionKernel = new Dimension2D(5, 5);

@@ -19,6 +19,8 @@ package org.neuroph.imgrec;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -275,4 +277,75 @@ public class ImageRecognitionHelper {
 		}
 		return response;
 	}
+        
+    private static List<String> createLabels(HashMap<String,?> map)
+    {
+        List<String> imageLabels = new ArrayList<String>();
+        for (String imgName : map.keySet()) {
+            StringTokenizer st = new StringTokenizer(imgName, "._");
+            String imageLabel = st.nextToken();
+            if (!imageLabels.contains(imageLabel)) {
+                imageLabels.add(imageLabel);
+            }
+        }
+        Collections.sort(imageLabels); 
+        return imageLabels;
+    }
+
+    public static DataSet createImageDataSetFromFile(String imageDir,  List<String> imageLabels, String junkDir, ColorMode colorMode, Dimension samplingResolution, String trainingSetName, int numOfPictures)
+    {
+        DataSet dataSet = null;
+
+        HashMap<String, FractionRgbData> rgbDataMap = new HashMap<>();
+        HashMap<String, FractionHSLData> hslDataMap = new HashMap<>();
+
+        // load color infor for images to recognize
+        try {
+            // load images and get/set labels for all images
+            File labeledImagesDir = new File(imageDir);
+            if (colorMode == ColorMode.COLOR_HSL)  {
+                hslDataMap.putAll(ImageRecognitionHelper.getFractionHSLDataForDirectory(labeledImagesDir, samplingResolution));
+                if (imageLabels == null) imageLabels = createLabels(hslDataMap);
+            } else {
+                rgbDataMap.putAll(ImageRecognitionHelper.getFractionRgbDataForDirectory(labeledImagesDir, samplingResolution)); // pre je koristio ImageLoader
+                if (imageLabels == null) imageLabels = createLabels(rgbDataMap);
+            }
+
+        } catch (IOException ioe) {
+            System.err.println("Unable to load images from labeled images dir: '" + imageDir + "'");
+            System.err.println(ioe.toString());
+        }
+
+        // load junk images
+        if ((junkDir != null) && (!junkDir.equals(""))) {
+            try {
+                File junkImagesDir = new File(junkDir);
+
+            if (colorMode == ColorMode.COLOR_HSL)  {
+                hslDataMap.putAll(ImageRecognitionHelper.getFractionHSLDataForDirectory(junkImagesDir, samplingResolution));
+            } else
+                rgbDataMap.putAll(ImageRecognitionHelper.getFractionRgbDataForDirectory(junkImagesDir, samplingResolution)); // pre je koristio ImageLoader
+
+
+            } catch (IOException ioe) {
+                System.err.println("Unable to load images from junk images dir: '" + junkDir + "'");
+                System.err.println(ioe.toString());
+            }
+        }
+
+        // create data set
+        if (colorMode == ColorMode.COLOR_RGB) {
+            dataSet = ImageRecognitionHelper.createRGBTrainingSet(imageLabels, rgbDataMap);
+        } else if (colorMode == ColorMode.COLOR_HSL) {                                    
+            dataSet = ImageRecognitionHelper.createHSLTrainingSet(imageLabels, hslDataMap); 
+        } else {
+            dataSet = ImageRecognitionHelper.createBlackAndWhiteTrainingSet(imageLabels, rgbDataMap);
+        }
+
+        dataSet.setLabel(trainingSetName);
+        dataSet.setColumnNames((String[]) imageLabels.toArray());//TODO: setOutputNames() 
+        dataSet.save("D:\\Doktorske\\Beograd\\Neuronske mreze - Zoran Sevarac\\Cifar 10\\dataset.tset");
+
+        return dataSet;
+    }
 }
