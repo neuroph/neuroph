@@ -80,10 +80,6 @@ public class SigmoidTest {
 		instance.setSlope(1.0);
 	}
 
-	@After
-	public void tearDown() {
-	}
-
 	/**
 	 * Test of getOutput method, of class Sigmoid.
 	 */
