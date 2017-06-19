@@ -16,14 +16,6 @@ public class LayerTest {
 	Layer instance;
 	Neuron testneuron1, testneuron2, testneuron3;
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() {
 		testneuron1 = new Neuron();
@@ -32,10 +24,6 @@ public class LayerTest {
 		instance = new Layer();
 		instance.addNeuron(testneuron1);
 		instance.addNeuron(testneuron2);
-	}
-
-	@After
-	public void tearDown() {
 	}
 
 	@Test

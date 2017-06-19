@@ -40,14 +40,6 @@ public class NeuralNetworkTest {
         instance = new NeuralNetwork<>();
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
     @Test
     public void testAddLayer() {
         Layer l = Mockito.mock(Layer.class);

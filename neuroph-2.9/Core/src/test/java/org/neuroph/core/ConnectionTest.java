@@ -14,26 +14,12 @@ public class ConnectionTest {
 	Neuron fromNeuron, toNeuron;
 	public ExpectedException exception = ExpectedException.none();
 
-	public ConnectionTest() {
-	}
-
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() {
 		fromNeuron = new Neuron();
 		toNeuron = new Neuron();
 	}
 
-	@After
-	public void tearDown() {
-	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void connectionIn() {

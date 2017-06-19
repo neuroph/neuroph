@@ -16,7 +16,6 @@
 package org.neuroph.core;
 
 import java.util.Objects;
-import java.util.Random;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
@@ -73,7 +72,7 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
      *
      * @param amount amount to add to current weight value
      */
-    public void inc(double amount) {
+    public final void inc(double amount) {
         this.value += amount;
     }
 
@@ -82,7 +81,7 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
      *
      * @param amount amount to subtract from the current weight value
      */
-    public void dec(double amount) {
+    public final void dec(double amount) {
         this.value -= amount;
     }
 

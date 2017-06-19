@@ -37,7 +37,7 @@ public class MomentumBackPropagationTest {
         maxError = 0.01;
         instance.setLearningRate(0.5);
         instance.setMaxError(maxError);
-        String inputFileName = "src\\test\\resources\\iris_normalized.txt";
+        String inputFileName = "src/test/resources/iris_normalized.txt";
         irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
 
     }

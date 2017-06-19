@@ -17,17 +17,6 @@ public class NeuronTest {
 	Neuron instance1, instance2, instance3, instance4;
 	Connection testConnection13, testConnection14, testConnection23, testConnection24;
 
-	public NeuronTest() {
-	}
-
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() {
 		instance1 = new Neuron();
@@ -50,10 +39,6 @@ public class NeuronTest {
 		testConnection24 = new Connection(instance2, instance4, .8);
 		instance2.addOutputConnection(testConnection24);
 		instance4.addInputConnection(testConnection24);
-	}
-
-	@After
-	public void tearDown() {
 	}
 
 	@Test
