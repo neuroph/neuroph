@@ -57,8 +57,8 @@ public class NeuronNode extends AbstractNode {
 
         try {
             Property type = new PropertySupport.Reflection(neuron, Class.class, "getClass", null);
-            PropertySupport.Reflection transferfunction = new PropertySupport.Reflection(neuron, TransferFunction.class, "getTransferFunction", "setTransferFunction");
-            PropertySupport.Reflection inputfunction = new PropertySupport.Reflection(neuron, InputFunction.class, "getInputFunction", "setInputFunction");
+            PropertySupport.Reflection<TransferFunction> transferfunction = new PropertySupport.Reflection(neuron, TransferFunction.class, "getTransferFunction", "setTransferFunction");
+            PropertySupport.Reflection<InputFunction> inputfunction = new PropertySupport.Reflection(neuron, InputFunction.class, "getInputFunction", "setInputFunction");
 
             PropertySupport.Reflection netInput = new PropertySupport.Reflection(neuron, Double.TYPE, "getNetInput", "setInput");
             PropertySupport.Reflection output = new PropertySupport.Reflection(neuron, Double.TYPE, "getOutput", "setOutput");

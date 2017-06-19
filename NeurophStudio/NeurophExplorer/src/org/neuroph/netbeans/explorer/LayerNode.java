@@ -45,8 +45,8 @@ public class LayerNode extends AbstractNode {
         set.setName("Layer properties");
 
         try {
-            Property neuronCount = new PropertySupport.Reflection(layer, Integer.class, "getNeuronsCount", null);
-            Property label = new PropertySupport.Reflection(layer, String.class, "getLabel", "setLabel");
+            Property<Integer> neuronCount = new PropertySupport.Reflection(layer, Integer.class, "getNeuronsCount", null);
+            Property<String> label = new PropertySupport.Reflection(layer, String.class, "getLabel", "setLabel");
 
             neuronCount.setShortDescription("Number of neurons");
             label.setShortDescription("Layer's label");

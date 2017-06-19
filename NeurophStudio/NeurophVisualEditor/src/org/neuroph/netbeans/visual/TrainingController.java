@@ -2,19 +2,20 @@ package org.neuroph.netbeans.visual;
 
 import java.io.PrintWriter;
 import java.util.ConcurrentModificationException;
-import org.neuroph.contrib.eval.ClassifierEvaluator;
-
-import org.neuroph.contrib.model.errorestimation.CrossValidation;
+import java.util.concurrent.ExecutionException;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.events.LearningEvent;
 import org.neuroph.core.events.LearningEventListener;
+import org.neuroph.eval.ClassifierEvaluator;
+import org.neuroph.eval.CrossValidation;
 import org.neuroph.netbeans.project.NeurophProjectFilesFactory;
 import org.neuroph.nnet.learning.BinaryDeltaRule;
 import org.neuroph.nnet.learning.KohonenLearning;
 import org.neuroph.nnet.learning.LMS;
 import org.neuroph.nnet.learning.SupervisedHebbianLearning;
 import org.neuroph.util.data.sample.SubSampling;
+import org.openide.util.Exceptions;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 
@@ -116,7 +117,7 @@ public class TrainingController implements Thread.UncaughtExceptionHandler {
         } else {
 
             if (subsetDistribution != null) {
-                crossval = new CrossValidation(neuralNet, neuralNetAndDataSet.getDataSet(), subsetDistribution);
+              //  crossval = new CrossValidation(neuralNet, neuralNetAndDataSet.getDataSet(), subsetDistribution);
             } else {
                 crossval = new CrossValidation(neuralNet, neuralNetAndDataSet.getDataSet(), numberOfCrossvalSubsets);
             }
@@ -153,7 +154,13 @@ public class TrainingController implements Thread.UncaughtExceptionHandler {
             
             (new Thread(new Runnable() {
                 public void run() {
-                    crossval.run();
+                    try {
+                        crossval.run();
+                    } catch (InterruptedException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (ExecutionException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
                     out.println(crossval.getResult());
                 }
             })).start();

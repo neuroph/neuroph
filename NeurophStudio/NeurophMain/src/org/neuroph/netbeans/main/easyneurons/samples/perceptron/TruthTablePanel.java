@@ -55,10 +55,7 @@ public class TruthTablePanel extends javax.swing.JPanel {
     g.drawLine(gridX,5,gridX,height-5);
   }
 
-//   @Override
-//  public void update(Graphics g) {
-//    paint(g);
-//  }
+
 
     public void disableComponents() {
     output00.setEnabled(false);

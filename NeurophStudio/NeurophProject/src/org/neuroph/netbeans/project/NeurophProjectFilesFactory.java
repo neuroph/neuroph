@@ -32,7 +32,7 @@ public class NeurophProjectFilesFactory {
     
     
     
-    public void createNeuralNetworkFile(NeuralNetwork nnet) {
+    public void createNeuralNetworkFile(NeuralNetwork<?> nnet) {
         try {
             currentProject = CurrentProject.getInstance().getCurrentProject();                     
             String path = currentProject.getProjectDirectory().getPath();

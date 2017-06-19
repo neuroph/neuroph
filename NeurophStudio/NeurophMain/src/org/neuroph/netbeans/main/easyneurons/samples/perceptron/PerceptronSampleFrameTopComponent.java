@@ -41,12 +41,11 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
     private static final String PREFERRED_ID = "PerceptronSampleFrameTopComponent";
 
     public PerceptronSampleFrameTopComponent() {
-        initComponents();
+        initComponents();   
         setName(NbBundle.getMessage(PerceptronSampleFrameTopComponent.class, "CTL_PerceptronSampleFrameTopComponent"));
         setToolTipText(NbBundle.getMessage(PerceptronSampleFrameTopComponent.class, "HINT_PerceptronSampleFrameTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
-
     }
 
     /**
@@ -58,7 +57,6 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
     private void initComponents() {
 
         setMinimumSize(new java.awt.Dimension(750, 400));
-        setPreferredSize(new java.awt.Dimension(750, 400));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -165,7 +163,7 @@ public final class PerceptronSampleFrameTopComponent extends TopComponent implem
     private boolean isDrawing = false;
 
     public void initSample() {
-
+        // on bi trebalo da vuce perceptron kreiran u projektu
         this.neuralNetwork = new Perceptron(2, 1);
         neuralNetwork.setLearningRule(new BinaryDeltaRule());
         neuralNetwork.setLabel("PerceptronSampleNetwork");

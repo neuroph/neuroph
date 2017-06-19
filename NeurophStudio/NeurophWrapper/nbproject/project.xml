@@ -80,9 +80,8 @@
                 <package>org.neuroph.adapters.jml</package>
                 <package>org.neuroph.adapters.weka</package>
                 <package>org.neuroph.contrib</package>
+                <package>org.neuroph.contrib.autotrain</package>
                 <package>org.neuroph.contrib.bpbench</package>
-                <package>org.neuroph.contrib.eval</package>
-                <package>org.neuroph.contrib.eval.classification</package>
                 <package>org.neuroph.contrib.graphml</package>
                 <package>org.neuroph.contrib.learning</package>
                 <package>org.neuroph.contrib.licenceplaterecognition</package>
@@ -104,6 +103,8 @@
                 <package>org.neuroph.core.transfer</package>
                 <package>org.neuroph.dev.noprop</package>
                 <package>org.neuroph.dev.noprop.eval</package>
+                <package>org.neuroph.eval</package>
+                <package>org.neuroph.eval.classification</package>
                 <package>org.neuroph.imgrec</package>
                 <package>org.neuroph.imgrec.filter</package>
                 <package>org.neuroph.imgrec.filter.impl</package>
@@ -125,6 +126,7 @@
                 <package>org.neuroph.samples</package>
                 <package>org.neuroph.samples.adalineDigits</package>
                 <package>org.neuroph.samples.brestCancer</package>
+                <package>org.neuroph.samples.cifar10</package>
                 <package>org.neuroph.samples.convolution</package>
                 <package>org.neuroph.samples.convolution.mnist</package>
                 <package>org.neuroph.samples.convolution.util</package>
