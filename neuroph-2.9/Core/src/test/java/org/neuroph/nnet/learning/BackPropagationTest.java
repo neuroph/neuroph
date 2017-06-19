@@ -1,10 +1,5 @@
 package org.neuroph.nnet.learning;
 
-import java.util.ArrayList;
-import static org.junit.Assert.*;
-
-import java.util.Random;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -19,6 +14,13 @@ import org.neuroph.core.transfer.Linear;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.TransferFunctionType;
 import org.neuroph.util.random.WeightsRandomizer;
+
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -42,8 +44,9 @@ public class BackPropagationTest {
         maxError = 0.01;
         instance.setLearningRate(0.5);
         instance.setMaxError(maxError);
-        String inputFileName = "src\\test\\resources\\iris_normalized.txt";
-        irisDataSet = DataSet.createFromFile(inputFileName, 4, 3, ",", false);
+        irisDataSet = DataSet
+            .createFromReader(new InputStreamReader(getClass().getResourceAsStream("/iris_normalized.txt")), null, 4, 3,
+                              ",", false);
 
     }
 
