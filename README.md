@@ -27,9 +27,10 @@ Copy/Paste following code into your pom.xml file
         </dependency>
 </dependencies>
 ```
-Getting and Buildig from Sources
+Getting and Building from Sources using NetBeans
 ======
 
-In NetBeans click:
+Click: Main Menu > Team > Git > Clone
+For Repository URL enter https://github.com/neuroph/neuroph.git
+Click FInish
 
-Main Menu > Team > Git
