@@ -11,6 +11,7 @@ Adding Maven Dependency
 
 Copy/Paste following code into your pom.xml file
 
+```xml
 <repositories>
         <repository>
             <id>neuroph.sourceforge.net</id>
@@ -25,3 +26,10 @@ Copy/Paste following code into your pom.xml file
             <version>2.94</version>
         </dependency>
 </dependencies>
+```
+Getting and Buildig from Sources
+======
+
+In NetBeans click:
+
+Main Menu > Team > Git
