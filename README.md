@@ -31,6 +31,8 @@ Getting and Building from Sources using NetBeans
 ======
 
 Click: Main Menu > Team > Git > Clone
+
 For Repository URL enter https://github.com/neuroph/neuroph.git
+
 Click FInish
 
