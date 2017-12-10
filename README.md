@@ -1,10 +1,10 @@
 Neuroph - Java Neural Network Platform Neuroph
 ======
 
-Neuroph is lightweight Java neural network framework to develop common neural network architectures. 
+Neuroph is a Java neural network framework and DevelopEnvironment ent  to develop common neural network architectures. 
 It contains well designed, open source Java library with small number of basic classes which correspond to basic NN concepts. 
-Also has nice GUI neural network editor to quickly create Java neural network components. 
-It has been released as open source under the Apache 2.0 license, and it's FREE for you to use it.
+Also it provides nice GUI neural network editor to quickly create Java neural network components. 
+It has been released as open source under the Apache 2.0 license.
 
 Adding Maven Dependency
 ======
