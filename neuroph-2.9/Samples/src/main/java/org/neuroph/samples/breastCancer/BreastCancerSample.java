@@ -1,4 +1,4 @@
-package org.neuroph.samples.brestCancer;
+package org.neuroph.samples.breastCancer;
 
 /**
  * Copyright 2013 Neuroph Project http://neuroph.sourceforge.net
@@ -17,6 +17,7 @@ package org.neuroph.samples.brestCancer;
  */
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
@@ -67,8 +68,8 @@ import org.neuroph.util.data.norm.Normalizer;
  *Number of instances: 569
 
  *Number of attributes: 
- 32 (30 real-valued input features, 
- 2 output features - 1,0 for M = malignant cancer and 0,1 for B = benign cancer)
+ 31 (30 real-valued input features, 
+ 1 output feature - 1,0 for M = malignant / benign cancer)
 
  *Missing attribute values: none
 
@@ -91,35 +92,26 @@ import org.neuroph.util.data.norm.Normalizer;
  j) fractal dimension ("coastline approximation" - 1)
 
  Output:
- 31 and 32: 
- 1,0 M = malignant
- 0,1 B = benign
+ 31: 1/0 M = malignant / benign
 
  *The original data set description can be found at link:
  https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.names
 
  */
-public class BrestCancerSample implements LearningEventListener {
+public class BreastCancerSample implements LearningEventListener {
 
-    //Important for evaluating network result
-    public int[] count = new int[3];
-    public int[] correct = new int[3];
-    int unpredicted = 0;
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-
-        (new BrestCancerSample()).run();
-    }
+    // for evaluating classification result
+    int total, correct, incorrect;
+    
+    // if output is greater then this value it is considered as malign
+    float classificationThreshold = 0.5f;
 
     public void run() {
 
         System.out.println("Creating training and test set from file...");
-        String trainingSetFileName = "data_sets/breast cancer.txt";
+        String trainingSetFileName = "data_sets/breast_cancer.txt";
         int inputsCount = 30;
-        int outputsCount = 2;
+        int outputsCount = 1;
 
         //Create data set from file
         DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, ",");
@@ -130,9 +122,9 @@ public class BrestCancerSample implements LearningEventListener {
         normalizer.normalize(dataSet);
 
         //Creatinig training set (70%) and test set (30%)
-        DataSet[] trainingAndTestSet = dataSet.createTrainingAndTestSubsets(70, 30);
-        DataSet trainingSet = trainingAndTestSet[0];
-        DataSet testSet = trainingAndTestSet[1];
+        List<DataSet> trainingAndTestSet = dataSet.split(70, 30);
+        DataSet trainingSet = trainingAndTestSet.get(0);
+        DataSet testSet = trainingAndTestSet.get(1);
 
         System.out.println("Creating neural network...");
         //Create MultiLayerPerceptron neural network
@@ -143,57 +135,41 @@ public class BrestCancerSample implements LearningEventListener {
         learningRule.addListener(this);
 
         learningRule.setLearningRate(0.3);
-        learningRule.setMaxError(0.001);
-        learningRule.setMaxIterations(5000);
+        learningRule.setMaxError(0.01);
+        learningRule.setMaxIterations(500);
 
         System.out.println("Training network...");
         //train the network with training set
         neuralNet.learn(trainingSet);
 
-        System.out.println("Testing network...\n\n");
+        System.out.println("Testing network...");
         testNeuralNetwork(neuralNet, testSet);
-
-        System.out.println("Done.");
-
-        System.out.println("**************************************************");
 
     }
 
     public void testNeuralNetwork(NeuralNetwork neuralNet, DataSet testSet) {
-
-        System.out.println("**************************************************");
-        System.out.println("**********************RESULT**********************");
-        System.out.println("**************************************************");
+        System.out.println("********************** TEST RESULT **********************");
         for (DataSetRow testSetRow : testSet.getRows()) {
             neuralNet.setInput(testSetRow.getInput());
             neuralNet.calculate();
 
-            //Finding network output
+            // get network output
             double[] networkOutput = neuralNet.getOutput();
-            int predicted = maxOutput(networkOutput);
+            int predicted = interpretOutput(networkOutput);
 
-            //Finding actual output
-            double[] networkDesiredOutput = testSetRow.getDesiredOutput();
-            int ideal = maxOutput(networkDesiredOutput);
+            // get target/desired output
+            double[] desiredOutput = testSetRow.getDesiredOutput();
+            int target = (int)desiredOutput[0];
 
-            //Colecting data for network evaluation
-            keepScore(predicted, ideal);
+            // count predictions
+            countPredictions(predicted, target);
         }
 
-        System.out.println("Total cases: " + this.count[2] + ". ");
-        System.out.println("Correctly predicted cases: " + this.correct[2] + ". ");
-        System.out.println("Incorrectly predicted cases: " + (this.count[2] - this.correct[2] - unpredicted) + ". ");
-        System.out.println("Unrecognized cases: " + unpredicted + ". ");
-        double percentTotal = (double) this.correct[2] * 100 / (double) this.count[2];
+        System.out.println("Total cases: " + total + ". ");
+        System.out.println("Correctly predicted cases: " + correct);
+        System.out.println("Incorrectly predicted cases: " + incorrect);
+        double percentTotal = (correct / (double)total) * 100;
         System.out.println("Predicted correctly: " + formatDecimalNumber(percentTotal) + "%. ");
-
-        double percentM = (double) this.correct[0] * 100.0 / (double) this.count[0];
-        System.out.println("Prediction for 'M (malignant)' => (Correct/total): "
-                + this.correct[0] + "/" + count[0] + "(" + formatDecimalNumber(percentM) + "%). ");
-
-        double percentB = (double) this.correct[1] * 100.0 / (double) this.count[1];
-        System.out.println("Prediction for 'B (benign)' => (Correct/total): "
-                + this.correct[1] + "/" + count[1] + "(" + formatDecimalNumber(percentB) + "%). ");
     }
 
     @Override
@@ -208,40 +184,33 @@ public class BrestCancerSample implements LearningEventListener {
         }
     }
 
-    //Metod determines the maximum output. Maximum output is network prediction for one row. 
-    public static int maxOutput(double[] array) {
-        double max = array[0];
-        int index = 0;
-
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] > max) {
-                index = i;
-                max = array[i];
-            }
+    public int interpretOutput(double[] array) {
+        if (array[0] >= classificationThreshold) {
+            return 1;
+        }else {
+            return 0;
         }
-        //If maximum is less than 0.5, that prediction will not count. 
-        if (max < 0.5) {
-            return -1;
-        }
-        return index;
     }
 
-    //Colecting data to evaluate network. 
-    public void keepScore(int prediction, int ideal) {
-        count[ideal]++;
-        count[2]++;
-
-        if (prediction == ideal) {
-            correct[ideal]++;
-            correct[2]++;
+    public void countPredictions(int prediction, int target) {        
+        if (prediction == target) {
+            correct++;
+        } else {
+            incorrect++;
         }
-        if (prediction == -1) {
-            unpredicted++;
-        }
+        total++;
     }
 
     //Formating decimal number to have 3 decimal places
     public String formatDecimalNumber(double number) {
         return new BigDecimal(number).setScale(4, RoundingMode.HALF_UP).toString();
     }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        (new BreastCancerSample()).run();
+    }    
+    
 }

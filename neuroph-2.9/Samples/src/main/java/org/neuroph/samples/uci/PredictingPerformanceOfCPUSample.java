@@ -57,7 +57,7 @@ import org.neuroph.util.data.norm.Normalizer;
  10. (output) ERP: estimated relative performance from the original article (integer)
 
  */
-//beskonacna petlja
+
 public class PredictingPerformanceOfCPUSample implements LearningEventListener{
 
     /**
