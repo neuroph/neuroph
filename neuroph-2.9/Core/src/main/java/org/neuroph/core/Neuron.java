@@ -189,6 +189,13 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
         return (this.inputConnections.size() > 0);
     }
 
+    /**
+     * Check the connection to neuron
+     *
+     * @param neuron neuron connection to be checked
+     *
+     * @return true if there is output connection, false otherwise
+     */
     public boolean hasOutputConnectionTo(Neuron neuron) {
         for (Connection connection : outConnections) {
             if (connection.getToNeuron() == neuron) {
@@ -198,6 +205,13 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
         return false;
     }
 
+    /**
+     * Check the connection from neuron
+     *
+     * @param neuron neuron connection to be checked
+     *
+     * @return true if there is input connection, false otherwise
+     */
     public boolean hasInputConnectionFrom(Neuron neuron) {
         for (Connection connection : inputConnections) {
             if (connection.getFromNeuron() == neuron) {
