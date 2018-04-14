@@ -171,7 +171,7 @@ public class BackPropagationTest {
         Layer l2 = new Layer();
         Layer l3 = new Layer();
         Neuron n = new Neuron();
-        n.setError(0.5);
+        n.setDelta(0.5);
         Neuron n1 = new Neuron();
         Linear transfer = new Linear();
         n1.setTransferFunction(transfer);
@@ -179,7 +179,7 @@ public class BackPropagationTest {
         double weigth = 2;
         n.addInputConnection(new Connection(n1, n, weigth));
 
-        assertTrue(0 == n1.getError());
+        assertTrue(0 == n1.getDelta());
 
         nn.addLayer(l1);
         nn.addLayer(l2);
@@ -188,7 +188,7 @@ public class BackPropagationTest {
 
         instance.calculateErrorAndUpdateHiddenNeurons();
 
-        assertTrue(instance.calculateHiddenNeuronError(n1) == n1.getError());
+        assertTrue(instance.calculateHiddenNeuronError(n1) == n1.getDelta());
     }
 
     @Test
@@ -206,17 +206,17 @@ public class BackPropagationTest {
             }
         });
         nn.setLearningRule(instance);
-        nn.getOutputNeurons().get(0).setError(1);
+        nn.getOutputNeurons().get(0).setDelta(1);
         instance.calculateErrorAndUpdateOutputNeurons(new double[]{0});
-        assertTrue(nn.getOutputNeurons().get(0).getError() == 0);
+        assertTrue(nn.getOutputNeurons().get(0).getDelta() == 0);
         instance.calculateErrorAndUpdateOutputNeurons(new double[]{0.5});
-        assertTrue(nn.getOutputNeurons().get(0).getError() == 0.5);
+        assertTrue(nn.getOutputNeurons().get(0).getDelta() == 0.5);
     }
 
     @Test
     public void testCalculateHiddenNeuronError() {
         Neuron n = new Neuron();
-        n.setError(0.5);
+        n.setDelta(0.5);
         Neuron n1 = new Neuron();
 
         Linear transfer = new Linear();
@@ -225,7 +225,7 @@ public class BackPropagationTest {
         double weigth = 2;
         n.addInputConnection(new Connection(n1, n, weigth));
 
-        double result = n.getError() * weigth * transfer.getDerivative(n.getNetInput());
+        double result = n.getDelta() * weigth * transfer.getDerivative(n.getNetInput());
 
         assertTrue(result == instance.calculateHiddenNeuronError(n1));
     }

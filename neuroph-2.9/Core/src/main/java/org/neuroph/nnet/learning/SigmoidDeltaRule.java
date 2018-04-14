@@ -57,7 +57,7 @@ public class SigmoidDeltaRule extends LMS {
 		for(Neuron neuron : neuralNetwork.getOutputNeurons()) {
                         // if error is zero, just set zero error and continue to next neuron
 			if (outputError[i] == 0) {
-				neuron.setError(0);
+				neuron.setDelta(0);
                                 i++;
 				continue;
 			}
@@ -66,7 +66,7 @@ public class SigmoidDeltaRule extends LMS {
 			TransferFunction transferFunction = neuron.getTransferFunction();
 			double neuronInput = neuron.getNetInput();
 			double delta = outputError[i] * transferFunction.getDerivative(neuronInput); // delta = (d-y)*df(net)
-			neuron.setError(delta);
+			neuron.setDelta(delta);
                         
                         // and update weights of the current neuron
 			updateNeuronWeights(neuron);				

@@ -174,7 +174,7 @@ abstract public class IterativeLearning extends LearningRule implements
     }
 
     @Override
-    final public void learn(DataSet trainingSet) {
+    public final void learn(DataSet trainingSet) {
         setTrainingSet(trainingSet); // set this field here su subclasses can access it 
         onStart();
 

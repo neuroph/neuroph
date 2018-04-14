@@ -59,7 +59,7 @@ public class MomentumBackpropagation extends BackPropagation {
             }
 
             // get the error for specified neuron,
-            double neuronDelta = neuron.getError();
+            double neuronDelta = neuron.getDelta();
 
             // tanh can be used to minimise the impact of big error values, which can cause network instability
             // suggested at https://sourceforge.net/tracker/?func=detail&atid=1107579&aid=3130561&group_id=238532

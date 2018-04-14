@@ -67,20 +67,20 @@ public class BackPropagation extends LMS {
         int i = 0;
         
         // for all output neurons
-        List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
+        final List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
         for (Neuron neuron : outputNeurons) {
             // if error is zero, just set zero error and continue to next neuron
             if (outputError[i] == 0) {
-                neuron.setError(0);
+                neuron.setDelta(0);
                 i++;
                 continue;
             }
 
             // otherwise calculate and set error/delta for the current neuron
-            TransferFunction transferFunction = neuron.getTransferFunction();
-            double neuronInput = neuron.getNetInput();
-            double delta = outputError[i] * transferFunction.getDerivative(neuronInput); // delta = (y-d)*df(net)
-            neuron.setError(delta);
+            final TransferFunction transferFunction = neuron.getTransferFunction();
+            final double neuronInput = neuron.getNetInput();
+            final double delta = outputError[i] * transferFunction.getDerivative(neuronInput); // delta = (y-d)*df(net)
+            neuron.setDelta(delta);
 
             // and update weights of the current neuron
             updateNeuronWeights(neuron);
@@ -96,8 +96,8 @@ public class BackPropagation extends LMS {
         for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
             for (Neuron neuron : layers.get(layerIdx).getNeurons()) {
                 // calculate the neuron's error (delta)
-                double delta = calculateHiddenNeuronError(neuron);
-                neuron.setError(delta);
+                final double delta = calculateHiddenNeuronError(neuron);
+                neuron.setDelta(delta);
                 updateNeuronWeights(neuron);
             } // for
         } // for
@@ -112,7 +112,7 @@ public class BackPropagation extends LMS {
     protected double calculateHiddenNeuronError(Neuron neuron) {
         double deltaSum = 0d;
         for (Connection connection : neuron.getOutConnections()) {
-            double delta = connection.getToNeuron().getError() * connection.getWeight().value;
+            double delta = connection.getToNeuron().getDelta() * connection.getWeight().value;
             deltaSum += delta; // weighted delta sum from the next layer
         } // for
 

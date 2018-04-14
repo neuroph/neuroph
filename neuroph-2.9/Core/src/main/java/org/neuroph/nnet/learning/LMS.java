@@ -56,19 +56,23 @@ public class LMS extends SupervisedLearning implements Serializable {
      * @see SupervisedLearning#learnPattern(org.neuroph.core.data.DataSetRow)  learnPattern
      */
     @Override
-    protected void calculateWeightChanges(double[] outputError) {
+    protected void calculateWeightChanges(final double[] outputError) {
         int i = 0;
         // for each neuron in output layer
         List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
         for (Neuron neuron : outputNeurons) {
-            neuron.setError(outputError[i]); // set the neuron error, as difference between desired and actual output 
+            neuron.setDelta(outputError[i]); // set the neuron error, as difference between desired and actual output 
             updateNeuronWeights(neuron); // and update neuron weights
             i++;
         }
+        
+       // neuron.setError(outputError[i]); // set the neuron error, as difference between desired and actual output 
+        // outputNeurons.parallelStream().forEach( neuron -> updateNeuronWeights(neuron));
+        
     }
 
     /**
-     * This method implements weights update procedure for the single neuron
+     * This method implements weights update procedure for the single neuron.
      * It iterates through all neuron's input connections, and calculates/set weight change for each weight
      * using formula 
      *      deltaWeight = learningRate * neuronError * input
@@ -83,7 +87,7 @@ public class LMS extends SupervisedLearning implements Serializable {
      */
     public void updateNeuronWeights(Neuron neuron) {
         // get the error(delta) for specified neuron,
-        double delta = neuron.getError();
+        double delta = neuron.getDelta();
 
         // tanh can be used to minimise the impact of big error values, which can cause network instability
         // suggested at https://sourceforge.net/tracker/?func=detail&atid=1107579&aid=3130561&group_id=238532
@@ -92,12 +96,12 @@ public class LMS extends SupervisedLearning implements Serializable {
         // iterate through all neuron's input connections
         for (Connection connection : neuron.getInputConnections()) {
             // get the input from current connection
-            double input = connection.getInput();
+            final double input = connection.getInput();
             // calculate the weight change
-            double weightChange = -learningRate * delta * input;
+            final double weightChange = -learningRate * delta * input;
 
             // get the connection weight
-            Weight weight = connection.getWeight();
+            final Weight weight = connection.getWeight();
             // if the learning is in online mode (not batch) apply the weight change immediately
             if (!this.isBatchMode()) {
                 weight.weightChange = weightChange;                

@@ -56,7 +56,7 @@ public class PerceptronLearning extends LMS {
                 // and adjust the neurons threshold - ovo bi trebalo podesavati isto na karju prolaza
                 ThresholdNeuron thresholdNeuron = (ThresholdNeuron)neuron;
                 // get neurons error
-                double neuronError = thresholdNeuron.getError();
+                double neuronError = thresholdNeuron.getDelta();
                 // get the neurons threshold
                 double thresh = thresholdNeuron.getThresh();
                 // calculate new threshold value

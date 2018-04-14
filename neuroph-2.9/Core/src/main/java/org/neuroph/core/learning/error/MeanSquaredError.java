@@ -32,7 +32,7 @@ public final class MeanSquaredError implements ErrorFunction, Serializable {
     /**
      * Number of patterns - n 
      */
-    private transient double patternCount;
+    private transient float patternCount;
 
     public MeanSquaredError() {
         reset();

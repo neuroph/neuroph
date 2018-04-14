@@ -126,7 +126,6 @@ public class BreastCancerSample implements LearningEventListener {
         DataSet trainingSet = trainingAndTestSet.get(0);
         DataSet testSet = trainingAndTestSet.get(1);
 
-        System.out.println("Creating neural network...");
         //Create MultiLayerPerceptron neural network
         MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(inputsCount, 16, outputsCount);
 

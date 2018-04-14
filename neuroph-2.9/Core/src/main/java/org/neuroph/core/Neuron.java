@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.neuroph.core;
 
 import java.io.Serializable;
@@ -41,7 +40,6 @@ import org.neuroph.core.transfer.TransferFunction;
  * @see InputFunction
  * @see TransferFunction
  */
-
 public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
 
 //    @Override
@@ -49,11 +47,9 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
 //        calculate();
 //        return null;
 //    }
-
-
     /**
-     * The class fingerprint that is set to indicate serialization
-     * compatibility with a previous version of the class
+     * The class fingerprint that is set to indicate serialization compatibility
+     * with a previous version of the class
      */
     private static final long serialVersionUID = 4L;
 
@@ -85,9 +81,9 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     protected transient double output = 0;
 
     /**
-     * Local error (delta) for this neuron     * 
+     * Local error (delta) for this neuron *
      */
-    protected transient double error = 0;
+    protected transient double delta = 0;
 
     /**
      * Input function for this neuron
@@ -105,8 +101,9 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     private String label;
 
     /**
-     * Creates an instance of Neuron with default settings: weighted sum input function
-     * and Step transfer function. This is the basic McCulloch-Pitts neuron model.
+     * Creates an instance of Neuron with default settings: weighted sum input
+     * function and Step transfer function. This is the basic McCulloch-Pitts
+     * neuron model.
      */
     public Neuron() {
         this.inputFunction = new WeightedSum();
@@ -116,9 +113,10 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     }
 
     /**
-     * Creates an instance of Neuron with the specified input and transfer functions.
+     * Creates an instance of Neuron with the specified input and transfer
+     * functions.
      *
-     * @param inputFunction    input function for this neuron
+     * @param inputFunction input function for this neuron
      * @param transferFunction transfer function for this neuron
      */
     public Neuron(InputFunction inputFunction, TransferFunction transferFunction) {
@@ -248,7 +246,7 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
      * Adds input connection with the given weight, from given neuron
      *
      * @param fromNeuron neuron to connect from
-     * @param weightVal  connection weight value
+     * @param weightVal connection weight value
      */
     public void addInputConnection(Neuron fromNeuron, double weightVal) {
         Connection connection = new Connection(fromNeuron, this, weightVal);
@@ -341,7 +339,7 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     }
 
     public void removeAllOutputConnections() {
-        outConnections.clear();                
+        outConnections.clear();
     }
 
     public void removeAllConnections() {
@@ -355,8 +353,9 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
      */
     public Connection getConnectionFrom(Neuron fromNeuron) {
         for (Connection connection : this.inputConnections) {
-            if (connection.getFromNeuron() == fromNeuron)
+            if (connection.getFromNeuron() == fromNeuron) {
                 return connection;
+            }
         }
         return null;
     }
@@ -430,21 +429,23 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     }
 
     /**
-     * Returns error for this neuron. This is used by supervised learing rules.
+     * Returns delta (error) for this neuron. This is used by backpropagation
+     * learning rules.
      *
      * @return error for this neuron which is set by learning rule
      */
-    public double getError() {
-        return error;
+    public double getDelta() {
+        return delta;
     }
 
     /**
-     * Sets error for this neuron. This is used by supervised learing rules.
+     * Sets delta for this neuron. This is used by backpropagation learning
+     * rules.
      *
-     * @param error neuron error
+     * @param delta neuron delta
      */
-    public void setError(double error) {
-        this.error = error;
+    public void setDelta(double delta) {
+        this.delta = delta;
     }
 
     /**
@@ -455,7 +456,6 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     public void setOutput(double output) {
         this.output = output;
     }
-
 
     /**
      * Initialize weights for all input connections to specified value
@@ -488,11 +488,8 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-       throw new UnsupportedOperationException("Not yer implemented");
-       // return super.clone(); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not yer implemented");
+        // return super.clone(); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-
 
 }

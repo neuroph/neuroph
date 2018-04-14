@@ -6,7 +6,7 @@ import org.neuroph.nnet.learning.kmeans.KVector;
 /**
  * for given vector
  * calculate distances to all vectors from list 
- * and find minimum vector
+ * and finds minimum vector
  * or sort vectors by distance and seelct
  * 
  * @author zoran

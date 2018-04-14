@@ -65,7 +65,7 @@ public class ResilientPropagation extends BackPropagation {
             }
 
             // get the error for specified neuron,
-            double neuronError = neuron.getError();
+            double neuronError = neuron.getDelta();
             // get the current connection's weight
             Weight weight = connection.getWeight();
             // ... and get the object that stores reislient training data for that weight

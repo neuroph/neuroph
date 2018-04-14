@@ -34,7 +34,8 @@ import org.neuroph.core.learning.stop.MaxErrorStop;
 /**
  * Base class for all supervised learning algorithms.
  * It extends IterativeLearning, and provides general supervised learning principles.
- *
+ * Based on Template Method Pattern.
+ * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 abstract public class SupervisedLearning extends IterativeLearning implements
@@ -96,7 +97,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      * @param trainingSet training set to learn
      * @param maxError    learning stop condition. If maxError is reached learning stops
      */
-    public void learn(DataSet trainingSet, double maxError) {
+    public final void learn(DataSet trainingSet, double maxError) {
         this.maxError = maxError;
         learn(trainingSet);
     }
@@ -108,7 +109,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      * @param maxError      learning stop condition. if maxError is reached learning stops
      * @param maxIterations maximum number of learning iterations
      */
-    public void learn(DataSet trainingSet, double maxError, int maxIterations) {
+    public final void learn(DataSet trainingSet, double maxError, int maxIterations) {
         this.trainingSet = trainingSet;
         this.maxError = maxError;
         setMaxIterations(maxIterations);
