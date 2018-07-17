@@ -52,39 +52,37 @@ public class MomentumBackpropagation extends BackPropagation {
      */
     @Override
     public void updateNeuronWeights(Neuron neuron) {
-        for (Connection connection : neuron.getInputConnections()) {
+        neuron.getInputConnections().parallelStream().forEach((connection) -> {
             double input = connection.getInput();
-            if (input == 0) {
-                continue;
+            if (!(input == 0)) {
+                // get the error for specified neuron,
+                double neuronError = neuron.getError();
+                
+                // tanh can be used to minimise the impact of big error values, which can cause network instability
+                // suggested at https://sourceforge.net/tracker/?func=detail&atid=1107579&aid=3130561&group_id=238532
+                // double neuronError = Math.tanh(neuron.getError());
+                
+                Weight weight = connection.getWeight();
+                MomentumWeightTrainingData weightTrainingData = (MomentumWeightTrainingData) weight.getTrainingData();
+                
+                //double currentWeightValue = weight.getValue();
+                double previousWeightValue = weightTrainingData.previousValue;
+                double weightChange = this.learningRate * neuronError * input
+                        + momentum * (weight.value - previousWeightValue);
+                // save previous weight value
+                //weight.getTrainingData().set(TrainingData.PREVIOUS_WEIGHT, currentWeightValue);
+                weightTrainingData.previousValue = weight.value;
+                
+                
+                // if the learning is in batch mode apply the weight change immediately
+                if (this.isInBatchMode() == false) {
+                    weight.weightChange = weightChange;
+                    weight.value += weightChange;
+                } else { // otherwise, sum the weight changes and apply them after at the end of epoch
+                    weight.weightChange += weightChange;
+                }
             }
-
-            // get the error for specified neuron,
-            double neuronError = neuron.getError();
-
-            // tanh can be used to minimise the impact of big error values, which can cause network instability
-            // suggested at https://sourceforge.net/tracker/?func=detail&atid=1107579&aid=3130561&group_id=238532
-            // double neuronError = Math.tanh(neuron.getError());
-
-            Weight weight = connection.getWeight();
-            MomentumWeightTrainingData weightTrainingData = (MomentumWeightTrainingData) weight.getTrainingData();
-
-            //double currentWeightValue = weight.getValue();
-            double previousWeightValue = weightTrainingData.previousValue;
-            double weightChange = this.learningRate * neuronError * input
-                    + momentum * (weight.value - previousWeightValue);
-            // save previous weight value
-            //weight.getTrainingData().set(TrainingData.PREVIOUS_WEIGHT, currentWeightValue);
-            weightTrainingData.previousValue = weight.value;
-
-
-            // if the learning is in batch mode apply the weight change immediately
-            if (this.isInBatchMode() == false) {
-                weight.weightChange = weightChange;
-                weight.value += weightChange;
-            } else { // otherwise, sum the weight changes and apply them after at the end of epoch
-                weight.weightChange += weightChange;
-            }
-        }
+        });
     }
 
     /**
@@ -116,9 +114,9 @@ public class MomentumBackpropagation extends BackPropagation {
         // create MomentumWeightTrainingData objects that will be used during the training to store previous weight value
         for (Layer layer : neuralNetwork.getLayers()) {
             for (Neuron neuron : layer.getNeurons()) {
-                for (Connection connection : neuron.getInputConnections()) {
+                neuron.getInputConnections().parallelStream().forEach((connection) -> {
                     connection.getWeight().setTrainingData(new MomentumWeightTrainingData());
-                }
+                });
             } // for
         } // for        
     }

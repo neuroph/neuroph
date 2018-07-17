@@ -16,9 +16,12 @@
 
 package org.neuroph.imgrec;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
-import org.neuroph.imgrec.image.Color;
+import org.neuroph.imgrec.image.NeurophColor;
 import org.neuroph.imgrec.image.Image;
 import org.neuroph.imgrec.image.ImageJ2SE;
 
@@ -106,20 +109,49 @@ public class FractionRgbData
 			for (int x = 0; x < width; x++) {
 				color = image.getPixel(x, y);
 
-				double red = ((double) Color.getRed(color)) / 256d;
+				double red = ((double) NeurophColor.getRed(color)) / 256d;
 				redValues[y][x] = red;
 				flattenedRgbValues[(y * width + x)] = red;
 
-				double green = ((double) Color.getGreen(color)) / 256d;
+				double green = ((double) NeurophColor.getGreen(color)) / 256d;
 				greenValues[y][x] = green;
 				flattenedRgbValues[(width * height + y * width + x)] = green;
 
-				double blue = ((double) Color.getBlue(color)) / 256d;
+				double blue = ((double) NeurophColor.getBlue(color)) / 256d;
 				blueValues[y][x] = blue;
 				flattenedRgbValues[(2 * width * height + y * width + x)] = blue;
 			}
 		}
 	}
+        
+        /**
+         * Retrieve the image back from flattned image.
+         *  Use BufferedImage.TYPE_INT_ARGB
+         * @param _flattenedRgbValues
+         * @param width
+         * @param height
+         * @param IMAGE_TYPE
+         * @return 
+         */
+    public static final ImageJ2SE defaltRGBValues(double[] _flattenedRgbValues, int width, int height, int IMAGE_TYPE) {
+        BufferedImage StampImageBG = new BufferedImage(width, height, IMAGE_TYPE);
+        ImageJ2SE image = new ImageJ2SE(StampImageBG);
+        int color = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                float red = (float) _flattenedRgbValues[(y * width + x)];
+                float green = (float) _flattenedRgbValues[(width * height + y * width + x)];
+                float blue = (float) _flattenedRgbValues[(2 * width * height + y * width + x)];
+                // BufferedImage bi= new BufferedImage(convWidth, convHeight, BufferedImage.TYPE_INT_ARGB);
+                 Color colr = new Color(red, green,blue);
+                image.setPixel(x, y, colr.getRGB());
+
+            }
+        }
+
+        return image;
+
+    }
 
         /**
          * Converts image rgb data to binary black and white data (1 for black, 0 for white)

@@ -19,6 +19,7 @@ package org.neuroph.imgrec;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +31,11 @@ import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
+import org.neuroph.imgrec.filter.impl.GrayscaleFilter;
 import org.neuroph.imgrec.image.Dimension;
 import org.neuroph.imgrec.image.Image;
 import org.neuroph.imgrec.image.ImageFactory;
+import org.neuroph.imgrec.image.ImageJ2SE;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.util.TransferFunctionType;
@@ -88,6 +91,35 @@ public class ImageRecognitionHelper {
             return neuralNetwork;
 	}
 
+        
+        public static NeuralNetwork createNewNeuralNetwork(String label, Dimension samplingResolution, ColorMode colorMode,   List<Integer> layersNeuronsCount, TransferFunctionType transferFunctionType) {
+
+                int numberOfInputNeurons;
+                if ((colorMode == ColorMode.COLOR_RGB) || (colorMode == ColorMode.COLOR_HSL) ){ // for full color rgb or hsl
+                    numberOfInputNeurons = 3 * samplingResolution.getWidth() * samplingResolution.getHeight();
+                } else { // for black n white network
+                    numberOfInputNeurons = samplingResolution.getWidth() * samplingResolution.getHeight();
+                }
+
+                int numberOfOuputNeurons = numberOfInputNeurons;
+
+		layersNeuronsCount.add(0, numberOfInputNeurons);
+		layersNeuronsCount.add(numberOfOuputNeurons);
+		
+		System.out.println("Neuron layer size counts vector = " + layersNeuronsCount);
+		
+		NeuralNetwork neuralNetwork = new MultiLayerPerceptron(layersNeuronsCount, transferFunctionType);
+
+		neuralNetwork.setLabel(label);
+		PluginBase imageRecognitionPlugin = new ImageRecognitionPlugin(samplingResolution, colorMode);
+		neuralNetwork.addPlugin(imageRecognitionPlugin);
+
+		//assignLabelsToOutputNeurons(neuralNetwork, imageLabels);
+                neuralNetwork.setLearningRule(new MomentumBackpropagation());
+
+            return neuralNetwork;
+	}
+        
         /**
          * Assign labels to output neurons
          * @param neuralNetwork neural network
@@ -274,5 +306,122 @@ public class ImageRecognitionHelper {
 			i++;
 		}
 		return response;
+	}
+        
+        public static Map<FractionRgbData, FractionRgbData> getFractionRgbDataForDirectory(File imgOutputDir, File imgInputDir,Dimension samplingResolution) throws IOException
+	{
+		if(!imgOutputDir.isDirectory()) {
+			throw new IllegalArgumentException("The given file must be a directory.  Argument is: " + imgOutputDir);
+		}
+		
+                if(!imgInputDir.isDirectory()) {
+			throw new IllegalArgumentException("The given file must be a directory.  Argument is: " + imgInputDir);
+		}
+                
+		Map<String, FractionRgbData> rgbDataMap = new HashMap<>();
+		
+		ImageFilesIterator imagesIterator = new ImageFilesIterator(imgOutputDir);
+		while (imagesIterator.hasNext()) {
+			File imgFile = imagesIterator.next();
+                        Image img = ImageFactory.getImage(imgFile);
+			img = ImageSampler.downSampleImage(samplingResolution, img);
+			String filenameOfCurrentImage = imagesIterator.getFilenameOfCurrentImage();
+			//StringTokenizer st = new StringTokenizer(filenameOfCurrentImage, ".");
+			rgbDataMap.put(filenameOfCurrentImage, new FractionRgbData(img));
+		}
+                
+                Map<FractionRgbData, FractionRgbData> result = new HashMap<>();
+                imagesIterator = new ImageFilesIterator(imgInputDir);
+                while (imagesIterator.hasNext()) {
+			File imgFile = imagesIterator.next();
+                        Image img = ImageFactory.getImage(imgFile);
+			img = ImageSampler.downSampleImage(samplingResolution, img);
+			String filenameOfCurrentImage = imagesIterator.getFilenameOfCurrentImage();
+			//StringTokenizer st = new StringTokenizer(filenameOfCurrentImage, ".");
+                        if(rgbDataMap.containsKey(filenameOfCurrentImage))
+			result.put(rgbDataMap.get(filenameOfCurrentImage), new FractionRgbData(img));
+		}
+                
+		return result;
+	}      
+        
+        
+        public static Map<FractionRgbData, FractionRgbData> getFractionGreyScaleDataForDirectory(File imgOutputDir, File imgInputDir,Dimension samplingResolution) throws IOException
+	{
+		if(!imgOutputDir.isDirectory()) {
+			throw new IllegalArgumentException("The given file must be a directory.  Argument is: " + imgOutputDir);
+		}
+		
+                if(!imgInputDir.isDirectory()) {
+			throw new IllegalArgumentException("The given file must be a directory.  Argument is: " + imgInputDir);
+		}
+                
+		Map<String, FractionRgbData> rgbDataMap = new HashMap<>();
+		
+		ImageFilesIterator imagesIterator = new ImageFilesIterator(imgOutputDir);
+		while (imagesIterator.hasNext()) {
+			File imgFile = imagesIterator.next();
+                        Image img = ImageFactory.getImage(imgFile);
+			img = ImageSampler.downSampleImage(samplingResolution, img);
+                        ((ImageJ2SE)img).setBufferedImage(new GrayscaleFilter().processImage(((ImageJ2SE)img).getBufferedImage()));
+			String filenameOfCurrentImage = imagesIterator.getFilenameOfCurrentImage();
+			//StringTokenizer st = new StringTokenizer(filenameOfCurrentImage, ".");
+			rgbDataMap.put(filenameOfCurrentImage, new FractionRgbData(img));
+		}
+                
+                Map<FractionRgbData, FractionRgbData> result = new HashMap<>();
+                imagesIterator = new ImageFilesIterator(imgInputDir);
+                while (imagesIterator.hasNext()) {
+			File imgFile = imagesIterator.next();
+                        Image img = ImageFactory.getImage(imgFile);
+			img = ImageSampler.downSampleImage(samplingResolution, img);
+			String filenameOfCurrentImage = imagesIterator.getFilenameOfCurrentImage();
+			//StringTokenizer st = new StringTokenizer(filenameOfCurrentImage, ".");
+                        if(rgbDataMap.containsKey(filenameOfCurrentImage))
+			result.put(rgbDataMap.get(filenameOfCurrentImage), new FractionRgbData(img));
+		}
+                
+		return result;
+	}      
+        
+        
+        /**
+         * Image to image learning for understanding image transformations
+         * @param rgbDataMap
+     * @param numOfPixelInARow
+         * @return 
+         */
+        
+        public static DataSet createRGBandBWTrainingSet(Map<FractionRgbData, FractionRgbData> rgbDataMap) 	{	
+               int inputCount = rgbDataMap.values().iterator().next().getFlattenedRgbValues().length;
+               int outputCount = rgbDataMap.values().iterator().next().getFlattenedRgbValues().length;
+		DataSet trainingSet = new DataSet(inputCount, outputCount);
+
+
+		for (Entry<FractionRgbData, FractionRgbData> entry : rgbDataMap.entrySet()) {
+			double[] input = entry.getKey().getFlattenedRgbValues();
+			double[] response = entry.getValue().getFlattenedRgbValues();
+			trainingSet.addRow(new DataSetRow(input, response));
+		}
+                
+                return trainingSet;
+	}
+        
+        public static DataSet createRGBandBWTrainingSetV2(Map<FractionRgbData, FractionRgbData> rgbDataMap,int numOfPixelInARow) 	{	
+//                int inputCount = rgbDataMap.values().iterator().next().getFlattenedRgbValues().length;
+//                int outputCount = rgbDataMap.values().iterator().next().getFlattenedRgbValues().length;
+//		DataSet trainingSet = new DataSet(inputCount, outputCount);
+                numOfPixelInARow=numOfPixelInARow*3;
+                DataSet trainingSet = new DataSet(numOfPixelInARow, numOfPixelInARow);
+		for (Entry<FractionRgbData, FractionRgbData> entry : rgbDataMap.entrySet()) {
+			double[] input = entry.getKey().getFlattenedRgbValues();
+			double[] response = entry.getValue().getFlattenedRgbValues();
+                        if(input.length==response.length){
+                          for(int i=0;i<input.length/numOfPixelInARow;i++)  
+                            trainingSet.addRow(new DataSetRow(Arrays.copyOfRange(input, i*numOfPixelInARow,(i+1)*numOfPixelInARow)
+                            , Arrays.copyOfRange(response, i*numOfPixelInARow,(i+1)*numOfPixelInARow)));
+		}}
+                
+                return trainingSet;
 	}
 }

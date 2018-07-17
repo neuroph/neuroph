@@ -1,7 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
-
+<repositories>
+     
+     <repository>
+    <id>xuggle repo</id>
+    <url>https://files.liferay.com/mirrors/xuggle.googlecode.com/svn/trunk/repo/share/java/</url>
+     </repository>
+</repositories>
    <parent>
       <groupId>org.neuroph</groupId>
       <artifactId>Neuroph</artifactId>
@@ -22,6 +28,12 @@
          <groupId>android</groupId>
          <artifactId>android</artifactId>
          <version>x.x</version>
+      </dependency>
+      <dependency>
+         <groupId>xuggle</groupId>
+         <artifactId>xuggle-xuggler</artifactId>
+         <version>5.4</version>
+         <type>jar</type>
       </dependency>
    </dependencies>
 </project>
