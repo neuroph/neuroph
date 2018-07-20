@@ -161,7 +161,7 @@ public class Example {
         
         
        // for (DataSetRow testDataRow : testSet.getRows()) {
-       for(int i=0;i<60;i++)
+       for(int i=0;i<6;i++)
        {   DataSet testSet= TextEncoder.getDataSet(exampleTestText,encoding, inputNeurons,outputNeurons);
             HashMap decoding=TextEncoder.getDecoding(encoding); 
            DataSetRow testDataRow = testSet.getRowAt(testSet.size()-1);
