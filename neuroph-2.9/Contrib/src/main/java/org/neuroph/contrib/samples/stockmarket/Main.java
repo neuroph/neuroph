@@ -65,7 +65,7 @@ public class Main {
         System.out.println("Time stamp N2:" + new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss:MM").format(new Date()));
 
         DataSet testSet = new DataSet(4, 1); 
-        testSet.addRow(new DataSetRow(new double[]{4223.0D / daxmax, 4259.0D / daxmax, 4203.0D / daxmax, 3989.0D / daxmax}));
+        testSet.addRow(new DataSetRow(new double[]{4223.0D / daxmax, 4259.0D / daxmax, 4203.0D / daxmax, 3989.0D / daxmax},new double[]{1}));
 
         for (DataSetRow testDataRow : testSet.getRows()) {
             neuralNet.setInput(testDataRow.getInput());
