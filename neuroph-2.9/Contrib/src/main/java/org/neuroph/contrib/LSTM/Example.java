@@ -87,68 +87,116 @@ public class Example {
     
     public static void main(String... args) {
       System.out.println("Time stamp N1:" + new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss:MM").format(new Date()));
-      String exampleText="I shall go unto other priests for their assistance in this sacrifice of mine, and conciliating them \n" +
-                            "by sweet words and gifts, I shall represent unto them the business I have on hand, so that they may \n" +
-                            "accomplish it.' Having said this, the monarch became silent. And, O chastiser of foes, when those priests \n" +
-                            "well knew that they could not assist at the king's sacrifice, they pretended to be angry, and addressing \n" +
-                            "that best of monarchs said, 'O best of kings, thy sacrifices are incessant! By assisting thee always, we \n" +
-                            "have all been fatigued. And as we have been wearied in consequence of these labours, it behoveth thee \n" +
-                            "to give us leave. O sinless one, from loss of judgment thou canst not wait (but urgest us repeatedly). Go \n" +
-                            "unto Rudra! He will assist at thy sacrifice!' Hearing those words of censure and wrath, king Swetaki \n" +
-                            "became angry. And the monarch wending to the mountains of Kailasa, devoted himself to asceticism \n" +
-                            "there. And, O king, the monarch began to worship Mahadeva, with fixed attention, and by observing the \n" +
-                            "most rigid vows. And foregoing all food at times, he passed a long period. The monarch ate only fruits \n" +
-                            "and roots sometimes at the twelfth and sometimes at the sixteenth hour of the whole day. King Swetaki \n" +
-                            "stood for six months, rapt in attention, with arms upraised and steadfast eyes, like the trunk of a tree or a \n" +
-                            "column rooted to the ground. And, O Bharata, Sankara at last gratified with that tiger among kings, who \n" +
-                            "was undergoing such hard penances, showed himself unto him. And the god spake unto the monarch in a \n" +
-                            "calm and grave voice, saying, 'O tiger among kings, O chastiser of foes, I have been gratified with thee \n" +
-                            "for thy asceticism! Blest be thou! Ask now the boon that thou, O king, desirest.' Hearing these words of \n" +
-                            "Rudra of immeasurable energy, the royal sage bowed unto that deity and replied, saying, 'O illustrious \n" +
-                            "one, O thou that art worshipped by the three worlds, if thou hast been gratified with me, then, O god of \n" +
-                            "gods, assist me thyself, O lord of the celestials, in my sacrifice!' Hearing these words spoken by the \n" +
-                            "monarch, the illustrious god was gratified, and smilingly said, 'We do not ourselves assist at sacrifices: \n" +
-                            "but as thou, O king, hast undergone severe penances, desirous of obtaining a boon, I will, O chastiser of \n" +
-                            "foes, assist at thy sacrifice, upon, O king, this condition.' And Rudra continued, 'If, O king of kings, thou \n" +
-                            "canst, for twelve years, pour without intermission libations of clarified butter into the fire, thyself wishing never"
-                            + " more to assist at his sacrifices. The king, however, repeatedly asked those \n" +
-                            "Ritwiks to come to him. But they came not to his sacrifice in consequence of the painful state of their \n" +
-                            "eyes. The king, therefore, invited at the command of his own Ritwiks, others like unto them, and \n" +
-                            "completed the sacrifice that he had begun. After some days had elapsed, king Swetaki desired to perform \n" +
-                            "another sacrifice which should extend for a hundred years. But the illustrious monarch obtained not any \n" +
-                            "priest to assist him in it. The celebrated king then, with his friends and relatives, casting off all sloth, \n" +
-                            "repeatedly courted his priests with great persistence, by bowing down unto them, by conciliatory \n" +
-                            "speeches, and by gifts of wealth. All of them, however, refused to accomplish the purpose which that \n" +
-                            "king of immeasurable energy had in view. Then that royal sage, getting angry, addressed those \n" +
-                            "Brahmanas sitting in their asylums, and said, 'If, ye Brahmanas, I were a fallen person, or, if, I were \n" +
-                            "wanting in homage and service to you, I should then deserve to be abandoned without scruple by you \n" +
-                            "and by other Brahmanas at the same time. But as I am neither degraded nor wanting in homage to you, it \n" +
-                            "behoveth you not to obstruct the performance by me of my sacrifice or to abandon me thus, ye foremost \n" +
-                            "of Brahmanas, without adequate reason. I seek, ye Brahmanas, your protection! It behoveth you to be \n" +
-                            "propitious unto me. But, ye foremost of Brahmanas, if you abandon me from enmity alone or any \n" +
-                            "improper of Durvasa. Even that Brahmana endued with great energy will assist you in thy sacrifice. Let, therefore, \n" +
-                            "every preparation be made.' Hearing these words uttered by Rudra, the king, returning to his own capital, \n" +
-                            "began to collect all that was necessary. After everything had been collected, the monarch again \n" +
-                            "presented himself before Rudra and said, 'Every necessary article hath been collected, and all my \n" +
-                            "preparations are complete, through thy grace, O god of gods ! Let me, therefore, be installed at the \n" +
-                            "sacrifice tomorrow.' Having heard these words of that illustrious king, Rudra summoned Durvasa before \n" +
-                            "him and said. 'This, O Durvasa, is that best of monarchs called Swetaki. At my command, O best of \n" +
-                            "Brahmanas, assist even this king in his sacrifice.' And the Rishi Durvasa said unto Rudra, 'So be it.' Then \n" +
-                            "the sacrifice for which king Swetaki had made those preparations, took place. And the illustrious \n" +
-                            "monarch's sacrifice was performed according to the ordinance and in proper season. And the gifts, on \n" +
-                            "that occasion, unto the Brahmanas were large. And after that monarch's sacrifice had come to an end, all \n" +
-                            "the other priests who had come to assist at it went away with Durvasa's leave. All other Sadasyas also of \n" +
-                            "immeasurable energy, who had been installed at that sacrifice, then went away. That exalted monarch \n" +
-                            "then entered his own palace, worshipped by exalted Brahmanas conversant with the Vedas, eulogised by \n" +
-                            "chanters of panegyrical hymns and congratulated by the citizens.";
+      String exampleText="Ek kone mein tha baitha\n" +
+                            "Jab mujhe woh dikhi thi\n" +
+                            "Woh sab se alag thi\n" +
+                            "Woh sab se haseen\n" +
+                            "\n" +
+                            "Ankhen meri phir uski aankho se ja mili\n" +
+                            "Ik wari do wari phir nikli hasi\n" +
+                            "Ik hath hawa vich duje ch glass\n" +
+                            "Te mainu ni pata si glass ch ki\n" +
+                            "But hauli hauli lak nu ghumake nachdi\n" +
+                            "Lage so sexy\n" +
+                            "\n" +
+                            "O takdi mainu main takda ohnu\n" +
+                            "Mahaul mein tension badhne lagi\n" +
+                            "Khuda ki kasam na kabhi maine pi\n" +
+                            "Haan phir bhi thodi thodi chadne lagi\n" +
+                            "\n" +
+                            "Ruka na gaya main gaya ohde kol\n" +
+                            "I said I wanna talk\n" +
+                            "Oh kehndi mainu bol\n" +
+                            "Main ohde nehde jaa ke ohnu pucheya\n" +
+                            "Baby do you freak like you dance?\n" +
+                            "'Cause you dance like a pro\n" +
+                            "\n" +
+                            "Have Mercy on me\n" +
+                            "Have Mercy on me\n" +
+                            "\n" +
+                            "Jaise hilti hai waise math hila kar\n" +
+                            "Laghe mujhe rahegi Rabb se mila kar\n" +
+                            "Body teri hotter than Chinchilla fur\n" +
+                            "Teri maa ne tujhe bada kiya kya khila kar\n" +
+                            "\n" +
+                            "Ruk jaaye dil when you get down low\n" +
+                            "Karlo reham thoda meri maan lo\n" +
+                            "Aise meri jaan na meri jaan lo\n" +
+                            "Aise meri jaan na meri jaan lo\n" +
+                            "Mercy Lyrics at Lyricsted.com\n" +
+                            "\n" +
+                            "Dhoonda but koi na nikli kami\n" +
+                            "Pairon ke niche se nikli zameen\n" +
+                            "Band bhi karo ab karna yoon tease\n" +
+                            "Hathon ko jod ke kehta hoon please\n" +
+                            "\n" +
+                            "Have mercy on me\n" +
+                            "Have mercy on me\n" +
+                            "\n" +
+                            "Karlo reham thoda karlo reham (x7)\n" +
+                            "\n" +
+                            "Karlo reham thoda karlo..\n" +
+                            "\n" +
+                            "It's your boy Badshah!\n" +
+                            "\n Club mein tu aayi\n" +
+"Hone ko high\n" +
+"Head to toe coco mein nahayi\n" +
+"\n" +
+"Seedha gayi bar pe\n" +
+"Deti nahi fuk\n" +
+"Lagta hai taaza taaza hua breakup\n" +
+"Baby all alone na koi sang\n" +
+"Hirni si aankhein baby sanwala rang\n" +
+"Dekh ke tujhko phooli hain saansein meri\n" +
+"Akad gaye mere ang\n" +
+"\n" +
+"Baby kuch bhi raha nahi bass mein\n" +
+"Aise jaan na le meri hans ke\n" +
+"Le baby neat pakad, beat pakad\n" +
+"Zor lagake thoda kass ke\n" +
+"\n" +
+"Ni main Vodka laga ke tere naal nachna\n" +
+"Ni main Vodka laga ke tere naal nachna\n" +
+"Hoy main tera hi naa’ ratna\n" +
+"Addi maar ke vehda pattna\n" +
+"Ajj main talli hoke hattna ni (x2)\n" +
+"\n" +
+"Ho baby baby you don’t care\n" +
+"Hawa mein tere udte hair\n" +
+"Haath donon in the air\n" +
+"Tu lage mujhe zone mein\n" +
+"\n" +
+"Ho baby baby understand\n" +
+"De apna tu instagram\n" +
+"Ya le le mera number tu\n" +
+"Save kar phone mein\n" +
+"\n" +
+"Fail karde tu nashe charas ke\n" +
+"Tere nakhre na kisi ke bass ke\n" +
+"Le baby neat pakad, beat pakad\n" +
+"Zor lagake thoda kass ke\n" +
+"\n" +
+"Ni main Vodka laga ke tere naal nachna\n" +
+"Ni main Vodka laga ke tere naal nachna\n" +
+"Hoy main tera hi naa’ ratna\n" +
+"Addi maar ke vehda pattna\n" +
+"Ajj main talli hoke hattna ni (x2)\n" +
+"\n" +
+"It’s yo boy Badshah!\n" +
+"\n" +
+"Ho baby baby you don’t care\n" +
+"Hawa mein tere udte hair\n" +
+"Haath donon in the air\n" +
+"Tu lage mujhe zone mein\n" +
+"\n"  ;
       HashMap encoding=TextEncoder.getEncoding(exampleText.replaceAll("\n", "").replaceAll(",", "").replace(".", " .").replaceAll(",", "").split(" "));
-      int inputNeurons=5;
+      int inputNeurons=3;
       int outputNeurons=1;
       DataSet trainingSet= TextEncoder.getDataSet(exampleText,encoding, inputNeurons,outputNeurons);
       
         int maxIterations = 10000;
-        NeuralNetwork neuralNet = new MultiLayerPerceptron(TransferFunctionType.SIGMOID,inputNeurons, 9, outputNeurons);
-        ((LMS) neuralNet.getLearningRule()).setMaxError(0.000001);//0-1
+        NeuralNetwork neuralNet = new MultiLayerPerceptron(TransferFunctionType.LINEAR,inputNeurons, 9, outputNeurons);
+        ((LMS) neuralNet.getLearningRule()).setMaxError(0.01);//0-1
         ((LMS) neuralNet.getLearningRule()).setLearningRate(0.6);//0-1
         ((LMS) neuralNet.getLearningRule()).setMaxIterations(maxIterations);//0-1
         
@@ -157,11 +205,11 @@ public class Example {
                 +"\t Iterarions="+((LMS) neuralNet.getLearningRule()).getCurrentIteration()
         +"\t Error ="+((LMS) neuralNet.getLearningRule()).getTotalNetworkError());
         
-        String exampleTestText="But if you abandon me bla bla";
+        String exampleTestText="Dhoonda but koi na nikli bla bla";
         
         
        // for (DataSetRow testDataRow : testSet.getRows()) {
-       for(int i=0;i<6;i++)
+       for(int i=0;i<30;i++)
        {   DataSet testSet= TextEncoder.getDataSet(exampleTestText,encoding, inputNeurons,outputNeurons);
             HashMap decoding=TextEncoder.getDecoding(encoding); 
            DataSetRow testDataRow = testSet.getRowAt(testSet.size()-1);
