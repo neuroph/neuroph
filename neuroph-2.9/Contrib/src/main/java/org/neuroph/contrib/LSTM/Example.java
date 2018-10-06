@@ -107,7 +107,7 @@ public class Example implements LearningEventListener  {
     
     public static void main(String... args) throws FileNotFoundException, IOException, ClassNotFoundException {
       System.out.println("Time stamp N1:" + new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss:MM").format(new Date()));
-      String dirDefault="G:/bkp/$AVG/baseDir/Imports/Sprites/txts/";
+      String dirDefault="D:/DevArc/txt/";
     List<String> fileNamesList = new ArrayList();
       Files.newDirectoryStream(Paths.get(dirDefault),
       path -> path.toString().endsWith(".txt")).forEach(filePath -> fileNamesList.add(filePath.toString()));
@@ -121,7 +121,7 @@ public class Example implements LearningEventListener  {
         }
         reader.close();
     }
-        String exampleText = stringBuilder.toString().replaceAll("[^a-zA-Z0-9\\s+]", "");;
+        String exampleText = stringBuilder.toString();//.replaceAll("[^a-zA-Z0-9\\s+]", "");;
 
       
       
@@ -228,15 +228,32 @@ public class Example implements LearningEventListener  {
 //"Tu lage mujhe zone mein\n" +
 //"\n"  ;
       HashMap encoding=TextEncoder.getEncoding(exampleText.replaceAll("\n", "").replaceAll(",", "").replace(".", " .").replaceAll(",", "").split(" "));
-      int inputNeurons=5;
+      int inputNeurons=2;
       int outputNeurons=1;
       DataSet trainingSet= TextEncoder.getDataSet(exampleText,encoding, inputNeurons,outputNeurons);
       
-        int maxIterations = 1000;
-        NeuralNetwork neuralNet = new MultiLayerPerceptron(TransferFunctionType.RAMP,inputNeurons, 2*inputNeurons+1, outputNeurons);
+        int maxIterations = 5;
+        NeuralNetwork neuralNet = new MultiLayerPerceptron(TransferFunctionType.SIGMOID,inputNeurons,5,3, outputNeurons);
         ((LMS) neuralNet.getLearningRule()).setMaxError(0.01);//0-1
-        ((LMS) neuralNet.getLearningRule()).setLearningRate(0.8);//0-1
+        ((LMS) neuralNet.getLearningRule()).setLearningRate(0.2);//0-1
         ((LMS) neuralNet.getLearningRule()).setMaxIterations(maxIterations);//0-1
+        BackPropagation learningRule = (BackPropagation) neuralNet.getLearningRule();
+
+        learningRule.setLearningRate(0.5);
+ 
+        learningRule.setMaxError(0.001);
+        learningRule.setMaxIterations(maxIterations);
+        //add learning listener in order to print out training info
+        learningRule.addListener((LearningEvent event) -> {
+            BackPropagation bp = (BackPropagation) event.getSource();
+            if (event.getEventType().equals(LearningEvent.Type.LEARNING_STOPPED)) {
+                System.out.println();
+                System.out.println("Training completed in " + bp.getCurrentIteration() + " iterations");
+                System.out.println("With total error " + bp.getTotalNetworkError() + '\n');
+            } else {
+                System.out.println("Iteration: " + bp.getCurrentIteration() + " | Network error: " + bp.getTotalNetworkError());
+            }
+      });
         
         if(!new File(dirDefault+inputNeurons+"temp.nnet").exists())//Learn if not done already
         { 
@@ -257,10 +274,11 @@ public class Example implements LearningEventListener  {
                 +"\t Iterarions="+((LMS) neuralNet.getLearningRule()).getCurrentIteration()
         +"\t Error ="+((LMS) neuralNet.getLearningRule()).getTotalNetworkError());
         
-        String exampleTestText="there is a big story that is going to start now";//exampleText.substring(1000, 1000+inputNeurons+3);//
+        String exampleTestText="how could that which I spoke so many years ago";//exampleText.substring(1000, 1000+inputNeurons+3);//
         
         
        // for (DataSetRow testDataRow : testSet.getRows()) {
+       double temp=0;
        for(int i=0;i<1000;i++)
        {   DataSet testSet= TextEncoder.getDataSet(exampleTestText,encoding, inputNeurons,outputNeurons);
             HashMap decoding=TextEncoder.getDecoding(encoding); 
@@ -278,7 +296,8 @@ public class Example implements LearningEventListener  {
             }
             
             for(double textCode:networkOutput){
-                if(textCode==0) textCode= TextEncoder.round(Math.random(),encoding.size()/5);
+                if(textCode==0 | temp==textCode) textCode= TextEncoder.round(Math.random(),encoding.size()/5);
+                temp=textCode;
                  //System.out.print(TextEncoder.findClosestMatch(decoding, TextEncoder.round(textCode,encoding.size()/5)) ); // decoding.get(TextEncoder.round(textCode,encoding.size()/5))+" " 
                  exampleTestText=exampleTestText +" "+TextEncoder.findClosestMatch(decoding, TextEncoder.round(textCode,encoding.size()/5));
             }
