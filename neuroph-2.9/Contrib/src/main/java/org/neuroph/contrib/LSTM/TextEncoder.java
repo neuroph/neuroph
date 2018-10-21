@@ -25,7 +25,7 @@ public class TextEncoder {
         
          int j = 0;
         for (Map.Entry<String, Double> entry : unique.entrySet()) {
-            entry.setValue(round((double)(intvl * j++)/(double)unique.size(),5));
+            entry.setValue(round((double)(intvl * j++)/(double)unique.size(),10));
             //System.out.println("Key = "+entry.getKey()+", Value = " + entry.getValue());
         }
         

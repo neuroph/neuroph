@@ -107,7 +107,7 @@ public class Example implements LearningEventListener  {
     
     public static void main(String... args) throws FileNotFoundException, IOException, ClassNotFoundException {
       System.out.println("Time stamp N1:" + new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss:MM").format(new Date()));
-      String dirDefault="D:/DevArc/txt/";
+      String dirDefault="G:/bkp/$AVG/baseDir/Imports/Sprites/txts/";
     List<String> fileNamesList = new ArrayList();
       Files.newDirectoryStream(Paths.get(dirDefault),
       path -> path.toString().endsWith(".txt")).forEach(filePath -> fileNamesList.add(filePath.toString()));
@@ -228,18 +228,18 @@ public class Example implements LearningEventListener  {
 //"Tu lage mujhe zone mein\n" +
 //"\n"  ;
       HashMap encoding=TextEncoder.getEncoding(exampleText.replaceAll("\n", "").replaceAll(",", "").replace(".", " .").replaceAll(",", "").split(" "));
-      int inputNeurons=2;
+      int inputNeurons=3;
       int outputNeurons=1;
       DataSet trainingSet= TextEncoder.getDataSet(exampleText,encoding, inputNeurons,outputNeurons);
       
-        int maxIterations = 5;
-        NeuralNetwork neuralNet = new MultiLayerPerceptron(TransferFunctionType.SIGMOID,inputNeurons,5,3, outputNeurons);
+        int maxIterations = 10;
+        NeuralNetwork neuralNet = new MultiLayerPerceptron(TransferFunctionType.SIGMOID,inputNeurons,2*inputNeurons+1, outputNeurons);
         ((LMS) neuralNet.getLearningRule()).setMaxError(0.01);//0-1
         ((LMS) neuralNet.getLearningRule()).setLearningRate(0.2);//0-1
         ((LMS) neuralNet.getLearningRule()).setMaxIterations(maxIterations);//0-1
         BackPropagation learningRule = (BackPropagation) neuralNet.getLearningRule();
 
-        learningRule.setLearningRate(0.5);
+        learningRule.setLearningRate(0.2);
  
         learningRule.setMaxError(0.001);
         learningRule.setMaxIterations(maxIterations);
@@ -296,10 +296,10 @@ public class Example implements LearningEventListener  {
             }
             
             for(double textCode:networkOutput){
-                if(textCode==0 | temp==textCode) textCode= TextEncoder.round(Math.random(),encoding.size()/5);
+                if(textCode==0 | temp==textCode) textCode= TextEncoder.round(Math.random(),encoding.size()/10);
                 temp=textCode;
                  //System.out.print(TextEncoder.findClosestMatch(decoding, TextEncoder.round(textCode,encoding.size()/5)) ); // decoding.get(TextEncoder.round(textCode,encoding.size()/5))+" " 
-                 exampleTestText=exampleTestText +" "+TextEncoder.findClosestMatch(decoding, TextEncoder.round(textCode,encoding.size()/5));
+                 exampleTestText=exampleTestText +" "+TextEncoder.findClosestMatch(decoding, TextEncoder.round(textCode,encoding.size()/10));
             }
             
             if(i==0){
