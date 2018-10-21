@@ -84,7 +84,14 @@ public class HilbertCurvePatternDetect {
         //SeirenFace
 
     }
-    
+      public static BufferedImage getMatchedRegion(String imagePattern, String TargetImage) {
+        java.awt.Rectangle[] result = getMatchingRegion(imagePattern, TargetImage);
+        BufferedImage img = HilbertCurvePatternDetect.getTheImage(TargetImage, false);
+        //Graphics2D graph = img.createGraphics();
+        //displayImage(cropImage(img, result[result.length-1]),"img");
+        return cropImage(img, result[result.length - 1]);
+
+    }
     public static BufferedImage getTheImage(String imageFullPath, boolean blackAndWhite) {
         BufferedImage img = null;
         File f = null;
