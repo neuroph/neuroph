@@ -57,7 +57,7 @@ public class HilbertCurvePatternDetect {
         
         HilbertCurveRenderer.renderToFile(4, 1000, "target/imageColor4.png", Option.COLORIZE, Option.LABEL);
         
-       final File folder = new File("G:/bkp/$AVG/baseDir/Imports/Sprites/MEN/");
+       final File folder = new File("G:/bkp/$AVG/baseDir/Imports/Sprites/WOMEN-IV/");
     for (final File fileEntry : folder.listFiles()) {
         if (fileEntry.isDirectory()) {
            // listFilesForFolder(fileEntry);
@@ -67,7 +67,8 @@ public class HilbertCurvePatternDetect {
             Result result=getMatchingRegion(new String[]{"C:/Users/Maneesh/Desktop/face.png",
                 "C:/Users/Maneesh/Desktop/face2.png",
                 "C:/Users/Maneesh/Desktop/face3.png",
-                "C:/Users/Maneesh/Desktop/face4.png"},fileEntry.getAbsolutePath());
+                "C:/Users/Maneesh/Desktop/Face4.png",
+                "C:/Users/Maneesh/Desktop/face5.png"},fileEntry.getAbsolutePath());
             
             BufferedImage img = getTheImage(fileEntry.getAbsolutePath(),false);
             Graphics2D graph = img.createGraphics();
