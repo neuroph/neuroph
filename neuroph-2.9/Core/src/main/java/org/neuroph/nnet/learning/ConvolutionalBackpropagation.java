@@ -20,7 +20,7 @@ public class ConvolutionalBackpropagation extends MomentumBackpropagation {
 				double neuronError = this.calculateHiddenNeuronError(neuron);
 				neuron.setDelta(neuronError);
 				if (layers.get(layerIdx) instanceof ConvolutionalLayer) { // if it is convolutional layer c=adapt weughts, dont touch pooling. Pooling just propagate the error
-					this.updateNeuronWeights(neuron);
+					this.calculateWeightChanges(neuron);
 				}
 			} // for
 		} // for

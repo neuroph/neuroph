@@ -51,7 +51,7 @@ public class MomentumBackpropagation extends BackPropagation {
      * @param neuron neuron to update weights
      */
     @Override
-    public void updateNeuronWeights(Neuron neuron) {
+    public void calculateWeightChanges(Neuron neuron) {
         for (Connection connection : neuron.getInputConnections()) {
             double input = connection.getInput();
             if (input == 0) {

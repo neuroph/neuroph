@@ -13,7 +13,7 @@ public class ManhattanPropagation extends BackPropagation {
     
     
      @Override
-     public void updateNeuronWeights(Neuron neuron) {
+     public void calculateWeightChanges(Neuron neuron) {
         // get the error(delta) for specified neuron,
         double delta = neuron.getDelta();
        

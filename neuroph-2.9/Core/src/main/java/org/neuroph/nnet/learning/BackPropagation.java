@@ -83,7 +83,7 @@ public class BackPropagation extends LMS {
             neuron.setDelta(delta);
 
             // and update weights of the current neuron
-            updateNeuronWeights(neuron);
+            calculateWeightChanges(neuron);
             i++;
         } // for
     }
@@ -98,7 +98,7 @@ public class BackPropagation extends LMS {
                 // calculate the neuron's error (delta)
                 final double delta = calculateHiddenNeuronError(neuron);
                 neuron.setDelta(delta);
-                updateNeuronWeights(neuron);
+                calculateWeightChanges(neuron);
             } // for
         } // for
     }

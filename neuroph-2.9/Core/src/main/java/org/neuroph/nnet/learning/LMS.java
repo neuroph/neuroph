@@ -62,22 +62,21 @@ public class LMS extends SupervisedLearning implements Serializable {
         List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
         for (Neuron neuron : outputNeurons) {
             neuron.setDelta(outputError[i]); // set the neuron error, as difference between desired and actual output 
-            updateNeuronWeights(neuron); // and update neuron weights
+            calculateWeightChanges(neuron);     // and update neuron weights -- this should be renamed to calculate weight changes
             i++;
         }
         
-       // neuron.setError(outputError[i]); // set the neuron error, as difference between desired and actual output 
-        // outputNeurons.parallelStream().forEach( neuron -> updateNeuronWeights(neuron));
+        // outputNeurons.forEach( neuron -> updateNeuronWeights(neuron));
         
     }
 
     /**
-     * This method implements weights update procedure for the single neuron.
+     * This method calculates weights changes for the single neuron.
      * It iterates through all neuron's input connections, and calculates/set weight change for each weight
      * using formula 
-     *      deltaWeight = learningRate * neuronError * input
+     *      deltaWeight = -learningRate * delta * input
      * 
-     * where neuronError is difference between desired and actual output for specific neuron
+     * where delta is a neuron error, a difference between desired/target and actual output for specific neuron
      *      neuronError = desiredOutput[i] - actualOutput[i] (see method SuprevisedLearning.calculateOutputError)
      * 
      * @param neuron
@@ -85,7 +84,7 @@ public class LMS extends SupervisedLearning implements Serializable {
      * 
      * @see LMS#calculateWeightChanges(double[]) 
      */
-    public void updateNeuronWeights(Neuron neuron) {
+    protected void calculateWeightChanges(Neuron neuron) {
         // get the error(delta) for specified neuron,
         double delta = neuron.getDelta();
 
@@ -105,7 +104,7 @@ public class LMS extends SupervisedLearning implements Serializable {
             // if the learning is in online mode (not batch) apply the weight change immediately
             if (!this.isBatchMode()) {
                 weight.weightChange = weightChange;                
-            } else { // otherwise its in batch mode, accumulate  weight changes and apply them later, after the current epoch (see SupervisedLearning.doLearningEpoch method)
+            } else { // otherwise if its in batch mode, accumulate  weight changes and apply them after the current epoch (see SupervisedLearning.doLearningEpoch method)
                 weight.weightChange += weightChange;
             }
         }

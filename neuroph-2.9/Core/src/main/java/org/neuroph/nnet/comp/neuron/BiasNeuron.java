@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.neuroph.nnet.comp.neuron;
 
 import org.neuroph.core.Connection;
@@ -27,39 +26,38 @@ import org.neuroph.core.Neuron;
  */
 public class BiasNeuron extends Neuron {
 
-	/**
-	 * The class fingerprint that is set to indicate serialization 
-	 * compatibility with a previous version of the class
-	 */	
-	private static final long serialVersionUID = 1L;
+    /**
+     * The class fingerprint that is set to indicate serialization compatibility
+     * with a previous version of the class
+     */
+    private static final long serialVersionUID = 1L;
 
-    	/**
-	 * Creates an instance of BiasedNeuron.
-	 */
-	public BiasNeuron() {
-                super();
-	}
+    /**
+     * Creates an instance of BiasedNeuron.
+     */
+    public BiasNeuron() {
+        super();
+        this.output = 1;
+    }
 
-        @Override
-        public double getOutput() {
-            return 1;
-        }
+    @Override
+    public void calculate() {
+        this.output = 1;
+    }
 
-        @Override
-        public void addInputConnection(Connection connection) {
-          
-        }
+    @Override
+    public void addInputConnection(Connection connection) {
 
-        @Override
-        public void addInputConnection(Neuron fromNeuron, double weightVal) { 
-          
-        }
+    }
 
-        @Override
-        public void addInputConnection(Neuron fromNeuron){ 
-          
-        }
+    @Override
+    public void addInputConnection(Neuron fromNeuron, double weightVal) {
 
+    }
 
+    @Override
+    public void addInputConnection(Neuron fromNeuron) {
+
+    }
 
 }

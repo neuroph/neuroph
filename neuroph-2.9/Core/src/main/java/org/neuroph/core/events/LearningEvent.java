@@ -19,8 +19,9 @@ package org.neuroph.core.events;
 import org.neuroph.core.learning.LearningRule;
 
 /**
- * This class holds information about the source of some learning event.
-  * @author Zoran Sevarac
+ * This class holds information about the source and type of learning event.
+ * 
+ * @author Zoran Sevarac
  */
 
 public class LearningEvent extends java.util.EventObject {
@@ -36,10 +37,12 @@ public class LearningEvent extends java.util.EventObject {
         return eventType;
     }
     
-    // Add types of learning events you want to listen to to this enum
+    // Types of learning events to listen to
     public static enum Type {
         EPOCH_ENDED, LEARNING_STOPPED;
     }
     
-                
+    public static Type EPOCH_ENDED = Type.EPOCH_ENDED;
+    public static Type LEARNING_STOPPED = Type.LEARNING_STOPPED;
+                            
 }

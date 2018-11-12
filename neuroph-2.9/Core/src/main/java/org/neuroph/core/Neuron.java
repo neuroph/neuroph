@@ -17,6 +17,7 @@ package org.neuroph.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import org.apache.commons.lang3.NotImplementedException;
@@ -184,18 +185,29 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
      * @return true if there is input connection, false otherwise
      */
     public boolean hasInputConnections() {
-        return (this.inputConnections.size() > 0);
+        return (inputConnections.size() > 0);
     }
 
-    public boolean hasOutputConnectionTo(Neuron neuron) {
+    /**
+     * Return true if this neuron has output connections to specified toNeuron
+     * 
+     * @param toNeuron
+     * @return true if this neuron has output connections to specified toNeuron, false otherwise
+     */
+    public boolean hasOutputConnectionTo(Neuron toNeuron) {
         for (Connection connection : outConnections) {
-            if (connection.getToNeuron() == neuron) {
+            if (connection.getToNeuron() == toNeuron) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * 
+     * @param neuron
+     * @return 
+     */
     public boolean hasInputConnectionFrom(Neuron neuron) {
         for (Connection connection : inputConnections) {
             if (connection.getFromNeuron() == neuron) {
@@ -285,7 +297,7 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
      * @return input connections of this neuron
      */
     public final List<Connection> getInputConnections() {
-        return inputConnections;
+        return Collections.unmodifiableList(inputConnections);
     }
 
     /**
@@ -294,7 +306,7 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
      * @return output connections from this neuron
      */
     public final List<Connection> getOutConnections() {
-        return outConnections;
+        return Collections.unmodifiableList(outConnections);
     }
 
     protected void removeInputConnection(Connection conn) {
