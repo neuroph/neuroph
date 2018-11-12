@@ -11,12 +11,14 @@ import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.embed.swing.JFXPanel;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import org.fxyz.cameras.CameraTransformer;
@@ -339,8 +341,11 @@ public final class JFXVisualizationTopComponent extends TopComponent {
     }
 
     private void drawHistogram() {
+ HBox hbox = new HBox();
+    hbox.setPadding(new Insets(15, 12, 15, 12));
+    hbox.setSpacing(10);        
         sceneRoot = new Group();
-        scene = new Scene(sceneRoot, jfxPanel.getWidth(), jfxPanel.getHeight());
+        scene = new Scene(hbox);
         scene.setFill(Color.BLACK);
         camera = new PerspectiveCamera(true);
         camera.setNearClip(0.1);
