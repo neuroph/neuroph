@@ -15,6 +15,8 @@
  */
 package org.neuroph.nnet.learning;
 
+import java.util.List;
+
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
@@ -42,6 +44,32 @@ public class MomentumBackpropagation extends BackPropagation {
      */
     public MomentumBackpropagation() {
         super();
+    }
+    
+    /**
+     * This method implements weights adjustment for the hidden layers
+     * Uses parallel processing on each layer with 100 or more neurons and a regular loop if less.
+     */
+    protected void calculateErrorAndUpdateHiddenNeurons() {
+        List<Layer> layers = neuralNetwork.getLayers();
+        for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
+            List<Neuron> layerNeurons = layers.get(layerIdx).getNeurons();
+            if(layerNeurons.size() >= 100) {
+				layerNeurons.parallelStream().forEach(neuron -> {
+	                // calculate the neuron's error (delta)
+	                double delta = calculateHiddenNeuronError(neuron);
+	                neuron.setError(delta);
+	                updateNeuronWeights(neuron);
+	            });
+            } else {
+            	for(Neuron neuron : layerNeurons) {
+            		// calculate the neuron's error (delta)
+            		double delta = calculateHiddenNeuronError(neuron);
+            		neuron.setError(delta);
+            		updateNeuronWeights(neuron);
+            	}
+            }
+        } // for
     }
 
     /**

@@ -20,6 +20,7 @@ import org.neuroph.core.transfer.Gaussian;
 import org.neuroph.core.transfer.Linear;
 import org.neuroph.core.transfer.Log;
 import org.neuroph.core.transfer.Ramp;
+import org.neuroph.core.transfer.RectifiedLinear;
 import org.neuroph.core.transfer.Sgn;
 import org.neuroph.core.transfer.Sigmoid;
 import org.neuroph.core.transfer.Sin;
@@ -40,7 +41,8 @@ public enum TransferFunctionType {
 	TRAPEZOID("Trapezoid"),
 	SGN("Sgn"), 
         SIN("Sin"), 
-        LOG("Log");
+        LOG("Log"),
+        RECTIFIED("RectifiedLinear");
 
 	private String typeLabel;
 	
@@ -73,9 +75,10 @@ public enum TransferFunctionType {
 		case SIN:
 			return Sin.class;                     
 		case LOG:
-			return Log.class;                     
+			return Log.class;
+		case RECTIFIED:
+			return RectifiedLinear.class;
 		} // switch
-
             return null;
 
             }
