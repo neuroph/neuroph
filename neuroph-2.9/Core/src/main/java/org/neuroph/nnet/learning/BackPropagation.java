@@ -67,7 +67,7 @@ public class BackPropagation extends LMS {
         int i = 0;
         
         // for all output neurons
-        List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
+        final List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
         for (Neuron neuron : outputNeurons) {
             // if error is zero, just set zero error and continue to next neuron
             if (outputError[i] == 0) {
@@ -77,9 +77,9 @@ public class BackPropagation extends LMS {
             }
 
             // otherwise calculate and set error/delta for the current neuron
-            TransferFunction transferFunction = neuron.getTransferFunction();
-            double neuronInput = neuron.getNetInput();
-            double delta = outputError[i] * transferFunction.getDerivative(neuronInput); // delta = (y-d)*df(net)
+            final TransferFunction transferFunction = neuron.getTransferFunction();
+            final double neuronInput = neuron.getNetInput();
+            final double delta = outputError[i] * transferFunction.getDerivative(neuronInput); // delta = (y-d)*df(net)
             neuron.setError(delta);
 
             // and update weights of the current neuron
@@ -96,7 +96,7 @@ public class BackPropagation extends LMS {
         for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
             for (Neuron neuron : layers.get(layerIdx).getNeurons()) {
                 // calculate the neuron's error (delta)
-                double delta = calculateHiddenNeuronError(neuron);
+                final double delta = calculateHiddenNeuronError(neuron);
                 neuron.setError(delta);
                 updateNeuronWeights(neuron);
             } // for
