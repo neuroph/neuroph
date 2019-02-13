@@ -2,6 +2,7 @@ package org.neuroph.nnet.learning.kmeans;
 
 /**
  * Represents feature vector used in k-means clustering algorithm
+ * 
  * @author Zoran Sevarac
  * @author Uros Stojkic
   */
@@ -19,7 +20,7 @@ public class KVector {
     
     
     /**
-     * Distance fro other vector (used by K nearest neighbour)
+     * Distance from other vector (used by K nearest neighbour)
      */
     private double distance;
 

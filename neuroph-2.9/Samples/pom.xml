@@ -22,7 +22,8 @@
       <dependency>
          <groupId>${project.groupId}</groupId>
          <artifactId>neuroph-core</artifactId>
-         <version>${project.version}</version>
+         <version>2.94</version>
+         <type>jar</type>
       </dependency>
       <dependency>
          <groupId>org.neuroph</groupId>

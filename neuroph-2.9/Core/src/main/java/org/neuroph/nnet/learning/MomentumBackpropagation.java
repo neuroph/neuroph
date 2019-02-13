@@ -15,6 +15,8 @@
  */
 package org.neuroph.nnet.learning;
 
+import java.util.List;
+
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;
@@ -45,13 +47,39 @@ public class MomentumBackpropagation extends BackPropagation {
     }
 
     /**
+     * This method implements weights adjustment for the hidden layers
+     * Uses parallel processing on each layer with 100 or more neurons and a regular loop if less.
+     */
+    protected void calculateErrorAndUpdateHiddenNeurons() {
+        List<Layer> layers = neuralNetwork.getLayers();
+        for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
+            List<Neuron> layerNeurons = layers.get(layerIdx).getNeurons();
+            if(layerNeurons.size() >= 100) {
+				layerNeurons.parallelStream().forEach(neuron -> {
+	                // calculate the neuron's error (delta)
+	                double delta = calculateHiddenNeuronError(neuron);
+	                neuron.setDelta(delta);
+	                calculateWeightChanges(neuron);
+	            });
+            } else {
+            	for(Neuron neuron : layerNeurons) {
+            		// calculate the neuron's error (delta)
+            		double delta = calculateHiddenNeuronError(neuron);
+            		neuron.setDelta(delta);
+            		calculateWeightChanges(neuron);
+            	}
+            }
+        } // for
+    }
+
+    /**
      * This method implements weights update procedure for the single neuron for
      * the back propagation with momentum factor
      *
      * @param neuron neuron to update weights
      */
     @Override
-    public void updateNeuronWeights(Neuron neuron) {
+    public void calculateWeightChanges(Neuron neuron) {
         for (Connection connection : neuron.getInputConnections()) {
             double input = connection.getInput();
             if (input == 0) {
@@ -59,7 +87,7 @@ public class MomentumBackpropagation extends BackPropagation {
             }
 
             // get the error for specified neuron,
-            double neuronDelta = neuron.getError();
+            double neuronDelta = neuron.getDelta();
 
             // tanh can be used to minimise the impact of big error values, which can cause network instability
             // suggested at https://sourceforge.net/tracker/?func=detail&atid=1107579&aid=3130561&group_id=238532
@@ -114,6 +142,6 @@ public class MomentumBackpropagation extends BackPropagation {
                     connection.getWeight().setTrainingData(new MomentumTrainingData());
                 }
             } // for
-        } // for        
+        } // for
     }
 }

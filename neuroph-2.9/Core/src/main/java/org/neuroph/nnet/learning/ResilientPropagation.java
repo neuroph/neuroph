@@ -57,7 +57,7 @@ public class ResilientPropagation extends BackPropagation {
      * @see ResilientPropagation#resillientWeightUpdate(org.neuroph.core.Weight) 
      */
     @Override
-    public void updateNeuronWeights(Neuron neuron) {
+    public void calculateWeightChanges(Neuron neuron) {
         for (Connection connection : neuron.getInputConnections()) {
             double input = connection.getInput();
             if (input == 0) {
@@ -65,7 +65,7 @@ public class ResilientPropagation extends BackPropagation {
             }
 
             // get the error for specified neuron,
-            double neuronError = neuron.getError();
+            double neuronError = neuron.getDelta();
             // get the current connection's weight
             Weight weight = connection.getWeight();
             // ... and get the object that stores reislient training data for that weight

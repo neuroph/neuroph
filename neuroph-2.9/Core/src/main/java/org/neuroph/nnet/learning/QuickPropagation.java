@@ -17,8 +17,8 @@ public class QuickPropagation extends BackPropagation {
     // hes mapu koristim da cuvam vrednosti prethodnih iteracija - koristi training data
 
     @Override
-    public void updateNeuronWeights(Neuron neuron) {
-        double delta = neuron.getError();
+    public void calculateWeightChanges(Neuron neuron) {
+        double delta = neuron.getDelta();
         for (Connection con : neuron.getInputConnections()) {
             
             Weight<QuickPropData> w = con.getWeight();

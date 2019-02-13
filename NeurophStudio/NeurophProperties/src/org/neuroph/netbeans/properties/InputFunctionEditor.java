@@ -4,13 +4,9 @@ import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import org.neuroph.core.Connection;
 import org.neuroph.core.input.Difference;
 import org.neuroph.core.input.InputFunction;
 import org.neuroph.core.input.Max;
@@ -32,6 +28,7 @@ import org.openide.explorer.propertysheet.PropertyModel;
  */
 public class InputFunctionEditor extends PropertyEditorSupport implements ExPropertyEditor, InplaceEditor.Factory {
 
+    @Override
     public String getAsText() {
         InputFunction p = (InputFunction) getValue();
         if (p == null) {
@@ -40,8 +37,9 @@ public class InputFunctionEditor extends PropertyEditorSupport implements ExProp
         return p.getClass().toString().substring(6);
     }
 
+    @Override
     public void setAsText(String text) {
-     
+
         if (text.equals("Sum")) {
             Sum input = new Sum();
             setValue(input);
@@ -51,30 +49,31 @@ public class InputFunctionEditor extends PropertyEditorSupport implements ExProp
         } else if (text.equals("Difference")) {
             Difference diff = new Difference();
             setValue(diff);
-        }else if (text.equals("Max")){
+        } else if (text.equals("Max")) {
             Max max = new Max();
             setValue(max);
-        }else if (text.equals("Min")){
+        } else if (text.equals("Min")) {
             Min min = new Min();
             setValue(min);
-        }else if (text.equals("Or")){
+        } else if (text.equals("Or")) {
             Or or = new Or();
             setValue(or);
-        }else if (text.equals("Product")){
+        } else if (text.equals("Product")) {
             Product product = new Product();
             setValue(product);
-        }else if (text.equals("SumSqr")){
+        } else if (text.equals("SumSqr")) {
             SumSqr sumSqr = new SumSqr();
             setValue(sumSqr);
         }
-
     }
 
+    @Override
     public void attachEnv(PropertyEnv env) {
         env.registerInplaceEditorFactory(this);
     }
     private InplaceEditor ed = null;
 
+    @Override
     public InplaceEditor getInplaceEditor() {
         if (ed == null) {
             ed = new Inplace();
@@ -107,7 +106,7 @@ public class InputFunctionEditor extends PropertyEditorSupport implements ExProp
         }
 
         public void setValue(Object object) {
-          
+
             inputFunctions.setSelectedItem(object);
         }
 

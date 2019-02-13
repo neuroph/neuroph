@@ -14,8 +14,8 @@ public class RunExampleEvaluation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        NeuralNetwork nnet = NeuralNetwork.createFromFile("MicrNetwork.nnet");
-        DataSet dataSet =  DataSet.load("MicrDataColor.tset");
+        NeuralNetwork nnet = NeuralNetwork.createFromFile("irisNet.nnet");
+        DataSet dataSet =  DataSet.createFromFile("data_sets/iris_data_normalised.txt", 4, 3, ",");
         
         Evaluation.runFullEvaluation(nnet, dataSet);
          

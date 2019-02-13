@@ -21,6 +21,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 /**
  * Neuron connection weight.
  *
+ * @param <T> weight training data
  * @see Connection
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
@@ -46,12 +47,11 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
      * Training data buffer holds various algorithm specific data which is used
      * for adjusting this weight value during training
      */
-    private transient T trainingData;
+    private transient T trainingData; // this could be map maybe?
 
-    // maybe store deltaWeight and weight value history in transient fields...?
     /**
      * Creates an instance of connection weight with random weight value in
-     * range [0..1]
+     * range [-0.5 .. 0.5]
      */
     public Weight() {
         this.value = Math.random() - 0.5d;
@@ -72,7 +72,7 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
      *
      * @param amount amount to add to current weight value
      */
-    public final void inc(double amount) {
+    public final void inc(final double amount) {
         this.value += amount;
     }
 
@@ -81,7 +81,7 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
      *
      * @param amount amount to subtract from the current weight value
      */
-    public final void dec(double amount) {
+    public final void dec(final double amount) {
         this.value -= amount;
     }
 
@@ -90,7 +90,7 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
      *
      * @param value weight value to set
      */
-    public void setValue(double value) {
+    public final void setValue(double value) {
         this.value = value;
     }
 
@@ -99,7 +99,7 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
      *
      * @return value of this weight
      */
-    public double getValue() {
+    public final double getValue() {
         return this.value;
     }
 
@@ -120,18 +120,16 @@ public class Weight<T> implements java.io.Serializable, Cloneable {
         this.value = min + Math.random() * (max - min);
     }
 
-
-
     /**
      * Returns training data buffer for this weight
      *
      * @return training data buffer for this weight
      */
-    public T getTrainingData() {
+    public final T getTrainingData() {
         return trainingData;
     }
 
-    public void setTrainingData(T trainingData) {
+    public final void setTrainingData(T trainingData) {
         this.trainingData = trainingData;
     }
 

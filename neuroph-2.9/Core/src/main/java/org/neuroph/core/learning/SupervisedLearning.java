@@ -29,12 +29,13 @@ import org.neuroph.core.learning.error.ErrorFunction;
 import org.neuroph.core.learning.error.MeanSquaredError;
 import org.neuroph.core.learning.stop.MaxErrorStop;
 
-// TODO:  random pattern order
-
 /**
  * Base class for all supervised learning algorithms.
  * It extends IterativeLearning, and provides general supervised learning principles.
+ * Based on Template Method Pattern with abstract method calculateWeightChanges
  *
+ * TODO:  random pattern order
+ * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 abstract public class SupervisedLearning extends IterativeLearning implements
@@ -91,12 +92,21 @@ abstract public class SupervisedLearning extends IterativeLearning implements
     }
 
     /**
+     * This method should implement the weights update procedure for the whole network
+     * for the given output error vector.
+     *
+     * @param outputError output error vector for some network input (aka. patternError, network error)
+     *                    usually the difference between desired and actual output
+     */
+    abstract protected void calculateWeightChanges(double[] outputError);    
+    
+    /**
      * Trains network for the specified training set and maxError
      *
      * @param trainingSet training set to learn
      * @param maxError    learning stop condition. If maxError is reached learning stops
      */
-    public void learn(DataSet trainingSet, double maxError) {
+    public final void learn(DataSet trainingSet, double maxError) {
         this.maxError = maxError;
         learn(trainingSet);
     }
@@ -108,7 +118,7 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      * @param maxError      learning stop condition. if maxError is reached learning stops
      * @param maxIterations maximum number of learning iterations
      */
-    public void learn(DataSet trainingSet, double maxError, int maxIterations) {
+    public final void learn(DataSet trainingSet, double maxError, int maxIterations) {
         this.trainingSet = trainingSet;
         this.maxError = maxError;
         setMaxIterations(maxIterations);
@@ -168,15 +178,14 @@ abstract public class SupervisedLearning extends IterativeLearning implements
      *
      * @param trainingElement supervised training element which contains input and desired output
      */
-    protected void learnPattern(DataSetRow trainingElement) {
+    protected final void learnPattern(DataSetRow trainingElement) {
         neuralNetwork.setInput(trainingElement.getInput());
         neuralNetwork.calculate();
         double[] output = neuralNetwork.getOutput();
         double[] patternError = errorFunction.addPatternError(output, trainingElement.getDesiredOutput());
         calculateWeightChanges(patternError);
         
-        if (!batchMode) applyWeightChanges(); // batch mode updates are done i doBatchWeightsUpdate
-        
+        if (!batchMode) applyWeightChanges(); // batch mode updates are done i doBatchWeightsUpdate        
     }
 
     /**
@@ -305,20 +314,11 @@ abstract public class SupervisedLearning extends IterativeLearning implements
         return errorFunction.getTotalError();
     }
 
-    /**
-     * This method should implement the weights update procedure for the whole network
-     * for the given output error vector.
-     *
-     * @param outputError output error vector for some network input (aka. patternError, network error)
-     *                    usually the difference between desired and actual output
-     */
-    abstract protected void calculateWeightChanges(double[] outputError);
-
     private void applyWeightChanges() {
         List<Layer> layers = neuralNetwork.getLayers();
         for (int i = neuralNetwork.getLayersCount() - 1; i > 0; i--) {
             // iterate neurons at each layer
-            for (Neuron neuron : layers.get(i).getNeurons()) {
+            for (Neuron neuron : layers.get(i)) {
                 // iterate connections/weights for each neuron
                 for (Connection connection : neuron.getInputConnections()) {
                     // for each connection weight apply accumulated weight change

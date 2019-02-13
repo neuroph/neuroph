@@ -34,5 +34,5 @@ Click: Main Menu > Team > Git > Clone
 
 For Repository URL enter https://github.com/neuroph/neuroph.git
 
-Click FInish
+Click Finish
 

@@ -17,7 +17,11 @@ package org.neuroph.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ForkJoinPool;
 
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.util.NeuronFactory;
@@ -32,7 +36,7 @@ import org.neuroph.util.NeuronProperties;
  * @see Neuron
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
-public class Layer implements Serializable {
+public class Layer implements Iterable<Neuron>, Serializable {
 
 
     /**
@@ -111,8 +115,7 @@ public class Layer implements Serializable {
      * @return array of neurons in this layer
      */
     public final List<Neuron> getNeurons() {
-        // return Collections.unmodifiableList(neurons);
-        return neurons;        
+        return Collections.unmodifiableList(neurons);     
     }
 
     /**
@@ -122,9 +125,10 @@ public class Layer implements Serializable {
      */
     public final void addNeuron(Neuron neuron) {
         // prevent adding null neurons
-        if (neuron == null) {
-            throw new IllegalArgumentException("Neuron cant be null!");
-        }
+        Objects.requireNonNull(neuron, "Neuron cant be null!");
+//        if (neuron == null) {
+//            throw new IllegalArgumentException("Neuron cant be null!");
+//        }
 
         // set neuron's parent layer to this layer 
         neuron.setParentLayer(this);
@@ -250,18 +254,19 @@ public class Layer implements Serializable {
         return neurons.size();
     }
    
-// static final ForkJoinPool mainPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+ //static final ForkJoinPool mainPool = ForkJoinPool.commonPool();
 
     /**
      * Performs calculaton for all neurons in this layer
      */
     public void calculate() {
 
-        for (Neuron neuron : this.neurons) { // use directly underlying array since its faster
+        for (Neuron neuron : neurons) {
             neuron.calculate();
         }
-//          neurons.parallelStream().forEach( n -> n.calculate());
-
+     //   neurons.forEach(Neuron::calculate);
+        
+     //   neurons.parallelStream().forEach( n -> n.calculate());
 //        mainPool.invokeAll(Arrays.asList(neurons.asArray()));
     }
 
@@ -305,6 +310,11 @@ public class Layer implements Serializable {
     
     public boolean isEmpty() {
         return neurons.isEmpty();
+    }
+
+    @Override
+    public Iterator<Neuron> iterator() {
+        return neurons.iterator();
     }
 
 }

@@ -563,6 +563,11 @@ public class DataSet implements List<DataSetRow>, Serializable { // implements
         return trainAndTestSet;
     }
 
+//    public DataSet[] split(double size) {
+//        SubSampling sampling = new SubSampling(sizePercents);
+//        return sampling.sample(this);    
+//    }    
+    
     public List<DataSet> split(int ... sizePercents) {
         SubSampling sampling = new SubSampling(sizePercents);
         return sampling.sample(this);    

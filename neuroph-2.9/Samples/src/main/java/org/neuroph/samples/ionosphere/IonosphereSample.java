@@ -35,8 +35,6 @@ import org.neuroph.util.data.norm.Normalizer;
  */
 /*
  INTRODUCTION TO THE PROBLEM AND DATA SET INFORMATION:
-
- *Data set that will be used in this experiment: Wisconsin Diagnostic Breast Cancer (WDBC)
  The original data set that will be used in this experiment can be found at link: 
 http://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.data
 
@@ -99,9 +97,8 @@ http://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.d
 
 7. Attribute Information:     
    -- All 34 are continuous, as described above
-   -- The 35th and 36th class variables: 0 (absence) or 1 (presence)
-    1,0 => "good"
-    0,1 => "bad"
+   -- The 35th is the class variable: 0 (absence) or 1 (presence)
+
 
 8. Missing Values: None
 
@@ -127,9 +124,9 @@ public class IonosphereSample implements LearningEventListener {
     public void run() {
 
         System.out.println("Creating training and test set from file...");
-        String trainingSetFileName = "data_sets/ionosphere.txt";
+        String trainingSetFileName = "data_sets/ionosphere.csv";
         int inputsCount = 34;
-        int outputsCount = 2;
+        int outputsCount = 1;
 
         //Create data set from file
         DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, ",");
@@ -153,7 +150,7 @@ public class IonosphereSample implements LearningEventListener {
         learningRule.addListener(this);
 
         learningRule.setLearningRate(0.2);
-        learningRule.setMaxError(0.001);
+        learningRule.setMaxError(0.01);
         learningRule.setMaxIterations(10000);
 
         System.out.println("Training network...");
@@ -233,7 +230,7 @@ public class IonosphereSample implements LearningEventListener {
         }
         //If maximum is less than 0.5, that prediction will not count. 
         if (max < 0.5) {
-            return -1;
+            return 0; //-1;
         }
         return index;
     }

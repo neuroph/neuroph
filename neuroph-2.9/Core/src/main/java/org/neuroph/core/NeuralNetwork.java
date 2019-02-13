@@ -201,7 +201,7 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * @return array of layers
      */
     public List<Layer> getLayers() {
-        return this.layers;
+        return Collections.unmodifiableList(this.layers);
     }
     
     /**
@@ -299,9 +299,10 @@ public class NeuralNetwork<L extends LearningRule> implements Serializable {
      * Performs calculation on whole network
      */
     public void calculate() {
-        for (Layer layer : this.layers) {
-            layer.calculate();
-        }
+//        for (Layer layer : this.layers) {
+//            layer.calculate();
+//        }
+        layers.forEach(Layer::calculate);
         
         fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.CALCULATED));
     }

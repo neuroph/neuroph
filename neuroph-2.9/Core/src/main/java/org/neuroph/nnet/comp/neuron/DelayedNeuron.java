@@ -39,7 +39,7 @@ public class DelayedNeuron extends Neuron {
 	/**
 	 * Output history for this neuron
 	 */
-	protected transient List<Double> outputHistory;
+	protected transient List<Double> outputHistory; // this should be array for better eprformance
 
 	/**
 	 * Creates an instance of neuron which can delay output

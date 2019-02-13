@@ -35,14 +35,12 @@ public class ImagePanel extends javax.swing.JPanel implements MouseMotionListene
         addMouseMotionListener(this);
         addMouseListener(this);                     
     }
-    
-    
-    
+
     public void setImage(Image image) {
         this.image = image;
         imageWidth = image.getWidth(null);
         imageHeight = image.getHeight(null);
-        resetCropSelection();
+
         repaint();
     }
     
