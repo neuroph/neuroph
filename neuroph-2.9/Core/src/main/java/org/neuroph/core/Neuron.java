@@ -196,7 +196,7 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
      *
      * @return true if there is output connection, false otherwise
      */
-    public boolean hasOutputConnectionTo(Neuron neuron) {
+    public boolean hasOutputConnectionTo(Neuron toNeuron) {
         for (Connection connection : outConnections) {
             if (connection.getToNeuron() == toNeuron) {
                 return true;
