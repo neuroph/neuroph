@@ -19,22 +19,22 @@ public class DataSetTableModel extends AbstractTableModel {
      protected ArrayList<ArrayList>dataVector;
 
 	public DataSetTableModel() {
-		columnIdentifiers = new ArrayList<String>();
-		dataVector = new ArrayList<ArrayList>();
+		columnIdentifiers = new ArrayList<>();
+		dataVector = new ArrayList<>();
                 setDefaultTableValues();
 	}
 	
 	
 	public DataSetTableModel(DataSet dataSet) {
-		columnIdentifiers = new ArrayList<String>();
-		dataVector = new ArrayList<ArrayList>();
+		columnIdentifiers = new ArrayList<>();
+		dataVector = new ArrayList<>();
 				                
                 HIDDEN_INDEX = dataSet.getInputSize();
 
 		String[] colNames =  dataSet.getColumnNames();
                 
                 if (colNames.length > 0) {
-                   columnIdentifiers = new ArrayList<String>(Arrays.asList(colNames));
+                   columnIdentifiers = new ArrayList<>(Arrays.asList(colNames));
                 } else {
                     for (int i = 0; i < dataSet.getInputSize(); i++) {
                         columnIdentifiers.add("Input " + (i + 1));
@@ -59,7 +59,6 @@ public class DataSetTableModel extends AbstractTableModel {
 		Iterator<DataSetRow> iterator = dataSet.iterator();
 		while (iterator.hasNext()) {
 			DataSetRow trainingElement = iterator.next();
-                        //inputVector = VectorParser.convertToVector(trainingElement.getInput());
 			double[] inputVector = trainingElement.getInput();
 
 			ArrayList rowVector = new ArrayList();
@@ -68,8 +67,6 @@ public class DataSetTableModel extends AbstractTableModel {
                         }
 
 			if (trainingElement.isSupervised()) {				
-                                //outputVector = VectorParser.convertToVector(((DataSetRow) trainingElement)
-				//		.getDesiredOutput());
 				double[] outputVector = ((DataSetRow) trainingElement)
 						.getDesiredOutput();
                                 for(double d : outputVector) {
@@ -143,7 +140,7 @@ public class DataSetTableModel extends AbstractTableModel {
 
 	public void addEmptyRow() {
 		int columns = columnIdentifiers.size();
-		ArrayList<String> newRow = new ArrayList<String>();
+		ArrayList<String> newRow = new ArrayList<>();
 		for (int c = 0; c < columns; c++) {
 			newRow.add(new String());
 		}		
