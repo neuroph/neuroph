@@ -73,8 +73,8 @@ public class DelayedConnection extends Connection {
 	 */
 	@Override
 	public double getInput() {
-		if (this.fromNeuron instanceof DelayedNeuron)
-			return ((DelayedNeuron) this.fromNeuron).getOutput(delay);
+		if (fromNeuron instanceof DelayedNeuron)
+			return ((DelayedNeuron) fromNeuron).getOutput(delay);
 		else
 			return this.fromNeuron.getOutput();
 	}

@@ -141,7 +141,7 @@ public class ConfusionMatrix {
     public int getTotal() {
         return total;
     }
-    
+    // ovaj je izokrenuo actual i predicted, x, y , rows, cols bolje ga izbaci i koristi get value at
     public int get(int x, int y)  {
         return values[x][y];
     }    

@@ -71,7 +71,7 @@ public class BackPropagation extends LMS {
         for (Neuron neuron : outputNeurons) {
             // if error is zero, just set zero error and continue to next neuron
             if (outputError[i] == 0) {
-                neuron.setError(0);
+                neuron.setDelta(0);
                 i++;
                 continue;
             }
@@ -80,10 +80,10 @@ public class BackPropagation extends LMS {
             final TransferFunction transferFunction = neuron.getTransferFunction();
             final double neuronInput = neuron.getNetInput();
             final double delta = outputError[i] * transferFunction.getDerivative(neuronInput); // delta = (y-d)*df(net)
-            neuron.setError(delta);
+            neuron.setDelta(delta);
 
             // and update weights of the current neuron
-            updateNeuronWeights(neuron);
+            calculateWeightChanges(neuron);
             i++;
         } // for
     }
@@ -97,8 +97,8 @@ public class BackPropagation extends LMS {
             for (Neuron neuron : layers.get(layerIdx).getNeurons()) {
                 // calculate the neuron's error (delta)
                 final double delta = calculateHiddenNeuronError(neuron);
-                neuron.setError(delta);
-                updateNeuronWeights(neuron);
+                neuron.setDelta(delta);
+                calculateWeightChanges(neuron);
             } // for
         } // for
     }
@@ -112,7 +112,7 @@ public class BackPropagation extends LMS {
     protected double calculateHiddenNeuronError(Neuron neuron) {
         double deltaSum = 0d;
         for (Connection connection : neuron.getOutConnections()) {
-            double delta = connection.getToNeuron().getError() * connection.getWeight().value;
+            double delta = connection.getToNeuron().getDelta() * connection.getWeight().value;
             deltaSum += delta; // weighted delta sum from the next layer
         } // for
 

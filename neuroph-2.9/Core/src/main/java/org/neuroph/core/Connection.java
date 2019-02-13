@@ -109,7 +109,7 @@ public class Connection implements Serializable {
      *
      * @return weight for this connection
      */
-    public Weight getWeight() {
+    public final  Weight getWeight() {
         return this.weight;
     }
 
@@ -117,7 +117,7 @@ public class Connection implements Serializable {
      * Set the weight of the connection.
      * @param weight The new weight of the connection.
      */
-    public void setWeight(Weight weight) {
+    public final void setWeight(Weight weight) {
         if (weight == null) {
             throw new IllegalArgumentException("Connection Weight cant be null!");
         } else {
@@ -128,11 +128,13 @@ public class Connection implements Serializable {
     /**
      * Returns input received through this connection - the activation that
      * comes from the output of the cell on the other end of connection
-     *
+     *     
+     * Todo: make this final and solve delayed neuron connection in a different way
+     * 
      * @return input received through this connection
      */
-    public double getInput() {
-        return this.fromNeuron.getOutput();
+    public double getInput() { 
+        return fromNeuron.getOutput();
     }
 
     /**
@@ -140,15 +142,15 @@ public class Connection implements Serializable {
      *
      * @return weighted input received through this connection
      */
-    public double getWeightedInput() {
-        return this.fromNeuron.getOutput() * weight.value;
+    public final double getWeightedInput() {
+        return fromNeuron.getOutput() * weight.value;
     }
 
     /**
      * Gets from neuron for this connection
      * @return from neuron for this connection
      */
-    public Neuron getFromNeuron() {
+    public final Neuron getFromNeuron() {
         return fromNeuron;
     }
 
@@ -156,7 +158,7 @@ public class Connection implements Serializable {
      * Gets to neuron for this connection
      * @return neuron to set as to neuron
      */
-    public Neuron getToNeuron() {
+    public final Neuron getToNeuron() {
         return toNeuron;
     }
 

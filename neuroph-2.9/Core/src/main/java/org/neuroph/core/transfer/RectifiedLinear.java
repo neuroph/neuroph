@@ -1,11 +1,10 @@
 package org.neuroph.core.transfer;
 
 public class RectifiedLinear extends TransferFunction {
+	private static final long serialVersionUID = 1L;
 
-
-    @Override
+	@Override
     public double getOutput(double net) {
-//        return Math.min(Math.max(0, net), 100);
         return Math.max(0, net);
     }
 

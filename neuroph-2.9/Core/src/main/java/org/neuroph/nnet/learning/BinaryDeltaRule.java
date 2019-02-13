@@ -79,8 +79,8 @@ public class BinaryDeltaRule extends PerceptronLearning {
 
                         // use same adjustment principle as PerceptronLearning,
                         // just with different neuronError
-                        neuron.setError(neuronError);
-			updateNeuronWeights(neuron);
+                        neuron.setDelta(neuronError);
+			calculateWeightChanges(neuron);
 
 			i++;
 		} // for

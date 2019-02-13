@@ -10,13 +10,13 @@ import org.neuroph.core.Weight;
  */
 public class ManhattanPropagation extends BackPropagation {
     // dont use gradient value, only sign and fixed step
-    
-    
+
+
      @Override
-     public void updateNeuronWeights(Neuron neuron) {
+     public void calculateWeightChanges(Neuron neuron) {
         // get the error(delta) for specified neuron,
-        double delta = neuron.getError();
-       
+        double delta = neuron.getDelta();
+
         // iterate through all neuron's input connections
         for (Connection connection : neuron.getInputConnections()) {
             // get the input from current connection
@@ -29,11 +29,11 @@ public class ManhattanPropagation extends BackPropagation {
             Weight weight = connection.getWeight();
             // if the learning is in online mode (not batch) apply the weight change immediately
             if (!this.isBatchMode()) {
-                weight.weightChange = weightChange;                
+                weight.weightChange = weightChange;
             } else { // otherwise its in batch mode, accumulate  weight changes and apply them later, after the current epoch (see SupervisedLearning.doLearningEpoch method)
                 weight.weightChange += weightChange;
             }
         }
     }
-    
+
 }

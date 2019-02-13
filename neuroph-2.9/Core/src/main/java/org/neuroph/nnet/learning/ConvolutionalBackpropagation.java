@@ -18,9 +18,9 @@ public class ConvolutionalBackpropagation extends MomentumBackpropagation {
 		for (int layerIdx = layers.size() - 2; layerIdx > 0; layerIdx--) {
 			for (Neuron neuron : layers.get(layerIdx).getNeurons()) {
 				double neuronError = this.calculateHiddenNeuronError(neuron);
-				neuron.setError(neuronError);
+				neuron.setDelta(neuronError);
 				if (layers.get(layerIdx) instanceof ConvolutionalLayer) { // if it is convolutional layer c=adapt weughts, dont touch pooling. Pooling just propagate the error
-					this.updateNeuronWeights(neuron);
+					this.calculateWeightChanges(neuron);
 				}
 			} // for
 		} // for
@@ -39,7 +39,7 @@ public class ConvolutionalBackpropagation extends MomentumBackpropagation {
         // for pooling layer just transfer error without using tranfer function derivative
         double deltaSum = 0d;
         for (Connection connection : neuron.getOutConnections()) {
-            double delta = connection.getToNeuron().getError()
+            double delta = connection.getToNeuron().getDelta()
                     * connection.getWeight().value;
             deltaSum += delta; // weighted delta sum from the next layer
         } // for

@@ -38,7 +38,8 @@ public enum NeuralNetworkType {
         COUNTERPROPAGATION("CounterPropagation"),
         INSTAR_OUTSTAR("InstarOutstar"),
         PCA_NETWORK("PCANetwork"),
-	RECOMMENDER("Recommender");
+	RECOMMENDER("Recommender"),
+	RECTIFIER("Rectifier");
 
 	private String typeLabel;
 	
