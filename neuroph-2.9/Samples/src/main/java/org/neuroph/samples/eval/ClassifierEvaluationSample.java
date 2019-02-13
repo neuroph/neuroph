@@ -26,8 +26,7 @@ public class ClassifierEvaluationSample {
         evaluation.addEvaluator(new ErrorEvaluator(new MeanSquaredError()));
     
         String[] classNames = {"Virginica", "Setosa", "Versicolor"};
-        
-        
+                
         MultiLayerPerceptron neuralNet = (MultiLayerPerceptron) NeuralNetwork.createFromFile("irisNet.nnet");
         DataSet dataSet = DataSet.createFromFile("data_sets/iris_data_normalised.txt", 4, 3, ",");
         

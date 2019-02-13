@@ -1,5 +1,4 @@
-package org.neuroph.samples.ionosphere;
-
+package org.neuroph.samples.breastCancer;
 
 /**
  * Copyright 2013 Neuroph Project http://neuroph.sourceforge.net
@@ -18,6 +17,7 @@ package org.neuroph.samples.ionosphere;
  */
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
@@ -35,78 +35,72 @@ import org.neuroph.util.data.norm.Normalizer;
  */
 /*
  INTRODUCTION TO THE PROBLEM AND DATA SET INFORMATION:
+
+ *Data set that will be used in this experiment: Wisconsin Diagnostic Breast Cancer (WDBC)
  The original data set that will be used in this experiment can be found at link: 
-http://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.data
+ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data
 
- 1. Title: Johns Hopkins University Ionosphere database
+ *Creators: 
+ -   r. William H. Wolberg, General Surgery Dept., University of Wisconsin,  Clinical Sciences Center, 
+ Madison, WI 53792 wolberg@eagle.surgery.wisc.edu
+    
+ -   W. Nick Street, Computer Sciences Dept., University of Wisconsin, 1210 West Dayton St., 
+ Madison, WI 53706 treet@cs.wisc.edu  608-262-6619
 
-2. Source Information:
-   -- Donor: Vince Sigillito (vgs@aplcen.apl.jhu.edu)
-   -- Date: 1989
-   -- Source: Space Physics Group
-              Applied Physics Laboratory
-              Johns Hopkins University
-              Johns Hopkins Road
-              Laurel, MD 20723 
+ -   Olvi L. Mangasarian, Computer Sciences Dept., University of Wisconsin, 1210 West Dayton St., 
+ Madison, WI 53706 olvi@cs.wisc.edu 
 
-3. Past Usage:
-   -- Sigillito, V. G., Wing, S. P., Hutton, L. V., \& Baker, K. B. (1989).
-      Classification of radar returns from the ionosphere using neural 
-      networks. Johns Hopkins APL Technical Digest, 10, 262-266.
+ *See also: 
+ -   http://www.cs.wisc.edu/~olvi/uwmp/mpml.html
+ -   http://www.cs.wisc.edu/~olvi/uwmp/cancer.html
 
-      They investigated using backprop and the perceptron training algorithm
-      on this database.  Using the first 200 instances for training, which
-      were carefully split almost 50% positive and 50% negative, they found
-      that a "linear" perceptron attained 90.7%, a "non-linear" perceptron
-      attained 92%, and backprop an average of over 96% accuracy on the 
-      remaining 150 test instances, consisting of 123 "good" and only 24 "bad"
-      instances.  (There was a counting error or some mistake somewhere; there
-      are a total of 351 rather than 350 instances in this domain.) Accuracy
-      on "good" instances was much higher than for "bad" instances.  Backprop
-      was tested with several different numbers of hidden units (in [0,15])
-      and incremental results were also reported (corresponding to how well
-      the different variants of backprop did after a periodic number of 
-      epochs).
+ *Result: 
+ -   predicting field 2, diagnosis: B = benign, M = malignant 
+ -   sets are linearly separable using all 30 input features
 
-      David Aha (aha@ics.uci.edu) briefly investigated this database.
-      He found that nearest neighbor attains an accuracy of 92.1%, that
-      Ross Quinlan's C4 algorithm attains 94.0% (no windowing), and that
-      IB3 (Aha \& Kibler, IJCAI-1989) attained 96.7% (parameter settings:
-      70% and 80% for acceptance and dropping respectively).
+ *Relevant information: 
+ Features are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. 
+ They describe characteristics of the cell nuclei present in the image. Separating plane described above 
+ was obtained using Multisurface Method-Tree (MSM-T), a classification method which uses linear
+ programming to construct a decision tree. Relevant features were selected using an exhaustive search 
+ in the space of 1-4	features and 1-3 separating planes.
 
-4. Relevant Information:
-   This radar data was collected by a system in Goose Bay, Labrador.  This
-   system consists of a phased array of 16 high-frequency antennas with a
-   total transmitted power on the order of 6.4 kilowatts.  See the paper
-   for more details.  The targets were free electrons in the ionosphere.
-   "Good" radar returns are those showing evidence of some type of structure 
-   in the ionosphere.  "Bad" returns are those that do not; their signals pass
-   through the ionosphere.  
+ *Number of instances: 569
 
-   Received signals were processed using an autocorrelation function whose
-   arguments are the time of a pulse and the pulse number.  There were 17
-   pulse numbers for the Goose Bay system.  Instances in this databse are
-   described by 2 attributes per pulse number, corresponding to the complex
-   values returned by the function resulting from the complex electromagnetic
-   signal.
+ *Number of attributes: 
+ 32 (30 real-valued input features, 
+ 2 output features - 1,0 for M = malignant cancer and 0,1 for B = benign cancer)
 
-5. Number of Instances: 351
+ *Missing attribute values: none
 
-6. Number of Attributes: 34 plus the class attribute
-   -- All 34 predictor attributes are continuous
+ *Class distribution: 357 benign, 212 malignant
 
-7. Attribute Information:     
-   -- All 34 are continuous, as described above
-   -- The 35th is the class variable: 0 (absence) or 1 (presence)
+ ATTRIBUTE INFORMATION:
 
+ Inputs:
+ 1-30 attributes: 
+ Ten real-valued features are computed for each cell nucleus:
+ a) radius (mean of distances from center to points on the perimeter)
+ b) texture (standard deviation of gray-scale values)
+ c) perimeter
+ d) area
+ e) smoothness (local variation in radius lengths)
+ f) compactness (perimeter^2 / area - 1.0)
+ g) concavity (severity of concave portions of the contour)
+ h) concave points (number of concave portions of the contour)
+ i) symmetry 
+ j) fractal dimension ("coastline approximation" - 1)
 
-8. Missing Values: None
+ Output:
+ 31 and 32: 
+ 1,0 M = malignant
+ 0,1 B = benign
 
  *The original data set description can be found at link:
-http://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.names
+ https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.names
 
  */
-public class IonosphereSample implements LearningEventListener {
+public class BrestCancerSample implements LearningEventListener {
 
     //Important for evaluating network result
     public int[] count = new int[3];
@@ -118,15 +112,15 @@ public class IonosphereSample implements LearningEventListener {
      */
     public static void main(String[] args) {
 
-        (new IonosphereSample()).run();
+        (new BrestCancerSample()).run();
     }
 
     public void run() {
 
         System.out.println("Creating training and test set from file...");
-        String trainingSetFileName = "data_sets/ionosphere.csv";
-        int inputsCount = 34;
-        int outputsCount = 1;
+        String trainingSetFileName = "data_sets/breast cancer.txt";
+        int inputsCount = 30;
+        int outputsCount = 2; // use onlz one output - binarz classification, transform dat aset
 
         //Create data set from file
         DataSet dataSet = DataSet.createFromFile(trainingSetFileName, inputsCount, outputsCount, ",");
@@ -137,21 +131,21 @@ public class IonosphereSample implements LearningEventListener {
         normalizer.normalize(dataSet);
 
         //Creatinig training set (70%) and test set (30%)
-        DataSet[] trainingAndTestSet = dataSet.createTrainingAndTestSubsets(70, 30);
-        DataSet trainingSet = trainingAndTestSet[0];
-        DataSet testSet = trainingAndTestSet[1];
-//        for (int i = 0; i < 21; i++) {
+        List<DataSet> trainingAndTestSet = dataSet.split(70, 30);
+        DataSet trainingSet = trainingAndTestSet.get(0);
+        DataSet testSet = trainingAndTestSet.get(1);
+
         System.out.println("Creating neural network...");
         //Create MultiLayerPerceptron neural network
-        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(inputsCount, 16, 8, outputsCount);
-//            System.out.println("HIDDEN COUNT: " + i);
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(inputsCount, 16, outputsCount);
+
         //attach listener to learning rule
         MomentumBackpropagation learningRule = (MomentumBackpropagation) neuralNet.getLearningRule();
         learningRule.addListener(this);
 
-        learningRule.setLearningRate(0.2);
-        learningRule.setMaxError(0.01);
-        learningRule.setMaxIterations(10000);
+        learningRule.setLearningRate(0.3);
+        learningRule.setMaxError(0.001);
+        learningRule.setMaxIterations(5000);
 
         System.out.println("Training network...");
         //train the network with training set
@@ -161,8 +155,9 @@ public class IonosphereSample implements LearningEventListener {
         testNeuralNetwork(neuralNet, testSet);
 
         System.out.println("Done.");
+
         System.out.println("**************************************************");
-//        }
+
     }
 
     public void testNeuralNetwork(NeuralNetwork neuralNet, DataSet testSet) {
@@ -194,15 +189,12 @@ public class IonosphereSample implements LearningEventListener {
         System.out.println("Predicted correctly: " + formatDecimalNumber(percentTotal) + "%. ");
 
         double percentM = (double) this.correct[0] * 100.0 / (double) this.count[0];
-        System.out.println("Prediction for 'Good' => (Correct/total): "
+        System.out.println("Prediction for 'M (malignant)' => (Correct/total): "
                 + this.correct[0] + "/" + count[0] + "(" + formatDecimalNumber(percentM) + "%). ");
 
         double percentB = (double) this.correct[1] * 100.0 / (double) this.count[1];
-        System.out.println("Prediction for 'Bad' => (Correct/total): "
+        System.out.println("Prediction for 'B (benign)' => (Correct/total): "
                 + this.correct[1] + "/" + count[1] + "(" + formatDecimalNumber(percentB) + "%). ");
-        this.count = new int[3];
-        this.correct = new int[3];
-        unpredicted = 0;
     }
 
     @Override
@@ -230,12 +222,12 @@ public class IonosphereSample implements LearningEventListener {
         }
         //If maximum is less than 0.5, that prediction will not count. 
         if (max < 0.5) {
-            return 0; //-1;
+            return -1;
         }
         return index;
     }
 
-    //Colecting data to evaluate network.
+    //Colecting data to evaluate network. 
     public void keepScore(int prediction, int ideal) {
         count[ideal]++;
         count[2]++;

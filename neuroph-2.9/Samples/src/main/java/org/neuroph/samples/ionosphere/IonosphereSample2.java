@@ -106,7 +106,7 @@ http://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.d
 http://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.names
 
  */
-public class IonosphereSample implements LearningEventListener {
+public class IonosphereSample2 implements LearningEventListener {
 
     //Important for evaluating network result
     public int[] count = new int[3];
@@ -118,7 +118,7 @@ public class IonosphereSample implements LearningEventListener {
      */
     public static void main(String[] args) {
 
-        (new IonosphereSample()).run();
+        (new IonosphereSample2()).run();
     }
 
     public void run() {
@@ -140,16 +140,18 @@ public class IonosphereSample implements LearningEventListener {
         DataSet[] trainingAndTestSet = dataSet.createTrainingAndTestSubsets(70, 30);
         DataSet trainingSet = trainingAndTestSet[0];
         DataSet testSet = trainingAndTestSet[1];
-//        for (int i = 0; i < 21; i++) {
+
+        // ovde ubaci u petlju sa hidden neuronima i learning rates
+        
         System.out.println("Creating neural network...");
         //Create MultiLayerPerceptron neural network
-        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(inputsCount, 16, 8, outputsCount);
-//            System.out.println("HIDDEN COUNT: " + i);
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(inputsCount, 10, 8, outputsCount);
+
         //attach listener to learning rule
         MomentumBackpropagation learningRule = (MomentumBackpropagation) neuralNet.getLearningRule();
         learningRule.addListener(this);
 
-        learningRule.setLearningRate(0.2);
+        learningRule.setLearningRate(0.4);
         learningRule.setMaxError(0.01);
         learningRule.setMaxIterations(10000);
 
@@ -157,8 +159,8 @@ public class IonosphereSample implements LearningEventListener {
         //train the network with training set
         neuralNet.learn(trainingSet);
 
-        System.out.println("Testing network...\n\n");
-        testNeuralNetwork(neuralNet, testSet);
+//        System.out.println("Testing network...\n\n");
+//        testNeuralNetwork(neuralNet, testSet);
 
         System.out.println("Done.");
         System.out.println("**************************************************");
