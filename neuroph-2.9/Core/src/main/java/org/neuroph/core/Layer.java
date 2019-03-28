@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ForkJoinPool;
 
 import org.neuroph.core.events.NeuralNetworkEvent;
 import org.neuroph.util.NeuronFactory;
@@ -33,11 +32,12 @@ import org.neuroph.util.NeuronProperties;
  * and it provides methods for manipulating neurons (add, remove, get, set, calculate, ...).
  * </pre>
  *
+ * @param <N> Type of neurons in layer
  * @see Neuron
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class Layer implements Iterable<Neuron>, Serializable {
-
+// TODO: make this Layer<N extends Neuron>
 
     /**
      * The class fingerprint that is set to indicate serialization compatibility
@@ -66,14 +66,14 @@ public class Layer implements Iterable<Neuron>, Serializable {
     public Layer() {
         neurons = new ArrayList<>();
     }
-    
+
     /**
      * Creates an instance of empty Layer for specified number of neurons
      * @param neuronsCount number of neurons in this layer
      */
     public Layer(int neuronsCount) {
        neurons = new ArrayList<>(neuronsCount);
-    }    
+    }
 
     /**
      * Creates an instance of Layer with the specified number of neurons with
@@ -115,7 +115,7 @@ public class Layer implements Iterable<Neuron>, Serializable {
      * @return array of neurons in this layer
      */
     public final List<Neuron> getNeurons() {
-        return Collections.unmodifiableList(neurons);     
+        return Collections.unmodifiableList(neurons);
     }
 
     /**
@@ -126,27 +126,24 @@ public class Layer implements Iterable<Neuron>, Serializable {
     public final void addNeuron(Neuron neuron) {
         // prevent adding null neurons
         Objects.requireNonNull(neuron, "Neuron cant be null!");
-//        if (neuron == null) {
-//            throw new IllegalArgumentException("Neuron cant be null!");
-//        }
 
-        // set neuron's parent layer to this layer 
+        // set neuron's parent layer to this layer
         neuron.setParentLayer(this);
 
         // add new neuron at the end of the array
         neurons.add(neuron);
-        
+
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));                
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));
     }
 
     /**
      * Adds specified neuron to this layer,at specified index position
      *
      * Throws IllegalArgumentException if neuron is null, or index is
-     * illegal value (index<0 or index>neuronsCount)      
-     * 
+     * illegal value (index<0 or index>neuronsCount)
+     *
      * @param neuron neuron to add
      * @param index index position at which neuron should be added
      */
@@ -157,14 +154,14 @@ public class Layer implements Iterable<Neuron>, Serializable {
         }
 
         // add neuron to this layer
-        neurons.add(index, neuron);        
-        
+        neurons.add(index, neuron);
+
         // set neuron's parent layer to this layer
         neuron.setParentLayer(this);
-        
+
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));                        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));
     }
 
     /**
@@ -175,20 +172,18 @@ public class Layer implements Iterable<Neuron>, Serializable {
      */
     public final void setNeuron(int index, Neuron neuron) {
         // make sure that neuron is not null
-        if (neuron == null) {
-            throw new IllegalArgumentException("Neuron cant be null!");
-        }
-        
-        // new neuron at specified index position        
+        Objects.requireNonNull(neuron, "Neuron can't be null!");
+
+        // new neuron at specified index position
         neurons.set(index, neuron);
-        
-        // set neuron's parent layer to this layer                        
-        neuron.setParentLayer(this);       
-        
+
+        // set neuron's parent layer to this layer
+        neuron.setParentLayer(this);
+
         // notify network listeners that neuron has been added
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));                        
-        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(neuron, NeuralNetworkEvent.Type.NEURON_ADDED));
+
     }
 
     /**
@@ -210,19 +205,19 @@ public class Layer implements Iterable<Neuron>, Serializable {
         Neuron neuron = neurons.get(index);
         neuron.setParentLayer(null);
         neuron.removeAllConnections(); // why we're doing this here? maybe we shouldnt
-        neurons.remove(index);                
-        
+        neurons.remove(index);
+
         // notify listeners that neuron has been removed
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_REMOVED));                        
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_REMOVED));
     }
 
     public final void removeAllNeurons() {
         neurons.clear();
-        
+
         // notify listeners that neurons has been removed
         if (parentNetwork != null)
-            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_REMOVED));                                
+            parentNetwork.fireNetworkEvent(new NeuralNetworkEvent(this, NeuralNetworkEvent.Type.NEURON_REMOVED));
     }
 
     /**
@@ -253,7 +248,7 @@ public class Layer implements Iterable<Neuron>, Serializable {
     public int getNeuronsCount() {
         return neurons.size();
     }
-   
+
  //static final ForkJoinPool mainPool = ForkJoinPool.commonPool();
 
     /**
@@ -265,7 +260,7 @@ public class Layer implements Iterable<Neuron>, Serializable {
             neuron.calculate();
         }
      //   neurons.forEach(Neuron::calculate);
-        
+
      //   neurons.parallelStream().forEach( n -> n.calculate());
 //        mainPool.invokeAll(Arrays.asList(neurons.asArray()));
     }
@@ -274,9 +269,9 @@ public class Layer implements Iterable<Neuron>, Serializable {
      * Resets the activation and input levels for all neurons in this layer
      */
     public void reset() {
-        for (Neuron neuron : this.neurons) {
+        neurons.forEach((neuron) -> {
             neuron.reset();
-        }
+        });
     }
 
     /**
@@ -285,9 +280,9 @@ public class Layer implements Iterable<Neuron>, Serializable {
      * @param value the weight value
      */
     public void initializeWeights(double value) {
-        for (Neuron neuron : this.neurons) {
+        neurons.forEach((neuron) -> {
             neuron.initializeWeights(value);
-        }
+        });
     }
 
     /**
@@ -307,7 +302,7 @@ public class Layer implements Iterable<Neuron>, Serializable {
     public void setLabel(String label) {
         this.label = label;
     }
-    
+
     public boolean isEmpty() {
         return neurons.isEmpty();
     }
