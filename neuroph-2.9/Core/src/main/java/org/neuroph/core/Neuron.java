@@ -189,10 +189,12 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     }
 
     /**
-     * Return true if this neuron has output connections to specified toNeuron
-     * 
-     * @param toNeuron
-     * @return true if this neuron has output connections to specified toNeuron, false otherwise
+
+     * Check the connection to neuron
+     *
+     * @param neuron neuron connection to be checked
+     *
+     * @return true if there is output connection, false otherwise
      */
     public boolean hasOutputConnectionTo(Neuron toNeuron) {
         for (Connection connection : outConnections) {
@@ -204,9 +206,11 @@ public class Neuron implements Serializable, Cloneable /*, Callable<Void>*/ {
     }
 
     /**
-     * 
-     * @param neuron
-     * @return 
+     * Check the connection from neuron
+     *
+     * @param neuron neuron connection to be checked
+     *
+     * @return true if there is input connection, false otherwise
      */
     public boolean hasInputConnectionFrom(Neuron neuron) {
         for (Connection connection : inputConnections) {
