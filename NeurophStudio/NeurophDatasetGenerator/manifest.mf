@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: org.neuroph.datasetgen
-OpenIDE-Module-Localizing-Bundle: org/neuroph/datasetgen/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-
