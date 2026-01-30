@@ -13,6 +13,10 @@ public class CrossEntropyError implements ErrorFunction, Serializable {
     private double[] errorDerivative;
     private transient double totalError;
     private transient double n;
+    
+    public CrossEntropyError(int outputSize) {
+        this.errorDerivative = new double[outputSize];
+    }
 
     @Override
     public double getTotalError() {
